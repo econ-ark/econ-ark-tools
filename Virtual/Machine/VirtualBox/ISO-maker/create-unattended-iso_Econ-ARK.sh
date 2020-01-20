@@ -10,7 +10,8 @@ ks_file=ks.cfg
 rclocal_file=rc.local
 
 # file names & paths
-iso_done="/media/sf_VirtualBox"       # where to store the final iso file - shared with host machine
+iso_from="/media/sf_VirtualBox"       # where to find the original ISO
+iso_done="/home/econ-ark/ExpanDrive/dropbox@llorracc.org/Public"       # where to store the final iso file - shared with host machine
 iso_make="/usr/local/share/iso_make"  # source folder for ISO file
 # create working folders
 echo " remastering your iso file"
@@ -87,7 +88,7 @@ case "$(lsb_release -rs)" in
 esac
 
 #get the latest versions of Ubuntu LTS
-cd $iso_done
+cd $iso_from
 
 iso_makehtml=$iso_make/tmphtml
 rm $iso_makehtml >/dev/null 2>&1
@@ -162,16 +163,16 @@ if [[ "$password" != "$password2" ]]; then
 fi
 
 # download the ubuntu iso. If it already exists, do not delete in the end.
-cd $iso_done
-if [[ ! -f $iso_done/$download_file ]]; then
+cd $iso_from
+if [[ ! -f $iso_from/$download_file ]]; then
     echo -n " downloading $download_file: "
     download "$download_location$download_file"
 fi
-if [[ ! -f $iso_done/$download_file ]]; then
+if [[ ! -f $iso_from/$download_file ]]; then
 	echo "Error: Failed to download ISO: $download_location$download_file"
 	echo "This file may have moved or may no longer exist."
 	echo
-	echo "You can download it manually and move it to $iso_done/$download_file"
+	echo "You can download it manually and move it to $iso_from/$download_file"
 	echo "Then run this script again."
 	exit 1
 fi
@@ -221,7 +222,7 @@ if grep -qs $iso_make/iso_org /proc/mounts ; then
     echo " image is already mounted, continue"
 else
     echo 'Mounting '$download_file' as '$iso_make/iso_org
-    cp $iso_done/$download_file /tmp/$download_file
+    cp $iso_from/$download_file /tmp/$download_file
     (mount -o loop /tmp/$download_file $iso_make/iso_org > /dev/null 2>&1)
 fi
 
@@ -339,6 +340,7 @@ unset pwhash
 unset download_file
 unset download_location
 unset new_iso_name
+unset iso_from
 unset iso_make
 unset iso_done
 unset tmp
