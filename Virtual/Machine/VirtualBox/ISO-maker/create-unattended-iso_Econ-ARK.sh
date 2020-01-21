@@ -11,7 +11,7 @@ rclocal_file=rc.local
 
 # file names & paths
 iso_from="/media/sf_VirtualBox"       # where to find the original ISO
-iso_done="/home/econ-ark/ExpanDrive/dropbox@llorracc.org/Public"       # where to store the final iso file - shared with host machine
+iso_done="/Volumes/Data/Code/ARK/econ-ark-tools/Virtual/Machine/VirtualBox/VM-Ready-To-Install/ISO-Included-In-Folder"       # where to store the final iso file - shared with host machine
 iso_make="/usr/local/share/iso_make"  # source folder for ISO file
 # create working folders
 echo " remastering your iso file"
