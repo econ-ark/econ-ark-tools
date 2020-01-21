@@ -11,7 +11,7 @@ rclocal_file=rc.local
 
 # file names & paths
 iso_from="/media/sf_VirtualBox"       # where to find the original ISO
-iso_done="/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/VM-Ready-To-Install/ISO-Included-In-Folder"       # where to store the final iso file - shared with host machine
+iso_done="/usr/local/share/data/Dropbox/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-Included-In-Folder"       # where to store the final iso file - shared with host machine
 iso_make="/usr/local/share/iso_make"  # source folder for ISO file
 # create working folders
 echo " remastering your iso file"
@@ -261,8 +261,7 @@ chmod 744 $iso_make/iso_new/$ks_file
 
 # include firstrun script
 echo "# setup firstrun script"
-echo "$late_command"                                    >> $iso_make/iso_new/preseed/$seed_file
-echo "d-i preseed/late_command                                    string      " >> $iso_make/iso_new/preseed/$seed_file
+echo "d-i preseed/late_command                                    string      $late_command " >> $iso_make/iso_new/preseed/$seed_file
 
 # generate the password hash
 pwhash=$(echo $password | mkpasswd -s -m sha-512)

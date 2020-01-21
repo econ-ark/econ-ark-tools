@@ -12,8 +12,7 @@
         <HardDisk uuid="{f8e042e5-e1ab-48e3-a4ba-457e800549d2}" location="202001200141.vmdk" format="VMDK" type="Normal"/>
       </HardDisks>
       <DVDImages>
-        <Image uuid="{856e4829-1382-42e9-95c2-73e9a4f678de}" location="/Users/Shared/VirtualBox/ubuntu-18.04.3-server-amd64-unattended_econ-ark-20200119.iso"/>
-        <Image uuid="{a288cd70-6d1d-4c82-bf0e-992343be9620}" location="/Volumes/Data/Code/ARK/econ-ark-tools/Virtual/Machine/VirtualBox/ISO/ubuntu-18.04.3-server-amd64-unattended_econ-ark-20200119.iso"/>
+        <Image uuid="{a288cd70-6d1d-4c82-bf0e-992343be9620}" location="ubuntu-18.04.3-server-amd64-unattended_econ-ark.iso"/bb>
       </DVDImages>
     </MediaRegistry>
     <ExtraData>
