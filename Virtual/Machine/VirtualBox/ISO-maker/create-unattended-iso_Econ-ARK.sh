@@ -11,7 +11,7 @@ rclocal_file=rc.local
 
 # file names & paths
 iso_from="/media/sf_VirtualBox"       # where to find the original ISO
-iso_done="/Volumes/Data/Code/ARK/econ-ark-tools/Virtual/Machine/VirtualBox/VM-Ready-To-Install/ISO-Included-In-Folder"       # where to store the final iso file - shared with host machine
+iso_done="/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/VM-Ready-To-Install/ISO-Included-In-Folder"       # where to store the final iso file - shared with host machine
 iso_make="/usr/local/share/iso_make"  # source folder for ISO file
 # create working folders
 echo " remastering your iso file"
@@ -119,19 +119,19 @@ while true; do
     case $ubver in
         [1]* )  download_file="ubuntu-$prec_vers-server-amd64.iso"           # filename of the iso to be downloaded
                 download_location="http://releases.ubuntu.com/$prec/"     # location of the file to be downloaded
-                new_iso_name="ubuntu-$prec_vers-server-amd64-unattended_$name-$datestr.iso" # filename of the new iso file to be created
+                new_iso_name="ubuntu-$prec_vers-server-amd64-unattended_$name.iso" # filename of the new iso file to be created
                 break;;
 	[2]* )  download_file="ubuntu-$trus_vers-server-amd64.iso"             # filename of the iso to be downloaded
                 download_location="http://releases.ubuntu.com/$trus/"     # location of the file to be downloaded
-                new_iso_name="ubuntu-$trus_vers-server-amd64-unattended_$name-$datestr.iso"   # filename of the new iso file to be created
+                new_iso_name="ubuntu-$trus_vers-server-amd64-unattended_$name.iso"   # filename of the new iso file to be created
                 break;;
         [3]* )  download_file="ubuntu-$xenn_vers-server-amd64.iso"
                 download_location="http://releases.ubuntu.com/$xenn/"
-                new_iso_name="ubuntu-$xenn_vers-server-amd64-unattended_$name-$datestr.iso"
+                new_iso_name="ubuntu-$xenn_vers-server-amd64-unattended_$name.iso"
                 break;;
         [4]* )  download_file="ubuntu-$bion_vers-server-amd64.iso"
                 download_location="http://cdimage.ubuntu.com/releases/$bion/release/"
-                new_iso_name="ubuntu-$bion_vers-server-amd64-unattended_$name-$datestr.iso"
+                new_iso_name="ubuntu-$bion_vers-server-amd64-unattended_$name.iso"
                 break;;
         * ) echo " please answer [1], [2], [3] or [4]";;
     esac
@@ -228,8 +228,6 @@ fi
 
 # copy the iso contents to the working directory
 echo 'Copying the iso contents from '$iso_org' to '$iso_new
-#(cp -rT $iso_make/iso_org $iso_make/iso_new > /dev/null 2>&1) &
-#(rsync -ra --delete $iso_make/iso_org/ $iso_make/iso_new > /dev/null 2>&1) & # Much faster if iso_new already exists; likely while debugging
 rsync -rai --delete $iso_make/iso_org/ $iso_make/iso_new 
 spinner $!
 
@@ -262,9 +260,9 @@ cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
 chmod 744 $iso_make/iso_new/$ks_file
 
 # include firstrun script
-echo "
-# setup firstrun script
-d-i preseed/late_command                                    string      $late_command" >> $iso_make/iso_new/preseed/$seed_file
+echo "# setup firstrun script"
+echo "$late_command"                                    >> $iso_make/iso_new/preseed/$seed_file
+echo "d-i preseed/late_command                                    string      " >> $iso_make/iso_new/preseed/$seed_file
 
 # generate the password hash
 pwhash=$(echo $password | mkpasswd -s -m sha-512)
@@ -294,10 +292,10 @@ echo " creating the remastered iso"
 cd $iso_make/iso_new
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
-cmd="(mkisofs -D -r -V ECONARK_XUBUNTU -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
+cmd="(mkisofs -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
 echo "$cmd"
 eval "$cmd"
-#(mkisofs -D -r -V "ECONARK_XUBUNTU" -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &
+
 spinner $!
 
 # make iso bootable (for dd'ing to USB stick)
