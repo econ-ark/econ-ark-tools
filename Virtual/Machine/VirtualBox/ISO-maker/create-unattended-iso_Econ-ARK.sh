@@ -251,7 +251,7 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
      chroot /target chmod +x /var/local/finish.sh ;\
      chroot /target chmod +x /etc/rc.local ;\
      chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
-     chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online /root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+     chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
      chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;"
 
 # copy the seed file to the iso
@@ -294,10 +294,10 @@ echo " creating the remastered iso"
 cd $iso_make/iso_new
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
-cmd="(mkisofs -D -r -V ECONARK_XUBUNTU_$datestr -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
+cmd="(mkisofs -D -r -V ECONARK_XUBUNTU -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
 echo "$cmd"
 eval "$cmd"
-#(mkisofs -D -r -V "ECONARK_XUBUNTU_$datestr" -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &
+#(mkisofs -D -r -V "ECONARK_XUBUNTU" -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &
 spinner $!
 
 # make iso bootable (for dd'ing to USB stick)
