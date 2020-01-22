@@ -1,33 +1,34 @@
-# VirtualBox Econ-ARK Virtual Machine
+# VirtualBox Xubuntu Econ-ARK Virtual Machine
 
-This directory contains the code used to create an installer that
-creates a richly configured linux virtual machine (VM) that can be run
-on any computer that runs the VirtualBox software.  In practice, we
-recommend a machine with at least 8GB of RAM and 2 CPU cores in order
-for the VM to exhibit decent performance.
+This directory contains the code used to create an installer that creates a richly configured linux virtual machine (VM) that can be run on any computer that runs the VirtualBox software.  While almost any computer can run VirtualBox, in practice, we recommend a machine with at least 8GB of RAM and 2 CPU cores in order for the VM to exhibit decent performance.
 
 Because it is based on the Xubuntu distribution of Linux, we will call
 our VM 'XUBUNTARK'
 
 1. Install VirtualBox
 1. Create a place on your real computer to host the virtual XUBUNTAR machine
-   * ~/VMs/EconARK would be a reasonable choice
-1. Download [this]() folder, which contains:
-   1. An 'ova' file which is an encapsulated VM machine primed to self-construct
-   1. An ISO file that contains the key setup info required to install self-constructing VM
-1. Install VirtualBox software on host machine, and run VirtualBox
-1. From the 'File' menu, choose to 'import appliance'
-   * Choose the XUBUNTARK.ova file to import
-1. Set your virtual machine to boot from the virtual CD-ROM ISO file you downloaded earlier
-   * [](()
-1. Click the big green "Start" button
-   * Wait a few hours while the machine sets itself up
+   * `~/VMs/EconARK` would be a reasonable choice
+1. [Download this file](https://drive.google.com/open?id=1tSKRX8nTG7N82RtcgBtI9vY-7wmw8Rbn):
+   1. An 'ova' file is a preconfigured virtual machine
+      * You can ajust its specs to match your computer's capacity
+   1. The VM is set up to boot from an ['installer' virtual DVD](https://drive.google.com/drive/folders/1TwBlrw2_bU3--ZvzDtaPQdCHcLuQdb5O?usp=sharing)
+      * When the VM is 'booted' from this DVD, everything is installed
+	  * The installer was created using scripts in [ISO-maker](./ISO-maker)
+1. Run VirtualBox, import the VM, and start it:
+   * From the 'File' menu, choose to [import appliance](./Import-Appliance.png)
+   * Choose the `XUBUNTARK.ova` file to import
+   * Click the big green "Start" button
 
 Eventually, you should see a window [like this]() which is your XUBUNTARK VM running.
+   * It can take a couple of hours
+   * Flaky internet connections can stall the process
+      * If this happens, choose the 'try again' option
 
-The machine is set to autologin to a user named econ-ark with a password kra-noce
+The XUBUNTARK machine is set to autologin:
+	* username:econ-ark
+	* password:kra-noce
 
-In the `terminal` in the machine, you should be able to type `jupyter notebook`
+In the `terminal`in the machine, you should be able to type `jupyter notebook`
    * Navigate to `GitHub/DemARK/A-Gentle-Introduction-To-HARK`
    * Open it and start learning!
 
