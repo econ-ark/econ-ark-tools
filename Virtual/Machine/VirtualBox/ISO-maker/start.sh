@@ -70,6 +70,13 @@ datetime="$(date +%Y%m%d%H%S)"
 sed -i "s/xubuntu/$datetime/g" /etc/hostname
 sed -i "s/xubuntu/$datetime/g" /etc/hosts
 
+cd /home/"$myuser"
+
+# Remove the linux automatically created directories like "Music" and "Pictures"
+for d in ./*/; do
+    rm -Rf $d
+done
+
 # Add stuff to bash login script
 bashadd=/home/"$myuser"/.bash_aliases
 touch "$bashadd"
