@@ -95,10 +95,24 @@ echo 'export PS1="\u@\h:\W\[\033[32m\]\[\033[33m\]\$(parse_git_branch)\[\033[00m
 chmod a+x "$bashadd"
 chown $myuser:$myuser "$bashadd"
 
+
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
+cd    /home/$myuser
+echo -n "downloading .emacs file"
+
+download "https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Tools/Config/tool/emacs/dot/emacs-ubuntu-virtualbox"
+
+mv emacs-ubuntu-virtualbox ~/.emacs
+chmod a+rwx ~/.emacs
+chown "$myuser:$myuser" ~/.emacs
+
 mkdir /home/$myuser/.emacs.d
+
 chmod a+rw /home/$myuser/.emacs.d
 chown $myuser:$myuser /home/$myuser/.emacs.d
 
 # Get some key apps that should be available immediately 
 sudo apt -y install curl wget tigervnc-scraping-server
+
+# Give econ-ark
+sudo adduser "$myuser" vboxsf
