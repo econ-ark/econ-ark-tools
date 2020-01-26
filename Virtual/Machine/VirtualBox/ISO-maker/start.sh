@@ -74,7 +74,7 @@ cd /home/"$myuser"
 
 # Remove the linux automatically created directories like "Music" and "Pictures"
 for d in ./*/; do
-    rm -Rf $d
+    [[ ! "$d" == "Downloads" ]] && [[ ! "$d" == "Desktop" ]] && rm -Rf "$d"
 done
 
 # Add stuff to bash login script

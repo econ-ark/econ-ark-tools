@@ -2,16 +2,16 @@
 # Adapted from netson github create-unattended/create-unattended-iso.sh
 
 pathToScript=$(dirname `realpath "$0"`)
-online=https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Tools/Install/Machines/Scripts/Methods-ISO
-startFile="start_modified-for-econ-ark.sh"
-finishFile="finish_modified-for-econ-ark.sh"
+online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker
+startFile="start.sh"
+finishFile="finish.sh"
 seed_file="econ-ark.seed"
 ks_file=ks.cfg
 rclocal_file=rc.local
 
 # file names & paths
 iso_from="/media/sf_VirtualBox"       # where to find the original ISO
-iso_done="/media/sf_VirtualBox"       # where to store the final iso file - shared with host machine
+iso_done="/usr/local/share/data/drive.google.com/econ-ark@jhuecon.org/Resources/Virtual/Machine"       # where to store the final iso file - shared with host machine
 [[ ! -d "$iso_done" ]] && mkdir -p "$iso_done"
 iso_make="/usr/local/share/iso_make"  # source folder for ISO file
 # create working folders
@@ -321,7 +321,7 @@ echo " your hostname is: $hostname"
 echo " your timezone is: $timezone"
 echo
 
-cmd="rclone copy '"$iso_done/$new_iso_name"'"
+cmd="rclone --progress copy '"$iso_done/$new_iso_name"'"
 cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/$datestr-$new_iso_name"
 echo 'To copy to Google drive, execute the command below:'
 echo ''
