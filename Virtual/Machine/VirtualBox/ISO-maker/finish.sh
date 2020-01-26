@@ -101,9 +101,9 @@ cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirem
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 
 sudo apt -y install build-essential module-assistant virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
-mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
+mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
 chown econ-ark:econ-ark /home/econ-ark/GitHub
-chown -Rf econ-ark:econ-ark /usr/local/share/GitHub/econ-ark # Make it be owned by econ-ark user 
+chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
 
 echo Finished automatic installations.  Rebooting.
 reboot 
