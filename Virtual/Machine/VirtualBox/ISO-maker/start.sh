@@ -83,7 +83,7 @@ touch "$bashadd"
 
 echo '# On first boot, monitor progress of start install script' >> "$bashadd"
 echo 'if [[ ! -f /var/log/firstboot.log ]]; then' >> "$bashadd"
-echo  '  xfce4-terminal -e "tail -f /var/local/start.log"  # On first boot, watch the remaining installations' >> "$bashadd"
+echo  '  xfce4-terminal -e "tail -f /var/local/start-and-finish.log"  # On first boot, watch the remaining installations' >> "$bashadd"
 echo  'fi' >> "$bashadd"
 
 
