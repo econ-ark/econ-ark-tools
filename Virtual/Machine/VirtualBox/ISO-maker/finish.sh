@@ -52,7 +52,8 @@ conda install --yes -c anaconda pyopengl # Otherwise you get an error "Segmentat
 conda install --yes -c conda-forge jupyter_contrib_nbextensions
 
 # Get default packages for Econ-ARK machine
-sudo apt -y install git bash-completion xsel cifs-utils openssh-server nautilus-share xclip texlive-full emacs auctex
+sudo apt -y install git bash-completion xsel cifs-utils openssh-server nautilus-share xclip texlive-full emacs gpg
+gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40 
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
@@ -74,6 +75,22 @@ echo '(You can switch back to the systemwide version using pip install econ-ark)
 echo 'This is your local, personal copy of DemARK, which you can modify.  '    >  DemARK-README.md
 echo 'This is your local, personal copy of REMARK, which you can modify.  '    >  REMARK-README.md
 
+#!/bin/sh
+pip install jupyter_contrib_nbextensions
+jupyter contrib nbextension install --user
+jupyter nbextension enable codefolding/main
+jupyter nbextension enable codefolding/edit
+jupyter nbextension enable toc2/main
+jupyter nbextension enable collapsible_headings/main
+python -m cite2c.install
+result=$(python <<EOF
+from notebook.services.config.manager import ConfigManager
+cm = ConfigManager()
+cm.update('cite2c', {'zotero':{"user_id": "5043554","username": "econ-ark","access_token": "XZpH9NsoAZmDMmjLKiy8xMXX"}})
+EOF
+      )
+
+cd ~/GitHub/econ-ark/REMARK/binder ; pip3 install -r requirements.txt
 
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 
