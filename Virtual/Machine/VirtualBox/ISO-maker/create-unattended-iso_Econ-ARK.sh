@@ -11,7 +11,7 @@ rclocal_file=rc.local
 
 # file names & paths
 iso_from="/media/sf_VirtualBox"       # where to find the original ISO
-iso_done="/usr/local/share/data/drive.google.com/econ-ark@jhuecon.org/Resources/Virtual/Machine"       # where to store the final iso file - shared with host machine
+iso_done="/media/sf_VirtualBox/ISO-made/econ-ark-tools"       # where to store the final iso file - shared with host machine
 [[ ! -d "$iso_done" ]] && mkdir -p "$iso_done"
 iso_make="/usr/local/share/iso_make"  # source folder for ISO file
 # create working folders

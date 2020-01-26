@@ -56,10 +56,10 @@ conda install --yes -c conda-forge jupyter_contrib_nbextensions
 # Get default packages for Econ-ARK machine
 sudo apt -y install git bash-completion xsel cifs-utils openssh-server nautilus-share xclip texlive-full emacs gpg
 # Create a public key for security purposes
-ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/econ-ark/.ssh/id_rsa
+sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/econ-ark/.ssh/id_rsa
 # Set up security for emacs package downloading 
-gpg --list-keys 
-gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
+sudo -u econ-ark gpg --list-keys 
+sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
