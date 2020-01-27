@@ -54,7 +54,7 @@ conda install --yes -c anaconda pyopengl # Otherwise you get an error "Segmentat
 conda install --yes -c conda-forge jupyter_contrib_nbextensions
 
 # Get default packages for Econ-ARK machine
-sudo apt -y install git bash-completion xsel cifs-utils openssh-server nautilus-share xclip texlive-full emacs gpg
+sudo apt -y install git bash-completion xsel cifs-utils openssh-server nautilus-share xclip texlive-full emacs gpg evince
 # Create a public key for security purposes
 sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/econ-ark/.ssh/id_rsa
 # Set up security for emacs package downloading 
@@ -63,7 +63,8 @@ sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
-conda install --yes -c conda-forge econ-ark
+# conda install --yes -c conda-forge econ-ark
+pip install econ-ark
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
 cd "$arkHome"
