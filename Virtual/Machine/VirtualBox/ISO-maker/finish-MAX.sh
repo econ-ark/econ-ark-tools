@@ -3,6 +3,7 @@
 myuser=econ-ark
 # Update everything 
 sudo apt -y update && sudo apt -y upgrade
+# Extra packages for MAX
 # Install anaconda3 for all users 
 # Adapted from http://askubuntu.com/questions/505919/how-to-install-anaconda-on-ubuntu
 
@@ -54,7 +55,7 @@ conda install --yes -c anaconda pyopengl # Otherwise you get an error "Segmentat
 conda install --yes -c conda-forge jupyter_contrib_nbextensions
 
 # Get default packages for Econ-ARK machine
-sudo apt -y install git bash-completion xsel cifs-utils openssh-server nautilus-share xclip emacs gpg
+sudo apt -y install git bash-completion xsel cifs-utils openssh-server nautilus-share xclip emacs gpg nbval
 # Extra packages for MAX
 sudo apt -y evince texlive-full quantecon scipy
 # Create a public key for security purposes
@@ -65,8 +66,8 @@ sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
-# conda install --yes -c conda-forge econ-ark
-pip install econ-ark
+conda install --yes -c conda-forge econ-ark # pip install econ-ark
+
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
 cd "$arkHome"
