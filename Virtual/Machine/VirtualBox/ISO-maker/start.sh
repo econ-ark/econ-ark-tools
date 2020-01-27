@@ -87,7 +87,6 @@ echo 'if [[ ! -f /var/log/firstboot.log ]]; then' >> "$bashadd"
 echo  '  xfce4-terminal -e "tail -f /var/local/start-and-finish.log"  # On first boot, watch the remaining installations' >> "$bashadd"
 echo  'fi' >> "$bashadd"
 
-
 # Modify prompt to keep track of git branches
 echo 'parse_git_branch() {' >> "$bashadd"
 echo "	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'" >> "$bashadd"
@@ -99,9 +98,12 @@ chmod a+x "$bashadd"
 chown $myuser:$myuser "$bashadd"
 
 
+# Get some key apps that should be available immediately 
+sudo apt -y install curl wget tigervnc-scraping-server
+
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 cd    /home/$myuser
-echo -n "downloading .emacs file"
+echo "downloading .emacs file"
 
 download "https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Tools/Config/tool/emacs/dot/emacs-ubuntu-virtualbox"
 
@@ -113,9 +115,6 @@ mkdir /home/$myuser/.emacs.d
 
 chmod a+rw /home/$myuser/.emacs.d
 chown $myuser:$myuser /home/$myuser/.emacs.d
-
-# Get some key apps that should be available immediately 
-sudo apt -y install curl wget tigervnc-scraping-server
 
 # Give econ-ark
 sudo adduser "$myuser" vboxsf
