@@ -73,6 +73,7 @@ sed -i "s/xubuntu/$datetime/g" /etc/hosts
 cd /home/"$myuser"
 
 # Remove the linux automatically created directories like "Music" and "Pictures"
+# Leave only required directories Downloads and Desktop
 for d in ./*/; do
     [[ ! "$d" == "Downloads" ]] && [[ ! "$d" == "Desktop" ]] && rm -Rf "$d"
 done
