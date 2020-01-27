@@ -5,7 +5,9 @@ myuser=econ-ark
 sudo apt -y update && sudo apt -y upgrade
 sudo add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt -y install software-properties-common python3 python3-pip python-pytest
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
+sudo apt -y python-pytest
 # Get default packages for Econ-ARK machine
 sudo apt -y install git bash-completion xsel cifs-utils openssh-server nautilus-share xclip emacs gpg nbval
 # Create a public key for security purposes
