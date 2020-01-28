@@ -107,9 +107,10 @@ download "https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Too
 
 for userloop in root $myuser; do
     cp emacs-ubuntu-virtualbox /home/$userloop/.emacs
-    chmod a+rwx /home/$userloop/.emacs
-    chown "$userloop:$userloop" /home/$userloop/.emacs
 done
+
+chmod a+rwx /home/$myuser/.emacs
+chown "$myuser:$myuser" /home/$myuser/.emacs
 
 rm emacs-ubuntu-virtualbox
 
@@ -118,15 +119,12 @@ mkdir /home/$myuser/.emacs.d ; mkdir /root/.emacs.d
 chmod a+rw /home/$myuser/.emacs.d 
 chown $myuser:$myuser /home/$myuser/.emacs.d
 
-# Give econ-ark
-sudo adduser "$myuser" vboxsf
-
 # Remove the linux automatically created directories like "Music" and "Pictures"
 # Leave only required directories Downloads and Desktop
 cd /home/$myuser
 
 for d in ./*/; do
-    if [[ ! "$d" == "Downloads" ]] && [[ ! "$d" == "Desktop" ]]; then
+    if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]]; then
 	rm -Rf "$d"
     fi
 done

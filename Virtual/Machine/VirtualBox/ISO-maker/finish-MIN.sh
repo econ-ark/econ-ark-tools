@@ -11,8 +11,9 @@ sudo apt -y install software-properties-common python3 python3-pip python-pytest
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
 sudo apt -y python-pytest
+sudo pip install nbval
 # Get default packages for Econ-ARK machine
-sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg nbval
+sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
 # Create a public key for security purposes
 sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/@myuser/.ssh
 # Set up security for emacs package downloading 
@@ -43,9 +44,14 @@ echo 'Local mods will not affect systemwide, unless you change the default sourc
 echo "   cd $arkHOME ;  pip install -e setup.py "  >> HARK-README.md
 echo '' >> HARK-README.md
 echo '(You can switch back to the systemwide version using pip install econ-ark)' >> HARK-README.md
+echo 'To test whether everything works, in the root directory type:.  '    >  HARK-README.md
+echo 'pytest '    >  HARK-README.md
 
 
 echo 'This is your local, personal copy of DemARK, which you can modify.  '    >  DemARK-README.md
+echo 'To test whether everything works, in the root directory type:.  '    >  DemARK-README.md
+echo 'cd notebooks ; pytest --nbval-lax *.ipynb  '    >  DemARK-README.md
+
 echo 'This is your local, personal copy of REMARK, which you can modify.  '    >  REMARK-README.md
 
 sudo -u econ-ark pip install jupyter_contrib_nbextensions
@@ -58,6 +64,7 @@ sudo apt -y install build-essential module-assistant virtualbox-guest-dkms virtu
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
 chown econ-ark:econ-ark /home/econ-ark/GitHub
 chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
+sudo adduser econ-ark vboxsf
 
 echo Finished automatic installations.  Rebooting.
 reboot 
