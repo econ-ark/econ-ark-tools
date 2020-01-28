@@ -14,10 +14,16 @@ sudo apt -y python-pytest
 # Get default packages for Econ-ARK machine
 sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg nbval
 # Create a public key for security purposes
-sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/econ-ark/.ssh/id_rsa
+sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/@myuser/.ssh
 # Set up security for emacs package downloading 
 sudo apt -y install emacs
+sudo -u econ-ark emacs -batch -l ~/.emacs --eval='(package-list-packages)'
+sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
+sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
 sudo -u econ-ark gpg --list-keys 
+sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
+sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
+sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
