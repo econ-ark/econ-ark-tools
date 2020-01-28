@@ -1,6 +1,19 @@
 #!/usr/bin/env bash
 # Adapted from netson github create-unattended/create-unattended-iso.sh
 
+if [ "$#" -ne 1 ]; then
+    echo "Wrong number of arguments:"
+    echo "usage: ${0##*/} MIN|MAX"
+    exit 1
+else
+    if ( [ ! "$1" == "MIN" ] && [ ! "$1" == "MAX" ] ); then
+	echo "usage: ${0##*/} MIN|MAX"
+	exit 2
+    fi
+fi
+
+size="$1"
+
 pathToScript=$(dirname `realpath "$0"`)
 online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker
 startFile="start.sh"
@@ -20,6 +33,7 @@ echo " remastering your iso file"
 mkdir -p "$iso_make"
 mkdir -p "$iso_make/iso_org"
 mkdir -p "$iso_make/iso_new"
+mkdir -p "$iso_done/$size"
 rm -f "$iso_make/$ks_file" # Make sure new version is downloaded
 rm -f "$iso_make/$seed_file" # Make sure new version is downloaded
 rm -f "$iso_make/$startFile" # Make sure new version is downloaded
@@ -304,10 +318,10 @@ if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
 fi
 
 # Move it to the destination
-cmd="[[ -e $iso_done/$new_iso_name ]] && rm $iso_done/$new_iso_name"
+cmd="[[ -e $iso_done/$size/$new_iso_name ]] && rm $iso_done/$size/$new_iso_name"
 echo "$cmd"
 eval "$cmd"
-cmd="mv $iso_make/$new_iso_name $iso_done/$new_iso_name"
+cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name"
 echo "$cmd"
 eval "$cmd"
 
@@ -321,8 +335,8 @@ echo " your hostname is: $hostname"
 echo " your timezone is: $timezone"
 echo
 
-cmd="rclone --progress copy '"$iso_done/$new_iso_name"'"
-cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/$datestr-$new_iso_name"
+cmd="rclone --progress copy '"$iso_done/$size/$new_iso_name"'"
+cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/$datestr-$size/$new_iso_name"
 echo 'To copy to Google drive, execute the command below:'
 echo ''
 echo "$cmd"

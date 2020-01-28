@@ -6,62 +6,14 @@ sudo systemctl stop cups-browsed.service
 sudo systemctl disable cups-browsed.service
 # Update everything 
 sudo apt -y update && sudo apt -y upgrade
-# Extra packages for MAX
-# Install anaconda3 for all users 
-# Adapted from http://askubuntu.com/questions/505919/how-to-install-anaconda-on-ubuntu
-
-sudo ls  > /dev/null # make sure we have root permission
-
-# Put in /tmp directory
-[[ -e /tmp/Anaconda ]] && sudo rm -Rf /tmp/Anaconda # delete any prior install
-
-mkdir /tmp/Anaconda ; cd /tmp/Anaconda
-
-CONTREPO=https://repo.continuum.io/archive/
-# Stepwise filtering of the html at $CONTREPO
-# Get the topmost line that matches our requirements, extract the file name.
-ANACONDAURL=$(wget -q -O - $CONTREPO index.html | grep "Anaconda3-" | grep "Linux" | grep "86_64" | head -n 1 | cut -d \" -f 2)
-cmd="wget -O /tmp/Anaconda/$ANACONDAURL $CONTREPO$ANACONDAURL ; cd /tmp/Anaconda"
-echo "$cmd"
-eval "$cmd"
-
-cmd="sudo rm -Rf /usr/local/anaconda3 ; chmod a+x /tmp/Anaconda/$ANACONDAURL ; /tmp/Anaconda/$ANACONDAURL -b -p /usr/local/anaconda3"
-echo "$cmd"
-eval "$cmd"
-
-# Add to default enviroment path so that everyone can find it
-addToPath='export PATH=/usr/local/anaconda3/bin:$PATH'
-echo "$addToPath"
-eval "$addToPath"
-sudo chmod u+w /etc/environment
-sudo sed -e 's\/usr/local/sbin:\/usr/local/anaconda3/bin:/usr/local/sbin:\g' /etc/environment > /tmp/environment
-
-# eliminate any duplicates which may exist if the script has been run more than once
-sudo sed -e 's\/usr/local/anaconda3/bin:/usr/local/anaconda3/bin\/usr/local/anaconda3/bin\g' /tmp/environment > /tmp/environment2
-
-sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
-sudo chmod u-w /etc/environment # Restore secure permissions for environment
-
-if [ ! -e /etc/sudoers.d/anaconda3 ]; then # Modify secure path so that anaconda commands will work with sudo
-    sudo mkdir -p /etc/sudoers.d
-    sudo echo 'Defaults secure_path="/usr/local/anaconda3/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/snap/bin:/bin"' | sudo tee /etc/sudoers.d/anaconda3
-fi
-
-source /etc/environment  # Get the new environment
-
-conda update --yes conda
-conda update --yes anaconda
-
-# Add some final common tools
-conda install --yes -c anaconda scipy
-conda install --yes -c anaconda pyopengl # Otherwise you get an error "Segmentation fault (core dumped)" on some Ubuntu machines
-conda install --yes -c conda-forge jupyter_contrib_nbextensions
-
+sudo add-apt-repository -y ppa:deadsnakes/ppa
+sudo apt -y install software-properties-common python3 python3-pip python-pytest
+sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
+sudo apt -y python-pytest
 sudo pip install nbval
 # Get default packages for Econ-ARK machine
 sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
-# Extra packages for MAX
-sudo apt -y evince texlive-full quantecon scipy
 # Create a public key for security purposes
 sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/@myuser/.ssh
 # Set up security for emacs package downloading 
@@ -102,20 +54,8 @@ echo 'cd notebooks ; pytest --nbval-lax *.ipynb  '    >  DemARK-README.md
 
 echo 'This is your local, personal copy of REMARK, which you can modify.  '    >  REMARK-README.md
 
-
-# Get the full contents of the REMARK directory
-
-cd /usr/local/share/data/GitHub/econ-ark/REMARK
-git submodule update --init --recursive --remote
-git pull --recursive-submodules
-
 sudo -u econ-ark pip install jupyter_contrib_nbextensions
 sudo -u econ-ark jupyter contrib nbextension install --user
-# Extra nbextensions for MAX
-sudo -u econ-ark jupyter nbextension enable codefolding/main
-sudo -u econ-ark jupyter nbextension enable codefolding/edit
-sudo -u econ-ark jupyter nbextension enable toc2/main
-sudo -u econ-ark jupyter nbextension enable collapsible_headings/main
 cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirements.txt
 
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
