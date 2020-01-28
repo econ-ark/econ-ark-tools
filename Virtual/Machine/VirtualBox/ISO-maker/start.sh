@@ -80,6 +80,9 @@ touch "$bashadd"
 echo '# On first boot, monitor progress of start install script' >> "$bashadd"
 echo 'if [[ ! -f /var/log/firstboot.log ]]; then' >> "$bashadd"
 echo  '  xfce4-terminal -e "tail -f /var/local/start-and-finish.log"  # On first boot, watch the remaining installations' >> "$bashadd"
+echo  '  echo ; echo The machine is installing more software.' >> "$bashadd"
+echo  '  echo It will reboot one more time before it finishes.' >> "$bashadd"
+echo  '  echo Please wait until that reboot before using it.' >> "$bashadd"
 echo  'fi' >> "$bashadd"
 
 # Modify prompt to keep track of git branches
@@ -123,6 +126,8 @@ sudo adduser "$myuser" vboxsf
 cd /home/$myuser
 
 for d in ./*/; do
-    [[ ! "$d" == "Downloads" ]] && [[ ! "$d" == "Desktop" ]] && rm -Rf "$d"
+    if [[ ! "$d" == "Downloads" ]] && [[ ! "$d" == "Desktop" ]]; then
+	rm -Rf "$d"
+    fi
 done
 
