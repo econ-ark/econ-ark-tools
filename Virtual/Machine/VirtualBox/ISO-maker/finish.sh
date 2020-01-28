@@ -12,11 +12,11 @@ sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
 sudo apt -y python-pytest
 # Get default packages for Econ-ARK machine
-sudo apt -y curl install git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg nbval
+sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg nbval
 # Create a public key for security purposes
 sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/econ-ark/.ssh/id_rsa
 # Set up security for emacs package downloading 
-sudo apt -y emacs
+sudo apt -y install emacs
 sudo -u econ-ark gpg --list-keys 
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 

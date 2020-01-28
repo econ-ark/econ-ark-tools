@@ -102,11 +102,27 @@ echo "downloading .emacs file"
 
 download "https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Tools/Config/tool/emacs/dot/emacs-ubuntu-virtualbox"
 
-mv emacs-ubuntu-virtualbox /home/$myuser/.emacs
-chmod a+rwx /home/$myuser/.emacs
-chown "$myuser:$myuser" /home/$myuser/.emacs
+for userloop in root $myuser; do
+    cp emacs-ubuntu-virtualbox /home/$userloop/.emacs
+    chmod a+rwx /home/$userloop/.emacs
+    chown "$userloop:$userloop" /home/$userloop/.emacs
+done
 
-mkdir /home/$myuser/.emacs.d
+rm emacs-ubuntu-virtualbox
 
-chmod a+rw /home/$myuser/.emacs.d
+mkdir /home/$myuser/.emacs.d ; mkdir /root/.emacs.d 
+
+chmod a+rw /home/$myuser/.emacs.d 
 chown $myuser:$myuser /home/$myuser/.emacs.d
+
+# Give econ-ark
+sudo adduser "$myuser" vboxsf
+
+# Remove the linux automatically created directories like "Music" and "Pictures"
+# Leave only required directories Downloads and Desktop
+cd /home/$myuser
+
+for d in ./*/; do
+    [[ ! "$d" == "Downloads" ]] && [[ ! "$d" == "Desktop" ]] && rm -Rf "$d"
+done
+
