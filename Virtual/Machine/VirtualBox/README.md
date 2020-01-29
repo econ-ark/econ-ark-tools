@@ -8,7 +8,9 @@ our VM 'XUBUNTARK'
 1. Install VirtualBox
 1. Create a place on your real computer to host the virtual XUBUNTAR machine
    * `~/VMs/EconARK` would be a reasonable choice
-1. [Download this file](https://drive.google.com/open?id=1tSKRX8nTG7N82RtcgBtI9vY-7wmw8Rbn):
+1. You have two choices:
+   * [XUBUNTARK-MIN.ova](https://drive.google.com/open?id=1nU8CE1PtcIljDeaukMWC9efm-Fr3iVKm): No extra stuff
+   * [XUBUNTARK-MAX.ova](https://drive.google.com/open?id=1zcur9_-DY-aS48d7onsijJQjyrJqM29B): Useful extras (incl. LaTeX)
    1. An 'ova' file is a preconfigured virtual machine (it cannot be previewed)
       * You can adjust its specs to match your machine's capacity
    1. The VM is set up to boot from an incorprated 'virtual DVD'
