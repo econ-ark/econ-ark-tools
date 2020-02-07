@@ -22,15 +22,16 @@ our VM 'XUBUNTARK'
    * Choose the `XUBUNTARK.ova` file to import
    * Click the big green "Start" button
 
-Eventually, you should see a window [like this]() which is your XUBUNTARK VM running.
+Eventually, you should see a window [like this](./XUBUNTARK-At-Startup.png) which is your XUBUNTARK VM running.
    * It can take a couple of hours
    * Flaky internet connections can stall the process
       * If this happens, choose the 'try again' option
 
 The XUBUNTARK machine is set to autologin:
-	* username:econ-ark
-	* password:kra-noce
-
+```
+   username:econ-ark
+	 password:kra-noce
+```
 In the `terminal`in the machine, you should be able to type `jupyter notebook`
    * Navigate to `GitHub/DemARK/A-Gentle-Introduction-To-HARK`
    * Open it and start learning!
@@ -39,9 +40,8 @@ In the `terminal`in the machine, you should be able to type `jupyter notebook`
 
 The machine contains a full installation of Anaconda3, LaTeX, and other useful tools
 The econ-ark toolkit is installed using the conda installer that comes with Anaconda.
-Local copies, that you can modify, of several repos are installed
+Local copies, that you can modify, of several repos are installed:
 
 1. DemARK
 1. REMARK
 1. HARK
-
