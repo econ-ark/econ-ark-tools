@@ -33,7 +33,7 @@ The XUBUNTARK machine is set to autologin:
    password:kra-noce
 ```
 In the `terminal`in the machine, you should be able to type `jupyter notebook`
-   * Navigate to `GitHub/DemARK/A-Gentle-Introduction-To-HARK`
+   * Navigate to `GitHub/econ-ark/DemARK/Gentle-Intro-To-HARK.ipynb`
    * Open it and start learning!
 
 ## Details
