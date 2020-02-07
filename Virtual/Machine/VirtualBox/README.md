@@ -30,7 +30,7 @@ Eventually, you should see a window [like this](./XUBUNTARK-At-Startup.png) whic
 The XUBUNTARK machine is set to autologin:
 ```
    username:econ-ark
-	 password:kra-noce
+   password:kra-noce
 ```
 In the `terminal`in the machine, you should be able to type `jupyter notebook`
    * Navigate to `GitHub/DemARK/A-Gentle-Introduction-To-HARK`
