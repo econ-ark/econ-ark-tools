@@ -5,6 +5,9 @@ import subprocess
 ORIGIN = f"https://github.com/econ-ark/REMARK"
 PR = f"39"
 DOCKER_IMAGE = f"mriduls/econ-ark-notebook"
+DO_FILE = f"do_MIN.py"
+PATH_TO_PARAMS = f"/home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Calibration/"
+PATH_TO_FIGURES = f"/home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Figures/"
 
 # Take the file as an argument
 parser = argparse.ArgumentParser()
@@ -38,14 +41,14 @@ subprocess.run(
 # copy the params file to params_init file
 subprocess.run(
     [
-        f"docker exec -it  {container_id} bash -c 'cp /home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Calibration/params.py /home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Calibration/params_init.py'"
+        f"docker exec -it  {container_id} bash -c 'cp {PATH_TO_PARAMS}params.py {PATH_TO_PARAMS}params_init.py'"
     ],
     shell=True,
 )
 # copy the params files to current work directory
 subprocess.run(
     [
-        f"docker exec -it  {container_id} bash -c 'cp /home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Calibration/params* /home/jovyan/work'"
+        f"docker exec -it  {container_id} bash -c 'cp {PATH_TO_PARAMS}params* /home/jovyan/work'"
     ],
     shell=True,
 )
@@ -96,7 +99,9 @@ dict_portfolio_keys = [
 ]
 
 parameters_update = [
-    "from .params_init import dict_portfolio, time_params, det_income, norm_factor"
+    "from .params_init import dict_portfolio, time_params, det_income, norm_factor",
+    "import numpy as np",
+    "from HARK.utilities import approxNormal"
 ]
 for parameter in config_parameters:
     print(f"Running docker instance against parameters: {parameter} ")
@@ -104,6 +109,12 @@ for parameter in config_parameters:
         # check if it's in time_params
         if key in ["Age_born", "Age_retire", "Age_death"]:
             parameters_update.append(f"time_params['{key}'] = {val}")
+            # changing time_params effect dict_portfolio elements too
+            parameters_update.append(f"dict_portfolio['T_age'] = time_params['Age_death'] - time_params['Age_born'] + 1")
+            parameters_update.append(f"dict_portfolio['T_cycle'] = time_params['Age_death'] - time_params['Age_born']")
+            parameters_update.append(f"dict_portfolio['T_retire'] = time_params['Age_retire'] - time_params['Age_born']")
+            parameters_update.append(f"dict_portfolio['T_sim'] = (time_params['Age_death'] - time_params['Age_born'] + 1)*50")
+
         # check if it's det_income
         elif key is "det_income":
             parameters_update.append(f"det_income = np.array({val})")
@@ -117,31 +128,25 @@ for parameter in config_parameters:
         for item in parameters_update:
             f.write("%s\n" % item)
     # restart parameter update list
-    parameters_update = parameters_update[0:1]
+    parameters_update = parameters_update[0:3]
     # copy new parameters file to the REMARK
     subprocess.run(
         [
-            f"docker exec -it  {container_id} bash -c 'cp /home/jovyan/work/params.py /home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Calibration/params.py'"
+            f"docker exec -it  {container_id} bash -c 'cp /home/jovyan/work/params.py {PATH_TO_PARAMS}params.py'"
         ],
         shell=True,
     )
     # remove previous figures from the REMARK
     subprocess.run(
         [
-            f"docker exec -it {container_id} bash -c 'rm /home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Figures/*'"
-        ],
-        shell=True,
-    )
-    subprocess.run(
-        [
-            f"docker exec -it {container_id} bash -c 'ls /home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Figures'"
+            f"docker exec -it {container_id} bash -c 'rm {PATH_TO_FIGURES}*'"
         ],
         shell=True,
     )
     # run the do_X file and get the results
     subprocess.run(
         [
-            f"docker exec -it  {container_id} bash -c 'cd REMARK/REMARKs/CGMPortfolio; ipython do_MIN.py'"
+            f"docker exec -it  {container_id} bash -c 'cd REMARK/REMARKs/CGMPortfolio; ipython {DO_FILE}'"
         ],
         shell=True,
     )
@@ -149,13 +154,13 @@ for parameter in config_parameters:
     subprocess.run(
         [
             f"docker exec -it  {container_id} bash -c 'mkdir /home/jovyan/work/results/figure_{parameter}'"
-        ]
+        ],
         shell=True,
     )
     # copy the files created in figures to results
     subprocess.run(
         [
-            f"docker exec -it {container_id} bash -c 'cp /home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Figures/* /home/jovyan/work/results/figure_{parameter}/'"
+            f"docker exec -it {container_id} bash -c 'cp {PATH_TO_FIGURES}* /home/jovyan/work/results/figure_{parameter}/'"
         ],
         shell=True,
     )
