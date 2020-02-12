@@ -2,8 +2,8 @@ import argparse
 import yaml
 import subprocess
 
-ORIGIN = f"https://github.com/econ-ark/REMARK"
-PR = f"39"
+ORIGIN = f"https://github.com/mriduls/REMARK"
+PR = f"1"
 DOCKER_IMAGE = f"mriduls/econ-ark-notebook"
 DO_FILE = f"do_MIN.py"
 PATH_TO_PARAMS = f"/home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Calibration/"
@@ -27,8 +27,7 @@ pwd = subprocess.run(["pwd"], capture_output=True)
 mount = str(pwd.stdout)[2:-3] + ":/home/jovyan/work"
 # mount the present directory and start up a container
 container_id = subprocess.run(
-    ["docker", "run", "-v", mount, "-d", DOCKER_IMAGE],
-    capture_output=True,
+    ["docker", "run", "-v", mount, "-d", DOCKER_IMAGE], capture_output=True
 )
 container_id = container_id.stdout.decode("utf-8")[:-1]
 # fetch the PR
@@ -99,9 +98,9 @@ dict_portfolio_keys = [
 ]
 
 parameters_update = [
-    "from .params_init import dict_portfolio, time_params, det_income, norm_factor",
+    "from .params_init import dict_portfolio, time_params, Mu, Rfree, Std, det_income, norm_factor, age_plot_params",
     "import numpy as np",
-    "from HARK.utilities import approxNormal"
+    "from HARK.utilities import approxNormal",
 ]
 for parameter in config_parameters:
     print(f"Running docker instance against parameters: {parameter} ")
@@ -110,19 +109,32 @@ for parameter in config_parameters:
         if key in ["Age_born", "Age_retire", "Age_death"]:
             parameters_update.append(f"time_params['{key}'] = {val}")
             # changing time_params effect dict_portfolio elements too
-            parameters_update.append(f"dict_portfolio['T_age'] = time_params['Age_death'] - time_params['Age_born'] + 1")
-            parameters_update.append(f"dict_portfolio['T_cycle'] = time_params['Age_death'] - time_params['Age_born']")
-            parameters_update.append(f"dict_portfolio['T_retire'] = time_params['Age_retire'] - time_params['Age_born']")
-            parameters_update.append(f"dict_portfolio['T_sim'] = (time_params['Age_death'] - time_params['Age_born'] + 1)*50")
+            parameters_update.append(
+                f"dict_portfolio['T_age'] = time_params['Age_death'] - time_params['Age_born'] + 1"
+            )
+            parameters_update.append(
+                f"dict_portfolio['T_cycle'] = time_params['Age_death'] - time_params['Age_born']"
+            )
+            parameters_update.append(
+                f"dict_portfolio['T_retire'] = time_params['Age_retire'] - time_params['Age_born']"
+            )
+            parameters_update.append(
+                f"dict_portfolio['T_sim'] = (time_params['Age_death'] - time_params['Age_born'] + 1)*50"
+            )
 
         # check if it's det_income
-        elif key is "det_income":
+        elif key in ["det_income"]:
             parameters_update.append(f"det_income = np.array({val})")
         # check if it's in dict_portfolio
         elif key in dict_portfolio_keys:
             parameters_update.append(f"dict_portfolio['{key}'] = {val}")
+        elif key in ["age_plot_params"]:
+            parameters_update.append(f"age_plot_params = {val}")
         else:
             print("Parameter provided in config file not found")
+    parameters_update.append(
+                f"dict_portfolio['LivPrb'] = dict_portfolio['LivPrb'][(time_params['Age_born'] - 20):(time_params['Age_death'] - 20)]"
+            )
     print(parameters_update)
     with open("params.py", "w") as f:
         for item in parameters_update:
@@ -138,10 +150,7 @@ for parameter in config_parameters:
     )
     # remove previous figures from the REMARK
     subprocess.run(
-        [
-            f"docker exec -it {container_id} bash -c 'rm {PATH_TO_FIGURES}*'"
-        ],
-        shell=True,
+        [f"docker exec -it {container_id} bash -c 'rm {PATH_TO_FIGURES}*'"], shell=True
     )
     # run the do_X file and get the results
     subprocess.run(
