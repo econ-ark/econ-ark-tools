@@ -8,6 +8,7 @@ DOCKER_IMAGE = f"mriduls/econ-ark-notebook"
 DO_FILE = f"do_MIN.py"
 PATH_TO_PARAMS = f"/home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Calibration/"
 PATH_TO_FIGURES = f"/home/jovyan/REMARK/REMARKs/CGMPortfolio/Code/Python/Figures/"
+PATH_TO_SCRIPT = f"REMARK/REMARKs/CGMPortfolio"
 
 # Take the file as an argument
 parser = argparse.ArgumentParser()
@@ -155,7 +156,7 @@ for parameter in config_parameters:
     # run the do_X file and get the results
     subprocess.run(
         [
-            f"docker exec -it  {container_id} bash -c 'cd REMARK/REMARKs/CGMPortfolio; ipython {DO_FILE}'"
+            f"docker exec -it  {container_id} bash -c 'cd {PATH_TO_SCRIPT}; ipython {DO_FILE}'"
         ],
         shell=True,
     )
