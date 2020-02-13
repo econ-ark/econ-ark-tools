@@ -24,11 +24,11 @@ with open(args.config, "r") as stream:
 print(config_parameters)
 
 
-pwd = subprocess.run(["pwd"], capture_output=True)
+pwd = subprocess.run(["pwd"], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
 mount = str(pwd.stdout)[2:-3] + ":/home/jovyan/work"
 # mount the present directory and start up a container
 container_id = subprocess.run(
-    ["docker", "run", "-v", mount, "-d", DOCKER_IMAGE], capture_output=True
+    ["docker", "run", "-v", mount, "-d", DOCKER_IMAGE], stdout=subprocess.PIPE, stderr=subprocess.PIPE
 )
 container_id = container_id.stdout.decode("utf-8")[:-1]
 # fetch the PR
