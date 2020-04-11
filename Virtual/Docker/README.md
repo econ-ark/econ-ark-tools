@@ -27,7 +27,7 @@ $ sudo systemctl status docker
 ##### Start the notebook environment (MacOS and Linux).
 1. Once you have docker running in the background go to the terminal and execute the following command.
 ```
-docker run -v "$PWD":/home/jovyan/work -p 8888:8888 mriduls/econ-ark-notebook
+docker run -v "$PWD":/home/jovyan/work -p 8888:8888 econark/econ-ark-notebook
 ```
 NOTE: This command can take some time the first time you run this as it will download the docker image (1.8GB), further runs will use the local cached copy.
 NOTE: Depending on your current directory this command will start a notebook server in that directory (usually your home directory by default) and to make sure you save your notebook on your local machine save it in the `work/` directory as anything outside that will be cleaned as soon as you close the notebook server.
