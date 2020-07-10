@@ -107,7 +107,7 @@ cd $iso_from
 
 iso_makehtml=$iso_make/tmphtml
 rm $iso_makehtml >/dev/null 2>&1
-wget -O $iso_makehtml 'http://releases.ubuntu.com/' >/dev/null 2>&1
+wget -O $iso_makehtml 'http://cdimage.ubuntu.com/' >/dev/null 2>&1
 
 prec=$(fgrep Precise $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
 trus=$(fgrep Trusty $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
@@ -133,20 +133,20 @@ while true; do
     read -ep " please enter your preference: [1|2|3|4]: " -i "4" ubver
     case $ubver in
         [1]* )  download_file="ubuntu-$prec_vers-desktop-amd64.iso"           # filename of the iso to be downloaded
-                download_location="http://releases.ubuntu.com/$prec/"     # location of the file to be downloaded
+                download_location="http://cdimage.ubuntu.com/releases/$prec/"     # location of the file to be downloaded
                 new_iso_name="ubuntu-$prec_vers-desktop-amd64-unattended_$name.iso" # filename of the new iso file to be created
                 break;;
 	[2]* )  download_file="ubuntu-$trus_vers-desktop-amd64.iso"             # filename of the iso to be downloaded
-                download_location="http://releases.ubuntu.com/$trus/"     # location of the file to be downloaded
+                download_location="http://cdimage.ubuntu.com/releases/$trus/"     # location of the file to be downloaded
                 new_iso_name="ubuntu-$trus_vers-desktop-amd64-unattended_$name.iso"   # filename of the new iso file to be created
                 break;;
         [3]* )  download_file="ubuntu-$xenn_vers-desktop-amd64.iso"
-                download_location="http://releases.ubuntu.com/$xenn/"
+                download_location="http://cdimage.ubuntu.com/releases/$xenn/"
                 new_iso_name="ubuntu-$xenn_vers-desktop-amd64-unattended_$name.iso"
                 break;;
-        [4]* )  download_file="ubuntu-$bion_vers-desktop-amd64.iso"
-                download_location="http://cdimage.ubuntu.com/releases/$bion/release/"
-                new_iso_name="ubuntu-$bion_vers-desktop-amd64-unattended_$name.iso"
+        [4]* )  download_file="ubuntu-18.04.4-desktop-amd64.iso"
+                download_location="http://releases.ubuntu.com/18.04/"
+                new_iso_name="ubuntu-18.04.4-desktop-amd64-unattended_$name.iso"
                 break;;
         * ) echo " please answer [1], [2], [3] or [4]";;
     esac
@@ -251,21 +251,10 @@ cd $iso_make/iso_new
 #doesn't work for 16.04
 echo en > $iso_make/iso_new/isolinux/lang
 
+
 #16.04
 #taken from https://github.com/fries/prepare-ubuntu-unattended-install-iso/blob/master/make.sh
 sed -i -r 's/timeout\s+[0-9]+/timeout 1/g' $iso_make/iso_new/isolinux/isolinux.cfg
-
-# set late command
-
-late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
-     chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
-     chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
-     chroot /target chmod +x /var/local/start.sh ;\
-     chroot /target chmod +x /var/local/finish.sh ;\
-     chroot /target chmod +x /etc/rc.local ;\
-     chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
-     chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
-     chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;"
 
 # copy the seed file to the iso
 cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
@@ -275,8 +264,8 @@ cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
 chmod 744 $iso_make/iso_new/$ks_file
 
 # include firstrun script
-echo "# setup firstrun script"
-echo "d-i preseed/late_command                                    string      $late_command " >> $iso_make/iso_new/preseed/$seed_file
+#echo "# setup firstrun script"
+#echo "d-i preseed/late_command                                    string      $late_command " >> $iso_make/iso_new/preseed/$seed_file
 
 # generate the password hash
 pwhash=$(echo $password | mkpasswd -s -m sha-512)
@@ -306,7 +295,7 @@ echo " creating the remastered iso"
 cd $iso_make/iso_new
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
-cmd="(mkisofs -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
+cmd="(mkisofs -D -r -V XUBUNTDSK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
 echo "$cmd"
 eval "$cmd"
 
