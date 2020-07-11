@@ -51,7 +51,7 @@ d-i apt-setup/backports                                     boolean     true
 d-i apt-setup/services-select                               multiselect security
 d-i apt-setup/security_host                                 string      security.ubuntu.com
 d-i apt-setup/security_path                                 string      /ubuntu
-#tasksel tasksel/first                                       multiselect xubuntu-desktop #Basic Ubuntu server
+#tasksel tasksel/first                                       multiselect xubuntu-server #Basic Ubuntu server
 #d-i pkgsel/upgrade                                          select      safe-upgrade
 #d-i pkgsel/update-policy                                    select      none
 #d-i pkgsel/updatedb                                         boolean     true
@@ -171,19 +171,4 @@ d-i finish-install/keep-consoles                            boolean     false
 d-i cdrom-detect/eject                                      boolean     true
 d-i debian-installer/exit/halt                              boolean     false
 d-i debian-installer/exit/poweroff                          boolean     false
-
-# set late command
-# commented out because apparently ubiquity ignores late_command
-# Replaced by ubiquity ubiquity/success
-
-ubiquity ubiquity/success_command string \
-in-target curl -L -o /var/local/start.sh "/target/$online/$startFile" ;\
-in-target curl -L -o /var/local/finish.sh "/target/$online/$finishFile" ;\
-in-target curl -L -o /etc/rc.local "/target/$online/$rclocal_file" ;\
-in-target chmod +x /var/local/start.sh ;\
-in-target chmod +x /var/local/finish.sh ;\
-in-target chmod +x /etc/rc.local ;\
-in-target mkdir -p /etc/lightdm/lightdm.conf.d ;\
-in-target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf "/target/$online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf" ;\
-in-target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf 
 

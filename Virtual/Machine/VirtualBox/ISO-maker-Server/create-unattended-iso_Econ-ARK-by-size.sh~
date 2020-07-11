@@ -15,8 +15,8 @@ fi
 size="$1"
 
 pathToScript=$(dirname `realpath "$0"`)
-# pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Desktop/
-online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Desktop
+# pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/
+online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker
 startFile="start.sh"
 finishFile="finish.sh"
 seed_file="econ-ark.seed"
@@ -40,7 +40,7 @@ rm -f "$iso_make/$seed_file" # Make sure new version is downloaded
 rm -f "$iso_make/$startFile" # Make sure new version is downloaded
 rm -f "$iso_make/$rclocal_file" # Make sure new version is downloaded
 
-hostname="xubuntdsk"
+hostname="xubuntsrv"
 currentuser="$( whoami)"
 
 # define spinner function for slow tasks
@@ -126,28 +126,28 @@ name='econ-ark'
 while true; do
     echo " which ubuntu edition would you like to remaster:"
     echo
-    echo "  [1] Ubuntu $prec LTS Desktop amd64 - Precise Pangolin"
-    echo "  [2] Ubuntu $trus LTS Desktop amd64 - Trusty Tahr"
-    echo "  [3] Ubuntu $xenn LTS Desktop amd64 - Xenial Xerus"
-    echo "  [4] Ubuntu $bion LTS Desktop amd64 - Bionic Beaver"
+    echo "  [1] Ubuntu $prec LTS Server amd64 - Precise Pangolin"
+    echo "  [2] Ubuntu $trus LTS Server amd64 - Trusty Tahr"
+    echo "  [3] Ubuntu $xenn LTS Server amd64 - Xenial Xerus"
+    echo "  [4] Ubuntu $bion LTS Server amd64 - Bionic Beaver"
     echo
     read -ep " please enter your preference: [1|2|3|4]: " -i "4" ubver
     case $ubver in
-        [1]* )  download_file="ubuntu-$prec_vers-desktop-amd64.iso"           # filename of the iso to be downloaded
+        [1]* )  download_file="ubuntu-$prec_vers-server-amd64.iso"           # filename of the iso to be downloaded
                 download_location="http://cdimage.ubuntu.com/releases/$prec/"     # location of the file to be downloaded
-                new_iso_name="ubuntu-$prec_vers-desktop-amd64-unattended_$name.iso" # filename of the new iso file to be created
+                new_iso_name="ubuntu-$prec_vers-server-amd64-unattended_$name.iso" # filename of the new iso file to be created
                 break;;
-	[2]* )  download_file="ubuntu-$trus_vers-desktop-amd64.iso"             # filename of the iso to be downloaded
+	[2]* )  download_file="ubuntu-$trus_vers-server-amd64.iso"             # filename of the iso to be downloaded
                 download_location="http://cdimage.ubuntu.com/releases/$trus/"     # location of the file to be downloaded
-                new_iso_name="ubuntu-$trus_vers-desktop-amd64-unattended_$name.iso"   # filename of the new iso file to be created
+                new_iso_name="ubuntu-$trus_vers-server-amd64-unattended_$name.iso"   # filename of the new iso file to be created
                 break;;
-        [3]* )  download_file="ubuntu-$xenn_vers-desktop-amd64.iso"
+        [3]* )  download_file="ubuntu-$xenn_vers-server-amd64.iso"
                 download_location="http://cdimage.ubuntu.com/releases/$xenn/"
-                new_iso_name="ubuntu-$xenn_vers-desktop-amd64-unattended_$name.iso"
+                new_iso_name="ubuntu-$xenn_vers-server-amd64-unattended_$name.iso"
                 break;;
-        [4]* )  download_file="ubuntu-18.04.4-desktop-amd64.iso"
+        [4]* )  download_file="ubuntu-18.04.4-server-amd64.iso"
                 download_location="http://releases.ubuntu.com/18.04/"
-                new_iso_name="ubuntu-18.04.4-desktop-amd64-unattended_$name.iso"
+                new_iso_name="ubuntu-18.04.4-server-amd64-unattended_$name.iso"
                 break;;
         * ) echo " please answer [1], [2], [3] or [4]";;
     esac
@@ -302,20 +302,20 @@ seed_checksum=$(md5sum $iso_make/iso_new/preseed/$seed_file)
 
 # add the autoinstall option to the menu
 sed -i "/label install/ilabel autoinstall\n\
-  menu label ^Autoinstall Econ-ARK Xubuntu Desktop\n\
+  menu label ^Autoinstall Econ-ARK Xubuntu Server\n\
   kernel /install/vmlinuz\n\
-  append file=/cdrom/preseed/ubuntu-desktop.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed preseed/file/checksum=$seed_checksum -- ks=cdrom:/ks.cfg " $iso_make/iso_new/isolinux/txt.cfg
+  append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed preseed/file/checksum=$seed_checksum -- ks=cdrom:/ks.cfg " $iso_make/iso_new/isolinux/txt.cfg
   
 # add the autoinstall option to the menu for USB Boot
-#sed -i '/set timeout=30/amenuentry "Autoinstall Econ-ARK Xubuntu Desktop" {\n\	set gfxpayload=keep\n\	linux /install/vmlinuz append file=/cdrom/preseed/ubuntu-desktop.seed initrd=/install/initrd.gz auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed quiet ---\n\	initrd	/install/initrd.gz\n\}' $iso_make/iso_new/boot/grub/grub.cfg
-sed -i  '/set timeout=30/amenuentry "Autoinstall Econ-ARK Xubuntu Desktop" {\n\	set gfxpayload=keep\n\	linux /install/vmlinuz append file=/cdrom/preseed/ubuntu-desktop.seed initrd=/install/initrd.gz auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed       ---\n\	initrd	/install/initrd.gz\n\}' $iso_make/iso_new/boot/grub/grub.cfg
+#sed -i '/set timeout=30/amenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n\	set gfxpayload=keep\n\	linux /install/vmlinuz append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed quiet ---\n\	initrd	/install/initrd.gz\n\}' $iso_make/iso_new/boot/grub/grub.cfg
+sed -i  '/set timeout=30/amenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n\	set gfxpayload=keep\n\	linux /install/vmlinuz append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed       ---\n\	initrd	/install/initrd.gz\n\}' $iso_make/iso_new/boot/grub/grub.cfg
 sed -i -r 's/timeout=[0-9]+/timeout=1/g' $iso_make/iso_new/boot/grub/grub.cfg
 
 echo " creating the remastered iso"
 cd $iso_make/iso_new
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
-cmd="(mkisofs -D -r -V XUBUNTDSK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
+cmd="(mkisofs -D -r -V XUBUNTSRV -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
 echo "$cmd"
 eval "$cmd"
 

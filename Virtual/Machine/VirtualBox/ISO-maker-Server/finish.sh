@@ -12,29 +12,6 @@ sudo apt -y update && sudo apt -y upgrade
 
 sudo ls  > /dev/null # make sure we have root permission
 
-# These have been copied from the preseed file because apparently ubiquity ignores them
-# But realized that they don't work here; ubiquity/success_command seems to be a substitute for late_command
-# so moved them to ubiquity ubiquity/success_command string
-
-# online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Desktop
-# finishFile="finish.sh"
-# startFile="start.sh"
-# seed_file="econ-ark.seed"
-# ks_file=ks.cfg
-# rclocal_file=rc.local
-
-
-# curl -L -o /var/local/start.sh $online/$startFile
-# curl -L -o /var/local/finish.sh $online/$finishFile
-# curl -L -o /etc/rc.local $online/$rclocal_file
-# chmod +x /var/local/start.sh
-# chmod +x /var/local/finish.sh
-# chmod +x /etc/rc.local
-# mkdir -p /etc/lightdm/lightdm.conf.d
-# curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf
-# chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf
-
-
 # Put in /tmp directory
 [[ -e /tmp/Anaconda ]] && sudo rm -Rf /tmp/Anaconda # delete any prior install
 
@@ -143,11 +120,14 @@ cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirem
 
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 
-sudo apt -y install build-essential module-assistant virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+sudo apt -y install build-essential module-assistant gparted
+# If installing on VirtualBox, add guest additions
+VBExists=$(sudo dmidecode | grep VirtualBox)
+[[ "$VBExists" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
 chown econ-ark:econ-ark /home/econ-ark/GitHub
 chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
-sudo adduser econ-ark vboxsf
+sudo adduser econ-ark
 
 echo Finished automatic installations.  Rebooting.
 reboot 

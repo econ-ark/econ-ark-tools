@@ -107,7 +107,7 @@ echo 'This is your local, personal copy of REMARK, which you can modify.  '    >
 
 cd /usr/local/share/data/GitHub/econ-ark/REMARK
 git submodule update --init --recursive --remote
-git pull --recursive-submodules
+git pull --recurse-submodules
 
 sudo -u econ-ark pip install jupyter_contrib_nbextensions
 sudo -u econ-ark jupyter contrib nbextension install --user
