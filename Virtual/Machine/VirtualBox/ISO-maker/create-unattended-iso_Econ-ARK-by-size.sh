@@ -146,7 +146,8 @@ while true; do
                 break;;
         [4]* )  download_file="ubuntu-$bion_vers-server-amd64.iso"
                 download_location="http://cdimage.ubuntu.com/releases/$bion/release/"
-                new_iso_name="ubuntu-$bion_vers-server-amd64-unattended_$name.iso"
+                new_iso_base="ubuntu-$bion_vers-server-amd64-unattended_$name"
+		new_iso_name="ubuntu-$bion_vers-server-amd64-unattended_$name.iso"
                 break;;
         * ) echo " please answer [1], [2], [3] or [4]";;
     esac
