@@ -16,7 +16,7 @@ size="$1"
 
 pathToScript=$(dirname `realpath "$0"`)
 # pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/
-online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker
+online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server
 startFile="start.sh"
 finishFile="finish.sh"
 seed_file="econ-ark.seed"
@@ -40,7 +40,8 @@ rm -f "$iso_make/$seed_file" # Make sure new version is downloaded
 rm -f "$iso_make/$startFile" # Make sure new version is downloaded
 rm -f "$iso_make/$rclocal_file" # Make sure new version is downloaded
 
-hostname="xubuntu"
+datestr=`date +"%Y%m%d"`
+hostname="built-$datestr"
 currentuser="$( whoami)"
 
 # define spinner function for slow tasks
@@ -119,7 +120,6 @@ trus_vers=$(fgrep Trusty $iso_makehtml | head -1 | awk '{print $6}')
 xenn_vers=$(fgrep Xenial $iso_makehtml | head -1 | awk '{print $6}')
 bion_vers=$(fgrep Bionic $iso_makehtml | head -1 | awk '{print $6}')
 
-datestr=`date +"%Y%m%d"`
 name='econ-ark'
 
 # ask whether to include vmware tools or not
@@ -236,7 +236,7 @@ fi
 
 # mount the image
 if grep -qs $iso_make/iso_org /proc/mounts ; then
-    echo " image is already mounte"
+    echo " image is already mounted, continue"
     echo " unmounting before remounting (to make sure latest version is what is mounted)"
     (umount $iso_make/iso_org )
 fi
@@ -346,7 +346,7 @@ echo " your timezone is: $timezone"
 echo
 
 cmd="rclone --progress copy '"$iso_done/$size/$new_iso_name"'"
-cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/$datestr-$size/$new_iso_base"
+cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/XUBUNTU-$size/$new_iso_base"
 echo 'To copy to Google drive, execute the command below:'
 echo ''
 echo "$cmd"

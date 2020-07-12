@@ -40,7 +40,7 @@ rm -f "$iso_make/$seed_file" # Make sure new version is downloaded
 rm -f "$iso_make/$startFile" # Make sure new version is downloaded
 rm -f "$iso_make/$rclocal_file" # Make sure new version is downloaded
 
-hostname="xubuntsrv"
+hostname="xubuntu"
 currentuser="$( whoami)"
 
 # define spinner function for slow tasks
@@ -147,6 +147,7 @@ while true; do
                 break;;
         [4]* )  download_file="ubuntu-18.04.4-server-amd64.iso"
                 download_location="http://releases.ubuntu.com/18.04/"
+                new_iso_base="ubuntu-18.04.4-server-amd64-unattended_$name"
                 new_iso_name="ubuntu-18.04.4-server-amd64-unattended_$name.iso"
                 break;;
         * ) echo " please answer [1], [2], [3] or [4]";;
@@ -235,7 +236,7 @@ fi
 
 # mount the image
 if grep -qs $iso_make/iso_org /proc/mounts ; then
-    echo " image is already mounted, continue"
+    echo " image is already mounte"
     echo " unmounting before remounting (to make sure latest version is what is mounted)"
     (umount $iso_make/iso_org )
 fi
@@ -260,8 +261,8 @@ echo en > $iso_make/iso_new/isolinux/lang
 #taken from https://github.com/fries/prepare-ubuntu-unattended-install-iso/blob/master/make.sh
 sed -i -r 's/timeout\s+[0-9]+/timeout 1/g' $iso_make/iso_new/isolinux/isolinux.cfg
 
-cat $SystemLogRateLimitInterval 0 >  /etc/rsyslog.conf
-cat $SystemLogRateLimitBurst    0 >> /etc/rsyslog.conf
+sudo cat $SystemLogRateLimitInterval 0 >  /etc/rsyslog.conf
+sudo cat $SystemLogRateLimitBurst    0 >> /etc/rsyslog.conf
 
 # set late command
 
@@ -315,7 +316,7 @@ echo " creating the remastered iso"
 cd $iso_make/iso_new
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
-cmd="(mkisofs -D -r -V XUBUNTSRV -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
+cmd="(mkisofs -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
 echo "$cmd"
 eval "$cmd"
 
@@ -345,7 +346,7 @@ echo " your timezone is: $timezone"
 echo
 
 cmd="rclone --progress copy '"$iso_done/$size/$new_iso_name"'"
-cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/$datestr-$size/"
+cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/$datestr-$size/$new_iso_base"
 echo 'To copy to Google drive, execute the command below:'
 echo ''
 echo "$cmd"
