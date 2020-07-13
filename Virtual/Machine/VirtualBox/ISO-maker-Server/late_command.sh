@@ -1,5 +1,13 @@
 #!/bin/bash
 
+online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server
+startFile="start.sh"
+finishFile="finish.sh"
+seed_file="econ-ark.seed"
+ks_file=ks.cfg
+rclocal_file=rc.local
+
+
 
 curl -L -o /var/local/start.sh $online/$startFile ;\
 curl -L -o /var/local/finish.sh $online/$finishFile ;\
