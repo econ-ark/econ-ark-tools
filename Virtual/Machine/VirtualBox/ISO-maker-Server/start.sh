@@ -105,12 +105,13 @@ echo "downloading .emacs file"
 
 download "https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Tools/Config/tool/emacs/dot/emacs-ubuntu-virtualbox"
 
-for userloop in root $myuser; do
-    cp emacs-ubuntu-virtualbox /home/$userloop/.emacs
-done
+cp emacs-ubuntu-virtualbox /home/econ-ark/.emacs
+cp emacs-ubuntu-virtualbox /root/.emacs
+chown "root:root" /root/.emacs
 
 chmod a+rwx /home/$myuser/.emacs
 chown "$myuser:$myuser" /home/$myuser/.emacs
+
 
 rm emacs-ubuntu-virtualbox
 

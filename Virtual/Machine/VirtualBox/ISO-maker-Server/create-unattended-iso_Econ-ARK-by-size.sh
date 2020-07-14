@@ -22,6 +22,7 @@ finishFile="finish.sh"
 seed_file="econ-ark.seed"
 ks_file=ks.cfg
 rclocal_file=rc.local
+late_command_file=late_command.sh
 
 # file names & paths
 iso_from="/media/sf_VirtualBox"       # where to find the original ISO
@@ -40,7 +41,7 @@ rm -f "$iso_make/$seed_file" # Make sure new version is downloaded
 rm -f "$iso_make/$startFile" # Make sure new version is downloaded
 rm -f "$iso_make/$rclocal_file" # Make sure new version is downloaded
 
-datestr=`date +"%Y%m%d"`
+datestr=`date +"%Y%m%d-%H%M%S"`
 hostname="built-$datestr"
 currentuser="$( whoami)"
 
@@ -154,6 +155,7 @@ while true; do
     esac
 done
 
+
 if [ -f /etc/timezone ]; then
   timezone=`cat /etc/timezone`
 elif [ -h /etc/localtime ]; then
@@ -266,15 +268,52 @@ sudo cat $SystemLogRateLimitBurst    0 >> /etc/rsyslog.conf
 
 # set late command
 
-late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
-     chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
-     chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
-     chroot /target chmod +x /var/local/start.sh ;\
-     chroot /target chmod +x /var/local/finish.sh ;\
-     chroot /target chmod +x /etc/rc.local ;\
-     chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
-     chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
-     chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;"
+# late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
+#      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
+#      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
+#      chroot /target chmod +x /var/local/start.sh ;\
+#      chroot /target chmod +x /var/local/finish.sh ;\
+#      chroot /target chmod +x /etc/rc.local ;\
+#      chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
+#      chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+#      chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;"
+
+# late_command="in-target curl -L -o /var/local/start.sh $online/$startFile ;\
+#      in-target curl -L -o /var/local/finish.sh $online/$finishFile ;\
+#      in-target curl -L -o /etc/rc.local $online/$rclocal_file ;\
+#      in-target chmod +x /var/local/start.sh ;\
+#      in-target chmod +x /var/local/finish.sh ;\
+#      in-target chmod +x /etc/rc.local ;\
+#      in-target mkdir -p /etc/lightdm/lightdm.conf.d ;\
+#      in-target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+#      in-target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf"
+
+# 20200713-1732h - failed:
+# late_command="in-target bash -c 'wget -r --output-document=/var/local/start.sh  $online/$startFile   ';\
+# in-target bash -c 'wget -r --output-document=/var/local/finish.sh $online/$finishFile'  ;\
+# in-target bash -c 'wget -r --output-document=/etc/rc.local        $online/$rclocal_file'  ;\ 
+# in-target bash -c 'chmod +x /var/local/start.sh'  ;\
+# in-target bash -c 'chmod +x /var/local/finish.sh'  ;\
+# in-target bash -c 'chmod +x /etc/rc.local'  ;\
+# in-target bash -c 'mkdir -p /etc/lightdm/lightdm.conf.d'  ;\
+# in-target bash -c 'wget -r --output-document=/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf'  ;\
+# in-target bash ' chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf' "
+
+# 20200713-1853h - failed:
+# late_command="in-target bash -c 'wget -r --output-document=/var/local/start.sh  $online/$startFile   ';\
+# in-target bash -c 'wget -r --output-document=/var/local/finish.sh $online/$finishFile'  ;\
+# in-target bash -c 'wget -r --output-document=/etc/rc.local        $online/$rclocal_file'  ;\ 
+# in-target bash -c 'chmod +x /var/local/start.sh'  ;\
+# in-target bash -c 'chmod +x /var/local/finish.sh'  ;\
+# in-target bash -c 'chmod +x /etc/rc.local'  ;\
+# in-target bash -c 'mkdir -p /etc/lightdm/lightdm.conf.d'  ;\
+# in-target bash -c 'wget -r --output-document=/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf'  ;\
+# in-target bash -c 'chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf' "
+
+# # Copy the kickstart file to the root
+# cp -rT $iso_make/$late_command_file $iso_make/iso_new/$late_command_file
+# chmod +x $iso_make/iso_new/$late_command_file
+late_command="in-target sudo apt -y install git ; in-target bash -c 'mkdir /tmp ; cd /tmp ; git clone https://github.com/econ-ark/econ-ark-tools ; chmod +x /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh'"  
 
 # copy the seed file to the iso
 cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file

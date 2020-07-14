@@ -16,7 +16,7 @@ sudo chmod +x /etc/rc.local ;\
 sudo mkdir -p /etc/lightdm/lightdm.conf.d ;\
 sudo wget -r --output-document=/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
 sudo chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf 
-
+sudo apt -y install refind
 
 
 

@@ -51,7 +51,10 @@ d-i apt-setup/backports                                     boolean     true
 d-i apt-setup/services-select                               multiselect security
 d-i apt-setup/security_host                                 string      security.ubuntu.com
 d-i apt-setup/security_path                                 string      /ubuntu
-d-i tasksel/first                                           multiselect xubuntu-server, standard system utilities, OpenSSH server, Basic Ubuntu server
+d-i tasksel/first                                           multiselect standard, desktop
+d-i tasksel/desktop                                         multiselect kde-desktop, xfce-desktop
+d-i pkgsel/include string openssh-server build-essential rsync less firmware-qlogic sudo cron-apt ntp host debsums devscripts pciutils ethtool curl wget git
+popularity-contest popularity-contest/participate boolean false
 d-i pkgsel/upgrade                                          select      safe-upgrade
 d-i pkgsel/update-policy                                    select      unattended-upgrades
 d-i pkgsel/updatedb                                         boolean     true
@@ -73,7 +76,7 @@ d-i pkgsel/updatedb                                         boolean     true
 
 # Keep that one set to true so we end up with a UEFI enabled
 # system. If set to false, /var/lib/partman/uefi_ignore will be touched
-d-i partman-efi/non_efi_system boolean true
+# d-i partman-efi/non_efi_system boolean true
 #
 
 # enforce usage of GPT - a must have to use EFI!
