@@ -53,7 +53,7 @@ d-i apt-setup/security_host                                 string      security
 d-i apt-setup/security_path                                 string      /ubuntu
 d-i tasksel/first                                           multiselect standard, desktop
 d-i tasksel/desktop                                         multiselect kde-desktop, xfce-desktop
-d-i pkgsel/include string openssh-server build-essential rsync less firmware-qlogic sudo cron-apt ntp host debsums devscripts pciutils ethtool curl wget git
+d-i pkgsel/include string openssh-server build-essential curl wget git
 popularity-contest popularity-contest/participate boolean false
 d-i pkgsel/upgrade                                          select      safe-upgrade
 d-i pkgsel/update-policy                                    select      unattended-upgrades
