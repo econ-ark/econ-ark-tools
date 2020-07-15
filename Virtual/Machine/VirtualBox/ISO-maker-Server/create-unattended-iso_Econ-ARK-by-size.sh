@@ -317,7 +317,7 @@ sed -i -r 's/timeout\s+[0-9]+/timeout 1/g' $iso_make/iso_new/isolinux/isolinux.c
 # 20200714-0904h: Failed
 #late_command="in-target sudo apt -y install git ; in-target bash -c 'mkdir /tmp ; cd /tmp ; git clone https://github.com/econ-ark/econ-ark-tools ; chmod +x /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh'"
 
-late_command="in-target bash -c 'git clone https://github.com/econ-ark/econ-ark-tools /tmp ; chmod +x /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh'"  
+late_command="in-target /bin/bash -c 'apt -y install git ; git clone https://github.com/econ-ark/econ-ark-tools /tmp/econ-ark-tools ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh'"  
 
 # copy the seed file to the iso
 cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
@@ -327,8 +327,8 @@ cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
 chmod 744 $iso_make/iso_new/$ks_file
 
 # include firstrun script
-echo "# setup firstrun script"
-echo "d-i preseed/late_command                                    string      $late_command " >> $iso_make/iso_new/preseed/$seed_file
+# echo "# setup firstrun script"
+# echo "d-i preseed/late_command                                    string      $late_command " >> $iso_make/iso_new/preseed/$seed_file
 
 # generate the password hash
 pwhash=$(echo $password | mkpasswd -s -m sha-512)
@@ -387,6 +387,12 @@ echo " your password is: $password"
 echo " your hostname is: $hostname"
 echo " your timezone is: $timezone"
 echo
+
+echo 'Task finished at:'
+datestr=`date +"%Y%m%d-%H%M%S"`
+echo "$datestr"
+echo ""
+
 
 cmd="rclone --progress copy '"$iso_done/$size/$new_iso_name"'"
 cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/XUBUNTU-$size/$new_iso_base"
