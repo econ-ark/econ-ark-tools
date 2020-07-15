@@ -51,8 +51,9 @@ d-i apt-setup/backports                                     boolean     true
 d-i apt-setup/services-select                               multiselect security
 d-i apt-setup/security_host                                 string      security.ubuntu.com
 d-i apt-setup/security_path                                 string      /ubuntu
-d-i tasksel/first                                           multiselect standard, desktop
-d-i tasksel/desktop                                         multiselect kde-desktop, xfce-desktop
+
+tasksel tasksel/first                                       multiselect standard, xubuntu-desktop
+tasksel tasksel/desktop                                     multiselect kde-desktop, xfce-desktop
 d-i pkgsel/include string                                   openssh-server build-essential 
 d-i pkgsel/upgrade                                          select      safe-upgrade
 d-i pkgsel/update-policy                                    select      unattended-upgrades
