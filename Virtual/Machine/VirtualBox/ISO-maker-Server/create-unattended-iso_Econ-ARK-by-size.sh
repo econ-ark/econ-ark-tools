@@ -315,11 +315,14 @@ sed -i -r 's/timeout\s+[0-9]+/timeout 1/g' $iso_make/iso_new/isolinux/isolinux.c
 
 # Removed the line below:
 #### in-target sed -i 's/^.*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config ;\
+
+# Removed the line below; reinsert after start.sh
+#######     chroot /target chmod +x /var/local/finish.sh ;\
+
 late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\  
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
      chroot /target chmod +x /var/local/start.sh ;\
-#######     chroot /target chmod +x /var/local/finish.sh ;\
      chroot /target chmod +x /etc/rc.local ;\
      chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
      chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
