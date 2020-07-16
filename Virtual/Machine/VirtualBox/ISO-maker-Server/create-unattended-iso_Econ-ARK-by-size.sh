@@ -313,8 +313,9 @@ sed -i -r 's/timeout\s+[0-9]+/timeout 1/g' $iso_make/iso_new/isolinux/isolinux.c
 
 # late_command="in-target /bin/bash -c 'apt -y install git ; git clone https://github.com/econ-ark/econ-ark-tools /tmp/econ-ark-tools ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh'"  
 
-late_command="in-target sed -i 's/^.*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config ;\
-     chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
+# Removed the line below:
+#### in-target sed -i 's/^.*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config ;\
+late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\  
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
      chroot /target chmod +x /var/local/start.sh ;\
