@@ -56,6 +56,9 @@ d-i pkgsel/upgrade                                          select      safe-upg
 d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     true
 
+# other packages
+d-i pkgsel/include                                          string      gparted 
+
 # disk partitioning
 d-i partman/confirm_write_new_label                         boolean     true
 d-i partman/choose_partition                                select      finish
