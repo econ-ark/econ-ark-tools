@@ -333,8 +333,8 @@ cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
 chmod 744 $iso_make/iso_new/$ks_file
 
 # include firstrun script
-echo "# setup firstrun script"
-########### echo "d-i preseed/late_command                                    string      $late_command " >> $iso_make/iso_new/preseed/$seed_file
+echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file
+echo "d-i preseed/late_command                                    string      $late_command " >> $iso_make/iso_new/preseed/$seed_file
 
 # generate the password hash
 pwhash=$(echo $password | mkpasswd -s -m sha-512)
