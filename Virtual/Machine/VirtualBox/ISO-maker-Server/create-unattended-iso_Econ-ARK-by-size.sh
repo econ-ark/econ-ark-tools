@@ -352,7 +352,7 @@ sed -i "/label install/ilabel autoinstall\n\
   
 # add the autoinstall option to the menu for USB Boot
 #sed -i '/set timeout=30/amenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n\	set gfxpayload=keep\n\	linux /install/vmlinuz append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed quiet ---\n\	initrd	/install/initrd.gz\n\}' $iso_make/iso_new/boot/grub/grub.cfg
-sed -i  '/set timeout=30/amenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n\	set gfxpayload=keep\n\	linux /install/vmlinuz append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed       ---\n\	initrd	/install/initrd.gz\n\}' $iso_make/iso_new/boot/grub/grub.cfg
+sed -i  '/set timeout=30/amenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n\	set gfxpayload=keep\n\	linux /install/vmlinuz append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed quiet ---\n\	initrd	/install/initrd.gz\n\}' $iso_make/iso_new/boot/grub/grub.cfg
 sed -i -r 's/timeout=[0-9]+/timeout=1/g' $iso_make/iso_new/boot/grub/grub.cfg
 
 echo " creating the remastered iso"
