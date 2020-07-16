@@ -47,7 +47,7 @@ To access the notebook, open this file in a browser:
 
 To test out if we can run scripts inside the docker environment let's use this script.
 ```
-$ docker run -v "$PWD":/home/jovyan/work -it --rm mriduls/econ-ark-notebook start.sh ipython work/hark_test.py
+$ docker run -v "$PWD":/home/jovyan/work -it --rm econark/econ-ark-notebook start.sh ipython work/hark_test.py
 ```
 NOTE: `hark_test.py` should be in the same directory you run this command from, i.e. `ls` just before this directory should show `hark_test.py`.
 
