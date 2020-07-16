@@ -155,7 +155,6 @@ while true; do
     esac
 done
 
-
 if [ -f /etc/timezone ]; then
   timezone=`cat /etc/timezone`
 elif [ -h /etc/localtime ]; then

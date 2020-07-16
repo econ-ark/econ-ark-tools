@@ -1,0 +1,179 @@
+# regional setting
+d-i debian-installer/language                               string      en_US:en
+d-i debian-installer/country                                string      US
+d-i debian-installer/locale                                 string      en_US
+d-i debian-installer/splash                                 boolean     false
+d-i localechooser/supported-locales                         multiselect en_US.UTF-8
+#d-i pkgsel/install-language-support                         boolean     true
+
+# keyboard selection
+d-i console-setup/ask_detect                                boolean     false
+d-i keyboard-configuration/modelcode                        string      pc105
+d-i keyboard-configuration/layoutcode                       string      us
+#d-i keyboard-configuration/variantcode                      string      intl
+#d-i keyboard-configuration/xkb-keymap                       select      us(intl)
+d-i debconf/language                                        string      en_US:en
+
+# network settings
+d-i netcfg/choose_interface                                 select      auto
+d-i netcfg/dhcp_timeout                                     string      5
+d-i netcfg/get_hostname                                     string      {{hostname}}
+d-i netcfg/get_domain                                       string      {{hostname}}
+
+# mirror settings
+d-i mirror/country                                          string      manual
+d-i mirror/http/hostname                                    string      archive.ubuntu.com
+d-i mirror/http/directory                                   string      /ubuntu
+d-i mirror/http/proxy                                       string
+
+# clock and timezone settings
+d-i time/zone                                               string      {{timezone}}
+d-i clock-setup/utc                                         boolean     false
+d-i clock-setup/ntp                                         boolean     true
+
+# user account setup
+#d-i passwd/root-password                                    password    {{pwhash}}
+#d-i passwd/root-password-again                              password    {{pwhash}}
+#d-i passwd/root-login                                       boolean     true
+d-i passwd/make-user                                        boolean     true
+d-i passwd/user-fullname                                    string      {{username}}
+d-i passwd/username                                         string      {{username}}
+d-i passwd/user-password-crypted                            password    {{pwhash}}
+d-i passwd/user-uid                                         string
+d-i user-setup/allow-password-weak                          boolean     false
+d-i passwd/user-default-groups                              string      adm cdrom dialout lpadmin plugdev sambashare
+d-i user-setup/encrypt-home                                 boolean     false
+
+# configure apt
+d-i apt-setup/restricted                                    boolean     true
+d-i apt-setup/universe                                      boolean     true
+d-i apt-setup/backports                                     boolean     true
+d-i apt-setup/services-select                               multiselect security
+d-i apt-setup/security_host                                 string      security.ubuntu.com
+d-i apt-setup/security_path                                 string      /ubuntu
+
+tasksel tasksel/first                                       multiselect standard, xubuntu-desktop
+tasksel tasksel/desktop                                     multiselect kde-desktop, xfce-desktop
+d-i pkgsel/include string                                   openssh-server build-essential 
+d-i pkgsel/upgrade                                          select      safe-upgrade
+d-i pkgsel/update-policy                                    select      unattended-upgrades
+d-i pkgsel/updatedb                                         boolean     true
+
+# disk partitioning
+# auto method must be lvm
+# d-i partman-auto/method string lvm
+# d-i partman-auto/method string regular
+# d-i partman-lvm/device_remove_lvm boolean true
+# d-i partman-lvm/device_remove_lvm boolean true
+# d-i partman-md/device_remove_md boolean true
+#   
+# d-i partman-lvm/confirm boolean true
+#
+# d-i partman-lvm/confirm_nooverwrite boolean true
+# 
+# d-i partman-basicfilesystems/no_swap boolean false
+# 
+
+# Keep that one set to true so we end up with a UEFI enabled
+# system. If set to false, /var/lib/partman/uefi_ignore will be touched
+# d-i partman-efi/non_efi_system boolean true
+#
+
+# enforce usage of GPT - a must have to use EFI!
+d-i   partman-basicfilesystems/choose_label  string gpt
+# d-i partman-basicfilesystems/choose_label  string gpt
+d-i   partman-basicfilesystems/default_label string gpt
+# d-i partman-basicfilesystems/default_label string gpt
+d-i   partman-partitioning/choose_label      string gpt
+# d-i partman-partitioning/choose_label      string gpt
+d-i   partman-partitioning/default_label     string gpt
+# d-i partman-partitioning/default_label     string gpt
+d-i   partman/choose_label                   string gpt
+# d-i partman/choose_label                   string gpt
+d-i   partman/default_label                  string gpt
+# d-i partman/default_label                  string gpt
+
+d-i   partman-auto/choose_recipe select atomic
+
+#   d-i partman-auto/choose_recipe select boot-root-all                             # d-i partman-auto/choose_recipe select gpt-boot-root-swap
+#   d-i partman-auto/expert_recipe string \                                             
+# boot-root-all :: \                                                                #    gpt-boot-root-swap ::                      \  
+#   538     538  1075   fat32      $iflabel{ gpt }   $reusemethod{ } method{ efi    }    format{ } .  \
+# #   1       1     1   free       $bios_boot{ }                     method{ biosgrub }            .  \
+#   128     512   256   ext4       $defaultignore{ }                 method{ format }   format{ }  .  \
+# # 200     200   200   fat32      $primary{ }                       method{ efi }      format{ } use_filesystem{ } filesystem{ ext4 } mountpoint{ /boot }    . \
+# # 512     512   512   ext3       $primary{ } $bootable{ }          method{ format }   format{ } use_filesystem{ } filesystem{ ext3 } mountpoint{ /boot }    . \
+#  1024    4096 15360   ext4       $lvmok{ }                         method{ format }   format{ } use_filesystem{ } filesystem{ ext4 } mountpoint{ /    }     . \								  #          
+#  1024    4096 15360   ext4       $lvmok{ }                         method{ format }   format{ } use_filesystem{ } filesystem{ ext4 } mountpoint{ /var }     . \								  #          
+# #1000   20000    -1   ext4       $primary{ }                       method{ format }   format{ } use_filesystem{ } filesystem{ ext4 } mountpoint{ / }        . \
+#  1024    1024    -1   ext4       $lvmok{ }                         method{ format }   format{ } use_filesystem{ } filesystem{ ext4 } mountpoint{ /var/lib } . \ 
+# #65536 65536  65536   linux-swap $primary{ }                       method{ swap }     format{ } .            
+
+# # This makes partman automatically partition without confirmation, provided
+# # that you told it what to do using one of the methods above.
+#   d-i partman-partitioning/confirm_write_new_label boolean true
+# # d-i partman/confirm_write_new_label boolean true
+#   d-i partman/choose_partition select finish
+# # d-i partman/choose_partition select finish
+#   d-i partman-md/confirm boolean true
+# # 
+#   d-i partman/confirm boolean true
+# # d-i partman/confirm boolean true
+#   d-i partman/confirm_nooverwrite boolean true
+# # d-i partman/confirm_nooverwrite boolean true
+
+
+# # ### Simple GPT configuration w/o LVM
+# # d-i partman-auto/disk string /dev/sdb
+
+# # d-i partman/alignment string cylinder
+# ## 
+# # d-i partman/confirm_write_new_label boolean true # 
+# # d-i partman-basicfilesystems/choose_label string gpt # 
+# # d-i partman-basicfilesystems/default_label string gpt  # 
+# # d-i partman-partitioning/choose_label string gpt #
+# # d-i partman-partitioning/default_label string gpt # 
+# # d-i partman/choose_label string gpt # 
+# # d-i partman/default_label string gpt # 
+
+# # d-i partman-auto/method string regular # 
+# # d-i partman-auto/choose_recipe select gpt-boot-root-swap # 
+# # d-i partman-auto/expert_recipe string         \
+# #    gpt-boot-root-swap ::                      \
+# #       1 1 1 free                              \
+# #          $bios_boot{ }                        \
+# #          method{ biosgrub } .                 \
+# #       200 200 200 fat32                       \
+# #          $primary{ }                          \
+# #          method{ efi } format{ } .            \
+# #       512 512 512 ext3                        \
+# #          $primary{ } $bootable{ }             \
+# #          method{ format } format{ }           \
+# #          use_filesystem{ } filesystem{ ext3 } \
+# #          mountpoint{ /boot } .                \
+# #       1000 20000 -1 ext4                      \
+# #          $primary{ }                          \
+# #          method{ format } format{ }           \
+# #          use_filesystem{ } filesystem{ ext4 } \
+# #          mountpoint{ / } .                    \
+# #       65536 65536 65536 linux-swap            \
+# #          $primary{ }                          \
+# #          method{ swap } format{ } .            
+
+# # d-i partman-partitioning/confirm_write_new_label boolean true # 
+# # d-i partman/choose_partition select finish # 
+# # d-i partman/confirm boolean true  # 
+# # d-i partman/confirm_nooverwrite boolean true # 
+
+# grub boot loader
+d-i grub-installer/only_debian                              boolean     true
+d-i grub-installer/with_other_os                            boolean     true
+
+# finish installation
+d-i finish-install/reboot_in_progress                       note
+d-i finish-install/keep-consoles                            boolean     false
+d-i cdrom-detect/eject                                      boolean     true
+d-i debian-installer/exit/halt                              boolean     false
+d-i debian-installer/exit/poweroff                          boolean     false
+
+# Package selection
