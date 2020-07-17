@@ -74,7 +74,6 @@ d-i pkgsel/updatedb                                         boolean     true
 # d-i partman-partitioning/confirm_write_new_label            boolean     true
 
 ### Simple GPT configuration w/o LVM
-d-i partman-auto/disk string /dev/sdb
 
 d-i partman/alignment string cylinder
 d-i partman/confirm_write_new_label boolean true
@@ -98,7 +97,7 @@ d-i partman-auto/expert_recipe string         \
       512 512 512 ext4                        \
          $primary{ } $bootable{ }             \
          method{ format } format{ }           \
-         use_filesystem{ } filesystem{ ext3 } \
+         use_filesystem{ } filesystem{ ext4 } \
          mountpoint{ /boot } .                \
       1000 20000 -1 ext4                      \
          $primary{ }                          \
