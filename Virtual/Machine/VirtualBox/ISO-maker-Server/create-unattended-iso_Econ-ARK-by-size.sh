@@ -237,7 +237,7 @@ fi
 
 # mount the image
 if grep -qs $iso_make/iso_org /proc/mounts ; then
-    echo " image is already mounted, continue"
+    echo " image is already mounted"
     echo " unmounting before remounting (to make sure latest version is what is mounted)"
     (umount $iso_make/iso_org )
 fi
@@ -247,8 +247,8 @@ cp $iso_from/$download_file /tmp/$download_file
 (mount -o loop /tmp/$download_file $iso_make/iso_org > /dev/null 2>&1)
 
 # copy the iso contents to the working directory
-echo 'Copying the iso contents from '$iso_org' to '$iso_new
-rsync -rai --delete $iso_make/iso_org/ $iso_make/iso_new 
+echo 'Copying the iso contents from iso_org to iso_new'
+( rsync -rai --delete $iso_make/iso_org/ $iso_make/iso_new ) &
 spinner $!
 
 # set the language for the installation menu
