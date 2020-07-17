@@ -57,7 +57,6 @@ d-i pkgsel/upgrade                                          select      safe-upg
 d-i pkgsel/update-policy                                    select      unattended-upgrades
 d-i pkgsel/updatedb                                         boolean     true
 
-rclone --progress copy '/media/sf_VirtualBox/ISO-made/econ-ark-tools/MIN/ubuntu-18.04.4-server-amd64-unattended_econ-ark.iso' econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/XUBUNTU-MIN/ubuntu-18.04.4-server-amd64-unattended_econ-ark
 ### Do NOT install on the USB stick(!)
 #
 # The Debian installer will install on the first disk it finds which can
