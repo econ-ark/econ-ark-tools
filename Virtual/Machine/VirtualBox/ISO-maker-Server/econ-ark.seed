@@ -57,14 +57,29 @@ d-i pkgsel/upgrade                                          select      safe-upg
 d-i pkgsel/update-policy                                    select      unattended-upgrades
 d-i pkgsel/updatedb                                         boolean     true
 
+rclone --progress copy '/media/sf_VirtualBox/ISO-made/econ-ark-tools/MIN/ubuntu-18.04.4-server-amd64-unattended_econ-ark.iso' econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/XUBUNTU-MIN/ubuntu-18.04.4-server-amd64-unattended_econ-ark
+### Do NOT install on the USB stick(!)
+#
+# The Debian installer will install on the first disk it finds which can
+# sometimes be the USB stick itself. Work around this by rolling our own auto
+# detect logic which disallows installing on USB devices.
+d-i partman/early_command string \
+USBDEV_LIST="$(mktemp)"; \
+list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
+BOOTDEV="$(list-devices disk | grep -vf "$USBDEV_LIST" | head -n 1)"; \
+debconf-set partman-auto/disk "$BOOTDEV"; \
+debconf-set grub-installer/bootdev "$BOOTDEV"
+
 ### Partitioning
-#d-i preseed/early_command string umount /media || true
+
+d-i preseed/early_command string umount /media || true
 d-i partman-auto/disk string /dev/sdb
+d-i partman/unmount_active boolean false
 d-i partman-auto/method string lvm
 d-i partman-auto-lvm/guided_size string max
 d-i partman-lvm/device_remove_lvm boolean true    # Confirm removal of previous LVM
 d-i partman-lvm/confirm boolean true
-#d-i partman-lvm/confirm_nooverwrite boolean true  # Ask them to confirm the overwriting of disks
+d-i partman-lvm/confirm_nooverwrite boolean true  # Ask them to confirm the overwriting of disks
 d-i partman-auto-lvm/new_vg_name string main
 d-i partman-md/device_remove_md boolean true
 d-i partman-md/confirm boolean true
