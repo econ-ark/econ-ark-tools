@@ -59,9 +59,10 @@ d-i pkgsel/updatedb                                         boolean     true
 
 ### Partitioning
 #d-i preseed/early_command string umount /media || true
+d-i partman-auto/disk string /dev/sdb
 d-i partman-auto/method string lvm
 d-i partman-auto-lvm/guided_size string max
-#d-i partman-lvm/device_remove_lvm boolean true    # Confirm removal of previous LVM
+d-i partman-lvm/device_remove_lvm boolean true    # Confirm removal of previous LVM
 d-i partman-lvm/confirm boolean true
 #d-i partman-lvm/confirm_nooverwrite boolean true  # Ask them to confirm the overwriting of disks
 d-i partman-auto-lvm/new_vg_name string main
@@ -70,7 +71,7 @@ d-i partman-md/confirm boolean true
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
-#d-i partman/confirm_nooverwrite boolean true  # Ask them to confirm one more time 
+d-i partman/confirm_nooverwrite boolean true  # Ask them to confirm one more time 
 d-i partman-basicmethods/method_only boolean false
 
 ### GPT
