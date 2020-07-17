@@ -1,34 +1,18 @@
-# regional setting
-d-i debian-installer/language                               string      en_US:en
-d-i debian-installer/country                                string      US
-d-i debian-installer/locale                                 string      en_US
-d-i debian-installer/splash                                 boolean     false
-d-i localechooser/supported-locales                         multiselect en_US.UTF-8
-d-i pkgsel/install-language-support                         boolean     true
-
-# keyboard selection
-d-i console-setup/ask_detect                                boolean     false
-d-i keyboard-configuration/modelcode                        string      pc105
-d-i keyboard-configuration/layoutcode                       string      us
-d-i keyboard-configuration/variantcode                      string      intl
-d-i keyboard-configuration/xkb-keymap                       select      us(intl)
-d-i debconf/language                                        string      en_US:en
-
 ### Partitioning
 #d-i preseed/early_command string umount /media || true
-#d-i partman-auto/method string lvm
-#d-i partman-auto-lvm/guided_size string max
+d-i partman-auto/method string lvm
+d-i partman-auto-lvm/guided_size string max
 #d-i partman-lvm/device_remove_lvm boolean true
-#d-i partman-lvm/confirm boolean true
+d-i partman-lvm/confirm boolean true
 #d-i partman-lvm/confirm_nooverwrite boolean true
-#d-i partman-auto-lvm/new_vg_name string main
-#d-i partman-md/device_remove_md boolean true
-#d-i partman-md/confirm boolean true
-#d-i partman-partitioning/confirm_write_new_label boolean true
-#d-i partman/choose_partition select finish
-#d-i partman/confirm boolean true
+d-i partman-auto-lvm/new_vg_name string main
+d-i partman-md/device_remove_md boolean true
+d-i partman-md/confirm boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
 #d-i partman/confirm_nooverwrite boolean true
-#d-i partman-basicmethods/method_only boolean false
+d-i partman-basicmethods/method_only boolean false
 
 ### GPT
 d-i partman-basicfilesystems/choose_label string gpt
@@ -85,6 +69,22 @@ d-i partman-auto/expert_recipe string         \
       method{ swap } format{ }                \
       lv_name{ swap }                         \
     .
+
+# regional setting
+d-i debian-installer/language                               string      en_US:en
+d-i debian-installer/country                                string      US
+d-i debian-installer/locale                                 string      en_US
+d-i debian-installer/splash                                 boolean     false
+d-i localechooser/supported-locales                         multiselect en_US.UTF-8
+d-i pkgsel/install-language-support                         boolean     true
+
+# keyboard selection
+d-i console-setup/ask_detect                                boolean     false
+d-i keyboard-configuration/modelcode                        string      pc105
+d-i keyboard-configuration/layoutcode                       string      us
+d-i keyboard-configuration/variantcode                      string      intl
+d-i keyboard-configuration/xkb-keymap                       select      us(intl)
+d-i debconf/language                                        string      en_US:en
 
 # Use entire disk
 #d-i partman-auto/expert_recipe string         \
