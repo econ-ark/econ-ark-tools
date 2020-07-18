@@ -23,6 +23,8 @@ sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.deskto
 # Set up vnc server so students can connect to instructor machine
 
 # Get some key apps that should be available immediately 
+sudo apt -y install tasksel         # A bit mysterious why these two aren't already there
+sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
 sudo apt -y install tigervnc-scraping-server
 
 # Set up vnc server 
