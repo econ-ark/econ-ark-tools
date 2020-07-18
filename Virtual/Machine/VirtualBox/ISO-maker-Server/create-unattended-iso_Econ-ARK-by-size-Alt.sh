@@ -364,7 +364,7 @@ sed -i '/set timeout=30/amenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set
 
 sed -i -r 's/timeout=[0-9]+/timeout=1/g' $iso_make/iso_new/boot/grub/grub.cfg
 #sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back
-sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Autoinstall Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append boot=casper file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_us quiet ---|'     $iso_make/iso_new/isolinux/txt.cfg
+sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Autoinstall Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_us quiet ---|'     $iso_make/iso_new/isolinux/txt.cfg
 
 echo " creating the remastered iso"
 cd $iso_make/iso_new
