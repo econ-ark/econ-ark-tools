@@ -1,0 +1,192 @@
+# regional setting
+d-i debian-installer/language                               string      en_US:en
+d-i debian-installer/country                                string      US
+d-i debian-installer/locale                                 string      en_US
+d-i debian-installer/splash                                 boolean     false
+d-i localechooser/supported-locales                         multiselect en_US.UTF-8
+d-i pkgsel/install-language-support                         boolean     true
+
+# keyboard selection
+d-i console-setup/ask_detect                                boolean     false
+d-i keyboard-configuration/modelcode                        string      pc105
+d-i keyboard-configuration/layoutcode                       string      us
+d-i keyboard-configuration/variantcode                      string      intl
+d-i keyboard-configuration/xkb-keymap                       select      us(intl)
+d-i debconf/language                                        string      en_US:en
+
+# network settings
+d-i netcfg/choose_interface                                 select      auto
+d-i netcfg/dhcp_timeout                                     string      5
+d-i netcfg/get_hostname                                     string      {{hostname}}
+d-i netcfg/get_domain                                       string      {{hostname}}
+
+# mirror settings
+d-i mirror/country                                          string      manual
+d-i mirror/http/hostname                                    string      archive.ubuntu.com
+d-i mirror/http/directory                                   string      /ubuntu
+d-i mirror/http/proxy                                       string
+
+# clock and timezone settings
+d-i time/zone                                               string      {{timezone}}
+d-i clock-setup/utc                                         boolean     false
+d-i clock-setup/ntp                                         boolean     true
+
+# user account setup
+# DO NOT uncomment root-password lines: That disables sudo for main user
+#d-i passwd/root-password                                    password    {{pwhash}}
+#d-i passwd/root-password-again                              password    {{pwhash}}
+#d-i passwd/root-login                                       boolean     true
+d-i passwd/make-user                                        boolean     true
+d-i passwd/user-fullname                                    string      {{username}}
+d-i passwd/username                                         string      {{username}}
+d-i passwd/user-password-crypted                            password    {{pwhash}}
+d-i passwd/user-uid                                         string
+d-i user-setup/allow-password-weak                          boolean     false
+d-i passwd/user-default-groups                              string      adm cdrom dialout lpadmin plugdev sambashare vboxsf
+d-i user-setup/encrypt-home                                 boolean     false
+
+# configure apt
+d-i apt-setup/restricted                                    boolean     true
+d-i apt-setup/universe                                      boolean     true
+d-i apt-setup/backports                                     boolean     true
+d-i apt-setup/services-select                               multiselect security
+d-i apt-setup/security_host                                 string      security.ubuntu.com
+d-i apt-setup/security_path                                 string      /ubuntu
+tasksel tasksel/first                                       multiselect xubuntu-desktop # Basic Ubuntu server #xubuntu-desktop 
+d-i pkgsel/upgrade                                          select      safe-upgrade
+d-i pkgsel/update-policy                                    select      unattended-upgrades
+d-i pkgsel/updatedb                                         boolean     true
+
+# ### Do NOT install on the USB stick(!)
+# #
+# # The Debian installer will install on the first disk it finds which can
+# # sometimes be the USB stick itself. Work around this by rolling our own auto
+# # detect logic which disallows installing on USB devices.
+# d-i partman/early_command string \
+# USBDEV_LIST="$(mktemp)"; \
+# list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
+# BOOTDEV="$(list-devices disk | grep -vf "$USBDEV_LIST" | head -n 1)"; \
+# debconf-set partman-auto/disk "$BOOTDEV"; \
+# debconf-set grub-installer/bootdev "$BOOTDEV"
+
+# ### Partitioning
+
+# d-i preseed/early_command string umount /media || true
+# #d-i partman-auto/disk string /dev/sdb
+# d-i partman/unmount_active boolean true
+# #d-i partman-auto/method string lvm
+# d-i partman-auto-lvm/guided_size string max
+# d-i partman-lvm/device_remove_lvm boolean true    # Confirm removal of previous LVM
+# d-i partman-lvm/confirm boolean true
+# d-i partman-lvm/confirm_nooverwrite boolean true  # Ask them to confirm the overwriting of disks
+# d-i partman-auto-lvm/new_vg_name string main
+# d-i partman-md/device_remove_md boolean true
+# d-i partman-md/confirm boolean true
+# d-i partman-partitioning/confirm_write_new_label boolean true
+# d-i partman/choose_partition select finish
+# d-i partman/confirm boolean true
+# d-i partman/confirm_nooverwrite boolean true  # Ask them to confirm one more time 
+# d-i partman-basicmethods/method_only boolean false
+
+# ### GPT
+# d-i partman-basicfilesystems/choose_label string gpt
+# d-i partman-basicfilesystems/default_label string gpt
+# d-i partman-partitioning/choose_label string gpt
+# d-i partman-partitioning/default_label string gpt
+# d-i partman/choose_label string gpt
+# d-i partman/default_label string gpt
+
+# ### EFI
+# d-i partman-efi/non_efi_system boolean true
+
+# ### Grub
+# d-i grub-installer/only_debian boolean true
+# d-i grub-installer/with_other_os boolean true
+
+# ### Disk layout
+
+
+# # Use entire disk
+# d-i partman-auto/expert_recipe string         \
+#  boot-root ::                                \
+#    1 1 1 free                                \
+#      $bios_boot{ }                           \
+#      method{ biosgrub }                      \
+#    .                                         \
+#    512 512 512 fat32                         \ # make fat32 partition big
+#      $primary{ }                             \
+#      $iflabel{ gpt }                         \
+#      $reusemethod{ }                         \
+#      method{ efi } format{ }                 \
+#      mountpoint{ /boot/efi }                 \
+#    .                                         \
+#    512 512 512 ext4                          \ # This may be an index into the LVM system; might be dangerous to delete
+#      $primary{ }                             \
+#      $bootable{ }                            \
+#      method{ format } format{ }              \
+#      use_filesystem{ } filesystem{ ext4 }    \
+#      mountpoint{ /boot }                     \
+#    .                                         \
+#    1024 102400000 1000000000 ext4            \
+#      $lvmok{ }                               \
+#      method{ format } format{ }              \
+#      use_filesystem{ } filesystem{ ext4 }    \
+#      mountpoint{ / }                         \
+#      lv_name{ root }                         \
+#    .                                         \
+#    200% 200% 200% linux-swap                 \
+#      $lvmok{ }                               \
+#      method{ swap } format{ }                \
+#      lv_name{ swap }                         \
+#    .
+
+# # Alternative 
+# # # Keep 25% free space
+# # d-i partman-auto/expert_recipe string         \
+# #   boot-root ::                                \
+# #     1 1 1 free                                \
+# #       $bios_boot{ }                           \
+# #       method{ biosgrub }                      \
+# #     .                                         \
+# #     512 512 512 fat32                         \
+# #       $primary{ }                             \
+# #       $iflabel{ gpt }                         \
+# #       $reusemethod{ }                         \
+# #       method{ efi } format{ }                 \
+# #       mountpoint{ /boot/efi }                 \
+# #     .                                         \
+# #     512 512 512 ext4                          \
+# #       $primary{ }                             \
+# #       $bootable{ }                            \
+# #       method{ format } format{ }              \
+# #       use_filesystem{ } filesystem{ ext4 }    \
+# #       mountpoint{ /boot }                     \
+# #     .                                         \
+# #     1024 102400000 1000000000 ext4            \
+# #       $lvmok{ }                               \
+# #       method{ format } format{ }              \
+# #       use_filesystem{ } filesystem{ ext4 }    \
+# #       mountpoint{ / }                         \
+# #       lv_name{ root }                         \
+# #     .                                         \
+# #     256 25600000 1000000000 ext4              \
+# #       $lvmok{ }                               \
+# #       method{ keep }                          \
+# #       lv_name{ placeholder }                  \
+# #     .                                         \
+# #     200% 200% 200% linux-swap                 \
+# #       $lvmok{ }                               \
+# #       method{ swap } format{ }                \
+# #       lv_name{ swap }                         \
+# #     .
+
+# # grub boot loader
+# d-i grub-installer/only_debian                              boolean     true
+# d-i grub-installer/with_other_os                            boolean     true
+
+# finish installation
+d-i finish-install/reboot_in_progress                       note
+d-i finish-install/keep-consoles                            boolean     false
+d-i cdrom-detect/eject                                      boolean     true
+d-i debian-installer/exit/halt                              boolean     false
+d-i debian-installer/exit/poweroff                          boolean     false
