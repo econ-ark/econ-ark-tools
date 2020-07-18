@@ -304,9 +304,9 @@ echo en > $iso_make/iso_new/isolinux/lang
 # in-target bash -c 'wget -r --output-document=/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf'  ;\
 # in-target bash -c 'chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf' "
 
-# # Copy the kickstart file to the root
-# cp -rT $iso_make/$late_command_file $iso_make/iso_new/$late_command_file
-# chmod +x $iso_make/iso_new/$late_command_file
+### # # Copy the late_command file to the root
+### cp -rT $iso_make/$late_command_file $iso_make/iso_new/$late_command_file
+### chmod +x $iso_make/iso_new/$late_command_file
 
 # 20200714-0904h: Failed
 #late_command="in-target sudo apt -y install git ; in-target bash -c 'mkdir /tmp ; cd /tmp ; git clone https://github.com/econ-ark/econ-ark-tools ; chmod +x /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh'"
@@ -330,9 +330,9 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
 # copy the seed file to the iso
 cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
 
-##### copy the kickstart file to the root
-##### cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
-##### chmod 744 $iso_make/iso_new/$ks_file
+# copy the kickstart file to the root
+cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
+chmod 744 $iso_make/iso_new/$ks_file
 
 # include firstrun script
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file

@@ -54,6 +54,50 @@ d-i pkgsel/upgrade                                          select      safe-upg
 d-i pkgsel/update-policy                                    select      unattended-upgrades
 d-i pkgsel/updatedb                                         boolean     true
 
+### Simple GPT configuration w/o LVM
+#d-i partman-auto/disk string /dev/sdb
+
+d-i partman/alignment string cylinder
+d-i partman/confirm_write_new_label boolean true
+d-i partman-basicfilesystems/choose_label string gpt
+d-i partman-basicfilesystems/default_label string gpt
+d-i partman-partitioning/choose_label string gpt
+d-i partman-partitioning/default_label string gpt
+d-i partman/choose_label string gpt
+d-i partman/default_label string gpt
+
+d-i partman-auto/method string regular
+d-i partman-auto/choose_recipe select gpt-boot-root-swap
+d-i partman-auto/expert_recipe string         \
+   gpt-boot-root-swap ::                      \
+      1 1 1 free                              \
+         $bios_boot{ }                        \
+         method{ biosgrub } .                 \
+      512 512 512 fat32                       \
+         $primary{ }                          \
+         method{ efi } format{ } .            \
+      512 512 512 ext4                        \
+         $primary{ } $bootable{ }             \
+         method{ format } format{ }           \
+         use_filesystem{ } filesystem{ ext4 } \
+         mountpoint{ /boot } .                \
+      1000 20000 -1 ext4                      \
+         $primary{ }                          \
+         method{ format } format{ }           \
+         use_filesystem{ } filesystem{ ext4 } \
+         mountpoint{ / } .                    \
+      65536 65536 65536 linux-swap            \
+         $primary{ }                          \
+         method{ swap } format{ } .
+
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+# ### EFI
+d-i partman-efi/non_efi_system boolean true
+
 ### Partitioning
 # !!!DANGER don't use this without knowing what you are doing!!!
 # comment out this block it you want the installer to ask about the 
@@ -61,16 +105,16 @@ d-i pkgsel/updatedb                                         boolean     true
 
 # The following will partition disk /dev/sda with an EFI partition, a root partition
 # and a swap file. AND WONT ASK TO CONFIRM ANYTHING i.e. it will overwrite existing partitions
-d-i preseed/early_command string umount /media
-d-i partman/unmount_active boolean true
-d-i partman-auto/disk string /dev/sda
-d-i partman-auto/method string regular
-d-i partman-auto/choose_recipe select atomic
+# d-i preseed/early_command string umount /media
+# d-i partman/unmount_active boolean true
+# d-i partman-auto/disk string /dev/sda
+# d-i partman-auto/method string regular
+# d-i partman-auto/choose_recipe select atomic
 # This makes partman automatically partition without confirmation, provided
-d-i partman-partitioning/confirm_write_new_label boolean true
-d-i partman/choose_partition select finish
-d-i partman/confirm boolean true
-d-i partman/confirm_nooverwrite boolean true
+# d-i partman-partitioning/confirm_write_new_label boolean true
+# d-i partman/choose_partition select finish
+# d-i partman/confirm boolean true
+# d-i partman/confirm_nooverwrite boolean true
 
 # ### Do NOT install on the USB stick(!)
 # #
@@ -121,7 +165,7 @@ d-i partman/confirm_nooverwrite boolean true
 # Policy for applying updates. May be "none" (no automatic updates),
 # "unattended-upgrades" (install security updates automatically), or
 # "landscape" (manage system with Landscape).
-d-i pkgsel/update-policy select none
+d-i pkgsel/update-policy select unattended-upgrades
 
 # Verbose output and no boot splash screen.
 d-i	debian-installer/quiet	boolean false
