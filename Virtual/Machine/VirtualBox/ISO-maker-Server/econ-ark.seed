@@ -55,7 +55,7 @@ d-i pkgsel/update-policy                                    select      unattend
 d-i pkgsel/updatedb                                         boolean     true
 
 ### Simple GPT configuration w/o LVM
-#d-i partman-auto/disk string /dev/sdb
+d-i partman-auto/disk string /dev/sdf
 
 d-i partman/alignment string cylinder
 d-i partman/confirm_write_new_label boolean true
@@ -81,19 +81,19 @@ d-i partman-auto/expert_recipe string         \
          method{ format } format{ }           \
          use_filesystem{ } filesystem{ ext4 } \
          mountpoint{ /boot } .                \
-      1000 20000 -1 ext4                      \
+      1000 30000 -1 ext4                      \
          $primary{ }                          \
          method{ format } format{ }           \
          use_filesystem{ } filesystem{ ext4 } \
          mountpoint{ / } .                    \
-      65536 65536 65536 linux-swap            \
+      8192 8192 8192 linux-swap            \
          $primary{ }                          \
          method{ swap } format{ } .
 
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman/choose_partition select finish
 d-i partman/confirm boolean true
-d-i partman/confirm_nooverwrite boolean true
+#d-i partman/confirm_nooverwrite boolean true
 
 # ### EFI
 d-i partman-efi/non_efi_system boolean true
