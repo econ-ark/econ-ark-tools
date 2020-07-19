@@ -1,5 +1,6 @@
-# regional setting
-d-i debian-installer/splash                                 boolean     false
+# Preseed installation of ubiquity installer 
+d-i preseed/early_command string anna-install ubiquity ; anna-install refind
+
 
 ### Automatic Installation
 d-i auto-install/enable boolean true
@@ -8,6 +9,7 @@ d-i debconf/priority select critical
 ### Localization
 d-i debian-installer/locale string en_US.UTF-8
 d-i localechooser/supported-locales multiselect en_US.UTF-8
+
 # Keyboard
 d-i console-setup/ask_detect boolean false
 d-i keyboard-configuration/xkb-keymap select us
