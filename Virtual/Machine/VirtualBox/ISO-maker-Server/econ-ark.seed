@@ -55,8 +55,9 @@ d-i pkgsel/update-policy                                    select      unattend
 d-i pkgsel/updatedb                                         boolean     true
 
 ### Simple GPT configuration w/o LVM
-d-i partman-auto/disk string /dev/sdf
-
+d-i partman-auto/disk string /dev/sdc
+d-i partman-auto/disk seen   false 
+d-i partman/unmount_active boolean true # 
 d-i partman/alignment string cylinder
 d-i partman/confirm_write_new_label boolean true
 d-i partman-basicfilesystems/choose_label string gpt
@@ -65,6 +66,8 @@ d-i partman-partitioning/choose_label string gpt
 d-i partman-partitioning/default_label string gpt
 d-i partman/choose_label string gpt
 d-i partman/default_label string gpt
+# ### EFI
+d-i partman-efi/non_efi_system boolean true
 
 d-i partman-auto/method string regular
 d-i partman-auto/choose_recipe select gpt-boot-root-swap
@@ -90,13 +93,10 @@ d-i partman-auto/expert_recipe string         \
          $primary{ }                          \
          method{ swap } format{ } .
 
-d-i partman-partitioning/confirm_write_new_label boolean true
-d-i partman/choose_partition select finish
-d-i partman/confirm boolean true
+#d-i partman-partitioning/confirm_write_new_label boolean true
+#d-i partman/choose_partition select finish
+#d-i partman/confirm boolean true
 #d-i partman/confirm_nooverwrite boolean true
-
-# ### EFI
-d-i partman-efi/non_efi_system boolean true
 
 ### Partitioning
 # !!!DANGER don't use this without knowing what you are doing!!!
