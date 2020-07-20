@@ -118,13 +118,15 @@ sudo -u econ-ark jupyter nbextension enable toc2/main
 sudo -u econ-ark jupyter nbextension enable collapsible_headings/main
 cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirements.txt
 
+sudo apt -y install build-essential module-assistant gparted
+
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 
-sudo apt -y install build-essential module-assistant virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 gparted
+[[ `sudo dmesg | grep VirtualBox` ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
 chown econ-ark:econ-ark /home/econ-ark/GitHub
 chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
-sudo adduser econ-ark vboxsf
 
 echo Finished automatic installations.  Rebooting.
 reboot 
