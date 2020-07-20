@@ -56,7 +56,7 @@ d-i pkgsel/update-policy                                    select      unattend
 d-i pkgsel/updatedb                                         boolean     true
 
 ### Simple GPT configuration w/o LVM
-d-i partman/unmount_active boolean true 
+d-i partman/unmount_active boolean false
 d-i partman-auto/disk string /dev/sdc
 d-i partman-auto/disk seen   false 
 d-i partman/alignment string cylinder
