@@ -82,14 +82,14 @@ d-i partman-auto/expert_recipe string         \
       512 512 512 fat32                       \ # This should be reformatted to HFS+ in 'start.sh' and then have refind installed on it
          $primary{ }                          \
          method{ efi } format{ } .            \
-      # 512 512 512 ext4                        \
-      #    $primary{ } $bootable{ }             \
-      #    method{ format } format{ }           \
-      #    use_filesystem{ } filesystem{ ext4 } \
-      #    mountpoint{ /boot } .                \
+      512 512 512 ext4                        \
+         $primary{ } $bootable{ }             \
+         method{ format } format{ }           \
+         use_filesystem{ } filesystem{ ext4 } \
+         mountpoint{ /boot } .                \
       1000 22000 65536 ext4                   \
          $primary{ }                          \
-	 $bootable{ }                         \
+#	 $bootable{ }                         \
          method{ format } format{ }           \
          use_filesystem{ } filesystem{ ext4 } \
          mountpoint{ / } .                    \
