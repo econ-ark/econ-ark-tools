@@ -81,11 +81,12 @@ d-i partman-auto/expert_recipe string         \
       512 512 512 fat32                       \
          $primary{ }                          \
          method{ efi } format{ } .            \
-      16384 16384 100000 ext4                  \
+      512 30000 -1 ext4                        \
          $primary{ } $bootable{ }             \
          method{ format } format{ }           \
          use_filesystem{ } filesystem{ ext4 } \
          mountpoint{ / } .                    \
+#         mountpoint{ /boot } .                \
       # 1000 30000 -1 ext4                      \
       #    $primary{ }                          \
       #    method{ format } format{ }           \
