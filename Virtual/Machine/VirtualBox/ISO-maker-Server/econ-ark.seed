@@ -74,7 +74,7 @@ d-i partman-efi/non_efi_system boolean true
 d-i partman-auto/method string regular
 d-i partman-auto/choose_recipe select gpt-boot-root-swap
 d-i partman-auto/expert_recipe string         \
-   gpt-boot-root-swap ::                      \
+   gpt-root-HFS-swap ::                      \
       1 1 1 free                              \
          $bios_boot{ }                        \
 	 label{ biosgrub }                    \
@@ -102,14 +102,14 @@ d-i partman-auto/expert_recipe string         \
          $primary{ }                          \
          method{ swap } format{ } .
 
-# d-i partman-partitioning/confirm_write_new_label boolean true
-# d-i partman-partitioning/confirm_write_new_label seen
-# d-i partman/choose_partition select finish
-# d-i partman/choose_partition seen
-# d-i partman/confirm boolean true
-# d-i partman/confirm seen
-# d-i partman/confirm_nooverwrite boolean true
-# d-i partman/confirm_nooverwrite seen
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman-partitioning/confirm_write_new_label seen
+d-i partman/choose_partition select finish
+d-i partman/choose_partition seen
+d-i partman/confirm boolean true
+d-i partman/confirm seen
+d-i partman/confirm_nooverwrite boolean true
+d-i partman/confirm_nooverwrite seen
 
 ### Partitioning
 # !!!DANGER don't use this without knowing what you are doing!!!
