@@ -22,11 +22,13 @@ EOF
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 # Set up vnc server so students can connect to instructor machine
 
+startxfce4
+
 # Get some key apps that should be available immediately
 sudo apt -y install hfsplus
 sudo add-apt-repository universe				    
 sudo apt -y install tasksel         # A bit mysterious why these two aren't already there
-sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
+#sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
 sudo apt -y install tigervnc-scraping-server
 
 #sudo apt-add-repository ppa:rodsmith/refind
