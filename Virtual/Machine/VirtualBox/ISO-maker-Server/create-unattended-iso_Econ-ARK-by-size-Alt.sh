@@ -1,8 +1,4 @@
-#!/usr/bin/env bash
-# Adapted from netson github create-unattended/create-unattended-iso.sh
-
-echo 'hi'
-exit
+#!/bin/bash
 
 if [ "$#" -ne 1 ]; then
     echo "Wrong number of arguments:"
