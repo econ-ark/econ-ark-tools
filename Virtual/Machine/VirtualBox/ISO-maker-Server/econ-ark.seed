@@ -87,24 +87,19 @@ d-i partman-auto/expert_recipe string         \
          method{ format } format{ }           \
          use_filesystem{ } filesystem{ ext4 } \
          mountpoint{ /boot } .                \
-      1000 22000 65536 ext4                   \
+      1000 30000 -1 ext4                      \
          $primary{ }                          \
-#	 $bootable{ }                         \
          method{ format } format{ }           \
          use_filesystem{ } filesystem{ ext4 } \
          mountpoint{ / } .                    \
-      512 4096 200% linux-swap                \
+      8192 8192 8192 linux-swap            \
          $primary{ }                          \
          method{ swap } format{ } .
 
-d-i partman-partitioning/confirm_write_new_label boolean true
-d-i partman-partitioning/confirm_write_new_label seen    false
-d-i partman/choose_partition select finish
-d-i partman/choose_partition seen   false 
-d-i partman/confirm boolean true
-d-i partman/confirm seen    false 
-d-i partman/confirm_nooverwrite boolean true
-d-i partman/confirm_nooverwrite seen false
+#d-i partman-partitioning/confirm_write_new_label boolean true
+#d-i partman/choose_partition select finish
+#d-i partman/confirm boolean true
+#d-i partman/confirm_nooverwrite boolean true
 
 ### Partitioning
 # !!!DANGER don't use this without knowing what you are doing!!!
