@@ -79,9 +79,9 @@ d-i partman-auto/expert_recipe string         \
       512 512 512 fat32                       \
          $primary{ }                          \
          method{ efi } format{ } .            \
-      512 512 512 fat32                       \ # This should be reformatted to HFS+ in 'start.sh' and then have refind installed on it
-         $primary{ }                          \
-         method{ efi } format{ } .            \
+      # 512 512 512 fat32                       \ # This should be reformatted to HFS+ in 'start.sh' and then have refind installed on it
+      #    $primary{ }                          \
+      #    method{ efi } format{ } .            \
       512 512 512 ext4                        \
          $primary{ } $bootable{ }             \
          method{ format } format{ }           \
@@ -96,10 +96,10 @@ d-i partman-auto/expert_recipe string         \
          $primary{ }                          \
          method{ swap } format{ } .
 
-#d-i partman-partitioning/confirm_write_new_label boolean true
-#d-i partman/choose_partition select finish
-#d-i partman/confirm boolean true
-#d-i partman/confirm_nooverwrite boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
 
 ### Partitioning
 # !!!DANGER don't use this without knowing what you are doing!!!
