@@ -22,10 +22,18 @@ EOF
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 # Set up vnc server so students can connect to instructor machine
 
-# Get some key apps that should be available immediately 
+# Get some key apps that should be available immediately
+sudo apt -y install hfsplus
+sudo add-apt-repository universe				    
 sudo apt -y install tasksel         # A bit mysterious why these two aren't already there
 sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
 sudo apt -y install tigervnc-scraping-server
+
+#sudo apt-add-repository ppa:rodsmith/refind
+sudo apt-get install refind
+
+devBoot=`sudo fdisk -l | grep '^/dev/[a-z]*[0-9]' | grep -iv empty | awk '$2 == "*" { print $1 }'`
+sudo refind-install --usedefault "$devBoot"
 
 # Set up vnc server 
 # https://askubuntu.com/questions/328240/assign-vnc-password-using-script
