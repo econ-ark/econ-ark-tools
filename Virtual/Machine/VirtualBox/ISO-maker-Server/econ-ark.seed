@@ -54,8 +54,8 @@ d-i pkgsel/updatedb                                         boolean     true
 
 ### Simple GPT configuration w/o LVM
 d-i partman/unmount_active boolean true 
-d-i partman-auto/disk string /dev/sdc
-d-i partman-auto/disk seen   false 
+d-i partman-auto/disk string /dev/sdc               # Assumption: /dev/sda is installer stick, /dev/sdb is internal
+d-i partman-auto/disk seen   false                  # Makes them reconfirm preselected settings
 d-i partman/alignment string cylinder
 d-i partman/confirm_write_new_label boolean true
 d-i partman-basicfilesystems/choose_label string gpt
@@ -64,9 +64,11 @@ d-i partman-partitioning/choose_label string gpt
 d-i partman-partitioning/default_label string gpt
 d-i partman/choose_label string gpt
 d-i partman/default_label string gpt
+
 # ### EFI
 d-i partman-efi/non_efi_system boolean true
 
+# This will be the recipe used for "guided" whole-disk installs (the preferred choice)
 d-i partman-auto/method string regular
 d-i partman-auto/choose_recipe select gpt-boot-root-swap
 d-i partman-auto/expert_recipe string         \
@@ -77,24 +79,32 @@ d-i partman-auto/expert_recipe string         \
       512 512 512 fat32                       \
          $primary{ }                          \
          method{ efi } format{ } .            \
-      512 512 512 ext4                        \
-         $primary{ } $bootable{ }             \
-         method{ format } format{ }           \
-         use_filesystem{ } filesystem{ ext4 } \
-         mountpoint{ /boot } .                \
-      1000 30000 -1 ext4                      \
+      512 512 512 fat32                       \ # This should be reformatted to HFS+ in 'start.sh' and then have refind installed on it
          $primary{ }                          \
+         method{ efi } format{ } .            \
+      # 512 512 512 ext4                        \
+      #    $primary{ } $bootable{ }             \
+      #    method{ format } format{ }           \
+      #    use_filesystem{ } filesystem{ ext4 } \
+      #    mountpoint{ /boot } .                \
+      1000 22000 65536 ext4                   \
+         $primary{ }                          \
+	 $bootable{ }                         \
          method{ format } format{ }           \
          use_filesystem{ } filesystem{ ext4 } \
          mountpoint{ / } .                    \
-      8192 8192 8192 linux-swap            \
+      512 4096 200% linux-swap                \
          $primary{ }                          \
          method{ swap } format{ } .
 
-#d-i partman-partitioning/confirm_write_new_label boolean true
-#d-i partman/choose_partition select finish
-#d-i partman/confirm boolean true
-#d-i partman/confirm_nooverwrite boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman-partitioning/confirm_write_new_label seen    false
+d-i partman/choose_partition select finish
+d-i partman/choose_partition seen   false 
+d-i partman/confirm boolean true
+d-i partman/confirm seen    false 
+d-i partman/confirm_nooverwrite boolean true
+d-i partman/confirm_nooverwrite seen false
 
 ### Partitioning
 # !!!DANGER don't use this without knowing what you are doing!!!
