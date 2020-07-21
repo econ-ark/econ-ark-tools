@@ -5,6 +5,9 @@ myuser=econ-ark
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
+# sudo apt -y install tasksel         # A bit mysterious why these two aren't already there
+# sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
+
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
 [Desktop Entry]
 Encoding=UTF-8
@@ -27,12 +30,12 @@ startxfce4
 # Get some key apps that should be available immediately
 sudo apt -y install hfsplus
 sudo add-apt-repository universe				    
-sudo apt -y install tasksel         # A bit mysterious why these two aren't already there
-#sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
 sudo apt -y install tigervnc-scraping-server
 
+sudo apt -y install efibootmgr libefiboot1 libefivar1 sbsigntool 
+
 #sudo apt-add-repository ppa:rodsmith/refind
-sudo apt-get install refind
+sudo apt-get --assume-yes install refind # installs ReFind to EFI System Partition
 
 devBoot=`sudo fdisk -l | grep '^/dev/[a-z]*[0-9]' | grep -iv empty | awk '$2 == "*" { print $1 }'`
 sudo refind-install --usedefault "$devBoot"
