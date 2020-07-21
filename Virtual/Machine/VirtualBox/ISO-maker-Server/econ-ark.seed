@@ -72,34 +72,51 @@ d-i partman/default_label                  string gpt
 # ### EFI
 d-i partman-efi/non_efi_system boolean true
 
-d-i partman-auto/method string regular
+# GPT
+partman-partitionining partman-partitioning/choose_label select gpt
+
+#d-i partman-auto/method string regular
 d-i partman-auto/choose_recipe select gpt-root-HFS-swap
 d-i partman-auto/expert_recipe string         \
    gpt-root-HFS-swap ::                      \
-      1 1 1 free                              \
-         $gptonly$bios_boot{ }                        \
-	 
-         method{ biosgrub } .                 \
-      512 512 512 fat32                       \
-         $primary{ }                          \
-         method{ efi } format{ } .            \
-      # 1024 1024 1024 fat32                       \
+      # 1 1 1 free                              \
+      #    $gptonly{ }                          \
       #    $primary{ }                          \
-      #    method{ format } format{ } .            \
-      512 30000 -1 ext4                        \
-         $primary{ } $bootable{ }             \
-         method{ format } format{ }           \
-         use_filesystem{ } filesystem{ ext4 } \
-         mountpoint{ / } .                    \
-#         mountpoint{ /boot } .                \
+      # 	 $lvmignore{ }                        \
+      # 	 $bios_boot{ }                        \
+      #    method{ biosgrub }                   \
+      # 	 .                                    \
+      512 512 512 fat32                         \
+         $gptonly{ }                            \
+         $primary{ }                            \
+         $lvmignore{ }                          \
+         method{ efi }                          \
+	 format{ }                              \
+	 .                                      \
+      # 1024 1024 1024 fat32                    \
+      #    $primary{ }                          \
+      #    method{ format } format{ } .         \
+      512 30000 -1 ext4                         \
+         $primary{ }                            \
+	 $lvmignore{ }                          \
+         method{ format }                       \
+	 format{ }                              \
+         use_filesystem{ }                      \
+	 filesystem{ ext4 }                     \
+         mountpoint{ / }                        \
+	 .                                      \
+#         mountpoint{ /boot } .                 \
       # 1000 30000 -1 ext4                      \
       #    $primary{ }                          \
       #    method{ format } format{ }           \
       #    use_filesystem{ } filesystem{ ext4 } \
       #    mountpoint{ / } .                    \
-     8192 8192 8192 linux-swap            \
-        $primary{ }                          \
-        method{ swap } format{ } .
+     8192 8192 200% linux-swap                  \
+        $primary{ }                             \
+        $lvmignore{ }                           \
+        method{ swap }                          \
+	format{ }                               \
+	.                                       \
 
 d-i partman-partitioning/confirm_write_new_label boolean true
 #d-i partman-partitioning/confirm_write_new_label seen    false
@@ -109,6 +126,8 @@ d-i partman-partitioning/confirm_write_new_label boolean true
 #d-i partman/confirm seen    false
 # d-i partman/confirm_nooverwrite boolean true
 # d-i partman/confirm_nooverwrite seen    false
+
+d-i partman/mount_style string uuid
 
 ### Partitioning
 # !!!DANGER don't use this without knowing what you are doing!!!
