@@ -67,6 +67,15 @@ d-i partman-auto/expert_recipe string       \
             method{ efi }                   \
             format{ }                       \
         .                                   \
+        512 512 512 fat32                   \
+            $primary{ }                     \
+            $bootable{ }                    \
+            method{ format }                \
+            format{ }                       \
+            use_filesystem{ }               \
+            filesystem{ fat32 }              \
+            mountpoint{ /media/HFS }        \
+        .                                   \
         512 512 512 ext4                    \
             $primary{ }                     \
             $bootable{ }                    \
@@ -77,12 +86,12 @@ d-i partman-auto/expert_recipe string       \
             mountpoint{ /boot }             \
         .                                   \
         4096 4096 4096 linux-swap           \
-            $lvmok{ }                       \
+#            $lvmok{ }                       \
             method{ swap }                  \
             format{ }                       \
         .                                   \
         10000 20000 -1 ext4                 \
-            $lvmok{ }                       \
+#            $lvmok{ }                       \
             method{ format }                \
             format{ }                       \
             use_filesystem{ }               \
