@@ -57,16 +57,17 @@ d-i pkgsel/updatedb                                         boolean     true
 
 ### Simple GPT configuration w/o LVM
 d-i partman/unmount_active boolean true
+d-i partman/unmount_active seen    false # if "seen" is "false" then the user can change the value
 d-i partman-auto/disk string /dev/sda
-d-i partman-auto/disk seen
+d-i partman-auto/disk seen   false
 d-i partman/alignment string cylinder
 # d-i partman/confirm_write_new_label boolean true
-# d-i partman-basicfilesystems/choose_label string gpt
-# d-i partman-basicfilesystems/default_label string gpt
-# d-i partman-partitioning/choose_label string gpt
-# d-i partman-partitioning/default_label string gpt
-# d-i partman/choose_label string gpt
-# d-i partman/default_label string gpt
+d-i partman-basicfilesystems/choose_label  string gpt
+d-i partman-basicfilesystems/default_label string gpt
+d-i partman-partitioning/choose_label      string gpt
+d-i partman-partitioning/default_label     string gpt
+d-i partman/choose_label                   string gpt
+d-i partman/default_label                  string gpt
 
 # ### EFI
 d-i partman-efi/non_efi_system boolean true
@@ -81,9 +82,9 @@ d-i partman-auto/expert_recipe string         \
       512 512 512 fat32                       \
          $primary{ }                          \
          method{ efi } format{ } .            \
-      1024 1024 1024 fat32                       \
-         $primary{ }                          \
-         method{ format } format{ } .            \
+      # 1024 1024 1024 fat32                       \
+      #    $primary{ }                          \
+      #    method{ format } format{ } .            \
       512 30000 -1 ext4                        \
          $primary{ } $bootable{ }             \
          method{ format } format{ }           \
@@ -95,18 +96,18 @@ d-i partman-auto/expert_recipe string         \
       #    method{ format } format{ }           \
       #    use_filesystem{ } filesystem{ ext4 } \
       #    mountpoint{ / } .                    \
-#      8192 8192 8192 linux-swap            \
-#         $primary{ }                          \
-#         method{ swap } format{ } .
+     8192 8192 8192 linux-swap            \
+        $primary{ }                          \
+        method{ swap } format{ } .
 
-# d-i partman-partitioning/confirm_write_new_label boolean true
-# d-i partman-partitioning/confirm_write_new_label seen
-# d-i partman/choose_partition select finish
-# d-i partman/choose_partition seen
-# d-i partman/confirm boolean true
-# d-i partman/confirm seen
-# d-i partman/confirm_nooverwrite boolean true
-# d-i partman/confirm_nooverwrite seen
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman-partitioning/confirm_write_new_label seen    false
+d-i partman/choose_partition select finish
+d-i partman/choose_partition seen   false 
+d-i partman/confirm boolean true
+d-i partman/confirm seen    false
+d-i partman/confirm_nooverwrite boolean true
+d-i partman/confirm_nooverwrite seen    false
 
 ### Partitioning
 # !!!DANGER don't use this without knowing what you are doing!!!
