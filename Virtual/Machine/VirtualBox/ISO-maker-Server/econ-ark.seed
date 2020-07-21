@@ -66,39 +66,34 @@ d-i partman-auto/expert_recipe string       \
             $bios_boot{ }                   \
             method{ biosgrub }              \
         .                                   \
-        512 512 512 fat32                   \
+        512 512 512 ext2                   \
             $primary{ }                     \
 #            $bootable{ }                    \
             method{ format }                \
             format{ }                       \
+	    label{ BOOT }                   \
             use_filesystem{ }               \
-            filesystem{ fat32 }              \
+            filesystem{ ext2 }              \
 #            mountpoint{ /media/HFS }        \
         .                                   \
-        256 256 256 fat32                   \
+        1024 1024 1024 fat32                   \
             $primary{ }                     \
 #            $iflabel{    }                 \
 #            $reusemethod{ }                 \
             method{ efi }                   \
             format{ }                       \
         .                                   \
-        512 512 512 ext4                    \
+        4096 4096 4096 swap                   \
             $primary{ }                     \
-            $bootable{ }                    \
-            method{ format }                \
-            format{ }                       \
-            use_filesystem{ }               \
-            filesystem{ ext4 }              \
-            mountpoint{ /boot }             \
-        .                                   \
-        4096 4096 4096 linux-swap           \
-#            $lvmok{ }                       \
-            method{ swap }                  \
+            $iflabel{ swap   }                 \
+#            $reusemethod{ }                 \
+            filesystem{ linux-swap }              \
             format{ }                       \
         .                                   \
-        10000 20000 -1 ext4                 \
+        16384 16384 -1 ext4                 \
 #            $lvmok{ }                       \
             method{ format }                \
+            $iflabel{ root }                 \
             format{ }                       \
             use_filesystem{ }               \
             filesystem{ ext4 }              \
