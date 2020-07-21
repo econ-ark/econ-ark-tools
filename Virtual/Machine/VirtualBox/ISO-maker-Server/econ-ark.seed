@@ -102,14 +102,14 @@ d-i partman-auto/expert_recipe string         \
          $primary{ }                          \
          method{ swap } format{ } .
 
-d-i partman-partitioning/confirm_write_new_label boolean true
-d-i partman-partitioning/confirm_write_new_label seen
-d-i partman/choose_partition select finish
-d-i partman/choose_partition seen
-d-i partman/confirm boolean true
-d-i partman/confirm seen
-d-i partman/confirm_nooverwrite boolean true
-d-i partman/confirm_nooverwrite seen
+# d-i partman-partitioning/confirm_write_new_label boolean true
+# d-i partman-partitioning/confirm_write_new_label seen
+# d-i partman/choose_partition select finish
+# d-i partman/choose_partition seen
+# d-i partman/confirm boolean true
+# d-i partman/confirm seen
+# d-i partman/confirm_nooverwrite boolean true
+# d-i partman/confirm_nooverwrite seen
 
 ### Partitioning
 # !!!DANGER don't use this without knowing what you are doing!!!
