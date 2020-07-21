@@ -56,23 +56,23 @@ d-i pkgsel/update-policy                                    select      unattend
 d-i pkgsel/updatedb                                         boolean     true
 
 ### Simple GPT configuration w/o LVM
-d-i partman/unmount_active boolean false
-d-i partman-auto/disk string /dev/sdc
-d-i partman-auto/disk seen   false 
+d-i partman/unmount_active boolean true
+#d-i partman-auto/disk string /dev/sdc
+#d-i partman-auto/disk seen   false 
 d-i partman/alignment string cylinder
-d-i partman/confirm_write_new_label boolean true
-d-i partman-basicfilesystems/choose_label string gpt
-d-i partman-basicfilesystems/default_label string gpt
-d-i partman-partitioning/choose_label string gpt
-d-i partman-partitioning/default_label string gpt
-d-i partman/choose_label string gpt
-d-i partman/default_label string gpt
+# d-i partman/confirm_write_new_label boolean true
+# d-i partman-basicfilesystems/choose_label string gpt
+# d-i partman-basicfilesystems/default_label string gpt
+# d-i partman-partitioning/choose_label string gpt
+# d-i partman-partitioning/default_label string gpt
+# d-i partman/choose_label string gpt
+# d-i partman/default_label string gpt
 
 # ### EFI
 d-i partman-efi/non_efi_system boolean true
 
 d-i partman-auto/method string regular
-d-i partman-auto/choose_recipe select gpt-boot-root-swap
+d-i partman-auto/choose_recipe select gpt-root-HFS-swap
 d-i partman-auto/expert_recipe string         \
    gpt-root-HFS-swap ::                      \
       1 1 1 free                              \
@@ -85,7 +85,7 @@ d-i partman-auto/expert_recipe string         \
          method{ efi } format{ } .            \
       1024 1024 1024 fat32                       \
          $primary{ }                          \
-         label{ HFS-For }             \
+         label{ HFSFor }             \
          method{ format } format{ } .            \
       512 30000 -1 ext4                        \
          $primary{ } $bootable{ }             \
