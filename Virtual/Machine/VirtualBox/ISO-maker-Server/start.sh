@@ -38,9 +38,8 @@ devBoot=`sudo fdisk -l | grep '^/dev/[a-z]*[0-9]' | grep -iv empty | awk '$2 == 
 sudo apt -y install efibootmgr libefiboot1 libefivar1 sbsigntool 
 
 #sudo apt-add-repository ppa:rodsmith/refind
-sudo apt-get --assume-yes install refind # installs ReFind to EFI System Partition
-
-sudo refind-install --usedefault "$devBoot"
+#sudo apt-get --assume-yes install refind # installs ReFind to EFI System Partition
+# sudo refind-install --usedefault "$devBoot"
 
 # Set up vnc server 
 # https://askubuntu.com/questions/328240/assign-vnc-password-using-script
