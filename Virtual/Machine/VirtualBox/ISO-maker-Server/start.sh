@@ -25,7 +25,6 @@ EOF
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 # Set up vnc server so students can connect to instructor machine
 
-startxfce4
 
 # Get some key apps that should be available immediately
 sudo apt -y install hfsplus
@@ -51,7 +50,7 @@ echo "$mypass" >  /tmp/vncpasswd # First is the read-write password
 echo "$myuser" >> /tmp/vncpasswd # Next  is the read-only  password (useful for sharing screen with students)
 
 [[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  # If a previous version exists, delete it
-mkdir /home/$myuser/.vnc
+sudo mkdir -p /home/$myuser/.vnc
 
 /usr/bin/vncpasswd -f < /tmp/vncpasswd > /home/$myuser/.vnc/passwd  # Create encrypted versions
 
@@ -133,10 +132,10 @@ chown "$myuser:$myuser" /home/$myuser/.emacs
 
 rm emacs-ubuntu-virtualbox
 
-mkdir /home/$myuser/.emacs.d ; mkdir /root/.emacs.d 
+[[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && sudo chown "$myuser:$myuser" /home/$myuser/.emacs.d
+[[ ! -e /root/.emacs.d ]] && mkdir /root/.emacs.d
 
 chmod a+rw /home/$myuser/.emacs.d 
-chown $myuser:$myuser /home/$myuser/.emacs.d
 
 # Remove the linux automatically created directories like "Music" and "Pictures"
 # Leave only required directories Downloads and Desktop
