@@ -32,12 +32,15 @@ sudo apt -y install hfsplus
 sudo add-apt-repository universe				    
 sudo apt -y install tigervnc-scraping-server
 
+
+# Now finish configuring the partitions
+devBoot=`sudo fdisk -l | grep '^/dev/[a-z]*[0-9]' | grep -iv empty | awk '$2 == "*" { print $1 }'`
+
 sudo apt -y install efibootmgr libefiboot1 libefivar1 sbsigntool 
 
 #sudo apt-add-repository ppa:rodsmith/refind
 sudo apt-get --assume-yes install refind # installs ReFind to EFI System Partition
 
-devBoot=`sudo fdisk -l | grep '^/dev/[a-z]*[0-9]' | grep -iv empty | awk '$2 == "*" { print $1 }'`
 sudo refind-install --usedefault "$devBoot"
 
 # Set up vnc server 
