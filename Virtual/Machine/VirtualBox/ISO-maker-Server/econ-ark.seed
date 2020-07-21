@@ -106,8 +106,8 @@ d-i partman/choose_partition select finish
 #d-i partman/choose_partition seen   false 
 d-i partman/confirm boolean true
 #d-i partman/confirm seen    false
-d-i partman/confirm_nooverwrite boolean true
-d-i partman/confirm_nooverwrite seen    false
+# d-i partman/confirm_nooverwrite boolean true
+# d-i partman/confirm_nooverwrite seen    false
 
 ### Partitioning
 # !!!DANGER don't use this without knowing what you are doing!!!
