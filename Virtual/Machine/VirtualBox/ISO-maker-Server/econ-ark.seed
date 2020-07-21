@@ -69,12 +69,12 @@ d-i partman-auto/expert_recipe string       \
         .                                   \
         512 512 512 fat32                   \
             $primary{ }                     \
-            $bootable{ }                    \
+#            $bootable{ }                    \
             method{ format }                \
             format{ }                       \
             use_filesystem{ }               \
             filesystem{ fat32 }              \
-            mountpoint{ /media/HFS }        \
+#            mountpoint{ /media/HFS }        \
         .                                   \
         512 512 512 ext4                    \
             $primary{ }                     \
