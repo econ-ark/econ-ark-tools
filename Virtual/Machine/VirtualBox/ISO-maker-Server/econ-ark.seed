@@ -58,7 +58,7 @@ d-i pkgsel/updatedb                                         boolean     true
 ### Simple GPT configuration w/o LVM
 d-i partman/unmount_active boolean true
 #d-i partman/unmount_active seen    false # if "seen" is "false" then the user can change the value
-d-i partman-auto/disk string /dev/sda
+d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 #d-i partman-auto/disk seen   false
 d-i partman/alignment string cylinder
 # d-i partman/confirm_write_new_label boolean true
@@ -77,7 +77,8 @@ d-i partman-auto/choose_recipe select gpt-root-HFS-swap
 d-i partman-auto/expert_recipe string         \
    gpt-root-HFS-swap ::                      \
       1 1 1 free                              \
-         $bios_boot{ }                        \
+         $gptonly$bios_boot{ }                        \
+	 
          method{ biosgrub } .                 \
       512 512 512 fat32                       \
          $primary{ }                          \
@@ -102,8 +103,8 @@ d-i partman-auto/expert_recipe string         \
 
 d-i partman-partitioning/confirm_write_new_label boolean true
 #d-i partman-partitioning/confirm_write_new_label seen    false
- d-i partman/choose_partition select finish
-#d-i partman/choose_partition seen   false 
+# d-i partman/choose_partition select finish
+# d-i partman/choose_partition seen   false 
 #d-i partman/confirm boolean true
 #d-i partman/confirm seen    false
 # d-i partman/confirm_nooverwrite boolean true
