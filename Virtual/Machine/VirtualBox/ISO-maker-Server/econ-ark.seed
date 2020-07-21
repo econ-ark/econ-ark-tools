@@ -68,8 +68,8 @@ d-i partman-auto/expert_recipe string       \
         .                                   \
         256 256 256 fat32                   \
             $primary{ }                     \
-            $iflabel{ gpt }                 \
-            $reusemethod{ }                 \
+#            $iflabel{    }                 \
+#            $reusemethod{ }                 \
             method{ efi }                   \
             format{ }                       \
         .                                   \
