@@ -75,10 +75,10 @@ d-i partman-efi/non_efi_system boolean true
 
 partman-auto/expert_recipe string   \  
 atomic_fromDebian ::                \  # This started with a recipe in the Debian manual and evolved
-1 1 1 free                          \
-      $bios_boot{ }                 \
-      method{ biosgrub }            \
-         .                          \
+# 1 1 1 free                          \
+#       $bios_boot{ }                 \
+#       method{ biosgrub }            \
+#          .                          \
 512 512   512     fat32             \
 #        $bootable{ }               \
         $primary{ }                 \
