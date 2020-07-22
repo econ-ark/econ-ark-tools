@@ -62,50 +62,53 @@ d-i pkgsel/updatedb                                         boolean     true
 # ### EFI
 d-i partman-efi/non_efi_system boolean true
 
+d-i partman-auto/choose_recipe select atomic
+
+
 # Try to replicate fitzcarraldoblog's 2017 UEFI-GPT option 3
 
-d-i partman-auto/expert_recipe string \
-    fitzcarraldoUEFIGPT3 ::           \
-# 1 1 1 free                            \
-#       $bios_boot{ }                   \
-#       method{ biosgrub }              \
-#          .                            \
-350 350 350 fat32                     \
-#        $bootable{ }                  \
-        $primary{ }                   \
-#	method{ efi }		      \
-	method{  }		      \
-	mountpoint{ /boot/efi }       \
-	format{ } 		      \
-	.			      \
-# # 256 256 256 fat32                     \ # Added (empty) location for potential later HFSplus partition
-# # #        $bootable{ }                 \
-# #         $primary{ }                   \
-# # #	method{ efi }		      \
-# # 	method{  }		      \
-# # 	mountpoint{ /mnt/HFSplus }    \ # Changed mountpoint 
-# # 	format{ } 		      \
-# # 	.			      \
-# 1 1 1 free                            \
-#       $bios_boot{ }                   \
-#       method{ biosgrub }              \
-#          .                            \
-16384 50000 -1 ext4                   \ # Eliminate swap partition
-        $primary{ }                   \
-        $bootable{ }                  \
-        use_filesystem{ }             \
- 	filesystem{ ext4 }            \
-        mountpoint{ / }               \
-        method{ format }              \
- 	format{ }                     \
- 	.                             \
-2048 2048 2048 linux-swap	      \
-	method{ swap }	              \
-	use_filesystem{ }	      \
-	filesystem{ swap }	      \
-	mountpoint{  }   	      \
-	format{ }		      \
-	.			      \
+# d-i partman-auto/expert_recipe string \
+#     fitzcarraldoUEFIGPT3 ::           \
+# # 1 1 1 free                            \
+# #       $bios_boot{ }                   \
+# #       method{ biosgrub }              \
+# #          .                            \
+# 350 350 350 fat32                     \
+# #        $bootable{ }                  \
+#         $primary{ }                   \
+# #	method{ efi }		      \
+# 	method{  }		      \
+# 	mountpoint{ /boot/efi }       \
+# 	format{ } 		      \
+# 	.			      \
+# # # 256 256 256 fat32                     \ # Added (empty) location for potential later HFSplus partition
+# # # #        $bootable{ }                 \
+# # #         $primary{ }                   \
+# # # #	method{ efi }		      \
+# # # 	method{  }		      \
+# # # 	mountpoint{ /mnt/HFSplus }    \ # Changed mountpoint 
+# # # 	format{ } 		      \
+# # # 	.			      \
+# # 1 1 1 free                            \
+# #       $bios_boot{ }                   \
+# #       method{ biosgrub }              \
+# #          .                            \
+# 16384 50000 -1 ext4                   \ # Eliminate swap partition
+#         $primary{ }                   \
+#         $bootable{ }                  \
+#         use_filesystem{ }             \
+#  	filesystem{ ext4 }            \
+#         mountpoint{ / }               \
+#         method{ format }              \
+#  	format{ }                     \
+#  	.                             \
+# 2048 2048 2048 linux-swap	      \
+# 	method{ swap }	              \
+# 	use_filesystem{ }	      \
+# 	filesystem{ swap }	      \
+# 	mountpoint{  }   	      \
+# 	format{ }		      \
+# 	.			      \
 
 ## Recipe below copied exactly from atomic-amd64-efi, proving that GPT can't be directly partitioned on VirtualBox
 # d-i partman-auto/expert_recipe string \
