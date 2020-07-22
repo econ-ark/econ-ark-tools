@@ -1,3 +1,4 @@
+# 20200722-1150h - this worked
 # regional setting
 d-i debian-installer/splash                                 boolean     false
 
