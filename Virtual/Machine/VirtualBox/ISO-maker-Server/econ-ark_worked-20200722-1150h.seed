@@ -1,4 +1,3 @@
-# 20200722-1200h - only change is to add 256 MB FAT32 partition
 # 20200722-1150h - this worked
 # regional setting
 d-i debian-installer/splash                                 boolean     false
@@ -71,14 +70,6 @@ d-i partman-auto/expert_recipe string \
 #	method{ efi }		      \
 	method{  }		      \
 	mountpoint{ /boot/efi }       \
-	format{ } 		      \
-	.			      \
-256 256 256 fat32                     \ # Added (empty) location for potential later HFSplus partition
-#        $bootable{ }                 \
-        $primary{ }                   \
-#	method{ efi }		      \
-	method{  }		      \
-	mountpoint{ /mnt/HFSplus }    \ # Changed mountpoint 
 	format{ } 		      \
 	.			      \
 1 1 1 free                            \
