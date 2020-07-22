@@ -59,7 +59,6 @@ d-i pkgsel/updatedb                                         boolean     true
 # ### EFI
 d-i partman-efi/non_efi_system boolean true
 
-# https://wikitech.wikimedia.org/wiki/PartMan
 # https://www.petrikvandervelde.nl/posts/Exportable-Linux-virtual-hard-drives-for-hyper-v
 d-i partman-auto/expert_recipe string       \
     grub-efi-boot-root ::                   \
@@ -67,33 +66,40 @@ d-i partman-auto/expert_recipe string       \
             $bios_boot{ }                   \
             method{ biosgrub }              \
         .                                   \
-        512 512 512 ext2                    \ # Not sure whether ext2 is a label or has a purpose different from filesystem{ ext2 }
-            $primary{ }                     \ # Primary partition
-#            $bootable{ }                   \
+        512 512 512 fat32                   \ # ext2, ext3, ext4, fat32, linux-swap are valid; not sure what else
+            $primary{ }                     \
+#            $bootable{ }                    \
             method{ format }                \ # alternatives: swap, raid, format
-            format{ }                       \ 
-	    label{ BOOT }                   \ # Not clear that this partition is necessary
-            use_filesystem{ }               \ # "make partman use a filesystem" (not sure what the alternative is)
-            filesystem{ ext2 }              \ # which filesystem 
+            format{ }                       \
+            use_filesystem{ }               \ # "make partman use a filesystem" (not sure what the alternative is; uninitialized)
+            filesystem{ fat32 }              \
+            mountpoint{ /media/reFindHFS }        \
+#           label{ reFindHFS }              \
         .                                   \
-        1024 1024 1024 fat32                \ # Reserve this partition, to be converted to HFS+ later
+        256 256 256 fat32                   \
             $primary{ }                     \
 #            $iflabel{    }                 \
 #            $reusemethod{ }                 \
             method{ efi }                   \
             format{ }                       \
         .                                   \
-        4096 4096 4096 swap                   \
+        512 512 512 ext4                    \
             $primary{ }                     \
-            $iflabel{ swap   }                 \
-#            $reusemethod{ }                 \
-            filesystem{ linux-swap }              \
+            $bootable{ }                    \
+            method{ format }                \
+            format{ }                       \
+            use_filesystem{ }               \
+            filesystem{ ext4 }              \
+            mountpoint{ /boot }             \
+        .                                   \
+        4096 4096 4096 linux-swap           \
+#            $lvmok{ }                       \
+            method{ swap }                  \
             format{ }                       \
         .                                   \
-        16384 16384 -1 ext4                 \ # Looks like this needs to be ext[x] or swap or fat32 - it's NOT an arbitrary label
+        10000 20000 -1 ext4                 \
 #            $lvmok{ }                       \
             method{ format }                \
-            $iflabel{ root }                 \
             format{ }                       \
             use_filesystem{ }               \
             filesystem{ ext4 }              \
