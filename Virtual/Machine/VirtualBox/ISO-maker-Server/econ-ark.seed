@@ -90,7 +90,7 @@ d-i partman-auto/expert_recipe string       \
             filesystem{ linux-swap }              \
             format{ }                       \
         .                                   \
-        16384 16384 -1 root                 \
+        16384 16384 -1 ext4                 \ # Looks like this needs to be ext[x] or swap or fat32 - it's NOT an arbitrary label
 #            $lvmok{ }                       \
             method{ format }                \
             $iflabel{ root }                 \
