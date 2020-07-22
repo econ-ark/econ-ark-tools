@@ -59,36 +59,64 @@ d-i pkgsel/updatedb                                         boolean     true
 # ### EFI
 d-i partman-efi/non_efi_system boolean true
 
+# Try to replicate fitzcarraldoblog's 2017 UEFI-GPT option 3
+
 d-i partman-auto/expert_recipe string \
-partman-auto/text/atomic_scheme_cdc ::    \
-				      \
-538 538 1075 free                     \     
-	$iflabel{ gpt }		      \
-	$reusemethod{ }		      \
+    fitzcarraldoUEFIGPT3 ::           \
+512 512 512 fat32                     \
+        $bootable{ }                  \
+        $primary{ }                   \
 	method{ efi }		      \
-	format{ } .		      \
-				      \
-128 512 256 ext2		      \
-	$defaultignore{ }	      \
-	method{ format }	      \
-	format{ }		      \
+	mountpoint{ /boot/efi }       \
+	format{ } 		      \
+	.			      \
+4096 4096 8192 linux-swap	      \
+	method{ swap }	              \
 	use_filesystem{ }	      \
 	filesystem{ ext2 }	      \
-	mountpoint{ /boot } .	      \
-				      \
-500 10000 -1 $default_filesystem      \
-	$lvmok{ }		      \
-	method{ format }	      \
+	mountpoint{  }   	      \
 	format{ }		      \
-	use_filesystem{ }	      \
-	$default_filesystem{ }	      \
-	mountpoint{ / } .	      \
-				      \
-100% 512 200% linux-swap	      \
-	$lvmok{ }		      \
-	$reusemethod{ }		      \
-	method{ swap }		      \
-	format{ } .		      \
+	.			      \
+16384 30000 -1 ext4                   \
+        $primary{ }                   \
+        method{ format }              \
+ 	format{ }                     \
+        use_filesystem{ }             \
+ 	filesystem{ ext4 }            \
+        mountpoint{ / }               \
+ 	.                             \
+
+## Recipe below copied exactly from atomic-amd64-efi, proving that GPT can't be directly partitioned on VirtualBox
+# d-i partman-auto/expert_recipe string \
+# partman-auto/text/atomic_scheme_cdc ::    \
+# 				      \
+# 538 538 1075 free                     \     
+# 	$iflabel{ gpt }		      \
+# 	$reusemethod{ }		      \
+# 	method{ efi }		      \
+# 	format{ } .		      \
+# 				      \
+# 128 512 256 ext2		      \
+# 	$defaultignore{ }	      \
+# 	method{ format }	      \
+# 	format{ }		      \
+# 	use_filesystem{ }	      \
+# 	filesystem{ ext2 }	      \
+# 	mountpoint{ /boot } .	      \
+# 				      \
+# 500 10000 -1 $default_filesystem      \
+# 	$lvmok{ }		      \
+# 	method{ format }	      \
+# 	format{ }		      \
+# 	use_filesystem{ }	      \
+# 	$default_filesystem{ }	      \
+# 	mountpoint{ / } .	      \
+# 				      \
+# 100% 512 200% linux-swap	      \
+# 	$lvmok{ }		      \
+# 	$reusemethod{ }		      \
+# 	method{ swap }		      \
+# 	format{ } .		      \
 
 # # https://www.petrikvandervelde.nl/posts/Exportable-Linux-virtual-hard-drives-for-hyper-v
 # d-i partman-auto/expert_recipe string       \
