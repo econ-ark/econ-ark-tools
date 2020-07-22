@@ -74,12 +74,12 @@ atomic_fromDebian ::                \
 	mountpoint{ /boot/efi }     \
 	format{ } 		    \
 	. 		            \
-256 256 256       fat32             \
+512 512   512     fat32             \
 #        $bootable{ }               \
-        $primary{ }                 \
+#       $primary{ }                 \
 #	method{ efi }		    \
-	method{ keep }		    \ # For later HFS use 
-	mountpoint{ /boot/HFSplus } \
+	method{ keep }		    \
+	mountpoint{ /boot/hfs }     \
 	format{ } 		    \
 	. 		            \
 500 10000 1000000 ext4	            \
@@ -90,7 +90,7 @@ atomic_fromDebian ::                \
 	use_filesystem{ }           \  
 	filesystem{ ext4 }          \	   
 	mountpoint{ / } .           \	   
-64 512 300% linux-swap	            \	   
+64 512 100% linux-swap	            \	   
 	method{ swap }	            \    
 	format{ } .               
 
