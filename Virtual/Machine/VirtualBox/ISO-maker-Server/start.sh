@@ -27,21 +27,21 @@ sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.deskto
 # Set up vnc server so students can connect to instructor machine
 
 
-# Get some key apps that should be available immediately
-sudo apt -y install hfsplus
-sudo apt -y install hfsutils
-sudo apt -y install hfsprogs
-sudo apt -y install tigervnc-scraping-server
+# # Get some key apps that should be available immediately
+# sudo apt -y install hfsplus
+# sudo apt -y install hfsutils
+# sudo apt -y install hfsprogs
+# sudo apt -y install tigervnc-scraping-server
 
 
-# Now finish configuring the partitions
-devBoot=`sudo fdisk -l | grep '^/dev/[a-z]*[0-9]' | grep -iv empty | awk '$2 == "*" { print $1 }'`
-mkfs.hfsplus -v reFindBoot "$devBoot"
-sudo mkdir /mnt/reFindBoot
-sudo mount -t hfsplus /dev/sda1 /mnt/reFindBoot
-echo 'Run reFind bootloader to boot on a Mac' > /mnt/reFindBoot/README.txt
+# # Now finish configuring the partitions
+# devBoot=`sudo fdisk -l | grep '^/dev/[a-z]*[0-9]' | grep -iv empty | awk '$2 == "*" { print $1 }'`
+# #mkfs.hfsplus -v reFindBoot "$devBoot"
+# #sudo mkdir /mnt/reFindBoot
+# #sudo mount -t hfsplus /dev/sda1 /mnt/reFindBoot
+# #echo 'Run reFind bootloader to boot on a Mac' > /mnt/reFindBoot/README.txt
 
-sudo apt -y install efibootmgr libefiboot1 libefivar1 sbsigntool 
+# #sudo apt -y install efibootmgr libefiboot1 libefivar1 sbsigntool 
 
 #sudo apt-add-repository ppa:rodsmith/refind
 #sudo apt-get --assume-yes install refind # installs ReFind to EFI System Partition
