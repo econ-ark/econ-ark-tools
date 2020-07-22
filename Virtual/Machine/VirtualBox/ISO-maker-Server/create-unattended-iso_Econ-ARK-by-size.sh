@@ -1,5 +1,4 @@
-#!/usr/bin/env bash
-# Adapted from netson github create-unattended/create-unattended-iso.sh
+#!/bin/bash
 
 if [ "$#" -ne 1 ]; then
     echo "Wrong number of arguments:"
@@ -146,10 +145,10 @@ while true; do
                 download_location="http://cdimage.ubuntu.com/releases/$xenn/"
                 new_iso_name="ubuntu-$xenn_vers-server-amd64-unattended_$name.iso"
                 break;;
-        [4]* )  download_file="ubuntu-18.04.4-live-server-amd64.iso"
+        [4]* )  download_file="ubuntu-18.04.4-server-amd64.iso"
                 download_location="http://releases.ubuntu.com/18.04/"
-                new_iso_base="ubuntu-18.04.4-live-server-amd64-unattended_$name"
-                new_iso_name="ubuntu-18.04.4-live-server-amd64-unattended_$name.iso"
+                new_iso_base="ubuntu-18.04.4-server-amd64-unattended_$name"
+                new_iso_name="ubuntu-18.04.4-server-amd64-unattended_$name.iso"
                 break;;
         * ) echo " please answer [1], [2], [3] or [4]";;
     esac
@@ -254,7 +253,7 @@ spinner $!
 # set the language for the installation menu
 cd $iso_make/iso_new
 #doesn't work for 16.04
-echo en > $iso_make/iso_new/isolinux/lang
+# echo en > $iso_make/iso_new/isolinux/lang
 
 #16.04
 #taken from https://github.com/fries/prepare-ubuntu-unattended-install-iso/blob/master/make.sh
@@ -304,9 +303,9 @@ echo en > $iso_make/iso_new/isolinux/lang
 # in-target bash -c 'wget -r --output-document=/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf'  ;\
 # in-target bash -c 'chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf' "
 
-# # Copy the kickstart file to the root
-# cp -rT $iso_make/$late_command_file $iso_make/iso_new/$late_command_file
-# chmod +x $iso_make/iso_new/$late_command_file
+### # # Copy the late_command file to the root
+### cp -rT $iso_make/$late_command_file $iso_make/iso_new/$late_command_file
+### chmod +x $iso_make/iso_new/$late_command_file
 
 # 20200714-0904h: Failed
 #late_command="in-target sudo apt -y install git ; in-target bash -c 'mkdir /tmp ; cd /tmp ; git clone https://github.com/econ-ark/econ-ark-tools ; chmod +x /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh'"
@@ -316,7 +315,8 @@ echo en > $iso_make/iso_new/isolinux/lang
 # Removed the line below:
 #### in-target sed -i 's/^.*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config ;\
 
-# Removed the line below; reinsert after start.sh
+# set late_command 
+
 late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
@@ -330,9 +330,9 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
 # copy the seed file to the iso
 cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
 
-##### copy the kickstart file to the root
-##### cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
-##### chmod 744 $iso_make/iso_new/$ks_file
+# copy the kickstart file to the root
+cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
+chmod 744 $iso_make/iso_new/$ks_file
 
 # include firstrun script
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file
@@ -352,23 +352,18 @@ sed -i "s@{{timezone}}@$timezone@g" $iso_make/iso_new/preseed/$seed_file
 # calculate checksum for seed file
 seed_checksum=$(md5sum $iso_make/iso_new/preseed/$seed_file)
 
-# # add thxe autoinstall option to the menu
-# sed -i "/label install/ilabel autoinstall\n\
-#   menu label ^Autoinstall Econ-ARK Xubuntu Server\n\
-#   kernel /install/vmlinuz\n\
-#   append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed                                       -- ks=cdrom:/ks.cfg " $iso_make/iso_new/isolinux/txt.cfg
-  
-# add the autoinstall option to the menu
-#sed -i '/set timeout=30/amenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux /install/vmlinuz append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed quiet ---\n	initrd	/install/initrd.gz\n\}' $iso_make/iso_new/boot/grub/grub.cfg
+## add the install option to the menu
+sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US          ---\n	initrd	/install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg 
 
-# add the autoinstall option to the menu
-sed -i '/set timeout=30/amenuentry "Check disk for defects (CDC)" {\n	set gfxpayload=keep\n	linux /install/vmlinuz MENU=/bin/cdrom-checker-menu quiet ---\n	initrd	/install/initrd.gz\n\}' $iso_make/iso_new/boot/grub/grub.cfg  # append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed 
+sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US       ---|g'     $iso_make/iso_new/isolinux/txt.cfg
 
+#sed -i -r 's/timeout=[0-9]+/timeout=1/g' $iso_make/iso_new/boot/grub/grub.cfg
+sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back
 
-sed -i -r 's/timeout=[0-9]+/timeout=1/g' $iso_make/iso_new/boot/grub/grub.cfg
-sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back 
 echo " creating the remastered iso"
 cd $iso_make/iso_new
+
+echo "timeout 10" >> isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 cmd="(mkisofs -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
@@ -386,7 +381,7 @@ fi
 cmd="[[ -e $iso_done/$size/$new_iso_name ]] && rm $iso_done/$size/$new_iso_name"
 echo "$cmd"
 eval "$cmd"
-cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name"
+cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name ; cp $iso_done/$size/$new_iso_name $iso_done/$size/MacVersion-$new_iso_name ; ./MattGadient/isomacprog $iso_done/$size/MacVersion-$new_iso_name"
 echo "$cmd"
 eval "$cmd"
 
