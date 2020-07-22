@@ -22,7 +22,7 @@ sudo -u econ-ark emacs -batch -l ~/.emacs --eval='(package-list-packages)'
 sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
 sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
 sudo -u econ-ark gpg --list-keys 
-sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys<
+sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
