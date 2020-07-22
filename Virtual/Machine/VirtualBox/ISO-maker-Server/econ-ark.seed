@@ -66,6 +66,14 @@ d-i partman-efi/non_efi_system boolean true
 
 partman-auto/expert_recipe string \  
 atomic_fromDebian ::              \  
+512 512   512     fat32           \
+#        $bootable{ }             \
+        $primary{ }               \
+#	method{ efi }		  \
+	method{  }		  \
+	mountpoint{ /boot/efi }   \
+	format{ } 		  \
+	. 		          \
 500 10000 1000000 ext3	          \
 	$primary{ }	          \
 	$bootable{ }	          \
