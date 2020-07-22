@@ -73,7 +73,7 @@ d-i partman-auto/expert_recipe string \
 4096 4096 8192 linux-swap	      \
 	method{ swap }	              \
 	use_filesystem{ }	      \
-	filesystem{ ext2 }	      \
+	filesystem{ swap }	      \
 	mountpoint{  }   	      \
 	format{ }		      \
 	.			      \
