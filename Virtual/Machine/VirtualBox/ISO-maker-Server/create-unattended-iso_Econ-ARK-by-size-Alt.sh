@@ -363,6 +363,8 @@ sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg
 echo " creating the remastered iso"
 cd $iso_make/iso_new
 
+echo "timeout 10" >> isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
+
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 cmd="(mkisofs -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
 echo "$cmd"
