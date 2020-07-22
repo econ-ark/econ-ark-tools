@@ -15,7 +15,7 @@ size="$1"
 
 pathToScript=$(dirname `realpath "$0"`)
 # pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/
-online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Git-Revert-To-Last-Working/Virtual/Machine/VirtualBox/ISO-maker-Server
+online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Revert-To-Last-Working/Virtual/Machine/VirtualBox/ISO-maker-Server
 startFile="start.sh"
 finishFile="finish.sh"
 seed_file="econ-ark.seed"
@@ -195,12 +195,16 @@ if [[ ! -f $iso_from/$download_file ]]; then
 fi
 
 cd $iso_make
-# download rc.local file
+echo download rc.local file via:
+echo wget  $online/$rclocal_file
 [[ -f $iso_make/$rclocal_file ]] && rm $iso_make/$rclocal_file
 
 echo -n " downloading $rclocal_file: "
-download "$online/$rclocal_file"
+# download "$online/$rclocal_file"
+# ls -las
 
+# echo is it thereQ
+# read answer 
 # download econ-ark seed file
 [[ -f $iso_make/$seed_file ]] && rm $iso_make/$seed_file 
 
@@ -365,6 +369,8 @@ cd $iso_make/iso_new
 
 echo "timeout 10" >> isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
 
+#echo 'Interrupting -- check whether ks.cfg is in iso_new'
+#read answer 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 cmd="(mkisofs -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
 echo "$cmd"
