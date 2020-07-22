@@ -87,6 +87,7 @@ atomic_fromDebian ::                \
 	format{ } 		    \
 	. 		            \
 10000 10000 1000000 ext4	    \
+        $lvmok{ }		    \
 	$primary{ }	            \
 	$bootable{ }	            \
 	method{ format }            \  
