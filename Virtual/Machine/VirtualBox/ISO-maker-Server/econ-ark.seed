@@ -66,7 +66,11 @@ d-i partman-efi/non_efi_system boolean true
 
 d-i partman-auto/expert_recipe string \
     fitzcarraldoUEFIGPT3 ::           \
-512 512 512 fat32                     \
+# 1 1 1 free                            \
+#       $bios_boot{ }                   \
+#       method{ biosgrub }              \
+#          .                            \
+350 350 350 fat32                     \
 #        $bootable{ }                  \
         $primary{ }                   \
 #	method{ efi }		      \
@@ -89,13 +93,13 @@ d-i partman-auto/expert_recipe string \
 16384 50000 -1 ext4                   \ # Eliminate swap partition
         $primary{ }                   \
         $bootable{ }                  \
-        method{ format }              \
- 	format{ }                     \
         use_filesystem{ }             \
  	filesystem{ ext4 }            \
         mountpoint{ / }               \
+        method{ format }              \
+ 	format{ }                     \
  	.                             \
-4096 4096 8192 linux-swap	      \
+2048 2048 2048 linux-swap	      \
 	method{ swap }	              \
 	use_filesystem{ }	      \
 	filesystem{ swap }	      \
