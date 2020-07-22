@@ -1,11 +1,9 @@
 # regional setting
-d-i debian-installer/language                               string      en_US:en
-d-i debian-installer/country                                string      US
-d-i debian-installer/locale                                 string      en_US
 d-i debian-installer/splash                                 boolean     false
 
 ### Automatic Installation
 d-i auto-install/enable boolean true
+d-i debconf/priority select critical
 
 ### Localization
 d-i debian-installer/locale string en_US.UTF-8
@@ -16,15 +14,14 @@ d-i keyboard-configuration/xkb-keymap select us
 
 ### Network config
 d-i netcfg/choose_interface select auto
-d-i netcfg/dhcp_timeout                                     string      5
 d-i netcfg/get_hostname                                     string      {{hostname}}
 d-i hw-detect/load_firmware boolean true
 
 # mirror settings
-d-i mirror/country                                          string      manual
-d-i mirror/http/hostname                                    string      archive.ubuntu.com
-d-i mirror/http/directory                                   string      /ubuntu
-d-i mirror/http/proxy                                       string
+d-i mirror/country string manual
+d-i mirror/http/hostname string archive.ubuntu.com
+d-i mirror/http/directory string /ubuntu
+d-i mirror/http/proxy string
 
 # clock and timezone settings
 d-i time/zone                                               string      {{timezone}}
@@ -74,14 +71,6 @@ d-i partman-auto/expert_recipe string \
 	mountpoint{ /boot/efi }       \
 	format{ } 		      \
 	.			      \
-256 256 256 fat32                     \ # Added (empty) location for potential later HFSplus partition
-#        $bootable{ }                 \
-        $primary{ }                   \
-#	method{ efi }		      \
-	method{  }		      \
-	mountpoint{ /mnt/HFSplus }    \ # Changed mountpoint 
-	format{ } 		      \
-	.			      \
 1 1 1 free                            \
       $bios_boot{ }                   \
       method{ biosgrub }              \
@@ -94,9 +83,8 @@ d-i partman-auto/expert_recipe string \
 	format{ }		      \
 	.			      \
 16384 50000 -1 ext4                   \
-#        $primary{ }                  \ # other examles are not primary
+        $primary{ }                   \
         $bootable{ }                  \
- 	$lvmok{ }		      \ # allow LVM
         method{ format }              \
  	format{ }                     \
         use_filesystem{ }             \
@@ -331,9 +319,13 @@ d-i grub-installer/with_other_os boolean true
 # "landscape" (manage system with Landscape).
 d-i pkgsel/update-policy select unattended-upgrades
 
+# Verbose output and no boot splash screen.
+d-i	debian-installer/quiet	boolean false
+d-i	debian-installer/splash	boolean false
+
 # Avoid that last message about the install being complete.
 # This will just finish and reboot
-d-i finish-install/reboot_in_progress                       note
+d-i finish-install/reboot_in_progress note
 d-i finish-install/keep-consoles                            boolean     false
 d-i cdrom-detect/eject                                      boolean     true
 d-i debian-installer/exit/halt                              boolean     false
