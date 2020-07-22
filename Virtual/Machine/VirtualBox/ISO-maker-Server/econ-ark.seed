@@ -62,7 +62,23 @@ d-i pkgsel/updatedb                                         boolean     true
 # ### EFI
 d-i partman-efi/non_efi_system boolean true
 
-d-i partman-auto/choose_recipe select atomic
+# d-i partman-auto/choose_recipe select atomic # Worked
+
+partman-auto/expert_recipe string \
+atomic_scheme ::
+
+500 10000 1000000 ext4
+	$primary{ }
+	$bootable{ }
+	method{ format }
+	format{ }
+	use_filesystem{ }
+	filesystem{ ext3 }
+	mountpoint{ / } .
+
+64 512 300% linux-swap
+	method{ swap }
+	format{ } .
 
 
 # Try to replicate fitzcarraldoblog's 2017 UEFI-GPT option 3
