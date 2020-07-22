@@ -22,7 +22,7 @@ sudo -u econ-ark emacs -batch -l ~/.emacs --eval='(package-list-packages)'
 sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
 sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
 sudo -u econ-ark gpg --list-keys 
-sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
+sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys<
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
@@ -58,6 +58,7 @@ echo 'This is your local, personal copy of REMARK, which you can modify.  '    >
 sudo -u econ-ark pip install jupyter_contrib_nbextensions
 sudo -u econ-ark jupyter contrib nbextension install --user
 cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirements.txt
+cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirements.txt
 
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 

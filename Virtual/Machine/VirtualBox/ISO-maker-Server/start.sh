@@ -1,6 +1,6 @@
 #!/bin/bash
 # Autostart terminal upon autologin so that ~/.bash_alias will be executed automatically
-# Launch xfce4-terminal at boot
+
 myuser=econ-ark
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
@@ -31,7 +31,7 @@ sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.deskto
 # sudo apt -y install hfsplus
 # sudo apt -y install hfsutils
 # sudo apt -y install hfsprogs
-# sudo apt -y install tigervnc-scraping-server
+sudo apt -y install tigervnc-scraping-server
 
 
 # # Now finish configuring the partitions
@@ -135,7 +135,7 @@ chmod a+rwx /home/$myuser/.emacs
 chown "$myuser:$myuser" /home/$myuser/.emacs
 
 
-rm emacs-ubuntu-virtualbox
+rm -f emacs-ubuntu-virtualbox
 
 [[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && sudo chown "$myuser:$myuser" /home/$myuser/.emacs.d
 [[ ! -e /root/.emacs.d ]] && mkdir /root/.emacs.d

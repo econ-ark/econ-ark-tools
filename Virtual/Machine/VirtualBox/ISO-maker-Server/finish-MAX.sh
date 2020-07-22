@@ -61,7 +61,7 @@ sudo pip install nbval
 # Get default packages for Econ-ARK machine
 sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
 # Extra packages for MAX
-sudo apt -y evince texlive-full quantecon scipy
+sudo apt -y evince texlive-full quantecon 
 # Create a public key for security purposes
 sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/@myuser/.ssh
 # Set up security for emacs package downloading 
@@ -108,7 +108,7 @@ echo 'This is your local, personal copy of REMARK, which you can modify.  '    >
 
 cd /usr/local/share/data/GitHub/econ-ark/REMARK
 git submodule update --init --recursive --remote
-git pull --recurse-submodules
+git pull
 
 sudo -u econ-ark pip install jupyter_contrib_nbextensions
 sudo -u econ-ark jupyter contrib nbextension install --user
@@ -118,16 +118,18 @@ sudo -u econ-ark jupyter nbextension enable codefolding/edit
 sudo -u econ-ark jupyter nbextension enable toc2/main
 sudo -u econ-ark jupyter nbextension enable collapsible_headings/main
 cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirements.txt
+cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirements.txt
 
 sudo apt -y install build-essential module-assistant gparted
 
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 
-[[ `sudo dmesg | grep VirtualBox` ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+sudo apt -y install build-essential module-assistant virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 gparted
 
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
 chown econ-ark:econ-ark /home/econ-ark/GitHub
 chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
+sudo adduser econ-ark vboxsf
 
 echo Finished automatic installations.  Rebooting.
 reboot 

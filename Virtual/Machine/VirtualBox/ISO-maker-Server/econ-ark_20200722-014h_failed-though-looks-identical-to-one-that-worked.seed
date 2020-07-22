@@ -1,11 +1,9 @@
 # regional setting
-d-i debian-installer/language                               string      en_US:en
-d-i debian-installer/country                                string      US
-d-i debian-installer/locale                                 string      en_US
 d-i debian-installer/splash                                 boolean     false
 
 ### Automatic Installation
 d-i auto-install/enable boolean true
+d-i debconf/priority select critical
 
 ### Localization
 d-i debian-installer/locale string en_US.UTF-8
@@ -16,15 +14,14 @@ d-i keyboard-configuration/xkb-keymap select us
 
 ### Network config
 d-i netcfg/choose_interface select auto
-d-i netcfg/dhcp_timeout                                     string      5
 d-i netcfg/get_hostname                                     string      {{hostname}}
 d-i hw-detect/load_firmware boolean true
 
 # mirror settings
-d-i mirror/country                                          string      manual
-d-i mirror/http/hostname                                    string      archive.ubuntu.com
-d-i mirror/http/directory                                   string      /ubuntu
-d-i mirror/http/proxy                                       string
+d-i mirror/country string manual
+d-i mirror/http/hostname string archive.ubuntu.com
+d-i mirror/http/directory string /ubuntu
+d-i mirror/http/proxy string
 
 # clock and timezone settings
 d-i time/zone                                               string      {{timezone}}
@@ -62,117 +59,52 @@ d-i pkgsel/updatedb                                         boolean     true
 # ### EFI
 d-i partman-efi/non_efi_system boolean true
 
-# Try to replicate fitzcarraldoblog's 2017 UEFI-GPT option 3
-
-d-i partman-auto/expert_recipe string \
-    fitzcarraldoUEFIGPT3 ::           \
-512 512 512 fat32                     \
-#        $bootable{ }                  \
-        $primary{ }                   \
-#	method{ efi }		      \
-	method{  }		      \
-	mountpoint{ /boot/efi }       \
-	format{ } 		      \
-	.			      \
-1 1 1 free                            \
-      $bios_boot{ }                   \
-      method{ biosgrub }              \
-         .                            \
-4096 4096 8192 linux-swap	      \
-	method{ swap }	              \
-	use_filesystem{ }	      \
-	filesystem{ swap }	      \
-	mountpoint{  }   	      \
-	format{ }		      \
-	.			      \
-16384 50000 -1 ext4                   \
-        $primary{ }                   \
-        $bootable{ }                  \
-        method{ format }              \
- 	format{ }                     \
-        use_filesystem{ }             \
- 	filesystem{ ext4 }            \
-        mountpoint{ / }               \
- 	.                             \
-
-## Recipe below copied exactly from atomic-amd64-efi, proving that GPT can't be directly partitioned on VirtualBox
-# d-i partman-auto/expert_recipe string \
-# partman-auto/text/atomic_scheme_cdc ::    \
-# 				      \
-# 538 538 1075 free                     \     
-# 	$iflabel{ gpt }		      \
-# 	$reusemethod{ }		      \
-# 	method{ efi }		      \
-# 	format{ } .		      \
-# 				      \
-# 128 512 256 ext2		      \
-# 	$defaultignore{ }	      \
-# 	method{ format }	      \
-# 	format{ }		      \
-# 	use_filesystem{ }	      \
-# 	filesystem{ ext2 }	      \
-# 	mountpoint{ /boot } .	      \
-# 				      \
-# 500 10000 -1 $default_filesystem      \
-# 	$lvmok{ }		      \
-# 	method{ format }	      \
-# 	format{ }		      \
-# 	use_filesystem{ }	      \
-# 	$default_filesystem{ }	      \
-# 	mountpoint{ / } .	      \
-# 				      \
-# 100% 512 200% linux-swap	      \
-# 	$lvmok{ }		      \
-# 	$reusemethod{ }		      \
-# 	method{ swap }		      \
-# 	format{ } .		      \
-
-# # https://www.petrikvandervelde.nl/posts/Exportable-Linux-virtual-hard-drives-for-hyper-v
-# d-i partman-auto/expert_recipe string       \
-#     grub-efi-boot-root ::                   \
-#         1 1 1 free                          \
-#             $bios_boot{ }                   \
-#             method{ biosgrub }              \
-#         .                                   \
-#         512 512 512 fat32                   \ # ext2, ext3, ext4, fat32, linux-swap are valid; not sure what else
-#             $primary{ }                     \
-# #            $bootable{ }                   \
-#             method{ format }                \ # alternatives: swap, raid, format
-#             format{ }                       \
-#             use_filesystem{ }               \ # "make partman use a filesystem" (not sure what the alternative is; uninitialized)
-#             filesystem{ fat32 }             \
-#             mountpoint{ /media/reFindHFS }  \
-# #           label{ reFindHFS }              \
-#         .                                   \
-#         256 256 256 fat32                   \
-#             $primary{ }                     \
-# #            $iflabel{    }                 \
-# #            $reusemethod{ }                \
-#             method{ efi }                   \
-#             format{ }                       \
-#         .                                   \
-#         512 512 512 ext4                    \
-#             $primary{ }                     \
-#             $bootable{ }                    \
-#             method{ format }                \
-#             format{ }                       \
-#             use_filesystem{ }               \
-#             filesystem{ ext4 }              \
-#             mountpoint{ /boot }             \
-#         .                                   \
-#         4096 4096 4096 linux-swap           \
-# #            $lvmok{ }                       \
-#             method{ swap }                  \
-#             format{ }                       \
-#         .                                   \
-#         10000 20000 -1 ext4                 \
-# #            $lvmok{ }                       \
-#             method{ format }                \
-#             format{ }                       \
-#             use_filesystem{ }               \
-#             filesystem{ ext4 }              \
-#             mountpoint{ / }                 \
-#         .
+# https://www.petrikvandervelde.nl/posts/Exportable-Linux-virtual-hard-drives-for-hyper-v
+d-i partman-auto/expert_recipe string       \
+    grub-efi-boot-root ::                   \
+        1 1 1 free                          \
+            $bios_boot{ }                   \
+            method{ biosgrub }              \
+        .                                   \
+        512 512 512 fat32                   \ # ext2, ext3, ext4, fat32, linux-swap are valid; not sure what else
+            $primary{ }                     \
+#            $bootable{ }                   \
+            method{ format }                \ # alternatives: swap, raid, format
+            format{ }                       \
+            use_filesystem{ }               \ # "make partman use a filesystem" (not sure what the alternative is; uninitialized)
+            filesystem{ fat32 }             \
+            mountpoint{ /media/reFindHFS }  \
+#           label{ reFindHFS }              \
+        .                                   \
+        256 256 256 fat32                   \
+            $primary{ }                     \
+#            $iflabel{    }                 \
+#            $reusemethod{ }                \
+            method{ efi }                   \
+            format{ }                       \
+        .                                   \
+        512 512 512 ext4                    \
+            $primary{ }                     \
+            $bootable{ }                    \
+            method{ format }                \
+            format{ }                       \
+            use_filesystem{ }               \
+            filesystem{ ext4 }              \
+            mountpoint{ /boot }             \
+        .                                   \
+        4096 4096 4096 linux-swap           \
+#            $lvmok{ }                       \
+            method{ swap }                  \
+            format{ }                       \
+        .                                   \
+        10000 20000 -1 ext4                 \
+#            $lvmok{ }                       \
+            method{ format }                \
+            format{ }                       \
+            use_filesystem{ }               \
+            filesystem{ ext4 }              \
+            mountpoint{ / }                 \
+        .
 
 d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
@@ -322,9 +254,13 @@ d-i grub-installer/with_other_os boolean true
 # "landscape" (manage system with Landscape).
 d-i pkgsel/update-policy select unattended-upgrades
 
+# Verbose output and no boot splash screen.
+d-i	debian-installer/quiet	boolean false
+d-i	debian-installer/splash	boolean false
+
 # Avoid that last message about the install being complete.
 # This will just finish and reboot
-d-i finish-install/reboot_in_progress                       note
+d-i finish-install/reboot_in_progress note
 d-i finish-install/keep-consoles                            boolean     false
 d-i cdrom-detect/eject                                      boolean     true
 d-i debian-installer/exit/halt                              boolean     false
