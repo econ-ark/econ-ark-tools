@@ -6,7 +6,8 @@ sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
 # sudo apt -y install tasksel         # A bit mysterious why these two aren't already there
-# sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
+sudo add-apt-repository universe				    
+sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
 
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
 [Desktop Entry]
@@ -28,12 +29,17 @@ sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.deskto
 
 # Get some key apps that should be available immediately
 sudo apt -y install hfsplus
-sudo add-apt-repository universe				    
+sudo apt -y install hfsutils
+sudo apt -y install hfsprogs
 sudo apt -y install tigervnc-scraping-server
 
 
 # Now finish configuring the partitions
 devBoot=`sudo fdisk -l | grep '^/dev/[a-z]*[0-9]' | grep -iv empty | awk '$2 == "*" { print $1 }'`
+mkfs.hfsplus -v reFindBoot "$devBoot"
+sudo mkdir /mnt/reFindBoot
+sudo mount -t hfsplus /dev/sda1 /mnt/reFindBoot
+echo 'Run reFind bootloader to boot on a Mac' > /mnt/reFindBoot/README.txt
 
 sudo apt -y install efibootmgr libefiboot1 libefivar1 sbsigntool 
 
