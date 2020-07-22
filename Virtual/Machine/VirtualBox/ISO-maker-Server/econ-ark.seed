@@ -85,14 +85,7 @@ d-i partman-auto/expert_recipe string \
       $bios_boot{ }                   \
       method{ biosgrub }              \
          .                            \
-4096 4096 8192 linux-swap	      \
-	method{ swap }	              \
-	use_filesystem{ }	      \
-	filesystem{ swap }	      \
-	mountpoint{  }   	      \
-	format{ }		      \
-	.			      \
-16384 50000 -1 ext4                   \
+16384 50000 -1 ext4                   \ # Eliminate swap partition
         $primary{ }                   \
         $bootable{ }                  \
         method{ format }              \
@@ -101,6 +94,13 @@ d-i partman-auto/expert_recipe string \
  	filesystem{ ext4 }            \
         mountpoint{ / }               \
  	.                             \
+# 4096 4096 8192 linux-swap	      \
+# 	method{ swap }	              \
+# 	use_filesystem{ }	      \
+# 	filesystem{ swap }	      \
+# 	mountpoint{  }   	      \
+# 	format{ }		      \
+# 	.			      \
 
 ## Recipe below copied exactly from atomic-amd64-efi, proving that GPT can't be directly partitioned on VirtualBox
 # d-i partman-auto/expert_recipe string \
