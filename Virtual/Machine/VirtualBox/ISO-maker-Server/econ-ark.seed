@@ -64,7 +64,7 @@ d-i partman-efi/non_efi_system boolean true
 d-i partman-auto/expert_recipe string \
     fitzcarraldoUEFIGPT3 ::           \
 512 512 512 fat32                     \
-        $bootable{ }                  \
+#        $bootable{ }                  \
         $primary{ }                   \
 	method{ efi }		      \
 	mountpoint{ /boot/efi }       \
@@ -76,6 +76,7 @@ d-i partman-auto/expert_recipe string \
          .                            \
 16384 30000 -1 ext4                   \
         $primary{ }                   \
+#        $bootable{ }                  \
         method{ format }              \
  	format{ }                     \
         use_filesystem{ }             \
