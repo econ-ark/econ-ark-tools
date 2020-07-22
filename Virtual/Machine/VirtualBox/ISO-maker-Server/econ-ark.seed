@@ -74,18 +74,18 @@ d-i partman-auto/expert_recipe string \
 	mountpoint{ /boot/efi }       \
 	format{ } 		      \
 	.			      \
-# 256 256 256 fat32                     \ # Added (empty) location for potential later HFSplus partition
-# #        $bootable{ }                 \
-#         $primary{ }                   \
-# #	method{ efi }		      \
-# 	method{  }		      \
-# 	mountpoint{ /mnt/HFSplus }    \ # Changed mountpoint 
-# 	format{ } 		      \
-# 	.			      \
-1 1 1 free                            \
-      $bios_boot{ }                   \
-      method{ biosgrub }              \
-         .                            \
+# # 256 256 256 fat32                     \ # Added (empty) location for potential later HFSplus partition
+# # #        $bootable{ }                 \
+# #         $primary{ }                   \
+# # #	method{ efi }		      \
+# # 	method{  }		      \
+# # 	mountpoint{ /mnt/HFSplus }    \ # Changed mountpoint 
+# # 	format{ } 		      \
+# # 	.			      \
+# 1 1 1 free                            \
+#       $bios_boot{ }                   \
+#       method{ biosgrub }              \
+#          .                            \
 16384 50000 -1 ext4                   \ # Eliminate swap partition
         $primary{ }                   \
         $bootable{ }                  \
@@ -329,10 +329,6 @@ d-i grub-installer/with_other_os boolean true
 # "unattended-upgrades" (install security updates automatically), or
 # "landscape" (manage system with Landscape).
 d-i pkgsel/update-policy select unattended-upgrades
-
-# Verbose output and no boot splash screen.
-d-i	debian-installer/quiet	boolean false
-d-i	debian-installer/splash	boolean false
 
 # Avoid that last message about the install being complete.
 # This will just finish and reboot
