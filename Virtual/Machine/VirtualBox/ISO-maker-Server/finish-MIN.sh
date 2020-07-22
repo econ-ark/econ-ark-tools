@@ -37,6 +37,7 @@ cd "$arkHome"
 git clone https://github.com/econ-ark/REMARK.git
 git clone https://github.com/econ-ark/HARK.git
 git clone https://github.com/econ-ark/DemARK.git
+git clone https://github.com/econ-ark/econ-ark-tools.git
 chmod a+rw -Rf /usr/local/share/data/GitHub/econ-ark
 
 echo 'This is your local, personal copy of HARK; it is also installed systemwide.  '    >  HARK-README.md

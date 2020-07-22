@@ -66,20 +66,19 @@ d-i partman-auto/expert_recipe string       \
             $bios_boot{ }                   \
             method{ biosgrub }              \
         .                                   \
-        512 512 512 fat32                   \ # ext2, ext3, ext4, fat32, linux-swap are valid; not sure what else
+        512 512 512 fat32                   \
             $primary{ }                     \
-#            $bootable{ }                   \
-            method{ format }                \ # alternatives: swap, raid, format
+#            $bootable{ }                    \
+            method{ format }                \
             format{ }                       \
-            use_filesystem{ }               \ # "make partman use a filesystem" (not sure what the alternative is; uninitialized)
-            filesystem{ fat32 }             \
-            mountpoint{ /media/reFindHFS }  \
-#           label{ reFindHFS }              \
+            use_filesystem{ }               \
+            filesystem{ fat32 }              \
+#            mountpoint{ /media/HFS }        \
         .                                   \
         256 256 256 fat32                   \
             $primary{ }                     \
 #            $iflabel{    }                 \
-#            $reusemethod{ }                \
+#            $reusemethod{ }                 \
             method{ efi }                   \
             format{ }                       \
         .                                   \
