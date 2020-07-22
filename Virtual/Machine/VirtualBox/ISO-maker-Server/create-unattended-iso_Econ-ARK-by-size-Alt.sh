@@ -253,7 +253,7 @@ spinner $!
 # set the language for the installation menu
 cd $iso_make/iso_new
 #doesn't work for 16.04
-echo en > $iso_make/iso_new/isolinux/lang
+# echo en > $iso_make/iso_new/isolinux/lang
 
 #16.04
 #taken from https://github.com/fries/prepare-ubuntu-unattended-install-iso/blob/master/make.sh
@@ -315,7 +315,8 @@ echo en > $iso_make/iso_new/isolinux/lang
 # Removed the line below:
 #### in-target sed -i 's/^.*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config ;\
 
-# Removed the line below; reinsert after start.sh
+# set late_command 
+
 late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
@@ -351,19 +352,13 @@ sed -i "s@{{timezone}}@$timezone@g" $iso_make/iso_new/preseed/$seed_file
 # calculate checksum for seed file
 seed_checksum=$(md5sum $iso_make/iso_new/preseed/$seed_file)
 
-# # add thxe autoinstall option to the menu
-# sed -i "/label install/ilabel autoinstall\n\
-#   menu label ^Autoinstall Econ-ARK Xubuntu Server\n\
-#   kernel /install/vmlinuz\n\
-#   append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed                                       -- ks=cdrom:/ks.cfg " $iso_make/iso_new/isolinux/txt.cfg
-  
-# add the install option to the menu
-sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US          ---\n	initrd	/install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg # 	linux /install/vmlinuz append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=critical preseed/file=/cdrom/preseed/econ-ark.seed       ---\n	initrd	/install/initrd.gz\n\
+## add the install option to the menu
+sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US          ---\n	initrd	/install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg 
 
 sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US       ---|g'     $iso_make/iso_new/isolinux/txt.cfg
 
 #sed -i -r 's/timeout=[0-9]+/timeout=1/g' $iso_make/iso_new/boot/grub/grub.cfg
-#sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back
+sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back
 
 echo " creating the remastered iso"
 cd $iso_make/iso_new
