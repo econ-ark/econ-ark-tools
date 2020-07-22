@@ -80,7 +80,7 @@ d-i partman-auto/expert_recipe string       \
             $primary{ }                     \
 #            $iflabel{    }                 \
 #            $reusemethod{ }                 \
-            method{ }                   \
+            method{ efi }                   \
             format{ }                       \
         .                                   \
         4096 4096 4096 swap                   \
