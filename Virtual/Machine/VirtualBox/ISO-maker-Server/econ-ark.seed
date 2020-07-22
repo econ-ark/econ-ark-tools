@@ -57,9 +57,13 @@ d-i apt-setup/security_path                                 string      /ubuntu
 # Choose desktop 
 tasksel tasksel/first                                       multiselect standard, xubuntu-desktop 
 tasksel tasksel/desktop                                     multiselect xfce # Start xfce
+d-i pkgsel/upgrade                                          select      safe-upgrade
+d-i pkgsel/update-policy                                    select      unattended-upgrades
+d-i pkgsel/updatedb                                         boolean     true
 
 # Partitioning is a nightmare if you want to make an image that will
 # boot on either UEFI or MBR/BIOS machines
+d-i partman-efi/non_efi_system boolean true
 # and VirtualBox is MBR/BIOS only (natively)
 #     (Nobody in the universe seems to understand how to use the EFI (for special OS only) option)
 # while almost every machine made in the last 15 years is UEFI/GPT
@@ -71,7 +75,6 @@ tasksel tasksel/desktop                                     multiselect xfce # S
 # 0. fitzcarraldoblog's 2017 (tried but could not get UEFI-GPT option 3 working)
 
 # ### EFI
-d-i partman-efi/non_efi_system boolean true
 
 partman-auto/expert_recipe string   \  
 atomic_fromDebian ::                \  # This started with a recipe in the Debian manual and evolved
@@ -79,6 +82,10 @@ atomic_fromDebian ::                \  # This started with a recipe in the Debia
 #       $bios_boot{ }                 \
 #       method{ biosgrub }            \
 #          .                          \
+1 1 1 free                          \
+      $bios_boot{ }                 \
+      method{ biosgrub }            \
+         .                          \
 512 512   512     fat32             \
 #        $bootable{ }               \
         $primary{ }                 \
@@ -97,6 +104,7 @@ atomic_fromDebian ::                \  # This started with a recipe in the Debia
 	. 		            \
 10000 10000 1000000 ext4	    \
 #        $lvmok{ }		    \
+        $lvmok{ }		    \
 	$primary{ }	            \
 	$bootable{ }	            \
 	method{ format }            \  
@@ -117,16 +125,16 @@ d-i grub-installer/with_other_os boolean true
 # Policy for applying updates. May be "none" (no automatic updates),
 # "unattended-upgrades" (install security updates automatically), or
 # "landscape" (manage system with Landscape).
-d-i pkgsel/upgrade                                          select      safe-upgrade
 d-i pkgsel/update-policy                                    select      unattended-upgrades
-d-i pkgsel/updatedb                                         boolean     true
 
 # Other useful stuff
 d-i pkgsel/include string openssh-server build-essential
 
 # This will just finish and reboot
+d-i finish-install/reboot_in_progress note
 d-i finish-install/keep-consoles                            boolean     false
 d-i cdrom-detect/eject                                      boolean     true
-d-i finish-install/reboot_in_progress note
+d-i debian-installer/exit/halt                              boolean     false
+d-i debian-installer/exit/poweroff                          boolean     false
 # d-i debian-installer/exit/halt                              boolean     false
 # d-i debian-installer/exit/poweroff                          boolean     false
