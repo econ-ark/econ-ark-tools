@@ -20,9 +20,8 @@ online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/
 startFile="start.sh"
 finishFile="finish.sh"
 seed_file="econ-ark.seed"
-ks_file=ks.cfg
+# ks_file=ks.cfg  # Kickstart will no longer work for 20.04 and after
 rclocal_file=rc.local
-late_command_file=late_command.sh
 
 # file names & paths
 iso_from="/media/sf_VirtualBox"       # where to find the original ISO
@@ -36,7 +35,7 @@ mkdir -p "$iso_make"
 mkdir -p "$iso_make/iso_org"
 mkdir -p "$iso_make/iso_new"
 mkdir -p "$iso_done/$size"
-rm -f "$iso_make/$ks_file" # Make sure new version is downloaded
+# rm -f "$iso_make/$ks_file" # Make sure new version is downloaded
 rm -f "$iso_make/$seed_file" # Make sure new version is downloaded
 rm -f "$iso_make/$startFile" # Make sure new version is downloaded
 rm -f "$iso_make/$rclocal_file" # Make sure new version is downloaded
@@ -116,10 +115,12 @@ prec=$(fgrep Precise $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"
 trus=$(fgrep Trusty $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
 xenn=$(fgrep Xenial $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
 bion=$(fgrep Bionic $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
+foca=$(fgrep Focal  $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
 prec_vers=$(fgrep Precise $iso_makehtml | head -1 | awk '{print $6}')
 trus_vers=$(fgrep Trusty $iso_makehtml | head -1 | awk '{print $6}')
 xenn_vers=$(fgrep Xenial $iso_makehtml | head -1 | awk '{print $6}')
 bion_vers=$(fgrep Bionic $iso_makehtml | head -1 | awk '{print $6}')
+foca_vers=$(fgrep Focal  $iso_makehtml | head -1 | awk '{print $6}')
 
 name='econ-ark'
 
@@ -131,6 +132,7 @@ while true; do
     echo "  [2] Ubuntu $trus LTS Server amd64 - Trusty Tahr"
     echo "  [3] Ubuntu $xenn LTS Server amd64 - Xenial Xerus"
     echo "  [4] Ubuntu $bion LTS Server amd64 - Bionic Beaver"
+    echo "  [4] Ubuntu $foca LTS Server amd64 - Focal Fossa"
     echo
     read -ep " please enter your preference: [1|2|3|4]: " -i "5" ubver
     case $ubver in
@@ -213,11 +215,11 @@ download "$online/$rclocal_file"
 echo -n " downloading $seed_file: "
 download "$online/$seed_file"
 
-# download kickstart file
-[[ -f $iso_make/$ks_file ]] && rm $iso_make/$ks_file
+# # download kickstart file
+# [[ -f $iso_make/$ks_file ]] && rm $iso_make/$ks_file
 
-echo -n " downloading $ks_file: "
-download "$online/$ks_file"
+# echo -n " downloading $ks_file: "
+# download "$online/$ks_file"
 
 # install required packages
 echo " installing required packages"
@@ -278,9 +280,9 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
 # copy the seed file to the iso
 cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
 
-# copy the kickstart file to the root
-cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
-chmod 744 $iso_make/iso_new/$ks_file
+# # copy the kickstart file to the root
+# cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
+# chmod 744 $iso_make/iso_new/$ks_file
 
 # include firstrun script
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file

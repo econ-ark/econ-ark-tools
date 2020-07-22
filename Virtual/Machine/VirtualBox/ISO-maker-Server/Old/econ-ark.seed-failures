@@ -1,0 +1,265 @@
+
+# This is a catalog of many partman recipies none of which ultimately worked
+
+# Try to replicate fitzcarraldoblog's 2017 UEFI-GPT option 3
+
+# d-i partman-auto/expert_recipe string \
+#     fitzcarraldoUEFIGPT3 ::           \
+# # 1 1 1 free                            \
+# #       $bios_boot{ }                   \
+# #       method{ biosgrub }              \
+# #          .                            \
+# 350 350 350 fat32                     \
+# #        $bootable{ }                  \
+#         $primary{ }                   \
+# #	method{ efi }		      \
+# 	method{  }		      \
+# 	mountpoint{ /boot/efi }       \
+# 	format{ } 		      \
+# 	.			      \      
+# # # 256 256 256 fat32                     \ # Added (empty) location for potential later HFSplus partition
+# # # #        $bootable{ }                 \
+# # #         $primary{ }                   \
+# # # #	method{ efi }		      \
+# # # 	method{  }		      \
+# # # 	mountpoint{ /mnt/HFSplus }    \ # Changed mountpoint 
+# # # 	format{ } 		      \
+# # # 	.			      \
+# # 1 1 1 free                            \
+# #       $bios_boot{ }                   \
+# #       method{ biosgrub }              \
+# #          .                            \
+# 16384 50000 -1 ext4                   \ # Eliminate swap partition
+#         $primary{ }                   \
+#         $bootable{ }                  \
+#         use_filesystem{ }             \
+#  	filesystem{ ext4 }            \
+#         mountpoint{ / }               \
+#         method{ format }              \
+#  	format{ }                     \
+#  	.                             \
+# 2048 2048 2048 linux-swap	      \
+# 	method{ swap }	              \
+# 	use_filesystem{ }	      \
+# 	filesystem{ swap }	      \
+# 	mountpoint{  }   	      \
+# 	format{ }		      \
+# 	.			      \
+
+## Recipe below copied exactly from atomic-amd64-efi, proving that GPT can't be directly partitioned on VirtualBox
+# d-i partman-auto/expert_recipe string \
+# partman-auto/text/atomic_scheme_cdc ::    \
+# 				      \
+# 538 538 1075 free                     \     
+# 	$iflabel{ gpt }		      \
+# 	$reusemethod{ }		      \
+# 	method{ efi }		      \
+# 	format{ } .		      \
+# 				      \
+# 128 512 256 ext2		      \
+# 	$defaultignore{ }	      \
+# 	method{ format }	      \
+# 	format{ }		      \
+# 	use_filesystem{ }	      \
+# 	filesystem{ ext2 }	      \
+# 	mountpoint{ /boot } .	      \
+# 				      \
+# 500 10000 -1 $default_filesystem      \
+# 	$lvmok{ }		      \
+# 	method{ format }	      \
+# 	format{ }		      \
+# 	use_filesystem{ }	      \
+# 	$default_filesystem{ }	      \
+# 	mountpoint{ / } .	      \
+# 				      \
+# 100% 512 200% linux-swap	      \
+# 	$lvmok{ }		      \
+# 	$reusemethod{ }		      \
+# 	method{ swap }		      \
+# 	format{ } .		      \
+
+# # https://www.petrikvandervelde.nl/posts/Exportable-Linux-virtual-hard-drives-for-hyper-v
+# d-i partman-auto/expert_recipe string       \
+#     grub-efi-boot-root ::                   \
+#         1 1 1 free                          \
+#             $bios_boot{ }                   \
+#             method{ biosgrub }              \
+#         .                                   \
+#         512 512 512 fat32                   \ # ext2, ext3, ext4, fat32, linux-swap are valid; not sure what else
+#             $primary{ }                     \
+# #            $bootable{ }                   \
+#             method{ format }                \ # alternatives: swap, raid, format
+#             format{ }                       \
+#             use_filesystem{ }               \ # "make partman use a filesystem" (not sure what the alternative is; uninitialized)
+#             filesystem{ fat32 }             \
+#             mountpoint{ /media/reFindHFS }  \
+# #           label{ reFindHFS }              \
+#         .                                   \
+#         256 256 256 fat32                   \
+#             $primary{ }                     \
+# #            $iflabel{    }                 \
+# #            $reusemethod{ }                \
+#             method{ efi }                   \
+#             format{ }                       \
+#         .                                   \
+#         512 512 512 ext4                    \
+#             $primary{ }                     \
+#             $bootable{ }                    \
+#             method{ format }                \
+#             format{ }                       \
+#             use_filesystem{ }               \
+#             filesystem{ ext4 }              \
+#             mountpoint{ /boot }             \
+#         .                                   \
+#         4096 4096 4096 linux-swap           \
+# #            $lvmok{ }                       \
+#             method{ swap }                  \
+#             format{ }                       \
+#         .                                   \
+#         10000 20000 -1 ext4                 \
+# #            $lvmok{ }                       \
+#             method{ format }                \
+#             format{ }                       \
+#             use_filesystem{ }               \
+#             filesystem{ ext4 }              \
+#             mountpoint{ / }                 \
+#         .
+
+d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
+
+# ### Simple GPT configuration w/o LVM
+# d-i partman/unmount_active boolean true
+# #d-i partman/unmount_active seen    false # if "seen" is "false" then the user can change the value
+# d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
+# #d-i partman-auto/disk seen   false
+# d-i partman/alignment string cylinder
+# # d-i partman/confirm_write_new_label boolean true
+# d-i partman-basicfilesystems/choose_label  string gpt
+# d-i partman-basicfilesystems/default_label string gpt
+# d-i partman-partitioning/choose_label      string gpt
+# d-i partman-partitioning/default_label     string gpt
+# d-i partman/choose_label                   string gpt
+# d-i partman/default_label                  string gpt
+
+# # ### EFI
+# d-i partman-efi/non_efi_system boolean true
+
+# # # GPT
+# # partman-partitionining partman-partitioning/choose_label select gpt
+# # Make sure EFI is put in the right place
+# d-i grub-installer/force-efi-extra-removable boolean true
+
+
+# #d-i partman-auto/method string regular
+# d-i partman-auto/choose_recipe select gpt-root-HFS-swap
+# d-i partman-auto/expert_recipe string         \
+#    gpt-root-HFS-swap ::                      \
+#       1 1 1 free                              \
+# #         $gptonly{ }                          \
+#          $primary{ }                          \
+#       	 $lvmignore{ }                        \
+#       	 $bios_boot{ }                        \
+#          method{ biosgrub }                   \
+#       	 .                                    \
+#       512 512 512 fat32                         \
+# #         $gptonly{ }                            \
+#          $primary{ }                            \
+#          $lvmignore{ }                          \
+#          method{ efi }                          \
+# 	 format{ }                              \
+# 	 .                                      \
+#       # 1024 1024 1024 fat32                    \
+#       #    $primary{ }                          \
+#       #    method{ format } format{ } .         \
+#       512 30000 -1 ext4                         \
+#          $primary{ }                            \
+# 	 $lvmignore{ }                          \
+#          method{ format }                       \
+# 	 format{ }                              \
+#          use_filesystem{ }                      \
+# 	 filesystem{ ext4 }                     \
+#          mountpoint{ / }                        \
+# 	 .                                      \
+# #         mountpoint{ /boot } .                 \
+#       # 1000 30000 -1 ext4                      \
+#       #    $primary{ }                          \
+#       #    method{ format } format{ }           \
+#       #    use_filesystem{ } filesystem{ ext4 } \
+#       #    mountpoint{ / } .                    \
+#      8192 8192 200% linux-swap                  \
+#         $primary{ }                             \
+#         $lvmignore{ }                           \
+#         method{ swap }                          \
+# 	format{ }                               \
+# 	.                                       \
+
+# d-i partman-partitioning/confirm_write_new_label boolean true
+# #d-i partman-partitioning/confirm_write_new_label seen    false
+# # d-i partman/choose_partition select finish
+# # d-i partman/choose_partition seen   false 
+# #d-i partman/confirm boolean true
+# #d-i partman/confirm seen    false
+# # d-i partman/confirm_nooverwrite boolean true
+# # d-i partman/confirm_nooverwrite seen    false
+
+# d-i partman/mount_style string uuid
+
+### Partitioning
+# !!!DANGER don't use this without knowing what you are doing!!!
+# comment out this block it you want the installer to ask about the 
+# partitioning, which is much safer!
+
+# The following will partition disk /dev/sda with an EFI partition, a root partition
+# and a swap file. AND WONT ASK TO CONFIRM ANYTHING i.e. it will overwrite existing partitions
+# d-i preseed/early_command string umount /media
+# d-i partman/unmount_active boolean true
+# d-i partman-auto/disk string /dev/sda
+# d-i partman-auto/method string regular
+# d-i partman-auto/choose_recipe select atomic
+# This makes partman automatically partition without confirmation, provided
+# d-i partman-partitioning/confirm_write_new_label boolean true
+# d-i partman/choose_partition select finish
+# d-i partman/confirm boolean true
+# d-i partman/confirm_nooverwrite boolean true
+
+# ### Do NOT install on the USB stick(!)
+# #
+# # The Debian installer will install on the first disk it finds which can
+# # sometimes be the USB stick itself. Work around this by rolling our own auto
+# # detect logic which disallows installing on USB devices.
+# d-i partman/early_command string \
+# USBDEV_LIST="$(mktemp)"; \
+# list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
+# BOOTDEV="$(list-devices disk | grep -vf "$USBDEV_LIST" | head -n 1)"; \
+# debconf-set partman-auto/disk "$BOOTDEV"; \
+# debconf-set grub-installer/bootdev "$BOOTDEV"
+
+# ### Partitioning
+
+# d-i preseed/early_command string umount /media || true
+# #d-i partman-auto/disk string /dev/sdb
+# d-i partman/unmount_active boolean true
+# #d-i partman-auto/method string lvm
+# d-i partman-auto-lvm/guided_size string max
+# d-i partman-lvm/device_remove_lvm boolean true    # Confirm removal of previous LVM
+# d-i partman-lvm/confirm boolean true
+# d-i partman-lvm/confirm_nooverwrite boolean true  # Ask them to confirm the overwriting of disks
+# d-i partman-auto-lvm/new_vg_name string main
+# d-i partman-md/device_remove_md boolean true
+# d-i partman-md/confirm boolean true
+# d-i partman-partitioning/confirm_write_new_label boolean true
+# d-i partman/choose_partition select finish
+# d-i partman/confirm boolean true
+# d-i partman/confirm_nooverwrite boolean true  # Ask them to confirm one more time 
+# d-i partman-basicmethods/method_only boolean false
+
+# ### GPT
+# d-i partman-basicfilesystems/choose_label string gpt
+# d-i partman-basicfilesystems/default_label string gpt
+# d-i partman-partitioning/choose_label string gpt
+# d-i partman-partitioning/default_label string gpt
+# d-i partman/choose_label string gpt
+# d-i partman/default_label string gpt
+
+# ### EFI
+# d-i partman-efi/non_efi_system boolean true

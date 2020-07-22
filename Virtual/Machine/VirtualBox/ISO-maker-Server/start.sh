@@ -120,6 +120,11 @@ echo 'export PS1="\u@\h:\W\[\033[32m\]\[\033[33m\]\$(parse_git_branch)\[\033[00m
 chmod a+x "$bashadd"
 chown $myuser:$myuser "$bashadd"
 
+# Security (needed for emacs)
+sudo apt -y install ca-certificates
+
+# Play nice with Macs
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
 
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 cd    /home/$myuser
