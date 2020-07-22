@@ -1,4 +1,5 @@
-# 20200722-1200h - only change is to add 256 MB FAT32 partition
+# 20200722-1200h - only change is to hide 256 MB FAT32 partition
+# 20200722-1200h - only change is to add 256 MB FAT32 partition - this failed, until manually set the root partition to be mounted at / and efs4 filetype.  These are both in the recipe.
 # 20200722-1150h - this worked
 # regional setting
 d-i debian-installer/splash                                 boolean     false
@@ -73,14 +74,14 @@ d-i partman-auto/expert_recipe string \
 	mountpoint{ /boot/efi }       \
 	format{ } 		      \
 	.			      \
-256 256 256 fat32                     \ # Added (empty) location for potential later HFSplus partition
-#        $bootable{ }                 \
-        $primary{ }                   \
-#	method{ efi }		      \
-	method{  }		      \
-	mountpoint{ /mnt/HFSplus }    \ # Changed mountpoint 
-	format{ } 		      \
-	.			      \
+# 256 256 256 fat32                     \ # Added (empty) location for potential later HFSplus partition
+# #        $bootable{ }                 \
+#         $primary{ }                   \
+# #	method{ efi }		      \
+# 	method{  }		      \
+# 	mountpoint{ /mnt/HFSplus }    \ # Changed mountpoint 
+# 	format{ } 		      \
+# 	.			      \
 1 1 1 free                            \
       $bios_boot{ }                   \
       method{ biosgrub }              \
