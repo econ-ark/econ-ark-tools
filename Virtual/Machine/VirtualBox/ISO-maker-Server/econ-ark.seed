@@ -66,6 +66,10 @@ d-i partman-efi/non_efi_system boolean true
 
 partman-auto/expert_recipe string   \  
 atomic_fromDebian ::                \  
+1 1 1 free                          \
+      $bios_boot{ }                 \
+      method{ biosgrub }            \
+         .                          \
 512 512   512     fat32             \
 #        $bootable{ }               \
         $primary{ }                 \
@@ -82,7 +86,7 @@ atomic_fromDebian ::                \
 	mountpoint{ /boot/hfs }     \
 	format{ } 		    \
 	. 		            \
-500 10000 1000000 ext4	            \
+10000 10000 1000000 ext4	    \
 	$primary{ }	            \
 	$bootable{ }	            \
 	method{ format }            \  
