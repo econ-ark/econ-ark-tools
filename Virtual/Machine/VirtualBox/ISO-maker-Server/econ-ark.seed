@@ -74,6 +74,14 @@ d-i partman-auto/expert_recipe string \
 	mountpoint{ /boot/efi }       \
 	format{ } 		      \
 	.			      \
+256 256 256 fat32                     \ # Added (empty) location for potential later HFSplus partition
+#        $bootable{ }                 \
+        $primary{ }                   \
+#	method{ efi }		      \
+	method{  }		      \
+	mountpoint{ /mnt/HFSplus }    \ # Changed mountpoint 
+	format{ } 		      \
+	.			      \
 1 1 1 free                            \
       $bios_boot{ }                   \
       method{ biosgrub }              \
@@ -86,8 +94,9 @@ d-i partman-auto/expert_recipe string \
 	format{ }		      \
 	.			      \
 16384 50000 -1 ext4                   \
-        $primary{ }                   \
+#        $primary{ }                  \ # other examles are not primary
         $bootable{ }                  \
+ 	$lvmok{ }		      \ # allow LVM
         method{ format }              \
  	format{ }                     \
         use_filesystem{ }             \
