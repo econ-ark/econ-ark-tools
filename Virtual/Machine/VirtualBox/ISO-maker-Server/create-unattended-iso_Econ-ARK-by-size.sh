@@ -196,16 +196,12 @@ if [[ ! -f $iso_from/$download_file ]]; then
 fi
 
 cd $iso_make
-echo download rc.local file via:
-echo wget  $online/$rclocal_file
+# download rc.local file
 [[ -f $iso_make/$rclocal_file ]] && rm $iso_make/$rclocal_file
 
 echo -n " downloading $rclocal_file: "
-# download "$online/$rclocal_file"
-# ls -las
+download "$online/$rclocal_file"
 
-# echo is it thereQ
-# read answer 
 # download econ-ark seed file
 [[ -f $iso_make/$seed_file ]] && rm $iso_make/$seed_file 
 
@@ -370,8 +366,6 @@ cd $iso_make/iso_new
 
 echo "timeout 10" >> isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
 
-#echo 'Interrupting -- check whether ks.cfg is in iso_new'
-#read answer 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 cmd="(mkisofs -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
 echo "$cmd"
@@ -388,7 +382,7 @@ fi
 cmd="[[ -e $iso_done/$size/$new_iso_name ]] && rm $iso_done/$size/$new_iso_name"
 echo "$cmd"
 eval "$cmd"
-cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name"
+cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name ; cp $iso_done/$size/$new_iso_name $iso_done/$size/MacVersion-$new_iso_name ; ./MattGadient/isomacprog $iso_done/$size/MacVersion-$new_iso_name"
 echo "$cmd"
 eval "$cmd"
 
