@@ -1,140 +1,65 @@
-# 20200722 - about 15:00, finally a version that works
-
-# Regional setting
-d-i debian-installer/splash                                 boolean     false
-
-### Automatic Installation
-d-i auto-install/enable boolean true
-d-i debconf/priority select critical  # only insist that "critical" questions be answered
-
-### Localization
-d-i debian-installer/locale string en_US.UTF-8
-d-i localechooser/supported-locales multiselect en_US.UTF-8
-
-# Keyboard
-d-i console-setup/ask_detect boolean false
-d-i keyboard-configuration/xkb-keymap select us
-
-### Network config
-d-i netcfg/choose_interface select auto
-d-i netcfg/get_hostname                                     string      {{hostname}}
-d-i hw-detect/load_firmware boolean true
-
-# mirror settings for downloads
-d-i mirror/country string manual
-d-i mirror/http/hostname string archive.ubuntu.com
-d-i mirror/http/directory string /ubuntu
-d-i mirror/http/proxy string
-
-# clock and timezone settings
-d-i time/zone                                               string      {{timezone}}
-d-i clock-setup/utc                                         boolean     false
-d-i clock-setup/ntp                                         boolean     true
-
 # user account setup
 # DO NOT uncomment root-password lines: That disables sudo for main user
-#d-i passwd/root-password                                    password    {{pwhash}}
-#d-i passwd/root-password-again                              password    {{pwhash}}
+#d-i passwd/root-password                                    password    $6$DMYX/1IYfP4$vmtEjufKxiAylis0eoILV6.OvmMcxjRJ13dGuI3hi/Rf.gf83bH3w069U6X/KfHDJwh85.X3C4hTHPrM/nlHi1
+#d-i passwd/root-password-again                              password    $6$DMYX/1IYfP4$vmtEjufKxiAylis0eoILV6.OvmMcxjRJ13dGuI3hi/Rf.gf83bH3w069U6X/KfHDJwh85.X3C4hTHPrM/nlHi1
 #d-i passwd/root-login                                       boolean     true
-
 d-i passwd/make-user                                        boolean     true
-d-i passwd/user-fullname                                    string      {{username}}
-d-i passwd/username                                         string      {{username}}
-d-i passwd/user-password-crypted                            password    {{pwhash}}
+d-i passwd/user-fullname                                    string      econ-ark
+d-i passwd/username                                         string      econ-ark
+d-i passwd/user-password-crypted                            password    $6$DMYX/1IYfP4$vmtEjufKxiAylis0eoILV6.OvmMcxjRJ13dGuI3hi/Rf.gf83bH3w069U6X/KfHDJwh85.X3C4hTHPrM/nlHi1
 d-i passwd/user-uid                                         string
 d-i user-setup/allow-password-weak                          boolean     false
-d-i passwd/user-default-groups                              string      adm cdrom dialout lpadmin plugdev sambashare # will add vboxsf later
+d-i passwd/user-default-groups                              string      adm cdrom dialout lpadmin plugdev sambashare
 d-i user-setup/encrypt-home boolean false
 
-# configure apt
-d-i apt-setup/restricted                                    boolean     true
-d-i apt-setup/universe                                      boolean     true
-d-i apt-setup/backports                                     boolean     true
-d-i apt-setup/services-select                               multiselect security
-d-i apt-setup/security_host                                 string      security.ubuntu.com
-d-i apt-setup/security_path                                 string      /ubuntu
 
-# Choose desktop 
-tasksel tasksel/first                                       multiselect standard, xubuntu-desktop 
-tasksel tasksel/desktop                                     multiselect xfce # Start xfce
-d-i pkgsel/upgrade                                          select      safe-upgrade
-d-i pkgsel/update-policy                                    select      unattended-upgrades
-d-i pkgsel/updatedb                                         boolean     true
+# https://askubuntu.com/questions/1216602/adventures-with-automating-ubuntu-install-virtualbox
 
-# Partitioning is a nightmare if you want to make an image that will
-# boot on either UEFI or MBR/BIOS machines
-d-i partman-efi/non_efi_system boolean true
-# and VirtualBox is MBR/BIOS only (natively)
-#     (Nobody in the universe seems to understand how to use the EFI (for special OS only) option)
-# while almost every machine made in the last 15 years is UEFI/GPT
-# Conflicting info about whether it is possible to have both MBR and GPT at the same time
-# but unable to find any preseed files that accomplish it
+    enter cd-i partman-auto-lvm/new_vg_name string ubuntu-vg
+d-i partman-auto/expert_recipe string root-disk ::  \
+    1 1 1 free                                      \
+	$iflabel{ gpt }				\
+	$reusemethod{ }				\
+	method{ biosgrub }                      \
+	.			                \
+    256 256 256 hfs                           \
+        $primary{ }                             \
+	$bootable{ }                            \
+        label{ hfsplus }                       \
+        method{ hfs } format{ }               \
+        use_filesystem{ } filesystem{ fat32 }   \
+        mountpoint{ /boot/hfsplus }             \
+        .                                       \
+    512 512 512 fat32                           \
+        $primary{ }                             \
+        $bootable{ }                            \
+        method{ efi } format{ }              \
+        use_filesystem{ } filesystem{ fat32 }   \
+        mountpoint{ /boot/efi }                 \
+        .                                       \
+    32768 32768 -1 ext4                      \
+        $primary{ } $bootable{ }                \
+        method{ format } format{ }              \
+        use_filesystem{ } filesystem{ ext4 }    \
+        mountpoint{ / }                         \
+        .                                       \
+#     10240 32000 -1 ext4                         \
+# #        $lvmok{ }                               \
+# 	$bootable{ }                            \
+#         in_vg { ubuntu-vg } lv_name{ lv_root }  \
+#         method{ format } format{ }              \
+#         use_filesystem{ } filesystem{ ext4 }    \
+#         mountpoint{ / }                         \
+#         .                                       \
+    4096 8192 16384 linux-swap                   \
+        $lvmok{ }                               \
+        in_vg { ubuntu-vg } lv_name{ swap_1 }    \
+        method{ swap } format{ }                \
+       .
 
-# Good resources were:
-# 0. Debian instructions ("Buster 10.4 was released on May 9, 2020")
-# 0. fitzcarraldoblog's 2017 (tried but could not get UEFI-GPT option 3 working)
-
-# ### EFI
-
-partman-auto/expert_recipe string   \  
-atomic_fromDebian ::                \  # This started with a recipe in the Debian manual and evolved
-# 1 1 1 free                          \
-#       $bios_boot{ }                 \
-#       method{ biosgrub }            \
-#          .                          \
-1 1 1 free                          \
-      $bios_boot{ }                 \
-      method{ biosgrub }            \
-         .                          \
-512 512   512     fat32             \
-#        $bootable{ }               \
-        $primary{ }                 \
-#	method{ efi }		    \
-	method{  }		    \
-	mountpoint{ /boot/efi }     \
-	format{ } 		    \
-	. 		            \
-512 512   512     fat32             \
-#       $bootable{ }                \
-#       $primary{ }                 \
-#	method{ efi }		    \
-	method{ keep }		    \
-	mountpoint{ /boot/hfs }     \
-	format{ } 		    \
-	. 		            \
-10000 10000 1000000 ext4	    \
-#        $lvmok{ }		    \
-        $lvmok{ }		    \
-	$primary{ }	            \
-	$bootable{ }	            \
-	method{ format }            \  
-	format{ }	            \ 
-	use_filesystem{ }           \  
-	filesystem{ ext4 }          \	   
-	mountpoint{ / } .           \	   
-64 512 100% linux-swap	            \	   
-	method{ swap }	            \    
-	format{ } .               
-
-# See Old/econ-ark.seed-failures for many failed examples
-
-# ### Grub
-d-i grub-installer/only_debian boolean true
-d-i grub-installer/with_other_os boolean true
-
-# Policy for applying updates. May be "none" (no automatic updates),
-# "unattended-upgrades" (install security updates automatically), or
-# "landscape" (manage system with Landscape).
-d-i pkgsel/update-policy                                    select      unattended-upgrades
-
-# Other useful stuff
-d-i pkgsel/include string openssh-server build-essential
-
-# This will just finish and reboot
+# Finished - reboot
 d-i finish-install/reboot_in_progress note
-d-i finish-install/keep-consoles                            boolean     false
+d-i finish-install/keep-consoles                            boolean     true
 d-i cdrom-detect/eject                                      boolean     true
-d-i debian-installer/exit/halt                              boolean     false
-d-i debian-installer/exit/poweroff                          boolean     false
-# d-i debian-installer/exit/halt                              boolean     false
-# d-i debian-installer/exit/poweroff                          boolean     false
+d-i debian-installer/exit/halt                              boolean     false  # Do not halt -- because want to reboot
+d-i debian-installer/exit/poweroff                          boolean     false  # Do not poweroff -- just reboot
