@@ -104,36 +104,36 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         method{ swap } format{ }                \
        .
 
-# https://askubuntu.com/questions/1216602/adventures-with-automating-ubuntu-install-virtualbox
+# # https://askubuntu.com/questions/1216602/adventures-with-automating-ubuntu-install-virtualbox
 
-    enter cd-i partman-auto-lvm/new_vg_name string ubuntu-vg
-d-i partman-auto/expert_recipe string root-disk ::  \
-    1 1 1 free                                      \
-	$iflabel{ gpt }				\
-	$reusemethod{ }				\
-	method{ biosgrub }                      \
-	.			                \
-    256 256 256 fat32                           \
-        $primary{ }                             \
-	$bootable{ }                            \
-        label{ hfs-for }                        \
-        method{ fat32 } format{ }               \
-        use_filesystem{ } filesystem{ fat32 }   \
-#        mountpoint{ /boot/hfsplus }             \
-        .                                       \
-    # 512 512 512 fat16                           \
-    #     $primary{ }                             \
-    #     $bootable{ }                            \
-    #     method{ efi } format{ }              \
-    #     use_filesystem{ } filesystem{ fat16 }   \
-    #     mountpoint{ /boot/efi }                 \
-    #     .                                       \
-    32768 32768 -1 ext4                      \
-        $primary{ } $bootable{ }                \
-        method{ format } format{ }              \
-        use_filesystem{ } filesystem{ ext4 }    \
-        mountpoint{ / }                         \
-        .                                       
+#     enter cd-i partman-auto-lvm/new_vg_name string ubuntu-vg
+# d-i partman-auto/expert_recipe string root-disk ::  \
+#     1 1 1 free                                      \
+# 	$iflabel{ gpt }				\
+# 	$reusemethod{ }				\
+# 	method{ biosgrub }                      \
+# 	.			                \
+#     256 256 256 fat32                           \
+#         $primary{ }                             \
+# 	$bootable{ }                            \
+#         label{ hfs-for }                        \
+#         method{ fat32 } format{ }               \
+#         use_filesystem{ } filesystem{ fat32 }   \
+# #        mountpoint{ /boot/hfsplus }             \
+#         .                                       \
+#     # 512 512 512 fat16                           \
+#     #     $primary{ }                             \
+#     #     $bootable{ }                            \
+#     #     method{ efi } format{ }              \
+#     #     use_filesystem{ } filesystem{ fat16 }   \
+#     #     mountpoint{ /boot/efi }                 \
+#     #     .                                       \
+#     32768 32768 -1 ext4                      \
+#         $primary{ } $bootable{ }                \
+#         method{ format } format{ }              \
+#         use_filesystem{ } filesystem{ ext4 }    \
+#         mountpoint{ / }                         \
+#         .                                       
 
 # d-i partman-auto/choose_recipe select atomic # Worked
 
