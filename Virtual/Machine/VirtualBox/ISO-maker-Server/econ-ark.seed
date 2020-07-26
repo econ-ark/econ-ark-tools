@@ -1,3 +1,4 @@
+# 20200726-1857h - sd[x]1 as /boot/hfsplus
 # 20200726-1548h - sda[2] as efi; ummount active true
 # 20200726-1433h - format /boot/efi as ESP if gpt 
 # 20200722-1200h - only change is to hide 256 MB FAT32 partition
@@ -78,7 +79,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         label{ hfsplus }                       \
         method{ keep } format{ }               \
         use_filesystem{ } filesystem{ fat32 }   \
-        mountpoint{ /boot/efi }                 \
+        mountpoint{ /boot/hfsplus }             \
         .                                       \
     512 512 512 fat16                           \
         $primary{ }                             \
