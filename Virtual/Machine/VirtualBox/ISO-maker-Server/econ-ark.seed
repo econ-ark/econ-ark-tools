@@ -73,28 +73,29 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 	$reusemethod{ }				\
 	method{ biosgrub }                      \
 	.			                \
-    256 256 256 fat32                           \
+    2048 2048 2048 hfs                           \
         $primary{ }                             \
 	$bootable{ }                            \
         label{ hfsplus }                       \
         method{ keep } format{ }               \
-        use_filesystem{ } filesystem{ fat32 }   \
+        use_filesystem{ } filesystem{ hfs }   \
         mountpoint{ /boot/hfsplus }             \
         .                                       \
     512 512 512 fat16                           \
         $primary{ }                             \
         $bootable{ }                            \
+        label{ ESP }                            \
         method{ efi } format{ }                 \
         use_filesystem{ } filesystem{ fat16 }   \
-        mountpoint{ /boot/efi }                 \
+        mountpoint{ /efi/boot }                 \
         .                                       \
     32768 32768 -1 ext4                      \
         $primary{ } $bootable{ }                \
+	label{ root }                           \
         method{ format } format{ }              \
         use_filesystem{ } filesystem{ ext4 }    \
         mountpoint{ / }                         \
-        .
-# 	\
+        .  	\
 # #     10240 32000 -1 ext4                         \
 # # #        $lvmok{ }                               \
 # # 	$bootable{ }                            \
@@ -103,11 +104,11 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 # #         use_filesystem{ } filesystem{ ext4 }    \
 # #         mountpoint{ / }                         \
 # #         .                                       \
-#     1024 1024 100% linux-swap                   \
-#         $lvmok{ }                               \
-#         in_vg { ubuntu-vg } lv_name{ swap_1 }    \
-#         method{ swap } format{ }                \
-#        .
+    1024 1024 100% linux-swap                   \
+        $lvmok{ }                               \
+        in_vg { ubuntu-vg } lv_name{ swap_1 }    \
+        method{ swap } format{ }                \
+       .
 
 d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
