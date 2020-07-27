@@ -63,7 +63,7 @@ cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirem
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
-[[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+[[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 
 sudo apt -y install build-essential module-assistant parted gparted
 
