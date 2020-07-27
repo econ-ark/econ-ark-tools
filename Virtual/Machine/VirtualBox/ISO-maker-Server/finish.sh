@@ -62,11 +62,19 @@ cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirem
 
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 
-sudo apt -y install build-essential module-assistant virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 gparted
+# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
+[[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+
+sudo apt -y install build-essential module-assistant parted gparted
+
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
 chown econ-ark:econ-ark /home/econ-ark/GitHub
 chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
-sudo adduser econ-ark vboxsf
+
+sudo apt -y install hfsplus hfsutils hfsprogs
+
+# Prepare partition for reFind boot in MacOS
+[[ hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep hfsplus | grep "1.9G" | awk '{print $1}')" ]] && [[ "$hfsplusLabels" != "" ]] && cmd="mkfs.hfsplus -v 'HFS+' $hfsplusLabels" && echo "$cmd" && sudo mkfs.hfsplus -v 'HFS+' "$hfsplusLabels" && sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS && sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/refind-install-MacOS.sh /tmp/refind-HFS && sudo chmod a+x /tmp/refind-HFS/*.sh 
 
 echo Finished automatic installations.  Rebooting.
 reboot 

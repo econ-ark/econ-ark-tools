@@ -73,26 +73,8 @@ chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be o
 
 sudo apt -y install hfsplus hfsutils hfsprogs
 
-hfsplusLabels="$(sudo lsblk -o LABEL) | grep hfsplus" && [[ "$hfsplusLabels" != "" ]] && partn="$(sudo lsblk --list --o NAME,LABEL | grep hfsplus | awk '{print $1}')" && cmd=$"(mkfs.hfs -v 'HFS+' /dev/$partn" && echo "$cmd"
-
-[[ "$hfsplusLabels" != "" ]] && sudo mkdir "/tmp/$partn" ; sudo mount -t hfsplus "/dev/$partn" "/tmp/$partn" ; cd "$/tmp/$partn" 
-
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/VirtualBox/ISO-maker-Server"
-
-download()
-{
-    local url=$1
-    echo -n "    "
-    wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
-        sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
-    echo -ne "\b\b\b\b"
-    echo " DONE"
-}
-
-download "$online/refind-install-MacOS.sh"
-
-chmod a+x *.sh
-
+# Prepare partition for reFind boot in MacOS
+[[ hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep hfsplus | grep "1.9G" | awk '{print $1}')" ]] && [[ "$hfsplusLabels" != "" ]] && cmd="mkfs.hfsplus -v 'HFS+' $hfsplusLabels" && echo "$cmd" && sudo mkfs.hfsplus -v 'HFS+' "$hfsplusLabels" && sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS && sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/refind-install-MacOS.sh /tmp/refind-HFS && sudo chmod a+x /tmp/refind-HFS/*.sh 
 
 echo Finished automatic installations.  Rebooting.
 reboot 
