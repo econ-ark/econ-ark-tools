@@ -62,11 +62,37 @@ cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirem
 
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 
-sudo apt -y install build-essential module-assistant virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 gparted
+# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
+[[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+
+sudo apt -y install build-essential module-assistant parted gparted
+
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
 chown econ-ark:econ-ark /home/econ-ark/GitHub
 chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
-sudo adduser econ-ark vboxsf
+
+sudo apt -y install hfsplus hfsutils hfsprogs
+
+hfsplusLabels="$(sudo lsblk -o LABEL) | grep hfsplus" && [[ "$hfsplusLabels" != "" ]] && partn="$(sudo lsblk --list --o NAME,LABEL | grep hfsplus | awk '{print $1}')" && cmd=$"(mkfs.hfs -v 'HFS+' /dev/$partn" && echo "$cmd"
+
+[[ "$hfsplusLabels" != "" ]] && sudo mkdir "/tmp/$partn" ; sudo mount -t hfsplus "/dev/$partn" "/tmp/$partn" ; cd "$/tmp/$partn" 
+
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/VirtualBox/ISO-maker-Server"
+
+download()
+{
+    local url=$1
+    echo -n "    "
+    wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
+        sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
+    echo -ne "\b\b\b\b"
+    echo " DONE"
+}
+
+download "$online/refind-install-MacOS.sh"
+
+chmod a+x *.sh
+
 
 echo Finished automatic installations.  Rebooting.
 reboot 
