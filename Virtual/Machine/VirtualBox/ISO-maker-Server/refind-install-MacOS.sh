@@ -2,13 +2,13 @@
 
 cd /Volumes/refind-HFS
 
-[[ ! -e refind-bin-0.12.0.zip ]] && wget https://sourceforge.net/projects/refind/files/latest/download/0.12.0/refind-bin-0.12.0.zip && unzip refind-bin-0.12.0.zip
+[[ ! -e refind-bin-0.12.0.zip ]] && curl -L https://sourceforge.net/projects/refind/files/latest/download/0.12.0/refind-bin-0.12.0.zip --output refind.zip && unzip refind.zip
 
 cd refind-bin-0.12.0
 
-# Figure out what to replace /dev/disk0s2 with 
-# sudo ./refind-install --ownhfs /dev/disk0s2
+locn="$(diskutil list | grep refind-HFS | awk '{print $NF}')"
 
-# sudo bless --setBoot --folder /Volumes/HFS+/System/Library/CoreServices --file /Volumes/HFS+/System/Library/CoreServices/refind_x64.efi --label "reFind-HFS" --shortform
+sudo ./refind-install --ownhfs "/dev/$locn"
 
-# sudo reboot
+sudo bless --setBoot --folder /Volumes/refind-HFS/System/Library/CoreServices --file /Volumes/refind-HFS/System/Library/CoreServices/refind_x64.efi --label "reFind-HFS" --shortform
+
