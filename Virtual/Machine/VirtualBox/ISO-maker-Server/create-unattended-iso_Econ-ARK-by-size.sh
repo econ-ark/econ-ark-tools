@@ -419,13 +419,6 @@ echo ''
 echo "$cmd"
 
 # uncomment the exit to perform cleanup of drive after run
-exit
-
-umount $iso_make/iso_org
-rm -rf $iso_make/iso_new
-rm -rf $iso_make/iso_org
-rm -rf $iso_makehtml
-
 # unset vars
 unset username
 unset password
@@ -440,3 +433,11 @@ unset iso_make
 unset iso_done
 unset tmp
 unset seed_file
+
+exit
+
+umount $iso_make/iso_org
+rm -rf $iso_make/iso_new
+rm -rf $iso_make/iso_org
+rm -rf $iso_makehtml
+
