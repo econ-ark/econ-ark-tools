@@ -38,7 +38,7 @@ d-i partman-auto/expert_recipe string gpt-or-bios ::\
 	method{ biosgrub }                          \
 	.			                    \
     2048 2048 2048 hfs                              \
-	$iflabel{ gpt }				    \
+#	$iflabel{ gpt }				    \
         $primary{ }                                 \
 	$bootable{ }                                \
         label{ hfsplus }                            \
