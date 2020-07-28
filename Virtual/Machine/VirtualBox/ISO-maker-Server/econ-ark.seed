@@ -66,7 +66,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         method{ swap } format{ }                    \
        .
 
-# Tee up a large set of potential devices that might be the target
+# Tee up the whole set of potential devices that might be used 
 d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
 # ### Grub
@@ -110,8 +110,8 @@ d-i apt-setup/backports                                     boolean     true
 d-i apt-setup/services-select                               multiselect security
 d-i apt-setup/security_host                                 string      security.ubuntu.com
 d-i apt-setup/security_path                                 string      /ubuntu
-tasksel tasksel/first                                       multiselect standard, xubuntu-desktop 
-tasksel tasksel/desktop                                     multiselect xfce 
+tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard, Basic Ubuntu server #xubuntu-desktop 
+tasksel tasksel/desktop                                     multiselect xfce # Start xfce
 d-i pkgsel/upgrade                                          select      safe-upgrade
 d-i pkgsel/update-policy                                    select      unattended-upgrades
 d-i pkgsel/updatedb                                         boolean     true
@@ -121,7 +121,8 @@ d-i pkgsel/updatedb                                         boolean     true
 # "landscape" (manage system with Landscape).
 d-i pkgsel/update-policy select unattended-upgrades
 
-# This will just finish.  Default is to reboot unless halt or poweroff is chosen
+# Avoid that last message about the install being complete.
+# This will just finish and reboot
 d-i finish-install/reboot_in_progress note
 d-i finish-install/keep-consoles                            boolean     true
 d-i cdrom-detect/eject                                      boolean     true
