@@ -1,3 +1,4 @@
+# 20200728-1229h - cleanup some comments
 # 20200728-1040h - move partitioning as early as possible
 # 20200726-1857h - sd[x]1 as /boot/hfsplus
 # 20200726-1548h - sda[2] as efi; ummount active true
@@ -26,9 +27,11 @@ d-i preseed/early_command string umount /media
 # Counterintuitively, the setting below makes it an efi system
 d-i partman-efi/non_efi_system boolean true
 
+# Unmount active partitions, if any
 d-i partman/unmount_active boolean true
-enter cd-i partman-auto-lvm/new_vg_name string ubuntu-vg
-d-i partman-auto/expert_recipe string root-disk ::  \
+
+d-i partman-auto-lvm/new_vg_name string ubuntu-vg
+d-i partman-auto/expert_recipe string gpt-or-bios ::\
     1 1 1 free                                      \
 	$iflabel{ gpt }				    \
 	$reusemethod{ }				    \
@@ -63,8 +66,8 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         method{ swap } format{ }                    \
        .
 
-# Tee up the whole set of potential devices that might be used 
-d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
+# Tee up a large set of potential devices that might be the target
+d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
 
 # ### Grub
 d-i grub-installer/only_debian boolean true
@@ -107,8 +110,8 @@ d-i apt-setup/backports                                     boolean     true
 d-i apt-setup/services-select                               multiselect security
 d-i apt-setup/security_host                                 string      security.ubuntu.com
 d-i apt-setup/security_path                                 string      /ubuntu
-tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard, Basic Ubuntu server #xubuntu-desktop 
-tasksel tasksel/desktop                                     multiselect xfce # Start xfce
+tasksel tasksel/first                                       multiselect standard, xubuntu-desktop 
+tasksel tasksel/desktop                                     multiselect xfce 
 d-i pkgsel/upgrade                                          select      safe-upgrade
 d-i pkgsel/update-policy                                    select      unattended-upgrades
 d-i pkgsel/updatedb                                         boolean     true
@@ -118,8 +121,7 @@ d-i pkgsel/updatedb                                         boolean     true
 # "landscape" (manage system with Landscape).
 d-i pkgsel/update-policy select unattended-upgrades
 
-# Avoid that last message about the install being complete.
-# This will just finish and reboot
+# This will just finish.  Default is to reboot unless halt or poweroff is chosen
 d-i finish-install/reboot_in_progress note
 d-i finish-install/keep-consoles                            boolean     false
 d-i cdrom-detect/eject                                      boolean     true
