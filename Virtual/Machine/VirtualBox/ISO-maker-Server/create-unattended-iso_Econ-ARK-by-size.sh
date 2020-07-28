@@ -19,7 +19,7 @@ git_branch="$(git symbolic-ref HEAD 2>/dev/null)" ; git_branch=${git_branch##ref
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/VirtualBox/ISO-maker-Server"
 startFile="start.sh"
 finishFile="finish.sh"
-refindFile="refind-install-MacOS.sh"
+#refindFile="refind-install-MacOS.sh"
 seed_file="econ-ark.seed"
 ks_file=ks.cfg
 rclocal_file=rc.local
@@ -258,11 +258,9 @@ cd $iso_make/iso_new
 
 late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
-     chroot /target curl -L -o /var/local/$refindFile $online/$refindFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
      chroot /target chmod +x /var/local/start.sh ;\
      chroot /target chmod +x /var/local/finish.sh ;\
-     chroot /target chmod +x /var/local/$refindFile ;\
      chroot /target chmod +x /etc/rc.local ;\
      chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
      chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
