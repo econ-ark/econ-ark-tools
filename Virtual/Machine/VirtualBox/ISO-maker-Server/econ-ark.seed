@@ -31,14 +31,13 @@ d-i partman-efi/non_efi_system boolean true
 d-i partman/unmount_active boolean true
 
 enter cd-i partman-auto-lvm/new_vg_name string ubuntu-vg
-d-i partman-auto/expert_recipe string gpt-or-bios ::\
+d-i partman-auto/expert_recipe string root-disk ::  \
     1 1 1 free                                      \
 	$iflabel{ gpt }				    \
 	$reusemethod{ }				    \
 	method{ biosgrub }                          \
 	.			                    \
     2048 2048 2048 hfs                              \
-#	$iflabel{ gpt }				    \
         $primary{ }                                 \
 	$bootable{ }                                \
         label{ hfsplus }                            \
