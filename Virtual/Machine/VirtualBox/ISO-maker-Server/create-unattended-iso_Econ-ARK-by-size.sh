@@ -19,7 +19,6 @@ git_branch="$(git symbolic-ref HEAD 2>/dev/null)" ; git_branch=${git_branch##ref
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/VirtualBox/ISO-maker-Server"
 startFile="start.sh"
 finishFile="finish.sh"
-refindFile="refind-install-MacOS.sh"
 seed_file="econ-ark.seed"
 ks_file=ks.cfg
 rclocal_file=rc.local
@@ -99,12 +98,12 @@ if [ $currentuser != "root" ]; then
     exit 1
 fi
 
-# #check that we are in ubuntu 16.04+
+#check that we are in ubuntu 16.04+
 
-# case "$(lsb_release -rs)" in
-#     16*|18*) ub1604="yes" ;;
-#     *) ub1604="" ;;
-# esac
+case "$(lsb_release -rs)" in
+    16*|18*) ub1604="yes" ;;
+    *) ub1604="" ;;
+esac
 
 #get the latest versions of Ubuntu LTS
 cd $iso_from
@@ -254,15 +253,76 @@ spinner $!
 
 # set the language for the installation menu
 cd $iso_make/iso_new
+#doesn't work for 16.04
+# echo en > $iso_make/iso_new/isolinux/lang
+
+#16.04
+#taken from https://github.com/fries/prepare-ubuntu-unattended-install-iso/blob/master/make.sh
+#sed -i -r 's/timeout\s+[0-9]+/timeout 1/g' $iso_make/iso_new/isolinux/isolinux.cfg
+
+# set late command
+
+# late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
+#      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
+#      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
+#      chroot /target chmod +x /var/local/start.sh ;\
+#      chroot /target chmod +x /var/local/finish.sh ;\
+#      chroot /target chmod +x /etc/rc.local ;\
+#      chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
+#      chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+#      chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;"
+
+# late_command="in-target curl -L -o /var/local/start.sh $online/$startFile ;\
+#      in-target curl -L -o /var/local/finish.sh $online/$finishFile ;\
+#      in-target curl -L -o /etc/rc.local $online/$rclocal_file ;\
+#      in-target chmod +x /var/local/start.sh ;\
+#      in-target chmod +x /var/local/finish.sh ;\
+#      in-target chmod +x /etc/rc.local ;\
+#      in-target mkdir -p /etc/lightdm/lightdm.conf.d ;\
+#      in-target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+#      in-target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf"
+
+# 20200713-1732h - failed:
+# late_command="in-target bash -c 'wget -r --output-document=/var/local/start.sh  $online/$startFile   ';\
+# in-target bash -c 'wget -r --output-document=/var/local/finish.sh $online/$finishFile'  ;\
+# in-target bash -c 'wget -r --output-document=/etc/rc.local        $online/$rclocal_file'  ;\ 
+# in-target bash -c 'chmod +x /var/local/start.sh'  ;\
+# in-target bash -c 'chmod +x /var/local/finish.sh'  ;\
+# in-target bash -c 'chmod +x /etc/rc.local'  ;\
+# in-target bash -c 'mkdir -p /etc/lightdm/lightdm.conf.d'  ;\
+# in-target bash -c 'wget -r --output-document=/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf'  ;\
+# in-target bash ' chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf' "
+
+# 20200713-1853h - failed:
+# late_command="in-target bash -c 'wget -r --output-document=/var/local/start.sh  $online/$startFile   ';\
+# in-target bash -c 'wget -r --output-document=/var/local/finish.sh $online/$finishFile'  ;\
+# in-target bash -c 'wget -r --output-document=/etc/rc.local        $online/$rclocal_file'  ;\ 
+# in-target bash -c 'chmod +x /var/local/start.sh'  ;\
+# in-target bash -c 'chmod +x /var/local/finish.sh'  ;\
+# in-target bash -c 'chmod +x /etc/rc.local'  ;\
+# in-target bash -c 'mkdir -p /etc/lightdm/lightdm.conf.d'  ;\
+# in-target bash -c 'wget -r --output-document=/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf'  ;\
+# in-target bash -c 'chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf' "
+
+### # # Copy the late_command file to the root
+### cp -rT $iso_make/$late_command_file $iso_make/iso_new/$late_command_file
+### chmod +x $iso_make/iso_new/$late_command_file
+
+# 20200714-0904h: Failed
+#late_command="in-target sudo apt -y install git ; in-target bash -c 'mkdir /tmp ; cd /tmp ; git clone https://github.com/econ-ark/econ-ark-tools ; chmod +x /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh'"
+
+# late_command="in-target /bin/bash -c 'apt -y install git ; git clone https://github.com/econ-ark/econ-ark-tools /tmp/econ-ark-tools ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh'"  
+
+# Removed the line below:
+#### in-target sed -i 's/^.*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config ;\
+
 # set late_command 
 
 late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
-     chroot /target curl -L -o /var/local/$refindFile $online/$refindFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
      chroot /target chmod +x /var/local/start.sh ;\
      chroot /target chmod +x /var/local/finish.sh ;\
-     chroot /target chmod +x /var/local/$refindFile ;\
      chroot /target chmod +x /etc/rc.local ;\
      chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
      chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
@@ -297,9 +357,12 @@ seed_checksum=$(md5sum $iso_make/iso_new/preseed/$seed_file)
 #sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical language=en country=US locale=en_US.UTF-8  DEBCONF_DEBUG=developer         ---\n	initrd	/install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg
 sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US          ---\n	initrd	/install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg 
 
+#sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical DEBCONF_DEBUG=5 locale=en_US.UTF-8 language=en country=US       ---|g'     $iso_make/iso_new/isolinux/txt.cfg
+
 sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US       ---|g'     $iso_make/iso_new/isolinux/txt.cfg
 
-sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # 
+#sed -i -r 's/timeout=[0-9]+/timeout=1/g' $iso_make/iso_new/boot/grub/grub.cfg
+sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back
 
 rpl 'timeout 300' 'timeout 10'  isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
 
