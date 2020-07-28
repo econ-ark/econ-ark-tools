@@ -102,8 +102,8 @@ fi
 # #check that we are in ubuntu 16.04+
 
 case "$(lsb_release -rs)" in
-    16*|18*) ub1604="yes" ;;
-    *) ub1604="" ;;
+    16*|18*) vge1604="yes" ;;
+    *) vge1604="" ;;
 esac
 
 #get the latest versions of Ubuntu LTS
@@ -225,8 +225,8 @@ if [ $(program_is_installed "mkpasswd") -eq 0 ] || [ $(program_is_installed "mki
 fi
 if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
     if [ $(program_is_installed "isohybrid") -eq 0 ]; then
-      #16.04
-      if [[ $ub1604 == "yes" || $(lsb_release -cs) == "artful" ]]; then
+      #Version Greater Equal to 16.04
+      if [[ $vge1604 == "yes" || $(lsb_release -cs) == "artful" ]]; then
         (apt-get -y install syslinux syslinux-utils > /dev/null 2>&1) &
         spinner $!
       else
@@ -303,6 +303,7 @@ sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg
 
 rpl 'timeout 300' 'timeout 10'  isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
 
+# Try to add what is required to boot on 32 bit machines
 cp /usr/local/share/multisystem/EFI/BOOT/bootia32.efi $iso_make/iso_new/EFI/BOOT
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
