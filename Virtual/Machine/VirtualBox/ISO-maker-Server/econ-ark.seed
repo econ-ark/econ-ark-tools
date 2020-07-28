@@ -30,7 +30,7 @@ d-i partman-efi/non_efi_system boolean true
 # Unmount active partitions, if any
 d-i partman/unmount_active boolean true
 
-d-i partman-auto-lvm/new_vg_name string ubuntu-vg
+enter cd-i partman-auto-lvm/new_vg_name string ubuntu-vg
 d-i partman-auto/expert_recipe string gpt-or-bios ::\
     1 1 1 free                                      \
 	$iflabel{ gpt }				    \
@@ -68,7 +68,7 @@ d-i partman-auto/expert_recipe string gpt-or-bios ::\
        .
 
 # Tee up a large set of potential devices that might be the target
-d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
+d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
 # ### Grub
 d-i grub-installer/only_debian boolean true
