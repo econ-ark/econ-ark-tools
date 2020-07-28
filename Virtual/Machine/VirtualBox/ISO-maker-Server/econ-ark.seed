@@ -1,3 +1,4 @@
+# 20200727-1944h - removed "d-i partman-auto/init_automatically_partition select Guided - use entire disk"
 # 20200727-1827h - added "d-i partman-auto/init_automatically_partition select Guided - use entire disk"
 # 20200726-1857h - sd[x]1 as /boot/hfsplus
 # 20200726-1548h - sda[2] as efi; ummount active true
@@ -112,7 +113,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 # Let it see up to 6 devices
 d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
 
-d-i partman-auto/init_automatically_partition select Guided - use entire disk
+#d-i partman-auto/init_automatically_partition select Guided - use entire disk
 
 # ### Grub bootloader
 d-i grub-installer/only_debian boolean true
