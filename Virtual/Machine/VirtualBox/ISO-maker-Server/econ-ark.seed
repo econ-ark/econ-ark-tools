@@ -110,14 +110,15 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         method{ swap } format{ }                \
        .
 
+d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 # Let it see up to 6 devices
-d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
 
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
 #d-i partman-auto/init_automatically_partition select Guided - use entire disk
 
 # ### Grub bootloader
-d-i grub-installer/only_debian boolean true
-d-i grub-installer/with_other_os boolean true
+d-i pkgsel/update-policy select unattended-upgrades
 
 # This will just finish and reboot
 d-i finish-install/reboot_in_progress                       note
