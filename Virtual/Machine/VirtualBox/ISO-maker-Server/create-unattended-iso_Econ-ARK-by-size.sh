@@ -102,8 +102,8 @@ fi
 # #check that we are in ubuntu 16.04+
 
 case "$(lsb_release -rs)" in
-    16*|18*) ub1604="yes" ;;
-    *) ub1604="" ;;
+    16*|18*) vge1604="yes" ;;
+    *) vge1604="" ;;
 esac
 
 #get the latest versions of Ubuntu LTS
@@ -226,7 +226,7 @@ fi
 if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
     if [ $(program_is_installed "isohybrid") -eq 0 ]; then
       #16.04
-      if [[ $ub1604 == "yes" || $(lsb_release -cs) == "artful" ]]; then
+      if [[ $vge1604 == "yes" || $(lsb_release -cs) == "artful" ]]; then
         (apt-get -y install syslinux syslinux-utils > /dev/null 2>&1) &
         spinner $!
       else
