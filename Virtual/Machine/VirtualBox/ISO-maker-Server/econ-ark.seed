@@ -1,3 +1,4 @@
+# 20200728-1040h - move partitioning as early as possible
 # 20200726-1857h - sd[x]1 as /boot/hfsplus
 # 20200726-1548h - sda[2] as efi; ummount active true
 # 20200726-1433h - format /boot/efi as ESP if gpt 
@@ -14,52 +15,10 @@ d-i debconf/priority select critical
 ### Localization
 d-i debian-installer/locale string en_US.UTF-8
 d-i localechooser/supported-locales multiselect en_US.UTF-8
+
 # Keyboard
 d-i console-setup/ask_detect boolean false
 d-i keyboard-configuration/xkb-keymap select us
-
-### Network config
-d-i netcfg/choose_interface select auto
-d-i netcfg/get_hostname                                     string      {{hostname}}
-d-i hw-detect/load_firmware boolean true
-
-# mirror settings
-d-i mirror/country string manual
-d-i mirror/http/hostname string archive.ubuntu.com
-d-i mirror/http/directory string /ubuntu
-d-i mirror/http/proxy string
-
-# clock and timezone settings
-d-i time/zone                                               string      {{timezone}}
-d-i clock-setup/utc                                         boolean     false
-d-i clock-setup/ntp                                         boolean     true
-
-# user account setup
-# DO NOT uncomment root-password lines: That disables sudo for main user
-#d-i passwd/root-password                                    password    {{pwhash}}
-#d-i passwd/root-password-again                              password    {{pwhash}}
-#d-i passwd/root-login                                       boolean     true
-d-i passwd/make-user                                        boolean     true
-d-i passwd/user-fullname                                    string      {{username}}
-d-i passwd/username                                         string      {{username}}
-d-i passwd/user-password-crypted                            password    {{pwhash}}
-d-i passwd/user-uid                                         string
-d-i user-setup/allow-password-weak                          boolean     false
-d-i passwd/user-default-groups                              string      adm cdrom dialout lpadmin plugdev sambashare
-d-i user-setup/encrypt-home boolean false
-
-# configure apt
-d-i apt-setup/restricted                                    boolean     true
-d-i apt-setup/universe                                      boolean     true
-d-i apt-setup/backports                                     boolean     true
-d-i apt-setup/services-select                               multiselect security
-d-i apt-setup/security_host                                 string      security.ubuntu.com
-d-i apt-setup/security_path                                 string      /ubuntu
-tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard, Basic Ubuntu server #xubuntu-desktop 
-tasksel tasksel/desktop                                     multiselect xfce # Start xfce
-d-i pkgsel/upgrade                                          select      safe-upgrade
-d-i pkgsel/update-policy                                    select      unattended-upgrades
-d-i pkgsel/updatedb                                         boolean     true
 
 
 # ### EFI
@@ -115,6 +74,50 @@ d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 # ### Grub
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
+
+### Network config
+d-i netcfg/choose_interface select auto
+d-i netcfg/get_hostname                                     string      {{hostname}}
+d-i hw-detect/load_firmware boolean true
+
+# mirror settings
+d-i mirror/country string manual
+d-i mirror/http/hostname string archive.ubuntu.com
+d-i mirror/http/directory string /ubuntu
+d-i mirror/http/proxy string
+
+# clock and timezone settings
+d-i time/zone                                               string      {{timezone}}
+d-i clock-setup/utc                                         boolean     false
+d-i clock-setup/ntp                                         boolean     true
+
+# user account setup
+# DO NOT uncomment root-password lines: That disables sudo for main user
+#d-i passwd/root-password                                    password    {{pwhash}}
+#d-i passwd/root-password-again                              password    {{pwhash}}
+#d-i passwd/root-login                                       boolean     true
+d-i passwd/make-user                                        boolean     true
+d-i passwd/user-fullname                                    string      {{username}}
+d-i passwd/username                                         string      {{username}}
+d-i passwd/user-password-crypted                            password    {{pwhash}}
+d-i passwd/user-uid                                         string
+d-i user-setup/allow-password-weak                          boolean     false
+d-i passwd/user-default-groups                              string      adm cdrom dialout lpadmin plugdev sambashare
+d-i user-setup/encrypt-home boolean false
+
+# configure apt
+d-i apt-setup/restricted                                    boolean     true
+d-i apt-setup/universe                                      boolean     true
+d-i apt-setup/backports                                     boolean     true
+d-i apt-setup/services-select                               multiselect security
+d-i apt-setup/security_host                                 string      security.ubuntu.com
+d-i apt-setup/security_path                                 string      /ubuntu
+tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard, Basic Ubuntu server #xubuntu-desktop 
+tasksel tasksel/desktop                                     multiselect xfce # Start xfce
+d-i pkgsel/upgrade                                          select      safe-upgrade
+d-i pkgsel/update-policy                                    select      unattended-upgrades
+d-i pkgsel/updatedb                                         boolean     true
+
 
 # Policy for applying updates. May be "none" (no automatic updates),
 # "unattended-upgrades" (install security updates automatically), or
