@@ -118,6 +118,7 @@ echo 'parse_git_branch() {' >> "$bashadd"
 echo "	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'" >> "$bashadd"
 echo '}' >> "$bashadd"
 echo 'export PS1="\u@\h:\W\[\033[32m\]\[\033[33m\]\$(parse_git_branch)\[\033[00m\] $ "' >>"$bashadd"
+echo ''
 
 # Make ~/.bash_aliases be owned by "$myuser" instead of root
 chmod a+x "$bashadd"
