@@ -73,9 +73,10 @@ chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be o
 
 sudo apt -y install hfsplus hfsutils hfsprogs
 
-sudo xfce4-terminal --geometry 132x64+0+0 --command "echo try out hfs script ; read answer"
 # Prepare partition for reFind boot in MacOS
 hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | grep "1.9G" | awk '{print $1}')"
+
+export DISPLAY=:0.0 ; xfce4-terminal --geometry 132x64+0+0 --command 'bash -c "echo 'whoami=$(whoami)' ; echo ; env ; echo ; echo figure out hfs problem and hit return to close ; read answer"'
 
 echo "hfsplusLabels=$hfsplusLabels"
 read answer 
