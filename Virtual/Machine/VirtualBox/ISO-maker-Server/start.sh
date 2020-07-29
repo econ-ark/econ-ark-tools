@@ -103,10 +103,22 @@ bashadd=/home/"$myuser"/.bash_aliases
 [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-orig"
 touch "$bashadd"
 
-echo '# On first boot, monitor progress of start install script' >> "$bashadd"
+
+# Modify prompt to keep track of git branches
+echo '' >> "$bashadd"
+echo 'parse_git_branch() {' >> "$bashadd"
+echo "	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'" >> "$bashadd"
+echo '}' >> "$bashadd"
+echo ''  >> "$bashadd"
+echo 'export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "' >>"$bashadd"
 echo ''
+echo ''
+echo '# On first boot:' >> "$bashadd"
 echo 'if [ ! -f /var/log/firstboot.log ]; then' >> "$bashadd"
-echo  '  xfce4-terminal --geometry 80x12+0+0 --command "echo ; echo The machine is installing more software ; echo It will reboot one more time before it finishes. ; echo Please wait until that reboot before using it."' >> "$bashadd"
+echo '   source ~/.bash_aliases-add' >> "$bashadd"
+echo  'fi' >> "$bashadd"
+echo  ''   >> "$bashadd"
+echo '  xfce4-terminal --geometry 80x12+0+0 --command "echo ; echo The machine is installing more software ; echo It will reboot one more time before it finishes. ; echo Please wait until that reboot before using it."' >> "$bashadd"
 echo  '  ' >> "$bashadd"
 echo  ''
 echo  '  xfce4-terminal --geometry 132x24-0-0 --command "tail -F /var/local/start-and-finish.log"  # On next boot, watch the remaining installations' >> "$bashadd"
@@ -114,10 +126,18 @@ echo  'fi' >> "$bashadd"
 echo  ''   >> "$bashadd"
 
 # Modify prompt to keep track of git branches
+echo '' >> "$bashadd"
 echo 'parse_git_branch() {' >> "$bashadd"
 echo "	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'" >> "$bashadd"
 echo '}' >> "$bashadd"
+echo ''  >> "$bashadd"
 echo 'export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "' >>"$bashadd"
+echo ''  >> "$bashadd"
+echo '# On first boot:' >> "$bashadd"
+echo 'if [ ! -f /var/log/firstboot.log ]; then' >> "$bashadd"
+echo '   source ~/.bash_aliases-add' >> "$bashadd"
+echo 'fi' >> "$bashadd"
+echo ''   >> "$bashadd"
 echo ''
 
 # Make ~/.bash_aliases be owned by "$myuser" instead of root
