@@ -25,7 +25,7 @@ sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
-sudo -u econ-ark emacs -batch -l ~/.emacs --eval='(package-list-packages)'
+sudo -u econ-ark emacs -batch -l ~/.emacs # --eval='(package-list-packages)'
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
@@ -76,18 +76,15 @@ sudo apt -y install hfsplus hfsutils hfsprogs
 # Prepare partition for reFind boot in MacOS
 hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
 
-export DISPLAY=:0.0
-export XAUTHORITY=/home/econ-ark/.Xauthority
-export SESSION_MANAGER="$(cat /tmp/SM)"
-xhost SI:localhost:root
+# export DISPLAY=:0.0
+# export XAUTHORITY=/home/econ-ark/.Xauthority
+# export SESSION_MANAGER="$(cat /tmp/SM)"
+# xhost SI:localhost:root
 
-xfce4-terminal --display=:0.0 --geometry 80x40+0+0 
-xfce4-terminal --display=:0.0 --geometry 80x40-0+0 --command 'emacs'
-xfce4-terminal --display=:0.0 --geometry 80x40-0-0 --command 'bash -c "echo 'whoami=$(whoami)' ; echo ; env ; echo ; echo figure out hfs problem and hit return to close ; read answer"'
+# xfce4-terminal --display=:0.0 --geometry 80x40-0-0 --command 'bash -c "echo 'whoami=$(whoami)' ; echo ; env ; echo ; echo figure out hfs problem and hit return to close ; read answer"'
 
 echo "hfsplusLabels=$hfsplusLabels"
-read answer 
-if [[ "$hfsplusLabels" != "" ]]; then
+\if [[ "$hfsplusLabels" != "" ]]; then
     cmd="mkfs.hfsplus -v 'refind-HFS' $hfsplusLabels"
     echo "cmd=$cmd"
     sudo mkfs.hfsplus -v 'refind-HFS' "$hfsplusLabels"
