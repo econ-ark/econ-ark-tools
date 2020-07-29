@@ -37,7 +37,8 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 	$reusemethod{ }				    \
 	method{ biosgrub }                          \
 	.			                    \
-    2048 2048 2048 hfs                              \
+    1024 1024 1024 hfs                              \
+	$iflabel{ gpt }				    \
         $primary{ }                                 \
 	$bootable{ }                                \
         label{ hfsplus }                            \
