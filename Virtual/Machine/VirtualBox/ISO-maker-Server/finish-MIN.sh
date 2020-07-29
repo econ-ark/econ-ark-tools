@@ -13,7 +13,7 @@ sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
 sudo apt -y python-pytest
 sudo pip install nbval
 # Get default packages for Econ-ARK machine
-sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
+sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip xsel gpg
 # Create a public key for security purposes
 sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/@myuser/.ssh
 # Set up security for emacs package downloading 
