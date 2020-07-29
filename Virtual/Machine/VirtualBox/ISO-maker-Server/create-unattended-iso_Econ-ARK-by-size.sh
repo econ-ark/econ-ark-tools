@@ -307,7 +307,13 @@ sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg
 
 rpl 'timeout 300' 'timeout 10'  isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
 
-cp /usr/local/share/multisystem/EFI/BOOT/bootia32.efi $iso_make/iso_new/EFI/BOOT
+# 32 bit bootloader obtained from Ubuntu-Server 18.04 EFI/BOOT
+
+sudo mkdir -p $iso_make/iso_new/EFI/BOOT/XUBARK32
+
+cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/BOOTIA32.EFI $iso_make/iso_new/EFI/BOOT/XUBARK32
+
+sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/rename-efi-entry.bash 
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 echo " creating the remastered iso"
