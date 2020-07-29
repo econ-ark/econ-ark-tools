@@ -151,7 +151,12 @@ while true; do
                 new_iso_base="ubuntu-18.04.4-server-amd64-unattended_$name"
                 new_iso_name="ubuntu-18.04.4-server-amd64-unattended_$name.iso"
                 break;;
-        * ) echo " please answer [1], [2], [3] or [4]";;
+        [5]* )  download_file="ubuntu-20.04-legacy-server-amd64.iso"
+                download_location="http://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/"
+                new_iso_base="ubuntu-20.04-legacy-server-amd64-unattended_$name"
+                new_iso_name="ubuntu-20.04-legacy-server-amd64-unattended_$name.iso"
+                break;;
+        * ) echo " please answer [1], [2], [3], [4] or [5]";;
     esac
 done
 
@@ -224,7 +229,7 @@ if [ $(program_is_installed "mkpasswd") -eq 0 ] || [ $(program_is_installed "mki
 fi
 if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
     if [ $(program_is_installed "isohybrid") -eq 0 ]; then
-      #16.04
+      # Version Greater Equal 16.04
       if [[ $vge1604 == "yes" || $(lsb_release -cs) == "artful" ]]; then
         (apt-get -y install syslinux syslinux-utils > /dev/null 2>&1) &
         spinner $!
