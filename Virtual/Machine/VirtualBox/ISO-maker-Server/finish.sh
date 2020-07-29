@@ -18,7 +18,6 @@ sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server naut
 sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/@myuser/.ssh
 # Set up security for emacs package downloading 
 sudo apt -y install emacs
-sudo -u econ-ark emacs -batch -l ~/.emacs --eval='(package-list-packages)'
 sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
 sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
 sudo -u econ-ark gpg --list-keys 
@@ -26,6 +25,7 @@ sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
+sudo -u econ-ark emacs -batch -l ~/.emacs --eval='(package-list-packages)'
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
@@ -73,11 +73,12 @@ chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be o
 
 sudo apt -y install hfsplus hfsutils hfsprogs
 
+sudo xfce4-terminal --geometry 132x64+0+0 --command "echo try out hfs script ; read answer"
 # Prepare partition for reFind boot in MacOS
 hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | grep "1.9G" | awk '{print $1}')"
 
 echo "hfsplusLabels=$hfsplusLabels"
-
+read answer 
 if [[ "$hfsplusLabels" != "" ]]; then
     cmd="mkfs.hfsplus -v 'refind-HFS' $hfsplusLabels"
     echo "cmd=$cmd"
