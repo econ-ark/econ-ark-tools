@@ -270,7 +270,9 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
      chroot /target chmod +x /etc/rc.local ;\
      chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
      chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
-     chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf "
+     chroot /target curl -L -o /var/local/.bash_aliases-add $online/.bash_aliases-add ;\
+     chroot /target chmod a+x /var/local/.bash_aliases-add ;\
+"
 
 # copy the seed file to the iso
 cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
