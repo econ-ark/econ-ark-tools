@@ -23,7 +23,6 @@ refindFile="refind-install-MacOS.sh"
 seed_file="econ-ark.seed"
 ks_file=ks.cfg
 rclocal_file=rc.local
-late_command_file=late_command.sh
 
 # file names & paths
 iso_from="/media/sf_VirtualBox"       # where to find the original ISO
@@ -102,7 +101,7 @@ fi
 # #check that we are in ubuntu 16.04+
 
 case "$(lsb_release -rs)" in
-    16*|18*) vge1604="yes" ;;
+    16*|18*|20*) vge1604="yes" ;;
     *) vge1604="" ;;
 esac
 
@@ -336,7 +335,7 @@ echo ''
 # print info to user
 echo " -----"
 echo " finished remastering your ubuntu iso file"
-echo " the new file is located at: $iso_make/$new_iso_name"
+echo " the new file is located at: $iso_done/$size/$new_iso_name"
 echo " your username is: $username"
 echo " your password is: $password"
 echo " your hostname is: $hostname"
