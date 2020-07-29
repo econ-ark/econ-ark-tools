@@ -54,17 +54,17 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ fat16 }       \
         mountpoint{ /efi/boot }                     \
         .                                           \
-    32768 32768 -1 ext4                             \
+    2048 4096 16384 linux-swap                      \
+        $lvmok{ }                                   \
+        in_vg { ubuntu-vg } lv_name{ swap_1 }       \
+        method{ swap } format{ }                    \
+        .  	                                    \
+    32768 32768 1000000 ext4                        \
         $primary{ } $bootable{ }                    \
 	label{ root }                               \
         method{ format } format{ }                  \
         use_filesystem{ } filesystem{ ext4 }        \
         mountpoint{ / }                             \
-        .  	                                    \
-    2048 4096 16384 linux-swap                      \
-        $lvmok{ }                                   \
-        in_vg { ubuntu-vg } lv_name{ swap_1 }       \
-        method{ swap } format{ }                    \
        .
 
 # Tee up the whole set of potential devices that might be used 
