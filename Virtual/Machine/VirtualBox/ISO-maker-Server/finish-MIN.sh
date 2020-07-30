@@ -20,6 +20,8 @@ sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/@
 sudo apt -y install emacs
 sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
 sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
+sudo chown econ-ark:econ-ark /home/econ-ark/.emacs
+sudo chown econ-ark:econ-ark -Rf /home/econ-ark/.emacs.d
 sudo -u econ-ark gpg --list-keys 
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
@@ -29,7 +31,7 @@ sudo -u econ-ark emacs -batch -l ~/.emacs # --eval='(package-list-packages)'
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
-conda install --yes -c conda-forge econ-ark # pip install econ-ark
+pip install econ-ark # pip install econ-ark
 
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
@@ -82,13 +84,17 @@ hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name
 # xhost SI:localhost:root
 
 echo "hfsplusLabels=$hfsplusLabels"
-\if [[ "$hfsplusLabels" != "" ]]; then
+if [[ "$hfsplusLabels" != "" ]]; then
     cmd="mkfs.hfsplus -v 'refind-HFS' $hfsplusLabels"
     echo "cmd=$cmd"
     sudo mkfs.hfsplus -v 'refind-HFS' "$hfsplusLabels"
     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS
     sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/refind-install-MacOS.sh /tmp/refind-HFS
     sudo chmod a+x /tmp/refind-HFS/*.sh
+    hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
+    sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
+    ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
+    sudo refind-install --usedefault "$ESP"
 fi
 
 echo Finished automatic installations.  Rebooting.

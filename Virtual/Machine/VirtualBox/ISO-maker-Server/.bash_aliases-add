@@ -1,3 +1,6 @@
+# If not already running, launch the vncserver whenever an interactive shell starts
+pgrep x0vncserver > /dev/null
+[[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/$myuser/.vnc/passwd >> /dev/null 2>&1 &)
 
 # Modify prompt to keep track of git branches
 

@@ -20,6 +20,8 @@ sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/@
 sudo apt -y install emacs
 sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
 sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
+sudo chown econ-ark:econ-ark /home/econ-ark/.emacs
+sudo chown econ-ark:econ-ark -Rf /home/econ-ark/.emacs.d
 sudo -u econ-ark gpg --list-keys 
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
@@ -81,10 +83,7 @@ hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name
 # export SESSION_MANAGER="$(cat /tmp/SM)"
 # xhost SI:localhost:root
 
-# xfce4-terminal --display=:0.0 --geometry 80x40-0-0 --command 'bash -c "echo 'whoami=$(whoami)' ; echo ; env ; echo ; echo figure out hfs problem and hit return to close ; read answer"'
-
 echo "hfsplusLabels=$hfsplusLabels"
-
 if [[ "$hfsplusLabels" != "" ]]; then
     cmd="mkfs.hfsplus -v 'refind-HFS' $hfsplusLabels"
     echo "cmd=$cmd"
@@ -92,6 +91,10 @@ if [[ "$hfsplusLabels" != "" ]]; then
     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS
     sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/refind-install-MacOS.sh /tmp/refind-HFS
     sudo chmod a+x /tmp/refind-HFS/*.sh
+    hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
+    sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
+    ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
+    sudo refind-install --usedefault "$ESP"
 fi
 
 echo Finished automatic installations.  Rebooting.
