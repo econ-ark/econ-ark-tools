@@ -16,7 +16,7 @@ our VM 'XUBUNTARK'
    1. The VM is set up to boot from an incorprated 'virtual DVD'
       * When the VM is 'booted' from this (attached) DVD, everything is installed
 	  * Installation happens mostly by downloading -- it takes a long time!
-	  * The ['installer' virtual DVD](https://drive.google.com/drive/folders/1TwBlrw2_bU3--ZvzDtaPQdCHcLuQdb5O?usp=sharing) was created using scripts in [ISO-maker](./ISO-maker)
+	  * The ['installer' virtual DVD](https://drive.google.com/file/d/1ulAeYjpQsrF14w9aD_xvZs4NBCBHxA4i/view?usp=sharing) was created using scripts in [ISO-maker](./ISO-maker)
 1. Run VirtualBox, import the VM, and start it:
    * From the 'File' menu, choose to [import appliance](./Import-Appliance.png)
    * Choose the `XUBUNTARK.ova` file to import
