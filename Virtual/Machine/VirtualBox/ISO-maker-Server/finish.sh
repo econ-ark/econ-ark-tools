@@ -29,7 +29,7 @@ sudo -u econ-ark emacs -batch -l ~/.emacs # --eval='(package-list-packages)'
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
-conda install --yes -c conda-forge econ-ark # pip install econ-ark
+pip install econ-ark # pip install econ-ark
 
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
