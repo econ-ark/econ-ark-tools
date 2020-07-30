@@ -24,30 +24,10 @@ Hidden=false
 EOF
 
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
-# Set up vnc server so students can connect to instructor machine
 
-
-# # Get some key apps that should be available immediately
-# sudo apt -y install hfsplus
-# sudo apt -y install hfsutils
-# sudo apt -y install hfsprogs
 sudo apt -y install tigervnc-scraping-server
 
 
-# # Now finish configuring the partitions
-# devBoot=`sudo fdisk -l | grep '^/dev/[a-z]*[0-9]' | grep -iv empty | awk '$2 == "*" { print $1 }'`
-# #mkfs.hfsplus -v reFindBoot "$devBoot"
-# #sudo mkdir /mnt/reFindBoot
-# #sudo mount -t hfsplus /dev/sda1 /mnt/reFindBoot
-# #echo 'Run reFind bootloader to boot on a Mac' > /mnt/reFindBoot/README.txt
-
-# #sudo apt -y install efibootmgr libefiboot1 libefivar1 sbsigntool 
-
-#sudo apt-add-repository ppa:rodsmith/refind
-#sudo apt-get --assume-yes install refind # installs ReFind to EFI System Partition
-# sudo refind-install --usedefault "$devBoot"
-
-# Set up vnc server 
 # https://askubuntu.com/questions/328240/assign-vnc-password-using-script
 myuser="econ-ark"
 mypass="kra-noce"
@@ -62,12 +42,6 @@ sudo mkdir -p /home/$myuser/.vnc
 # Give the files the right permissions
 chown -R $myuser:$myuser /home/$myuser/.vnc
 chmod 0600 /home/$myuser/.vnc/passwd
-
-touch /home/$myuser/.bash_aliases
-
-echo '# If not already running, launch the vncserver whenever an interactive shell starts' >> /home/$myuser/.bash_aliases
-echo 'pgrep x0vncserver > /dev/null'  >> /home/$myuser/.bash_aliases
-echo '[[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/'$myuser'/.vnc/passwd >> /dev/null 2>&1 &)' >> /home/$myuser/.bash_aliases
 
 
 # A few things to do quickly at the very beginning; the "finish" script is stuff that runs in the background for a long time 
