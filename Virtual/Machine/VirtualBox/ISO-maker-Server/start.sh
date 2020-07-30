@@ -118,7 +118,6 @@ echo 'if [ ! -f /var/log/firstboot.log ]; then' >> "$bashadd"
 echo '   source ~/.bash_aliases-add' >> "$bashadd"
 echo 'fi' >> "$bashadd"
 
-cat /var/local/.bash_aliases-add >> /home/"$myuser"/.bash_aliases
 
 # Make ~/.bash_aliases be owned by "$myuser" instead of root
 chmod a+x "$bashadd"

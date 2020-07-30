@@ -81,8 +81,6 @@ hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name
 # export SESSION_MANAGER="$(cat /tmp/SM)"
 # xhost SI:localhost:root
 
-# xfce4-terminal --display=:0.0 --geometry 80x40-0-0 --command 'bash -c "echo 'whoami=$(whoami)' ; echo ; env ; echo ; echo figure out hfs problem and hit return to close ; read answer"'
-
 echo "hfsplusLabels=$hfsplusLabels"
 \if [[ "$hfsplusLabels" != "" ]]; then
     cmd="mkfs.hfsplus -v 'refind-HFS' $hfsplusLabels"
