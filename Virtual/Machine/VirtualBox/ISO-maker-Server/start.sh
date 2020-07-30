@@ -103,21 +103,7 @@ bashadd=/home/"$myuser"/.bash_aliases
 [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-orig"
 touch "$bashadd"
 
-
-# Modify prompt to keep track of git branches
-echo '' >> "$bashadd"
-echo 'parse_git_branch() {' >> "$bashadd"
-echo "	git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'" >> "$bashadd"
-echo '}' >> "$bashadd"
-echo ''  >> "$bashadd"
-echo 'export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "' >>"$bashadd"
-echo ''
-echo '' >> "$bashadd"
-echo '# On first boot:' >> "$bashadd"
-echo 'if [ ! -f /var/log/firstboot.log ]; then' >> "$bashadd"
-echo '   source ~/.bash_aliases-add' >> "$bashadd"
-echo 'fi' >> "$bashadd"
-
+cat /var/local/.bash_aliases-add >> "$bashadd"
 
 # Make ~/.bash_aliases be owned by "$myuser" instead of root
 chmod a+x "$bashadd"
