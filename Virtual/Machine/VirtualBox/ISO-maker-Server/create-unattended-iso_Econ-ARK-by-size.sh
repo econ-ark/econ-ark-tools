@@ -20,6 +20,10 @@ online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Vi
 startFile="start.sh"
 finishFile="finish.sh"
 refindFile="refind-install-MacOS.sh"
+EconARKIcon="Drive/Icons/Econ-ARK.VolumeIcon.icns"
+EconARKText1="Drive/Labels/Econ-ARK.disk_label"
+EconARKText2="Drive/Labels/Econ-ARK.disk_label_2x"
+
 seed_file="econ-ark.seed"
 ks_file=ks.cfg
 rclocal_file=rc.local
@@ -259,27 +263,12 @@ spinner $!
 # set the language for the installation menu
 cd $iso_make/iso_new
 # set late_command
-# Deleted:
-#      chroot /target curl -L -o /.VolumeIcon.icns $online/root/InstallerIcon/.VolumeIcon.icns ;\
-#      chroot /target curl -L -o /var/local/.VolumeIcon-XUBUNTARK.icns $online/.VolumeIcon-XUBUNTARK.icns ;\
-#      chroot /target chmod a+rwx /.VolumeIcon.icns ;\
-#      chroot /target chmod a+rwx /var/local/.VolumeIcon-XUBUNTARK.icns ;\
-
-     # chroot /target chmod +x /var/local/start.sh ;\
-     # chroot /target chmod +x /var/local/finish.sh ;\
-     # chroot /target chmod +x /var/local/$refindFile ;\
-     # chroot /target chmod +x /etc/rc.local ;\
-     # chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
-     # chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
-     # chroot /target curl -L -o /var/local/.bash_aliases-add $online/.bash_aliases-add ;\
-     # chroot /target chmod a+x /var/local/.bash_aliases-add ;\
-
 
 late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
      chroot /target curl -L -o /var/local/$refindFile $online/$refindFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
-     chroot /target curl -L -o /.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns ;\
+     chroot /target curl -L -o /var/local/.VolumeIcon.icns       $online/Disk/Icons/Econ-ARK.VolumeIcon.icns ;\
      chroot /target curl -L -o /var/local/Econ-ARK.disk_label    $online/Disk/Labels/Econ-ARK.disklabel    ;\
      chroot /target curl -L -o /var/local/Econ-ARK.disk_label_2x $online/Disk/Labels/Econ-ARK.disklabel_2x ;\
      chroot /target chmod +x /var/local/start.sh ;\
@@ -300,10 +289,10 @@ cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
 chmod 744 $iso_make/iso_new/$ks_file
 
 # copy "label" file ARKINSTALL 
-cp $pathToScript/ARKINSTALL.disk_label    $iso_make/iso_new/EFI/BOOT/.disk_label
-cp $pathToScript/ARKINSTALL.disk_label_2x $iso_make/iso_new/EFI/BOOT/.disk_label_2x
+cp $pathToScript/Disk/Labels/ARKINSTALL.disk_label     $iso_make/iso_new/EFI/BOOT/.disk_label
+cp $pathToScript/Disk/Labels/ARKINSTALL.disk_label_2x  $iso_make/iso_new/EFI/BOOT/.disk_label_2x
 # Wasted a lot of time trying to get .VolumeIcon.icns to work -- failed and not worth the effort
-cp $pathToScript/.VolumeIcon.icns         $iso_make/iso_new
+cp $pathToScript/Disk/Icons/os_refit.icns         $iso_make/iso_new/.VolumeIcon.icns
 
 # include firstrun script
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file
