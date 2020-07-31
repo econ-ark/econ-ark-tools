@@ -280,6 +280,8 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
      chroot /target curl -L -o /var/local/$refindFile $online/$refindFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
      chroot /target curl -L -o /.VolumeIcon.icns $online/root/.VolumeIcon.icns ;\
+     chroot /target curl -L -o /.disk_label    $online/Econ-ARK.disklabel    ;\
+     chroot /target curl -L -o /.disk_label_2x $online/Econ-ARK.disklabel_2x ;\
      chroot /target chmod +x /var/local/start.sh ;\
      chroot /target chmod +x /var/local/finish.sh ;\
      chroot /target chmod +x /var/local/$refindFile ;\
@@ -301,7 +303,7 @@ chmod 744 $iso_make/iso_new/$ks_file
 cp $pathToScript/ARKINSTALL.disk_label    $iso_make/iso_new/EFI/BOOT/.disk_label
 cp $pathToScript/ARKINSTALL.disk_label_2x $iso_make/iso_new/EFI/BOOT/.disk_label_2x
 # Wasted a lot of time trying to get .VolumeIcon.icns to work -- failed and not worth the effort
-# cp $pathToScript/.VolumeIcon.icns         $iso_make/iso_new
+cp $pathToScript/.VolumeIcon.icns         $iso_make/iso_new
 
 # include firstrun script
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file
