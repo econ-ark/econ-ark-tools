@@ -46,12 +46,12 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ hfs }         \
         mountpoint{ /boot/hfsplus }                 \
         .                                           \
-    512 512 512 fat16                               \
+    512 512 512 fat32                               \
         $primary{ }                                 \
         $bootable{ }                                \
         label{ ESP }                                \
         method{ efi } format{ }                     \
-        use_filesystem{ } filesystem{ fat16 }       \
+        use_filesystem{ } filesystem{ fat32 }       \
         mountpoint{ /efi/boot }                     \
         .                                           \
     2048 4096 16384 linux-swap                      \
