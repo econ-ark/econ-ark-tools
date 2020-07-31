@@ -269,6 +269,7 @@ cd $iso_make/iso_new
 
 late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
+     chroot /target curl -L -o /var/local/XUBUNTARK-VolumeIcon.icns $online/root/.VolumeIcon.icns ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
      chroot /target chmod +x /var/local/start.sh ;\
      chroot /target chmod +x /var/local/finish.sh ;\
@@ -338,7 +339,7 @@ eval "$cmd"
 # print info to user
 echo " -----"
 echo " finished remastering your ubuntu iso file"
-echo " the new file is located at: $iso_make/$new_iso_name"
+echo " the new file is located at: $iso_done/$size/$new_iso_name"
 echo " your username is: $username"
 echo " your password is: $password"
 echo " your hostname is: $hostname"
