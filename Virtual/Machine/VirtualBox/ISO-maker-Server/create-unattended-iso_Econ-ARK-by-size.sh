@@ -334,7 +334,7 @@ sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/Vir
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 echo " creating the remastered iso"
 
-cmd="cd $iso_make/iso_new ; (mkisofs --cap --allow-dots -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
+cmd="cd $iso_make/iso_new ; (mkisofs -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
 mke="$cmd"
 echo "$cmd"
 eval "$cmd"
