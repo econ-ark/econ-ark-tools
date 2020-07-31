@@ -279,8 +279,14 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
      chroot /target curl -L -o /var/local/$refindFile $online/$refindFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
-     chroot /target curl -L -o /var/local/.disk_label    $online/ARKINSTALL.disk_label    ;\
-     chroot /target curl -L -o /var/local/.disk_label_2x $online/ARKINSTALL.disk_label_2x ;\
+     chroot /target chmod +x /var/local/start.sh ;\
+     chroot /target chmod +x /var/local/finish.sh ;\
+     chroot /target chmod +x /var/local/$refindFile ;\
+     chroot /target chmod +x /etc/rc.local ;\
+     chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
+     chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+     chroot /target curl -L -o /var/local/.bash_aliases-add $online/.bash_aliases-add ;\
+     chroot /target chmod a+x /var/local/.bash_aliases-add ;\
 "
 
 # copy the seed file to the iso
@@ -289,11 +295,6 @@ cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
 # copy the kickstart file to the root
 cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
 chmod 744 $iso_make/iso_new/$ks_file
-
-# copy the icon file 
-cp $pathToScript/ARKINSTALL.disk_label    $iso_make/iso_new/EFI/BOOT/.disk_label
-cp $pathToScript/ARKINSTALL.disk_label_2x $iso_make/iso_new/EFI/BOOT/.disk_label_2x
-# cp $pathToScript/.VolumeIcon.icns         $iso_make/iso_new
 
 # include firstrun script
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file
