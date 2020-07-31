@@ -279,9 +279,9 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
      chroot /target curl -L -o /var/local/$refindFile $online/$refindFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
-     chroot /target curl -L -o /.VolumeIcon.icns $online/root/.VolumeIcon.icns ;\
-     chroot /target curl -L -o /.disk_label    $online/Disk/Labels/Econ-ARK.disklabel    ;\
-     chroot /target curl -L -o /.disk_label_2x $online/Disk/Labels/Econ-ARK.disklabel_2x ;\
+     chroot /target curl -L -o /.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns ;\
+     chroot /target curl -L -o /var/local/Econ-ARK.disk_label    $online/Disk/Labels/Econ-ARK.disklabel    ;\
+     chroot /target curl -L -o /var/local/Econ-ARK.disk_label_2x $online/Disk/Labels/Econ-ARK.disklabel_2x ;\
      chroot /target chmod +x /var/local/start.sh ;\
      chroot /target chmod +x /var/local/finish.sh ;\
      chroot /target chmod +x /var/local/$refindFile ;\

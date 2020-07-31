@@ -99,6 +99,10 @@ cp emacs-ubuntu-virtualbox /home/econ-ark/.emacs
 cp emacs-ubuntu-virtualbox /root/.emacs
 chown "root:root" /root/.emacs
 
+cp /var/local/.Econ-ARK.disk_label    /EFI/BOOT/.disk_label
+cp /var/local/.Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
+
+
 cp /var/local/.bash_aliases-add /home/$myuser/.bash_aliases-add
 chown "$myuser:$myuser"         /home/$myuser/.bash_aliases-add
 chmod a+x                       /home/$myuser/.bash_aliases-add

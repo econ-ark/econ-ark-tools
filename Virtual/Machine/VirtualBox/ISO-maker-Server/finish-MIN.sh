@@ -93,6 +93,7 @@ if [[ "$hfsplusLabels" != "" ]]; then
     sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/refind-install-MacOS.sh /tmp/refind-HFS
     sudo cp /var/local/.VolumeIcon.icns /tmp/refind-HFS
     sudo chmod a+x /tmp/refind-HFS/*.sh
+    sudo curl -L -o https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker-Server/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
