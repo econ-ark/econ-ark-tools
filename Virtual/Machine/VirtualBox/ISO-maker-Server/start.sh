@@ -128,3 +128,19 @@ for d in ./*/; do
     fi
 done
 
+echo ''
+echo ''
+echo ''
+echo ''
+echo 'Finished running the ./start.sh script'
+echo ''
+echo 'Hit return when you have guaranteed that the system will reboot'
+echo 'to the current device, which should be called:'
+echo ''
+echo 'ARKINSTALL'
+echo ''
+read answer
+
+
+
+
