@@ -279,6 +279,7 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
      chroot /target curl -L -o /var/local/$refindFile $online/$refindFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
+     chroot /target curl -L -o /.VolumeIcon.icns $online/root/.VolumeIcon.icns ;\
      chroot /target chmod +x /var/local/start.sh ;\
      chroot /target chmod +x /var/local/finish.sh ;\
      chroot /target chmod +x /var/local/$refindFile ;\
@@ -296,9 +297,10 @@ cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
 cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
 chmod 744 $iso_make/iso_new/$ks_file
 
-# copy the icon file 
+# copy "label" file ARKINSTALL 
 cp $pathToScript/ARKINSTALL.disk_label    $iso_make/iso_new/EFI/BOOT/.disk_label
 cp $pathToScript/ARKINSTALL.disk_label_2x $iso_make/iso_new/EFI/BOOT/.disk_label_2x
+# Wasted a lot of time trying to get .VolumeIcon.icns to work -- failed and not worth the effort
 # cp $pathToScript/.VolumeIcon.icns         $iso_make/iso_new
 
 # include firstrun script
@@ -320,7 +322,7 @@ sed -i "s@{{timezone}}@$timezone@g" $iso_make/iso_new/preseed/$seed_file
 seed_checksum=$(md5sum $iso_make/iso_new/preseed/$seed_file)
 
 ## add the install option to the menu
-#sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical language=en country=US locale=en_US.UTF-8  DEBCONF_DEBUG=developer         ---\n	initrd	/install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg
+
 sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US          ---\n	initrd	/install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg 
 
 sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US       ---|g'     $iso_make/iso_new/isolinux/txt.cfg
@@ -331,11 +333,11 @@ rpl 'timeout 300' 'timeout 10'  isolinux/isolinux.cfg # Shuts down language choi
 
 # 32 bit bootloader obtained from Ubuntu-Server 18.04 EFI/BOOT
 
-sudo mkdir -p $iso_make/iso_new/EFI/BOOT/XUBARK32
+# sudo mkdir -p $iso_make/iso_new/EFI/BOOT/XUBARK32
 
-cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/BOOTIA32.EFI $iso_make/iso_new/EFI/BOOT/XUBARK32
+# cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/BOOTIA32.EFI $iso_make/iso_new/EFI/BOOT/XUBARK32
 
-sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/rename-efi-entry.bash 
+sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/rename-efi-entry.bash '
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 echo " creating the remastered iso"
