@@ -258,20 +258,29 @@ spinner $!
 
 # set the language for the installation menu
 cd $iso_make/iso_new
-# set late_command 
+# set late_command
+# Deleted:
+#      chroot /target curl -L -o /.VolumeIcon.icns $online/root/InstallerIcon/.VolumeIcon.icns ;\
+#      chroot /target curl -L -o /var/local/.VolumeIcon-XUBUNTARK.icns $online/.VolumeIcon-XUBUNTARK.icns ;\
+#      chroot /target chmod a+rwx /.VolumeIcon.icns ;\
+#      chroot /target chmod a+rwx /var/local/.VolumeIcon-XUBUNTARK.icns ;\
+
+     # chroot /target chmod +x /var/local/start.sh ;\
+     # chroot /target chmod +x /var/local/finish.sh ;\
+     # chroot /target chmod +x /var/local/$refindFile ;\
+     # chroot /target chmod +x /etc/rc.local ;\
+     # chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
+     # chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+     # chroot /target curl -L -o /var/local/.bash_aliases-add $online/.bash_aliases-add ;\
+     # chroot /target chmod a+x /var/local/.bash_aliases-add ;\
+
 
 late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
      chroot /target curl -L -o /var/local/$refindFile $online/$refindFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
-     chroot /target chmod +x /var/local/start.sh ;\
-     chroot /target chmod +x /var/local/finish.sh ;\
-     chroot /target chmod +x /var/local/$refindFile ;\
-     chroot /target chmod +x /etc/rc.local ;\
-     chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
-     chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
-     chroot /target curl -L -o /var/local/.bash_aliases-add $online/.bash_aliases-add ;\
-     chroot /target chmod a+x /var/local/.bash_aliases-add ;\
+     chroot /target curl -L -o /var/local/.disk_label    $online/ARKINSTALL.disk_label    ;\
+     chroot /target curl -L -o /var/local/.disk_label_2x $online/ARKINSTALL.disk_label_2x ;\
 "
 
 # copy the seed file to the iso
@@ -280,6 +289,11 @@ cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
 # copy the kickstart file to the root
 cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
 chmod 744 $iso_make/iso_new/$ks_file
+
+# copy the icon file 
+cp $pathToScript/ARKINSTALL.disk_label    $iso_make/iso_new/EFI/BOOT/.disk_label
+cp $pathToScript/ARKINSTALL.disk_label_2x $iso_make/iso_new/EFI/BOOT/.disk_label_2x
+# cp $pathToScript/.VolumeIcon.icns         $iso_make/iso_new
 
 # include firstrun script
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file
@@ -320,7 +334,7 @@ sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/Vir
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 echo " creating the remastered iso"
 
-cmd="cd $iso_make/iso_new ; (mkisofs -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
+cmd="cd $iso_make/iso_new ; (mkisofs --cap --allow-dots -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
 mke="$cmd"
 echo "$cmd"
 eval "$cmd"
