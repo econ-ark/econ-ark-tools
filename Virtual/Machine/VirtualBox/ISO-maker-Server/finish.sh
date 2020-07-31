@@ -78,6 +78,7 @@ sudo apt -y install hfsplus hfsutils hfsprogs
 # Prepare partition for reFind boot in MacOS
 hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
 
+# If you want to pop up an informative window at this stage, you must set the environment variables below:
 # export DISPLAY=:0.0
 # export XAUTHORITY=/home/econ-ark/.Xauthority
 # export SESSION_MANAGER="$(cat /tmp/SM)"
@@ -91,10 +92,10 @@ if [[ "$hfsplusLabels" != "" ]]; then
     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS
     sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/refind-install-MacOS.sh /tmp/refind-HFS
     sudo chmod a+x /tmp/refind-HFS/*.sh
-    hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
-    sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
-    ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
-    sudo refind-install --usedefault "$ESP"
+    # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
+    # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
+    # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
+    # sudo refind-install --usedefault "$ESP"
 fi
 
 echo Finished automatic installations.  Rebooting.
