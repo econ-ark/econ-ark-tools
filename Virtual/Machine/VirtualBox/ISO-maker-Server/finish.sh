@@ -27,7 +27,7 @@ sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
-sudo -u econ-ark emacs -batch -l ~/.emacs # --eval='(package-list-packages)'
+sudo -u econ-ark emacs -batch --eval='(package-list-packages)' # -l ~/.emacs causes mysterious 'system error' on first bootup, not clear why 
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
