@@ -337,7 +337,7 @@ rpl 'timeout 300' 'timeout 10'  isolinux/isolinux.cfg # Shuts down language choi
 
 # cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/BOOTIA32.EFI $iso_make/iso_new/EFI/BOOT/XUBARK32
 
-sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/rename-efi-entry.bash '
+sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/rename-efi-entry.bash 
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 echo " creating the remastered iso"
@@ -348,7 +348,7 @@ echo "$cmd"
 eval "$cmd"
 spinner $!
 
-# make iso bootable (for dd'ing to USB stick)
+# make iso bootable (for dding to USB stick)
 if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
     isohybrid $iso_make/$new_iso_name
 fi
