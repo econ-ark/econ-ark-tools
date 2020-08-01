@@ -30,6 +30,7 @@ d-i partman-efi/non_efi_system boolean true
 
 # Unmount active partitions, if any
 #d-i partman/unmount_active boolean true
+d-i partman/unmount_active boolean false
 
 enter cd-i partman-auto-lvm/new_vg_name string ubuntu-vg
 d-i partman-auto/expert_recipe string root-disk ::  \
