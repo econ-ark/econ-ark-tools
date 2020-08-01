@@ -34,7 +34,7 @@ d-i partman/unmount_active boolean false
 
 enter cd-i partman-auto-lvm/new_vg_name string ubuntu-vg
 d-i partman-auto/expert_recipe string root-disk ::  \
-    1 1 1 free                                      \
+    64 64 64 1 free                                      \
 	$iflabel{ gpt }				    \
 	$reusemethod{ }				    \
 	method{ biosgrub }                          \
