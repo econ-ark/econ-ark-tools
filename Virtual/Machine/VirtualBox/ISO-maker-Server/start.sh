@@ -9,6 +9,7 @@ sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 sudo add-apt-repository universe				    
 sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
 
+sudo dpkg-reconfigure lightdm  # make sure we use the lightdm boot manager 
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
 [Desktop Entry]
 Encoding=UTF-8
@@ -129,18 +130,20 @@ for d in ./*/; do
     fi
 done
 
-echo ''
-echo ''
-echo ''
-echo ''
+echo 0anacron > /etc/cron/hourly/jobs.deny # Anacron kept killing first boot
+# Not clear how to get user input after running start but this does not work
+# echo ''
+# echo ''
+# echo ''
+# echo ''
 echo 'Finished running the ./start.sh script'
-echo ''
-echo 'Hit return when you have guaranteed that the system will reboot'
-echo 'to the current device, which should be called:'
-echo ''
+# echo ''
+# echo 'Hit return when you have guaranteed that the system will reboot'
+# echo 'to the current device, which should be called:'
+# echo ''
 echo 'ARKINSTALL'
-echo ''
-read answer
+# echo ''
+# read answer
 
 
 

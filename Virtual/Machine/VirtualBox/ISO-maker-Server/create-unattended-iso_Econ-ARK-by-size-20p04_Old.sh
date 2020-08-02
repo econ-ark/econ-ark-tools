@@ -16,15 +16,9 @@ size="$1"
 
 pathToScript=$(dirname `realpath "$0"`)
 # pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/
-git_branch="$(git symbolic-ref HEAD 2>/dev/null)" ; git_branch=${git_branch##refs/heads/}
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/VirtualBox/ISO-maker-Server"
+online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server
 startFile="start.sh"
 finishFile="finish.sh"
-refindFile="refind-install-MacOS.sh"
-EconARKIcon="Drive/Icons/Econ-ARK.VolumeIcon.icns"
-EconARKText1="Drive/Labels/Econ-ARK.disk_label"
-EconARKText2="Drive/Labels/Econ-ARK.disk_label_2x"
-
 seed_file="econ-ark.seed"
 # ks_file=ks.cfg  # Kickstart will no longer work for 20.04 and after
 rclocal_file=rc.local
@@ -41,7 +35,7 @@ mkdir -p "$iso_make"
 mkdir -p "$iso_make/iso_org"
 mkdir -p "$iso_make/iso_new"
 mkdir -p "$iso_done/$size"
-#rm -f "$iso_make/$ks_file" # Make sure new version is downloaded
+# rm -f "$iso_make/$ks_file" # Make sure new version is downloaded
 rm -f "$iso_make/$seed_file" # Make sure new version is downloaded
 rm -f "$iso_make/$startFile" # Make sure new version is downloaded
 rm -f "$iso_make/$rclocal_file" # Make sure new version is downloaded
@@ -106,8 +100,8 @@ fi
 #check that we are in ubuntu 16.04+
 
 case "$(lsb_release -rs)" in
-    16*|18*|20*) vge1604="yes" ;;
-    *) vge1604="" ;;
+    16*|18*) ub1604="yes" ;;
+    *) ub1604="" ;;
 esac
 
 #get the latest versions of Ubuntu LTS
@@ -138,7 +132,7 @@ while true; do
     echo "  [2] Ubuntu $trus LTS Server amd64 - Trusty Tahr"
     echo "  [3] Ubuntu $xenn LTS Server amd64 - Xenial Xerus"
     echo "  [4] Ubuntu $bion LTS Server amd64 - Bionic Beaver"
-    echo "  [5] Ubuntu $foca LTS Server amd64 - Focal Fossa"
+    echo "  [4] Ubuntu $foca LTS Server amd64 - Focal Fossa"
     echo
     read -ep " please enter your preference: [1|2|3|4]: " -i "5" ubver
     case $ubver in
@@ -237,8 +231,8 @@ if [ $(program_is_installed "mkpasswd") -eq 0 ] || [ $(program_is_installed "mki
 fi
 if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
     if [ $(program_is_installed "isohybrid") -eq 0 ]; then
-      # Version Greater Equal 16.04
-      if [[ $vge1604 == "yes" || $(lsb_release -cs) == "artful" ]]; then
+      #16.04
+      if [[ $ub1604 == "yes" || $(lsb_release -cs) == "artful" ]]; then
         (apt-get -y install syslinux syslinux-utils > /dev/null 2>&1) &
         spinner $!
       else
@@ -261,48 +255,35 @@ cp $iso_from/$download_file /tmp/$download_file
 
 # copy the iso contents to the working directory
 echo 'Copying the iso contents from iso_org to iso_new'
-cmd="( rsync -rai --delete $iso_make/iso_org/ $iso_make/iso_new ) &"
-echo "$cmd"
 ( rsync -rai --delete $iso_make/iso_org/ $iso_make/iso_new ) &
 spinner $!
 
 # set the language for the installation menu
 cd $iso_make/iso_new
+#doesn't work for 16.04
+# echo en > $iso_make/iso_new/isolinux/lang
+
+#16.04
+#taken from https://github.com/fries/prepare-ubuntu-unattended-install-iso/blob/master/make.sh
 # set late_command 
 
 late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
-     chroot /target curl -L -o /var/local/$refindFile $online/$refindFile ;\
+     chroot /target curl -L -o /var/local/XUBUNTARK-VolumeIcon.icns $online/root/.VolumeIcon.icns ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
-     chroot /target curl -L -o /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns ;\
-     chroot /target curl -L -o /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    ;\
-     chroot /target curl -L -o /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x ;\
      chroot /target chmod +x /var/local/start.sh ;\
      chroot /target chmod +x /var/local/finish.sh ;\
-     chroot /target chmod +x /var/local/$refindFile ;\
      chroot /target chmod +x /etc/rc.local ;\
      chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
      chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
-     chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf
-     chroot /target curl -L -o /var/local/.bash_aliases-add $online/.bash_aliases-add ;\
-     chroot /target chmod a+x /var/local/.bash_aliases-add ;\
-     chroot /target mv /etc/init.d/anacron /etc/init.d ;\ #
-"
+     chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf "
 
 # copy the seed file to the iso
 cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
 
-# copy the kickstart file to the root
-#cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
-#chmod 744 $iso_make/iso_new/$ks_file
-
-# copy "label" file ARKINSTALL 
-cp $pathToScript/Disk/Labels/ARKINSTALL.disk_label     $iso_make/iso_new/EFI/BOOT/.disk_label
-cp $pathToScript/Disk/Labels/ARKINSTALL.disk_label_2x  $iso_make/iso_new/EFI/BOOT/.disk_label_2x
-echo ARKINSTALL                                      > $iso_make/iso_new/EFI/BOOT/.disk_label.contentDetails
-
-# Wasted a lot of time trying to get .VolumeIcon.icns to work -- failed and not worth the effort
-cp $pathToScript/Disk/Icons/os_refit.icns         $iso_make/iso_new/.VolumeIcon.icns
+# # copy the kickstart file to the root
+# cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
+# chmod 744 $iso_make/iso_new/$ks_file
 
 # include firstrun script
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file
@@ -323,42 +304,20 @@ sed -i "s@{{timezone}}@$timezone@g" $iso_make/iso_new/preseed/$seed_file
 seed_checksum=$(md5sum $iso_make/iso_new/preseed/$seed_file)
 
 ## add the install option to the menu
-#sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true DEBCONF_DEBUG=5 priority=critical locale=en_US          ---\n	initrd /install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg 
+sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true DEBCONF_DEBUG=5 priority=critical locale=en_US          ---\n	initrd /install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg 
 
-#sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true DEBCONF_DEBUG=5 priority=critical locale=en_US       ---|g'     $iso_make/iso_new/isolinux/txt.cfg
+sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true DEBCONF_DEBUG=5 priority=critical locale=en_US       ---|g'     $iso_make/iso_new/isolinux/txt.cfg
 
 #sed -i -r 's/timeout=[0-9]+/timeout=1/g' $iso_make/iso_new/boot/grub/grub.cfg
-
-
-# Version with nothing in the first (automatic) boot line
-#sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer acpi=off        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "nolapic" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer nolapic        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "noapic" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer noapic        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi=ht" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer acpi=ht        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi_osi=Linux" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer cpi_osi=Linux ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noacpi" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer pci=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer pci=noirq        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "apci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer acpi=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pnpacpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer pnpacpi=off        ---\n	initrd	/install/initrd.gz\n}\n|g' $iso_make/iso_new/boot/grub/grub.cfg
-# Version with nolapic in boot line
-sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer nolapic       ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer acpi=off        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "nolapic" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer nolapic        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "noapic" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer noapic        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi=ht" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer acpi=ht        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi_osi=Linux" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer cpi_osi=Linux ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noacpi" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer pci=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer pci=noirq        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "apci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer acpi=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pnpacpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer pnpacpi=off        ---\n	initrd	/install/initrd.gz\n}\n|g' $iso_make/iso_new/boot/grub/grub.cfg
-
-sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer ---          \nlabel install\n  menu label ^acpi=off\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer acpi=off --- \nlabel install\n  menu label ^nolapic\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer nolapic --- \nlabel install\n  menu label ^noapic\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer noapic ---  \nlabel install\n  menu label ^acpi_osi=Linux\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer acpi_osi=Linux --- \nlabel install\n  menu label ^acpi=ht\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer acpi=ht --- \nlabel install\n  menu label ^pci=noacpi\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer pci=noacpi --- \nlabel install\n  menu label ^apci=noirq\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer apci=noirq ---\nlabel install\n  menu label ^aacpi=noirq\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer aacpi=noirq ---\nlabel install\n  menu label ^apnpacpi=off\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=developer apnpacpi=off ---\n|g'     $iso_make/iso_new/isolinux/txt.cfg
-
 sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back
 
-rpl 'timeout 300' 'timeout 10'  isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
+echo " creating the remastered iso"
+cd $iso_make/iso_new
 
-# 32 bit bootloader obtained from Ubuntu-Server 18.04 EFI/BOOT
-
-sudo mkdir -p $iso_make/iso_new/EFI/BOOT/32BITLOAD
-
-cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/BOOTIA32.EFI $iso_make/iso_new/EFI/BOOT
-
-#sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/rename-efi-entry.bash 
+echo "timeout 10" >> isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
-echo " creating the remastered iso"
-
-# echo "timeout 10" >> isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
-
-ISONAME=XUB20ARK
-cmd="cd $iso_make/iso_new ; (mkisofs -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
-
-#cmd="cd $iso_make/iso_new ; (xorriso -as mkisofs -isohybrid-gpt-basdat -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
-mke="$cmd"
+cmd="(mkisofs -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
 echo "$cmd"
 eval "$cmd"
 
@@ -373,14 +332,9 @@ fi
 cmd="[[ -e $iso_done/$size/$new_iso_name ]] && rm $iso_done/$size/$new_iso_name"
 echo "$cmd"
 eval "$cmd"
-cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name "
+cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name ; cp $iso_done/$size/$new_iso_name $iso_done/$size/MacVersion-$new_iso_name ; ./MattGadient/isomacprog $iso_done/$size/MacVersion-$new_iso_name"
 echo "$cmd"
 eval "$cmd"
-echo ""
-echo "make-and-move one-liner:"
-echo '' 
-echo "pushd . ; $mke ; $cmd ; popd"
-echo ''
 
 # print info to user
 echo " -----"
@@ -405,6 +359,13 @@ echo ''
 echo "$cmd"
 
 # uncomment the exit to perform cleanup of drive after run
+exit
+
+umount $iso_make/iso_org
+rm -rf $iso_make/iso_new
+rm -rf $iso_make/iso_org
+rm -rf $iso_makehtml
+
 # unset vars
 unset username
 unset password
@@ -419,11 +380,3 @@ unset iso_make
 unset iso_done
 unset tmp
 unset seed_file
-
-umount $iso_make/iso_org
-
-exit
-
-rm -rf $iso_make/iso_new
-rm -rf $iso_make/iso_org
-rm -rf $iso_makehtml
