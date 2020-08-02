@@ -100,9 +100,9 @@ cp emacs-ubuntu-virtualbox /home/econ-ark/.emacs
 cp emacs-ubuntu-virtualbox /root/.emacs
 chown "root:root" /root/.emacs
 
-cp /var/local/.Econ-ARK.disk_label    /EFI/BOOT/.disk_label
-cp /var/local/.Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
-echo 'Econ-ARK'     >                 /EFI/BOOT/.disk_label_contentDetails
+cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
+cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
+echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 
 
 cp /var/local/.bash_aliases-add /home/$myuser/.bash_aliases-add
