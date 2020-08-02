@@ -124,6 +124,9 @@ d-i pkgsel/updatedb                                         boolean     true
 # "landscape" (manage system with Landscape).
 d-i pkgsel/update-policy select unattended-upgrades
 
+# Choose lightdm as display manager
+gdm shared/default-x-display-manager select lightdm
+
 # Avoid that last message about the install being complete.
 # This will just finish and reboot
 d-i finish-install/reboot_in_progress note
