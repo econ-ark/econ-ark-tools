@@ -31,11 +31,19 @@ sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
 sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
-sudo -u econ-ark emacs -batch --eval='(package-list-packages)' # -l ~/.emacs causes mysterious 'system error' on first bootup, not clear why 
+sudo -u econ-ark emacs -batch -l     ~/.emacs 
+sudo -u econ-ark emacs -batch -l /root/.emacs 
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
 pip install econ-ark # pip install econ-ark
+
+# Set the timing for password login from screensaver
+sudo apt -y install rpl # rpl is powerful but useful
+
+sudo chmod u+w /etc/X11/app-defaults/XScreenSaver-nogl
+sudo rpl 'passwdTimeout:		0:00:30' 'passwdTimeout:		0:02:30' /etc/X11/app-defaults/XScreenSaver-nogl
+sudo chmod u-w /etc/X11/app-defaults/XScreenSaver-nogl
 
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
