@@ -5,11 +5,11 @@ myuser=econ-ark
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
-# sudo apt -y install tasksel         # A bit mysterious why these two aren't already there
-sudo add-apt-repository universe				    
+
 sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
 
-sudo dpkg-reconfigure lightdm  # make sure we use the lightdm boot manager 
+sudo dpkg-reconfigure lightdm  # make sure we use the lightdm boot manager
+
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
 [Desktop Entry]
 Encoding=UTF-8
@@ -27,7 +27,6 @@ EOF
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 
 sudo apt -y install tigervnc-scraping-server
-
 
 # https://askubuntu.com/questions/328240/assign-vnc-password-using-script
 myuser="econ-ark"
@@ -78,7 +77,7 @@ bashadd=/home/"$myuser"/.bash_aliases
 [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-orig"
 touch "$bashadd"
 
-cat /var/local/.bash_aliases-add >> "$bashadd"
+cat /var/local/bash_aliases-add >> "$bashadd"
 
 # Make ~/.bash_aliases be owned by "$myuser" instead of root
 chmod a+x "$bashadd"
@@ -100,14 +99,15 @@ cp emacs-ubuntu-virtualbox /home/econ-ark/.emacs
 cp emacs-ubuntu-virtualbox /root/.emacs
 chown "root:root" /root/.emacs
 
+mkdir /EFI/BOOT/
 cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
 cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
 echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 
 
-cp /var/local/.bash_aliases-add /home/$myuser/.bash_aliases-add
-chown "$myuser:$myuser"         /home/$myuser/.bash_aliases-add
-chmod a+x                       /home/$myuser/.bash_aliases-add
+cp /var/local/bash_aliases-add /home/$myuser/.bash_aliases-add
+chown "$myuser:$myuser"        /home/$myuser/.bash_aliases-add
+chmod a+x                      /home/$myuser/.bash_aliases-add
 
 chmod a+rwx /home/$myuser/.emacs
 chown "$myuser:$myuser" /home/$myuser/.emacs
@@ -130,6 +130,7 @@ for d in ./*/; do
     fi
 done
 
+touch /etc/cron/hourly/jobs.deny
 echo 0anacron > /etc/cron/hourly/jobs.deny # Anacron kept killing first boot
 # Not clear how to get user input after running start but this does not work
 # echo ''
@@ -147,4 +148,19 @@ echo 'ARKINSTALL'
 
 
 
+# ubuntu unable to install ubuntu on acer aspire
+
+# sudo mount /dev/[root partition on new device]/mnt
+# sudo mkdir /mnt/boot/efi
+# sudo mount /dev/[EFI system partition on new device] /mnt/boot/efi
+# for i in /dev /dev/pts /proc /sys; do sudo mount -B $i /mnt$i; done
+
+# sudo apt-get install --reinstall grub-efi-amd64
+# sudo grub-install --no-nvram --root-directory=/mnt
+# sudo chroot /mnt
+# update-grub
+# cd /boot/efi/EFI
+# cp -R ubuntu* BOOT/
+# cd BOOT
+# cp grubx64.efi bootx64.efi
 
