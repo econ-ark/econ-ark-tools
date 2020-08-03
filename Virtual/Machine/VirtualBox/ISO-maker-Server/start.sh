@@ -8,7 +8,7 @@ sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
 sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
 
-sudo dpkg-reconfigure lightdm  # make sure we use the lightdm boot manager
+# sudo dpkg-reconfigure lightdm  # make sure we use the lightdm boot manager # commented out because requires user input 
 
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
 [Desktop Entry]
