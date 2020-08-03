@@ -34,13 +34,13 @@ d-i partman/unmount_active boolean false
 
 enter cd-i partman-auto-lvm/new_vg_name string ubuntu-vg
 d-i partman-auto/expert_recipe string root-disk ::  \
-    64 64 64 free                                      \
-	$iflabel{ gpt }				    \
+    64 64 64 free                                   \
+	$gptonly{ }				    \
 	$reusemethod{ }				    \
 	method{ biosgrub }                          \
 	.			                    \
     1024 1024 1024 hfs                              \
-	$iflabel{ gpt }				    \
+	$gptonly{ }				    \
         $primary{ }                                 \
 	$bootable{ }                                \
         label{ hfsplus }                            \
@@ -49,6 +49,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         mountpoint{ /boot/hfsplus }                 \
         .                                           \
     512 512 512 fat16                               \
+	$gptonly{ }				    \
         $primary{ }                                 \
         $bootable{ }                                \
         label{ ESP }                                \
