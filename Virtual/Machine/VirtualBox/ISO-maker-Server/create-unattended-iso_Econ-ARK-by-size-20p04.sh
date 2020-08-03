@@ -169,12 +169,12 @@ while true; do
 done
 
 if [ -f /etc/timezone ]; then
-  timezone=`cat /etc/timezone`
+    timezone=`cat /etc/timezone`
 elif [ -h /etc/localtime ]; then
-  timezone=`readlink /etc/localtime | sed "s/\/usr\/share\/zoneinfo\///"`
+    timezone=`readlink /etc/localtime | sed "s/\/usr\/share\/zoneinfo\///"`
 else
-  checksum=`md5sum /etc/localtime | cut -d' ' -f1`
-  timezone=`find /usr/share/zoneinfo/ -type f -exec md5sum {} \; | grep "^$checksum" | sed "s/.*\/usr\/share\/zoneinfo\///" | head -n 1`
+    checksum=`md5sum /etc/localtime | cut -d' ' -f1`
+    timezone=`find /usr/share/zoneinfo/ -type f -exec md5sum {} \; | grep "^$checksum" | sed "s/.*\/usr\/share\/zoneinfo\///" | head -n 1`
 fi
 
 # ask the user questions about his/her preferences
@@ -200,12 +200,12 @@ if [[ ! -f $iso_from/$download_file ]]; then
     download "$download_location$download_file"
 fi
 if [[ ! -f $iso_from/$download_file ]]; then
-	echo "Error: Failed to download ISO: $download_location$download_file"
-	echo "This file may have moved or may no longer exist."
-	echo
-	echo "You can download it manually and move it to $iso_from/$download_file"
-	echo "Then run this script again."
-	exit 1
+    echo "Error: Failed to download ISO: $download_location$download_file"
+    echo "This file may have moved or may no longer exist."
+    echo
+    echo "You can download it manually and move it to $iso_from/$download_file"
+    echo "Then run this script again."
+    exit 1
 fi
 
 cd $iso_make
@@ -237,14 +237,14 @@ if [ $(program_is_installed "mkpasswd") -eq 0 ] || [ $(program_is_installed "mki
 fi
 if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
     if [ $(program_is_installed "isohybrid") -eq 0 ]; then
-      # Version Greater Equal 16.04
-      if [[ $vge1604 == "yes" || $(lsb_release -cs) == "artful" ]]; then
-        (apt-get -y install syslinux syslinux-utils > /dev/null 2>&1) &
-        spinner $!
-      else
-        (apt-get -y install syslinux > /dev/null 2>&1) &
-        spinner $!
-      fi
+	# Version Greater Equal 16.04
+	if [[ $vge1604 == "yes" || $(lsb_release -cs) == "artful" ]]; then
+            (apt-get -y install syslinux syslinux-utils > /dev/null 2>&1) &
+            spinner $!
+	else
+            (apt-get -y install syslinux > /dev/null 2>&1) &
+            spinner $!
+	fi
     fi
 fi
 
@@ -284,8 +284,8 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
      chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
      chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
      chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf
-     chroot /target curl -L -o /var/local/.bash_aliases-add $online/.bash_aliases-add ;\
-     chroot /target chmod a+x /var/local/.bash_aliases-add ;\
+     chroot /target curl -L -o /var/local/bash_aliases-add $online/bash_aliases-add ;\
+     chroot /target chmod a+x /var/local/bash_aliases-add ;\
      chroot /target mv /etc/init.d/anacron /etc/init.d ;\ #
 "
 
@@ -420,7 +420,7 @@ unset iso_done
 unset tmp
 unset seed_file
 
-umount $iso_make/iso_org
+umount /usr/local/share/iso_make/iso_org
 
 exit
 
