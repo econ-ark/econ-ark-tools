@@ -37,11 +37,11 @@ echo "$myuser" >> /tmp/vncpasswd # Next  is the read-only  password (useful for 
 [[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  # If a previous version exists, delete it
 sudo mkdir -p /home/$myuser/.vnc
 
-/usr/bin/vncpasswd -f < /tmp/vncpasswd > /home/$myuser/.vnc/passwd  # Create encrypted versions
+# /usr/bin/vncpasswd -f < /tmp/vncpasswd > /home/$myuser/.vnc/passwd  # Create encrypted versions
 
 # Give the files the right permissions
-chown -R $myuser:$myuser /home/$myuser/.vnc
-chmod 0600 /home/$myuser/.vnc/passwd
+# chown -R $myuser:$myuser /home/$myuser/.vnc
+# chmod 0600 /home/$myuser/.vnc/passwd
 
 
 # A few things to do quickly at the very beginning; the "finish" script is stuff that runs in the background for a long time 
