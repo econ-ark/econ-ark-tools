@@ -19,7 +19,7 @@ sudo pip install nbval
 # Get default packages for Econ-ARK machine
 sudo apt -y install curl git bash-completion cifs-utils openssh-server nautilus-share xclip xsel gpg
 # Create a public key for security purposes
-sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/@myuser/.ssh
+sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh
 # Set up security for emacs package downloading 
 sudo apt -y install emacs
 sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
@@ -39,7 +39,7 @@ sudo -u econ-ark emacs -batch -l /root/.emacs
 pip install econ-ark # pip install econ-ark
 
 # Set the timing for password login from screensaver
-sudo apt -y install rpl # rpl is powerful but useful
+sudo apt -y install rpl # rpl is dangerous but useful
 
 sudo chmod u+w /etc/X11/app-defaults/XScreenSaver-nogl
 sudo rpl 'passwdTimeout:		0:00:30' 'passwdTimeout:		0:02:30' /etc/X11/app-defaults/XScreenSaver-nogl
@@ -104,6 +104,7 @@ if [[ "$hfsplusLabels" != "" ]]; then
     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS
     sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/refind-install-MacOS.sh /tmp/refind-HFS
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /tmp/refind-HFS/.VolumeIcon.icns
+    sudo cp /var/local/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns
     sudo chmod a+x /tmp/refind-HFS/*.sh
     sudo curl -L -o https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker-Server/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
