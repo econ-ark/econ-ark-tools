@@ -130,7 +130,7 @@ for d in ./*/; do
     fi
 done
 
-touch /etc/cron/hourly/jobs.deny
+touch /etc/cron.hourly/jobs.deny
 echo 0anacron > /etc/cron/hourly/jobs.deny # Anacron kept killing first boot
 # Not clear how to get user input after running start but this does not work
 # echo ''
