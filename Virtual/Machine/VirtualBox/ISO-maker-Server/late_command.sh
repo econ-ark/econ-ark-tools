@@ -3,6 +3,7 @@ chroot /target curl -L -o /var/local/late_command https://raw.githubusercontent.
      chroot /target curl -L -o /var/local/start.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server/start.sh 
      chroot /target curl -L -o /var/local/finish.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server/finish.sh 
      chroot /target curl -L -o /var/local/refind-install-MacOS.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server/refind-install-MacOS.sh 
+     chroot /target curl -L -o /var/local/grub-menu.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server/grub-menu.sh 
      chroot /target curl -L -o /etc/rc.local https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server/rc.local 
      chroot /target curl -L -o /var/local/Econ-ARK.VolumeIcon.icns https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server/Disk/Icons/Econ-ARK.VolumeIcon.icns 
      chroot /target curl -L -o /var/local/Econ-ARK.disk_label      https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server/Disk/Labels/Econ-ARK.disklabel    
