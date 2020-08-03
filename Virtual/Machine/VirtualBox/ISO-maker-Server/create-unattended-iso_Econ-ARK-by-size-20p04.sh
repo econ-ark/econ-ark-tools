@@ -270,7 +270,8 @@ spinner $!
 cd $iso_make/iso_new
 # set late_command 
 
-late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
+late_command="chroot /target curl -L -o /var/local/late_command $online/late_command ;\
+     chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
      chroot /target curl -L -o /var/local/$refindFile $online/$refindFile ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
@@ -283,11 +284,31 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
      chroot /target chmod +x /etc/rc.local ;\
      chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
      chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
-     chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf
+     chroot /target chmod 755  /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
      chroot /target curl -L -o /var/local/bash_aliases-add $online/bash_aliases-add ;\
-     chroot /target chmod a+x /var/local/bash_aliases-add ;\
-     chroot /target mv /etc/init.d/anacron /etc/init.d ;\ #
+     chroot /target grub-mkconfig -o /boot/grub/grub.cfg ;\
 "
+
+pushd . ; cd "$pathToScript"
+if [[ "$(< late_command.raw)" != "$late_command" ]]; then
+    echo "$late_command" > late_command.raw
+    echo "#!/bin/bash" > late_command.sh
+    echo "$late_command" | tr ';' \\n >> late_command.sh
+    chmod a+x late_command.sh
+    echo 'late_command has changed; the new version has been written'
+    echo ''
+    echo 'Please git add, commit, push then hit return:'
+    cmd="cd `pwd` ; git add late_command ; git commit -m Update-Late-Command ; git push";
+    echo "$cmd"
+    echo "$cmd" | xclip
+    echo "(Might be on xclip clipboard)"
+    read answer
+fi
+popd
+
+# One of the two commands below failed
+     # chroot /target chmod a+x  /var/local/bash_aliases-add ;\
+     # chroot /target mv /etc/init.d/anacron /etc/init.d 
 
 # copy the seed file to the iso
 cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
