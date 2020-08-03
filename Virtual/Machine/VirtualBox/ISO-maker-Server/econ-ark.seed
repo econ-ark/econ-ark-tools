@@ -128,7 +128,9 @@ d-i netcfg/get_hostname                                     string      {{hostna
 d-i hw-detect/load_firmware boolean true
 
 # Choose lightdm as display manager
-gdm shared/default-x-display-manager select lightdm
+# https://lists.debian.org/debian-user/2014/08/msg01370.html
+gdm     shared/default-x-display-manager select lightdm
+lightdm shared/default-x-display-manager select lightdm
 
 # Avoid that last message about the install being complete.
 # This will just finish and reboot
