@@ -29,32 +29,31 @@ d-i keyboard-configuration/xkb-keymap select us
 d-i partman-efi/non_efi_system boolean true
 
 # Unmount active partitions, if any
-#d-i partman/unmount_active boolean true
-d-i partman/unmount_active boolean false
+d-i partman/unmount_active boolean true
+#d-i partman/unmount_active boolean false
 
 enter cd-i partman-auto-lvm/new_vg_name string ubuntu-vg
 d-i partman-auto/expert_recipe string root-disk ::  \
-    64 64 64 free                                      \
-	$iflabel{ gpt }				    \
-	$reusemethod{ }				    \
-	method{ biosgrub }                          \
-	.			                    \
-    1024 1024 1024 hfs                              \
-	$iflabel{ gpt }				    \
-        $primary{ }                                 \
-	$bootable{ }                                \
-        label{ hfsplus }                            \
-        method{ keep } format{ }                    \
-        use_filesystem{ } filesystem{ hfs }         \
-        mountpoint{ /boot/hfsplus }                 \
-        .                                           \
+    # 64 64 64 free                                      \
+    # 	$iflabel{ gpt }				    \
+    # 	$reusemethod{ }				    \
+    # 	method{ biosgrub }                          \
+    # 	.			                    \
     512 512 512 fat16                               \
         $primary{ }                                 \
         $bootable{ }                                \
         label{ ESP }                                \
         method{ efi } format{ }                     \
         use_filesystem{ } filesystem{ fat16 }       \
-        mountpoint{ /efi/boot }                     \
+        mountpoint{ /boot/efi }                     \
+        .                                           \
+    1024 1024 1024 hfs                              \
+        $primary{ }                                 \
+	$bootable{ }                                \
+        label{ hfsplus }                            \
+        method{ keep } format{ }                    \
+        use_filesystem{ } filesystem{ hfs }         \
+        mountpoint{ /boot/hfsplus }                 \
         .                                           \
     2048 4096 16384 linux-swap                      \
         $lvmok{ }                                   \
@@ -124,8 +123,10 @@ d-i pkgsel/updatedb                                         boolean     true
 # "landscape" (manage system with Landscape).
 d-i pkgsel/update-policy select unattended-upgrades
 
-# Choose lightdm as display manager
-gdm shared/default-x-display-manager select lightdm
+# Choose lightdm as display manager -- tell the others that they are NOT
+gdm     shared/default-x-display-manager select lightdm
+gdm3    shared/default-x-display-manager select lightdm
+lightdm shared/default-x-display-manager select lightdm
 
 # Avoid that last message about the install being complete.
 # This will just finish and reboot
