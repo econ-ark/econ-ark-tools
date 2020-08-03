@@ -75,6 +75,7 @@ d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
 # ### Grub
 d-i grub-installer/only_debian boolean true
+d-i grub-installer/bootdev 
 #d-i grub-installer/with_other_os boolean true
 
 ### Network config
