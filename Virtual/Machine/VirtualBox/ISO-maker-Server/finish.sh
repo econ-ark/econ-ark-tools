@@ -4,6 +4,10 @@ myuser=econ-ark
 # The cups service sometimes gets stuck; stop it before that happens
 sudo systemctl stop cups-browsed.service 
 sudo systemctl disable cups-browsed.service
+
+# Install xubuntu desktop causes problems having to do with requirement to answer a question which can't figure out how to preseed about which display manager to use
+sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
+
 # Update everything 
 sudo apt -y update && sudo apt -y upgrade
 sudo add-apt-repository -y ppa:deadsnakes/ppa

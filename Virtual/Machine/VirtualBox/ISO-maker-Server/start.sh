@@ -6,8 +6,6 @@ sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
 
-sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
-
 # sudo dpkg-reconfigure lightdm  # make sure we use the lightdm boot manager # commented out because requires user input 
 
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
@@ -155,12 +153,12 @@ echo 'ARKINSTALL'
 # sudo mount /dev/[EFI system partition on new device] /mnt/boot/efi
 # for i in /dev /dev/pts /proc /sys; do sudo mount -B $i /mnt$i; done
 
-# sudo apt-get install --reinstall grub-efi-amd64
-# sudo grub-install --no-nvram --root-directory=/mnt
-# sudo chroot /mnt
-# update-grub
-# cd /boot/efi/EFI
-# cp -R ubuntu* BOOT/
-# cd BOOT
-# cp grubx64.efi bootx64.efi
+sudo apt-get install --reinstall grub-efi-amd64
+sudo grub-install --no-nvram --root-directory=/mnt
+sudo chroot /mnt
+update-grub
+cd /boot/efi/EFI
+cp -R ubuntu* BOOT/
+cd BOOT
+cp grubx64.efi bootx64.efi
 
