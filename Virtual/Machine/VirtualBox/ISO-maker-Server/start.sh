@@ -6,7 +6,8 @@ sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
 
-# sudo dpkg-reconfigure lightdm  # make sure we use the lightdm boot manager # commented out because requires user input 
+sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
+
 
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
 [Desktop Entry]
@@ -135,11 +136,12 @@ echo 0anacron > /etc/cron.hourly/jobs.deny # Anacron kept killing first boot
 # echo ''
 # echo ''
 # echo ''
-# echo ''
+echo ''
 echo 'Finished running the ./start.sh script'
 # echo ''
 # echo 'Hit return when you have guaranteed that the system will reboot'
 # echo 'to the current device, which should be called:'
+# echo ''
 # echo ''
 echo 'ARKINSTALL'
 # echo ''
