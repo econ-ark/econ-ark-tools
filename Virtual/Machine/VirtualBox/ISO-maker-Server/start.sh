@@ -147,18 +147,19 @@ echo 'ARKINSTALL'
 
 
 # ubuntu unable to install ubuntu on acer aspire
+# Instructions below are for installing via the shell on the installer volume
 
 # sudo mount /dev/[root partition on new device]/mnt
 # sudo mkdir /mnt/boot/efi
 # sudo mount /dev/[EFI system partition on new device] /mnt/boot/efi
 # for i in /dev /dev/pts /proc /sys; do sudo mount -B $i /mnt$i; done
 
-sudo apt-get install --reinstall grub-efi-amd64
-sudo grub-install --no-nvram --root-directory=/mnt
-sudo chroot /mnt
-update-grub
-cd /boot/efi/EFI
-cp -R ubuntu* BOOT/
-cd BOOT
-cp grubx64.efi bootx64.efi
+# sudo apt-get install --reinstall grub-efi-amd64
+# sudo grub-install --no-nvram --root-directory=/mnt
+# sudo chroot /mnt
+# update-grub
+# cd /boot/efi/EFI
+# cp -R ubuntu* BOOT/
+# cd BOOT
+# cp grubx64.efi bootx64.efi
 
