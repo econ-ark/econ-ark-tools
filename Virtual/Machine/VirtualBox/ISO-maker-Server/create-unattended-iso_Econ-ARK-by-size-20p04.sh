@@ -270,7 +270,7 @@ spinner $!
 cd $iso_make/iso_new
 # set late_command 
 
-late_command="chroot /target curl -L -o /var/local/late_command $online/late_command ;\
+late_command="chroot /target curl -L -o /var/local/late_command $online/late_command.sh ;\
      chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
      chroot /target curl -L -o /var/local/$refindFile $online/$refindFile ;\
@@ -298,7 +298,7 @@ if [[ "$(< late_command.raw)" != "$late_command" ]]; then
     echo 'late_command has changed; the new version has been written'
     echo ''
     echo 'Please git add, commit, push then hit return:'
-    cmd="cd `pwd` ; git add late_command ; git commit -m Update-Late-Command ; git push";
+    cmd="pushd . ; cd `pwd` ; git add late_command.sh ; git commit -m Update-Late-Command ; git push ; popd";
     echo "$cmd"
     echo "$cmd" | xclip
     echo "(Might be on xclip clipboard)"
