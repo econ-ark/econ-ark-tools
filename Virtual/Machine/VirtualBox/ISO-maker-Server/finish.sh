@@ -6,7 +6,7 @@ sudo systemctl stop cups-browsed.service
 sudo systemctl disable cups-browsed.service
 
 # Install xubuntu desktop causes problems having to do with requirement to answer a question which can't figure out how to preseed about which display manager to use
-sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
+# sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
 
 # Update everything 
 sudo apt -y update && sudo apt -y upgrade
@@ -19,7 +19,7 @@ sudo pip install nbval
 # Get default packages for Econ-ARK machine
 sudo apt -y install curl git bash-completion cifs-utils openssh-server nautilus-share xclip xsel gpg
 # Create a public key for security purposes
-sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh
+sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/myuser/.ssh
 # Set up security for emacs package downloading 
 sudo apt -y install emacs
 sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
