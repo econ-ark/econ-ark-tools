@@ -145,6 +145,5 @@ else
 fi
 
 
-# sudo apt-get install firmware-b43-installer
 
 reboot 

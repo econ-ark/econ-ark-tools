@@ -82,9 +82,6 @@ cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirem
 
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 
-# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
-[[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
-
 sudo apt -y install build-essential module-assistant parted gparted
 
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
@@ -122,10 +119,17 @@ fi
 sudo apt-get -y purge gdm
 sudo apt-get -y purge gdm3
 
-# sudo apt -y install xubuntu-desktop 
+sudo tasksel xubuntu-desktop
+sudo apt -y install xfce4
+
+# sudo apt -y install lightdm
 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
 echo set shared/default-x-display-manager lightdm | debconf-communicate 
+
+# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
+[[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+
 
 sudo apt -y install xscreensaver 
 
@@ -140,14 +144,6 @@ else
     echo ''
 fi
 
-echo Finished automatic installations.  Rebooting.
 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* xubuntu-desktop  # Not sure why this isn't installed by presee
-d
-
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
-echo set shared/default-x-display-manager lightdm | debconf-communicate 
-
-# sudo apt-get install firmware-b43-installer
 
 reboot 
