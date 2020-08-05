@@ -41,10 +41,6 @@ pip install econ-ark # pip install econ-ark
 # Set the timing for password login from screensaver
 sudo apt -y install rpl # rpl is dangerous but useful
 
-sudo chmod u+w /etc/X11/app-defaults/XScreenSaver-nogl
-sudo rpl 'passwdTimeout:		0:00:30' 'passwdTimeout:		0:02:30' /etc/X11/app-defaults/XScreenSaver-nogl
-sudo chmod u-w /etc/X11/app-defaults/XScreenSaver-nogl
-
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
 cd "$arkHome"
@@ -116,8 +112,16 @@ fi
 sudo apt-get -y purge gdm
 sudo apt-get -y purge gdm3
 
-export DEBIAN_FRONTEND=noninteractive
+# sudo apt -y install xubuntu-desktop 
 
-sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
+echo set shared/default-x-display-manager lightdm | debconf-communicate 
+
+
+sudo chmod u+w /etc/X11/app-defaults/XScreenSaver-nogl
+sudo rpl 'passwdTimeout:		0:00:30' 'passwdTimeout:		0:02:30' /etc/X11/app-defaults/XScreenSaver-nogl
+sudo chmod u-w /etc/X11/app-defaults/XScreenSaver-nogl
+
+
 echo Finished automatic installations.  Rebooting.
 reboot 
