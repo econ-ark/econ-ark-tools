@@ -1,9 +1,5 @@
 #!/bin/bash
 
-exec 5> (logger -t $0)
-BASH_EXTRACEFD="5"
-PS4='$LINENO: '
-
 set -x
 set -v
 
