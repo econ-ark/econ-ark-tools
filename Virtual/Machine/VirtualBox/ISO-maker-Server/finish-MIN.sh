@@ -113,5 +113,6 @@ if [[ "$hfsplusLabels" != "" ]]; then
     # sudo refind-install --usedefault "$ESP"
 fi
 
+sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
 echo Finished automatic installations.  Rebooting.
 reboot 
