@@ -14,25 +14,26 @@ sudo add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt -y install software-properties-common python3 python3-pip python-pytest
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
-sudo apt -y python-pytest
+sudo python-pytest
+sudo -i -u econ-ark python-pytest
 sudo pip install nbval
 # Get default packages for Econ-ARK machine
 sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
 # Create a public key for security purposes
-sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/myuser/.ssh
+sudo -i -u  $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/myuser/.ssh
 # Set up security for emacs package downloading 
 sudo apt -y install emacs
-sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
-sudo -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
+sudo -i -u  econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
+sudo -i -u  econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
 sudo chown econ-ark:econ-ark /home/econ-ark/.emacs
 sudo chown econ-ark:econ-ark -Rf /home/econ-ark/.emacs.d
-sudo -u econ-ark gpg --list-keys 
-sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
-sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
-sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
-sudo -u econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
-sudo -u econ-ark emacs -batch -l     ~/.emacs 
-sudo -u econ-ark emacs -batch -l /root/.emacs 
+sudo -i -u  econ-ark gpg --list-keys 
+sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
+sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
+sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
+sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
+sudo -i -u  econ-ark emacs -batch -l     ~/.emacs 
+sudo emacs -batch -l /root/.emacs 
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
@@ -65,8 +66,15 @@ echo 'cd notebooks ; pytest --nbval-lax *.ipynb  '    >  DemARK-README.md
 
 echo 'This is your local, personal copy of REMARK, which you can modify.  '    >  REMARK-README.md
 
-sudo -u econ-ark pip install jupyter_contrib_nbextensions
-sudo -u econ-ark jupyter contrib nbextension install --user
+echo '' 
+echo '' 
+echo '' 
+echo '' 
+echo '' 
+echo 'whoami='$(whoami)
+echo ''
+pip install jupyter_contrib_nbextensions
+pip install jupyter contrib nbextension install --user
 cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirements.txt
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirements.txt
 
@@ -123,7 +131,7 @@ if [[ -e /etc/X11/app-defaults/XScreenSaver-nogl ]]; then
     sudo chmod u+w /etc/X11/app-defaults/XScreenSaver-nogl
     sudo rpl 'passwdTimeout:		0:00:30' 'passwdTimeout:		0:02:30' /etc/X11/app-defaults/XScreenSaver-nogl
     sudo chmod u-w /etc/X11/app-defaults/XScreenSaver-nogl
-elif
+else
     echo ''
     echo '/etc/X11/app-defaults/XScreenSaver-nogl config not found, so screensaver timer not reset'
     echo 'continuing'
