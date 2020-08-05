@@ -1,7 +1,12 @@
 #!/bin/bash
 
+exec 5> (logger -t $0)
+BASH_EXTRACEFD="5"
+PS4='$LINENO: '
+
 set -x
-set -v 
+set -v
+
 # Set username
 myuser=econ-ark
 # The cups service sometimes gets stuck; stop it before that happens
@@ -143,7 +148,5 @@ else
     echo 'continuing'
     echo ''
 fi
-
-
 
 reboot 

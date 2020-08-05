@@ -1,6 +1,10 @@
 #!/bin/bash
 # Autostart terminal upon autologin so that ~/.bash_alias will be executed automatically
 
+exec 5> (logger -t $0)
+BASH_EXTRACEFD="5"
+PS4='$LINENO: '
+
 set -x
 set -v 
 sudo apt-get -y install firmware-b43-installer
