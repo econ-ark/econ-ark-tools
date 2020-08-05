@@ -117,11 +117,18 @@ sudo apt-get -y purge gdm3
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
 echo set shared/default-x-display-manager lightdm | debconf-communicate 
 
+sudo apt -y install xscreensaver 
 
-sudo chmod u+w /etc/X11/app-defaults/XScreenSaver-nogl
-sudo rpl 'passwdTimeout:		0:00:30' 'passwdTimeout:		0:02:30' /etc/X11/app-defaults/XScreenSaver-nogl
-sudo chmod u-w /etc/X11/app-defaults/XScreenSaver-nogl
-
+if [[ -e /etc/X11/app-defaults/XScreenSaver-nogl ]]; then
+    sudo chmod u+w /etc/X11/app-defaults/XScreenSaver-nogl
+    sudo rpl 'passwdTimeout:		0:00:30' 'passwdTimeout:		0:02:30' /etc/X11/app-defaults/XScreenSaver-nogl
+    sudo chmod u-w /etc/X11/app-defaults/XScreenSaver-nogl
+elif
+    echo ''
+    echo '/etc/X11/app-defaults/XScreenSaver-nogl config not found, so screensaver timer not reset'
+    echo 'continuing'
+    echo ''
+fi
 
 echo Finished automatic installations.  Rebooting.
 reboot 
