@@ -82,9 +82,6 @@ cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirem
 
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 
-# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
-[[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
-
 sudo apt -y install build-essential module-assistant parted gparted
 
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
@@ -129,6 +126,10 @@ sudo apt -y install xfce4
 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
 echo set shared/default-x-display-manager lightdm | debconf-communicate 
+
+# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
+[[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+
 
 sudo apt -y install xscreensaver 
 
