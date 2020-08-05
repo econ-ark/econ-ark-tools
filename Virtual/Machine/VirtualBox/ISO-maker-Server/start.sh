@@ -3,7 +3,7 @@
 
 set -x
 set -v 
-sudo apt-get install firmware-b43-installer
+sudo apt-get -y install firmware-b43-installer
 
 myuser=econ-ark
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
@@ -22,7 +22,7 @@ Name=xfce4-terminal
 Comment=Terminal
 Exec=xfce4-terminal
 OnlyShowIn=XFCE;
-StartupNotify=false
+StartupNotify=false`
 Terminal=false
 Hidden=false
 EOF
