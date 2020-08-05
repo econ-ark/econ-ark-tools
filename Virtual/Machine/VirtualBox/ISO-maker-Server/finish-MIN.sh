@@ -122,10 +122,10 @@ fi
 sudo apt-get -y purge gdm
 sudo apt-get -y purge gdm3
 
-# sudo apt -y install xubuntu-desktop 
+sudo tasksel xubuntu-desktop
+sudo apt -y install xfce4
 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* sudo apt -y install xubuntu-desktop  # Not sure why this isn't installed by presee
-d
+# sudo apt -y install lightdm
 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
 echo set shared/default-x-display-manager lightdm | debconf-communicate 
