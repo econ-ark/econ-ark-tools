@@ -75,6 +75,8 @@ echo 'whoami='$(whoami)
 echo ''
 pip install jupyter_contrib_nbextensions
 pip install jupyter contrib nbextension install --user
+pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
+
 cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirements.txt
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirements.txt
 
@@ -139,4 +141,13 @@ else
 fi
 
 echo Finished automatic installations.  Rebooting.
+
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* xubuntu-desktop  # Not sure why this isn't installed by presee
+d
+
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
+echo set shared/default-x-display-manager lightdm | debconf-communicate 
+
+# sudo apt-get install firmware-b43-installer
+
 reboot 
