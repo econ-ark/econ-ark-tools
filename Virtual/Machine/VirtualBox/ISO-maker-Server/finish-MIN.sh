@@ -124,6 +124,9 @@ sudo apt-get -y purge gdm3
 
 # sudo apt -y install xubuntu-desktop 
 
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* sudo apt -y install xubuntu-desktop  # Not sure why this isn't installed by presee
+d
+
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
 echo set shared/default-x-display-manager lightdm | debconf-communicate 
 
@@ -140,13 +143,6 @@ else
     echo ''
 fi
 
-echo Finished automatic installations.  Rebooting.
-
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* xubuntu-desktop  # Not sure why this isn't installed by presee
-d
-
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
-echo set shared/default-x-display-manager lightdm | debconf-communicate 
 
 # sudo apt-get install firmware-b43-installer
 
