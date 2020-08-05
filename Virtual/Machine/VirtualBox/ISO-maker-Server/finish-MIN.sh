@@ -1,4 +1,7 @@
 #!/bin/bash
+
+set -x
+set -v 
 # Set username
 myuser=econ-ark
 # The cups service sometimes gets stuck; stop it before that happens

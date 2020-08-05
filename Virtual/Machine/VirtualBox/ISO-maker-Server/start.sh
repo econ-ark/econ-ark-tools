@@ -1,6 +1,8 @@
 #!/bin/bash
 # Autostart terminal upon autologin so that ~/.bash_alias will be executed automatically
 
+set -x
+set -v 
 sudo apt-get install firmware-b43-installer
 
 myuser=econ-ark
