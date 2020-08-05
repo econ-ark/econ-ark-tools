@@ -76,9 +76,13 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
 # ### Grub
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
 #d-i grub-installer/only_debian boolean true
 #d-i grub-installer/with_other_os boolean true
-d-i grub-installer/bootdev string default
+d-i netcfg/choose_interface select auto
+d-i netcfg/get_hostname                                     string      {{hostname}}
+d-i hw-detect/load_firmware boolean true
 
 
 # mirror settings
@@ -115,6 +119,7 @@ d-i apt-setup/security_host                                 string      security
 d-i apt-setup/security_path                                 string      /ubuntu
 tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard, Basic Ubuntu server #xubuntu-desktop 
 #tasksel tasksel/desktop                                     multiselect xfce # Start xfce
+tasksel tasksel/desktop                                     multiselect xfce # Start xfce
 d-i pkgsel/upgrade                                          select      safe-upgrade
 d-i pkgsel/update-policy                                    select      unattended-upgrades
 d-i pkgsel/updatedb                                         boolean     true
@@ -124,19 +129,6 @@ d-i pkgsel/updatedb                                         boolean     true
 # "landscape" (manage system with Landscape).
 d-i pkgsel/update-policy select unattended-upgrades
 
-### Network config
-d-i netcfg/choose_interface select auto
-d-i netcfg/get_hostname                                     string      {{hostname}}
-d-i hw-detect/load_firmware boolean true
-
-# Choose lightdm as display manager
-# https://lists.debian.org/debian-user/2014/08/msg01370.html
-gdm     shared/default-x-display-manager select lightdm
-lightdm shared/default-x-display-manager select lightdm
-gdm3    shared/default-x-display-manager select lightdm
-
-# Kernel options
-d-i debian-installer/add-kernel-opts strin nolapic noapic
 
 # Avoid that last message about the install being complete.
 # This will just finish and reboot
