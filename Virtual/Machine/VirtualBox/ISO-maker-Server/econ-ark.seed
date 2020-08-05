@@ -111,7 +111,7 @@ d-i apt-setup/backports                                     boolean     true
 d-i apt-setup/services-select                               multiselect security
 d-i apt-setup/security_host                                 string      security.ubuntu.com
 d-i apt-setup/security_path                                 string      /ubuntu
-tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard, Basic Ubuntu server #xubuntu-desktop 
+tasksel tasksel/first                                       multiselect xubuntu-desktop # standard, Basic Ubuntu server #xubuntu-desktop 
 tasksel tasksel/desktop                                     multiselect xfce # Start xfce
 d-i pkgsel/upgrade                                          select      safe-upgrade
 d-i pkgsel/update-policy                                    select      unattended-upgrades
