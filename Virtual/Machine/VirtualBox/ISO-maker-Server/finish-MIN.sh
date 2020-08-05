@@ -119,6 +119,5 @@ sudo apt-get -y purge gdm3
 export DEBIAN_FRONTEND=noninteractive
 
 sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
-sudo apt -y install xfce4 # but the xubuntu-desktop, at least, is not
 echo Finished automatic installations.  Rebooting.
 reboot 
