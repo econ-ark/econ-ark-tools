@@ -22,7 +22,7 @@ Name=xfce4-terminal
 Comment=Terminal
 Exec=xfce4-terminal
 OnlyShowIn=XFCE;
-StartupNotify=false`
+StartupNotify=false
 Terminal=false
 Hidden=false
 EOF
