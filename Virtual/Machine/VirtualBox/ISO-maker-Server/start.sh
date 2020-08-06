@@ -4,7 +4,7 @@
 set -x
 set -v 
 sudo apt-get -y install firmware-b43-installer
-sudo apt-get -y install xubuntu-desktop
+#sudo apt-get -y install xubuntu-desktop^
 
 myuser=econ-ark
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart

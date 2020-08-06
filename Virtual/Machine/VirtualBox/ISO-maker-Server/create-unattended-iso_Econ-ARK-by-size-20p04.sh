@@ -285,10 +285,14 @@ late_command="chroot /target curl -L -o /var/local/late_command $online/late_com
      chroot /target chmod +x /etc/rc.local ;\
      chroot /target curl -L -o /var/local/bash_aliases-add $online/bash_aliases-add ;\
      chroot /target grub-mkconfig -o /boot/grub/grub.cfg ;\
+     chroot /target apt-get -y install xubuntu-desktop^ ;\
+     chroot /target mkdir -p   /home/econ-ark/.config/autostart
+     chroot /target chown econ-ark:econ-ark /home/econ-ark/.config/autostart
+     chroot /target echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 "
-     # chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
-     # chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
-     # chroot /target chmod 755  /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+#     chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+#     chroot /target chmod 755  /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+#     chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
 
 pushd . ; cd "$pathToScript"
 if [[ "$(< late_command.raw)" != "$late_command" ]]; then
