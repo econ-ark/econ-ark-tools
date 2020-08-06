@@ -2,9 +2,18 @@
 # Autostart terminal upon autologin so that ~/.bash_alias will be executed automatically
 
 set -x
-set -v 
+set -v
+
+# Update everything 
+sudo apt -y update
+
 sudo apt-get -y install firmware-b43-installer
-sudo add-apt-repository universe 
+
+# Play nice with Macs
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
+
+# Start avahi so it can be found on local network
+#avahi-daemon start
 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm

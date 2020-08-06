@@ -63,9 +63,6 @@ chown $myuser:$myuser "$bashadd"
 # Security (needed for emacs)
 sudo apt -y install ca-certificates
 
-# Play nice with Macs
-sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
-
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 cd    /home/$myuser
 echo "downloading .emacs file"
@@ -155,8 +152,8 @@ sudo systemctl disable cups-browsed.service
 # Install xubuntu desktop causes problems having to do with requirement to answer a question which can't figure out how to preseed about which display manager to use
 # sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
 
-# Update everything 
-sudo apt -y update && sudo apt -y upgrade
+# Upgrade everything
+#    sudo apt -y upgrade
 sudo add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt -y install software-properties-common python3 python3-pip python-pytest
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
@@ -256,7 +253,7 @@ if [[ "$hfsplusLabels" != "" ]]; then
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /tmp/refind-HFS/.VolumeIcon.icns
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns
     sudo chmod a+x /tmp/refind-HFS/*.sh
-    sudo curl -L -o https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker-Server/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
+    sudo curl -L -o /tmp/refind-HFS https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker-Server/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')

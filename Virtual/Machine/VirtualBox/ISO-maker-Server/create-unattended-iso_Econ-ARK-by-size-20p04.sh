@@ -274,8 +274,7 @@ late_command="chroot /target curl -L -o /var/local/late_command.sh $online/late_
      chroot /target chmod +x /etc/rc.local ;\
      chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
      chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
-     chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;
-"
+     chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;"
 #     chroot /target grub-mkconfig -o /boot/grub/grub.cfg ;\
     #     chroot /target apt-get -y install xubuntu-desktop^ ;\
     #     chroot /target mkdir -p   /home/econ-ark/.config/autostart
@@ -367,8 +366,6 @@ rpl 'timeout 300' 'timeout 10'  isolinux/isolinux.cfg # Shuts down language choi
 sudo mkdir -p $iso_make/iso_new/EFI/BOOT/32BITLOAD
 
 cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/BOOTIA32.EFI $iso_make/iso_new/EFI/BOOT
-
-cp 
 
 #sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/rename-efi-entry.bash 
 
