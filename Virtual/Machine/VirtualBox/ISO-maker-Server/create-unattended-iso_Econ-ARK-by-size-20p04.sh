@@ -272,7 +272,7 @@ late_command="chroot /target curl -L -o /var/local/late_command.sh $online/late_
      chroot /target chmod +x /var/local/start.sh ;\
      chroot /target chmod +x /var/local/finish.sh ;\
      chroot /target chmod +x /etc/rc.local ;\
-     chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
+     chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\ 
      chroot /target curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
      chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;"
 #     chroot /target grub-mkconfig -o /boot/grub/grub.cfg ;\
@@ -289,7 +289,7 @@ if [[ "$(< late_command.raw)" != "$late_command" ]]; then
     echo "$late_command" > late_command.raw
     # Make a bash script that does the same things; useful for debugging
     echo "#!/bin/bash" > late_command.sh
-    echo "$late_command" | tr ';' \\n | sed 's|     chroot /target ||g' >> late_command.sh
+    echo "$late_command" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' >> late_command.sh
     chmod a+x late_command.sh
     echo 'late_command has changed; the new version has been written'
     echo ''

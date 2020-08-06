@@ -264,17 +264,15 @@ fi
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 
-sudo apt -y install xscreensaver 
+pushd  .
+isoName=ubuntu-20.04-legacy-server-amd64-unattended_econ-ark.iso
+echo ''
+echo 'Fetching online image of this installer to '
+echo "/media/$isoName"
 
-if [[ -e /etc/X11/app-defaults/XScreenSaver-nogl ]]; then
-    sudo chmod u+w /etc/X11/app-defaults/XScreenSaver-nogl
-    sudo rpl 'passwdTimeout:		0:00:30' 'passwdTimeout:		0:02:30' /etc/X11/app-defaults/XScreenSaver-nogl
-    sudo chmod u-w /etc/X11/app-defaults/XScreenSaver-nogl
-else
-    echo ''
-    echo '/etc/X11/app-defaults/XScreenSaver-nogl config not found, so screensaver timer not reset'
-    echo 'continuing'
-    echo ''
-fi
+sudo rm "/media/$isoName"
+gdown --id "19AL7MsaFkTdFA1Uuh7gE57Ksshle2RRR" --output "/media/$isoName"
 
+popd
 reboot 
+
