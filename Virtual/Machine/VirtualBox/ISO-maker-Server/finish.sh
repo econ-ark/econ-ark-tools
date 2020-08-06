@@ -1,5 +1,6 @@
 #!/bin/bash
 
+sleep 60 # Give the start script enough time to do its job 
 set -x
 set -v
 
