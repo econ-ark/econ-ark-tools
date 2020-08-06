@@ -13,9 +13,7 @@ chroot /target curl -L -o /var/local/late_command https://raw.githubusercontent.
      chroot /target chmod +x /var/local/refind-install-MacOS.sh 
      chroot /target chmod +x /etc/rc.local 
      chroot /target curl -L -o /var/local/bash_aliases-add https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server/bash_aliases-add 
-     chroot /target grub-mkconfig -o /boot/grub/grub.cfg 
-     chroot /target apt-get -y install xubuntu-desktop^ 
-     chroot /target mkdir -p   /home/econ-ark/.config/autostart
-     chroot /target chown econ-ark:econ-ark /home/econ-ark/.config/autostart
-     chroot /target echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
+     chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf 
+     chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf 
+
 
