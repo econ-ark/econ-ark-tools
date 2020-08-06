@@ -24,7 +24,7 @@ sudo pip install nbval
 # Get default packages for Econ-ARK machine
 sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
 # Create a public key for security purposes
-sudo -i -u  $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/myuser/.ssh
+ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/myuser/.ssh
 # Set up security for emacs package downloading 
 sudo apt -y install emacs
 sudo -i -u  econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
