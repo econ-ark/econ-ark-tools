@@ -183,9 +183,6 @@ sudo emacs -batch -l /root/.emacs
 
 pip install econ-ark # pip install econ-ark
 
-# Set the timing for password login from screensaver
-sudo apt -y install rpl # rpl is dangerous but useful
-
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
 cd "$arkHome"
