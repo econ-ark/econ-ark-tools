@@ -12,13 +12,11 @@ export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "
 
 # Stuff to be executed only the first time a user logs into an interactive shell
 if [[ ! -e /var/log/firstboot.log ]]; then
-    echo firstboot.log does not exist
-    # The code below assumed that the GUI was working by the time start.sh starts.  Not true    
     # Tell them what's going on in the other window
-    #    xfce4-terminal --geometry 80x12+0+0 --command "echo ; echo The machine is installing more software ; echo It will reboot one more time before it finishes. ; echo Please wait until that reboot before using it."
+    xfce4-terminal --geometry 80x12+0+0 --command "echo ; echo The machine is installing more software ; echo It will reboot one more time before it finishes. ; echo Please wait until that reboot before using it."
     # Monitor installations on the "finish" script
-    #    xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # On next boot, watch the remaining installations
-    #    tail -F /var/local/start-and-finish.log
-    # xfce4-terminal --display=:0.0 --geometry 80x40-0-0 --command 'bash -c "echo 'whoami=$(whoami)' ; echo ; env ; echo ; echo figure out hfs problem and hit return to close ; read answer"'
+    xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # On next boot, watch the remaining installations
 fi
+
+
 
