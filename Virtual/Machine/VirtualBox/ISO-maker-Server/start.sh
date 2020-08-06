@@ -31,7 +31,19 @@ sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.deskto
 
 touch /home/econ-ark/.bash_aliases
 
-cp /var/local/bash_aliases-add $online/bash_aliases-add
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server"
 
+refindFile="refind-install-MacOS.sh"
+curl -L -o /var/local/bash_aliases-add $online/bash_aliases-add
+curl -L -o /var/local/grub-menu.sh $online/grub-menu.sh 
+curl -L -o /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
+curl -L -o /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    
+curl -L -o /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x 
+curl -L -o /var/local/$refindFile $online/$refindFile
+chmod +x /var/local/$refindFile
 
-sudo reboot 
+touch /home/econ-ark/.bash_aliases
+
+cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
+
+chmod a+x /home/econ-ark/.bash_aliases
