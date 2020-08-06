@@ -179,7 +179,7 @@ sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-key
 sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
 sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
 sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
-sudo -i -u  econ-ark emacs -batch -l     ~/.emacs 
+sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs 
 sudo emacs -batch -l /root/.emacs 
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
@@ -266,11 +266,6 @@ fi
 # sudo apt-get -y purge gdm
 # sudo apt-get -y purge gdm3
 
-sudo apt -y install xubuntu-desktop  # Puzzled why it's not already installed since it's in the preseed 
-sudo apt -y install xfce4            # ditto
-
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
-echo set shared/default-x-display-manager lightdm | debconf-communicate 
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf

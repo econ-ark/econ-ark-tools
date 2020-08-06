@@ -5,6 +5,17 @@ set -x
 set -v 
 sudo apt-get -y install firmware-b43-installer
 sudo add-apt-repository universe 
+
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
+echo set shared/default-x-display-manager lightdm | debconf-communicate 
+
+sudo apt -y install xubuntu-desktop^  # Puzzled why it's not already installed since it's in the preseed 
+sudo apt -y install xfce4             # ditto
+
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
+echo set shared/default-x-display-manager lightdm | debconf-communicate 
+
 sudo apt-get -y install xubuntu-desktop^
 
 myuser=econ-ark
