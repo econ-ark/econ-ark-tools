@@ -18,7 +18,7 @@ sudo add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt -y install software-properties-common python3 python3-pip python-pytest
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
 sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
-sudo python-pytest
+sudo pip install python-pytest
 sudo -i -u econ-ark python-pytest
 sudo pip install nbval
 # Get default packages for Econ-ARK machine
