@@ -22,14 +22,13 @@ echo set shared/default-x-display-manager lightdm | debconf-communicate
 #   settings are not changed
 # For xfce4-screensaver, unable to find a way programmatically to change
 # so must change them by hand
-xscreensaver-command -exit
+
 sudo apt -y remove  xscreensaver
 
 # Install xubuntu desktop
 sudo apt -y install xubuntu-desktop^  # Puzzled why it's not already installed since it's in the preseed 
 sudo apt -y install xfce4             # ditto
 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
 echo set shared/default-x-display-manager lightdm | debconf-communicate 
 
 myuser=econ-ark
