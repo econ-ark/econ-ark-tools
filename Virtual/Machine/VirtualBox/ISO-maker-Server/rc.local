@@ -7,7 +7,7 @@ if [ ! -f $FLAG ]; then
     set -v 
     rm /var/local/start-and-finish.log 
     /var/local/start.sh  |& tee /var/local/start.log |& tee /var/local/start-and-finish.log        # Do stuff that should be done before autologin of first user
-#    (set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log ) & # Launch remainder as a background process so econ-ark user can autologin
+    (set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log ) & # Launch remainder as a background process so econ-ark user can autologin
     
     # create an empty 'signal' file so the if will fail after the first boot
     touch "$FLAG"
