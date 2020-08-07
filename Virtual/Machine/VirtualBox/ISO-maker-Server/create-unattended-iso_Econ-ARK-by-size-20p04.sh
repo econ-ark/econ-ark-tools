@@ -271,7 +271,8 @@ late_command="chroot /target curl -L -o /var/local/late_command.sh $online/late_
      chroot /target curl -L -o /etc/rc.local        $online/$rclocal_file ;\
      chroot /target chmod +x /var/local/start.sh /var/local/finish.sh /etc/rc.local ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d ;\
-     chroot /target curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\ "
+     chroot /target curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
+     chroot /target chmod 755  /usr/share/lightdm.conf.d/autologin-econ-ark.conf "
 
 #     chroot /target grub-mkconfig -o /boot/grub/grub.cfg ;\
     #     chroot /target apt-get -y install xubuntu-desktop^ ;\
@@ -279,7 +280,7 @@ late_command="chroot /target curl -L -o /var/local/late_command.sh $online/late_
 #     chroot /target chown econ-ark:econ-ark /home/econ-ark/.config/autostart
 #     chroot /target echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 #     chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
-    #     chroot /target chmod 755  /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+    #     
     #     chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
 
 pushd . ; cd "$pathToScript"

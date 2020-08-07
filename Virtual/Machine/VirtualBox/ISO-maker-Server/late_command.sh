@@ -5,4 +5,4 @@ curl -L -o /etc/rc.local   https://raw.githubusercontent.com/econ-ark/econ-ark-t
 chmod +x /var/local/start.sh /var/local/finish.sh /etc/rc.local 
 mkdir -p   /usr/share/lightdm/lightdm.conf.d 
 curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
-\ 
+chmod 755  /usr/share/lightdm.conf.d/autologin-econ-ark.conf 
