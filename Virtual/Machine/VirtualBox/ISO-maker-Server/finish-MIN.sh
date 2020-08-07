@@ -4,6 +4,9 @@
 set -x
 set -v
 
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server"
+
+
 # The cups service sometimes gets stuck; stop it before that happens
 sudo systemctl stop cups-browsed.service 
 sudo systemctl disable cups-browsed.service
@@ -33,8 +36,6 @@ mkdir -p /etc/avahi/
 curl -L -o /etc/avahi $online/etc/avahi/avahi-daemon.conf
 
 avahi-daemon --reload
-
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server"
 
 refindFile="refind-install-MacOS.sh"
 # Get misc other stuff 
