@@ -43,7 +43,7 @@ sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.deskto
 
 xfconf-query -c xfce4-panel -p / -R -r
 
-xfce-panel -r
+xfce4-panel -r
 
 startxfce 
 
