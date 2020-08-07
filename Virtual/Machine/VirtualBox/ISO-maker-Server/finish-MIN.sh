@@ -3,6 +3,53 @@
 set -x
 set -v
 
+# Update everything 
+sudo apt -y update
+
+sudo apt-get -y install firmware-b43-installer # Seems to be useful for macs
+
+# Play nice with Macs ASAP (in hopes of being able to monitor it)
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
+
+mkdir -p /etc/avahi/
+curl -L -o /etc/avahi $online/etc/avahi/avahi-daemon.conf
+curl -L -o /var/local/bash_aliases-add $online/bash_aliases-add
+curl -L -o /var/local/grub-menu.sh $online/grub-menu.sh 
+curl -L -o /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
+curl -L -o /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    
+curl -L -o /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x 
+curl -L -o /var/local/$refindFile $online/$refindFile
+chmod +x /var/local/$refindFile
+
+avahi-daemon --reload
+
+
+
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server"
+
+refindFile="refind-install-MacOS.sh"
+
+
+curl -L -o /var/local/bash_aliases-add $online/bash_aliases-add
+
+touch /home/econ-ark/.bash_aliases
+
+cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
+
+chmod a+x /home/econ-ark/.bash_aliases
+
+# Start avahi so it can be found on local network -- happens automatically in ubuntu
+
+# Xubuntu installs xfce-screensaver; remove the default one
+# It's confusing to have two screensavers running:
+#   You think you have changed the settings but then the other one's
+#   settings are not changed
+# For xfce4-screensaver, unable to find a way programmatically to change
+# so must change them by hand
+
+sudo apt -y remove  xscreensaver
+
+
 sudo apt -y install tigervnc-scraping-server
 
 # https://askubuntu.com/questions/328240/assign-vnc-password-using-script
