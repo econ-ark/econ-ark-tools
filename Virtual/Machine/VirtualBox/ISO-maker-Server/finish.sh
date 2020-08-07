@@ -1,7 +1,49 @@
 #!/bin/bash
 
+# Set up bash verbose debugging
 set -x
 set -v
+
+# The cups service sometimes gets stuck; stop it before that happens
+sudo systemctl stop cups-browsed.service 
+sudo systemctl disable cups-browsed.service
+
+
+# Update everything 
+sudo apt -y update
+
+sudo apt-get -y install firmware-b43-installer # Possibly useful for macs; a bit obscure, but kernel recommends it
+
+# Xubuntu installs xfce-screensaver; remove the default one
+# It's confusing to have two screensavers running:
+#   You think you have changed the settings but then the other one's
+#   settings are not changed
+# For xfce4-screensaver, unable to find a way programmatically to change
+# so must change them by hand
+
+sudo apt -y remove  xscreensaver
+
+# Play nice with Macs ASAP (in hopes of being able to monitor it)
+
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
+
+# Start avahi so it can be found on local network -- happens automatically in ubuntu
+
+mkdir -p /etc/avahi/
+curl -L -o /etc/avahi $online/etc/avahi/avahi-daemon.conf
+
+avahi-daemon --reload
+
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server"
+
+refindFile="refind-install-MacOS.sh"
+# Get misc other stuff 
+curl -L -o /var/local/grub-menu.sh $online/grub-menu.sh 
+curl -L -o /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
+curl -L -o /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    
+curl -L -o /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x 
+curl -L -o /var/local/$refindFile $online/$refindFile
+chmod +x /var/local/$refindFile
 
 sudo apt -y install tigervnc-scraping-server
 
@@ -14,14 +56,6 @@ echo "$myuser" >> /tmp/vncpasswd # Next  is the read-only  password (useful for 
 [[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  # If a previous version exists, delete it
 sudo mkdir -p /home/$myuser/.vnc
 
-# /usr/bin/vncpasswd -f < /tmp/vncpasswd > /home/$myuser/.vnc/passwd  # Create encrypted versions
-
-# Give the files the right permissions
-# chown -R $myuser:$myuser /home/$myuser/.vnc
-# chmod 0600 /home/$myuser/.vnc/passwd
-
-
-# A few things to do quickly at the very beginning; the "finish" script is stuff that runs in the background for a long time 
 # set defaults
 default_hostname="$(hostname)"
 default_domain=""
@@ -40,8 +74,6 @@ download()
 
 tmp="/tmp"
 
-myuser="econ-ark"
-
 # Change the name of the host to the date and time of its creation
 datetime="$(date +%Y%m%d%H%S)"
 sed -i "s/xubuntu/$datetime/g" /etc/hostname
@@ -50,6 +82,8 @@ sed -i "s/xubuntu/$datetime/g" /etc/hosts
 cd /home/"$myuser"
 
 # Add stuff to bash login script
+touch /home/econ-ark/.bash_aliases # in case it doesn't exist yet
+
 bashadd=/home/"$myuser"/.bash_aliases
 [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-orig"
 touch "$bashadd"
@@ -62,9 +96,6 @@ chown $myuser:$myuser "$bashadd"
 
 # Security (needed for emacs)
 sudo apt -y install ca-certificates
-
-# Play nice with Macs
-sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
 
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 cd    /home/$myuser
@@ -81,14 +112,9 @@ cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
 cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
 echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 
-
-# cp /var/local/bash_aliases-add /home/$myuser/.bash_aliases-add
-# chown "$myuser:$myuser"        /home/$myuser/.bash_aliases-add
-# chmod a+x                      /home/$myuser/.bash_aliases-add
-
+# Install emacs
 chmod a+rwx /home/$myuser/.emacs
 chown "$myuser:$myuser" /home/$myuser/.emacs
-
 
 rm -f emacs-ubuntu-virtualbox
 
@@ -146,17 +172,11 @@ echo 'ARKINSTALL'
 
 
 
-# Set username
-myuser=econ-ark
-# The cups service sometimes gets stuck; stop it before that happens
-sudo systemctl stop cups-browsed.service 
-sudo systemctl disable cups-browsed.service
-
 # Install xubuntu desktop causes problems having to do with requirement to answer a question which can't figure out how to preseed about which display manager to use
 # sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
 
-# Update everything 
-sudo apt -y update && sudo apt -y upgrade
+# Upgrade everything
+#    sudo apt -y upgrade
 sudo add-apt-repository -y ppa:deadsnakes/ppa
 sudo apt -y install software-properties-common python3 python3-pip python-pytest
 sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
@@ -185,9 +205,6 @@ sudo emacs -batch -l /root/.emacs
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
 pip install econ-ark # pip install econ-ark
-
-# Set the timing for password login from screensaver
-sudo apt -y install rpl # rpl is dangerous but useful
 
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
@@ -256,7 +273,7 @@ if [[ "$hfsplusLabels" != "" ]]; then
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /tmp/refind-HFS/.VolumeIcon.icns
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns
     sudo chmod a+x /tmp/refind-HFS/*.sh
-    sudo curl -L -o https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker-Server/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
+    sudo curl -L -o /tmp/refind-HFS https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker-Server/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
@@ -270,17 +287,15 @@ fi
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 
-sudo apt -y install xscreensaver 
+pushd  .
+isoName=ubuntu-20.04-legacy-server-amd64-unattended_econ-ark.iso
+echo ''
+echo 'Fetching online image of this installer to '
+echo "/media/$isoName"
 
-if [[ -e /etc/X11/app-defaults/XScreenSaver-nogl ]]; then
-    sudo chmod u+w /etc/X11/app-defaults/XScreenSaver-nogl
-    sudo rpl 'passwdTimeout:		0:00:30' 'passwdTimeout:		0:02:30' /etc/X11/app-defaults/XScreenSaver-nogl
-    sudo chmod u-w /etc/X11/app-defaults/XScreenSaver-nogl
-else
-    echo ''
-    echo '/etc/X11/app-defaults/XScreenSaver-nogl config not found, so screensaver timer not reset'
-    echo 'continuing'
-    echo ''
-fi
+sudo rm "/media/$isoName"
+gdown --id "19AL7MsaFkTdFA1Uuh7gE57Ksshle2RRR" --output "/media/$isoName"
 
+popd
 reboot 
+
