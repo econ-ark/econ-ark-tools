@@ -4,15 +4,16 @@
 set -x
 set -v
 
+curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+apt -y install xubuntu-desktop^
+apt -y install xfce4
+
+# Set econ-ark user to autologin
+curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+
 # Tell it to use lightdm without asking the user 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
-echo set shared/default-x-display-manager lightdm | debconf-communicate 
-
-# Install xubuntu desktop
-sudo apt -y install xubuntu-desktop^  # Not sure what preseeding xubuntu desktop does but necessary to install it here
-sudo apt -y install xfce4             # ditto
-
 echo set shared/default-x-display-manager lightdm | debconf-communicate 
 
 myuser=econ-ark
@@ -38,10 +39,14 @@ EOF
 
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 
-touch /home/econ-ark/.bash_aliases
-
 xfconf-query -c xfce4-panel -p / -R -r
 
 xfce-panel -r
 
 startxfce 
+
+curl -L -o /var/local/bash_aliases-add $online/bash_aliases-add
+cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
+
+chmod a+x /home/econ-ark/.bash_aliases
+

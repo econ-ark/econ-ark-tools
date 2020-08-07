@@ -1,44 +1,18 @@
 #!/bin/bash
 
+# Set up bash verbose debugging
 set -x
 set -v
+
+# The cups service sometimes gets stuck; stop it before that happens
+sudo systemctl stop cups-browsed.service 
+sudo systemctl disable cups-browsed.service
+
 
 # Update everything 
 sudo apt -y update
 
-sudo apt-get -y install firmware-b43-installer # Seems to be useful for macs
-
-# Play nice with Macs ASAP (in hopes of being able to monitor it)
-sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
-
-mkdir -p /etc/avahi/
-curl -L -o /etc/avahi $online/etc/avahi/avahi-daemon.conf
-curl -L -o /var/local/bash_aliases-add $online/bash_aliases-add
-curl -L -o /var/local/grub-menu.sh $online/grub-menu.sh 
-curl -L -o /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
-curl -L -o /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    
-curl -L -o /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x 
-curl -L -o /var/local/$refindFile $online/$refindFile
-chmod +x /var/local/$refindFile
-
-avahi-daemon --reload
-
-
-
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server"
-
-refindFile="refind-install-MacOS.sh"
-
-
-curl -L -o /var/local/bash_aliases-add $online/bash_aliases-add
-
-touch /home/econ-ark/.bash_aliases
-
-cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
-
-chmod a+x /home/econ-ark/.bash_aliases
-
-# Start avahi so it can be found on local network -- happens automatically in ubuntu
+sudo apt-get -y install firmware-b43-installer # Possibly useful for macs; a bit obscure, but kernel recommends it
 
 # Xubuntu installs xfce-screensaver; remove the default one
 # It's confusing to have two screensavers running:
@@ -49,6 +23,27 @@ chmod a+x /home/econ-ark/.bash_aliases
 
 sudo apt -y remove  xscreensaver
 
+# Play nice with Macs ASAP (in hopes of being able to monitor it)
+
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
+
+# Start avahi so it can be found on local network -- happens automatically in ubuntu
+
+mkdir -p /etc/avahi/
+curl -L -o /etc/avahi $online/etc/avahi/avahi-daemon.conf
+
+avahi-daemon --reload
+
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server"
+
+refindFile="refind-install-MacOS.sh"
+# Get misc other stuff 
+curl -L -o /var/local/grub-menu.sh $online/grub-menu.sh 
+curl -L -o /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
+curl -L -o /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    
+curl -L -o /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x 
+curl -L -o /var/local/$refindFile $online/$refindFile
+chmod +x /var/local/$refindFile
 
 sudo apt -y install tigervnc-scraping-server
 
@@ -61,14 +56,6 @@ echo "$myuser" >> /tmp/vncpasswd # Next  is the read-only  password (useful for 
 [[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  # If a previous version exists, delete it
 sudo mkdir -p /home/$myuser/.vnc
 
-# /usr/bin/vncpasswd -f < /tmp/vncpasswd > /home/$myuser/.vnc/passwd  # Create encrypted versions
-
-# Give the files the right permissions
-# chown -R $myuser:$myuser /home/$myuser/.vnc
-# chmod 0600 /home/$myuser/.vnc/passwd
-
-
-# A few things to do quickly at the very beginning; the "finish" script is stuff that runs in the background for a long time 
 # set defaults
 default_hostname="$(hostname)"
 default_domain=""
@@ -87,8 +74,6 @@ download()
 
 tmp="/tmp"
 
-myuser="econ-ark"
-
 # Change the name of the host to the date and time of its creation
 datetime="$(date +%Y%m%d%H%S)"
 sed -i "s/xubuntu/$datetime/g" /etc/hostname
@@ -97,6 +82,8 @@ sed -i "s/xubuntu/$datetime/g" /etc/hosts
 cd /home/"$myuser"
 
 # Add stuff to bash login script
+touch /home/econ-ark/.bash_aliases # in case it doesn't exist yet
+
 bashadd=/home/"$myuser"/.bash_aliases
 [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-orig"
 touch "$bashadd"
@@ -125,14 +112,9 @@ cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
 cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
 echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 
-
-# cp /var/local/bash_aliases-add /home/$myuser/.bash_aliases-add
-# chown "$myuser:$myuser"        /home/$myuser/.bash_aliases-add
-# chmod a+x                      /home/$myuser/.bash_aliases-add
-
+# Install emacs
 chmod a+rwx /home/$myuser/.emacs
 chown "$myuser:$myuser" /home/$myuser/.emacs
-
 
 rm -f emacs-ubuntu-virtualbox
 
@@ -189,12 +171,6 @@ echo 'ARKINSTALL'
 # cp grubx64.efi bootx64.efi
 
 
-
-# Set username
-myuser=econ-ark
-# The cups service sometimes gets stuck; stop it before that happens
-sudo systemctl stop cups-browsed.service 
-sudo systemctl disable cups-browsed.service
 
 # Install xubuntu desktop causes problems having to do with requirement to answer a question which can't figure out how to preseed about which display manager to use
 # sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
