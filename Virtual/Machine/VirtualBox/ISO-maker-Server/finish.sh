@@ -4,124 +4,25 @@
 set -x
 set -v
 
-# The cups service sometimes gets stuck; stop it before that happens
-sudo systemctl stop cups-browsed.service 
-sudo systemctl disable cups-browsed.service
-
-
-# Update everything 
-sudo apt -y update
-
-sudo apt-get -y install firmware-b43-installer # Possibly useful for macs; a bit obscure, but kernel recommends it
-
-# Xubuntu installs xfce-screensaver; remove the default one
-# It's confusing to have two screensavers running:
-#   You think you have changed the settings but then the other one's
-#   settings are not changed
-# For xfce4-screensaver, unable to find a way programmatically to change
-# so must change them by hand
-
-sudo apt -y remove  xscreensaver
-
-# Play nice with Macs ASAP (in hopes of being able to monitor it)
-
-sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
-
-# Start avahi so it can be found on local network -- happens automatically in ubuntu
-
-mkdir -p /etc/avahi/
-curl -L -o /etc/avahi $online/etc/avahi/avahi-daemon.conf
-
-avahi-daemon --reload
-
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server"
-
-refindFile="refind-install-MacOS.sh"
-# Get misc other stuff 
-curl -L -o /var/local/grub-menu.sh $online/grub-menu.sh 
-curl -L -o /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
-curl -L -o /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    
-curl -L -o /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x 
-curl -L -o /var/local/$refindFile $online/$refindFile
-chmod +x /var/local/$refindFile
-
-sudo apt -y install tigervnc-scraping-server
-
-# https://askubuntu.com/questions/328240/assign-vnc-password-using-script
-myuser="econ-ark"
-mypass="kra-noce"
-echo "$mypass" >  /tmp/vncpasswd # First is the read-write password
-echo "$myuser" >> /tmp/vncpasswd # Next  is the read-only  password (useful for sharing screen with students)
-
-[[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  # If a previous version exists, delete it
-sudo mkdir -p /home/$myuser/.vnc
-
-# set defaults
-default_hostname="$(hostname)"
-default_domain=""
-
 # define download function
 # courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
 download()
 {
     local url=$1
-#    echo -n "    "
+    #    echo -n "    "
     wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
         sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
-#    echo -ne "\b\b\b\b"
-#    echo " DONE"
+    #    echo -ne "\b\b\b\b"
+    #    echo " DONE"
 }
 
-tmp="/tmp"
+myuser="econ-ark"
+mypass="kra-noce"
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server"
 
-# Change the name of the host to the date and time of its creation
-datetime="$(date +%Y%m%d%H%S)"
-sed -i "s/xubuntu/$datetime/g" /etc/hostname
-sed -i "s/xubuntu/$datetime/g" /etc/hosts
-
-cd /home/"$myuser"
-
-# Add stuff to bash login script
-touch /home/econ-ark/.bash_aliases # in case it doesn't exist yet
-
-bashadd=/home/"$myuser"/.bash_aliases
-[[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-orig"
-touch "$bashadd"
-
-cat /var/local/bash_aliases-add >> "$bashadd"
-
-# Make ~/.bash_aliases be owned by "$myuser" instead of root
-chmod a+x "$bashadd"
-chown $myuser:$myuser "$bashadd" 
-
-# Security (needed for emacs)
-sudo apt -y install ca-certificates
-
-# Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
-cd    /home/$myuser
-echo "downloading .emacs file"
-
-download "https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Tools/Config/tool/emacs/dot/emacs-ubuntu-virtualbox"
-
-cp emacs-ubuntu-virtualbox /home/econ-ark/.emacs
-cp emacs-ubuntu-virtualbox /root/.emacs
-chown "root:root" /root/.emacs
-
-mkdir -p /EFI/BOOT/
-cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
-cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
-echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
-
-# Install emacs
-chmod a+rwx /home/$myuser/.emacs
-chown "$myuser:$myuser" /home/$myuser/.emacs
-
-rm -f emacs-ubuntu-virtualbox
-
-[[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && sudo chown "$myuser:$myuser" /home/$myuser/.emacs.d
-[[ ! -e /root/.emacs.d ]] && mkdir /root/.emacs.d
-
-chmod a+rw /home/$myuser/.emacs.d 
+# The cups service sometimes gets stuck; stop it before that happens
+sudo systemctl stop cups-browsed.service 
+sudo systemctl disable cups-browsed.service
 
 # Remove the linux automatically created directories like "Music" and "Pictures"
 # Leave only required directories Downloads and Desktop
@@ -133,74 +34,142 @@ for d in ./*/; do
     fi
 done
 
-sudo touch /etc/cron.hourly/jobs.deny
-sudo chmod a+rw /etc/cron.hourly/jobs.deny
-echo 0anacron > /etc/cron.hourly/jobs.deny # Anacron kept killing first boot
-# Not clear how to get user input after running start but this does not work
-# echo ''
-# echo ''
-# echo ''
-echo ''
-echo 'Finished running the ./start.sh script'
-# echo ''
-# echo 'Hit return when you have guaranteed that the system will reboot'
-# echo 'to the current device, which should be called:'
-# echo ''
-# echo ''
-echo 'ARKINSTALL'
-# echo ''
-# read answer
+sudo apt -y update # && sudo apt -y upgrade
 
+sudo apt-get -y install firmware-b43-installer # Possibly useful for macs; a bit obscure, but kernel recommends it
 
+# Xubuntu installs xfce-screensaver; remove the default one
+# It's confusing to have two screensavers running:
+#   You think you have changed the settings but then the other one's
+#   settings are not changed
+# For xfce4-screensaver, unable to find a way programmatically to change
+# so must change them by hand
+sudo apt -y remove  xscreensaver
 
-# ubuntu unable to install ubuntu on acer aspire
-# Instructions below are for installing via the shell on the installer volume
+# Play nice with Macs ASAP (in hopes of being able to monitor it)
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
 
-# sudo mount /dev/[root partition on new device]/mnt
-# sudo mkdir /mnt/boot/efi
-# sudo mount /dev/[EFI system partition on new device] /mnt/boot/efi
-# for i in /dev /dev/pts /proc /sys; do sudo mount -B $i /mnt$i; done
+# Start avahi so machine can be found on local network -- happens automatically in ubuntu
+mkdir -p /etc/avahi/
+curl -L -o /etc/avahi $online/etc/avahi/avahi-daemon.conf
+avahi-daemon --reload
 
-# sudo apt-get install --reinstall grub-efi-amd64
-# sudo grub-install --no-nvram --root-directory=/mnt
-# sudo chroot /mnt
-# update-grub
-# cd /boot/efi/EFI
-# cp -R ubuntu* BOOT/
-# cd BOOT
-# cp grubx64.efi bootx64.efi
+# Get misc other stuff 
+refindFile="refind-install-MacOS.sh"
+curl -L -o /var/local/grub-menu.sh $online/grub-menu.sh 
+curl -L -o /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
+curl -L -o /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    
+curl -L -o /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x 
+curl -L -o /var/local/$refindFile $online/$refindFile
+chmod +x /var/local/$refindFile
 
+# Allow vnc (will only start up after reading ~/.bash_aliases)
+sudo apt -y install tigervnc-scraping-server
 
+# https://askubuntu.com/questions/328240/assign-vnc-password-using-script
+echo "$mypass" >  /tmp/vncpasswd # First is the read-write password
+echo "$myuser" >> /tmp/vncpasswd # Next  is the read-only  password (useful for sharing screen with students)
 
-# Install xubuntu desktop causes problems having to do with requirement to answer a question which can't figure out how to preseed about which display manager to use
-# sudo apt -y install xubuntu-desktop # but the xubuntu-desktop, at least, is not
+[[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  # If a previous version exists, delete it
+sudo mkdir -p /home/$myuser/.vnc
 
-# Upgrade everything
-#    sudo apt -y upgrade
-sudo add-apt-repository -y ppa:deadsnakes/ppa
-sudo apt -y install software-properties-common python3 python3-pip python-pytest
-sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
-sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
-sudo pip install python-pytest
-sudo -i -u econ-ark python-pytest
-sudo pip install nbval
-# Get default packages for Econ-ARK machine
-sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
-# Create a public key for security purposes
-ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/myuser/.ssh
+# set defaults
+default_hostname="$(hostname)"
+default_domain=""
+
+# Change the name of the host to the date and time of its creation
+datetime="$(date +%Y%m%d%H%S)"
+sed -i "s/xubuntu/$datetime/g" /etc/hostname
+sed -i "s/xubuntu/$datetime/g" /etc/hosts
+
+cd /home/"$myuser"
+
+# Add stuff to bash login script
+
+bashadd=/home/"$myuser"/.bash_aliases
+[[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-orig"
+touch "$bashadd"
+
+cat /var/local/bash_aliases-add >> "$bashadd"
+
+# Make ~/.bash_aliases be owned by "$myuser" instead of root
+chmod a+x "$bashadd"
+chown $myuser:$myuser "$bashadd" 
+
+mkdir -p /EFI/BOOT/
+cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
+cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
+echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
+
 # Set up security for emacs package downloading 
+# Security (needed for emacs)
+sudo apt -y install ca-certificates
+
+# Create a public key for security purposes
+ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh
+
+# Install emacs
+chmod a+rwx /home/$myuser/.emacs
+chown "$myuser:$myuser" /home/$myuser/.emacs
+
+rm -f emacs-ubuntu-virtualbox
+# Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
+
+[[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && sudo chown "$myuser:$myuser" /home/$myuser/.emacs.d
+[[ ! -e /root/.emacs.d ]] && mkdir /root/.emacs.d
+
 sudo apt -y install emacs
+
+download "https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Tools/Config/tool/emacs/dot/emacs-ubuntu-virtualbox"
+
+cp emacs-ubuntu-virtualbox /home/econ-ark/.emacs
+cp emacs-ubuntu-virtualbox /root/.emacs
+chown "root:root" /root/.emacs
+
 sudo -i -u  econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
 sudo -i -u  econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
 sudo chown econ-ark:econ-ark /home/econ-ark/.emacs
 sudo chown econ-ark:econ-ark -Rf /home/econ-ark/.emacs.d
+chmod a+rw /home/$myuser/.emacs.d 
+
 sudo -i -u  econ-ark gpg --list-keys 
 sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
 sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
 sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
 sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
-sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs 
-sudo emacs -batch -l /root/.emacs 
+
+sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  # do emacs first-time setup
+sudo                 emacs -batch -l              /root/.emacs  # do emacs first-time setup
+
+# Anacron kept killing first boot; this disables it 
+sudo touch /etc/cron.hourly/jobs.deny
+sudo chmod a+rw /etc/cron.hourly/jobs.deny
+echo 0anacron > /etc/cron.hourly/jobs.deny 
+
+if [[ -e Size-To-Build-Now-Is-MIN ]]; then
+    pip install jupyter_contrib_nbextensions
+    pip install jupyter contrib nbextension install --user
+    pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
+    sudo add-apt-repository -y ppa:deadsnakes/ppa
+    sudo apt -y install software-properties-common python3 python3-pip python-pytest
+    sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+    sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
+    sudo pip install python-pytest
+    sudo -i -u econ-ark python-pytest
+    sudo pip install nbval
+else
+    sudo /var/local/finish-MAX-Extras.sh
+fi
+
+sudo -u econ-ark pip install jupyter_contrib_nbextensions
+sudo -u econ-ark jupyter contrib nbextension install --user
+sudo -u econ-ark jupyter nbextension enable codefolding/main
+sudo -u econ-ark jupyter nbextension enable codefolding/edit
+sudo -u econ-ark jupyter nbextension enable toc2/main
+sudo -u econ-ark jupyter nbextension enable collapsible_headings/main
+
+# Get default packages for Econ-ARK machine
+sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
@@ -230,38 +199,26 @@ echo 'cd notebooks ; pytest --nbval-lax *.ipynb  '    >  DemARK-README.md
 
 echo 'This is your local, personal copy of REMARK, which you can modify.  '    >  REMARK-README.md
 
-echo '' 
-echo '' 
-echo '' 
-echo '' 
-echo '' 
-echo 'whoami='$(whoami)
-echo ''
-pip install jupyter_contrib_nbextensions
-pip install jupyter contrib nbextension install --user
-pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
-
+cd /usr/local/share/data/GitHub/econ-ark/REMARK
+git submodule update --init --recursive --remote
+git pull
 cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirements.txt
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirements.txt
 
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 
 sudo apt -y install build-essential module-assistant parted gparted
+sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
 
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
 chown econ-ark:econ-ark /home/econ-ark/GitHub
 chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
 
+# Allow reading of MacOS HFS+ files
 sudo apt -y install hfsplus hfsutils hfsprogs
 
 # Prepare partition for reFind boot in MacOS
 hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
-
-# If you want to pop up an informative window at this stage, you must set the environment variables below:
-# export DISPLAY=:0.0
-# export XAUTHORITY=/home/econ-ark/.Xauthority
-# export SESSION_MANAGER="$(cat /tmp/SM)"
-# xhost SI:localhost:root
 
 echo "hfsplusLabels=$hfsplusLabels"
 if [[ "$hfsplusLabels" != "" ]]; then
@@ -280,22 +237,8 @@ if [[ "$hfsplusLabels" != "" ]]; then
     # sudo refind-install --usedefault "$ESP"
 fi
 
-# sudo apt-get -y purge gdm
-# sudo apt-get -y purge gdm3
-
-
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 
-pushd  .
-isoName=ubuntu-20.04-legacy-server-amd64-unattended_econ-ark.iso
-echo ''
-echo 'Fetching online image of this installer to '
-echo "/media/$isoName"
-
-sudo rm "/media/$isoName"
-gdown --id "19AL7MsaFkTdFA1Uuh7gE57Ksshle2RRR" --output "/media/$isoName"
-
-popd
 reboot 
 
