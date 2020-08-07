@@ -109,5 +109,5 @@ echo 'Fetching online image of this installer to '
 echo "/media/$isoName"
 
 sudo rm "/media/$isoName"
-sudo apt -y install gdown # Google download 
+pip  install gdown # Google download 
 gdown --id "19AL7MsaFkTdFA1Uuh7gE57Ksshle2RRR" --output "/media/$isoName"

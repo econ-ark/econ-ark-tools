@@ -20,6 +20,7 @@ git_branch="$(git symbolic-ref HEAD 2>/dev/null)" ; git_branch=${git_branch##ref
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/VirtualBox/ISO-maker-Server"
 startFile="start.sh"
 finishFile="finish.sh"
+finishMAX="finish-MAX-Extras.sh"
 seed_file="econ-ark.seed"
 # ks_file=ks.cfg  # Kickstart will no longer work for 20.04 and after
 rclocal_file=rc.local
@@ -266,10 +267,11 @@ cd $iso_make/iso_new
 # set late_command 
 
 late_command="chroot /target curl -L -o /var/local/late_command.sh $online/late_command.sh ;\
-     chroot /target curl -L -o /var/local/start.sh  $online/$startFile ;\
-     chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
-     chroot /target curl -L -o /etc/rc.local        $online/$rclocal_file ;\
-     chroot /target chmod +x /var/local/start.sh /var/local/finish.sh /etc/rc.local ;\
+     chroot /target curl -L -o /var/local/start.sh   $online/$startFile ;\
+     chroot /target curl -L -o /var/local/finish.sh  $online/$finishFile ;\
+     chroot /target curl -L -o /var/local/$finishMAX $online/$finishMAX ;\
+     chroot /target curl -L -o /etc/rc.local         $online/$rclocal_file ;\
+     chroot /target chmod +x /var/local/start.sh /var/local/finish.sh /etc/rc.local $finishMAX ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d ;\
      chroot /target curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
      chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf "
