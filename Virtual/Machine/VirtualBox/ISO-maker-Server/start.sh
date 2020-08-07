@@ -26,8 +26,8 @@ echo set shared/default-x-display-manager lightdm | debconf-communicate
 sudo apt -y remove  xscreensaver
 
 # Install xubuntu desktop
-sudo apt -y install xubuntu-desktop^  # Puzzled why it's not already installed since it's in the preseed 
-sudo apt -y install xfce4             # ditto
+#sudo apt -y install xubuntu-desktop^  # Puzzled why it's not already installed since it's in the preseed 
+#sudo apt -y install xfce4             # ditto
 
 echo set shared/default-x-display-manager lightdm | debconf-communicate 
 

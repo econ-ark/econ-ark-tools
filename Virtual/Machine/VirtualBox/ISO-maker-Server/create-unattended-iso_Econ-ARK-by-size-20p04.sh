@@ -275,7 +275,8 @@ late_command="chroot /target curl -L -o /var/local/late_command.sh $online/late_
      chroot /target mkdir -p /usr/share/lightdm/lightdm.conf.d ;\
      chroot /target curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
      chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
-     chroot /target apt -y install xubuntu-desktop ;\ "
+     chroot /target apt -y install xubuntu-desktop ;\ 
+     chroot /target apt -y install xfce4 ;\ "
 #     chroot /target grub-mkconfig -o /boot/grub/grub.cfg ;\
     #     chroot /target apt-get -y install xubuntu-desktop^ ;\
     #     chroot /target mkdir -p   /home/econ-ark/.config/autostart
