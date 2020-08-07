@@ -8,4 +8,7 @@ chmod +x /etc/rc.local
 mkdir -p /usr/share/lightdm/lightdm.conf.d 
 curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
 chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
-
+apt -y install xubuntu-desktop 
+\ 
+apt -y install xfce4 
+\ 
