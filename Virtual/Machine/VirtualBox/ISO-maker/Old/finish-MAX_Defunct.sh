@@ -3,7 +3,7 @@
 set -x
 set -v
 
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server"
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker"
 # The cups service sometimes gets stuck; stop it before that happens
 sudo systemctl stop cups-browsed.service 
 sudo systemctl disable cups-browsed.service
@@ -234,11 +234,11 @@ if [[ "$hfsplusLabels" != "" ]]; then
     echo "cmd=$cmd"
     sudo mkfs.hfsplus -v 'refind-HFS' "$hfsplusLabels"
     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS
-    sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/refind-install-MacOS.sh /tmp/refind-HFS
+    sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/refind-install-MacOS.sh /tmp/refind-HFS
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /tmp/refind-HFS/.VolumeIcon.icns
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns
     sudo chmod a+x /tmp/refind-HFS/*.sh
-    sudo curl -L -o /tmp/refind-HFS https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker-Server/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
+    sudo curl -L -o /tmp/refind-HFS https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')

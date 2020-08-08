@@ -15,8 +15,8 @@ fi
 size="$1"
 
 pathToScript=$(dirname `realpath "$0"`)
-# pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/
-online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server
+# pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/
+online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker
 startFile="start.sh"
 finishFile="finish.sh"
 seed_file="econ-ark.seed"
@@ -304,14 +304,14 @@ echo en > $iso_make/iso_new/isolinux/lang
 # in-target bash -c 'wget -r --output-document=/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf'  ;\
 # in-target bash -c 'chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf' "
 
-### # # Copy the late_command file to the root
-### cp -rT $iso_make/$late_command_file $iso_make/iso_new/$late_command_file
-### chmod +x $iso_make/iso_new/$late_command_file
+# # Copy the kickstart file to the root
+# cp -rT $iso_make/$late_command_file $iso_make/iso_new/$late_command_file
+# chmod +x $iso_make/iso_new/$late_command_file
 
 # 20200714-0904h: Failed
-#late_command="in-target sudo apt -y install git ; in-target bash -c 'mkdir /tmp ; cd /tmp ; git clone https://github.com/econ-ark/econ-ark-tools ; chmod +x /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh'"
+#late_command="in-target sudo apt -y install git ; in-target bash -c 'mkdir /tmp ; cd /tmp ; git clone https://github.com/econ-ark/econ-ark-tools ; chmod +x /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/late_command.sh ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/late_command.sh'"
 
-# late_command="in-target /bin/bash -c 'apt -y install git ; git clone https://github.com/econ-ark/econ-ark-tools /tmp/econ-ark-tools ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/late_command.sh'"  
+# late_command="in-target /bin/bash -c 'apt -y install git ; git clone https://github.com/econ-ark/econ-ark-tools /tmp/econ-ark-tools ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/late_command.sh'"  
 
 # Removed the line below:
 #### in-target sed -i 's/^.*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config ;\
@@ -330,9 +330,9 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
 # copy the seed file to the iso
 cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
 
-# copy the kickstart file to the root
-cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
-chmod 744 $iso_make/iso_new/$ks_file
+##### copy the kickstart file to the root
+##### cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
+##### chmod 744 $iso_make/iso_new/$ks_file
 
 # include firstrun script
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file
@@ -359,13 +359,14 @@ seed_checksum=$(md5sum $iso_make/iso_new/preseed/$seed_file)
 #   append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed                                       -- ks=cdrom:/ks.cfg " $iso_make/iso_new/isolinux/txt.cfg
   
 # add the autoinstall option to the menu
-sed -i 's|set timeout=30|set timeout=5|\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US    quiet ---\n	initrd	/install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg # 	linux /install/vmlinuz append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed quiet ---\n	initrd	/install/initrd.gz\n\
+#sed -i '/set timeout=30/amenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux /install/vmlinuz append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed quiet ---\n	initrd	/install/initrd.gz\n\}' $iso_make/iso_new/boot/grub/grub.cfg
+
+# add the autoinstall option to the menu
+sed -i '/set timeout=30/amenuentry "Check disk for defects (CDC)" {\n	set gfxpayload=keep\n	linux /install/vmlinuz MENU=/bin/cdrom-checker-menu quiet ---\n	initrd	/install/initrd.gz\n\}' $iso_make/iso_new/boot/grub/grub.cfg  # append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed 
 
 
 sed -i -r 's/timeout=[0-9]+/timeout=1/g' $iso_make/iso_new/boot/grub/grub.cfg
-#sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back
-sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Autoinstall Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_us quiet ---|g'     $iso_make/iso_new/isolinux/txt.cfg
-
+sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back 
 echo " creating the remastered iso"
 cd $iso_make/iso_new
 

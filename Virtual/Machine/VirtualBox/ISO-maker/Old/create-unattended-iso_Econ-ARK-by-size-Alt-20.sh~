@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Adapted from netson github create-unattended/create-unattended-iso.sh
 
 if [ "$#" -ne 1 ]; then
@@ -15,13 +15,14 @@ fi
 size="$1"
 
 pathToScript=$(dirname `realpath "$0"`)
-# pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/
-online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server
+# pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/
+online=https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker
 startFile="start.sh"
 finishFile="finish.sh"
 seed_file="econ-ark.seed"
-# ks_file=ks.cfg  # Kickstart will no longer work for 20.04 and after
+ks_file=ks.cfg
 rclocal_file=rc.local
+late_command_file=late_command.sh
 
 # file names & paths
 iso_from="/media/sf_VirtualBox"       # where to find the original ISO
@@ -35,7 +36,7 @@ mkdir -p "$iso_make"
 mkdir -p "$iso_make/iso_org"
 mkdir -p "$iso_make/iso_new"
 mkdir -p "$iso_done/$size"
-# rm -f "$iso_make/$ks_file" # Make sure new version is downloaded
+rm -f "$iso_make/$ks_file" # Make sure new version is downloaded
 rm -f "$iso_make/$seed_file" # Make sure new version is downloaded
 rm -f "$iso_make/$startFile" # Make sure new version is downloaded
 rm -f "$iso_make/$rclocal_file" # Make sure new version is downloaded
@@ -115,12 +116,10 @@ prec=$(fgrep Precise $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"
 trus=$(fgrep Trusty $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
 xenn=$(fgrep Xenial $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
 bion=$(fgrep Bionic $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
-foca=$(fgrep Focal  $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
 prec_vers=$(fgrep Precise $iso_makehtml | head -1 | awk '{print $6}')
 trus_vers=$(fgrep Trusty $iso_makehtml | head -1 | awk '{print $6}')
 xenn_vers=$(fgrep Xenial $iso_makehtml | head -1 | awk '{print $6}')
 bion_vers=$(fgrep Bionic $iso_makehtml | head -1 | awk '{print $6}')
-foca_vers=$(fgrep Focal  $iso_makehtml | head -1 | awk '{print $6}')
 
 name='econ-ark'
 
@@ -132,7 +131,6 @@ while true; do
     echo "  [2] Ubuntu $trus LTS Server amd64 - Trusty Tahr"
     echo "  [3] Ubuntu $xenn LTS Server amd64 - Xenial Xerus"
     echo "  [4] Ubuntu $bion LTS Server amd64 - Bionic Beaver"
-    echo "  [4] Ubuntu $foca LTS Server amd64 - Focal Fossa"
     echo
     read -ep " please enter your preference: [1|2|3|4]: " -i "5" ubver
     case $ubver in
@@ -215,11 +213,11 @@ download "$online/$rclocal_file"
 echo -n " downloading $seed_file: "
 download "$online/$seed_file"
 
-# # download kickstart file
-# [[ -f $iso_make/$ks_file ]] && rm $iso_make/$ks_file
+# download kickstart file
+[[ -f $iso_make/$ks_file ]] && rm $iso_make/$ks_file
 
-# echo -n " downloading $ks_file: "
-# download "$online/$ks_file"
+echo -n " downloading $ks_file: "
+download "$online/$ks_file"
 
 # install required packages
 echo " installing required packages"
@@ -261,15 +259,71 @@ spinner $!
 # set the language for the installation menu
 cd $iso_make/iso_new
 #doesn't work for 16.04
-# echo en > $iso_make/iso_new/isolinux/lang
+echo en > $iso_make/iso_new/isolinux/lang
 
 #16.04
 #taken from https://github.com/fries/prepare-ubuntu-unattended-install-iso/blob/master/make.sh
-# set late_command 
+#sed -i -r 's/timeout\s+[0-9]+/timeout 1/g' $iso_make/iso_new/isolinux/isolinux.cfg
 
+# set late command
+
+# late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
+#      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
+#      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
+#      chroot /target chmod +x /var/local/start.sh ;\
+#      chroot /target chmod +x /var/local/finish.sh ;\
+#      chroot /target chmod +x /etc/rc.local ;\
+#      chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;\
+#      chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+#      chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;"
+
+# late_command="in-target curl -L -o /var/local/start.sh $online/$startFile ;\
+#      in-target curl -L -o /var/local/finish.sh $online/$finishFile ;\
+#      in-target curl -L -o /etc/rc.local $online/$rclocal_file ;\
+#      in-target chmod +x /var/local/start.sh ;\
+#      in-target chmod +x /var/local/finish.sh ;\
+#      in-target chmod +x /etc/rc.local ;\
+#      in-target mkdir -p /etc/lightdm/lightdm.conf.d ;\
+#      in-target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;\
+#      in-target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf"
+
+# 20200713-1732h - failed:
+# late_command="in-target bash -c 'wget -r --output-document=/var/local/start.sh  $online/$startFile   ';\
+# in-target bash -c 'wget -r --output-document=/var/local/finish.sh $online/$finishFile'  ;\
+# in-target bash -c 'wget -r --output-document=/etc/rc.local        $online/$rclocal_file'  ;\ 
+# in-target bash -c 'chmod +x /var/local/start.sh'  ;\
+# in-target bash -c 'chmod +x /var/local/finish.sh'  ;\
+# in-target bash -c 'chmod +x /etc/rc.local'  ;\
+# in-target bash -c 'mkdir -p /etc/lightdm/lightdm.conf.d'  ;\
+# in-target bash -c 'wget -r --output-document=/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf'  ;\
+# in-target bash ' chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf' "
+
+# 20200713-1853h - failed:
+# late_command="in-target bash -c 'wget -r --output-document=/var/local/start.sh  $online/$startFile   ';\
+# in-target bash -c 'wget -r --output-document=/var/local/finish.sh $online/$finishFile'  ;\
+# in-target bash -c 'wget -r --output-document=/etc/rc.local        $online/$rclocal_file'  ;\ 
+# in-target bash -c 'chmod +x /var/local/start.sh'  ;\
+# in-target bash -c 'chmod +x /var/local/finish.sh'  ;\
+# in-target bash -c 'chmod +x /etc/rc.local'  ;\
+# in-target bash -c 'mkdir -p /etc/lightdm/lightdm.conf.d'  ;\
+# in-target bash -c 'wget -r --output-document=/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf $online/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf'  ;\
+# in-target bash -c 'chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf' "
+
+### # # Copy the late_command file to the root
+### cp -rT $iso_make/$late_command_file $iso_make/iso_new/$late_command_file
+### chmod +x $iso_make/iso_new/$late_command_file
+
+# 20200714-0904h: Failed
+#late_command="in-target sudo apt -y install git ; in-target bash -c 'mkdir /tmp ; cd /tmp ; git clone https://github.com/econ-ark/econ-ark-tools ; chmod +x /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/late_command.sh ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/late_command.sh'"
+
+# late_command="in-target /bin/bash -c 'apt -y install git ; git clone https://github.com/econ-ark/econ-ark-tools /tmp/econ-ark-tools ; /tmp/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/late_command.sh'"  
+
+# Removed the line below:
+#### in-target sed -i 's/^.*PermitRootLogin.*/PermitRootLogin yes/g' /etc/ssh/sshd_config ;\
+
+# Removed the line below; reinsert after start.sh
 late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh $online/$finishFile ;\
-     chroot /target curl -L -o /var/local/XUBUNTARK-VolumeIcon.icns $online/root/.VolumeIcon.icns ;\
      chroot /target curl -L -o /etc/rc.local $online/$rclocal_file ;\
      chroot /target chmod +x /var/local/start.sh ;\
      chroot /target chmod +x /var/local/finish.sh ;\
@@ -281,9 +335,9 @@ late_command="chroot /target curl -L -o /var/local/start.sh $online/$startFile ;
 # copy the seed file to the iso
 cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
 
-# # copy the kickstart file to the root
-# cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
-# chmod 744 $iso_make/iso_new/$ks_file
+# copy the kickstart file to the root
+cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
+chmod 744 $iso_make/iso_new/$ks_file
 
 # include firstrun script
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file
@@ -303,18 +357,22 @@ sed -i "s@{{timezone}}@$timezone@g" $iso_make/iso_new/preseed/$seed_file
 # calculate checksum for seed file
 seed_checksum=$(md5sum $iso_make/iso_new/preseed/$seed_file)
 
-## add the install option to the menu
-sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true DEBCONF_DEBUG=5 priority=critical locale=en_US          ---\n	initrd /install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg 
+# # add thxe autoinstall option to the menu
+# sed -i "/label install/ilabel autoinstall\n\
+#   menu label ^Autoinstall Econ-ARK Xubuntu Server\n\
+#   kernel /install/vmlinuz\n\
+#   append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed                                       -- ks=cdrom:/ks.cfg " $iso_make/iso_new/isolinux/txt.cfg
+  
+# add the autoinstall option to the menu
+sudo sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US          ---\n	initrd	/install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg # 	linux /install/vmlinuz append file=/cdrom/preseed/ubuntu-server.seed initrd=/install/initrd.gz DEBCONF_DEBUG=5 auto=true priority=high preseed/file=/cdrom/preseed/econ-ark.seed       ---\n	initrd	/install/initrd.gz\n\
 
-sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true DEBCONF_DEBUG=5 priority=critical locale=en_US       ---|g'     $iso_make/iso_new/isolinux/txt.cfg
 
 #sed -i -r 's/timeout=[0-9]+/timeout=1/g' $iso_make/iso_new/boot/grub/grub.cfg
-sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back
+#sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back
+sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Autoinstall Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US       ---|g'     $iso_make/iso_new/isolinux/txt.cfg
 
 echo " creating the remastered iso"
 cd $iso_make/iso_new
-
-echo "timeout 10" >> isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 cmd="(mkisofs -D -r -V XUBUNTARK -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1) &"
@@ -332,14 +390,14 @@ fi
 cmd="[[ -e $iso_done/$size/$new_iso_name ]] && rm $iso_done/$size/$new_iso_name"
 echo "$cmd"
 eval "$cmd"
-cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name ; cp $iso_done/$size/$new_iso_name $iso_done/$size/MacVersion-$new_iso_name ; ./MattGadient/isomacprog $iso_done/$size/MacVersion-$new_iso_name"
+cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name"
 echo "$cmd"
 eval "$cmd"
 
 # print info to user
 echo " -----"
 echo " finished remastering your ubuntu iso file"
-echo " the new file is located at: $iso_done/$size/$new_iso_name"
+echo " the new file is located at: $iso_make/$new_iso_name"
 echo " your username is: $username"
 echo " your password is: $password"
 echo " your hostname is: $hostname"

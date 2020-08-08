@@ -4,6 +4,8 @@
 set -x
 set -v
 
+#size_to_build="MIN"
+
 # define download function
 # courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
 download()
@@ -18,7 +20,7 @@ download()
 
 myuser="econ-ark"
 mypass="kra-noce"
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker-Server"
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker"
 
 # The cups service sometimes gets stuck; stop it before that happens
 sudo systemctl stop cups-browsed.service 
@@ -146,10 +148,7 @@ sudo touch /etc/cron.hourly/jobs.deny
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
 echo 0anacron > /etc/cron.hourly/jobs.deny 
 
-size=MAX # Default to max, unless there is a file named Size-To-Make-Is-MMIN
-[[ -e ./Size-To-Make-Is-MIN ]] && size=MIN
-
-if [[ "$size" == "MIN" ]]; then
+if [[ "$Size-To-Build-Now-Is-MIN" == "MIN" ]]; then
     pip install jupyter_contrib_nbextensions
     pip install jupyter contrib nbextension install --user
     pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
@@ -229,11 +228,11 @@ if [[ "$hfsplusLabels" != "" ]]; then
     echo "cmd=$cmd"
     sudo mkfs.hfsplus -v 'refind-HFS' "$hfsplusLabels"
     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS
-    sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/refind-install-MacOS.sh /tmp/refind-HFS
+    sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/refind-install-MacOS.sh /tmp/refind-HFS
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /tmp/refind-HFS/.VolumeIcon.icns
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns
     sudo chmod a+x /tmp/refind-HFS/*.sh
-    sudo curl -L -o /tmp/refind-HFS https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker-Server/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
+    sudo curl -L -o /tmp/refind-HFS https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
@@ -244,3 +243,4 @@ fi
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 
 reboot 
+
