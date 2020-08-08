@@ -20,7 +20,7 @@ size="$1"
 ForTarget="Files/For-Target"
 ForISO="Files/For-ISO"
 
-[[ "$size_to_build" == "MIN" ]] && rpl '#size_to_build="MIN"' 'size_to_build="MIN"' "$ForTarget/finish.sh" || rpl 'size_to_build="MIN"' '#size_to_build="MIN"' "$ForTarget/finish.sh"
+echo "size_to_build=$size_to_build"
 
 pathToScript=$(dirname `realpath "$0"`)
 # pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/
@@ -29,10 +29,10 @@ pathToScript=$(dirname `realpath "$0"`)
 
 git_branch="$(git symbolic-ref HEAD 2>/dev/null)" ; git_branch=${git_branch##refs/heads/}
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/VirtualBox/ISO-maker-Server"
-startFile="$ForTarget/start.sh"
-finishFile="$ForTarget/finish.sh"
-finishMAX="$ForTarget/finish-MAX-Extras.sh"
-seed_file="$ForISO/econ-ark.seed"
+startFile="start.sh"
+finishFile="finish.sh"
+finishMAX="finish-MAX-Extras.sh"
+seed_file="econ-ark.seed"
 # ks_file=ks.cfg  # Kickstart will no longer work for 20.04 and after
 rclocal_file="$ForISO/rc.local"
 
@@ -49,11 +49,7 @@ mkdir -p "$iso_make/iso_org"
 mkdir -p "$iso_make/iso_new"
 mkdir -p "$iso_done/$size"
 #rm -f "$iso_make/$ks_file" # Make sure new version is downloaded
-rm -f "$iso_make/$seed_file" # Make sure new version is downloaded
-rm -f "$iso_make/$startFile" # Make sure new version is downloaded
-rm -f "$iso_make/$finishFile" # Make sure new version is downloaded
-rm -f "$iso_make/$finishMAX" # Make sure new version is downloaded
-rm -f "$iso_make/$rclocal_file" # Make sure new version is downloaded
+rm -f "$iso_make/preseed/$seed_file" # Make sure new version is downloaded
 
 datestr=`date +"%Y%m%d-%H%M%S"`
 hostname="built-$datestr"
@@ -279,12 +275,15 @@ spinner $!
 cd $iso_make/iso_new
 # set late_command 
 
+
+
 late_command="chroot /target curl -L -o /var/local/late_command.sh $online/late_command.sh ;\
      chroot /target curl -L -o /var/local/start.sh   $online/$ForTarget/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh  $online/$ForTarget/$finishFile ;\
      chroot /target curl -L -o /var/local/$finishMAX $online/$ForTarget/$finishMAX ;\
      chroot /target curl -L -o /etc/rc.local         $online/$ForTarget/$rclocal_file ;\
      chroot /target chmod +x /var/local/start.sh /var/local/finish.sh /etc/rc.local /var/local/$finishMAX ;\
+     chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d ;\
      chroot /target curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/$ForTarget/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
      chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf "
@@ -308,7 +307,7 @@ fi
 popd
 
 # copy the seed file to the iso
-cp -rT $iso_make/$seed_file $iso_make/iso_new/preseed/$seed_file
+cp -rT $ForISO/$seed_file $iso_make/iso_new/preseed/$seed_file
 
 # copy the kickstart file to the root
 #cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
@@ -378,7 +377,7 @@ rpl 'timeout 300' 'timeout 10'  isolinux/isolinux.cfg # Shuts down language choi
 
 sudo mkdir -p $iso_make/iso_new/EFI/BOOT/32BITLOAD
 
-cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/BOOTIA32.EFI $iso_make/iso_new/EFI/BOOT
+cp $pathToScript/$ForTarget/root/EFI/BOOT/BOOTIA32.EFI $iso_make/iso_new/EFI/BOOT
 
 #sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/rename-efi-entry.bash 
 
