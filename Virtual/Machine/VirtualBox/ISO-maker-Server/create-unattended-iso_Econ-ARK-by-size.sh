@@ -274,9 +274,6 @@ spinner $!
 # set the language for the installation menu
 cd $iso_make/iso_new
 # set late_command 
-
-
-
 late_command="chroot /target curl -L -o /var/local/late_command.sh $online/late_command.sh ;\
      chroot /target curl -L -o /var/local/start.sh   $online/$ForTarget/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh  $online/$ForTarget/$finishFile ;\
@@ -288,9 +285,17 @@ late_command="chroot /target curl -L -o /var/local/late_command.sh $online/late_
      chroot /target curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/$ForTarget/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
      chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf "
 
+# If it exists, get the last late_command
+late_command_last=""
+[[ -e $ForTarget/late_command.raw ]] && late_command_last="$(< $ForTarget/late_command.raw)" #; echo "$late_command_last"
+
+# Don't treat "Size-To-Make-Is" choice as meaningful 
+late_command_curr_purged="$(echo $late_command_curr | sed -e 's/Size-To-Make-Is-MAX//g' | sed -e 's/Size-To-Make-Is-MIN//g')" #; echo "$late_command_curr_purged"
+late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX//g' | sed -e 's/Size-To-Make-Is-MIN//g')" #; echo "$late_command_last_purged"
+
 pushd . ; cd "$pathToScript"
-if [[ "$(< $ForTarget/late_command.raw)" != "$late_command" ]]; then
-    echo "$late_command" > $ForTarget/late_command.raw
+if [[ "$late_command_curr_purged" != "$late_command_last_purged" ]]; then
+    echo "$late_command_curr_purged" > $ForTarget/late_command.raw
     # Make a bash script that does the same things; useful for debugging
     echo "#!/bin/bash" > $ForTarget/late_command.sh
     echo "$late_command" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command >> $ForTarget/late_command.sh
@@ -298,7 +303,7 @@ if [[ "$(< $ForTarget/late_command.raw)" != "$late_command" ]]; then
     echo '$ForTarget/late_command has changed; the new version has been written'
     echo ''
     echo 'Please git add, commit, push then hit return:'
-    cmd="pushd . ; cd `pwd` ; git add $ForTarget/late_command.sh ; git commit -m ISOmaker-Update-Late-Command ; git push ; popd";
+    cmd="cd `pwd` ; git add $ForTarget/late_command.sh ; git commit -m ISOmaker-Update-Late-Command ; git push";
     echo "$cmd"
     echo "$cmd" | xclip
     echo "(Might be on xclip clipboard)"
@@ -307,7 +312,7 @@ fi
 popd
 
 # copy the seed file to the iso
-cp -rT $ForISO/$seed_file $iso_make/iso_new/preseed/$seed_file
+cp -rT $pathToScript/$ForISO/$seed_file $iso_make/iso_new/preseed/$seed_file
 
 # copy the kickstart file to the root
 #cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
@@ -431,14 +436,13 @@ echo ""
 
 
 cmd="rclone --progress copy '"$iso_done/$size/$new_iso_name"'"
-cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/XUBUNTU-$size/$new_iso_base"
+cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/XUBUNTU-$size/$new_iso_name"
 echo 'To copy to Google drive, execute the command below:'
 echo ''
 echo "$cmd"
-echo "#!/bin/bash" >  rclone-to-Google-Drive_Last-ISO-Made.sh
-echo "$cmd"        >> rclone-to-Google-Drive_Last-ISO-Made.sh
-chmod a+x             rclone-to-Google-Drive_Last-ISO-Made.sh
-
+echo "#!/bin/bash" >  /tmp/rclone-to-Google-Drive_Last-ISO-Made.sh
+echo "$cmd"        >> /tmp/rclone-to-Google-Drive_Last-ISO-Made.sh
+chmod a+x             /tmp/rclone-to-Google-Drive_Last-ISO-Made.sh
 
 # uncomment the exit to perform cleanup of drive after run
 # unset vars
