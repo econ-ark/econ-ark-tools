@@ -4,7 +4,7 @@
 set -x
 set -v
 
-###size_to_build="MIN"
+#####size_to_build="MIN"
 
 # define download function
 # courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html

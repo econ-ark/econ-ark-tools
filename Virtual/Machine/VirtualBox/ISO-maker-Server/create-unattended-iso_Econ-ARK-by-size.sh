@@ -18,6 +18,7 @@ fi
 size="$1"
 
 ForTarget="Files/For-Target"
+ForISO="Files/For-ISO"
 
 [[ "$size_to_build" == "MIN" ]] && rpl '#size_to_build="MIN"' 'size_to_build="MIN"' "$ForTarget/finish.sh" || rpl 'size_to_build="MIN"' '#size_to_build="MIN"' "$ForTarget/finish.sh"
 
@@ -28,12 +29,12 @@ pathToScript=$(dirname `realpath "$0"`)
 
 git_branch="$(git symbolic-ref HEAD 2>/dev/null)" ; git_branch=${git_branch##refs/heads/}
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/VirtualBox/ISO-maker-Server"
-startFile="Files/To-Target/start.sh"
-finishFile="Files/To-Target/finish.sh"
-finishMAX="Files/To-Target/finish-MAX-Extras.sh"
-seed_file="Files/To-ISO/econ-ark.seed"
+startFile="$ForTarget/start.sh"
+finishFile="$ForTarget/finish.sh"
+finishMAX="$ForTarget/finish-MAX-Extras.sh"
+seed_file="$ForISO/econ-ark.seed"
 # ks_file=ks.cfg  # Kickstart will no longer work for 20.04 and after
-rclocal_file="Files/To-ISO/rc.local"
+rclocal_file="$ForISO/rc.local"
 
 # file names & paths
 iso_from="/media/sf_VirtualBox"                          # where to find the original ISO
@@ -279,13 +280,13 @@ cd $iso_make/iso_new
 # set late_command 
 
 late_command="chroot /target curl -L -o /var/local/late_command.sh $online/late_command.sh ;\
-     chroot /target curl -L -o /var/local/start.sh   $online/$startFile ;\
-     chroot /target curl -L -o /var/local/finish.sh  $online/$finishFile ;\
-     chroot /target curl -L -o /var/local/$finishMAX $online/$finishMAX ;\
-     chroot /target curl -L -o /etc/rc.local         $online/$rclocal_file ;\
+     chroot /target curl -L -o /var/local/start.sh   $online/$ForTarget/$startFile ;\
+     chroot /target curl -L -o /var/local/finish.sh  $online/$ForTarget/$finishFile ;\
+     chroot /target curl -L -o /var/local/$finishMAX $online/$ForTarget/$finishMAX ;\
+     chroot /target curl -L -o /etc/rc.local         $online/$ForTarget/$rclocal_file ;\
      chroot /target chmod +x /var/local/start.sh /var/local/finish.sh /etc/rc.local /var/local/$finishMAX ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d ;\
-     chroot /target curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
+     chroot /target curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/$ForTarget/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
      chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf "
 
 pushd . ; cd "$pathToScript"
