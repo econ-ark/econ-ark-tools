@@ -4,6 +4,8 @@
 set -x
 set -v
 
+#size_to_build="MIN"
+
 # define download function
 # courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
 download()
@@ -146,7 +148,7 @@ sudo touch /etc/cron.hourly/jobs.deny
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
 echo 0anacron > /etc/cron.hourly/jobs.deny 
 
-if [[ -e Size-To-Build-Now-Is-MIN ]]; then
+if [[ "$Size-To-Build-Now-Is-MIN" == "MIN" ]]; then
     pip install jupyter_contrib_nbextensions
     pip install jupyter contrib nbextension install --user
     pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.

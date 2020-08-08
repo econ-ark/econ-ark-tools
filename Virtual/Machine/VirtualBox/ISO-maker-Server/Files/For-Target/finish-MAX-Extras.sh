@@ -1,20 +1,22 @@
 #!/bin/bash
-# Set username
-set -x
-set -v
+# Add extra stuff that, together, constitutes a well-provisioned scientific computing environment
+# If you have constructed the MIN machine, you should be able to upgrade it to this one
+# by running ./finish-MAX-Extras.sh
 
+set -x # Debug
+set -v # Debug
 
-# Extra packages for MAX
-# Put in /tmp directory
+# Put Anaconda in /tmp directory
 [[ -e /tmp/Anaconda ]] && sudo rm -Rf /tmp/Anaconda # delete any prior install
 mkdir /tmp/Anaconda ; cd /tmp/Anaconda
 CONTREPO=https://repo.continuum.io/archive/
 # Stepwise filtering of the html at $CONTREPO
-# Get the topmost line that matches our requirements, extract the file name.
+# Get the topmost line that matches our requirements, extract the file name
+# (this gives us the latest stable version)
 ANACONDAURL=$(wget -q -O - $CONTREPO index.html | grep "Anaconda3-" | grep "Linux" | grep "86_64" | head -n 1 | cut -d \" -f 2)
 cmd="wget -O /tmp/Anaconda/$ANACONDAURL $CONTREPO$ANACONDAURL ; cd /tmp/Anaconda"
-echo "$cmd"
-eval "$cmd"
+echo "$cmd" # tell
+eval "$cmd" # do 
 
 cmd="sudo rm -Rf /usr/local/anaconda3 ; chmod a+x /tmp/Anaconda/$ANACONDAURL ; /tmp/Anaconda/$ANACONDAURL -b -p /usr/local/anaconda3"
 echo "$cmd"
