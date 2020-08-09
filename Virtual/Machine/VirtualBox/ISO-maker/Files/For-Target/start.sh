@@ -18,6 +18,8 @@ myuser=econ-ark
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
+sudo groupadd -r autologin -a econ-ark
+
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
@@ -42,9 +44,14 @@ cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
 
 chmod a+x /home/econ-ark/.bash_aliases
 
-startxfce4 & 
+sudo groupadd -r autologin
+sudo gpasswd -a econ-ark autologin
 
-xfconf-query -c xfce4-panel -p / -R -r
+sudo -u econ-ark startxfce4 &
 
-xfce4-panel -r
+sleep 120
+
+sudo -u econ-ark xfconf-query -c xfce4-panel -p / -R -r
+
+sudo -u econ-ark xfce4-panel -r
 
