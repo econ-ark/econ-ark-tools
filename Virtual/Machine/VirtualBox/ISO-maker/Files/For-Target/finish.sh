@@ -51,16 +51,16 @@ sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-sca
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
-curl -L -o /etc/avahi $online/etc/avahi/avahi-daemon.conf
+wget -O  /etc/avahi $online/etc/avahi/avahi-daemon.conf
 avahi-daemon --reload
 
 # Get misc other stuff 
 refindFile="refind-install-MacOS.sh"
-curl -L -o /var/local/grub-menu.sh $online/grub-menu.sh 
-curl -L -o /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
-curl -L -o /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    
-curl -L -o /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x 
-curl -L -o /var/local/$refindFile $online/$refindFile
+wget -O  /var/local/grub-menu.sh $online/grub-menu.sh 
+wget -O  /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
+wget -O  /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    
+wget -O  /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x 
+wget -O  /var/local/$refindFile $online/$refindFile
 chmod +x /var/local/$refindFile
 
 # Allow vnc (will only start up after reading ~/.bash_aliases)
@@ -146,6 +146,9 @@ sudo touch /etc/cron.hourly/jobs.deny
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
 echo 0anacron > /etc/cron.hourly/jobs.deny 
 
+# Get other default packages for Econ-ARK machine
+sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
+
 size=MAX # Default to max, unless there is a file named Size-To-Make-Is-MMIN
 [[ -e ./Size-To-Make-Is-MIN ]] && size=MIN
 
@@ -170,9 +173,6 @@ sudo -u econ-ark jupyter nbextension enable codefolding/main
 sudo -u econ-ark jupyter nbextension enable codefolding/edit
 sudo -u econ-ark jupyter nbextension enable toc2/main
 sudo -u econ-ark jupyter nbextension enable collapsible_headings/main
-
-# Get default packages for Econ-ARK machine
-sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
@@ -233,7 +233,7 @@ if [[ "$hfsplusLabels" != "" ]]; then
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /tmp/refind-HFS/.VolumeIcon.icns
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns
     sudo chmod a+x /tmp/refind-HFS/*.sh
-    sudo curl -L -o /tmp/refind-HFS https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
+    sudo wget -O  /tmp/refind-HFS https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')

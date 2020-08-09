@@ -37,7 +37,7 @@ EOF
 
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 
-curl -L -o /var/local/bash_aliases-add $online/bash_aliases-add
+wget -O  /var/local/bash_aliases-add $online/bash_aliases-add
 cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
 
 chmod a+x /home/econ-ark/.bash_aliases
