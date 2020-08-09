@@ -41,14 +41,14 @@ EOF
 
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 
-xfconf-query -c xfce4-panel -p / -R -r
-
-xfce4-panel -r
-
-startxfce 
-
 curl -L -o /var/local/bash_aliases-add $online/bash_aliases-add
 cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
 
 chmod a+x /home/econ-ark/.bash_aliases
+
+startxfce4 & 
+
+xfconf-query -c xfce4-panel -p / -R -r
+
+xfce4-panel -r
 

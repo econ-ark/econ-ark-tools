@@ -40,7 +40,7 @@ finishFile="finish.sh"
 finishMAX="finish-MAX-Extras.sh"
 seed_file="econ-ark.seed"
 # ks_file=ks.cfg  # Kickstart will no longer work for 20.04 and after
-rclocal_file="$ForISO/rc.local"
+rclocal_file="rc.local"
 
 # file names & paths
 iso_from="/media/sf_VirtualBox"                          # where to find the original ISO
@@ -280,16 +280,17 @@ spinner $!
 # set the language for the installation menu
 cd $iso_make/iso_new
 # set late_command 
-late_command="chroot /target curl -L -o /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
-     chroot /target curl -L -o /var/local/start.sh   $online/$ForTarget/$startFile ;\
-     chroot /target curl -L -o /var/local/finish.sh  $online/$ForTarget/$finishFile ;\
-     chroot /target curl -L -o /var/local/$finishMAX $online/$ForTarget/$finishMAX ;\
-     chroot /target curl -L -o /etc/rc.local         $online/$ForTarget/$rclocal_file ;\
+late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
+     chroot /target wget -O /var/local/start.sh   $online/$ForTarget/$startFile ;\
+     chroot /target wget -O /etc/rc.local         $online/$ForTarget/$rclocal_file ;\
      chroot /target chmod +x /var/local/start.sh /var/local/finish.sh /etc/rc.local /var/local/$finishMAX ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d ;\
-     chroot /target curl -L -o /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/$ForTarget/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
-     chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf "
+     chroot /target wget -O /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/$ForTarget/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
+     chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\ "
+
+#     chroot /target wget -O /var/local/finish.sh  $online/$ForTarget/$finishFile ;\
+#     chroot /target wget -O /var/local/$finishMAX $online/$ForTarget/$finishMAX ;\
 
 # If it exists, get the last late_command
 late_command_last=""
