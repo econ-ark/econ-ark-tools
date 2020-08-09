@@ -3,7 +3,9 @@
 # Show install info rather than eye candy
 d-i debian-installer/splash                                 boolean     false
 
-d-i apt-setup/extras boolean true
+d-i apt-setup/restricted boolean true     # Allow installing restricted packages
+d-i apt-setup/universe   boolean true     # Allow the universe of packages 
+d-i apt-setup/extras     boolean true
 
 ### Automatic Installation
 d-i auto-install/enable boolean true
