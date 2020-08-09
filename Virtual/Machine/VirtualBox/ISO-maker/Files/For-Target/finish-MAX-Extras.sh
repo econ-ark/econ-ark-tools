@@ -104,12 +104,3 @@ conda update --yes anaconda
 conda install --yes -c anaconda scipy
 conda install --yes -c anaconda pyopengl # Otherwise you get an error "Segmentation fault (core dumped)" on some Ubuntu machines
 conda install --yes -c conda-forge jupyter_contrib_nbextensions
-
-isoName=ubuntu-20.04-legacy-server-amd64-unattended_econ-ark.iso
-echo ''
-echo 'Fetching online image of this installer to '
-echo "/media/$isoName"
-
-sudo rm "/media/$isoName"
-pip  install gdown # Google download 
-gdown --id "19AL7MsaFkTdFA1Uuh7gE57Ksshle2RRR" --output "/media/$isoName"

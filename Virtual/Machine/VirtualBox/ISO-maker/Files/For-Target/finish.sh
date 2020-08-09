@@ -243,4 +243,13 @@ fi
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 
+isoName=ubuntu-20.04-legacy-server-amd64-unattended_econ-ark.iso
+echo ''
+echo 'Fetching online image of this installer to '
+echo "/media/$isoName"
+
+sudo rm "/media/$isoName"
+pip  install gdown # Google download 
+gdown --id "19AL7MsaFkTdFA1Uuh7gE57Ksshle2RRR" --output "/media/$isoName"
+
 reboot 

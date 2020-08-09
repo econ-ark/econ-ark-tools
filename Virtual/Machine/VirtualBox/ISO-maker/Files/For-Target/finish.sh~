@@ -4,8 +4,6 @@
 set -x
 set -v
 
-#size_to_build="MIN"
-
 # define download function
 # courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
 download()
@@ -148,7 +146,10 @@ sudo touch /etc/cron.hourly/jobs.deny
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
 echo 0anacron > /etc/cron.hourly/jobs.deny 
 
-if [[ "$Size-To-Build-Now-Is-MIN" == "MIN" ]]; then
+size=MAX # Default to max, unless there is a file named Size-To-Make-Is-MMIN
+[[ -e ./Size-To-Make-Is-MIN ]] && size=MIN
+
+if [[ "$size" == "MIN" ]]; then
     pip install jupyter_contrib_nbextensions
     pip install jupyter contrib nbextension install --user
     pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
@@ -243,4 +244,3 @@ fi
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 
 reboot 
-

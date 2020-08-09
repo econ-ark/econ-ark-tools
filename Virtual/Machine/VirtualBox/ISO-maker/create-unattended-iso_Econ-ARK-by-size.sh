@@ -23,12 +23,12 @@ ForISO="Files/For-ISO"
 echo "size_to_build=$size_to_build"
 
 pathToScript=$(dirname `realpath "$0"`)
-# pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/
+# pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/
 
 # Locations of remote files
 
 git_branch="$(git symbolic-ref HEAD 2>/dev/null)" ; git_branch=${git_branch##refs/heads/}
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/VirtualBox/ISO-maker-Server"
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/VirtualBox/ISO-maker"
 startFile="start.sh"
 finishFile="finish.sh"
 finishMAX="finish-MAX-Extras.sh"
@@ -274,7 +274,7 @@ spinner $!
 # set the language for the installation menu
 cd $iso_make/iso_new
 # set late_command 
-late_command="chroot /target curl -L -o /var/local/late_command.sh $online/late_command.sh ;\
+late_command="chroot /target curl -L -o /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
      chroot /target curl -L -o /var/local/start.sh   $online/$ForTarget/$startFile ;\
      chroot /target curl -L -o /var/local/finish.sh  $online/$ForTarget/$finishFile ;\
      chroot /target curl -L -o /var/local/$finishMAX $online/$ForTarget/$finishMAX ;\
@@ -384,7 +384,7 @@ sudo mkdir -p $iso_make/iso_new/EFI/BOOT/32BITLOAD
 
 cp $pathToScript/$ForTarget/root/EFI/BOOT/BOOTIA32.EFI $iso_make/iso_new/EFI/BOOT
 
-#sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker-Server/root/EFI/BOOT/rename-efi-entry.bash 
+#sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/root/EFI/BOOT/rename-efi-entry.bash 
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 echo " creating the remastered iso"

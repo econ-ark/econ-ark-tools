@@ -18,5 +18,5 @@ if [[ ! -e /var/log/firstboot.log ]]; then # firstboot file does not exist becau
     xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch the remaining installations; user should be smart enough to understand what they should and should not do while system is being installed/upgraded
 fi
 
-
-
+sudo apt -y update
+sudo apt -y upgrade 
