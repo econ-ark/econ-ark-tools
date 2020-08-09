@@ -1,8 +1,14 @@
 #!/bin/bash
 # Adapted from netson github create-unattended/create-unattended-iso.sh
 
+if [ "$TERM" == "dumb" ]; then
+    echo 'This script should be run from a smart terminal.'
+    echo 'But $TERM='"$TERM"' probably because running in emacs shell'
+    echo ''
+    exit 1
+fi
 
-version="base" # or "full" for too many options on the grub menu
+version="base" # or "full" for debugging (too-many-options) on the grub menu
 
 if [ "$#" -ne 1 ]; then
     echo "Wrong number of arguments:"
