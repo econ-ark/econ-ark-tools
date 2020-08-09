@@ -23,16 +23,16 @@ fi
 
 size="$1"
 
-ForTarget="Files/For-Target"
-ForISO="Files/For-ISO"
-
 echo "size_to_build=$size_to_build"
 
 pathToScript=$(dirname `realpath "$0"`)
-# pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/
+# pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker
 
 # Locations of remote files
 
+
+ForTarget="Files/For-Target"
+ForISO="Files/For-ISO"
 git_branch="$(git symbolic-ref HEAD 2>/dev/null)" ; git_branch=${git_branch##refs/heads/}
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/VirtualBox/ISO-maker"
 startFile="start.sh"
@@ -277,49 +277,10 @@ echo "$cmd"
 ( rsync -rai --delete $iso_make/iso_org/ $iso_make/iso_new ) &
 spinner $!
 
-# set the language for the installation menu
-cd $iso_make/iso_new
-# set late_command 
-late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
-     chroot /target wget -O /var/local/start.sh   $online/$ForTarget/$startFile ;\
-     chroot /target wget -O /etc/rc.local         $online/$ForTarget/$rclocal_file ;\
-     chroot /target chmod +x /var/local/start.sh /var/local/finish.sh /etc/rc.local /var/local/$finishMAX ;\
-     chroot /target touch /var/local/Size-To-Make-Is-$size ;\
-     chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d ;\
-     chroot /target wget -O /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/$ForTarget/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
-     chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\ "
-
-#     chroot /target wget -O /var/local/finish.sh  $online/$ForTarget/$finishFile ;\
-#     chroot /target wget -O /var/local/$finishMAX $online/$ForTarget/$finishMAX ;\
-
-# If it exists, get the last late_command
-late_command_last=""
-[[ -e $ForTarget/late_command.raw ]] && late_command_last="$(< $ForTarget/late_command.raw)" #; echo "$late_command_last"
-
-# Don't treat "Size-To-Make-Is" choice as meaningful 
-late_command_curr_purged="$(echo $late_command_curr | sed -e 's/Size-To-Make-Is-MAX//g' | sed -e 's/Size-To-Make-Is-MIN//g')" #; echo "$late_command_curr_purged"
-late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX//g' | sed -e 's/Size-To-Make-Is-MIN//g')" #; echo "$late_command_last_purged"
-
-pushd . ; cd "$pathToScript"
-if [[ "$late_command_curr_purged" != "$late_command_last_purged" ]]; then
-    echo "$late_command_curr_purged" > $ForTarget/late_command.raw
-    # Make a bash script that does the same things; useful for debugging
-    echo "#!/bin/bash" > $ForTarget/late_command.sh
-    echo "$late_command" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command >> $ForTarget/late_command.sh
-    chmod a+x $ForTarget/late_command.sh
-    echo '$ForTarget/late_command has changed; the new version has been written'
-    echo ''
-    echo 'Please git add, commit, push then hit return:'
-    cmd="cd `pwd` ; git add $ForTarget/late_command.sh ; git commit -m ISOmaker-Update-Late-Command ; git push";
-    echo "$cmd"
-    echo "$cmd" | xclip
-    echo "(Might be on xclip clipboard)"
-    read answer
-fi
-popd
-
 # copy the seed file to the iso
-cp -rT $pathToScript/$ForISO/$seed_file $iso_make/iso_new/preseed/$seed_file
+cmd="cp -rT $pathToScript/$ForISO/$seed_file $iso_make/iso_new/preseed/$seed_file"
+echo "$cmd"
+eval "$cmd"
 
 # copy the kickstart file to the root
 #cp -rT $iso_make/$ks_file $iso_make/iso_new/$ks_file
@@ -336,6 +297,68 @@ cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns           $iso_make/iso_new
 # Wasted a lot of time trying to get .VolumeIcon.icns to work -- failed and not worth the effort
 #cp $pathToScript/Disk/Icons/os_refit.icns         $iso_make/iso_new/.VolumeIcon.icns
 cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns      $iso_make/iso_new/.VolumeIcon.icns
+
+cd $iso_make/iso_new
+# set late_command 
+late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
+     chroot /target wget -O /var/local/start.sh   $online/$ForTarget/$startFile ;\
+     chroot /target wget -O /etc/rc.local         $online/$ForTarget/$rclocal_file ;\
+     chroot /target chmod +x /var/local/start.sh /var/local/finish.sh /etc/rc.local /var/local/$finishMAX ;\
+     chroot /target wget -O /var/local/finish.sh  $online/$ForTarget/$finishFile ;\
+     chroot /target wget -O /var/local/$finishMAX $online/$ForTarget/$finishMAX ;\
+     chroot /target touch /var/local/Size-To-Make-Is-$size ;\
+     chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d ;\
+     chroot /target wget -O /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/$ForTarget/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
+     chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
+"
+
+cd "$pathToScript"
+# If it exists, get the last late_command
+late_command_last=""
+[[ -e $ForTarget/late_command.raw ]] && late_command_last="$(< $ForTarget/late_command.raw)" #; echo "$late_command_last"
+
+# Don't treat "Size-To-Make-Is" choice as meaningful 
+late_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX//g' | sed -e 's/Size-To-Make-Is-MIN//g')" #; echo "$late_command_curr_purged"
+late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX//g' | sed -e 's/Size-To-Make-Is-MIN//g')" #; echo "$late_command_last_purged"
+
+# Create a human-readable and bash executable version of late_command
+echo "#!/bin/bash" > $ForTarget/late_command.sh
+echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command >> $ForTarget/late_command.sh
+chmod a+x $ForTarget/late_command.sh
+
+# If the command has changed
+
+git diff --exit-code $pathToScript/$ForTarget/late_command.sh
+
+if [[ "$?" != 0 ]]; then
+    echo '$ForTarget/late_command has changed; the new version has been written'
+    echo ''
+    echo 'Please git add, commit, push then hit return:'
+    cmd="cd `pwd` ; git add $ForTarget/late_command.sh ; git add $ForTarget/late_command.raw ; git commit -m ISOmaker-Update-Late-Command ; git push"
+    echo "$cmd"
+    echo "$cmd" | xclip
+    echo "(Might be on xclip clipboard)"
+    read answer
+fi
+    
+
+# pushd . ; cd "$pathToScript"
+# if [[ "$late_command_curr_purged" != "$late_command_last_purged" ]]; then
+#     echo "$late_command_curr_purged" > $ForTarget/late_command.raw
+#     # Make a bash script that does the same things; useful for debugging
+#     echo "#!/bin/bash" > $ForTarget/late_command.sh
+#     echo "$late_command" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command >> $ForTarget/late_command.sh
+#     chmod a+x $ForTarget/late_command.sh
+#     echo '$ForTarget/late_command has changed; the new version has been written'
+#     echo ''
+#     echo 'Please git add, commit, push then hit return:'
+#     cmd="cd `pwd` ; git add $ForTarget/late_command.sh ; git add $ForTarget/late_command.raw ; git commit -m ISOmaker-Update-Late-Command ; git push"
+#     echo "$cmd"
+#     echo "$cmd" | xclip
+#     echo "(Might be on xclip clipboard)"
+#     read answer
+# fi
+# popd
 
 # include firstrun script
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file
@@ -368,6 +391,8 @@ seed_checksum=$(md5sum $iso_make/iso_new/preseed/$seed_file)
 # "version" is set at the beginning of the file
 # version=base just adds two options to the built-in menu
 # version=full adds a large number of options that often vary from system to system
+
+cd $iso_make/iso_new
 
 # Very ugly to have all on one line using newlines, but very painful
 # to try to have it look prettier then convert to single string 
