@@ -252,4 +252,6 @@ sudo rm "/media/$isoName"
 pip  install gdown # Google download 
 gdown --id "19AL7MsaFkTdFA1Uuh7gE57Ksshle2RRR" --output "/media/$isoName"
 
+sudo apt -y update && sudo apt -y upgrade
+
 reboot 
