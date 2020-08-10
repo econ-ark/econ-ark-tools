@@ -28,9 +28,7 @@ echo "size_to_build=$size_to_build"
 pathToScript=$(dirname `realpath "$0"`)
 # pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker
 
-# Locations of remote files
-
-
+# Names/paths of local and remote files
 ForTarget="Files/For-Target"
 ForISO="Files/For-ISO"
 git_branch="$(git symbolic-ref HEAD 2>/dev/null)" ; git_branch=${git_branch##refs/heads/}
@@ -39,15 +37,17 @@ startFile="start.sh"
 finishFile="finish.sh"
 finishMAX="finish-MAX-Extras.sh"
 seed_file="econ-ark.seed"
-#seed_file="example-preseed.seed"
-#ks_file=ks.cfg  # Kickstart will no longer work for 20.04 and after
 rclocal_file="rc.local"
 
-# file names & paths
 iso_from="/media/sf_VirtualBox"                          # where to find the original ISO
 iso_done="/media/sf_VirtualBox/ISO-made/econ-ark-tools"  # where to store the final iso file - shared with host machine
+
 [[ ! -d "$iso_done" ]] && mkdir -p "$iso_done"
 iso_make="/usr/local/share/iso_make"                     # source folder for ISO file
+
+#seed_file="example-preseed.seed"
+#ks_file=ks.cfg  # Kickstart will no longer work for 20.04 and after
+
 # create working folders
 echo " remastering your iso file"
 
@@ -308,10 +308,13 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target wget -O /var/local/finish.sh  $online/$ForTarget/$finishFile ;\
      chroot /target wget -O /var/local/$finishMAX $online/$ForTarget/$finishMAX ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
-     chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d ;\
+     chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/$ForTarget/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
-     chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf \
+     chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /etc/systemd/system/getty@tty1.service.d/override.conf ;\
+     chroot /target sudo apt -y install xubuntu-desktop^ xfce4 lightdm \
 "
+#     chroot /target wget -O /etc/systemd/system/getty@tty1.service.d $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
+#     chroot /target chmod 755  /etc/systemd/system/getty@tty1.service.d/override.conf ;\
 
 cd "$pathToScript"
 # If it exists, get the last late_command
@@ -342,25 +345,6 @@ if [[ "$?" != 0 ]]; then
     read answer
 fi
 
-
-# pushd . ; cd "$pathToScript"
-# if [[ "$late_command_curr_purged" != "$late_command_last_purged" ]]; then
-#     echo "$late_command_curr_purged" > $ForTarget/late_command.raw
-#     # Make a bash script that does the same things; useful for debugging
-#     echo "#!/bin/bash" > $ForTarget/late_command.sh
-#     echo "$late_command" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command >> $ForTarget/late_command.sh
-#     chmod a+x $ForTarget/late_command.sh
-#     echo '$ForTarget/late_command has changed; the new version has been written'
-#     echo ''
-#     echo 'Please git add, commit, push then hit return:'
-#     cmd="cd `pwd` ; git add $ForTarget/late_command.sh ; git add $ForTarget/late_command.raw ; git commit -m ISOmaker-Update-Late-Command ; git push"
-#     echo "$cmd"
-#     echo "$cmd" | xclip
-#     echo "(Might be on xclip clipboard)"
-#     read answer
-# fi
-# popd
-
 # include firstrun script
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file
 echo "d-i preseed/late_command                                    string      $late_command " >> $iso_make/iso_new/preseed/$seed_file
@@ -379,41 +363,20 @@ sed -i "s@{{timezone}}@$timezone@g" $iso_make/iso_new/preseed/$seed_file
 # calculate checksum for seed file
 seed_checksum=$(md5sum $iso_make/iso_new/preseed/$seed_file)
 
-## add the install option to the menu
-#sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true DEBCONF_DEBUG=5 priority=critical locale=en_US          ---\n	initrd /install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg 
-
-#sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true DEBCONF_DEBUG=5 priority=critical locale=en_US       ---|g'     $iso_make/iso_new/isolinux/txt.cfg
-
-#sed -i -r 's/timeout=[0-9]+/timeout=1/g' $iso_make/iso_new/boot/grub/grub.cfg
-
-
-# Version with nothing in the first (automatic) boot line
-
-# "version" is set at the beginning of the file
-# version=base just adds two options to the built-in menu
-# version=full adds a large number of options that often vary from system to system
-
-DEBUG=""
-DEBUG="                   "
-
 cd $iso_make/iso_new
-
-# # #cp $iso_make/iso_new/boot/grub/grub.cfg $iso_make/iso_new/boot/grub/grub-orig.cfg
-# # # cp $iso_make/iso_new/isolinux/txt.cfg   $iso_make/iso_new/isolinux/txt-orig.cfg   
 
 # Very ugly to have all on one line using newlines, but very painful
 # to try to have it look prettier then convert to single string 
 if [ "$version" == "base" ]; then
-    # sudo /bin/sed -i 's|set timeout=30|set timeout=5\nmenuentry "Autoinstall Econ-ARK Xubuntu Server" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    ---\n	initrd	/install/initrd.gz\n}|g' $iso_make/iso_new/boot/grub/grub.cfg
-
     sudo /bin/sed -i 's|set timeout=30|set timeout=10\nmenuentry "Autoinstall Econ-ARK Xubuntu" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=5                   ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Most Macs" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "MacBookPro9,1-Mid-2012 (noapic)" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US noapic  ---\n	initrd	/install/initrd.gz\n}\nsubmenu "Boot debug options ..." {\nmenuentry "acpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    acpi=off        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "nolapic noapic irqpoll" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    noapic irqpoll       ---\n	initrd	/install/initrd.gz\n}\nmenuentry "noapic" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    noapic        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi=ht" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    acpi=ht        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi_osi=Linux" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    cpi_osi=Linux ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noacpi" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/ecopn-ark.seed auto=true priority=critical locale=en_US                    pci=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    pci=noirq        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "apci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    acpi=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pnpacpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    pnpacpi=off        ---\n	initrd	/install/initrd.gz\n}\n}|g' $iso_make/iso_new/boot/grub/grub.cfg
     
-
-    # Delete the original options from the grub file
-#    /bin/sed -i '/^menuentry "Install Ubuntu Server"/,/^grub_platform/{/^grub_platform/!d}' $iso_make/iso_new/boot/grub/grub.cfg
+    # Delete original options
+    /bin/sed -i '/^menuentry "Install Ubuntu Server"/,/^grub_platform/{/^grub_platform/!d}' $iso_make/iso_new/boot/grub/grub.cfg
 
     sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu (UEFI)\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=5                    ---          \nlabel install\n  menu label ^MacBookPro9,1-Mid-2012 (noapic)\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US                    noapic --- \nmenu begin ^Debug\nmenu title Troubleshooting \nlabel install\n  menu label ^acpi=off\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US                    acpi=off --- \nlabel install\n  menu label ^nolapic noapic irqpoll\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US                    noapic irqpoll --- \nlabel install\n  menu label ^noapic\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US                    noapic ---  \nlabel install\n  menu label ^acpi_osi=Linux\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US                    acpi_osi=Linux --- \nlabel install\n  menu label ^acpi=ht\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US                    acpi=ht --- \nlabel install\n  menu label ^pci=noacpi\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US                    pci=noacpi --- \nlabel install\n  menu label ^apci=noirq\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US                    apci=noirq ---\nlabel install\n  menu label ^aacpi=noirq\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US                    aacpi=noirq ---\nlabel install\n  menu label ^apnpacpi=off\n  kernel /install/vmlinuz\nappend file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US                    apnpacpi=off ---\nmenu end\n|g'     $iso_make/iso_new/isolinux/txt.cfg
-    #sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US   ---|g'     $iso_make/iso_new/isolinux/txt.cfg
+
+    # Delete original options
+    sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US   ---|g'     $iso_make/iso_new/isolinux/txt.cfg
 else
     sudo /bin/sed -i 's|default install|default auto-install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu Server\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 nolapic  ---          \nlabel install\n  menu label ^MacBookPro9,1-Mid-2012 (noapic)\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 noapic --- \nlabel install\n  menu label ^acpi=off\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 acpi=off --- \nlabel install\n  menu label ^nolapic noapic irqpoll\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 noapic irqpoll --- \nlabel install\n  menu label ^noapic\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 noapic ---  \nlabel install\n  menu label ^acpi_osi=Linux\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 acpi_osi=Linux --- \nlabel install\n  menu label ^acpi=ht\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 acpi=ht --- \nlabel install\n  menu label ^pci=noacpi\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 pci=noacpi --- \nlabel install\n  menu label ^apci=noirq\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 apci=noirq ---\nlabel install\n  menu label ^aacpi=noirq\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 aacpi=noirq ---\nlabel install\n  menu label ^apnpacpi=off\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed   vga=788 initrd=/install/initrd.gz auto=true priority=critical locale=en_US DEBCONF_DEBUG=5      apnpacpi=off ---|g'     $iso_make/iso_new/isolinux/txt.cfg
 fi

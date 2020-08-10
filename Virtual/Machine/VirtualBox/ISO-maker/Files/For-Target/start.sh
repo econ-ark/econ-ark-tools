@@ -6,13 +6,13 @@ set -v
 
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker/Files/For-Target"
 
-apt -y install xubuntu-desktop^
-apt -y install xfce4
+# apt -y install xubuntu-desktop^
+# apt -y install xfce4
 
-# Tell it to use lightdm without asking the user 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
-echo set shared/default-x-display-manager lightdm | debconf-communicate 
+# # Tell it to use lightdm without asking the user 
+# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
+# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
+# echo set shared/default-x-display-manager lightdm | debconf-communicate 
 
 myuser=econ-ark
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
@@ -38,6 +38,9 @@ Hidden=false
 EOF
 
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
+
+# Allow the start script to launch the GUI even though it is not a "console" user
+echo allowed_users=anybody >> /etc/X11/Xwrapper.config
 
 wget -O  /var/local/bash_aliases-add $online/bash_aliases-add
 cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
