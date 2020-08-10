@@ -117,6 +117,8 @@ d-i pkgsel/upgrade                                          select      none
 d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     true
 
+lightdm shared/default-x-display-manager                    select      lightdm
+
 # Finish
 d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
 d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging 
