@@ -149,8 +149,9 @@ echo 0anacron > /etc/cron.hourly/jobs.deny
 # Get other default packages for Econ-ARK machine
 sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
 
-size=MAX # Default to max, unless there is a file named Size-To-Make-Is-MMIN
-[[ -e ./Size-To-Make-Is-MIN ]] && size=MIN
+size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MMIN
+
+[[ -e ./Size-To-Make-Is-MIN ]] && size="MIN"
 
 if [[ "$size" == "MIN" ]]; then
     pip install jupyter_contrib_nbextensions
