@@ -211,16 +211,6 @@ cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirem
 
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
 
-sudo apt -y install build-essential module-assistant parted gparted
-sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
-
-mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
-chown econ-ark:econ-ark /home/econ-ark/GitHub
-chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
-
-# Allow reading of MacOS HFS+ files
-sudo apt -y install hfsplus hfsutils hfsprogs
-
 # Prepare partition for reFind boot in MacOS
 hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
 
@@ -255,4 +245,3 @@ gdown --id "19AL7MsaFkTdFA1Uuh7gE57Ksshle2RRR" --output "/media/$isoName"
 
 sudo apt -y update && sudo apt -y upgrade
 
-reboot 

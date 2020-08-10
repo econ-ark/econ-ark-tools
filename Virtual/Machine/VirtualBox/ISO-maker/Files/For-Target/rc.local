@@ -11,4 +11,15 @@ if [ ! -f $FLAG ]; then
     
     # create an empty 'signal' file so the if will fail after the first boot
     touch "$FLAG"
+else
+    FLAG2="/var/log/secondboot.log"
+    if [ ! -f "$FLAG2" ]; then
+	set -x
+	set -v 
+	(set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log ) & # Launch remainder as a background process so econ-ark user can autologin
+	
+	# create an empty 'signal' file so the if will fail after the first boot
+	touch "$FLAG2"
+    fi
 fi
+
