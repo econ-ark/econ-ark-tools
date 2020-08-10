@@ -7,5 +7,4 @@
  touch /var/local/ 
  mkdir -p /usr/share/lightdm/lightdm.conf.d 
  wget -O /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker/Files/For-Target/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
- chmod 755 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
-
+ chmod 755 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
