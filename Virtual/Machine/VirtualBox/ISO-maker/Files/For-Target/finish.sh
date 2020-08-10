@@ -56,11 +56,11 @@ avahi-daemon --reload
 
 # Get misc other stuff 
 refindFile="refind-install-MacOS.sh"
-wget -O  /var/local/grub-menu.sh $online/grub-menu.sh 
+wget -O  /var/local/grub-menu.sh             $online/Files/For-Target/grub-menu.sh 
 wget -O  /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
 wget -O  /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    
 wget -O  /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x 
-wget -O  /var/local/$refindFile $online/Files/For-Target/$refindFile
+wget -O  /var/local/$refindFile              $online/Files/For-Target/$refindFile
 chmod +x /var/local/$refindFile
 
 # Allow vnc (will only start up after reading ~/.bash_aliases)
@@ -229,7 +229,7 @@ if [[ "$hfsplusLabels" != "" ]]; then
     echo "cmd=$cmd"
     sudo mkfs.hfsplus -v 'refind-HFS' "$hfsplusLabels"
     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS
-    sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/refind-install-MacOS.sh /tmp/refind-HFS
+    sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/Files/For-Target/refind-install-MacOS.sh /tmp/refind-HFS
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /tmp/refind-HFS/.VolumeIcon.icns
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns
     sudo chmod a+x /tmp/refind-HFS/*.sh
