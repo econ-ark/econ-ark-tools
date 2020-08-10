@@ -4,6 +4,14 @@
 set -x
 set -v
 
+sudo apt -y install build-essential module-assistant parted gparted
+sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
+
+mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
+chown econ-ark:econ-ark /home/econ-ark/GitHub
+chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
+
+
 # define download function
 # courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
 download()
@@ -33,8 +41,6 @@ for d in ./*/; do
 	rm -Rf "$d"
     fi
 done
-
-sudo apt -y update # && sudo apt -y upgrade
 
 sudo apt-get -y install firmware-b43-installer # Possibly useful for macs; a bit obscure, but kernel recommends it
 
@@ -210,6 +216,18 @@ cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirem
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirements.txt
 
 # https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
+
+# Allow reading of MacOS HFS+ files
+sudo apt -y install hfsplus hfsutils hfsprogs
+
+# Xubuntu installs xfce-screensaver; remove the default one
+# It's confusing to have two screensavers running:
+#   You think you have changed the settings but then the other one's
+#   settings are not changed
+# For xfce4-screensaver, unable to find a way programmatically to change
+# so must change them by hand
+sudo apt -y remove  xscreensaver
+
 
 # Prepare partition for reFind boot in MacOS
 hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
