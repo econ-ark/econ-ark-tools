@@ -309,10 +309,12 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target wget -O /var/local/$finishMAX $online/$ForTarget/$finishMAX ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
+     chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target wget -O /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/$ForTarget/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf ;\
-     chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /etc/systemd/system/getty@tty1.service.d/override.conf ;\
-     chroot /target sudo apt -y install xubuntu-desktop^ xfce4 lightdm \
+     chroot /target chmod 755  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /etc/systemd/system/getty@tty1.service.d/override.conf \
 "
+
+#     chroot /target sudo apt -y install xubuntu-desktop^ xfce4 lightdm \
 #     chroot /target wget -O /etc/systemd/system/getty@tty1.service.d $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
 #     chroot /target chmod 755  /etc/systemd/system/getty@tty1.service.d/override.conf ;\
 
