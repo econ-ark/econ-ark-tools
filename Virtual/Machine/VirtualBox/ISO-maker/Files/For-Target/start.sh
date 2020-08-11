@@ -6,6 +6,14 @@
 set -x
 set -v
 
+sudo apt-get --assume-no install refind
+
+update-grub
+
+sudo refind-install
+
+sudo grub-install --efi-directory=/boot/efi
+
 sudo apt-get -y install firmware-b43-installer # Possibly useful for macs; a bit obscure, but kernel recommends it
 
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker/Files/For-Target"
@@ -54,12 +62,5 @@ chmod a+x /home/econ-ark/.bash_aliases
 sudo groupadd -r autologin
 sudo gpasswd -a econ-ark autologin
 
-# # sudo -u econ-ark startxfce4 &
-
-# sleep 120
-
-# sudo -u econ-ark xfconf-query -c xfce4-panel -p / -R -r
-
-# sudo -u econ-ark xfce4-panel -r
 
 reboot
