@@ -30,6 +30,8 @@ myuser=econ-ark
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
+wget -O /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+
 sudo groupadd --system autologin
 sudo adduser  econ-ark autologin
 sudo gpasswd -a econ-ark autologin
