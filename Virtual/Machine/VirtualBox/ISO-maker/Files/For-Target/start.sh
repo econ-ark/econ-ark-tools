@@ -10,7 +10,7 @@ sudo apt-get --assume-no install refind
 
 update-grub
 
-sudo refind-install
+sudo refind-install --yes
 
 sudo grub-install --efi-directory=/boot/efi
 
@@ -30,7 +30,9 @@ myuser=econ-ark
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
-sudo groupadd -r autologin -a econ-ark
+sudo groupadd --system autologin
+sudo adduser  econ-ark autologin
+sudo gpasswd -a econ-ark autologin
 
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
@@ -59,8 +61,6 @@ cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
 
 chmod a+x /home/econ-ark/.bash_aliases
 
-sudo groupadd -r autologin
-sudo gpasswd -a econ-ark autologin
 
 
 reboot
