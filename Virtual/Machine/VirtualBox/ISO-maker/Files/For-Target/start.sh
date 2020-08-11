@@ -61,6 +61,9 @@ cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
 
 chmod a+x /home/econ-ark/.bash_aliases
 
+# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
+[[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+
 
 
 reboot
