@@ -14,12 +14,6 @@ RUN apt-get update && \
 USER $NB_UID
 WORKDIR $HOME
 
-# Clone REMARK and DemARK repo
-RUN git clone http://github.com/econ-ark/REMARK && \
-    fix-permissions /home/$NB_USER
-RUN git clone http://github.com/econ-ark/DemARK && \
-    fix-permissions /home/$NB_USER
-
 # packages required on top of scipy-notebook docker stack.
 # install latest release of econ-ark
 RUN conda install  --yes \
