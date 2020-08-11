@@ -6,11 +6,11 @@
 set -x
 set -v
 
-sudo apt-get --assume-no install refind
+sudo apt-get --assume-yes install refind
 
 update-grub
 
-sudo refind-install --yes
+#sudo refind-install --yes
 
 sudo grub-install --efi-directory=/boot/efi
 
