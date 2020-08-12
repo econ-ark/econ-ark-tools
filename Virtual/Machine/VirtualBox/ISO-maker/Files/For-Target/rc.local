@@ -11,6 +11,7 @@ if [ ! -f $FLAG ]; then
     
     # create an empty 'signal' file so the if will fail after the first boot
     touch "$FLAG"
+    reboot
 else
     FLAG2="/var/log/secondboot.log"
     if [ ! -f "$FLAG2" ]; then
