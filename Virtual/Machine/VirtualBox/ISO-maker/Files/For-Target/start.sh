@@ -18,7 +18,7 @@ sudo apt-get -y install firmware-b43-installer # Possibly useful for macs; a bit
 
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker/Files/For-Target"
 
-apt -y install xubuntu-desktop^
+apt -y install xubuntu-desktop
 apt -y install xfce4
 
 # Tell it to use lightdm without asking the user 
@@ -31,6 +31,7 @@ sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
 wget -O /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+chmod 755 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 
 sudo groupadd --system autologin
 sudo adduser  econ-ark autologin
