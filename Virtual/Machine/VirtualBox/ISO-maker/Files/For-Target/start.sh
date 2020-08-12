@@ -10,7 +10,7 @@ sudo apt-get --assume-yes install refind
 
 update-grub
 
-#sudo refind-install --yes
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.*  sudo refind-install --yes
 
 sudo grub-install --efi-directory=/boot/efi
 
