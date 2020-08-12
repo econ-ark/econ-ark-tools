@@ -19,3 +19,14 @@ if [[ ! -e /var/log/secondboot.log ]]; then   # might be on the first boot
 	xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch the remaining installations; user should be smart enough to understand what they should and should not do while system is being installed/upgraded
     fi
 fi
+
+if [ "$(ls -A /var/crash)" ]; then
+    echo ''
+    echo 'Messages about crashes can be cleared by executing the command:'
+    echo ''
+    cmd="sudo rm -f /var/crash/*"
+    echo "$cmd"
+    echo "$cmd" | xclip
+    echo ''
+fi
+    
