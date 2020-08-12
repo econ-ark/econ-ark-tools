@@ -11,12 +11,11 @@ parse_git_branch() {
 export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "
 
 # Stuff to be executed only the first time a user logs into an interactive shell
-if [[ ! -e /var/log/secondboot.log ]]; then   # might be on the first boot 
-    if [[ -e /var/log/firstboot.log ]]; then  # firstboot file does not exist because on the first boot no time has elapsed in which to set it
-	# Tell them what's going on in the other window
+if [[ "$DISPLAY" != "" ]]; then # a displaymanager is running
+    if [[ "$(pgrep finish.sh)" != 0 ]]; then # finish script is still running 
 	xfce4-terminal --geometry 80x12+0+0 --command "echo ; echo The machine is installing more software ; echo It will reboot one more time before it finishes. ; echo Please wait until that reboot before using it."
 	# Monitor installations on the "finish" script
-	xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch the remaining installations; user should be smart enough to understand what they should and should not do while system is being installed/upgraded
+	xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  
     fi
 fi
 
@@ -29,4 +28,4 @@ if [ "$(ls -A /var/crash)" ]; then
     echo "$cmd" | xclip
     echo ''
 fi
-    
+
