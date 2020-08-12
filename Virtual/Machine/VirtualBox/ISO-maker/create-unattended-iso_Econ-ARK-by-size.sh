@@ -23,7 +23,7 @@ fi
 
 size="$1"
 
-echo "size_to_build=$size_to_build"
+echo "size_to_build=$size"
 
 pathToScript=$(dirname `realpath "$0"`)
 # pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker
