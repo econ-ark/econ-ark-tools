@@ -18,7 +18,7 @@ sudo apt-get -y install firmware-b43-installer # Possibly useful for macs; a bit
 
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker/Files/For-Target"
 
-apt -y install xubuntu-desktop
+apt -y install xubuntu-desktop^
 apt -y install xfce4
 
 # Tell it to use lightdm without asking the user 
@@ -67,4 +67,9 @@ chmod a+x /home/econ-ark/.bash_aliases
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 
+
+# Anacron massively delays the first boot; this disbles it
+sudo touch /etc/cron.hourly/jobs.deny
+sudo chmod a+rw /etc/cron.hourly/jobs.deny
+echo 0anacron > /etc/cron.hourly/jobs.deny 
 

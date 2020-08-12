@@ -147,11 +147,6 @@ sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-
 sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  # do emacs first-time setup
 sudo                 emacs -batch -l              /root/.emacs  # do emacs first-time setup
 
-# Anacron kept killing first boot; this disables it 
-sudo touch /etc/cron.hourly/jobs.deny
-sudo chmod a+rw /etc/cron.hourly/jobs.deny
-echo 0anacron > /etc/cron.hourly/jobs.deny 
-
 # Get other default packages for Econ-ARK machine
 sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
 

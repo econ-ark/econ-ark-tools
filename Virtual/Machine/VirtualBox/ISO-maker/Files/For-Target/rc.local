@@ -21,6 +21,10 @@ else
 	
 	# create an empty 'signal' file so the if will fail after the first boot
 	touch "$FLAG2"
+
+	# Restore cron jobs so they will run in background on next boot
+	# (They were disabled in start.sh because they take forever and delay the first boot inordinately)
+	sudo rm /etc/cron.hourly/jobs.deny
     fi
 fi
 
