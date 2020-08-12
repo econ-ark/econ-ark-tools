@@ -150,14 +150,11 @@ sudo                 emacs -batch -l              /root/.emacs  # do emacs first
 # Get other default packages for Econ-ARK machine
 sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
 
+cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MMIN
-
 [[ -e ./Size-To-Make-Is-MIN ]] && size="MIN"
 
 if [[ "$size" == "MIN" ]]; then
-    pip install jupyter_contrib_nbextensions
-    pip install jupyter contrib nbextension install --user
-    pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
     sudo add-apt-repository -y ppa:deadsnakes/ppa
     sudo apt -y install software-properties-common python3 python3-pip python-pytest
     sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
@@ -165,9 +162,13 @@ if [[ "$size" == "MIN" ]]; then
     sudo pip install python-pytest
     sudo -i -u econ-ark python-pytest
     sudo pip install nbval
+    pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
 else
+    sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
-fi
+    sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+    sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
+ fi
 
 sudo -u econ-ark pip install jupyter_contrib_nbextensions
 sudo -u econ-ark jupyter contrib nbextension install --user
