@@ -307,8 +307,8 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target wget -O /var/local/finish.sh    $online/$ForTarget/$finishFile ;\
      chroot /target wget -O /var/local/$finishMAX   $online/$ForTarget/$finishMAX ;\
      chroot /target wget -O /var/local/grub-menu.sh $online/$ForTarget/grub-menu.sh ;\
-     chroot /target wget -O /etc/default/grub       $online/$ForTarget/grub ;\     
-     chroot /target chmod 755 /etc/default/grub     ;\     
+     chroot /target wget -O /etc/default/grub       $online/$ForTarget/grub ;\
+     chroot /target chmod 755 /etc/default/grub     ;\
      chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extra.sh /var/local/grub-menu.sh /var/local/late_command.sh ;\
      chroot /target chmod a+x /etc/rc.local ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
