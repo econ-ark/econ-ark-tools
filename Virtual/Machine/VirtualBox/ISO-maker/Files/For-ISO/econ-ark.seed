@@ -23,7 +23,9 @@ d-i keyboard-configuration/xkb-keymap select us
 d-i preseed/early_command string umount /media
 
 # Counterintuitively, the setting below forces it TO BE an efi system
-d-i partman-efi/non_efi_system boolean true
+#d-i partman-efi/non_efi_system boolean true
+# Needed to make sure the partitioning scheme is usable with GPT systems
+d-i partman-partitioning/default_label string gpt 
 
 # Unmount active partitions, if any
 d-i partman/unmount_active boolean true  # Like, partition containing the installer
@@ -36,7 +38,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 	$reusemethod{ }				    \
 	method{ biosgrub }                          \
 	.			                    \
-    1024 1024 1024 hfs                              \
+    256 256 256 hfs                                 \
 	$gptonly{ }				    \
         $primary{ }                                 \
 	$bootable{ }                                \
