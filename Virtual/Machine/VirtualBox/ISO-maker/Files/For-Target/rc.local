@@ -4,8 +4,10 @@
 FLAG="/var/log/firstboot.log"
 if [ ! -f $FLAG ]; then
     set -x
-    set -v 
-    rm /var/local/start-and-finish.log 
+    set -v
+    DATE="$(stat -c %z /proc)"
+    hostdate="$(printf %s `date -d"$DATE" +%Y-%m-%d-%H-%M`)"
+    hostname "$hostdate"
     /var/local/start.sh  |& tee /var/local/start.log |& tee /var/local/start-and-finish.log        # Do stuff that should be done before autologin of first user
 #    (set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log ) & # Launch remainder as a background process so econ-ark user can autologin
     
@@ -28,3 +30,4 @@ else
     fi
 fi
 
+sudo systemctl restart avahi-daemon
