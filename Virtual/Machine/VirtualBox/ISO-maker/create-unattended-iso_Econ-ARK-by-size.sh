@@ -302,14 +302,15 @@ cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns      $iso_make/iso_new/.Vol
 cd $iso_make/iso_new
 # set late_command 
 late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
-     chroot /target wget -O /var/local/start.sh     $online/$ForTarget/$startFile ;\
-     chroot /target wget -O /etc/rc.local           $online/$ForTarget/$rclocal_file ;\
-     chroot /target wget -O /var/local/finish.sh    $online/$ForTarget/$finishFile ;\
-     chroot /target wget -O /var/local/$finishMAX   $online/$ForTarget/$finishMAX ;\
-     chroot /target wget -O /var/local/grub-menu.sh $online/$ForTarget/grub-menu.sh ;\
-     chroot /target wget -O /etc/default/grub       $online/$ForTarget/grub ;\
-     chroot /target chmod 755 /etc/default/grub     ;\
-     chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extra.sh /var/local/grub-menu.sh /var/local/late_command.sh ;\
+     chroot /target wget -O /var/local/econ-ark.seed  $online/$ForISO/$seed_file ;\
+     chroot /target wget -O /var/local/start.sh       $online/$ForTarget/$startFile ;\
+     chroot /target wget -O /etc/rc.local             $online/$ForTarget/$rclocal_file ;\
+     chroot /target wget -O /var/local/finish.sh      $online/$ForTarget/$finishFile ;\
+     chroot /target wget -O /var/local/$finishMAX     $online/$ForTarget/$finishMAX ;\
+     chroot /target wget -O /var/local/grub-menu.sh   $online/$ForTarget/grub-menu.sh ;\
+     chroot /target wget -O /etc/default/grub         $online/$ForTarget/grub ;\
+     chroot /target chmod 755 /etc/default/grub       ;\
+     chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh ;\
      chroot /target chmod a+x /etc/rc.local ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
