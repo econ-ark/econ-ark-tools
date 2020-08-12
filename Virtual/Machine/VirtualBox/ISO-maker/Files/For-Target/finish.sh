@@ -53,7 +53,7 @@ sudo apt-get -y install firmware-b43-installer # Possibly useful for macs; a bit
 sudo apt -y remove  xscreensaver
 
 # Play nice with Macs ASAP (in hopes of being able to monitor it)
-sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
@@ -151,7 +151,7 @@ sudo                 emacs -batch -l              /root/.emacs  # do emacs first
 sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
 
 cd /var/local
-size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MMIN
+size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 [[ -e ./Size-To-Make-Is-MIN ]] && size="MIN"
 
 if [[ "$size" == "MIN" ]]; then
@@ -245,7 +245,7 @@ if [[ "$hfsplusLabels" != "" ]]; then
     # sudo refind-install --usedefault "$ESP"
 fi
 
-isoName=ubuntu-20.04-legacy-server-amd64-unattended_econ-ark.iso
+isoName="econ-ark_$size_ubuntu-20.04-legacy-server-amd64-unattended.iso"
 echo ''
 echo 'Fetching online image of this installer to '
 echo "/media/$isoName"
