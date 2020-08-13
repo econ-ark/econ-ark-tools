@@ -57,7 +57,8 @@ sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-sca
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
-wget -O  /etc/avahi $online/etc/avahi/avahi-daemon.conf
+wget -O  /etc/avahi $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
+wget -O  /etc/avahi/services /usr/share/doc/avahi-daemon/examples/ssh.service 
 avahi-daemon --reload
 
 # Get misc other stuff 
@@ -112,7 +113,7 @@ echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 sudo apt -y install ca-certificates
 
 # Create a public key for security purposes
-ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh
+sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh
 
 # Install emacs
 chmod a+rwx /home/$myuser/.emacs
@@ -251,8 +252,13 @@ echo 'Fetching online image of this installer to '
 echo "/media/$isoName"
 
 sudo rm "/media/$isoName"
-pip  install gdown # Google download 
-gdown --id "19AL7MsaFkTdFA1Uuh7gE57Ksshle2RRR" --output "/media/$isoName"
+pip  install gdown # Google download
+
+if [ "$size" == "MIN" ]; then
+    gdown --id "19AL7MsaFkTdFA1Uuh7gE57Ksshle2RRR" --output "/media/$isoName"
+else # size = MAX
+    gdown --id "1Qs8TpId5css7q9L315VUre0mjIRqjw8Z" --output "/media/$isoName"
+fi
 
 sudo apt -y update && sudo apt -y upgrade
 
