@@ -140,7 +140,7 @@ xenn_vers=$(fgrep Xenial $iso_makehtml | head -1 | awk '{print $6}')
 bion_vers=$(fgrep Bionic $iso_makehtml | head -1 | awk '{print $6}')
 foca_vers=$(fgrep Focal  $iso_makehtml | head -1 | awk '{print $6}')
 
-name="econ-ark-$size"
+name="XUB20ARK-$size"
 
 # ask whether to include vmware tools or not
 while true; do
@@ -156,25 +156,25 @@ while true; do
     case $ubver in
         [1]* )  download_file="ubuntu-$prec_vers-server-amd64.iso"           # filename of the iso to be downloaded
                 download_location="http://cdimage.ubuntu.com/releases/$prec/"     # location of the file to be downloaded
-                new_iso_name="ubuntu-$prec_vers-server-amd64-unattended_$name.iso" # filename of the new iso file to be created
+                new_iso_name="$name_ubuntu-$prec_vers-server-amd64-unattended.iso" # filename of the new iso file to be created
                 break;;
 	[2]* )  download_file="ubuntu-$trus_vers-server-amd64.iso"             # filename of the iso to be downloaded
                 download_location="http://cdimage.ubuntu.com/releases/$trus/"     # location of the file to be downloaded
-                new_iso_name="ubuntu-$trus_vers-server-amd64-unattended_$name.iso"   # filename of the new iso file to be created
+                new_iso_name="$name_ubuntu-$trus_vers-server-amd64-unattended.iso"   # filename of the new iso file to be created
                 break;;
         [3]* )  download_file="ubuntu-$xenn_vers-server-amd64.iso"
                 download_location="http://cdimage.ubuntu.com/releases/$xenn/"
-                new_iso_name="ubuntu-$xenn_vers-server-amd64-unattended_$name.iso"
+                new_iso_name="$name_ubuntu-$xenn_vers-server-amd64-unattended.iso"
                 break;;
         [4]* )  download_file="ubuntu-18.04.4-server-amd64.iso"
                 download_location="http://releases.ubuntu.com/18.04/"
-                new_iso_base="ubuntu-18.04.4-server-amd64-unattended_$name"
-                new_iso_name="ubuntu-18.04.4-server-amd64-unattended_$name.iso"
+                new_iso_base="$name-ubuntu-18.04.4-server-amd64-unattended"
+                new_iso_name="$name-ubuntu-18.04.4-server-amd64-unattended.iso"
                 break;;
         [5]* )  download_file="ubuntu-20.04-legacy-server-amd64.iso"
                 download_location="http://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/"
-                new_iso_base="ubuntu-20.04-legacy-server-amd64-unattended_$name"
-                new_iso_name="ubuntu-20.04-legacy-server-amd64-unattended_$name.iso"
+                new_iso_base="ubuntu-20.04-legacy-server-amd64-unattended"
+                new_iso_name="$name-ubuntu-20.04-legacy-server-amd64-unattended.iso"
                 break;;
         * ) echo " please answer [1], [2], [3], [4], [5]:";;
     esac
@@ -312,6 +312,7 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target chmod 755 /etc/default/grub       ;\
      chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh ;\
      chroot /target chmod a+x /etc/rc.local ;\
+     chroot /target rm    /var/local/Size-To-Make-Is-* ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
@@ -323,7 +324,7 @@ cd "$pathToScript"
 late_command_last=""
 [[ -e $ForTarget/late_command.raw ]] && late_command_last="$(< $ForTarget/late_command.raw)" #; echo "$late_command_last"
 
-# Don't treat "Size-To-Make-Is" choice as meaningful 
+# Don't treat "Size-To-Make-Is" choice as meaningful for a change to late_command
 late_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX//g' | sed -e 's/Size-To-Make-Is-MIN//g')" #; echo "$late_command_curr_purged"
 late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX//g' | sed -e 's/Size-To-Make-Is-MIN//g')" #; echo "$late_command_last_purged"
 
@@ -396,12 +397,10 @@ cp $pathToScript/$ForTarget/root/EFI/BOOT/bootia32.efi $iso_make/iso_new/EFI/BOO
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 echo " creating the remastered iso"
 
-# echo "timeout 10" >> isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
-
-ISONAME=XUB20ARK
+ISONAME="XUB20ARK$size"
 cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
 
-#cmd="cd $iso_make/iso_new ; (xorriso -as mkisofs -isohybrid-gpt-basdat -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
+
 mke="$cmd"
 echo "$cmd"
 eval "$cmd"
@@ -447,9 +446,9 @@ cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/XUBU
 echo 'To copy to Google drive, execute the command below:'
 echo ''
 echo "$cmd"
-echo "#!/bin/bash" >  /tmp/rclone-to-Google-Drive_Last-ISO-Made.sh
-echo "$cmd"        >> /tmp/rclone-to-Google-Drive_Last-ISO-Made.sh
-chmod a+x             /tmp/rclone-to-Google-Drive_Last-ISO-Made.sh
+echo "#!/bin/bash" >  "/tmp/rclone-to-Google-Drive_Last-ISO-Made-$size.sh"
+echo "$cmd"        >> "/tmp/rclone-to-Google-Drive_Last-ISO-Made-$size.sh"
+chmod a+x             "/tmp/rclone-to-Google-Drive_Last-ISO-Made-$size.sh"
 
 # uncomment the exit to perform cleanup of drive after run
 # unset vars
