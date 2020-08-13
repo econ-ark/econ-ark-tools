@@ -22,15 +22,15 @@ fi
 if [ "$(ls -A /var/crash)" ]; then
     echo ''
     echo 'The /var/crash directory is not empty.  Its contents are:'
+    echo ''
     echo 'ls -A /var/crash'
     echo ''
-    ls -A /var/crash
     echo ''
     echo 'Messages about crashes can be cleared by executing the command:'
     echo ''
     cmd="sudo rm -f /var/crash/*"
     echo "$cmd"
-    echo "$cmd" | xclip
+    echo "$cmd" | xclip -i
     echo ''
 fi
 
