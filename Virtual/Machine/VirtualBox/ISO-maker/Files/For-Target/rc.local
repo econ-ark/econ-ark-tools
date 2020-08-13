@@ -1,15 +1,18 @@
 #!/bin/bash
 # https://askubuntu.com/questions/156771/run-a-script-only-at-the-very-first-boot
 
+DATE="$(stat -c %z /proc)"
+size="MAX"
+[[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
+hostdate="xubark$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
+hostname "$hostdate"
+
 FLAG="/var/log/firstboot.log"
 if [ ! -f $FLAG ]; then
     set -x
     set -v
-    DATE="$(stat -c %z /proc)"
-    hostdate="$(printf %s `date -d"$DATE" +%Y-%m-%d-%H-%M`)"
-    hostname "$hostdate"
     /var/local/start.sh  |& tee /var/local/start.log |& tee /var/local/start-and-finish.log        # Do stuff that should be done before autologin of first user
-#    (set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log ) & # Launch remainder as a background process so econ-ark user can autologin
+    #    (set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log ) & # Launch remainder as a background process so econ-ark user can autologin
     
     # create an empty 'signal' file so the if will fail after the first boot
     touch "$FLAG"
