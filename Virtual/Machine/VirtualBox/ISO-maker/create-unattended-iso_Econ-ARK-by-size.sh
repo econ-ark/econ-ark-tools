@@ -25,6 +25,10 @@ size="$1"
 
 echo "size_to_build=$size"
 
+# Keep track locally of what was the most recently built version
+rm    "$pathToScript/Size-To-Make-Is-*"
+touch "$pathToScript/Size-To-Make-Is-$size"
+
 pathToScript=$(dirname `realpath "$0"`)
 # pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker
 
@@ -312,7 +316,8 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target chmod 755 /etc/default/grub       ;\
      chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh ;\
      chroot /target chmod a+x /etc/rc.local ;\
-     chroot /target rm    /var/local/Size-To-Make-Is-* ;\
+     chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
+     chroot /target rm    -f /var/local/Size-To-Make-Is-MAX ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
@@ -343,8 +348,8 @@ if [[ "$?" != 0 ]]; then
     echo 'Please git add, commit, push then hit return:'
     cmd="cd `pwd` ; git add $ForTarget/late_command.sh ; git add $ForTarget/late_command.raw ; git commit -m ISOmaker-Update-Late-Command ; git push"
     echo "$cmd"
-    echo "$cmd" | xclip
-    echo "(Might be on xclip clipboard)"
+    echo "$cmd" | xclip -i 
+    echo "(should be on xclip clipboard - paste in xfce4-terminal via shift-ctrl-v)"
     read answer
 fi
 

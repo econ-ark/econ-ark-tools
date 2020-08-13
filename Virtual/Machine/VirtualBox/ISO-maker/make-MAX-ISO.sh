@@ -6,7 +6,6 @@ pathToScript=$(dirname `realpath "$0"`)
 cd "$pathToScript"
 
 echo '' ; echo ''
-
 echo 'Making ISO for MAX install'
 cmd="sudo ./create-unattended-iso_Econ-ARK-by-size.sh MAX"
 echo "$cmd"
