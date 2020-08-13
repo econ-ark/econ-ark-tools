@@ -63,11 +63,13 @@ avahi-daemon --reload
 
 # Get misc other stuff 
 refindFile="refind-install-MacOS.sh"
-wget -O  /var/local/grub-menu.sh             $online/Files/For-Target/grub-menu.sh 
-wget -O  /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
-wget -O  /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    
-wget -O  /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x 
-wget -O  /var/local/$refindFile              $online/Files/For-Target/$refindFile
+wget -O  /var/local/grub-menu.sh                  $online/Files/For-Target/grub-menu.sh 
+wget -O  /var/local/Econ-ARK.VolumeIcon.icns      $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
+wget -O  /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
+wget -O  /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
+wget -O  /var/local/$refindFile                   $online/Files/For-Target/$refindFile
+wget -O  /var/local/Econ-ARK-Logo_1536x768.png    $online/Files/For-Target/Econ-ARK-Logo_1536x768.png
+wget -O  /var/local/Econ-ARK-Logo_1536x768px.eps  $online/Files/For-Target/Econ-ARK-Logo_1536x768px.eps
 chmod +x /var/local/$refindFile
 
 # Allow vnc (will only start up after reading ~/.bash_aliases)
@@ -259,6 +261,10 @@ if [ "$size" == "MIN" ]; then
 else # size = MAX
     gdown --id "1Qs8TpId5css7q9L315VUre0mjIRqjw8Z" --output "/media/$isoName"
 fi
+
+wget -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install /var/local/google-chrome-stable_current_amd64.deb
+
 
 sudo apt -y update && sudo apt -y upgrade
 
