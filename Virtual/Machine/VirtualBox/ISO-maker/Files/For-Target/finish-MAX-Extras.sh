@@ -55,7 +55,6 @@ sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server naut
 # Extra packages for MAX
 sudo apt -y evince texlive-full quantecon 
 # Create a public key for security purposes
-sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/@myuser/.ssh
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
