@@ -11,10 +11,6 @@ cmd="sudo ./create-unattended-iso_Econ-ARK-by-size.sh MIN"
 echo "$cmd"
 eval "$cmd"
 
-cmd="sudo $cloneScript"
-echo "$cmd"
-eval "$cmd"
-
 echo '' ; echo ''
 
 
