@@ -68,9 +68,17 @@ wget -O  /var/local/Econ-ARK.VolumeIcon.icns      $online/Disk/Icons/Econ-ARK.Vo
 wget -O  /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
 wget -O  /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
 wget -O  /var/local/$refindFile                   $online/Files/For-Target/$refindFile
-wget -O  /var/local/Econ-ARK-Logo_1536x768.png    $online/Files/For-Target/Econ-ARK-Logo_1536x768.png
-wget -O  /var/local/Econ-ARK-Logo_1536x768px.eps  $online/Files/For-Target/Econ-ARK-Logo_1536x768px.eps
 chmod +x /var/local/$refindFile
+wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Files/For-Target/Econ-ARK-Logo-1536x768.jpg
+
+mkdir -p /usr/share/lightdm/lightdm.conf.d
+
+wget -O  /usr/share/lightdm/lightdm.conf.d        $online/Files/For-Target/60-lightdm-gtk-greeter.conf
+wget -O  /usr/share/lightdm/lightdm.conf.d        $online/Files/For-Target/60-xubuntu.conf
+wget -O  /home/econ-ark/.dmrc                     $online/root/home/econ-ark/.dmrc
+sudo rm /usr/lightdm/lightdm-gtk-greeter.conf
+
+wget -O  /home/econ-ark/.config                   $online/root/home/econ-ark/.config
 
 # Allow vnc (will only start up after reading ~/.bash_aliases)
 sudo apt -y install tigervnc-scraping-server
