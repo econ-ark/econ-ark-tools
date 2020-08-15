@@ -27,11 +27,12 @@ DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.*
 echo set shared/default-x-display-manager lightdm | debconf-communicate 
 
 wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
+wget -O  /var/local/Econ-ARK-Logo-1536x768.png    $online/Econ-ARK-Logo-1536x768.png
 cp       /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
 # So just replace the default image with the one we want 
-rm                                                      /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
-ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768 /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
+rm -f                                                       /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
+ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.png /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
 mkdir -p /usr/share/lightdm/lightdm.conf.d
 
 wget -O  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
