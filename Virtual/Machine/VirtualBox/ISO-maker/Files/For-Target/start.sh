@@ -12,7 +12,7 @@ update-grub
 
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.*  sudo refind-install --yes
 
-sudo grub-install --efi-directory=/boot/efi
+# sudo grub-install --efi-directory=/boot/efi
 
 sudo apt-get -y install firmware-b43-installer # Possibly useful for macs; a bit obscure, but kernel recommends it
 
@@ -26,12 +26,19 @@ DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.*
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
 echo set shared/default-x-display-manager lightdm | debconf-communicate 
 
+wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
+cp       /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
+mkdir -p /usr/share/lightdm/lightdm.conf.d
+
+wget -O  /usr/share/lightdm/lightdm.conf.d        $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
+wget -O  /usr/share/lightdm/lightdm.conf.d        $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+wget -O  /home/econ-ark/.dmrc                     $online/root/home/econ-ark/.dmrc
+[[ -e /etc/lightdm/lightdm-gtk-greeter.conf ]] && sudo rm -f /etc/lightdm/lightdm-gtk-greeter.conf
+
 myuser=econ-ark
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
-wget -O /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
-chmod 755 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 
 sudo groupadd --system autologin
 sudo adduser  econ-ark autologin
@@ -42,7 +49,6 @@ sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
 [Desktop Entry]
 Encoding=UTF-8
-Version=0.9.4
 Type=Application
 Name=xfce4-terminal
 Comment=Terminal

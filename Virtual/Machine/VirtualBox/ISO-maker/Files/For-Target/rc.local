@@ -17,12 +17,11 @@ if [ ! -f $FLAG ]; then
     # create an empty 'signal' file so the if will fail after the first boot
     touch "$FLAG"
     reboot
-else
-    FLAG2="/var/log/secondboot.log"
-    if [ ! -f "$FLAG2" ]; then
-	set -x
-	set -v 
-	(set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log ) & # Launch remainder as a background process so econ-ark user can autologin
+else # Not the first boot
+    FLAG2="/var/log/secondboot.log" 
+    if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
+	# Launch remainder as a background process so econ-ark user can autologin
+	(set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log ) & 
 	
 	# create an empty 'signal' file so the if will fail after the first boot
 	touch "$FLAG2"

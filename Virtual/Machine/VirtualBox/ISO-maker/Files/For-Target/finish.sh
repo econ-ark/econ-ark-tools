@@ -4,13 +4,29 @@
 set -x
 set -v
 
+# The cups service sometimes gets stuck; stop (one hopes) it before that happens
+sudo systemctl stop cups-browsed.service 
+sudo systemctl disable cups-browsed.service
+
+# Xubuntu installs xfce-screensaver; remove the default one
+# It's confusing to have two screensavers running:
+#   You think you have changed the settings but then the other one's
+#   settings are not changed
+# For xfce4-screensaver, unable to find a way programmatically to change
+# so must change them by hand
+
+sudo apt -y remove  xscreensaver
+
+# Set the desktop background to the Econ-ARK logo
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+xfdesktop --reload
+
 sudo apt -y install build-essential module-assistant parted gparted
 sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
 
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
 chown econ-ark:econ-ark /home/econ-ark/GitHub
 chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
-
 
 # define download function
 # courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
@@ -26,11 +42,8 @@ download()
 
 myuser="econ-ark"
 mypass="kra-noce"
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker"
 
-# The cups service sometimes gets stuck; stop it before that happens
-sudo systemctl stop cups-browsed.service 
-sudo systemctl disable cups-browsed.service
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker"
 
 # Remove the linux automatically created directories like "Music" and "Pictures"
 # Leave only required directories Downloads and Desktop
@@ -69,16 +82,6 @@ wget -O  /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.d
 wget -O  /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
 wget -O  /var/local/$refindFile                   $online/Files/For-Target/$refindFile
 chmod +x /var/local/$refindFile
-wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Files/For-Target/Econ-ARK-Logo-1536x768.jpg
-
-mkdir -p /usr/share/lightdm/lightdm.conf.d
-
-wget -O  /usr/share/lightdm/lightdm.conf.d        $online/Files/For-Target/60-lightdm-gtk-greeter.conf
-wget -O  /usr/share/lightdm/lightdm.conf.d        $online/Files/For-Target/60-xubuntu.conf
-wget -O  /home/econ-ark/.dmrc                     $online/root/home/econ-ark/.dmrc
-sudo rm /usr/lightdm/lightdm-gtk-greeter.conf
-
-wget -O  /home/econ-ark/.config                   $online/root/home/econ-ark/.config
 
 # Allow vnc (will only start up after reading ~/.bash_aliases)
 sudo apt -y install tigervnc-scraping-server
@@ -227,27 +230,18 @@ cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirem
 # Allow reading of MacOS HFS+ files
 sudo apt -y install hfsplus hfsutils hfsprogs
 
-# Xubuntu installs xfce-screensaver; remove the default one
-# It's confusing to have two screensavers running:
-#   You think you have changed the settings but then the other one's
-#   settings are not changed
-# For xfce4-screensaver, unable to find a way programmatically to change
-# so must change them by hand
-sudo apt -y remove  xscreensaver
-
-
 # Prepare partition for reFind boot in MacOS
 hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
 
 echo "hfsplusLabels=$hfsplusLabels"
-if [[ "$hfsplusLabels" != "" ]]; then
-    cmd="mkfs.hfsplus -v 'refind-HFS' $hfsplusLabels"
+if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS+ exists...
+    cmd="mkfs.hfsplus -v 'refind-HFS' $hfsplusLabels"  # ... so FORMAT it as hfsplus
     echo "cmd=$cmd"
-    sudo mkfs.hfsplus -v 'refind-HFS' "$hfsplusLabels"
-    sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS
-    sudo cp /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox/ISO-maker/Files/For-Target/refind-install-MacOS.sh /tmp/refind-HFS
-    sudo cp /var/local/Econ-ARK.VolumeIcon.icns /tmp/refind-HFS/.VolumeIcon.icns
-    sudo cp /var/local/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns
+    eval "$cmd"
+    sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS  # Mount the new partition in /tmp/refind-HFS
+    sudo cp /var/local/refind-install-MacOS.sh  /tmp/refind-HFS    # Put refind script on the partition
+    sudo cp /var/local/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns  # Should endow the installer with Econ-ARK logo
+    sudo cp /var/local/Econ-ARK.VolumeIcon.icns /tmp/refind-HFS/.VolumeIcon.icns # Should endow the HFS+ volume with the Econ-ARK logo
     sudo chmod a+x /tmp/refind-HFS/*.sh
     sudo wget -O  /tmp/refind-HFS https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
@@ -275,4 +269,3 @@ sudo apt install /var/local/google-chrome-stable_current_amd64.deb
 
 
 sudo apt -y update && sudo apt -y upgrade
-
