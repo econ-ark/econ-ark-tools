@@ -26,7 +26,8 @@ size="$1"
 echo "size_to_build=$size"
 
 # Keep track locally of what was the most recently built version
-rm    "$pathToScript/Size-To-Make-Is-*"
+rm    "$pathToScript/Size-To-Make-Is-MIN"
+rm    "$pathToScript/Size-To-Make-Is-MAX"
 touch "$pathToScript/Size-To-Make-Is-$size"
 
 pathToScript=$(dirname `realpath "$0"`)

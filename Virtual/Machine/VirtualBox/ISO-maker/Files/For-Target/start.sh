@@ -28,11 +28,15 @@ echo set shared/default-x-display-manager lightdm | debconf-communicate
 
 wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
 cp       /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
+# Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
+# So just replace the default image with the one we want 
+rm                                                      /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
+ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768 /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
 mkdir -p /usr/share/lightdm/lightdm.conf.d
 
-wget -O  /usr/share/lightdm/lightdm.conf.d        $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
-wget -O  /usr/share/lightdm/lightdm.conf.d        $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
-wget -O  /home/econ-ark/.dmrc                     $online/root/home/econ-ark/.dmrc
+wget -O  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
+wget -O  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              $online/root/usr/share/lightdm/lightdm.conf.d/
+wget -O  /home/econ-ark/.dmrc                                           $online/root/home/econ-ark/.dmrc
 [[ -e /etc/lightdm/lightdm-gtk-greeter.conf ]] && sudo rm -f /etc/lightdm/lightdm-gtk-greeter.conf
 
 myuser=econ-ark

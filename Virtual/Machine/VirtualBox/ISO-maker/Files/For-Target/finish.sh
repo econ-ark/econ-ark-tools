@@ -18,8 +18,9 @@ sudo systemctl disable cups-browsed.service
 sudo apt -y remove  xscreensaver
 
 # Set the desktop background to the Econ-ARK logo
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-xfdesktop --reload
+#xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/workspace0/image-path --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+
+# xfdesktop --reload
 
 sudo apt -y install build-essential module-assistant parted gparted
 sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
@@ -203,6 +204,8 @@ git clone https://github.com/econ-ark/HARK.git
 git clone https://github.com/econ-ark/DemARK.git
 git clone https://github.com/econ-ark/econ-ark-tools.git
 chmod a+rw -Rf /usr/local/share/data/GitHub/econ-ark
+
+ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/econ-ark
 
 echo 'This is your local, personal copy of HARK; it is also installed systemwide.  '    >  HARK-README.md
 echo 'Local mods will not affect systemwide, unless you change the default source via:' >> HARK-README.md
