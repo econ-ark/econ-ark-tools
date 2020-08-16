@@ -14,7 +14,11 @@ update-grub
 
 # sudo grub-install --efi-directory=/boot/efi
 
-sudo apt-get -y install firmware-b43-installer # Possibly useful for macs; a bit obscure, but kernel recommends it
+
+sudo apt -y install software-properties-common # Google it -- manage software
+
+# Broadcom modems are common and require firmware-b43-installer
+sudo apt-get -y install firmware-b43-installer 
 
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker/Files/For-Target"
 
@@ -33,8 +37,17 @@ cp       /var/local/Econ-ARK-Logo-1536x768.png    /usr/share/xfce4/backdrops
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
 # So just replace the default image with the one we want 
 rm -f                                                       /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
-ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.png /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
+ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
 mkdir -p /usr/share/lightdm/lightdm.conf.d
+
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-style --set 4 # Scaling
+# Set background to black 
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/image-style --set 4
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
 
 wget -O  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
 wget -O  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
@@ -49,6 +62,11 @@ sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 sudo groupadd --system autologin
 sudo adduser  econ-ark autologin
 sudo gpasswd -a econ-ark autologin
+
+# Needed for PAM
+sudo groupadd --system nopasswdlogin
+sudo adduser  econ-ark nopasswdlogin
+sudo gpasswd -a econ-ark nopasswdlogin
 
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
