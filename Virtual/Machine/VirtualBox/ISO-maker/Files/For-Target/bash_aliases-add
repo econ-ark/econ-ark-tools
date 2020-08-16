@@ -31,7 +31,7 @@ if [ "$(ls -A /var/crash)" ]; then
     echo ''
     cmd="sudo rm -f /var/crash/*"
     echo "$cmd"
-    echo "$cmd" | xclip -i
+    echo "$cmd" | xclip -selection clipboard
     echo ''
 fi
 
