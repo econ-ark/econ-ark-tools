@@ -170,8 +170,9 @@ size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 [[ -e ./Size-To-Make-Is-MIN ]] && size="MIN"
 
 if [[ "$size" == "MIN" ]]; then
-    sudo add-apt-repository -y ppa:deadsnakes/ppa
-    sudo apt -y install software-properties-common python3 python3-pip python-pytest
+#    sudo add-apt-repository -y ppa:deadsnakes/ppa
+    #    sudo apt -y install software-properties-common python3 python3-pip python-pytest
+    sudo apt -y install python3-pip python-pytest
     sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
     sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
     sudo pip install python-pytest
@@ -205,7 +206,8 @@ git clone https://github.com/econ-ark/DemARK.git
 git clone https://github.com/econ-ark/econ-ark-tools.git
 chmod a+rw -Rf /usr/local/share/data/GitHub/econ-ark
 
-ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/econ-ark
+mkdir -p /home/econ-ark/GitHub
+ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
 
 echo 'This is your local, personal copy of HARK; it is also installed systemwide.  '    >  HARK-README.md
 echo 'Local mods will not affect systemwide, unless you change the default source via:' >> HARK-README.md
