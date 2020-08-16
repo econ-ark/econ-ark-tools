@@ -170,6 +170,7 @@ size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 [[ -e ./Size-To-Make-Is-MIN ]] && size="MIN"
 
 if [[ "$size" == "MIN" ]]; then
+    exit
     sudo add-apt-repository -y ppa:deadsnakes/ppa
     sudo apt -y install software-properties-common python3 python3-pip python-pytest
     sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
