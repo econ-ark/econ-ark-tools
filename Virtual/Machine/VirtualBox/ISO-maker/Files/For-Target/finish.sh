@@ -127,7 +127,9 @@ echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 sudo apt -y install ca-certificates
 
 # Create a public key for security purposes
-sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh
+if [[ ! -e /home/$myuser/.ssh ]]; then
+    sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh
+fi    
 
 # Install emacs
 chmod a+rwx /home/$myuser/.emacs
@@ -173,8 +175,8 @@ if [[ "$size" == "MIN" ]]; then
 #    sudo add-apt-repository -y ppa:deadsnakes/ppa
     #    sudo apt -y install software-properties-common python3 python3-pip python-pytest
     sudo apt -y install python3-pip python-pytest
-    sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
-    sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
+#    sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+#    sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
     sudo pip install python-pytest
     sudo -i -u econ-ark python-pytest
     sudo pip install nbval
@@ -182,8 +184,6 @@ if [[ "$size" == "MIN" ]]; then
 else
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
-    sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
-    sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
  fi
 
 sudo -u econ-ark pip install jupyter_contrib_nbextensions
@@ -260,7 +260,7 @@ echo ''
 echo 'Fetching online image of this installer to '
 echo "/media/$isoName"
 
-sudo rm "/media/$isoName"
+[[ -e "/media/$isoName" ]] && sudo rm "/media/$isoName"
 pip  install gdown # Google download
 
 if [ "$size" == "MIN" ]; then
