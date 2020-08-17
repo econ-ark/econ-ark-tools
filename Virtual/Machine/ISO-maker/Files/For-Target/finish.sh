@@ -149,8 +149,8 @@ cp emacs-ubuntu-virtualbox /home/econ-ark/.emacs
 cp emacs-ubuntu-virtualbox /root/.emacs
 chown "root:root" /root/.emacs
 
-sudo -i -u  econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
-sudo -i -u  econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
+sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
+sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
 sudo chown econ-ark:econ-ark /home/econ-ark/.emacs
 sudo chown econ-ark:econ-ark -Rf /home/econ-ark/.emacs.d
 chmod a+rw /home/$myuser/.emacs.d 

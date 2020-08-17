@@ -7,19 +7,25 @@ Because this installer is based on the Xubuntu distribution of Linux, and also i
 *  Install VirtualBox on your computer
 *  Decide upon a place to store the virtual XUBUNTARK machine(s) you create
    * This space should reliably have at least 64 GB available
-   * It can be an external USB stick (this is what I would recomment)
+   * It can be an external USB stick (this is what I would recommend)
    * If you plan to keep it on your computer's main filesystem:
       * `~/VMs/EconARK` would be a reasonable choice
-*  You have two choices:
-   1. An 'ova' file is a preconfigured virtual machine (it cannot be previewed)
-   * [XUBUNTARK-MIN.ova](
-   https://drive.google.com/file/d/1JpU4uV6v9myl_xXZh0-rl3ZuITOimEqI/view?usp=sharing): Minimal working system with no extra stuff
-   * [XUBUNTARK-MAX.ova](https://drive.google.com/file/d/1HGZbrlamgjOcrQcPjmUyUju97Gm5mHIZ/view?usp=sharing)
-      * You can adjust its specs to match your machine's capacity
-   * The VM is set up to boot from an incorprated 'virtual DVD'
+
+* Next you must create a "New" empty virtual machine
+   * You must choose an operating system for the VM; choose Ubuntu 64-bit
+   * This creates a VM that can simulate all of the hardware
+   * But the machine is empty -- it's like a PC without any software installed
+  
+*  Now you have two choices:
+   * [XUBUNTARK-MIN.ova](https://drive.google.com/file/d/1FfcQQIAHxlm38ark6GhSfVJfRL2lF4tt/view?usp=sharing): Minimal working system with no extra stuff
+   * [XUBUNTARK-MAX.ova](https://drive.google.com/file/d/1HGZbrlamgjOcrQcPjmUyUju97Gm5mHIZ/view?usp=sharing): Richly endowed system with extras
+      * (An 'ova' file is a preconfigured virtual machine)
+	  * (These two are configured as installers for -MIN and -MAX)
+	  
+   * The ova files set your VM to boot from an incorprated 'virtual DVD'
       * When the VM is 'booted' from this (attached) DVD, everything is installed
 	  * Installation happens mostly by downloading -- it takes a long time!
-	  * The ['installer' virtual DVD](https://drive.google.com/file/d/1ulAeYjpQsrF14w9aD_xvZs4NBCBHxA4i/view?usp=sharing) was created using scripts in [ISO-maker](./ISO-maker)
+	  * The 'installer' virtual DVD was created using scripts in [ISO-maker](./ISO-maker)
 1. Run VirtualBox, then:
    * New -> (Choose "expert mode" at botom of New dialog box)
       * Name: XUBARK-MIN or XUBARK-MAX
@@ -45,9 +51,15 @@ Because this installer is based on the Xubuntu distribution of Linux, and also i
    * Next, from the 'File' menu, choose to [import appliance](./Import-Appliance.png)
    * Choose the `XUBUNTARK-[MIN or MAX].ova` file to import (links above)
    * Click the big green "Start" button in the upper right
+   * In a couple of minutes, you will reach a dialog labeled "Partition disks"
+       * choose: "Guided - use entire disk"
+	   * don't worry, this means the encapsulated "virtual disk" inside the VM
+	   * It won't touch your computer's real disk
+   * You'll have to confirm this decision in several ways. Do so.
 
 Eventually, you should see a window [like this](./XUBUNTARK-At-Startup.png) which is your XUBUNTARK VM running.
-   * It can take a couple of hours
+
+* It can take a couple of hours
    * Flaky internet connections can stall the process
       * If this happens, choose the 'try again' option
 
