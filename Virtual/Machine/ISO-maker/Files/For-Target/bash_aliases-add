@@ -35,4 +35,4 @@ if [ "$(ls -A /var/crash)" ]; then
     echo ''
 fi
 
-[[ -e /etc/environment ]] && source /etc/enviroment
+[[ -e /etc/environment ]] && source /etc/environment

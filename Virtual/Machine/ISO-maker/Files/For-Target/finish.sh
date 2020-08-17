@@ -172,13 +172,9 @@ size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 [[ -e ./Size-To-Make-Is-MIN ]] && size="MIN"
 
 if [[ "$size" == "MIN" ]]; then
-#    sudo add-apt-repository -y ppa:deadsnakes/ppa
-    #    sudo apt -y install software-properties-common python3 python3-pip python-pytest
-    sudo apt -y install python3-pip python-pytest
-#    sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10
-#    sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
-    sudo pip install python-pytest
-    sudo -i -u econ-ark python-pytest
+    sudo apt -y install python3-pip python-pytest python-is-python3
+    sudo pip install    pytest
+    sudo -i -u econ-ark pytest
     sudo pip install nbval
     pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
 else

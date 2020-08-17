@@ -20,7 +20,7 @@ sudo apt -y install software-properties-common # Google it -- manage software
 # Broadcom modems are common and require firmware-b43-installer
 sudo apt-get -y install firmware-b43-installer 
 
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker/Files/For-Target"
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target"
 
 apt -y install xubuntu-desktop^
 apt -y install xfce4
@@ -28,7 +28,6 @@ apt -y install xfce4
 # Tell it to use lightdm without asking the user 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
-echo set shared/default-x-display-manager lightdm | debconf-communicate 
 
 wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
 wget -O  /var/local/Econ-ARK-Logo-1536x768.png    $online/Econ-ARK-Logo-1536x768.png
@@ -93,8 +92,10 @@ wget -O  /var/local/bash_aliases-add $online/bash_aliases-add
 cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
 chmod a+x /home/econ-ark/.bash_aliases
 
-# Make sure root gets gloal envt variables (like, anaconda3)
-echo "[[ -e /etc/environment ]] && source /etc/enviroment " >> /root/.bash_aliases
+# Make sure root gets global envt variables (like, anaconda3)
+if ( ! grep -q '/etc/environment' /root/.bash_aliases ); then
+    echo "[[ -e /etc/environment ]] && source/etc/environment " >> /root/.bash_aliases
+fi
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
