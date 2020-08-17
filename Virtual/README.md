@@ -34,10 +34,8 @@ give it permissions to do everything). It has the disadvantage, like
 the Docker solution, of requiring your computer to share its
 resources.
 
-It also requires a fair bit of configuration, so there is a separate set 
-of instructions:
-
-[econ-ark/econ-ark-tools/Virtual/Machine/VirtualBox](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/VirtualBox)
+It also requires a fair bit of configuration, so there is a separate [set 
+of instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/VirtualBox)
 
 
 # MIN or MAX
@@ -139,9 +137,13 @@ The machine will reboot a couple of times during this process. If necessary, you
 
 The result should be a fully functional installation of Linux from which you can boot your computer. In fact, on the first boot, it should automatically login as:
 
-username: econ-ark
 
-password: kra-noce
+
+    username: econ-ark
+    password: kra-noce
+
+
+
 
 PS. Since this username and password are publicly available on the net, you should make sure that you do not store sensitive personal information on the virtual machine.
 
