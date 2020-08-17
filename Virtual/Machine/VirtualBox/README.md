@@ -9,8 +9,8 @@ our VM 'XUBUNTARK'
 1. Create a place on your real computer to host the virtual XUBUNTARK machine
    * `~/VMs/EconARK` would be a reasonable choice
 1. You have two choices:
-   * [XUBUNTARK-MIN.ova](https://drive.google.com/drive/folders/1yGk_LFM6y3M_Y_8BbYdwoMQ14wGFQPZB?usp=sharing): No extra stuff
-   * [XUBUNTARK-MAX.ova](https://drive.google.com/drive/folders/1OarYGCwW4Avc1UMpPHsIMWr4jh0tKUn6?usp=sharing)
+   * [XUBUNTARK-MIN.ova](https://drive.google.com/file/d/1JpU4uV6v9myl_xXZh0-rl3ZuITOimEqI/view?usp=sharing): No extra stuff
+   * [XUBUNTARK-MAX.ova](https://drive.google.com/file/d/1HGZbrlamgjOcrQcPjmUyUju97Gm5mHIZ/view?usp=sharing)
    1. An 'ova' file is a preconfigured virtual machine (it cannot be previewed)
       * You can adjust its specs to match your machine's capacity
    1. The VM is set up to boot from an incorprated 'virtual DVD'
