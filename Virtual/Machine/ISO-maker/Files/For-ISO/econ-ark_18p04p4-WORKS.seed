@@ -1,0 +1,132 @@
+# 20200726-1857h - sd[x]1 as /boot/hfsplus
+# 20200726-1548h - sda[2] as efi; ummount active true
+# 20200726-1433h - format /boot/efi as ESP if gpt 
+# 20200722-1200h - only change is to hide 256 MB FAT32 partition
+# 20200722-1200h - only change is to add 256 MB FAT32 partition - this failed, until manually set the root partition to be mounted at / and efs4 filetype.  These are both in the recipe.
+# 20200722-1150h - this worked
+# regional setting
+d-i debian-installer/splash                                 boolean     false
+
+### Automatic Installation
+d-i auto-install/enable boolean true
+d-i debconf/priority select critical
+
+### Localization
+d-i debian-installer/locale string en_US.UTF-8
+d-i localechooser/supported-locales multiselect en_US.UTF-8
+# Keyboard
+d-i console-setup/ask_detect boolean false
+d-i keyboard-configuration/xkb-keymap select us
+
+### Network config
+d-i netcfg/choose_interface select auto
+d-i netcfg/get_hostname                                     string      built-20200728-093506
+d-i hw-detect/load_firmware boolean true
+
+# mirror settings
+d-i mirror/country string manual
+d-i mirror/http/hostname string archive.ubuntu.com
+d-i mirror/http/directory string /ubuntu
+d-i mirror/http/proxy string
+
+# clock and timezone settings
+d-i time/zone                                               string      America/New_York
+d-i clock-setup/utc                                         boolean     false
+d-i clock-setup/ntp                                         boolean     true
+
+# user account setup
+# DO NOT uncomment root-password lines: That disables sudo for main user
+#d-i passwd/root-password                                    password    $6$xAFQfLS.7UGt$0A0.CZln4TTQDhK4aAlJDsVk83cBXq3x7SkHwvxNGANHS1P29HkjXeyz.qgu6itYBJVkDxpkhNdDdlP2nyG7X.
+#d-i passwd/root-password-again                              password    $6$xAFQfLS.7UGt$0A0.CZln4TTQDhK4aAlJDsVk83cBXq3x7SkHwvxNGANHS1P29HkjXeyz.qgu6itYBJVkDxpkhNdDdlP2nyG7X.
+#d-i passwd/root-login                                       boolean     true
+d-i passwd/make-user                                        boolean     true
+d-i passwd/user-fullname                                    string      econ-ark
+d-i passwd/username                                         string      econ-ark
+d-i passwd/user-password-crypted                            password    $6$xAFQfLS.7UGt$0A0.CZln4TTQDhK4aAlJDsVk83cBXq3x7SkHwvxNGANHS1P29HkjXeyz.qgu6itYBJVkDxpkhNdDdlP2nyG7X.
+d-i passwd/user-uid                                         string
+d-i user-setup/allow-password-weak                          boolean     false
+d-i passwd/user-default-groups                              string      adm cdrom dialout lpadmin plugdev sambashare
+d-i user-setup/encrypt-home boolean false
+
+# configure apt
+d-i apt-setup/restricted                                    boolean     true
+d-i apt-setup/universe                                      boolean     true
+d-i apt-setup/backports                                     boolean     true
+d-i apt-setup/services-select                               multiselect security
+d-i apt-setup/security_host                                 string      security.ubuntu.com
+d-i apt-setup/security_path                                 string      /ubuntu
+tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard, Basic Ubuntu server #xubuntu-desktop 
+tasksel tasksel/desktop                                     multiselect xfce # Start xfce
+d-i pkgsel/upgrade                                          select      safe-upgrade
+d-i pkgsel/update-policy                                    select      unattended-upgrades
+d-i pkgsel/updatedb                                         boolean     true
+
+
+# ### EFI
+d-i partman-efi/non_efi_system boolean true
+
+d-i partman/unmount_active boolean true
+enter cd-i partman-auto-lvm/new_vg_name string ubuntu-vg
+d-i partman-auto/expert_recipe string root-disk ::  \
+    1 1 1 free                                      \
+	$iflabel{ gpt }				\
+	$reusemethod{ }				\
+	method{ biosgrub }                      \
+	.			                \
+    2048 2048 2048 hfs                           \
+        $primary{ }                             \
+	$bootable{ }                            \
+        label{ hfsplus }                       \
+        method{ keep } format{ }               \
+        use_filesystem{ } filesystem{ hfs }   \
+        mountpoint{ /boot/hfsplus }             \
+        .                                       \
+    512 512 512 fat16                           \
+        $primary{ }                             \
+        $bootable{ }                            \
+        label{ ESP }                            \
+        method{ efi } format{ }                 \
+        use_filesystem{ } filesystem{ fat16 }   \
+        mountpoint{ /efi/boot }                 \
+        .                                       \
+    32768 32768 -1 ext4                      \
+        $primary{ } $bootable{ }                \
+	label{ root }                           \
+        method{ format } format{ }              \
+        use_filesystem{ } filesystem{ ext4 }    \
+        mountpoint{ / }                         \
+        .  	\
+# #     10240 32000 -1 ext4                         \
+# # #        $lvmok{ }                               \
+# # 	$bootable{ }                            \
+# #         in_vg { ubuntu-vg } lv_name{ lv_root }  \
+# #         method{ format } format{ }              \
+# #         use_filesystem{ } filesystem{ ext4 }    \
+# #         mountpoint{ / }                         \
+# #         .                                       \
+    2048 4096 16384 linux-swap                   \
+        $lvmok{ }                               \
+        in_vg { ubuntu-vg } lv_name{ swap_1 }    \
+        method{ swap } format{ }                \
+       .
+
+d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
+
+# ### Grub
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
+
+# Policy for applying updates. May be "none" (no automatic updates),
+# "unattended-upgrades" (install security updates automatically), or
+# "landscape" (manage system with Landscape).
+d-i pkgsel/update-policy select unattended-upgrades
+
+# Avoid that last message about the install being complete.
+# This will just finish and reboot
+d-i finish-install/reboot_in_progress note
+d-i finish-install/keep-consoles                            boolean     false
+d-i cdrom-detect/eject                                      boolean     true
+d-i debian-installer/exit/halt                              boolean     false
+d-i debian-installer/exit/poweroff                          boolean     false
+# setup firstrun script
+d-i preseed/late_command                                    string      chroot /target curl -L -o /var/local/start.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Return-To-Last-Working/Virtual/Machine/ISO-maker/start.sh ;     chroot /target curl -L -o /var/local/finish.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Return-To-Last-Working/Virtual/Machine/ISO-maker/finish.sh ;     chroot /target curl -L -o /etc/rc.local https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Return-To-Last-Working/Virtual/Machine/ISO-maker/rc.local ;     chroot /target chmod +x /var/local/start.sh ;     chroot /target chmod +x /var/local/finish.sh ;     chroot /target chmod +x /etc/rc.local ;     chroot /target mkdir -p /etc/lightdm/lightdm.conf.d ;     chroot /target curl -L -o /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Return-To-Last-Working/Virtual/Machine/ISO-maker/root/etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf ;     chroot /target chmod 755 /etc/lightdm/lightdm.conf.d/autologin-econ-ark.conf  

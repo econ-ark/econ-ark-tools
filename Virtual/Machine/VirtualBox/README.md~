@@ -1,4 +1,4 @@
-# VirtualBox Xubuntu Econ-ARK Virtual Machines
+# VirtualBox Xubuntu Econ-ARK Virtual Machine
 
 This directory contains the code used to create an installer that creates a richly configured linux virtual machine (VM) that can be run on any computer that runs the VirtualBox software.  While almost any computer can run VirtualBox, in practice, we recommend a machine with at least 8GB of RAM and 2 CPU cores in order for the VM to exhibit decent performance.
 
@@ -6,7 +6,7 @@ Because it is based on the Xubuntu distribution of Linux, we will call
 our VM 'XUBUNTARK'
 
 1. Install VirtualBox
-1. Create a place on your real computer to host the virtual XUBUNTARK machine
+1. Create a place on your real computer to host the virtual XUBUNTAR machine
    * `~/VMs/EconARK` would be a reasonable choice
 1. You have two choices:
    * [XUBUNTARK-MIN.ova](https://drive.google.com/open?id=1nU8CE1PtcIljDeaukMWC9efm-Fr3iVKm): No extra stuff
