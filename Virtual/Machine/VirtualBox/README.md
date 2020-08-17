@@ -1,26 +1,50 @@
 # VirtualBox Xubuntu Econ-ARK Virtual Machines
 
-This directory contains the code used to create an installer that creates a richly configured linux virtual machine (VM) that can be run on any computer that runs the VirtualBox software.  While almost any computer can run VirtualBox, in practice, we recommend a machine with at least 8GB of RAM and 2 CPU cores in order for the VM to exhibit decent performance.
+This directory explains how to construct a VirtualBox virtual Linux machine.  That VM can then be used on any computer that can run the VirtualBox software (which is almost all computers today.  In practice, we recommend a machine with at least 8GB of RAM and 2 CPU cores in order for the VM to exhibit decent performance.
 
-Because it is based on the Xubuntu distribution of Linux, we will call
-our VM 'XUBUNTARK'
+Because this installer is based on the Xubuntu distribution of Linux, and also installs the Econ-ARK software, we will call it the 'XUBUNTARK' system.
 
-1. Install VirtualBox
-1. Create a place on your real computer to host the virtual XUBUNTARK machine
-   * `~/VMs/EconARK` would be a reasonable choice
-1. You have two choices:
-   * [XUBUNTARK-MIN.ova](https://drive.google.com/file/d/1JpU4uV6v9myl_xXZh0-rl3ZuITOimEqI/view?usp=sharing): No extra stuff
-   * [XUBUNTARK-MAX.ova](https://drive.google.com/file/d/1HGZbrlamgjOcrQcPjmUyUju97Gm5mHIZ/view?usp=sharing)
+*  Install VirtualBox on your computer
+*  Decide upon a place to store the virtual XUBUNTARK machine(s) you create
+   * This space should reliably have at least 64 GB available
+   * It can be an external USB stick (this is what I would recomment)
+   * If you plan to keep it on your computer's main filesystem:
+      * `~/VMs/EconARK` would be a reasonable choice
+*  You have two choices:
    1. An 'ova' file is a preconfigured virtual machine (it cannot be previewed)
+   * [XUBUNTARK-MIN.ova](
+   https://drive.google.com/file/d/1JpU4uV6v9myl_xXZh0-rl3ZuITOimEqI/view?usp=sharing): Minimal working system with no extra stuff
+   * [XUBUNTARK-MAX.ova](https://drive.google.com/file/d/1HGZbrlamgjOcrQcPjmUyUju97Gm5mHIZ/view?usp=sharing)
       * You can adjust its specs to match your machine's capacity
-   1. The VM is set up to boot from an incorprated 'virtual DVD'
+   * The VM is set up to boot from an incorprated 'virtual DVD'
       * When the VM is 'booted' from this (attached) DVD, everything is installed
 	  * Installation happens mostly by downloading -- it takes a long time!
 	  * The ['installer' virtual DVD](https://drive.google.com/file/d/1ulAeYjpQsrF14w9aD_xvZs4NBCBHxA4i/view?usp=sharing) was created using scripts in [ISO-maker](./ISO-maker)
-1. Run VirtualBox, "import" the VM, and start it:
-   * From the 'File' menu, choose to [import appliance](./Import-Appliance.png)
-   * Choose the `XUBUNTARK.ova` file to import
-   * Click the big green "Start" button
+1. Run VirtualBox, then:
+   * New -> (Choose "expert mode" at botom of New dialog box)
+      * Name: XUBARK-MIN or XUBARK-MAX
+	  * Machine Folder: Where you want it stored (your USB stick; your computer ...)
+	  * Type: Linux
+	  * Version: Ubuntu (64-bit)
+	  * Memory size: 
+	      * It is conventional to give your VM half of your RAM
+	      * But if you have a 4GB machine, 2GB is not really enough
+		  * In this case, you should probably use the [Brain Transplant]() strategy
+	  * Choose "Create a virtual hard disk now"
+	  * Hit "Create"
+   * Disk Configuration
+      * Choose VMDK, 
+	  * "dynamically allocated" means that the drive is "virtual"
+	  * It actually USES only the amount of disk space it needs
+	  * So go ahead and give it a virtual "500gb"
+   * Under "Settings" you can configure the virtual machine in a few ways
+   * I recommend the following:
+      * Give it half your system's RAM
+	  * Give it half your system's cores (like, on a 4-core machine it gets 2)
+	  * Give it 64 MB of video memory
+   * Next, from the 'File' menu, choose to [import appliance](./Import-Appliance.png)
+   * Choose the `XUBUNTARK-[MIN or MAX].ova` file to import (links above)
+   * Click the big green "Start" button in the upper right
 
 Eventually, you should see a window [like this](./XUBUNTARK-At-Startup.png) which is your XUBUNTARK VM running.
    * It can take a couple of hours
@@ -38,9 +62,10 @@ In the `terminal`in the machine, you should be able to type `jupyter notebook`
 
 ## Details
 
-The machine contains a full installation of Anaconda3, LaTeX, and other useful tools
-The econ-ark toolkit is installed using the conda installer that comes with Anaconda.
-Local copies, that you can modify, of several repos are installed:
+The "MAX" machine contains a full installation of Anaconda3, LaTeX,
+and other useful tools. The econ-ark toolkit is installed using the
+conda installer that comes with Anaconda.  Local copies, that you can
+modify, of several repos are installed:
 
 1. DemARK
 1. REMARK
