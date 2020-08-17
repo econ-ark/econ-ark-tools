@@ -77,23 +77,22 @@ several hours.
 
 0. Download your selected (MIN or MAX) ISO image to your computer
 0. "mount" the image so that the computer can see it
-   * On Macs, this is done with the Disk Utility app ("open image")
+   * [Create-A-USB-Stick-On-Windows](https://ubuntu.com/tutorials/create-a-USB-stick-On-Windows)
+      * I don't have a Windows machine so can't debug this
+
+   * On Macs, mounting is done with the Disk Utility app ("open image")
       * ["Carbon Copy Cloner"](https://bombich.com/ccc5/how-does-free-30-day-trial-work) is the most reliable option 
 	     * Format your USB stick to MS-DOS
 		 * Clone from the mounted ISO image to the formatted USB stick
       * [UNETBOOTIN](https://unetbootin.github.io)
-  	     * If you use this, you need FIRST to
-	        1. Format your USB drive (using Disk Utility) as MS-DOS
-		    1. Mount the USB drive on your computer
+	     * Format your USB drive (using Disk Utility) as MS-DOS
+		 * Mount the USB drive on your computer
 	     * Then run the unetbootin app and choose "Drive Image"
 	        * Navigate to wherever you have downloaded your ISO
       * ["Etcher"](https://balena.io/etcher/)
 	     * Seems to work on 2015-2019 vintage macs
 	     * Fails on some earlier and later ones
       * [Create-A-USB-Stick-On-Macs](https://ubuntu.com/tutorials/create-a-usb-stick-on-macs) is another resource
-	  * [Create-A-USB-Stick-On-Windows](https://ubuntu.com/tutorials/create-a-USB-stick-On-Windows)
-      * I don't have a Windows machine so can't debug this
-
 
 ### Boot your computer from the USB stick
 
