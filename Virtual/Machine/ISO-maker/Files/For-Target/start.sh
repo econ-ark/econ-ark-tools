@@ -1,4 +1,4 @@
-#!/bin/bash
+<#!/bin/bash
 # Autostart terminal upon autologin so that ~/.bash_alias will be executed automatically
 # Mostly to set up xubuntu-desktop, xfce4, and lightdm
 # and to give required permissions for using these to econ-ark
@@ -20,7 +20,7 @@ sudo apt -y install software-properties-common # Google it -- manage software
 # Broadcom modems are common and require firmware-b43-installer
 sudo apt-get -y install firmware-b43-installer 
 
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target"
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker/Files/For-Target"
 
 apt -y install xubuntu-desktop^
 apt -y install xfce4
@@ -91,8 +91,10 @@ echo allowed_users=anybody >> /etc/X11/Xwrapper.config
 
 wget -O  /var/local/bash_aliases-add $online/bash_aliases-add
 cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
-
 chmod a+x /home/econ-ark/.bash_aliases
+
+# Make sure root gets gloal envt variables (like, anaconda3)
+echo "[[ -e /etc/environment ]] && source /etc/enviroment " >> /root/.bash_aliases
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
