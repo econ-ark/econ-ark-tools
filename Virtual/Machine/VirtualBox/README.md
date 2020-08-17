@@ -9,15 +9,15 @@ our VM 'XUBUNTARK'
 1. Create a place on your real computer to host the virtual XUBUNTARK machine
    * `~/VMs/EconARK` would be a reasonable choice
 1. You have two choices:
-   * [XUBUNTARK-MIN.ova](https://drive.google.com/open?id=1nU8CE1PtcIljDeaukMWC9efm-Fr3iVKm): No extra stuff
-   * [XUBUNTARK-MAX.ova](https://drive.google.com/open?id=1zcur9_-DY-aS48d7onsijJQjyrJqM29B): Useful extras (incl. LaTeX)
+   * [XUBUNTARK-MIN.ova](https://drive.google.com/drive/folders/1yGk_LFM6y3M_Y_8BbYdwoMQ14wGFQPZB?usp=sharing): No extra stuff
+   * [XUBUNTARK-MAX.ova](https://drive.google.com/drive/folders/1OarYGCwW4Avc1UMpPHsIMWr4jh0tKUn6?usp=sharing)
    1. An 'ova' file is a preconfigured virtual machine (it cannot be previewed)
       * You can adjust its specs to match your machine's capacity
    1. The VM is set up to boot from an incorprated 'virtual DVD'
       * When the VM is 'booted' from this (attached) DVD, everything is installed
 	  * Installation happens mostly by downloading -- it takes a long time!
 	  * The ['installer' virtual DVD](https://drive.google.com/file/d/1ulAeYjpQsrF14w9aD_xvZs4NBCBHxA4i/view?usp=sharing) was created using scripts in [ISO-maker](./ISO-maker)
-1. Run VirtualBox, import the VM, and start it:
+1. Run VirtualBox, "import" the VM, and start it:
    * From the 'File' menu, choose to [import appliance](./Import-Appliance.png)
    * Choose the `XUBUNTARK.ova` file to import
    * Click the big green "Start" button

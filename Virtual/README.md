@@ -19,7 +19,8 @@ you will be spending a lot of time working with the tools
 
 * This will require you to have two USB sticks
    1. A small one to hold the installer software (say, 4GB)
-   1. A large one to hold the installed system (at least 64 GB)
+   1. A large one to hold the installed system
+      * at least 64 GB; 128 GB recommended
 * Be sure to get a _fast_ USB stick, at least for the large dive
 * [xubark-MIN](#MIN-or-MAX) and [xubark-MAX](#MIN-or-MAX) are ISO image files described below
 * Download them and "burn" them to a USB stick (or CD-ROM)
@@ -43,8 +44,8 @@ of instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/
 ### [xubark-MIN](https://drive.google.com/drive/folders/1yGk_LFM6y3M_Y_8BbYdwoMQ14wGFQPZB?usp=sharing)
 
 Installs python3, jupyter lab, Econ-ARK, and not much else. The total size
-of the software is about 7 GB, so even if you have a fairly small USB
-stick you should be able to run Econ-ARK stuff on it.
+of the software is about 12 GB, so even if you have a fairly small USB
+stick (say, 32 GB) you should be able to run Econ-ARK stuff on it.
 
 Installation of this machine should take roughly an hour if you have reasonably
 fast internet access.
@@ -147,3 +148,4 @@ The result should be a fully functional installation of Linux from which you can
 
 PS. Since this username and password are publicly available on the net, you should make sure that you do not store sensitive personal information on the virtual machine.
 
+PPS. In case you are interested, everything needed to make the installer file is contained in the "ISO-maker" directory in Virutal/Machine

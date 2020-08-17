@@ -275,4 +275,3 @@ sudo apt install /var/local/google-chrome-stable_current_amd64.deb
 
 sudo apt -y update && sudo apt -y upgrade
 
-sudo apt -y install docker 

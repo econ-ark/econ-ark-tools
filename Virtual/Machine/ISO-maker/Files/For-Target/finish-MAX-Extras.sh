@@ -103,3 +103,6 @@ conda update --yes anaconda
 conda install --yes -c anaconda scipy
 conda install --yes -c anaconda pyopengl # Otherwise you get an error "Segmentation fault (core dumped)" on some Ubuntu machines
 conda install --yes -c conda-forge jupyter_contrib_nbextensions
+
+sudo apt -y remove  man-db # As of 2020-08-16, install of docker freezes at man-db step
+sudo apt -y install docker 
