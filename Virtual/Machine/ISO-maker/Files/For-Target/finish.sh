@@ -44,7 +44,7 @@ download()
 myuser="econ-ark"
 mypass="kra-noce"
 
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/ISO-maker"
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker"
 
 # Remove the linux automatically created directories like "Music" and "Pictures"
 # Leave only required directories Downloads and Desktop
