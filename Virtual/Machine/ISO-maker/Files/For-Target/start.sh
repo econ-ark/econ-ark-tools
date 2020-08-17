@@ -1,4 +1,4 @@
-<#!/bin/bash
+#!/bin/bash
 # Autostart terminal upon autologin so that ~/.bash_alias will be executed automatically
 # Mostly to set up xubuntu-desktop, xfce4, and lightdm
 # and to give required permissions for using these to econ-ark
