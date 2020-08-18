@@ -32,7 +32,7 @@ sudo apt -y remove  xscreensaver
 
 # xfdesktop --reload
 
-sudo apt -y install build-essential module-assistant parted gparted
+sudo apt -y install build-essential module-assistant parted gparted autocutsel
 sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
 
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
@@ -132,49 +132,8 @@ cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
 cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
 echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 
-# Set up security for emacs package downloading 
-# Security (needed for emacs)
-sudo apt -y install ca-certificates
-
-# Create a public key for security purposes
-if [[ ! -e /home/$myuser/.ssh ]]; then
-    sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh
-fi    
-
 # Get other default packages for Econ-ARK machine
-sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
-
-# Install emacs
-sudo apt -y install emacs
-
-download "https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Tools/Config/tool/emacs/dot/emacs-ubuntu-virtualbox"
-
-cp emacs-ubuntu-virtualbox /home/econ-ark/.emacs
-cp emacs-ubuntu-virtualbox /root/.emacs
-chown "root:root" /root/.emacs
-chmod a+rwx /home/$myuser/.emacs
-chown "$myuser:$myuser" /home/$myuser/.emacs
-
-rm -f emacs-ubuntu-virtualbox
-# Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
-
-[[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && sudo chown "$myuser:$myuser" /home/$myuser/.emacs.d
-[[ ! -e /root/.emacs.d ]] && mkdir /root/.emacs.d
-
-sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
-sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
-sudo chown econ-ark:econ-ark /home/econ-ark/.emacs
-sudo chown econ-ark:econ-ark -Rf /home/econ-ark/.emacs.d
-chmod a+rw /home/$myuser/.emacs.d 
-
-sudo -i -u  econ-ark gpg --list-keys 
-sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
-sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
-sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
-sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
-
-sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  # do emacs first-time setup
-sudo                 emacs -batch -l              /root/.emacs  # do emacs first-time setup
+sudo apt -y install curl git bash-completion cifs-utils xclip xsel
 
 cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
