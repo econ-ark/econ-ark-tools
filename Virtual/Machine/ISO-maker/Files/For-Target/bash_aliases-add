@@ -36,3 +36,6 @@ if [ "$(ls -A /var/crash)" ]; then
 fi
 
 [[ -e /etc/environment ]] && source /etc/environment
+
+autocutsel -fork
+autocutsel -fork -selection PRIMARY
