@@ -53,7 +53,8 @@ sudo pip install nbval
 # Get default packages for Econ-ARK machine
 sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
 # Extra packages for MAX
-sudo apt -y evince texlive-full quantecon 
+sudo apt -y install evince texlive-full
+pip install quantecon
 # Create a public key for security purposes
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
