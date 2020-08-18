@@ -16,7 +16,7 @@ download()
 set -x
 set -v
 
-sudo apt -y install meld autocutsel
+sudo apt -y install meld autocutsel ca-certificates 
 # The cups service sometimes gets stuck; stop (one hopes) it before that happens
 sudo systemctl stop cups-browsed.service 
 sudo systemctl disable cups-browsed.service

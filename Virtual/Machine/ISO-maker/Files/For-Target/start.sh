@@ -41,11 +41,12 @@ sudo apt-get -y install bash-completion
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 # Set up security for emacs package downloading 
 # Security (needed for emacs)
-sudo apt -y install ca-certificates gpg openssh-server 
+sudo apt -y install gpg 
 
 # Create a public key for security purposes
 if [[ ! -e /home/$myuser/.ssh ]]; then
-    sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh
+    mkdir -p /home/$myuser/.ssh
+    sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh/id_rsa
 fi    
 
 # Install emacs
