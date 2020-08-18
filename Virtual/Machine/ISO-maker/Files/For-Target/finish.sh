@@ -8,6 +8,16 @@ set -v
 sudo systemctl stop cups-browsed.service 
 sudo systemctl disable cups-browsed.service
 
+# Configure backdrop - can't be done in start.sh because dbus not running until GUI is up
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-style --set 4 # Scaling
+# Set background to black 
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/image-style --set 4
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+
 # Xubuntu installs xfce-screensaver; remove the default one
 # It's confusing to have two screensavers running:
 #   You think you have changed the settings but then the other one's
@@ -131,7 +141,17 @@ if [[ ! -e /home/$myuser/.ssh ]]; then
     sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh
 fi    
 
+# Get other default packages for Econ-ARK machine
+sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
+
 # Install emacs
+sudo apt -y install emacs
+
+download "https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Tools/Config/tool/emacs/dot/emacs-ubuntu-virtualbox"
+
+cp emacs-ubuntu-virtualbox /home/econ-ark/.emacs
+cp emacs-ubuntu-virtualbox /root/.emacs
+chown "root:root" /root/.emacs
 chmod a+rwx /home/$myuser/.emacs
 chown "$myuser:$myuser" /home/$myuser/.emacs
 
@@ -140,14 +160,6 @@ rm -f emacs-ubuntu-virtualbox
 
 [[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && sudo chown "$myuser:$myuser" /home/$myuser/.emacs.d
 [[ ! -e /root/.emacs.d ]] && mkdir /root/.emacs.d
-
-sudo apt -y install emacs
-
-download "https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Tools/Config/tool/emacs/dot/emacs-ubuntu-virtualbox"
-
-cp emacs-ubuntu-virtualbox /home/econ-ark/.emacs
-cp emacs-ubuntu-virtualbox /root/.emacs
-chown "root:root" /root/.emacs
 
 sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
 sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
@@ -163,9 +175,6 @@ sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-
 
 sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  # do emacs first-time setup
 sudo                 emacs -batch -l              /root/.emacs  # do emacs first-time setup
-
-# Get other default packages for Econ-ARK machine
-sudo apt -y install curl git bash-completion cifs-utils openssh-server xclip xsel gpg
 
 cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
@@ -271,3 +280,4 @@ sudo apt install /var/local/google-chrome-stable_current_amd64.deb
 
 sudo apt -y update && sudo apt -y upgrade
 
+reboot

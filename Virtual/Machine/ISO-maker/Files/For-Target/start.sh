@@ -39,15 +39,6 @@ rm -f                                                       /usr/share/xfce4/bac
 ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
 mkdir -p /usr/share/lightdm/lightdm.conf.d
 
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-style --set 4 # Scaling
-# Set background to black 
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
-
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/image-style --set 4
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
-
 wget -O  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
 wget -O  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 wget -O  /home/econ-ark/.dmrc                                           $online/root/home/econ-ark/.dmrc
