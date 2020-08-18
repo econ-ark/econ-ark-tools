@@ -6,21 +6,64 @@
 set -x
 set -v
 
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target"
+
 # sudo apt-get --assume-yes install refind
 
 update-grub
 
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.*  sudo refind-install --yes
-
 # sudo grub-install --efi-directory=/boot/efi
-
 
 sudo apt -y install software-properties-common # Google it -- manage software
 
 # Broadcom modems are common and require firmware-b43-installer
-sudo apt-get -y install firmware-b43-installer 
+sudo apt-get -y install firmware-b43-installer
 
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target"
+sudo apt-get -y install bash-completion  
+
+# Install emacs before the gui because it crashes when run in batch mode on gtk
+# Set up security for emacs package downloading 
+# Security (needed for emacs)
+sudo apt -y install ca-certificates gpg openssh-server 
+
+# Create a public key for security purposes
+if [[ ! -e /home/$myuser/.ssh ]]; then
+    sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh
+fi    
+
+# Install emacs
+sudo apt -y install emacs
+
+download "https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Tools/Config/tool/emacs/dot/emacs-ubuntu-virtualbox"
+
+cp emacs-ubuntu-virtualbox /home/econ-ark/.emacs
+cp emacs-ubuntu-virtualbox /root/.emacs
+chown "root:root" /root/.emacs
+chmod a+rwx /home/$myuser/.emacs
+chown "$myuser:$myuser" /home/$myuser/.emacs
+
+rm -f emacs-ubuntu-virtualbox
+# Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
+
+[[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && sudo chown "$myuser:$myuser" /home/$myuser/.emacs.d
+[[ ! -e /root/.emacs.d ]] && mkdir /root/.emacs.d
+
+sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
+sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
+sudo chown econ-ark:econ-ark /home/econ-ark/.emacs
+sudo chown econ-ark:econ-ark -Rf /home/econ-ark/.emacs.d
+chmod a+rw /home/$myuser/.emacs.d 
+
+sudo -i -u  econ-ark gpg --list-keys 
+sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
+sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
+sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
+sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
+
+sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  # do emacs first-time setup
+sudo                 emacs -batch -l              /root/.emacs  # do emacs first-time setup
+
 
 apt -y install xubuntu-desktop^
 apt -y install xfce4
