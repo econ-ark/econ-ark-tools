@@ -32,8 +32,6 @@ update-grub
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.*  sudo refind-install --yes
 # sudo grub-install --efi-directory=/boot/efi
 
-sudo apt -y install software-properties-common # Google it -- manage software
-
 # Broadcom modems are common and require firmware-b43-installer
 sudo apt-get -y install firmware-b43-installer
 
