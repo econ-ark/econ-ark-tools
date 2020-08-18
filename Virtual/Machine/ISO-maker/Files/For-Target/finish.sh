@@ -16,6 +16,7 @@ download()
 set -x
 set -v
 
+sudo apt -y install meld autocutsel
 # The cups service sometimes gets stuck; stop (one hopes) it before that happens
 sudo systemctl stop cups-browsed.service 
 sudo systemctl disable cups-browsed.service
