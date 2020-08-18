@@ -38,7 +38,7 @@ sudo apt -y install software-properties-common # Google it -- manage software
 sudo apt-get -y install firmware-b43-installer
 
 # Get some basic useful tools 
-sudo apt-get -y install bash-completion meld
+sudo apt-get -y install bash-completion meld autocutsel
 
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 # Set up security for emacs package downloading 
