@@ -19,6 +19,10 @@ download()
 set -x
 set -v
 
+myuser="econ-ark"
+mypass="kra-noce"
+
+
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target"
 
 # sudo apt-get --assume-yes install refind
