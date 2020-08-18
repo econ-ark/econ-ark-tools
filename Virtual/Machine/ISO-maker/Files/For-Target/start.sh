@@ -3,6 +3,19 @@
 # Mostly to set up xubuntu-desktop, xfce4, and lightdm
 # and to give required permissions for using these to econ-ark
 
+# define download function
+# courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
+download()
+{
+    local url=$1
+    #    echo -n "    "
+    wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
+        sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
+    #    echo -ne "\b\b\b\b"
+    #    echo " DONE"
+}
+
+
 set -x
 set -v
 
@@ -20,7 +33,8 @@ sudo apt -y install software-properties-common # Google it -- manage software
 # Broadcom modems are common and require firmware-b43-installer
 sudo apt-get -y install firmware-b43-installer
 
-sudo apt-get -y install bash-completion  
+# Get some basic useful tools 
+sudo apt-get -y install bash-completion meld
 
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 # Set up security for emacs package downloading 
