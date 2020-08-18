@@ -56,7 +56,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ fat16 }       \
         mountpoint{ /efi/boot }                     \
         .                                           \
-    2048 4096 16384 linux-swap                      \
+    2048 4096 200% linux-swap                      \
         $lvmok{ }                                   \
         in_vg { ubuntu-vg } lv_name{ swap_1 }       \
         method{ swap } format{ }                    \
