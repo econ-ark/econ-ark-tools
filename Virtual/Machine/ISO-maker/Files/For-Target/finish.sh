@@ -47,7 +47,7 @@ sudo apt -y remove  xscreensaver
 
 # xfdesktop --reload
 
-sudo apt -y install build-essential module-assistant parted gparted autocutsel
+sudo apt -y install build-essential module-assistant parted gparted 
 sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
 
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark

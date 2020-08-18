@@ -37,5 +37,8 @@ fi
 
 [[ -e /etc/environment ]] && source /etc/environment
 
-autocutsel -fork
-autocutsel -fork -selection PRIMARY
+# Allow cut-and-paste between emacs and shell
+if [[ "$(which autocutsel)" != "" ]]; then
+    autocutsel -fork
+    autocutsel -fork -selection PRIMARY
+fi

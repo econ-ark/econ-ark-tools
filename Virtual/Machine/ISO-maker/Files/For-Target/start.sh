@@ -46,6 +46,8 @@ sudo apt -y install gpg
 # Create a public key for security purposes
 if [[ ! -e /home/$myuser/.ssh ]]; then
     mkdir -p /home/$myuser/.ssh
+    chown $myuser:$myuser /home/$myuser/.ssh
+    chmod 700 /home/$myuser/.ssh
     sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh/id_rsa
 fi    
 
@@ -142,11 +144,9 @@ echo allowed_users=anybody >> /etc/X11/Xwrapper.config
 wget -O  /var/local/bash_aliases-add $online/bash_aliases-add
 cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
 chmod a+x /home/econ-ark/.bash_aliases
+cat /var/local/bash_aliases-add >> /root/.bash_aliases
+chmod a+x /root/.bash_aliases
 
-# Make sure root gets global envt variables (like, anaconda3)
-if ( ! grep -q '/etc/environment' /root/.bash_aliases ); then
-    echo "[[ -e /etc/environment ]] && source/etc/environment " >> /root/.bash_aliases
-fi
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
