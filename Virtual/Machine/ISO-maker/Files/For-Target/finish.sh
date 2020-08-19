@@ -34,7 +34,7 @@ xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monito
 rgbset="--channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0"
 
 xfconf-query "$rgbset"
-if [[ $? -neq 0 ]]; then # the rgb property did not exist
+if [[ $? != 0 ]]; then # the rgb property did not exist
     # so create it 
     xfconf-query --create "$rgbset"
 fi
