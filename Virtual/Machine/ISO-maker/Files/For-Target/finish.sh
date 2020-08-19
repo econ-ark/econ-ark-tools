@@ -24,6 +24,14 @@ sudo systemctl disable cups-browsed.service
 # Configure backdrop - can't be done in start.sh because dbus not running until GUI is up
 sudo apt -y install software-properties-common # Google it -- manage software like dbus 
 
+# Get the name of the active monitor
+monitor=$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)
+
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/$monitor/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/$monitor/image-style --set 4 # Scaling
+# Set background to black 
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/$monitor/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+
 xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
 xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-style --set 4 # Scaling
 # Set background to black 
