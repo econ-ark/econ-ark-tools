@@ -13,8 +13,7 @@ download()
 
 
 # Set up bash verbose debugging
-set -x
-set -v
+set -x ; set -v
 
 sudo apt -y install meld autocutsel ca-certificates 
 # The cups service sometimes gets stuck; stop (one hopes) it before that happens
@@ -24,6 +23,7 @@ sudo systemctl disable cups-browsed.service
 # Configure backdrop - can't be done in start.sh because dbus not running until GUI is up
 sudo apt -y install software-properties-common # Google it -- manage software like dbus 
 
+
 # Get the name of the active monitor
 monitor=$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)
 
@@ -31,12 +31,18 @@ xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monito
 xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/image-style --set 4 # Scaling
 # Set background to black
 
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+rgbset="--channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0"
+
+xfconf-query "$rgbset"
 if [[ $? -neq 0 ]]; then # the rgb property did not exist
     # so create it 
-    xfconf-query --create --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+    xfconf-query --create "$rgbset"
 fi
 
+echo '' ; echo '' ; echo ''
+echo "Pausing immediately after xfconf-query $rgbset"
+echo 'C-c to stop, return to continue'
+read answer 
 
 # xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
 # xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-style --set 4 # Scaling
@@ -59,6 +65,7 @@ sudo apt -y remove  xscreensaver
 # Set the desktop background to the Econ-ARK logo
 #xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/workspace0/image-path --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
 
+# Turn off screensavers and lock-screen
 xfconf-query --channel xfce-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate  --set false 
 # xfdesktop --reload
 
@@ -66,11 +73,12 @@ xset -dpms
 xset s off
 xset s noblank
 
-sudo apt -y install build-essential module-assistant parted gparted 
-sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
+# Useful default tools 
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils
 
+# Make a home for econ-ark in /usr/local/share/data and link to it from home directory
 mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
-chown econ-ark:econ-ark /home/econ-ark/GitHub
+chown -Rf econ-ark:econ-ark /home/econ-ark/GitHub
 chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
 
 # define download function

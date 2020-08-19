@@ -36,7 +36,7 @@ update-grub
 sudo apt-get -y install firmware-b43-installer
 
 # Get some basic useful tools 
-sudo apt-get -y install bash-completion 
+sudo apt-get -y install bash-completion curl git 
 
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 # Set up security for emacs package downloading 
