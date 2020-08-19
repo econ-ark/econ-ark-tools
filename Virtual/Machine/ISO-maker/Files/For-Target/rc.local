@@ -7,7 +7,6 @@ size="MAX"
 hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
 hostname "$hostdate"
 
-exit
 FLAG="/var/log/firstboot.log"
 if [ ! -f $FLAG ]; then
     set -x
