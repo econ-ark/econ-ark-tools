@@ -59,7 +59,12 @@ sudo apt -y remove  xscreensaver
 # Set the desktop background to the Econ-ARK logo
 #xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/workspace0/image-path --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
 
+xfconf-query --channel xfce-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate  --set false 
 # xfdesktop --reload
+
+xset -dpms
+xset s off
+xset s noblank
 
 sudo apt -y install build-essential module-assistant parted gparted 
 sudo apt -y install curl git bash-completion xsel cifs-utils openssh-server nautilus-share xclip gpg
