@@ -106,6 +106,11 @@ wget -O  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              $online/
 wget -O  /home/econ-ark/.dmrc                                           $online/root/home/econ-ark/.dmrc
 [[ -e /etc/lightdm/lightdm-gtk-greeter.conf ]] && sudo rm -f /etc/lightdm/lightdm-gtk-greeter.conf
 
+if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the line that permits autologin
+    sed -i '1 a\
+auth    sufficient      pam_succeed_if.so econ-ark ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
+fi
+
 myuser=econ-ark
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
