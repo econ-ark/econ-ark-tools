@@ -39,6 +39,9 @@ fi
 
 # Allow cut-and-paste between emacs and shell
 if [[ "$(which autocutsel)" != "" ]]; then
-    autocutsel -fork
-    autocutsel -fork -selection PRIMARY
+    if [[ "$DISPLAY" != "" ]]; then
+	autocutsel -fork
+	autocutsel -fork -selection PRIMARY
+    fi
 fi
+
