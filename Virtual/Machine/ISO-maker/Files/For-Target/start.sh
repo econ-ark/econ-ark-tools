@@ -83,16 +83,43 @@ sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-
 sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  # do emacs first-time setup
 sudo                 emacs -batch -l              /root/.emacs  # do emacs first-time setup
 
+wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
+wget -O  /var/local/Econ-ARK-Logo-1536x768.png    $online/Econ-ARK-Logo-1536x768.png
 
-apt -y install xubuntu-desktop^
+myuser=econ-ark
+sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
+sudo chown $myuser:$myuser /home/$myuser/.config/autostart
+
+sudo groupadd --system autologin
+sudo adduser  econ-ark autologin
+sudo gpasswd -a econ-ark autologin
+
+# Needed for PAM
+sudo groupadd --system nopasswdlogin
+sudo adduser  econ-ark nopasswdlogin
+sudo gpasswd -a econ-ark nopasswdlogin
+
+if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin 
+    sed -i '1 a\
+auth    sufficient      pam_succeed_if.so econ-ark ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
+fi
+
+wget -O  /var/local/bash_aliases-add $online/bash_aliases-add
+cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
+chmod a+x /home/econ-ark/.bash_aliases
+cat /var/local/bash_aliases-add >> /root/.bash_aliases
+chmod a+x /root/.bash_aliases
+
+# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
+[[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+
+apt -y install xubuntu-desktop^  # The caret gets a slimmed down version
 # #apt -y install xfce4
 
 # # Tell it to use lightdm without asking the user 
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
 
-wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
-wget -O  /var/local/Econ-ARK-Logo-1536x768.png    $online/Econ-ARK-Logo-1536x768.png
 cp       /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
 cp       /var/local/Econ-ARK-Logo-1536x768.png    /usr/share/xfce4/backdrops
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
@@ -105,25 +132,6 @@ mkdir -p /usr/share/lightdm/lightdm.conf.d
 wget -O  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 wget -O  /home/econ-ark/.dmrc                                           $online/root/home/econ-ark/.dmrc
 [[ -e /etc/lightdm/lightdm-gtk-greeter.conf ]] && sudo rm -f /etc/lightdm/lightdm-gtk-greeter.conf
-
-if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the line that permits autologin
-    sed -i '1 a\
-auth    sufficient      pam_succeed_if.so econ-ark ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
-fi
-
-myuser=econ-ark
-sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
-sudo chown $myuser:$myuser /home/$myuser/.config/autostart
-
-
-sudo groupadd --system autologin
-sudo adduser  econ-ark autologin
-sudo gpasswd -a econ-ark autologin
-
-# Needed for PAM
-sudo groupadd --system nopasswdlogin
-sudo adduser  econ-ark nopasswdlogin
-sudo gpasswd -a econ-ark nopasswdlogin
 
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
@@ -145,17 +153,6 @@ sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.deskto
 
 # Allow the start script to launch the GUI even though it is not a "console" user
 echo allowed_users=anybody >> /etc/X11/Xwrapper.config
-
-wget -O  /var/local/bash_aliases-add $online/bash_aliases-add
-cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
-chmod a+x /home/econ-ark/.bash_aliases
-cat /var/local/bash_aliases-add >> /root/.bash_aliases
-chmod a+x /root/.bash_aliases
-
-
-# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
-[[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
-
 
 # Anacron massively delays the first boot; this disbles it
 sudo touch /etc/cron.hourly/jobs.deny

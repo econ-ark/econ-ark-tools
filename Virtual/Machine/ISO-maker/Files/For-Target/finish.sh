@@ -20,58 +20,7 @@ sudo apt -y install meld autocutsel ca-certificates
 sudo systemctl stop cups-browsed.service 
 sudo systemctl disable cups-browsed.service
 
-# Configure backdrop - can't be done in start.sh because dbus not running until GUI is up
 sudo apt -y install software-properties-common # Google it -- manage software like dbus 
-
-
-# Get the name of the active monitor
-monitor=$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)
-
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/last-image  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/image-style --set 4 # Scaling
-# Set background to black
-
-rgbset="--channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0"
-
-xfconf-query "$rgbset"
-if [[ $? != 0 ]]; then # the rgb property did not exist
-    # so create it 
-    xfconf-query --create "$rgbset"
-fi
-
-echo '' ; echo '' ; echo ''
-echo "Pausing immediately after xfconf-query $rgbset"
-echo 'C-c to stop, return to continue'
-read answer 
-
-# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-style --set 4 # Scaling
-# # Set background to black 
-# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
-
-# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/image-style --set 4
-# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
-
-# Xubuntu installs xfce-screensaver; remove the default one
-# It's confusing to have two screensavers running:
-#   You think you have changed the settings but then the other one's
-#   settings are not changed
-# For xfce4-screensaver, unable to find a way programmatically to change
-# so must change them by hand
-
-sudo apt -y remove  xscreensaver
-
-# Set the desktop background to the Econ-ARK logo
-#xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/workspace0/image-path --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-
-# Turn off screensavers and lock-screen
-xfconf-query --channel xfce-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate  --set false 
-# xfdesktop --reload
-
-xset -dpms
-xset s off
-xset s noblank
 
 # Useful default tools 
 sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils
@@ -107,8 +56,6 @@ for d in ./*/; do
 	rm -Rf "$d"
     fi
 done
-
-sudo apt-get -y install firmware-b43-installer # Possibly useful for macs; a bit obscure, but kernel recommends it
 
 # Xubuntu installs xfce-screensaver; remove the default one
 # It's confusing to have two screensavers running:
@@ -191,6 +138,64 @@ else
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
  fi
+
+# Configure backdrop - can't be done in start.sh because dbus not running until GUI is up
+# xubuntu desktop should be launching now, but may not be there yet
+# Wait until it is up then get the name of the active monitor
+
+monitor=""
+while [[ "$monitor" == "" ]] ; do
+    monitor="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
+    sleep 1
+done
+
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/last-image  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/image-style --set 4 # Scaling
+# Set background to black
+
+rgbset="--channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0"
+
+xfconf-query "$rgbset"
+if [[ $? != 0 ]]; then # the rgb property did not exist
+    # so create it 
+    xfconf-query --create "$rgbset"
+fi
+
+# echo '' ; echo '' ; echo ''
+# echo "Pausing immediately after xfconf-query $rgbset"
+# echo 'C-c to stop, return to continue'
+# read answer 
+
+
+xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac 1200
+xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled false
+xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate false
+
+# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-style --set 4 # Scaling
+# # Set background to black 
+# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+
+# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/image-style --set 4
+# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+
+# Xubuntu installs xfce-screensaver; remove the default one
+# It's confusing to have two screensavers running:
+#   You think you have changed the settings but then the other one's
+#   settings are not changed
+# For xfce4-screensaver, unable to find a way programmatically to change
+# so must change them by hand
+
+sudo apt -y remove  xscreensaver
+
+# Set the desktop background to the Econ-ARK logo
+#xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/workspace0/image-path --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+
+# Turn off screensavers and lock-screen
+xfconf-query --channel xfce-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate  --set false 
+# xfdesktop --reload
+
 
 sudo -u econ-ark pip install jupyter_contrib_nbextensions
 sudo -u econ-ark jupyter contrib nbextension install --user
