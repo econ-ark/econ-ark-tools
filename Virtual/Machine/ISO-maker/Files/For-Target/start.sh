@@ -36,7 +36,7 @@ update-grub
 sudo apt-get -y install firmware-b43-installer
 
 # Get some basic useful tools 
-sudo apt-get -y install bash-completion curl git 
+sudo apt-get -y install bash-completion curl git net-tools
 
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 # Set up security for emacs package downloading 
@@ -131,6 +131,7 @@ mkdir -p /usr/share/lightdm/lightdm.conf.d
 # wget -O  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
 wget -O  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 wget -O  /home/econ-ark/.dmrc                                           $online/root/home/econ-ark/.dmrc
+chown $myuser:$myuser /home/econ-ark/.dmrc
 [[ -e /etc/lightdm/lightdm-gtk-greeter.conf ]] && sudo rm -f /etc/lightdm/lightdm-gtk-greeter.conf
 
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 

@@ -143,8 +143,8 @@ else
 # xubuntu desktop should be launching now, but may not be there yet
 # Wait until it is up then get the name of the active monitor
 
-monitor=""
-while [[ "$monitor" == "" ]] ; do
+monitor=""  
+while [[ "$monitor" == "" ]] ; do # nice idea; but never succeeded
     monitor="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
     sleep 1
 done
