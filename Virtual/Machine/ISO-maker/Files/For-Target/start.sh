@@ -18,10 +18,12 @@ download()
 
 set -x
 set -v
+export DEBCONF_DEBUG=.*
+export DEBIAN_FRONTEND=noninteractive
+export DEBCONF_NONINTERACTIVE_SEEN=true
 
 myuser="econ-ark"
 mypass="kra-noce"
-
 
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target"
 
@@ -99,21 +101,28 @@ sudo groupadd --system nopasswdlogin
 sudo adduser  econ-ark nopasswdlogin
 sudo gpasswd -a econ-ark nopasswdlogin
 
-if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin 
+if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin
     sed -i '1 a\
 auth    sufficient      pam_succeed_if.so econ-ark ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
 fi
 
 wget -O  /var/local/bash_aliases-add $online/bash_aliases-add
-cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
-chmod a+x /home/econ-ark/.bash_aliases
-cat /var/local/bash_aliases-add >> /root/.bash_aliases
-chmod a+x /root/.bash_aliases
+
+# add stuff to always execute for interactive login (if not there already)
+if ! grep -q econ-ark /home/econ-ark/.bash_aliases; then # Econ-ARK additions are not there yet
+    echo "# econ-ark additions to bash_aliases start here" >> /home/econ-ark/.bash_aliases
+    cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
+    chmod a+x /home/econ-ark/.bash_aliases
+    chown econ-ark:econ-ark /home/econ-ark/.bash_aliases
+    cat /var/local/bash_aliases-add >> /root/.bash_aliases
+    chmod a+x /root/.bash_aliases
+fi
+
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 
-apt -y install xubuntu-desktop^  # The caret gets a slimmed down version
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version
 # #apt -y install xfce4
 
 # # Tell it to use lightdm without asking the user 
@@ -128,11 +137,17 @@ rm -f                                                       /usr/share/xfce4/bac
 ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
 mkdir -p /usr/share/lightdm/lightdm.conf.d
 
-# wget -O  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
-wget -O  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
-wget -O  /home/econ-ark/.dmrc                                           $online/root/home/econ-ark/.dmrc
+wget -O  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
+wget -O  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  # autologin econ-ark 
+wget -O  /home/econ-ark/.dmrc                                           $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
 chown $myuser:$myuser /home/econ-ark/.dmrc
-[[ -e /etc/lightdm/lightdm-gtk-greeter.conf ]] && sudo rm -f /etc/lightdm/lightdm-gtk-greeter.conf
+[[ -e /etc/lightdm/lightdm-gtk-greeter.conf ]] && sudo rm -f /etc/lightdm/lightdm-gtk-greeter.conf  # remove it from here because right version is in /usr/share/lightdm
+
+[[ -e /usr/share/lightdm/lightdm-gtk-greeter.conf.d ]] && rm -Rf /usr/share/lightdm/lightdm-gtk-greeter.conf.d
+
+[[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && rm -f /usr/share/lightdm/lightdm-gtk-greeter.conf.d/50-ubuntu.conf
+
+[[ -e /usr/share/lightdm/lightdm.conf.d/50-unity-greeter.conf ]] && rm -f /usr/share/lightdm/lightdm-gtk-greeter.conf.d/50-unity-greeter.conf
 
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 

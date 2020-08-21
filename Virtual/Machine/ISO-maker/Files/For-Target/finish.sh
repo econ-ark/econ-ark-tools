@@ -11,9 +11,12 @@ download()
     #    echo " DONE"
 }
 
-
 # Set up bash verbose debugging
 set -x ; set -v
+
+export DEBCONF_DEBUG=.*
+export DEBIAN_FRONTEND=noninteractive
+export DEBCONF_NONINTERACTIVE_SEEN=true
 
 sudo apt -y install meld autocutsel ca-certificates 
 # The cups service sometimes gets stuck; stop (one hopes) it before that happens
@@ -52,7 +55,7 @@ online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual
 cd /home/$myuser
 
 for d in ./*/; do
-    if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]]; then
+    if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]] && [[ ! "$d" == "./GitHub/" ]] ; then
 	rm -Rf "$d"
     fi
 done
@@ -122,7 +125,7 @@ cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
 echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 
 # Get other default packages for Econ-ARK machine
-sudo apt -y install curl git bash-completion cifs-utils xclip xsel
+sudo apt -y install cifs-utils xclip xsel
 
 cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
@@ -130,36 +133,15 @@ size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 
 if [[ "$size" == "MIN" ]]; then
     sudo apt -y install python3-pip python-pytest python-is-python3
+    sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
     sudo pip install    pytest
     sudo -i -u econ-ark pytest
     sudo pip install nbval
-    pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
+    sudo pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
 else
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
  fi
-
-# Configure backdrop - can't be done in start.sh because dbus not running until GUI is up
-# xubuntu desktop should be launching now, but may not be there yet
-# Wait until it is up then get the name of the active monitor
-
-monitor=""  
-while [[ "$monitor" == "" ]] ; do # nice idea; but never succeeded
-    monitor="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
-    sleep 1
-done
-
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/last-image  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/image-style --set 4 # Scaling
-# Set background to black
-
-rgbset="--channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0"
-
-xfconf-query "$rgbset"
-if [[ $? != 0 ]]; then # the rgb property did not exist
-    # so create it 
-    xfconf-query --create "$rgbset"
-fi
 
 # echo '' ; echo '' ; echo ''
 # echo "Pausing immediately after xfconf-query $rgbset"
@@ -193,9 +175,8 @@ sudo apt -y remove  xscreensaver
 #xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/workspace0/image-path --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
 
 # Turn off screensavers and lock-screen
-xfconf-query --channel xfce-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate  --set false 
+#xfconf-query --channel xfce-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate  --set false 
 # xfdesktop --reload
-
 
 sudo -u econ-ark pip install jupyter_contrib_nbextensions
 sudo -u econ-ark jupyter contrib nbextension install --user
@@ -282,6 +263,8 @@ fi
 
 wget -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt install /var/local/google-chrome-stable_current_amd64.deb
+
+chown -Rf $myuser:$myuser /home/$myuser/
 
 
 sudo apt -y update && sudo apt -y upgrade

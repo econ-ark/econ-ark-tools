@@ -42,8 +42,35 @@ if [[ "$(which autocutsel)" != "" ]]; then
     if [[ "$DISPLAY" != "" ]]; then
 	autocutsel -fork
 	autocutsel -fork -selection PRIMARY
-	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac 1200
-	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled false
-	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate false
     fi
+fi
+
+# The first time the user has logged in, set preferences 
+if [[ ! -e /home/econ-ark/.firstboot ]]; then
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac 1200
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled false
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate false
+
+    # Configure backdrop - can't be done in start.sh or finish.sh because dbus not running until GUI is up
+    # Wait until it is up then get the name of the active monitor
+
+    monitor=""  
+    while [[ "$monitor" == "" ]] ; do # 
+	monitor="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
+	sleep 1
+    done
+
+    xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/last-image  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+    xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/image-style --set 4 # Scaling
+
+    # Set background to black
+
+    rgbset="--channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0"
+
+    xfconf-query "$rgbset"
+    if [[ $? != 0 ]]; then # the rgb property did not exist
+	# so create it 
+	xfconf-query --create "$rgbset"
+    fi
+    touch /home/econ-ark/.firstboot
 fi
