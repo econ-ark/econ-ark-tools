@@ -7,8 +7,8 @@ set -x # Debug
 set -v # Debug
 
 if [[ "$(which conda)" == "/usr/local/anaconda3/bin/conda" ]] ; then # It's already installed
-    conda --yes update --all conda    # It's installed, so just update it
-    conda --yes update --all anaconda # It's installed, so just update it
+    conda update --yes --all conda    # It's installed, so just update it
+    conda update --yes --all anaconda # It's installed, so just update it
 else
     # Put Anaconda in /tmp directory
     [[ -e /tmp/Anaconda ]] && sudo rm -Rf /tmp/Anaconda # delete any prior install
