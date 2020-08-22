@@ -36,7 +36,7 @@ update-grub
 sudo apt-get -y install firmware-b43-installer
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion curl git net-tools network-manager 
+sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server 
 
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 
@@ -94,7 +94,7 @@ sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
 # Allow user to control networking 
-sudo adduser  econ-ark net-dev
+sudo adduser  econ-ark netdev
 
 # Allow autologin (as far as unix is concerned)
 sudo groupadd --system autologin

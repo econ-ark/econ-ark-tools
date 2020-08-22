@@ -66,12 +66,13 @@ done
 # sudo apt -y remove  xscreensaver
 
 # Play nice with Macs ASAP (in hopes of being able to monitor it)
-sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown nss-mdns
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
 wget -O  /etc/avahi $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
-wget -O  /etc/avahi/services /usr/share/doc/avahi-daemon/examples/ssh.service 
+cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
+systemctl disable systemd-resolved.service
 avahi-daemon --reload
 
 # Get misc other stuff 
@@ -86,12 +87,28 @@ chmod +x /var/local/$refindFile
 # Allow vnc (will only start up after reading ~/.bash_aliases)
 sudo apt -y install tigervnc-scraping-server
 
-# https://askubuntu.com/questions/328240/assign-vnc-password-using-script
-echo "$mypass" >  /tmp/vncpasswd # First is the read-write password
-echo "$myuser" >> /tmp/vncpasswd # Next  is the read-only  password (useful for sharing screen with students)
-
 [[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  # If a previous version exists, delete it
 sudo mkdir -p /home/$myuser/.vnc
+#mv /tmp/vncpasswd /home/$myuser/.vnc
+
+# https://askubuntu.com/questions/328240/assign-vnc-password-using-script
+
+prog=/usr/bin/vncpasswd
+/usr/bin/expect <<EOF
+spawn "$prog"
+expect "Password:"
+send "$mypass\r"
+expect "Verify:"
+send "$mypass\r"
+expect "Would you like to enter a view-only password (y/n)?"
+send "y"
+expect "Password:"
+send "$mypass\r"
+expect "Verify:"
+send "$mypass\r"
+expect eof
+exit
+EOF
 
 # set defaults
 default_hostname="$(hostname)"

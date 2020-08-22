@@ -7,6 +7,10 @@ size="MAX"
 hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
 hostname "$hostdate"
 
+systemctl disable systemd-resolved.service
+avahi-daemon --reload
+
+
 FLAG="/var/log/firstboot.log"
 if [ ! -f $FLAG ]; then
     # Do stuff that should be done before autologin of first user
