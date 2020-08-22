@@ -60,17 +60,18 @@ if [[ ! -e /home/econ-ark/.firstboot ]]; then
 	sleep 1
     done
 
-    xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/last-image  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-    xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/image-style --set 4 # Scaling
+    monitorPath="/backdrop/screen0/monitor$monitor/workspace0/last-image"
+
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style" --set 4 # Scaling
 
     # Set background to black
 
-    rgbset="--channel xfce4-desktop --property /backdrop/screen0/monitor$monitor/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0"
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 > /dev/null 2>&1 # Don't print an error (if one occurs)
 
-    xfconf-query "$rgbset"
     if [[ $? != 0 ]]; then # the rgb property did not exist
 	# so create it 
-	xfconf-query --create "$rgbset"
+	    xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
     fi
     touch /home/econ-ark/.firstboot
 fi
