@@ -145,6 +145,8 @@ mkdir -p /usr/share/lightdm/lightdm.conf.d
 
 wget -O  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
 wget -O  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  # autologin econ-ark 
+wget -O  /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf           $online/root/etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf
+
 wget -O  /home/econ-ark/.dmrc                                           $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
 chown $myuser:$myuser /home/econ-ark/.dmrc
 wget -O  /home/econ-ark/.xscreensaver                                   $online/xscreensaver
@@ -153,7 +155,7 @@ wget -O  /home/econ-ark/.emacs                                          $online/
 
 
 
-[[ -e /etc/lightdm/lightdm-gtk-greeter.conf ]] && sudo rm -f /etc/lightdm/lightdm-gtk-greeter.conf  # remove it from here because right version is in /usr/share/lightdm
+# [[ -e /etc/lightdm/lightdm-gtk-greeter.conf ]] && sudo rm -f /etc/lightdm/lightdm-gtk-greeter.conf  # remove it from here because right version is in /usr/share/lightdm
 
 [[ -e /usr/share/lightdm/lightdm-gtk-greeter.conf.d ]] && rm -Rf /usr/share/lightdm/lightdm-gtk-greeter.conf.d
 
