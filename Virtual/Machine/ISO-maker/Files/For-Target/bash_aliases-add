@@ -54,9 +54,9 @@ fi
 # Set their preferences
 if [[ ! -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
     # Don't shut screen down very fast 
-    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac --set 1200
-    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled --set false
-    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false
+    # xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac --set 1200
+    # xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled --set false
+    # xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false
 
     # Configure backdrop - can't be done in start.sh or finish.sh because dbus not running until GUI is up
     # Wait until it is up then get the name of the active monitor
@@ -78,7 +78,7 @@ if [[ ! -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
 
     if [[ $? != 0 ]]; then # the rgb property did not exist
 	# so create it 
-	    xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
     fi
     touch /home/econ-ark/.firstboot
 fi
