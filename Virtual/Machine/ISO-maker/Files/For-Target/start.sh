@@ -56,15 +56,18 @@ fi
 # Install emacs
 sudo apt -y install emacs
 
-download "https://raw.githubusercontent.com/ccarrollATjhuecon/Methods/master/Tools/Config/tool/emacs/dot/emacs-ubuntu-virtualbox"
+wget -O  /var/start/dotemacs                                          $online/dotemacs
 
-cp emacs-ubuntu-virtualbox /home/econ-ark/.emacs
-cp emacs-ubuntu-virtualbox /root/.emacs
+[[ -e /home/econ-ark/.emacs ]] && [[ rm -f /home/ark/.emacs ]]
+[[ -e          /root/.emacs ]] && [[ rm -f      root/.emacs ]]
+
+ln -s /home/econ-ark/.emacs /var/local/dotemacs 
+ln -s /root/.emacs         /var/local/dotemacs
+
 chown "root:root" /root/.emacs
 chmod a+rwx /home/$myuser/.emacs
 chown "$myuser:$myuser" /home/$myuser/.emacs
 
-rm -f emacs-ubuntu-virtualbox
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 
 [[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && sudo chown "$myuser:$myuser" /home/$myuser/.emacs.d
@@ -145,7 +148,10 @@ wget -O  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              $online/
 wget -O  /home/econ-ark/.dmrc                                           $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
 chown $myuser:$myuser /home/econ-ark/.dmrc
 wget -O  /home/econ-ark/.xscreensaver                                   $online/xscreensaver
-chown $myuser:$myuser /home/econ-ark/.xscreensaver
+chown $myuser:$myuser /home/econ-ark/.xscreensaver                      # session-name xubuntu
+wget -O  /home/econ-ark/.emacs                                          $online/dotemacs
+
+
 
 [[ -e /etc/lightdm/lightdm-gtk-greeter.conf ]] && sudo rm -f /etc/lightdm/lightdm-gtk-greeter.conf  # remove it from here because right version is in /usr/share/lightdm
 
