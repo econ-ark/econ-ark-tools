@@ -269,4 +269,6 @@ chown -Rf $myuser:$myuser /home/$myuser/
 
 sudo apt -y update && sudo apt -y upgrade
 
+touch /var/local/finished-software-install
+
 reboot
