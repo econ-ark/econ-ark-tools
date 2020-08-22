@@ -45,7 +45,11 @@ if [[ "$(which autocutsel)" != "" ]]; then
     fi
 fi
 
-if [[ ! -e /var/local/secondboot.log ]]; 
+# If software install has not finished, do not run rest of script
+if [[ ! -e /var/local/finished-software-install ]]; then
+    exit
+fi
+
 # The first time the user logs in after the software is installed,
 # Set their preferences
 if [[ ! -e /home/econ-ark/.firstboot ]]; then
