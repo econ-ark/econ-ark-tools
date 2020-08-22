@@ -178,12 +178,12 @@ sudo apt -y remove  xscreensaver
 #xfconf-query --channel xfce-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate  --set false 
 # xfdesktop --reload
 
-sudo -u econ-ark pip install jupyter_contrib_nbextensions
-sudo -u econ-ark jupyter contrib nbextension install --user
-sudo -u econ-ark jupyter nbextension enable codefolding/main
-sudo -u econ-ark jupyter nbextension enable codefolding/edit
-sudo -u econ-ark jupyter nbextension enable toc2/main
-sudo -u econ-ark jupyter nbextension enable collapsible_headings/main
+sudo pip install jupyter_contrib_nbextensions
+sudo jupyter contrib nbextension install
+sudo jupyter nbextension enable codefolding/main
+sudo jupyter nbextension enable codefolding/edit
+sudo jupyter nbextension enable toc2/main
+sudo jupyter nbextension enable collapsible_headings/main
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
@@ -268,7 +268,5 @@ chown -Rf $myuser:$myuser /home/$myuser/
 
 
 sudo apt -y update && sudo apt -y upgrade
-
-touch /var/local/finished-software-install
 
 reboot
