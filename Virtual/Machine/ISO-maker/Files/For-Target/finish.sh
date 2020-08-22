@@ -72,7 +72,7 @@ sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-sca
 mkdir -p /etc/avahi/
 wget -O  /etc/avahi $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
 cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
-systemctl disable systemd-resolved.service
+#systemctl disable systemd-resolved.service
 avahi-daemon --reload
 
 # Get misc other stuff 
