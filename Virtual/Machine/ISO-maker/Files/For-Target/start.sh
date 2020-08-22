@@ -185,7 +185,7 @@ sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.deskto
 
 # Anacron massively delays the first boot; this disbles it
 # reenabled at end of finish.sh
-sudo touch /etc/cron.hourly/jobs.deny
+sudo touch /etc/cron.hourly/jobs.deny       
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
-echo 0anacron > /etc/cron.hourly/jobs.deny 
+echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed in rc.local 
 

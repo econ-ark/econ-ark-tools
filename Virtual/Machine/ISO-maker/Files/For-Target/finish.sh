@@ -281,8 +281,6 @@ sudo apt -y update && sudo apt -y upgrade  # bring system up to date
 
 touch /var/local/finished-software-install # Signal that we've finished software install
 
-rm /etc/cron.hourly/jobs.deny              # Restore cron and anacron 
-
 sudo systemctl enable cups-browsed.service # Restore printer services
 
 reboot
