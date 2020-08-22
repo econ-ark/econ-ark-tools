@@ -47,9 +47,10 @@ fi
 
 # The first time the user has logged in, set preferences 
 if [[ ! -e /home/econ-ark/.firstboot ]]; then
-    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac 1200
-    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled false
-    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate false
+    # Don't shut screen down very fast 
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac --set 1200
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled --set false
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false
 
     # Configure backdrop - can't be done in start.sh or finish.sh because dbus not running until GUI is up
     # Wait until it is up then get the name of the active monitor

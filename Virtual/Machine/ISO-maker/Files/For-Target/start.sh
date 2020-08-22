@@ -118,6 +118,7 @@ if ! grep -q econ-ark /home/econ-ark/.bash_aliases; then # Econ-ARK additions ar
     chmod a+x /root/.bash_aliases
 fi
 
+sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
