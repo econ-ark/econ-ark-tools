@@ -1,5 +1,5 @@
 #!/bin/bash
-# Autostart terminal upon autologin so that ~/.bash_alias will be executed automatically
+# Autostart terminal upon autologin so ~/.bash_alias will be executed automatically
 # Mostly to set up xubuntu-desktop, xfce4, and lightdm
 # and to give required permissions for using these to econ-ark
 
@@ -15,12 +15,11 @@ download()
     #    echo " DONE"
 }
 
-
 set -x
 set -v
-export DEBCONF_DEBUG=.*
-export DEBIAN_FRONTEND=noninteractive
-export DEBCONF_NONINTERACTIVE_SEEN=true
+# # export DEBCONF_DEBUG=.*
+# # export DEBIAN_FRONTEND=noninteractive
+# # export DEBCONF_NONINTERACTIVE_SEEN=true
 
 myuser="econ-ark"
 mypass="kra-noce"
@@ -32,18 +31,16 @@ online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual
 update-grub
 
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.*  sudo refind-install --yes
-# sudo grub-install --efi-directory=/boot/efi
 
-# Broadcom modems are common and require firmware-b43-installer
+# Broadcom modems are common and require firmware-b43-installer for some reason
 sudo apt-get -y install firmware-b43-installer
 
-# Get some basic useful tools 
+# Get some basic immediately useful tools 
 sudo apt-get -y install bash-completion curl git net-tools
 
 # Install emacs before the gui because it crashes when run in batch mode on gtk
-# Set up security for emacs package downloading 
-# Security (needed for emacs)
-sudo apt -y install gpg 
+
+sudo apt -y install gpg # Set up security for emacs package downloading 
 
 # Create a public key for security purposes
 if [[ ! -e /home/$myuser/.ssh ]]; then
@@ -56,6 +53,7 @@ fi
 # Install emacs
 sudo apt -y install emacs
 
+# 
 wget -O  /var/start/dotemacs                                          $online/dotemacs
 
 [[ -e /home/econ-ark/.emacs ]] && rm -f /home/ark/.emacs
@@ -145,7 +143,7 @@ mkdir -p /usr/share/lightdm/lightdm.conf.d
 
 wget -O  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
 wget -O  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  # autologin econ-ark 
-wget -O  /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf           $online/root/etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf
+wget -O  /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf           $online/root/etc/lightdm/lightdm-gtk-greeter.conf
 
 wget -O  /home/econ-ark/.dmrc                                           $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
 chown $myuser:$myuser /home/econ-ark/.dmrc
