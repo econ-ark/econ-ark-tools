@@ -149,9 +149,9 @@ else
 # read answer 
 
 
-xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac 1200
-xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled false
-xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate false
+# xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac 1200
+# xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled false
+# xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate false
 
 # xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
 # xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-style --set 4 # Scaling
