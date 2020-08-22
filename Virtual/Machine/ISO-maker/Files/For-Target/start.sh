@@ -36,7 +36,7 @@ update-grub
 sudo apt-get -y install firmware-b43-installer
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion curl git net-tools
+sudo apt-get -y install bash-completion curl git net-tools network-manager 
 
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 
@@ -93,11 +93,15 @@ myuser=econ-ark
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
+# Allow user to control networking 
+sudo adduser  econ-ark net-dev
+
+# Allow autologin (as far as unix is concerned)
 sudo groupadd --system autologin
 sudo adduser  econ-ark autologin
 sudo gpasswd -a econ-ark autologin
 
-# Needed for PAM
+# Needed for PAM autologin
 sudo groupadd --system nopasswdlogin
 sudo adduser  econ-ark nopasswdlogin
 sudo gpasswd -a econ-ark nopasswdlogin
@@ -150,16 +154,13 @@ chown $myuser:$myuser /home/econ-ark/.dmrc
 wget -O  /home/econ-ark/.xscreensaver                                   $online/xscreensaver
 chown $myuser:$myuser /home/econ-ark/.xscreensaver                      # session-name xubuntu
 wget -O  /home/econ-ark/.emacs                                          $online/dotemacs
+chown $myuser:$myuser /home/econ-ark/.emacs
 
-
-
-# [[ -e /etc/lightdm/lightdm-gtk-greeter.conf ]] && sudo rm -f /etc/lightdm/lightdm-gtk-greeter.conf  # remove it from here because right version is in /usr/share/lightdm
-
+# Confusing to have this in two places; leave the one in /etc/lightdm
 [[ -e /usr/share/lightdm/lightdm-gtk-greeter.conf.d ]] && rm -Rf /usr/share/lightdm/lightdm-gtk-greeter.conf.d
 
-[[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && rm -f /usr/share/lightdm/lightdm-gtk-greeter.conf.d/50-ubuntu.conf
-
-[[ -e /usr/share/lightdm/lightdm.conf.d/50-unity-greeter.conf ]] && rm -f /usr/share/lightdm/lightdm-gtk-greeter.conf.d/50-unity-greeter.conf
+# # Don't configure for ubuntu at all
+# [[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && rm -f /usr/share/lightdm/lightdm-gtk-greeter.conf.d/50-ubuntu.conf
 
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
@@ -179,10 +180,11 @@ EOF
 
 sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 
-# Allow the start script to launch the GUI even though it is not a "console" user
-echo allowed_users=anybody >> /etc/X11/Xwrapper.config
+# # Allow the start script to launch the GUI even though it is not a "console" user
+# echo allowed_users=anybody >> /etc/X11/Xwrapper.config
 
 # Anacron massively delays the first boot; this disbles it
+# reenabled at end of finish.sh
 sudo touch /etc/cron.hourly/jobs.deny
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
 echo 0anacron > /etc/cron.hourly/jobs.deny 

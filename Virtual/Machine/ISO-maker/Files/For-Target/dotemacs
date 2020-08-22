@@ -1,6 +1,4 @@
-
-;;; http://emacsredux.com/blog/2013/03/27/indent-region-or-buffer/
-;;; 2019-09-01: Add origami-mode; toggle using C-c f
+;;; Version for XUBUNTARK
 
 (setq package-check-signature nil) ;;; Google "metaredux.com dealing with expired elpa gpg keys
 
@@ -8,63 +6,61 @@
 (setq default-buffer-file-coding-system 'utf-8-unix)
 
 (when (>= emacs-major-version 24) ;; version 24 introduced the package manager 
-(require 'package)
-(add-to-list 'package-archives '("elpa"         . "https://elpa.gnu.org/packages/")           t)
-(add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/")          t)
-;; (add-to-list 'package-archives '("marmalade"    . "http://marmalade-repo.org/packages/") t)
-;; (add-to-list 'package-archives '("org"          . "http://orgmode.org/elpa/")            t)
-(package-initialize)
+  (require 'package)
+  (add-to-list 'package-archives '("elpa"         . "https://elpa.gnu.org/packages/")           t)
+  (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/")          t)
+  ;; (add-to-list 'package-archives '("marmalade"    . "http://marmalade-repo.org/packages/") t)
+  ;; (add-to-list 'package-archives '("org"          . "http://orgmode.org/elpa/")            t)
+  (package-initialize)
 
-;; list the packages you want
-(setq package-list '(use-package auctex shell-here org csv-mode markdown-mode git magit elpy gnu-elpa-keyring-update))
-;; fetch the list of packages available
-(unless package-archive-contents
-(package-refresh-contents))
+  ;; list the packages you want
+  (setq package-list '(use-package auctex shell-here org csv-mode markdown-mode git magit elpy gnu-elpa-keyring-update bash-completion))
+  ;; fetch the list of packages available
+  (unless package-archive-contents
+    (package-refresh-contents))
 
-;; install the missing packages
-(dolist (package package-list)
-(unless (package-installed-p package)
-(package-install package)))
-(package-initialize)
-(use-package elpy
-:ensure t
-:init    
-(elpy-enable))
-;; https://github.com/ieure/shell-here
-;; Open a shell buffer in (or relative to) default-directory, e.g. whatever directory the current buffer is in.
-(require 'shell-here)
-(define-key (current-global-map) "\C-c!" 'shell-here)
-) ;; end when (>= emacs-major-version 24)
+  ;; install the missing packages
+  (dolist (package package-list)
+    (unless (package-installed-p package)
+      (package-install package)))
+  (package-initialize)
+  (use-package elpy
+    :ensure t
+    :init    
+    (elpy-enable))
+  ;; https://github.com/ieure/shell-here
+  ;; Open a shell buffer in (or relative to) default-directory, e.g. whatever directory the current buffer is in.
+  (require 'shell-here)
+  (define-key (current-global-map) "\C-c!" 'shell-here)
+  ) ;; end when (>= emacs-major-version 24)
 
 
 (defun indent-buffer ()
-"Indent the currently visited buffer."
-(interactive)
-(indent-region (point-min) (point-max)))
+  "Indent the currently visited buffer."
+  (interactive)
+  (indent-region (point-min) (point-max)))
 
 (defun indent-region-or-buffer ()
-"Indent a region if selected, otherwise the whole buffer."
-(interactive)
-(save-excursion
-(if (region-active-p)
-(progn
-(indent-region (region-beginning) (region-end))
-(message "Indented selected region."))
-(progn
-(indent-buffer)
-(message "Indented buffer.")))))
+  "Indent a region if selected, otherwise the whole buffer."
+  (interactive)
+  (save-excursion
+    (if (region-active-p)
+	(progn
+	  (indent-region (region-beginning) (region-end))
+	  (message "Indented selected region."))
+      (progn
+	(indent-buffer)
+	(message "Indented buffer.")))))
 
 (global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)
 
-;;; 2017-04-28: Updated for Methods class
 ;;; 2017-05-30: Display full file path in frame title, only works in Xterm (not Terminal.app)
 
 (setq-default frame-title-format "%b (%f)")
 (when (string= system-type "darwin")
-(setq dired-use-ls-dired nil)) ;;; Inhibit annoying error message if running on MacOS
+  (setq dired-use-ls-dired nil)) ;;; Inhibit annoying error message if running on MacOS
 (setq inhibit-startup-message t) ;;; Inhibit annoying startup message
 (require 'dired-x)
-;;; (require 'git)
 
 ;;; (process-kill-without-query (get-process "shell"))
 
@@ -87,27 +83,27 @@
 ;; From http://stackoverflow.com/questions/18812938/copy-full-file-path-into-copy-paste-clipboard
 
 (defun clip-file ()
-"Put the current file name on the clipboard"
-(interactive)
-(let ((filename (if (equal major-mode 'dired-mode)
-(file-name-directory default-directory)
-(buffer-file-name))))
-(when filename
-(x-select-text filename))))
+  "Put the current file name on the clipboard"
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+		      (file-name-directory default-directory)
+		    (buffer-file-name))))
+    (when filename
+      (x-select-text filename))))
 
 ;; from http://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 
 (defun put-file-name-on-clipboard ()
-"Put the current file name on the clipboard"
-(interactive)
-(let ((filename (if (equal major-mode 'dired-mode)
-default-directory
-(buffer-file-name))))
-(when filename
-(with-temp-buffer
-(insert filename)
-(clipboard-kill-region (point-min) (point-max)))
-(message filename))))
+  "Put the current file name on the clipboard"
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+		      default-directory
+		    (buffer-file-name))))
+    (when filename
+      (with-temp-buffer
+	(insert filename)
+	(clipboard-kill-region (point-min) (point-max)))
+      (message filename))))
 
 (define-key (current-global-map) "\C-c\C-b"     'put-file-name-on-clipboard)
 (define-key (current-global-map) "\C-\M-b"       'put-file-name-on-clipboard) ;; Alternative definition because \C-c\C-c\C-b is defined already in LaTeX and Markdown modes
@@ -115,40 +111,40 @@ default-directory
 ;;; From http://www.emacswiki.org/emacs/UnfillParagraph
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
 (defun unfill-paragraph (&optional region)
-"Takes a multi-line paragraph and makes it into a single line of text."
-(interactive (progn (barf-if-buffer-read-only) '(t)))
-(let ((fill-column (point-max)))
-(fill-paragraph nil region)))
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil region)))
 
 ;; Handy key definition
 (define-key global-map "\M-Q" 'unfill-paragraph)
 
 (autoload 'markdown-mode "markdown-mode"
-"Major mode for editing Markdown files" t)
+  "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 (autoload 'gfm-mode "markdown-mode"
-"Major mode for editing GitHub Flavored Markdown files" t)
+  "Major mode for editing GitHub Flavored Markdown files" t)
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 
 ;; Useful function defined in https://stackoverflow.com/questions/24356401/how-to-append-multiple-elements-to-a-list-in-emacs-lisp
 (defun append-to-list (list-var elements)
-"Append ELEMENTS to the end of LIST-VAR.
+  "Append ELEMENTS to the end of LIST-VAR.
 
 The return value is the new value of LIST-VAR."
-(unless (consp elements)
-(error "ELEMENTS must be a list"))
-(let ((list (symbol-value list-var)))
-(if list
-(setcdr (last list) elements)
-(set list-var elements)))
-(symbol-value list-var))
+  (unless (consp elements)
+    (error "ELEMENTS must be a list"))
+  (let ((list (symbol-value list-var)))
+    (if list
+	(setcdr (last list) elements)
+      (set list-var elements)))
+  (symbol-value list-var))
 
 ;; Make sure auctex and preview-latex are loaded whenever emacs gets launched, so that customizations below can be done
 (load "auctex.el" nil t t)
-;; (load "preview-latex.el" nil t t)
+(load "preview-latex.el" nil t t)
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
@@ -158,35 +154,34 @@ The return value is the new value of LIST-VAR."
 (load "preview.el" nil t t)
 ;; Prevent annoying requirement to choose BibTeX over Biber every time
 (eval-after-load "tex-mode" 
-'(setq TeX-command-list
-(remove '("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
-TeX-command-list)))
+  '(setq TeX-command-list
+	 (remove '("Biber" "biber %s" TeX-run-Biber nil t :help "Run Biber")
+		 TeX-command-list)))
 
 ;; from realpython.com/emacs-the-best-python-editor                 
 (when (require 'flycheck nil t)
-(setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-(add-hook 'elpy-mode-hook 'flycheck-mode))
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
 
 ;; instructions https://elpy.readthedocs.io/en/latest/ide.html#interpreter-setup
 (setq python-shell-interpreter "python"
-python-shell-interpreter-args "-i")
+      python-shell-interpreter-args "-i")
 (setq python-shell-interpreter "jupyter"
-python-shell-interpreter-args "console --simple-prompt"
-python-shell-prompt-detect-failure-warning nil)
+      python-shell-interpreter-args "console --simple-prompt"
+      python-shell-prompt-detect-failure-warning nil)
 ;; (add-to-list 'python-shell-completion-native-disabled-interpreters
 ;;              "jupyter")
 (setq python-shell-interpreter "ipython"
-python-shell-interpreter-args "-i --simple-prompt")
+      python-shell-interpreter-args "-i --simple-prompt")
 (setq python-fill-docstring-style 'django)
-
-;;; 
 
 ;; Flexible text folding
 (with-eval-after-load 'origami
   (define-key origami-mode-map (kbd "C-c f") 'origami-recursively-toggle-node)
   (define-key origami-mode-map (kbd "C-c F") 'origami-toggle-all-nodes)
-)
+  )
 
+;; When in X windows graphical mode, sync between emacs kill ring and system clipboard
 (defun copy-from-ubuntu (text &optional push)
   (interactive)
   (if (display-graphic-p)
@@ -204,7 +199,7 @@ python-shell-interpreter-args "-i --simple-prompt")
 	     )
 	   )
     )
-)
+  )
 
 (defun paste-to-ubuntu ()
   (interactive)
@@ -218,15 +213,8 @@ python-shell-interpreter-args "-i --simple-prompt")
   )
 
 ;; (setq interprogram-cut-function 'copy-from-ubuntu)
-;; (setq interprogram-paste-function 'paste-to-ubuntu)
 (setq x-select-enable-clipboard t)
 (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
-
-(autoload 'markdown-mode "markdown-mode"
-   "Major mode for editing Markdown files" t)
-   (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
-   (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-   (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 (setq message-kill-buffer-on-exit t)
 
@@ -238,32 +226,18 @@ python-shell-interpreter-args "-i --simple-prompt")
 ;; The default linux theme is appalling -- replace
 (load-theme 'tango-dark)
 
-;; CUA OS copypasta even in ncurses mode
+;; CUA OS copypaste even in ncurses mode
 (progn
-                (setq x-select-enable-clipboard t)
-                (defun xsel-cut-function (text &optional push)
-                  (with-temp-buffer
-                    (insert text)
-                    (call-process-region (point-min) (point-max) "xsel" nil 0 nil "--clipboard" "--input")))
-                (defun xsel-paste-function()
+  (setq x-select-enable-clipboard t)
+  (defun xsel-cut-function (text &optional push)
+    (with-temp-buffer
+      (insert text)
+      (call-process-region (point-min) (point-max) "xsel" nil 0 nil "--clipboard" "--input")))
+  (defun xsel-paste-function()
 
-                  (let ((xsel-output (shell-command-to-string "xsel --clipboard --output")))
-                    (unless (string= (car kill-ring) xsel-output)
-                      xsel-output )))
-                (setq interprogram-cut-function 'xsel-cut-function)
-                (setq interprogram-paste-function 'xsel-paste-function))
-		
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages
-   (quote
-    (bash-completion gnu-elpa-keyring-update elpy magit git markdown-mode csv-mode shell-here auctex use-package))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+    (let ((xsel-output (shell-command-to-string "xsel --clipboard --output")))
+      (unless (string= (car kill-ring) xsel-output)
+	xsel-output )))
+  (setq interprogram-cut-function 'xsel-cut-function)
+  (setq interprogram-paste-function 'xsel-paste-function))
+

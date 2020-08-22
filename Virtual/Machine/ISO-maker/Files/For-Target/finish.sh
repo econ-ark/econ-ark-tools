@@ -1,4 +1,7 @@
 #!/bin/bash
+# start.sh installs GUI then reboots;
+# finish automatically starts with newly-installed GUI
+
 # define download function
 # courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
 download()
@@ -19,31 +22,25 @@ export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
 sudo apt -y install meld autocutsel ca-certificates 
-# The cups service sometimes gets stuck; stop (one hopes) it before that happens
-sudo systemctl stop cups-browsed.service 
+
+# The cups service sometimes gets stuck; stop it before that happens
+sudo systemctl stop    cups-browsed.service 
 sudo systemctl disable cups-browsed.service
 
-sudo apt -y install software-properties-common # Google it -- manage software like dbus 
+sudo apt -y install software-properties-common # Manage software like dbus 
 
 # Useful default tools 
 sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils
 
 # Make a home for econ-ark in /usr/local/share/data and link to it from home directory
-mkdir -p /home/econ-ark/GitHub ; ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
+mkdir -p /home/econ-ark/GitHub
+mkdir -p          /root/GitHub
+
+# Always get to econ-ark via ~/econ-ark
+ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
+ln -s /usr/local/share/data/GitHub/econ-ark /root/econ-ark/GitHub/econ-ark
 chown -Rf econ-ark:econ-ark /home/econ-ark/GitHub
 chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
-
-# define download function
-# courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
-download()
-{
-    local url=$1
-    #    echo -n "    "
-    wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
-        sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
-    #    echo -ne "\b\b\b\b"
-    #    echo " DONE"
-}
 
 myuser="econ-ark"
 mypass="kra-noce"
@@ -66,7 +63,7 @@ done
 #   settings are not changed
 # For xfce4-screensaver, unable to find a way programmatically to change
 # so must change them by hand
-sudo apt -y remove  xscreensaver
+# sudo apt -y remove  xscreensaver
 
 # Play nice with Macs ASAP (in hopes of being able to monitor it)
 sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
@@ -198,9 +195,6 @@ git clone https://github.com/econ-ark/DemARK.git
 git clone https://github.com/econ-ark/econ-ark-tools.git
 chmod a+rw -Rf /usr/local/share/data/GitHub/econ-ark
 
-mkdir -p /home/econ-ark/GitHub
-ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
-
 echo 'This is your local, personal copy of HARK; it is also installed systemwide.  '    >  HARK-README.md
 echo 'Local mods will not affect systemwide, unless you change the default source via:' >> HARK-README.md
 echo "   cd $arkHOME ;  pip install -e setup.py "  >> HARK-README.md
@@ -266,7 +260,12 @@ sudo apt install /var/local/google-chrome-stable_current_amd64.deb
 
 chown -Rf $myuser:$myuser /home/$myuser/
 
+sudo apt -y update && sudo apt -y upgrade  # bring system up to date
 
-sudo apt -y update && sudo apt -y upgrade
+touch /var/local/finished-software-install # Signal that we've finished software install
+
+rm /etc/cron.hourly/jobs.deny              # Restore cron and anacron 
+
+sudo systemctl enable cups-browsed.service # Restore printer services
 
 reboot
