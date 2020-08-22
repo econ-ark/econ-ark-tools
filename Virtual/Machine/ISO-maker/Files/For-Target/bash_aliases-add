@@ -50,9 +50,9 @@ if [[ ! -e /var/local/finished-software-install ]]; then
     exit
 fi
 
-# The first time the user logs in after the software is installed,
+# First time the user logs in to a graphical environment after the software is installed,
 # Set their preferences
-if [[ ! -e /home/econ-ark/.firstboot ]]; then
+if [[ ! -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
     # Don't shut screen down very fast 
     xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac --set 1200
     xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled --set false
