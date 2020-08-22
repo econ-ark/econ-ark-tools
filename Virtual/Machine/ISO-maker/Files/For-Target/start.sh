@@ -101,11 +101,6 @@ sudo groupadd --system nopasswdlogin
 sudo adduser  econ-ark nopasswdlogin
 sudo gpasswd -a econ-ark nopasswdlogin
 
-if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin
-    sed -i '1 a\
-auth    sufficient      pam_succeed_if.so econ-ark ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
-fi
-
 wget -O  /var/local/bash_aliases-add $online/bash_aliases-add
 
 # add stuff to always execute for interactive login (if not there already)
@@ -131,6 +126,11 @@ echo "set shared/default-x-display-manager lightdm" | debconf-communicate
 # # Tell it to use lightdm without asking the user 
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
+
+if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin
+    sed -i '1 a\
+auth    sufficient      pam_succeed_if.so econ-ark ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
+fi
 
 cp       /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
 cp       /var/local/Econ-ARK-Logo-1536x768.png    /usr/share/xfce4/backdrops
