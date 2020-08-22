@@ -7,29 +7,28 @@ size="MAX"
 hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
 hostname "$hostdate"
 
-exit
-FLAG="/var/log/firstboot.log"
-if [ ! -f $FLAG ]; then
-    # Do stuff that should be done before autologin of first user
-    set -x ; set -v ; /var/local/start.sh  |& tee /var/local/start.log |& tee /var/local/start-and-finish.log        
+# FLAG="/var/log/firstboot.log"
+# if [ ! -f $FLAG ]; then
+#     # Do stuff that should be done before autologin of first user
+#     set -x ; set -v ; /var/local/start.sh  |& tee /var/local/start.log |& tee /var/local/start-and-finish.log        
 
-    # create an empty 'signal' file so the if will fail after the first boot
-    touch "$FLAG"
-    exit
-    reboot
-else # Not the first boot
-    FLAG2="/var/log/secondboot.log" 
-    if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
-	# Launch remainder as a background process so econ-ark user can autologin
-	(set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log ) & 
+#     # create an empty 'signal' file so the if will fail after the first boot
+#     touch "$FLAG"
+#     reboot
+# else # Not the first boot
+#     FLAG2="/var/log/secondboot.log" 
+#     if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
+# 	# Launch remainder as a background process so econ-ark user can autologin
+# 	(set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log ) & 
 	
-	# create an empty 'signal' file so the if will fail after the first boot
-	touch "$FLAG2"
+# 	# create an empty 'signal' file so the if will fail after the first boot
+# 	touch "$FLAG2"
 
-	# Restore cron jobs so they will run in background on next boot
-	# (They were disabled in start.sh because they take forever and delay the first boot inordinately)
-	sudo rm /etc/cron.hourly/jobs.deny
-    fi
-fi
+# 	# Restore cron jobs so they will run in background on next boot
+# 	# (They were disabled in start.sh because they take forever and delay the first boot inordinately)
+# 	sudo rm /etc/cron.hourly/jobs.deny
+#     fi
+# fi
 
-sudo systemctl restart avahi-daemon
+# sudo systemctl restart avahi-daemon
+
