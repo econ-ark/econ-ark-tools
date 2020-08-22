@@ -58,8 +58,8 @@ sudo apt -y install emacs
 
 wget -O  /var/start/dotemacs                                          $online/dotemacs
 
-[[ -e /home/econ-ark/.emacs ]] && [[ rm -f /home/ark/.emacs ]]
-[[ -e          /root/.emacs ]] && [[ rm -f      root/.emacs ]]
+[[ -e /home/econ-ark/.emacs ]] && rm -f /home/ark/.emacs
+[[ -e          /root/.emacs ]] && rm -f      root/.emacs 
 
 ln -s /home/econ-ark/.emacs /var/local/dotemacs 
 ln -s /root/.emacs         /var/local/dotemacs
