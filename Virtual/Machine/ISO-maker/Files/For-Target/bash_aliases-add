@@ -45,7 +45,9 @@ if [[ "$(which autocutsel)" != "" ]]; then
     fi
 fi
 
-# The first time the user has logged in, set preferences 
+if [[ ! -e /var/local/secondboot.log ]]; 
+# The first time the user logs in after the software is installed,
+# Set their preferences
 if [[ ! -e /home/econ-ark/.firstboot ]]; then
     # Don't shut screen down very fast 
     xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac --set 1200
@@ -61,7 +63,7 @@ if [[ ! -e /home/econ-ark/.firstboot ]]; then
 	sleep 1
     done
 
-    monitorPath="/backdrop/screen0/monitor$monitor/workspace0/last-image"
+    monitorPath="/backdrop/screen0/monitor$monitor/workspace0"
 
     xfconf-query --channel xfce4-desktop --property "$monitorPath/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
     xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style" --set 4 # Scaling
