@@ -47,7 +47,7 @@ fi
 
 # If software install has not finished, do not run rest of script
 if [[ ! -e /var/local/finished-software-install ]]; then
-    exit
+    return
 fi
 
 # First time the user logs in to a graphical environment after the software is installed,
