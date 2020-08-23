@@ -81,7 +81,8 @@ if [[ ! -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
 	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
     fi
 
-    xfconf-query 
+    cmd="$(xfconf-query --channel xfce4-session --property /shutdown/LockScreen)"
+    echo "cmd=$cmd"
     LockScreenExists="$(xfconf-query --channel xfce4-session --property /shutdown/LockScreen)"
     xfconf-query --channel xfce4-session --property /shutdown/LockScreen 2>&1 /dev/null # If it does not exist redirect error
     shutdownLockscreenCode="$?"
