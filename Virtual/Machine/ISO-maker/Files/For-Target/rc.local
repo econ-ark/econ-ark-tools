@@ -18,6 +18,10 @@ if [ ! -f $FLAG ]; then
 
     # create an empty 'signal' file so the if will fail after the first boot
     touch "$FLAG"
+    # On some systems, xfce4-power-manager causes a crash if you don't quit it before reboot 
+    xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list)"
+    xfce4powermanagerexistsCode="$?"
+    [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
     reboot
 else # Not the first boot
     FLAG2="/var/log/secondboot.log" 
@@ -31,6 +35,10 @@ else # Not the first boot
 	# Restore cron jobs so they will run in background on next boot
 	# (They were disabled in start.sh because they take forever and delay the first boot inordinately)
 	sudo rm /etc/cron.hourly/jobs.deny
+        # On some systems, xfce4-power-manager causes a crash if you don't quit it before reboot 
+	xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list)"
+	xfce4powermanagerexistsCode="$?"
+	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
     fi
 fi
 
