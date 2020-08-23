@@ -159,8 +159,8 @@ chown $myuser:$myuser /home/econ-ark/.emacs
 # Confusing to have this in two places; leave the one in /etc/lightdm
 [[ -e /usr/share/lightdm/lightdm-gtk-greeter.conf.d ]] && rm -Rf /usr/share/lightdm/lightdm-gtk-greeter.conf.d
 
-# # Don't configure for ubuntu at all
-# [[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && rm -f /usr/share/lightdm/lightdm-gtk-greeter.conf.d/50-ubuntu.conf
+# Don't create ubuntu session
+[[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && rm -f /usr/share/lightdm/lightdm-gtk-greeter.conf.d/50-ubuntu.conf
 
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
