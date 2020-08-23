@@ -247,11 +247,12 @@ if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS
     echo "cmd=$cmd"
     eval "$cmd"
     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS  # Mount the new partition in /tmp/refind-HFS
-    sudo cp /var/local/refind-install-MacOS.sh  /tmp/refind-HFS    # Put refind script on the partition
-    sudo cp /var/local/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns  # Should endow the installer with Econ-ARK logo
-    sudo cp /var/local/Econ-ARK.VolumeIcon.icns /tmp/refind-HFS/.VolumeIcon.icns # Should endow the HFS+ volume with the Econ-ARK logo
-    sudo chmod a+x /tmp/refind-HFS/*.sh
-    sudo wget -O  /tmp/refind-HFS/.VolumeIcon.icns  https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/VirtualBox/ISO-maker/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
+    sudo cp /var/local/refind-install-MacOS.sh    /tmp/refind-HFS      # Put refind script on the partition
+    sudo chmod a+x                                /tmp/refind-HFS/*.sh # make it executable
+    sudo cp /var/local/Econ-ARK.VolumeIcon.icns   /tmp/refind-HFS/.VolumeIcon.icns # Should endow the HFS+ volume with the Econ-ARK logo
+    echo  "$online/Disk/Icons/.VolumeIcon.icns" > /tmp/refind-HFS/.VolumeIcon_icns.source
+#    sudo wget -O  /tmp/refind-HFS/.VolumeIcon.icns "$online/Disk/Icons/os_refit.icns" 
+#    echo  "$online/Disk/Icons/os_refit.icns" >   /tmp/refind-HFS/.VolumeIcon_icns.source
     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
