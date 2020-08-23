@@ -38,7 +38,7 @@ mkdir -p          /root/GitHub
 
 # Always get to econ-ark via ~/econ-ark
 ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
-ln -s /usr/local/share/data/GitHub/econ-ark /root/econ-ark/GitHub/econ-ark
+ln -s /usr/local/share/data/GitHub/econ-ark          /root/GitHub/econ-ark
 chown -Rf econ-ark:econ-ark /home/econ-ark/GitHub
 chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
 
@@ -73,7 +73,7 @@ mkdir -p /etc/avahi/
 wget -O  /etc/avahi $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
 cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 #systemctl disable systemd-resolved.service
-avahi-daemon --reload
+#avahi-daemon --reload
 
 # Get misc other stuff 
 refindFile="refind-install-MacOS.sh"

@@ -54,7 +54,7 @@ fi
 sudo apt -y install emacs
 
 # 
-wget -O  /var/start/dotemacs                                          $online/dotemacs
+wget -O  /var/local/dotemacs                                          $online/dotemacs
 
 [[ -e /home/econ-ark/.emacs ]] && rm -f /home/econ-ark/.emacs
 [[ -e          /root/.emacs ]] && rm -f           root/.emacs 
@@ -62,6 +62,7 @@ wget -O  /var/start/dotemacs                                          $online/do
 ln -s /var/local/dotemacs /home/econ-ark/.emacs
 ln -s /var/local/dotemacs /root/.emacs
 
+# Document, in /var/local, where its content is used
 ln -s /home/econ-ark/.emacs /var/local/dotemacs-home 
 ln -s /root/.emacs          /var/local/dotemacs-root
 
@@ -87,17 +88,18 @@ sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-
 sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 
 sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  # do emacs first-time setup
-sudo                 emacs -batch -l              /root/.emacs  # do emacs first-time setup
+[[ -e /root/.emacs.d ]] && rm -Rf /root/.emacs.d ]]
+ln -s /home/$myuser/.emacs.d /home/$myuser/.emacs.d
 
 wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
 wget -O  /var/local/Econ-ARK-Logo-1536x768.png    $online/Econ-ARK-Logo-1536x768.png
 
-myuser=econ-ark
-sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
-sudo chown $myuser:$myuser /home/$myuser/.config/autostart
-
 # Allow user to control networking 
 sudo adduser  econ-ark netdev
+
+# Set up automatic login
+sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
+sudo chown $myuser:$myuser /home/$myuser/.config/autostart
 
 # Allow autologin (as far as unix is concerned)
 sudo groupadd --system autologin
@@ -132,7 +134,13 @@ DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.*
 echo "set shared/default-x-display-manager lightdm" | debconf-communicate 
 
 # # Tell it to use lightdm without asking the user 
-# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
+
+sudo apt-get remove gdm3     # Get rid of gnome 
+sudo apt-get remove numlockx
+
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
 
 if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin
