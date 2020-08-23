@@ -77,7 +77,7 @@ chown "$myuser:$myuser" /home/$myuser/.emacs
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 
 [[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && sudo chown "$myuser:$myuser" /home/$myuser/.emacs.d
-[[ ! -e /root/.emacs.d ]] && mkdir /root/.emacs.d
+[[ -e /root/.emacs.d ]] && rm -Rf /root/.emacs.d
 
 sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
 sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
@@ -92,9 +92,11 @@ sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-
 sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 
 sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  # do emacs first-time setup
-[[ -e /root/.emacs.d ]] && rm -Rf /root/.emacs.d ]]
-ln -s /home/$myuser/.emacs.d /home/$myuser/.emacs.d
 
+# Don't install the packages twice
+[[ -e /root/.emacs.d ]] && rm -Rf /root/.emacs.d
+ln -s /home/$myuser/.emacs.d /root/.emacs.d
+						   
 # Allow user to control networking 
 sudo adduser  econ-ark netdev
 
