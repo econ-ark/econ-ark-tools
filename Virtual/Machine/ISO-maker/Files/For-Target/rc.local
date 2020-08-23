@@ -1,14 +1,14 @@
 #!/bin/bash
 # https://askubuntu.com/questions/156771/run-a-script-only-at-the-very-first-boot
 
-DATE="$(stat -c %z /proc)"
-size="MAX"
-[[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
-hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
-hostname "$hostdate"
+# DATE="$(stat -c %z /proc)"
+# size="MAX"
+# [[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
+# hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
+# hostname "$hostdate"
 
-systemctl disable systemd-resolved.service
-avahi-daemon --reload
+# systemctl disable systemd-resolved.service
+# avahi-daemon --reload
 
 
 FLAG="/var/log/firstboot.log"
