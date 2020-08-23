@@ -28,6 +28,10 @@ online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual
 
 # sudo apt-get --assume-yes install refind
 
+# Enable error reports 
+apt -y install rpl
+rpl "        'problem_types': ['Bug', 'Package']," "#       'problem_types': ['Bug', 'Package']," /etc/apport/crashdb.conf
+
 update-grub
 
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.*  sudo refind-install --yes
@@ -91,9 +95,6 @@ sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  # do emacs first
 [[ -e /root/.emacs.d ]] && rm -Rf /root/.emacs.d ]]
 ln -s /home/$myuser/.emacs.d /home/$myuser/.emacs.d
 
-wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
-wget -O  /var/local/Econ-ARK-Logo-1536x768.png    $online/Econ-ARK-Logo-1536x768.png
-
 # Allow user to control networking 
 sudo adduser  econ-ark netdev
 
@@ -146,19 +147,44 @@ if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added
 auth    sufficient      pam_succeed_if.so econ-ark ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
 fi
 
-cp       /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
-cp       /var/local/Econ-ARK-Logo-1536x768.png    /usr/share/xfce4/backdrops
+wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
+#wget -O  /var/local/Econ-ARK-Logo-1536x768.png    $online/Econ-ARK-Logo-1536x768.png
+#cp       /var/local/Econ-ARK-Logo-1536x768.png    /usr/share/xfce4/backdrops
+
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
 # So just replace the default image with the one we want 
-rm -f                                                       /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
+rm -f                                                       /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
+
 ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
-mkdir -p /usr/share/lightdm/lightdm.conf.d
 
-wget -O  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
-wget -O  /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  # autologin econ-ark 
-wget -O  /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf           $online/root/etc/lightdm/lightdm-gtk-greeter.conf
+# Document, in /var/local, where its content is used
+ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ-ARK-Logo-1536x768-target.jpg
 
-wget -O  /home/econ-ark/.dmrc                                           $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
+# Move but preserve the original versions
+mv       /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf-orig
+mv       /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf-orig
+mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf-orig   # Do not start ubuntu at all
+
+# Make room for the local source
+mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
+mkdir -p /var/local/root/etc/lightdm.conf.d
+mkdir -p /var/local/root/home/econ-ark
+
+# Put in both /var/local and in target 
+wget -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
+wget -O                 /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
+wget -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+wget -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+
+wget -O  /var/local/root/etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf          $online/root/etc/lightdm/lightdm-gtk-greeter.conf
+wget -O                 /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf          $online/root/etc/lightdm/lightdm-gtk-greeter.conf
+
+wget -O  /var/local/root/home/econ-ark/.dmrc                                          $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
+wget -O                 /home/econ-ark/.dmrc                                          $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
+
+wget -O  /var/local/root/home/econ-ark/.xscreensaver                                  $online/xscreensaver
+wget -O                 /home/econ-ark/.xscreensaver                                  $online/xscreensaver
+
 chown $myuser:$myuser /home/econ-ark/.dmrc
 wget -O  /home/econ-ark/.xscreensaver                                   $online/xscreensaver
 chown $myuser:$myuser /home/econ-ark/.xscreensaver                      # session-name xubuntu
@@ -169,7 +195,7 @@ chown $myuser:$myuser /home/econ-ark/.xscreensaver                      # sessio
 # Don't create ubuntu session
 [[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && rm -f /usr/share/lightdm/lightdm-gtk-greeter.conf.d/50-ubuntu.conf
 
-sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
+sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager  # just to be sure 
 
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
 [Desktop Entry]
