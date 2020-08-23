@@ -80,6 +80,8 @@ if [[ ! -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
 	# so create it 
 	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
     fi
+
+    xfconf-query 
     LockScreenExists="$(xfconf-query --channel xfce4-session --property /shutdown/LockScreen)"
     xfconf-query --channel xfce4-session --property /shutdown/LockScreen 2>&1 /dev/null # If it does not exist redirect error
     shutdownLockscreenCode="$?"
@@ -88,6 +90,7 @@ if [[ ! -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
     xfce4powermanagerexistsCode="$?"
     [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
     touch /home/econ-ark/.firstboot
+    return
 fi
 
 if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
@@ -97,6 +100,7 @@ if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
 	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac --set 1200
 	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled --set false
 	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false
+        xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled                  --set false  # Display power mgt
 	LockScreenExists="$(xfconf-query --channel xfce4-session --property /shutdown/LockScreen)"
 	xfconf-query --channel xfce4-session --property /shutdown/LockScreen 2>&1 /dev/null # If it does not exist redirect error
 	shutdownLockscreenCode="$?"
@@ -104,6 +108,7 @@ if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
 	xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list)"
 	xfce4powermanagerexistsCode="$?"
 	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
+
 	touch /home/econ-ark/.secondboot
 	reboot
     fi
