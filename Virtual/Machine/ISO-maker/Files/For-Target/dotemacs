@@ -241,3 +241,5 @@ The return value is the new value of LIST-VAR."
   (setq interprogram-cut-function 'xsel-cut-function)
   (setq interprogram-paste-function 'xsel-paste-function))
 
+;; Prevent emacs search from wrapping from bottom back to top
+(setq isearch-wrap-function '(lambda nil))

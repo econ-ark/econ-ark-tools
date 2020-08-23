@@ -162,8 +162,6 @@ wget -O  /home/econ-ark/.dmrc                                           $online/
 chown $myuser:$myuser /home/econ-ark/.dmrc
 wget -O  /home/econ-ark/.xscreensaver                                   $online/xscreensaver
 chown $myuser:$myuser /home/econ-ark/.xscreensaver                      # session-name xubuntu
-wget -O  /home/econ-ark/.emacs                                          $online/dotemacs
-chown $myuser:$myuser /home/econ-ark/.emacs
 
 # Confusing to have this in two places; leave the one in /etc/lightdm
 [[ -e /usr/share/lightdm/lightdm-gtk-greeter.conf.d ]] && rm -Rf /usr/share/lightdm/lightdm-gtk-greeter.conf.d
