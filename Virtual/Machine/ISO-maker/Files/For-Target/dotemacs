@@ -144,7 +144,7 @@ The return value is the new value of LIST-VAR."
 
 ;; Make sure auctex and preview-latex are loaded whenever emacs gets launched, so that customizations below can be done
 (load "auctex.el" nil t t)
-(load "preview-latex.el" nil t t)
+;; (load "preview-latex.el" nil t t)
 
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)

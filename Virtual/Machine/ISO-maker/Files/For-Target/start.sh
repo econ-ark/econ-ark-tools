@@ -17,9 +17,9 @@ download()
 
 set -x
 set -v
-# # export DEBCONF_DEBUG=.*
-# # export DEBIAN_FRONTEND=noninteractive
-# # export DEBCONF_NONINTERACTIVE_SEEN=true
+export DEBCONF_DEBUG=.*
+export DEBIAN_FRONTEND=noninteractive
+export DEBCONF_NONINTERACTIVE_SEEN=true
 
 myuser="econ-ark"
 mypass="kra-noce"
@@ -48,9 +48,9 @@ sudo apt -y install gpg # Set up security for emacs package downloading
 
 # Create a public key for security purposes
 if [[ ! -e /home/$myuser/.ssh ]]; then
-    mkdir -p /home/$myuser/.ssh
-    chown $myuser:$myuser /home/$myuser/.ssh
-    chmod 700 /home/$myuser/.ssh
+    sudo mkdir -p /home/$myuser/.ssh
+    sudo chown $myuser:$myuser /home/$myuser/.ssh
+    sudo chmod 700 /home/$myuser/.ssh
     sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh/id_rsa
 fi    
 
@@ -58,21 +58,21 @@ fi
 sudo apt -y install emacs
 
 # 
-wget -O  /var/local/dotemacs                                          $online/dotemacs
+sudo wget -O  /var/local/dotemacs                                          $online/dotemacs
 
-[[ -e /home/econ-ark/.emacs ]] && rm -f /home/econ-ark/.emacs
-[[ -e          /root/.emacs ]] && rm -f           root/.emacs 
+[[ -e /home/econ-ark/.emacs ]] && sudo rm -f /home/econ-ark/.emacs
+[[ -e          /root/.emacs ]] && sudo rm -f           root/.emacs 
 
-ln -s /var/local/dotemacs /home/econ-ark/.emacs
-ln -s /var/local/dotemacs /root/.emacs
+sudo ln -s /var/local/dotemacs /home/econ-ark/.emacs
+sudo ln -s /var/local/dotemacs /root/.emacs
 
 # Document, in /var/local, where its content is used
-ln -s /home/econ-ark/.emacs /var/local/dotemacs-home 
-ln -s /root/.emacs          /var/local/dotemacs-root
+sudo ln -s /home/econ-ark/.emacs /var/local/dotemacs-home 
+sudo ln -s /root/.emacs          /var/local/dotemacs-root
 
-chown "root:root" /root/.emacs
-chmod a+rwx /home/$myuser/.emacs
-chown "$myuser:$myuser" /home/$myuser/.emacs
+sudo chown "root:root" /root/.emacs
+sudo chmod a+rwx /home/$myuser/.emacs
+sudo chown "$myuser:$myuser" /home/$myuser/.emacs
 
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 
@@ -94,8 +94,8 @@ sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-
 sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  # do emacs first-time setup
 
 # Don't install the packages twice
-[[ -e /root/.emacs.d ]] && rm -Rf /root/.emacs.d
-ln -s /home/$myuser/.emacs.d /root/.emacs.d
+[[ -e /root/.emacs.d ]] && sudo rm -Rf /root/.emacs.d
+sudo ln -s /home/$myuser/.emacs.d /root/.emacs.d
 						   
 # Allow user to control networking 
 sudo adduser  econ-ark netdev
@@ -117,13 +117,13 @@ sudo gpasswd -a econ-ark nopasswdlogin
 wget -O  /var/local/bash_aliases-add $online/bash_aliases-add
 
 # add stuff to always execute for interactive login (if not there already)
-if ! grep -q econ-ark /home/econ-ark/.bash_aliases; then # Econ-ARK additions are not there yet
-    echo "# econ-ark additions to bash_aliases start here" >> /home/econ-ark/.bash_aliases
-    cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
-    chmod a+x /home/econ-ark/.bash_aliases
-    chown econ-ark:econ-ark /home/econ-ark/.bash_aliases
-    cat /var/local/bash_aliases-add >> /root/.bash_aliases
-    chmod a+x /root/.bash_aliases
+if ! grep -q econ-ark /home/econ-ark/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
+    sudo echo "# econ-ark additions to bash_aliases start here" >> /home/econ-ark/.bash_aliases
+    sudo cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
+    sudo chmod a+x /home/econ-ark/.bash_aliases
+    sudo chown econ-ark:econ-ark /home/econ-ark/.bash_aliases
+    sudo cat /var/local/bash_aliases-add >> /root/.bash_aliases
+    sudo chmod a+x /root/.bash_aliases
 fi
 
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
@@ -132,73 +132,76 @@ sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 
 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version
+sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version
 
-echo "set shared/default-x-display-manager lightdm" | debconf-communicate 
+sudo echo "set shared/default-x-display-manager lightdm" | DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* debconf-communicate 
 
-sudo apt-get purge ubuntu-gnome-desktop
-sudo apt-get purge gnome-shell
-sudo apt-get purge gdm3     # Get rid of gnome 
-sudo apt-get purge numlockx
-sudo apt-get purge --auto-remove ubuntu-gnome-desktop
+sudo apt-get -y purge ubuntu-gnome-desktop
+sudo apt-get -y purge gnome-shell
+sudo apt-get -y purge --auto-remove ubuntu-gnome-desktop
+sudo apt-get -y purge gdm3     # Get rid of gnome 
+sudo apt-get -y purge numlockx
+sudo apt-get -y autoremove
 
 # # Tell it to use lightdm without asking the user 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
+sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
+sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4
+sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
 
 if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin
-    sed -i '1 a\
+    sudo sed -i '1 a\
 auth    sufficient      pam_succeed_if.so econ-ark ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
 fi
 
-wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
+sudo wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
 #wget -O  /var/local/Econ-ARK-Logo-1536x768.png    $online/Econ-ARK-Logo-1536x768.png
 #cp       /var/local/Econ-ARK-Logo-1536x768.png    /usr/share/xfce4/backdrops
 
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
 # So just replace the default image with the one we want 
-rm -f                                                       /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
+sudo rm -f                                                       /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
 
-ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
+sudo ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
 
 # Document, in /var/local, where its content is used
-ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ-ARK-Logo-1536x768-target.jpg
+sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ-ARK-Logo-1536x768-target.jpg
 
 # Move but preserve the original versions
-mv       /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf-orig
-mv       /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf-orig
-mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf-orig   # Do not start ubuntu at all
+#sudo mv       /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf-orig
+sudo mv       /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf-orig
+sudo mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf-orig   # Do not start ubuntu at all
 
 # Make room for the local source
-mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
-mkdir -p /var/local/root/etc/lightdm.conf.d
-mkdir -p /var/local/root/home/econ-ark
+sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
+sudo mkdir -p /var/local/root/etc/lightdm.conf.d
+sudo mkdir -p /var/local/root/home/econ-ark
 
 # Put in both /var/local and in target 
-wget -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
-wget -O                 /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
-wget -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
-wget -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+#sudo wget -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
+#sudo wget -O                 /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf $online/root/usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf
+sudo wget -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+sudo wget -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 
-wget -O  /var/local/root/etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf          $online/root/etc/lightdm/lightdm-gtk-greeter.conf
-wget -O                 /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf          $online/root/etc/lightdm/lightdm-gtk-greeter.conf
+sudo wget -O  /var/local/root/etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf          $online/root/etc/lightdm/lightdm-gtk-greeter.conf
+sudo wget -O                 /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf          $online/root/etc/lightdm/lightdm-gtk-greeter.conf
 
-wget -O  /var/local/root/home/econ-ark/.dmrc                                          $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
-wget -O                 /home/econ-ark/.dmrc                                          $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
+sudo rm /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf
 
-wget -O  /var/local/root/home/econ-ark/.xscreensaver                                  $online/xscreensaver
-wget -O                 /home/econ-ark/.xscreensaver                                  $online/xscreensaver
+sudo wget -O  /var/local/root/home/econ-ark/.dmrc                                          $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
+sudo wget -O                 /home/econ-ark/.dmrc                                          $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
 
-chown $myuser:$myuser /home/econ-ark/.dmrc
-wget -O  /home/econ-ark/.xscreensaver                                   $online/xscreensaver
-chown $myuser:$myuser /home/econ-ark/.xscreensaver                      # session-name xubuntu
+sudo wget -O  /var/local/root/home/econ-ark/.xscreensaver                                  $online/xscreensaver
+sudo wget -O                 /home/econ-ark/.xscreensaver                                  $online/xscreensaver
+
+sudo chown $myuser:$myuser /home/econ-ark/.dmrc
+sudo wget -O  /home/econ-ark/.xscreensaver                                   $online/xscreensaver
+sudo chown $myuser:$myuser /home/econ-ark/.xscreensaver                      # session-name xubuntu
 
 # Confusing to have this in two places; leave the one in /etc/lightdm
-[[ -e /usr/share/lightdm/lightdm-gtk-greeter.conf.d ]] && rm -Rf /usr/share/lightdm/lightdm-gtk-greeter.conf.d
+#[[ -e /usr/share/lightdm/lightdm-gtk-greeter.conf.d ]] && sudo rm -Rf /usr/share/lightdm/lightdm-gtk-greeter.conf.d
 
 # Don't create ubuntu session
-[[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && rm -f /usr/share/lightdm/lightdm-gtk-greeter.conf.d/50-ubuntu.conf
+[[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && sudo rm -f /usr/share/lightdm/lightdm-gtk-greeter.conf.d/50-ubuntu.conf
 
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager  # just to be sure 
 
@@ -225,5 +228,5 @@ sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.deskto
 # reenabled at end of finish.sh
 sudo touch /etc/cron.hourly/jobs.deny       
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
-echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed in rc.local 
+sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed in rc.local 
 
