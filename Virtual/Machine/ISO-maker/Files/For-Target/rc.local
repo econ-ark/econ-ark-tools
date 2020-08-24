@@ -39,6 +39,9 @@ else # Not the first boot
 	xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list)"
 	xfce4powermanagerexistsCode="$?"
 	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
+	sudo apt -y install xfce4
+	sudo apt -y install xubuntu-desktop
+	sudo apt -y install lightdm
     fi
 fi
 
