@@ -24,7 +24,10 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 myuser="econ-ark"
 mypass="kra-noce"
 
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target"
+branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
+branch_name="${branch_name#refs/heads/}"
+
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
 # sudo apt-get --assume-yes install refind
 

@@ -45,7 +45,10 @@ chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be o
 myuser="econ-ark"
 mypass="kra-noce"
 
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker"
+branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
+branch_name="${branch_name#refs/heads/}"
+
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
 
 # Remove the linux automatically created directories like "Music" and "Pictures"
 # Leave only required directories Downloads and Desktop
