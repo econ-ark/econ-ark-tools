@@ -29,8 +29,8 @@ online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual
 # sudo apt-get --assume-yes install refind
 
 # Enable error reports 
-apt -y install rpl
-rpl "        'problem_types': ['Bug', 'Package']," "#       'problem_types': ['Bug', 'Package']," /etc/apport/crashdb.conf
+# apt -y install rpl
+# rpl "        'problem_types': ['Bug', 'Package']," "#       'problem_types': ['Bug', 'Package']," /etc/apport/crashdb.conf
 
 update-grub
 
@@ -40,7 +40,7 @@ update-grub
 sudo apt-get -y install firmware-b43-installer
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server 
+sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server expect
 
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 
@@ -136,8 +136,11 @@ DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.*
 
 echo "set shared/default-x-display-manager lightdm" | debconf-communicate 
 
-sudo apt-get remove gdm3     # Get rid of gnome 
-sudo apt-get remove numlockx
+sudo apt-get purge ubuntu-gnome-desktop
+sudo apt-get purge gnome-shell
+sudo apt-get purge gdm3     # Get rid of gnome 
+sudo apt-get purge numlockx
+sudo apt-get purge --auto-remove ubuntu-gnome-desktop
 
 # # Tell it to use lightdm without asking the user 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
