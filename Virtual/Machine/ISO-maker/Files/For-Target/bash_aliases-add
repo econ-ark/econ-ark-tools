@@ -103,10 +103,10 @@ if [[ ! -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
 	xfce4powermanagerexistsCode="$?"
 	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
 	LockScreenExists="$(xfconf-query --channel xfce4-screensver --property /lock/enabled)"
-	xfconf-query --channel xfce4-screensaver --property /lock/enabled --set --false 2>&1 /dev/null
+	xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false 2>&1 /dev/null
 	lockEnabled="$?"
 	[[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
-	xfconf-query --channel xfce4-screensaver --property /lock/enabled --set --false 2>&1 /dev/null
+	xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false 2>&1 /dev/null
 	lockEnabled="$?"
 	[[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
     return
@@ -129,7 +129,7 @@ if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
 	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
 	LockScreenExists="$(xfconf-query --channel xfce4-screensver --property /lock/enabled)"
 	[[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
-	xfconf-query --channel xfce4-screensaver --property /lock/enabled --set --false 2>&1 /dev/null
+	xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false 2>&1 /dev/null
 	lockEnabled="$?"
 	[[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
 
