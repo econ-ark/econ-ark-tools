@@ -151,7 +151,7 @@ The return value is the new value of LIST-VAR."
 (setq TeX-latex-mode t)
 
 (load "auctex.el" nil t t)
-(load "preview.el" nil t t)
+;; (load "preview.el" nil t t)
 ;; Prevent annoying requirement to choose BibTeX over Biber every time
 (eval-after-load "tex-mode" 
   '(setq TeX-command-list
