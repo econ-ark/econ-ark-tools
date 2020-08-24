@@ -42,5 +42,6 @@ else # Not the first boot
     fi
 fi
 
+sudo rm /var/crash/*blue* # Bluetooth crashes frequently and uselessly
 sudo systemctl restart avahi-daemon
 
