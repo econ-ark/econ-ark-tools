@@ -35,8 +35,6 @@ if [[ "$DISPLAY" != "" ]]; then # there's a GUI interface
 	# Monitor installations on the "finish" script
 	xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch
 	# This should terminate with reboot from end of finish
-    else # software install has not finished but $DISPLAY indicates agui 
-	echo 'In terminal mode -- no GUI but finished-software-install' 
     fi
     touch /home/econ-ark/.firstboot.log 
     return # Finished GUI exists but software finish does not
