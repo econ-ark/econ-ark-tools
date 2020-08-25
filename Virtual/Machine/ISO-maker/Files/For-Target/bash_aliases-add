@@ -1,5 +1,4 @@
 # Econ-ARK customizations for interactive shells
-# Works for MAX
 
 # Get paths that everybody should have 
 [[ -e /etc/environment ]] && source /etc/environment
@@ -89,5 +88,3 @@ if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/lo
     emacs /var/local/XUBUNTARK.md
     
 fi
-
-xfce4-terminal
