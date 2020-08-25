@@ -29,6 +29,7 @@ mypass="kra-noce"
 
 branch_name=master
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
+                       
 
 # sudo apt-get --assume-yes install refind
 
@@ -162,7 +163,9 @@ if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin' /etc/pam.d/lightdm-greeter
 fi
 
-wget -O  /var/local/Econ-ARK.VolumeIcon.icns           $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
+
+# For some reason the pattern for this image doesn't fit the pattern of other files 
+wget -O  /var/local/Econ-ARK.VolumeIcon.icns           https://github.com/econ-ark/econ-ark-tools/raw/master/Virtual/Machine/ISO-maker/Disk/Icons/Econ-ARK.VolumeIcon.icns
 
 sudo wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
 cp       /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
@@ -223,7 +226,7 @@ Encoding=UTF-8
 Type=Application
 Name=xfce4-terminal
 Comment=Terminal
-Exec=xfce4-terminal
+Exec=xfce4-terminal --geometry 80x24-0-0
 OnlyShowIn=XFCE;
 Categories=X-XFCE;X-Xfce-Toplevel;
 StartupNotify=false

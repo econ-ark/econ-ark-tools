@@ -56,13 +56,13 @@ if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/lo
     # Set background to black (rgba1 property, if it exists)
     black="--type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0" 
 
-    # For some bizarre reason, can't use "$black" in the command, so spell it out
-    xfconf-query --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 
+    # For some bizarre reason, can't use "$black" shell variable in the command, so spell it out
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 &> /dev/null
     if [[ $? != 0 ]]; then # the rgb property did not exist - so create it 
 	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
     fi
 
-    touch /home/econ-ark/.secondboot
+    # Turn off ALL the possible ways the screen might get locked -- user can undo this later
     # xfce4-session property /shutdown/LockScreen is one of (far too many) ways to lock the screen
     xfconf-query --channel xfce4-session --property /shutdown/LockScreen 2>&1 /dev/null # Querying its value gives an error if it does not exist
     shutdownLockscreenCode="$?" # If it does NOT exist, the code will be NOT be zero
@@ -75,7 +75,7 @@ if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/lo
     [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
 
     # Properties can be set even if it is not running     
-    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac  --set 9999
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac --set 9999 # a lot of minutes pre-blank!
     xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false &>/dev/null 
     xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled                  --set false &>/dev/null 
 
@@ -84,7 +84,6 @@ if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/lo
     lockEnabled="$?" # If it does not exist, create it 
     [[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
 
-    xfce4-terminal
-    emacs /var/local/XUBUNTARK.md
+    emacs /var/local/XUBUNTARK.md &
     
 fi

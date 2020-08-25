@@ -1,8 +1,12 @@
 # Welcome to the Econ-ARK Xubuntu Virtual Machine
 
-## (='XUBUNTARK-MIN')
+## (='XUBUNTARK-MAX')
 
 This VM contains all the software necessary to use all parts of the Econ-ARK toolkit.
+
+In addition, it contains a rich suite of other software (like LaTeX) widely used 
+in scientific computing, including full installations of Anaconda, scipy, quantecon,
+and more.
 
 Configuration details:
 

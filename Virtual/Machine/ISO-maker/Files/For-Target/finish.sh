@@ -158,6 +158,7 @@ if [[ "$size" == "MIN" ]]; then
     sudo pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
 else
     sudo chmod +x /var/local/finish-MAX-Extras.sh
+    cp /var/local/XUBUNTARK-MAX.md /var/local/XUBUNTARK.md
     sudo /var/local/finish-MAX-Extras.sh
  fi
 
