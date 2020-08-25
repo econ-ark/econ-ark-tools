@@ -31,15 +31,13 @@ if [[ "$DISPLAY" != "" ]]; then # there's a GUI interface
 	# Monitor installations on the "finish" script
 	xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch
 	# This should terminate with reboot from end of finish
-    else
+    else # software install has not finished but $DISPLAY indicates agui 
 	echo 'In terminal mode -- no GUI but finished-software-install' 
     fi
     touch /var/local/firstboot.log 
     return # Finished GUI exists but software finish does not
     # End shell here for what to do with the grid
 fi
-
-# Got here because "$DISPLAY != "" but finished software install
 
 # First time the user logs in to a graphical environment AFTER all software is installed,
 # Set their preferences
@@ -86,7 +84,7 @@ if [[ ! -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
     LockScreenExists="$(xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false &>/dev/null)"
     lockEnabled="$?" # If it does not exist, create it 
     [[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
- 
+    
     touch /home/econ-ark/.firstboot # Signal that first GUI boot user login has succeeded
     reboot
 fi
