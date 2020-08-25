@@ -7,7 +7,7 @@
 if [[ "$(which autocutsel)" != "" ]]; then
     if [[ "$DISPLAY" != "" ]]; then
 #	autocutsel -fork -debug -verbose
-	autocutsel -fork -selection PRIMARY -debug -verbose
+	autocutsel -fork -selection PRIMARY
     fi
 fi
 
@@ -23,9 +23,13 @@ parse_git_branch() {
 }
 export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "
 
+if [[ "$USER" == "root" ]]; then
+    return
+fi
+
 # Stuff to be executed only the first time a user logs into an interactive shell
 if [[ "$DISPLAY" != "" ]]; then # there's a GUI interface
-    if [[ ! -e finished-software-install ]]; then # finish script is still running
+    if [[ ! -e /var/local/finished-software-install ]]; then # finish script is still running
 	# Show the user that stuff is happening
 	xfce4-terminal --geometry 80x12+0+0 --command "echo ; echo The machine is installing more software ; echo It will reboot before it finishes. ; echo Please wait until that reboot before using it."
 	# Monitor installations on the "finish" script

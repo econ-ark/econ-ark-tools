@@ -182,39 +182,57 @@ The return value is the new value of LIST-VAR."
   )
 
 ;; When in X windows graphical mode, sync between emacs kill ring and system clipboard
-(defun copy-from-ubuntu (text &optional push)
-  (interactive)
-  (if (display-graphic-p)
-      (    (if (region-active-p)
-	       (progn
-		 (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
-		 (message "Yanked region to clipboard!")
-		 (deactivate-mark))
-	     (message "No region active; can't yank to clipboard!"
-		      )
-	     )
-	   (progn
-	     (message "Yanked region to x-clipboard!")
-	     (call-interactively 'clipboard-kill-ring-save)
-	     )
-	   )
-    )
-  )
+;; (defun copy-from-ubuntu (text &optional push)
+;;   (interactive)
+;;   (if (display-graphic-p)
+;;       (    (if (region-active-p)
+;; 	       (progn
+;; 		 (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
+;; 		 (message "Yanked region to clipboard!")
+;; 		 (deactivate-mark))
+;; 	     (message "No region active; can't yank to clipboard!"
+;; 		      )
 
-(defun paste-to-ubuntu ()
-  (interactive)
-  (if (display-graphic-p)
-      (progn
-	(clipboard-yank)
-	(message "graphics active")
-	)
-    (insert (shell-command-to-string "xsel -o -b"))
-    )
-  )
+;; 	   (progn
+;; 	     (message "Yanked region to x-clipboard!")
+;; 	     (call-interactively 'clipboard-kill-ring-save)
+;; 	     )
+;; 	   ;; CUA OS copypaste even in ncurses mode
+;; 	   (progn
+;; 	     (setq x-select-enable-clipboard t)
+;; 	     (defun xsel-cut-function (text &optional push)
+;; 	       (with-temp-buffer
+;; 		 (insert text)
+;; 		 (call-process-region (point-min) (point-max) "xsel" nil 0 nil "--clipboard" "--input")))
+;; 	     (defun xsel-paste-function()
 
-;; (setq interprogram-cut-function 'copy-from-ubuntu)
-(setq x-select-enable-clipboard t)
-(setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+;; 	       (let ((xsel-output (shell-command-to-string "xsel --clipboard --output")))
+;; 		 (unless (string= (car kill-ring) xsel-output)
+;; 		   xsel-output )))
+;; 	     (setq interprogram-cut-function 'xsel-cut-function)
+;; 	     (setq interprogram-paste-function 'xsel-paste-function)
+;; 	     )
+;; 	   )
+	   
+;;     )
+    
+;;   (setq interprogram-cut-function 'copy-from-ubuntu)
+;;   )
+
+;; (defun paste-to-ubuntu ()
+;;   (interactive)
+;;   (if (display-graphic-p)
+;;       (progn
+;; 	(clipboard-yank)
+;; 	(message "graphics active")
+;; 	)
+;;     (insert (shell-command-to-string "xsel -o -b"))
+;;     )
+;; )
+
+
+;; (setq x-select-enable-clipboard t)
+;; (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
 (setq message-kill-buffer-on-exit t)
 
@@ -225,21 +243,6 @@ The return value is the new value of LIST-VAR."
 
 ;; The default linux theme is appalling -- replace
 (load-theme 'tango-dark)
-
-;; CUA OS copypaste even in ncurses mode
-(progn
-  (setq x-select-enable-clipboard t)
-  (defun xsel-cut-function (text &optional push)
-    (with-temp-buffer
-      (insert text)
-      (call-process-region (point-min) (point-max) "xsel" nil 0 nil "--clipboard" "--input")))
-  (defun xsel-paste-function()
-
-    (let ((xsel-output (shell-command-to-string "xsel --clipboard --output")))
-      (unless (string= (car kill-ring) xsel-output)
-	xsel-output )))
-  (setq interprogram-cut-function 'xsel-cut-function)
-  (setq interprogram-paste-function 'xsel-paste-function))
 
 ;; Prevent emacs search from wrapping from bottom back to top
 (setq isearch-wrap-function '(lambda nil))
