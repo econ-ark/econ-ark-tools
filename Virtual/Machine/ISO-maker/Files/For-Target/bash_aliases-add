@@ -1,40 +1,6 @@
-# If not already running, launch the vncserver whenever an interactive shell starts
-pgrep x0vncserver > /dev/null
-[[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/$USER/.vnc/passwd >> /dev/null 2>&1 &)
+# Econ-ARK customizations for interactive shells
 
-# Modify prompt to keep track of git branches
-
-parse_git_branch() {
-    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
-}
-
-export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "
-
-# Stuff to be executed only the first time a user logs into an interactive shell
-if [[ "$DISPLAY" != "" ]]; then # a displaymanager is running
-    if [[ "$(pgrep finish.sh)" != "" ]]; then # finish script is still running 
-	xfce4-terminal --geometry 80x12+0+0 --command "echo ; echo The machine is installing more software ; echo It will reboot one more time before it finishes. ; echo Please wait until that reboot before using it."
-	# Monitor installations on the "finish" script
-	xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  
-    fi
-fi
-
-if [ "$(ls -A /var/crash)" ]; then
-    echo ''
-    echo 'The /var/crash directory is not empty.  Its contents are:'
-    echo ''
-    echo 'ls -A /var/crash'
-    echo ''
-    ls -A /var/crash
-    echo ''
-    echo 'Messages about crashes can be cleared by executing the command:'
-    echo ''
-    cmd="sudo rm -f /var/crash/*"
-    echo "$cmd"
-    [[ "$DISPLAY" != "" ]] && echo "$cmd" | xclip -selection clipboard
-    echo ''
-fi
-
+# Get paths that everybody should have 
 [[ -e /etc/environment ]] && source /etc/environment
 
 # Allow cut-and-paste between emacs and shell
@@ -45,21 +11,58 @@ if [[ "$(which autocutsel)" != "" ]]; then
     fi
 fi
 
-# If software install has not finished, do not run rest of script
-if [[ ! -e /var/local/finished-software-install ]]; then
-    return
+# If not already running, launch the vncserver
+# Makes it easier to connect to the VM - if it is on a network you can reach
+
+pgrep x0vncserver > /dev/null # Silence it
+[[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/$USER/.vnc/passwd >> /dev/null 2>&1 &)
+
+# Modify prompt to keep track of git branches
+parse_git_branch() {
+    git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
+}
+export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "
+
+# Stuff to be executed only the first time a user logs into an interactive shell
+if [[ "$DISPLAY" != "" ]]; then # there's a GUI interface
+    if [[ ! -e finished-software-install ]]; then # finish script is still running
+	# Show the user that stuff is happening
+	xfce4-terminal --geometry 80x12+0+0 --command "echo ; echo The machine is installing more software ; echo It will reboot before it finishes. ; echo Please wait until that reboot before using it."
+	# Monitor installations on the "finish" script
+	xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch
+	# This should terminate with reboot from end of finish
+    else # we're in a GUI and software install has finished
+	# One of the secrets of Linux development: Crashes sent to mothership
+        # But, until you clear the crash log, it will nag you to send it ON EVERY BOOT
+        # Unless you delete contents of /var/crash
+	if [[ "$(ls -A /var/crash)" ]]; then
+	    echo ''
+	    echo 'The /var/crash directory is not empty.  Its contents are:'
+	    echo ''
+	    echo 'ls -A /var/crash'
+	    echo ''
+	    ls -A /var/crash
+	    echo ''
+	    echo 'Messages about crashes can be cleared by executing the command:'
+	    echo ''
+	    cmd="sudo rm -f /var/crash/*"
+	    echo "$cmd"
+	    [[ "$DISPLAY" != "" ]] && echo "$cmd" | xclip -selection clipboard
+	    echo ''
+	else
+	    echo 'No crashes have occurred since last boot'
+        fi # we've told the GUI user about the nonempty contents of /var/crash (if any)
+    else
+	echo 'In terminal mode -- no GUI but finised-software-install (should not be true)' 
+    fi
 fi
 
-# First time the user logs in to a graphical environment after the software is installed,
+# First time the user logs in to a graphical environment AFTER all software is installed,
 # Set their preferences
 if [[ ! -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
-    # Don't shut screen down very fast 
-    # xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac --set 1200
-    # xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled --set false
-    # xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false
 
     # Configure backdrop - can't be done in start.sh or finish.sh because dbus not running until GUI is up
-    # Wait until it is up then get the name of the active monitor
+    # Wait until it is up (xrandr finds an active monitor) then get the name of the active monitor
 
     monitor=""  
     while [[ "$monitor" == "" ]] ; do # 
@@ -67,72 +70,62 @@ if [[ ! -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
 	sleep 1
     done
 
-    monitorPath="/backdrop/screen0/monitor$monitor/workspace0"
+    monitorPath="/backdrop/screen0/monitor$monitor/workspace0" # Get the property name of the monitor
 
     xfconf-query --channel xfce4-desktop --property "$monitorPath/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
     xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style" --set 4 # Scaling
 
-    # Set background to black
-
-    xfconf-query --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 > /dev/null 2>&1 # Don't print an error (if one occurs)
-
-    if [[ $? != 0 ]]; then # the rgb property did not exist
-	# so create it 
+    black="--type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0"
+    # Set background to black (rgba1 property, if it exists)
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/rgba1" "$black" &>/dev/null # If error occurs because property does not exist, don't make a fuss"
+    if [[ $? != 0 ]]; then # the rgb property did not exist - so create it 
 	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
     fi
 
-    cmd="$(xfconf-query --channel xfce4-session --property /shutdown/LockScreen)"
-    echo "cmd=$cmd"
-    LockScreenExists="$(xfconf-query --channel xfce4-session --property /shutdown/LockScreen)"
-    xfconf-query --channel xfce4-session --property /shutdown/LockScreen 2>&1 /dev/null # If it does not exist redirect error
-    shutdownLockscreenCode="$?"
-    [[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false
-    xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list)"
-    xfce4powermanagerexistsCode="$?"
+    # xfce4-session property /shutdown/LockScreen is one of (far too many) ways to lock the screen
+    xfconf-query --channel xfce4-session --property /shutdown/LockScreen 2>&1 /dev/null # Querying its value gives an error if it does not exist
+    shutdownLockscreenCode="$?" # If it does NOT exist, the code will be NOT be zero
+    # If it DOES exist set it to zero
+    [[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false 
+
+    # Power manager is another way to lock 
+    xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list)" # Not sure whether it's running now or not
+    xfce4powermanagerexistsCode="$?" # If zero, it is running -- so quit it (because it causes crash error if reboot happens while running)
     [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
-    touch /home/econ-ark/.firstboot
-	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac --set 1200
-	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled --set false
-	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false
-        xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled                  --set false  # Display power mgt
-	LockScreenExists="$(xfconf-query --channel xfce4-session --property /shutdown/LockScreen)"
-	xfconf-query --channel xfce4-session --property /shutdown/LockScreen 2>&1 /dev/null # If it does not exist redirect error
-	shutdownLockscreenCode="$?"
-	[[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false
-	xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list)"
-	xfce4powermanagerexistsCode="$?"
-	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
-	LockScreenExists="$(xfconf-query --channel xfce4-screensver --property /lock/enabled)"
-	xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false 2>&1 /dev/null
-	lockEnabled="$?"
-	[[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
-	xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false 2>&1 /dev/null
-	lockEnabled="$?"
-	[[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
+
+    # Properties can be set even if it is not running     
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac  --set 9999
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled --set false
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false &>/dev/null 
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled                  --set false &>/dev/null 
+
+    LockScreenExists="$(xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false &>/dev/null)"
+    lockEnabled="$?" # If it does not exist, create it 
+    [[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
+ 
+    touch /home/econ-ark/.firstboot # Signal that first GUI boot user login has succeeded
     reboot
 fi
 
-if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then
-    # Don't shut screen down very fast
-    if [[ ! -e /home/econ-ark/.secondboot ]] ; then
-	
-	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac --set 1200
-	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled --set false
-	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false
-        xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled                  --set false  # Display power mgt
-	LockScreenExists="$(xfconf-query --channel xfce4-session --property /shutdown/LockScreen)"
-	xfconf-query --channel xfce4-session --property /shutdown/LockScreen 2>&1 /dev/null # If it does not exist redirect error
-	shutdownLockscreenCode="$?"
-	[[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false
-	xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list)"
-	xfce4powermanagerexistsCode="$?"
-	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
-	LockScreenExists="$(xfconf-query --channel xfce4-screensver --property /lock/enabled)"
-	[[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
-	xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false 2>&1 /dev/null
-	lockEnabled="$?"
-	[[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
+if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then # GUI user has logged in (at least) once 
+    if [[ ! -e /home/econ-ark/.secondboot ]] ; then                    # GUI user has not logged in a second time 
+	# These exist so if you want to modify the firstboot prefs you can - these will last permanently
 
-	touch /home/econ-ark/.secondboot
+	# xfce-power-manager's ways to lock the screen
+	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac  --set 9999  # or something smaller
+	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled --set false # dpms=Display power mgt
+	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false # or true 
+        xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled                  --set false # or true
+
+	# xsession's ways to lock the screen  
+	LockScreenExists="$(xfconf-query --channel xfce4-session --property /shutdown/LockScreen &>/dev/null)"
+	shutdownLockscreenCode="$?" # Will be nonzero if the property does not exist 
+	[[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false # true if you want screen to lock with sleep
+
+	xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false &> /dev/null # --set true if you want to lock
+	lockEnabled="$?"  # if not zero, error means it does not exist 
+	[[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false # --set true if you want to lock
+
+	touch /home/econ-ark/.secondboot # We've finally really finished
     fi
 fi
