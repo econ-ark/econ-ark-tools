@@ -60,6 +60,6 @@ else # Not the first boot
     sudo chmod u+rw  /home/econ-ark/.Xauthority
 fi
 
-sudo rm /var/crash/*blue* # Bluetooth crashes frequently and uselessly
+sudo rm -f /var/crash/*blue* # Bluetooth crashes frequently and uselessly
 sudo systemctl restart avahi-daemon
 
