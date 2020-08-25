@@ -36,7 +36,7 @@ if [[ "$DISPLAY" != "" ]]; then # there's a GUI interface
 	xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch
 	# This should terminate with reboot from end of finish
     fi
-    touch /home/econ-ark/.firstboot.log 
+    touch /home/econ-ark/.firstboot
     return # Finished GUI exists but software finish does not
     # End shell here for what to do with the grid
 fi

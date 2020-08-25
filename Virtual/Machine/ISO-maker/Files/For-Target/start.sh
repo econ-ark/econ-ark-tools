@@ -154,8 +154,15 @@ sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEB
 
 if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin
     sudo sed -i '1 a\
-auth    sufficient      pam_succeed_if.so econ-ark ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
+auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
 fi
+
+if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin
+    sudo sed -i '1 a\
+auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin' /etc/pam.d/lightdm-greeter
+fi
+
+wget -O  /var/local/Econ-ARK.VolumeIcon.icns           $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
 
 sudo wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
 cp       /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
