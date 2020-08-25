@@ -186,8 +186,8 @@ sudo mkdir -p /var/local/root/home/econ-ark
 sudo wget -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 sudo wget -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 
-sudo wget -O  /var/local/root/etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf          $online/root/etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf
-sudo wget -O                 /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf          $online/root/etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf
+sudo wget -O  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
+sudo wget -O                 /etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
 
 # sudo rm /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf
 
