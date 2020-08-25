@@ -24,9 +24,10 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 myuser="econ-ark"
 mypass="kra-noce"
 
-branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
-branch_name="${branch_name#refs/heads/}"
+# branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
+# branch_name="${branch_name#refs/heads/}"
 
+branch_name=master
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
 # sudo apt-get --assume-yes install refind
@@ -172,7 +173,7 @@ sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ
 # Move but preserve the original versions
 #sudo mv       /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf  /usr/share/lightdm/lightdm.conf.d/60-lightdm-gtk-greeter.conf-orig
 sudo mv       /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf-orig
-sudo mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf-orig   # Do not start ubuntu at all
+[[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && sudo mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf-orig   # Do not start ubuntu at all
 
 # Make room for the local source
 sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
