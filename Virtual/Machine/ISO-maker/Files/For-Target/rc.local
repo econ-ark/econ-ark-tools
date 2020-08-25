@@ -1,16 +1,6 @@
 #!/bin/bash
 # https://askubuntu.com/questions/156771/run-a-script-only-at-the-very-first-boot
 
-# DATE="$(stat -c %z /proc)"
-# size="MAX"
-# [[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
-# hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
-# hostname "$hostdate"
-
-# systemctl disable systemd-resolved.service
-# avahi-daemon --reload
-
-
 FLAG="/var/log/firstboot.log"
 if [ ! -f $FLAG ]; then
     # Do stuff that should be done before autologin of first user
@@ -45,6 +35,7 @@ else # Not the first boot
 	[[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
 	hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
 	hostname "$hostdate"
+	echo "$HOSTNAME" > /etc/hostname
 	
 	# Remove any old .Xauthority
 	[[ -e /home/econ-ark/.Xauthority ]] && rm -f /home/econ-ark/.Xauthority
