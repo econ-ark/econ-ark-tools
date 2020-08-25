@@ -158,8 +158,9 @@ auth    sufficient      pam_succeed_if.so econ-ark ingroup nopasswdlogin' /etc/p
 fi
 
 sudo wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
+cp       /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
+
 #wget -O  /var/local/Econ-ARK-Logo-1536x768.png    $online/Econ-ARK-Logo-1536x768.png
-#cp       /var/local/Econ-ARK-Logo-1536x768.png    /usr/share/xfce4/backdrops
 
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
 # So just replace the default image with the one we want 
