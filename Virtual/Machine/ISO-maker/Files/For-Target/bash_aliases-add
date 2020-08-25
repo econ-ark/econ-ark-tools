@@ -31,31 +31,15 @@ if [[ "$DISPLAY" != "" ]]; then # there's a GUI interface
 	# Monitor installations on the "finish" script
 	xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch
 	# This should terminate with reboot from end of finish
-    else # we're in a GUI and software install has finished
-	# One of the secrets of Linux development: Crashes sent to mothership
-        # But, until you clear the crash log, it will nag you to send it ON EVERY BOOT
-        # Unless you delete contents of /var/crash
-	if [[ "$(ls -A /var/crash)" ]]; then
-	    echo ''
-	    echo 'The /var/crash directory is not empty.  Its contents are:'
-	    echo ''
-	    echo 'ls -A /var/crash'
-	    echo ''
-	    ls -A /var/crash
-	    echo ''
-	    echo 'Messages about crashes can be cleared by executing the command:'
-	    echo ''
-	    cmd="sudo rm -f /var/crash/*"
-	    echo "$cmd"
-	    [[ "$DISPLAY" != "" ]] && echo "$cmd" | xclip -selection clipboard
-	    echo ''
-	else
-	    echo 'No crashes have occurred since last boot'
-        fi # we've told the GUI user about the nonempty contents of /var/crash (if any)
     else
-	echo 'In terminal mode -- no GUI but finised-software-install (should not be true)' 
+	echo 'In terminal mode -- no GUI but finished-software-install' 
     fi
+    touch /var/local/firstboot.log 
+    return # Finished GUI exists but software finish does not
+    # End shell here for what to do with the grid
 fi
+
+# Got here because "$DISPLAY != "" but finished software install
 
 # First time the user logs in to a graphical environment AFTER all software is installed,
 # Set their preferences
