@@ -1,4 +1,5 @@
 # Econ-ARK customizations for interactive shells
+# Works for MAX
 
 # Get paths that everybody should have 
 [[ -e /etc/environment ]] && source /etc/environment
@@ -28,84 +29,65 @@ if [[ "$USER" == "root" ]]; then
 fi
 
 # Stuff to be executed only the first time a user logs into an interactive GUI shell
-if [[ "$DISPLAY" != "" ]]; then # there's a GUI interface
-    if [[ ! -e /var/local/finished-software-install ]]; then # finish script is still running
-	# Configure backdrop - can't be done in start.sh or finish.sh because dbus not running until GUI is up
-	# Wait until monitor is up (xrandr finds an active monitor) then get the name of the active monitor
+if [[ "$DISPLAY" != "" ]] && [[ ! -e /var/local/finished-software-install ]]; then
+    # Configure backdrop - can't be done in start.sh or finish.sh because dbus not running until GUI is up
+    # Wait until monitor is up (xrandr finds an active monitor) then get the name of the active monitor
 
-	monitor=""  
-	while [[ "$monitor" == "" ]] ; do # 
-	    monitor="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
-	    sleep 1
-	done
-
-	monitorPath="/backdrop/screen0/monitor$monitor/workspace0" # Get the property name of the monitor
-
-	xfconf-query --channel xfce4-desktop --property "$monitorPath/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-	xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style" --set 4 # Scaling
-
-	# Set background to black (rgba1 property, if it exists)
-	black="--type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0"
-	xfconf-query --channel xfce4-desktop --property "$monitorPath/rgba1" "$black" &>/dev/null # If error occurs because property does not exist, don't make a fuss"
-	if [[ $? != 0 ]]; then # the rgb property did not exist - so create it 
-	    xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" "$black" &>/dev/null
-	fi
-
-	# xfce4-session property /shutdown/LockScreen is one of (far too many) ways to lock the screen
-	xfconf-query --channel xfce4-session --property /shutdown/LockScreen 2>&1 /dev/null # Querying its value gives an error if it does not exist
-	shutdownLockscreenCode="$?" # If it does NOT exist, the code will be NOT be zero
-	# If it DOES exist set it to zero
-	[[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false 
-
-	# Power manager is another way to lock 
-	xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)" # Not sure whether it's running now or not
-	xfce4powermanagerexistsCode="$?" # If zero, it is running -- so quit it (because it causes crash error if reboot happens while running)
-	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
-
-	# Properties can be set even if it is not running     
-	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac  --set 9999
-	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false &>/dev/null 
-	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled                  --set false &>/dev/null 
-
-	# Screensaver is a THIRD way to lock the screen
-	LockScreenExists="$(xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false &>/dev/null)"
-	lockEnabled="$?" # If it does not exist, create it 
-	[[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
-	
-        touch /home/econ-ark/.firstboot # Signal that first GUI boot user login has succeeded
-	
-	# Monitor installations on the "finish" script
-	xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch
-	# This should terminate with reboot from end of finish
-    fi
+    touch /home/econ-ark/.firstboot # Signal that first GUI boot user login has succeeded
+    
+    # Monitor installations on the "finish" script
+    xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch
+    # This should terminate with reboot from end of finish
 fi
 
-# First time the user logs in to a graphical environment AFTER all software is installed,
-# Set their preferences
-# if [[ ! -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]]; then
-#     reboot
-# fi
 
-# if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] ; then # GUI user has logged in (at least) once 
-#     if [[ ! -e /home/econ-ark/.secondboot ]] ; then                    # GUI user has not logged in a second time 
+if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]] && [[ ! -e /home/econ-ark/.secondboot ]]; then
+    touch /home/econ-ark/.secondboot 
+    monitor=""  
+    while [[ "$monitor" == "" ]] ; do # 
+	monitor="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
+	sleep 1
+    done
 
-# 	# These exist so if you want to modify the firstboot prefs you can - these will last permanently
+    monitorPath="/backdrop/screen0/monitor$monitor/workspace0" # Get the property name of the monitor
 
-# 	# xfce-power-manager's ways to lock the screen
-# 	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac  --set 9999  # or something smaller
-# 	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled --set false # dpms=Display power mgt
-# 	xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false # or true 
-#         xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled                  --set false # or true
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style" --set 4 # Scaling
 
-# 	# xsession's ways to lock the screen  
-# 	LockScreenExists="$(xfconf-query --channel xfce4-session --property /shutdown/LockScreen &>/dev/null)"
-# 	shutdownLockscreenCode="$?" # Will be nonzero if the property does not exist 
-# 	[[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false # true if you want screen to lock with sleep
+    # Set background to black (rgba1 property, if it exists)
+    black="--type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0" 
 
-# 	xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false &> /dev/null # --set true if you want to lock
-# 	lockEnabled="$?"  # if not zero, error means it does not exist 
-# 	[[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false # --set true if you want to lock
+    # For some bizarre reason, can't use "$black" in the command, so spell it out
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 
+    if [[ $? != 0 ]]; then # the rgb property did not exist - so create it 
+	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+    fi
 
-# 	touch /home/econ-ark/.secondboot # We've finally really finished - don't run this again
-#     fi
-# fi
+    touch /home/econ-ark/.secondboot
+    # xfce4-session property /shutdown/LockScreen is one of (far too many) ways to lock the screen
+    xfconf-query --channel xfce4-session --property /shutdown/LockScreen 2>&1 /dev/null # Querying its value gives an error if it does not exist
+    shutdownLockscreenCode="$?" # If it does NOT exist, the code will be NOT be zero
+    # If it DOES exist set it to zero
+    [[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false 
+
+    # Power manager is another way to lock 
+    xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)" # Not sure whether it's running now or not
+    xfce4powermanagerexistsCode="$?" # If zero, it is running -- so quit it (because it causes crash error if reboot happens while running)
+    [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
+
+    # Properties can be set even if it is not running     
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac  --set 9999
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false &>/dev/null 
+    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled                  --set false &>/dev/null 
+
+    # Screensaver is a THIRD way to lock the screen
+    LockScreenExists="$(xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false &>/dev/null)"
+    lockEnabled="$?" # If it does not exist, create it 
+    [[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
+
+    xfce4-terminal
+    emacs /var/local/XUBUNTARK.md
+    
+fi
+
+xfce4-terminal
