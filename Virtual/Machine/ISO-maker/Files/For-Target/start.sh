@@ -189,10 +189,10 @@ sudo wget -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf  
 sudo wget -O  /var/local/root/etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf          $online/root/etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf
 sudo wget -O                 /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf          $online/root/etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf
 
-sudo rm /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf
+# sudo rm /etc/lightdm/lightdm.conf.d/lightdm-gtk-greeter.conf
 
-sudo wget -O  /var/local/root/home/econ-ark/.dmrc                                          $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
-sudo wget -O                 /home/econ-ark/.dmrc                                          $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
+# sudo wget -O  /var/local/root/home/econ-ark/.dmrc                                          $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
+# sudo wget -O                 /home/econ-ark/.dmrc                                          $online/root/home/econ-ark/.dmrc                               # session-name xubuntu
 
 sudo wget -O  /var/local/root/home/econ-ark/.xscreensaver                                  $online/xscreensaver
 sudo wget -O                 /home/econ-ark/.xscreensaver                                  $online/xscreensaver
