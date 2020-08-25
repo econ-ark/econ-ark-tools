@@ -31,7 +31,7 @@ fi
 if [[ "$DISPLAY" != "" ]]; then # there's a GUI interface
     if [[ ! -e /var/local/finished-software-install ]]; then # finish script is still running
 	# Show the user that stuff is happening
-	xfce4-terminal --geometry 80x12+0+0 --command "echo ; echo The machine is installing more software ; echo It will reboot before it finishes. ; echo Please wait until that reboot before using it."
+#	xfce4-terminal --geometry 80x12+0+0 --command "echo ; echo The machine is installing more software ; echo It will reboot before it finishes. ; echo Please wait until that reboot before using it."
 	# Monitor installations on the "finish" script
 	xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch
 	# This should terminate with reboot from end of finish
