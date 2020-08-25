@@ -81,11 +81,12 @@ cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
 # Get misc other stuff 
 refindFile="refind-install-MacOS.sh"
-wget -O  /var/local/grub-menu.sh                  $online/Files/For-Target/grub-menu.sh 
+wget -O  /var/local/XUBUNTARK.md                  $online/Files/XUBUNTARK.md
 wget -O  /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
 wget -O  /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
 wget -O  /var/local/$refindFile                   $online/Files/For-Target/$refindFile
 chmod +x /var/local/$refindFile
+
 
 # Allow vnc (will only start up after reading ~/.bash_aliases)
 sudo apt -y install tigervnc-scraping-server
@@ -104,7 +105,7 @@ send "$mypass\r"
 expect "Verify:"
 send "$mypass\r"
 expect "Would you like to enter a view-only password (y/n)?"
-send "y"
+send "y\r"
 expect "Password:"
 send "$mypass\r"
 expect "Verify:"
