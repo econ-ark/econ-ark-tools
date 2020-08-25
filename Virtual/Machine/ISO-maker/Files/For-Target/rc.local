@@ -39,9 +39,31 @@ else # Not the first boot
 	xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list)"
 	xfce4powermanagerexistsCode="$?"
 	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
-	sudo apt -y install xfce4
-	sudo apt -y install xubuntu-desktop
-	sudo apt -y install lightdm
+	# Change the hostname to the curent moment 
+	DATE="$(stat -c %z /proc)"
+	size="MAX"
+	[[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
+	hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
+	hostname "$hostdate"
+	
+	# Remove any old .Xauthority
+	[[ -e /home/econ-ark/.Xauthority ]] && rm -f /home/econ-ark/.Xauthority
+	[[ -e          /root/.Xauthority ]] && rm -f          /root/.Xauthority
+	# Create new empty file
+	touch /home/econ-ark/.Xauthority
+
+	# Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
+	magic="$(xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
+	sudo xauth -f /root/.Xauthority add $HOSTNAME/unix:0 . "$magic"
+	# Merge so that either the old or the new hostname should work
+	sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
+	sudo cp /root/.Xauthority /home/econ-ark/.Xauthority
+	# Give them the required permissions
+	sudo chmod a-rwx /root/.Xauthority
+	sudo chmod u+rw  /root/.Xauthority
+	sudo chown econ-ark:econ-ark /home/econ-ark/.Xauthority
+	sudo chmod a-rwx /home/econ-ark/.Xauthority
+	sudo chmod u+rw  /home/econ-ark/.Xauthority
     fi
 fi
 
