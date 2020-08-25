@@ -6,8 +6,8 @@
 # Allow cut-and-paste between emacs and shell
 if [[ "$(which autocutsel)" != "" ]]; then
     if [[ "$DISPLAY" != "" ]]; then
-	autocutsel -fork
-	autocutsel -fork -selection PRIMARY
+#	autocutsel -fork -debug -verbose
+	autocutsel -fork -selection PRIMARY -debug -verbose
     fi
 fi
 
@@ -34,7 +34,7 @@ if [[ "$DISPLAY" != "" ]]; then # there's a GUI interface
     else # software install has not finished but $DISPLAY indicates agui 
 	echo 'In terminal mode -- no GUI but finished-software-install' 
     fi
-    touch /var/local/firstboot.log 
+    touch /home/econ-ark/.firstboot.log 
     return # Finished GUI exists but software finish does not
     # End shell here for what to do with the grid
 fi
