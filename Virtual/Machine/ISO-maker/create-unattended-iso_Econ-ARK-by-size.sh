@@ -314,7 +314,7 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh ;\
      chroot /target chmod a+x /etc/rc.local ;\
      chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
-     chroot /target rm    -f /var/local/Size-To-Make-Is-MAX ;\
+     chroot /target [[ -e /var/local/Size-To-Make-Is-MAX ]] && rm    -f /var/local/Size-To-Make-Is-MAX ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
@@ -396,7 +396,7 @@ cp $pathToScript/$ForTarget/root/EFI/BOOT/bootia32.efi $iso_make/iso_new/EFI/BOO
 # Some configurations expect the efi file at /boot/efi/EFI/BOOT
 mkdir -p $iso_make/iso_new/boot/efi/EFI/BOOT/
 cp $iso_make/iso_new/EFI/BOOT/grubx64.efi $iso_make/iso_new/boot/efi/EFI/BOOT/grubx64.efi  
-cp $iso_make/iso_new/EFI/BOOT/BOOTx64.efi $iso_make/iso_new/boot/efi/EFI/BOOT/BOOTx64.EFI
+cp $iso_make/iso_new/EFI/BOOT/BOOTx64.EFI $iso_make/iso_new/boot/efi/EFI/BOOT/BOOTx64.EFI
 
 #sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/root/EFI/BOOT/rename-efi-entry.bash 
 
