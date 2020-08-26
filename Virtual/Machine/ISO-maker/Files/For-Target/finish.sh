@@ -72,7 +72,6 @@ cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
 # Get misc other stuff 
 refindFile="refind-install-MacOS.sh"
-wget -O  /var/local/XUBUNTARK.md                  $online/Files/XUBUNTARK.md
 wget -O  /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
 wget -O  /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
 wget -O  /var/local/$refindFile                   $online/Files/For-Target/$refindFile
