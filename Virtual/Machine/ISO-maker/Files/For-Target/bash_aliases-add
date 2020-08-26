@@ -84,6 +84,6 @@ if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/lo
     lockEnabled="$?" # If it does not exist, create it 
     [[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
 
-    emacs --geometry 80x28+100+0 /var/local/XUBUNTARK.md &> /dev/null  &
+    emacs --geometry 80x28-100+0 /var/local/XUBUNTARK.md &> /dev/null  &
     
 fi
