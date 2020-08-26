@@ -393,6 +393,10 @@ rpl 'timeout 300' 'timeout 10'  isolinux/isolinux.cfg # Shuts down language choi
 # 32 bit bootloader obtained from Ubuntu-Server 18.04 EFI/BOOT
 
 cp $pathToScript/$ForTarget/root/EFI/BOOT/bootia32.efi $iso_make/iso_new/EFI/BOOT
+# Some configurations expect the efi file at /boot/efi/EFI/BOOT
+mkdir -p $iso_make/iso_new/boot/efi/EFI/BOOT/
+cp $iso_make/iso_new/EFI/BOOT/grubx64.efi $iso_make/iso_new/boot/efi/EFI/BOOT/grubx64.efi  
+cp $iso_make/iso_new/EFI/BOOT/BOOTx64.efi $iso_make/iso_new/boot/efi/EFI/BOOT/BOOTx64.EFI
 
 #sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/root/EFI/BOOT/rename-efi-entry.bash 
 
