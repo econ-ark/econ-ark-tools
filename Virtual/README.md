@@ -82,7 +82,7 @@ several hours.
 
 0. Download your selected (MIN or MAX) ISO image to your computer
 0. "mount" the image so that the computer can see it
-   * [Create-A-USB-Stick-On-Windows](https://ubuntu.com/tutorials/create-a-USB-stick-On-Windows)
+   * [Create-A-USB-Stick-On-Windows](https://ubuntu.com/tutorials/create-a-usb-stick-on-windows)
       * I don't have a Windows machine so can't debug this
 
    * On Macs, mounting is done with the Disk Utility app ("open image")
