@@ -71,11 +71,13 @@ wget -O  /etc/avahi $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
 cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
 # Get misc other stuff 
-refindFile="refind-install-MacOS.sh"
-wget -O  /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
-wget -O  /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
-wget -O  /var/local/$refindFile                   $online/Files/For-Target/$refindFile
-chmod +x /var/local/$refindFile
+refindFile="refind-install-MacOS"
+wget -O   /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
+wget -O   /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
+wget -O   /var/local/$refindFile.sh                $online/Files/For-Target/$refindFile.sh
+wget -O   /var/local/$refindFile-README.md         $online/Files/For-Target/$refindFile-README.md
+chmod +x  /var/local/$refindFile.sh
+chmod a+r /var/local/$refindFile-README.md 
 
 # Allow vnc (will only start up after reading ~/.bash_aliases)
 # scraping server means that you're not allowing vnc client to spawn new x sessions
