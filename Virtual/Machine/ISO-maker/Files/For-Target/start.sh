@@ -19,22 +19,22 @@ download()
 # Debugging 
 set -x ; set -v 
 
-# These probably are not needed given that they are also provided before the relevant commands below
-# Left here because no time to debug and see if they can be deleted
-sudo export DEBCONF_DEBUG=.*
-sudo export DEBIAN_FRONTEND=noninteractive
-sudo export DEBCONF_NONINTERACTIVE_SEEN=true
+# # These probably are not needed given that they are also provided before the relevant commands below
+# # Left here because no time to debug and see if they can be deleted
+# sudo export DEBCONF_DEBUG=.*
+# sudo export DEBIAN_FRONTEND=noninteractive
+# sudo export DEBCONF_NONINTERACTIVE_SEEN=true
 
 # Resources
-sudo myuser="econ-ark"
-sudo mypass="kra-noce"
+myuser="econ-ark"  # Don't sudo because it needs to be an environment variable
+mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
 
 # This allows git branches during debugging 
 branch_name=master 
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
                        
 # Configure boot information
-update-grub
+sudo update-grub
 
 # Broadcom modems are common and require firmware-b43-installer for some reason
 sudo apt-get -y install firmware-b43-installer
@@ -44,9 +44,9 @@ sudo apt-get -y install bash-completion curl git net-tools network-manager opens
 
 # Create a public key for security purposes
 if [[ ! -e /home/$myuser/.ssh ]]; then
-    sudo mkdir -p /home/$myuser/.ssh
-    sudo chown $myuser:$myuser /home/$myuser/.ssh
-    sudo chmod 700 /home/$myuser/.ssh
+    mkdir -p /home/$myuser/.ssh
+    chown $myuser:$myuser /home/$myuser/.ssh
+    chmod 700 /home/$myuser/.ssh
     sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh/id_rsa
 fi    
 
@@ -70,20 +70,20 @@ sudo ln -s /home/econ-ark/.emacs /var/local/dotemacs-home
 sudo ln -s /root/.emacs          /var/local/dotemacs-root
 
 # Permissions 
-sudo chown "root:root" /root/.emacs
-sudo chmod a+rwx /home/$myuser/.emacs
-sudo chown "$myuser:$myuser" /home/$myuser/.emacs
+chown "root:root" /root/.emacs                # no sudo
+chmod a+rwx /home/$myuser/.emacs              # no sudo
+chown "$myuser:$myuser" /home/$myuser/.emacs  # no sudo
 
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 
-[[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && sudo chown "$myuser:$myuser" /home/$myuser/.emacs.d
+[[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && chown "$myuser:$myuser" /home/$myuser/.emacs.d
 [[ -e /root/.emacs.d ]] && sudo rm -Rf /root/.emacs.d
 
 sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
 sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
 sudo chown econ-ark:econ-ark /home/econ-ark/.emacs
 sudo chown econ-ark:econ-ark -Rf /home/econ-ark/.emacs.d
-sudo chmod a+rw /home/$myuser/.emacs.d 
+chmod a+rw /home/$myuser/.emacs.d 
 
 sudo -i -u  econ-ark gpg --list-keys 
 sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
@@ -96,7 +96,7 @@ sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs
 
 # Don't install the packages twice - instead, link root to the existing install
 [[ -e /root/.emacs.d ]] && sudo rm -Rf /root/.emacs.d
-sudo ln -s /home/$myuser/.emacs.d /root/.emacs.d
+ln -s /home/$myuser/.emacs.d /root/.emacs.d
 
 # Finished with emacs
 
@@ -105,7 +105,7 @@ sudo ln -s /home/$myuser/.emacs.d /root/.emacs.d
 sudo adduser econ-ark netdev
 
 # .bash_aliases is run by all interactive scripts
-sudo wget -O  /var/local/bash_aliases-add $online/bash_aliases-add
+wget -O  /var/local/bash_aliases-add $online/bash_aliases-add
 
 # add this stuff to any existing ~/.bash_aliases
 if ! grep -q econ-ark /home/econ-ark/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
@@ -124,10 +124,10 @@ sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager
 [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 
 # Install xubuntu-desktop 
-sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version # no sudo 
 
 # Another way to try to make sure lightdm is the display manager
-sudo echo "set shared/default-x-display-manager lightdm" | DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* debconf-communicate 
+echo "set shared/default-x-display-manager lightdm" | DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* debconf-communicate  # no sudo 
 
 # Yet another -- delete the alternatives 
 sudo apt-get -y purge ubuntu-gnome-desktop
@@ -138,9 +138,9 @@ sudo apt-get -y purge numlockx
 sudo apt-get -y autoremove
 
 # Once again -- doubtless only one of the methods is needed, but debugging which would take too long
-sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm 
-sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4
-sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm     # no sudo
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4       # no sudo
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm   # no sudo
 
 # Allow autologin (as far as unix is concerned)
 sudo groupadd --system autologin
@@ -168,7 +168,7 @@ fi
 wget -O  /var/local/Econ-ARK.VolumeIcon.icns           https://github.com/econ-ark/econ-ark-tools/raw/master/Virtual/Machine/ISO-maker/Disk/Icons/Econ-ARK.VolumeIcon.icns
 
 # Desktop backdrop 
-sudo wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
+wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
 cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
 
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
@@ -191,23 +191,23 @@ sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/econ-ark
 
 # Put in both /var/local and in target 
-sudo wget -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
-sudo wget -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+wget -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+wget -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 
-sudo wget -O  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
-sudo wget -O                 /etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
+wget -O  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
+wget -O                 /etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
 
 # One of many ways to try to prevent screen lock
-sudo wget -O  /var/local/root/home/econ-ark/.xscreensaver                                  $online/xscreensaver
-sudo wget -O                 /home/econ-ark/.xscreensaver                                  $online/xscreensaver
+wget -O  /var/local/root/home/econ-ark/.xscreensaver                                  $online/xscreensaver
+wget -O                 /home/econ-ark/.xscreensaver                                  $online/xscreensaver
 
-sudo chown $myuser:$myuser /home/econ-ark/.dmrc
-sudo wget -O  /home/econ-ark/.xscreensaver                                   $online/xscreensaver
-sudo chown $myuser:$myuser /home/econ-ark/.xscreensaver                      # session-name xubuntu
+chown $myuser:$myuser /home/econ-ark/.dmrc
+wget -O  /home/econ-ark/.xscreensaver                                   $online/xscreensaver
+chown $myuser:$myuser /home/econ-ark/.xscreensaver                      # session-name xubuntu
 
 # Create directory designating things to autostart 
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
-sudo chown $myuser:$myuser /home/$myuser/.config/autostart
+chown $myuser:$myuser /home/$myuser/.config/autostart
 
 # Autostart a terminal
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
@@ -224,7 +224,7 @@ Terminal=false
 Hidden=false
 EOF
 
-sudo chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
+chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 
 # Anacron massively delays the first boot; this disbles it
 sudo touch /etc/cron.hourly/jobs.deny       
