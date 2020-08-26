@@ -33,8 +33,9 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /var/local/finished-software-install ]]; th
     # Configure backdrop - can't be done in start.sh or finish.sh because dbus not running until GUI is up
     # Wait until monitor is up (xrandr finds an active monitor) then get the name of the active monitor
 
-    touch /home/econ-ark/.firstboot # Signal that first GUI boot user login has succeeded
-    
+    touch /home/econ-ark/.firstboot  # Signal that first GUI boot user login has succeeded
+    rm    /home/econ-ark/.secondboot # but not the second
+
     # Monitor installations on the "finish" script
     xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch
     # This should terminate with reboot from end of finish
