@@ -146,7 +146,6 @@ if [[ "$size" == "MIN" ]]; then
     sudo apt -y install python3-pip python-pytest python-is-python3
     sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
     sudo pip install    pytest
-    sudo -i -u econ-ark pytest
     sudo pip install nbval
     sudo pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
 else
@@ -165,7 +164,7 @@ sudo jupyter nbextension enable collapsible_headings/main
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
-pip install econ-ark # pip install econ-ark
+pip install -upgrade econ-ark 
 
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
@@ -176,17 +175,19 @@ git clone https://github.com/econ-ark/DemARK.git
 git clone https://github.com/econ-ark/econ-ark-tools.git
 chmod a+rw -Rf /usr/local/share/data/GitHub/econ-ark
 
+
+
 echo 'This is your local, personal copy of HARK; it is also installed systemwide.  '    >  HARK-README.md
 echo 'Local mods will not affect systemwide, unless you change the default source via:' >> HARK-README.md
 echo "   cd $arkHOME ;  pip install -e setup.py "  >> HARK-README.md
 echo '' >> HARK-README.md
 echo '(You can switch back to the systemwide version using pip install econ-ark)' >> HARK-README.md
-echo 'To test whether everything works, in the root directory type:.  '    >  HARK-README.md
-echo 'pytest '    >  HARK-README.md
+echo 'To test whether everything works, in the root directory type:.  '    >>  HARK-README.md
+echo 'pytest '    >>  HARK-README.md
 
 echo 'This is your local, personal copy of DemARK, which you can modify.  '    >  DemARK-README.md
-echo 'To test whether everything works, in the root directory type:.  '    >  DemARK-README.md
-echo 'cd notebooks ; pytest --nbval-lax *.ipynb  '    >  DemARK-README.md
+echo 'To test whether everything works, in the root directory type:.  '    >>  DemARK-README.md
+echo 'cd notebooks ; pytest --nbval-lax *.ipynb  '    >>  DemARK-README.md
 
 echo 'This is your local, personal copy of REMARK, which you can modify.  '    >  REMARK-README.md
 
@@ -195,6 +196,12 @@ git submodule update --init --recursive --remote
 git pull
 cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirements.txt
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirements.txt
+
+cd /usr/local/share/data/GitHub/econ-ark/HARK
+pytest
+
+cd /usr/local/share/data/GitHub/econ-ark/DemARK
+pytest
 
 # Allow reading of MacOS HFS+ files
 sudo apt -y install hfsplus hfsutils hfsprogs
