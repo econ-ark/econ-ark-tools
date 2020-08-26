@@ -65,5 +65,7 @@ conda install --yes -c conda-forge econ-ark # pip install econ-ark
 
 source /etc/environment  # Get the new environment
 
+
+# Get docker 
 sudo apt -y remove  man-db # As of 2020-08-16, install of docker freezes at man-db step
 sudo apt -y install docker 

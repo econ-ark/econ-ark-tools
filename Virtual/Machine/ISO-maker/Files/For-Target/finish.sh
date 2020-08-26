@@ -29,14 +29,14 @@ sudo systemctl disable cups-browsed.service
 
 sudo apt -y install software-properties-common # Manage software like dbus 
 
-# Useful default tools 
+# More useful default tools 
 sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils
 
 # Make a home for econ-ark in /usr/local/share/data and link to it from home directory
 mkdir -p /home/econ-ark/GitHub
 mkdir -p          /root/GitHub
 
-# Always get to econ-ark via ~/econ-ark
+# Get to econ-ark via ~/econ-ark whether you are root or econ-ark
 ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
 ln -s /usr/local/share/data/GitHub/econ-ark          /root/GitHub/econ-ark
 chown -Rf econ-ark:econ-ark /home/econ-ark/GitHub
@@ -45,8 +45,8 @@ chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be o
 myuser="econ-ark"
 mypass="kra-noce"
 
-branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
-branch_name="${branch_name#refs/heads/}"
+# branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
+# branch_name="${branch_name#refs/heads/}"
 
 branch_name=master
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
@@ -61,23 +61,14 @@ for d in ./*/; do
     fi
 done
 
-# Xubuntu installs xfce-screensaver; remove the default one
-# It's confusing to have two screensavers running:
-#   You think you have changed the settings but then the other one's
-#   settings are not changed
-# For xfce4-screensaver, unable to find a way programmatically to change
-# so must change them by hand
-# sudo apt -y remove  xscreensaver
-
-# Play nice with Macs ASAP (in hopes of being able to monitor it)
+# Play nice with Macs (in hopes of being able to monitor it)
 sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown nss-mdns
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
 wget -O  /etc/avahi $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
+# Enable ssh over avahi
 cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
-#systemctl disable systemd-resolved.service
-#avahi-daemon --reload
 
 # Get misc other stuff 
 refindFile="refind-install-MacOS.sh"
@@ -87,13 +78,13 @@ wget -O  /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.d
 wget -O  /var/local/$refindFile                   $online/Files/For-Target/$refindFile
 chmod +x /var/local/$refindFile
 
-
 # Allow vnc (will only start up after reading ~/.bash_aliases)
+# scraping server means that you're not allowing vnc client to spawn new x sessions
 sudo apt -y install tigervnc-scraping-server
 
-[[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  # If a previous version exists, delete it
+# If a previous version exists, delete it
+[[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  
 sudo mkdir -p /home/$myuser/.vnc
-#mv /tmp/vncpasswd /home/$myuser/.vnc
 
 # https://askubuntu.com/questions/328240/assign-vnc-password-using-script
 
@@ -137,6 +128,7 @@ cat /var/local/bash_aliases-add >> "$bashadd"
 chmod a+x "$bashadd"
 chown $myuser:$myuser "$bashadd" 
 
+# The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
 mkdir -p /EFI/BOOT/
 cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
 cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
@@ -162,41 +154,7 @@ else
     sudo /var/local/finish-MAX-Extras.sh
  fi
 
-# echo '' ; echo '' ; echo ''
-# echo "Pausing immediately after xfconf-query $rgbset"
-# echo 'C-c to stop, return to continue'
-# read answer 
-
-
-# xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac 1200
-# xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled false
-# xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate false
-
-# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/image-style --set 4 # Scaling
-# # Set background to black 
-# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
-
-# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/image-path  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/image-style --set 4
-# xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitorVirtual1/workspace0/rgba1 --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
-
-# Xubuntu installs xfce-screensaver; remove the default one
-# It's confusing to have two screensavers running:
-#   You think you have changed the settings but then the other one's
-#   settings are not changed
-# For xfce4-screensaver, unable to find a way programmatically to change
-# so must change them by hand
-
-sudo apt -y remove  xscreensaver
-
-# Set the desktop background to the Econ-ARK logo
-#xfconf-query --channel xfce4-desktop --property /backdrop/screen0/monitor0/workspace0/image-path --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-
-# Turn off screensavers and lock-screen
-#xfconf-query --channel xfce-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate  --set false 
-# xfdesktop --reload
-
+# Configure jupyter notebook tools
 sudo pip install jupyter_contrib_nbextensions
 sudo jupyter contrib nbextension install
 sudo jupyter nbextension enable codefolding/main
@@ -225,7 +183,6 @@ echo '(You can switch back to the systemwide version using pip install econ-ark)
 echo 'To test whether everything works, in the root directory type:.  '    >  HARK-README.md
 echo 'pytest '    >  HARK-README.md
 
-
 echo 'This is your local, personal copy of DemARK, which you can modify.  '    >  DemARK-README.md
 echo 'To test whether everything works, in the root directory type:.  '    >  DemARK-README.md
 echo 'cd notebooks ; pytest --nbval-lax *.ipynb  '    >  DemARK-README.md
@@ -238,12 +195,10 @@ git pull
 cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirements.txt
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirements.txt
 
-# https://askubuntu.com/questions/499070/install-virtualbox-guest-addition-terminal
-
 # Allow reading of MacOS HFS+ files
 sudo apt -y install hfsplus hfsutils hfsprogs
 
-# Prepare partition for reFind boot in MacOS
+# Prepare partition for reFind boot manager in MacOS
 hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
 
 echo "hfsplusLabels=$hfsplusLabels"
@@ -264,6 +219,7 @@ if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS
     # sudo refind-install --usedefault "$ESP"
 fi
 
+# Download the installer (very meta!)
 isoName="econ-ark_$size_ubuntu-20.04-legacy-server-amd64-unattended.iso"
 echo ''
 echo 'Fetching online image of this installer to '
@@ -278,15 +234,20 @@ else # size = MAX
     gdown --id "1Qs8TpId5css7q9L315VUre0mjIRqjw8Z" --output "/media/$isoName"
 fi
 
+# Install Chrome browser 
 wget -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt install /var/local/google-chrome-stable_current_amd64.deb
 
+# Make sure that everything in the home user's path is owned by home user 
 chown -Rf $myuser:$myuser /home/$myuser/
 
-sudo apt -y update && sudo apt -y upgrade  # bring system up to date
+# bring system up to date
+sudo apt -y update && sudo apt -y upgrade  
 
-touch /var/local/finished-software-install # Signal that we've finished software install
+# Signal that we've finished software install
+touch /var/local/finished-software-install 
 
-sudo systemctl enable cups-browsed.service # Restore printer services
+# Restore printer services (disabled earlier because sometimes cause hang of boot)
+sudo systemctl enable cups-browsed.service 
 
 reboot

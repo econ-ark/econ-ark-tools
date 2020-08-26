@@ -14,7 +14,7 @@ Several tools for communicating with the VM are installed
 1. An ssh server is installed and operating
    * You should be able to connect via a command like:
       * `ssh econ-ark@[your-VM-IP-Address]` using the usual password
-1. There is a vnc server installed and operating 
+1. There is a [vnc](https://en.wikipedia.org/Virtual\_Network\_Computing) server installed and operating 
    * This enables viewing the VM's screen from another computer 
    * You will need VNC viewer client software to do so 
    * You can disable the VNC viewer (for security):

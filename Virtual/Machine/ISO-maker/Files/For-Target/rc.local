@@ -1,4 +1,5 @@
 #!/bin/bash
+# rc.local is run as root on every boot, before user 
 # https://askubuntu.com/questions/156771/run-a-script-only-at-the-very-first-boot
 
 FLAG="/var/log/firstboot.log"
@@ -13,10 +14,10 @@ if [ ! -f $FLAG ]; then
     xfce4powermanagerexistsCode="$?"
     [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
     reboot
-else # Not the first boot
+else # Not the first boot, so we must have run start.sh
     FLAG2="/var/log/secondboot.log" 
     if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
-	# Launch remainder as a background process so econ-ark user can autologin
+	# Launch remainder of work as a background process so econ-ark user can autologin
 	(set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log  ) & 
 	
 	# create an empty 'signal' file so the if will fail after the first boot
@@ -38,7 +39,7 @@ else # Not the first boot
 	hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
 	hostname "$hostdate"
 	echo "$HOSTNAME" > /etc/hostname
-    fi # End not-first-boot
+    fi # End not-second-boot
     # Authorize econ-ark to use the display
     # Remove any old .Xauthority
     [[ -e /home/econ-ark/.Xauthority ]] && rm -f /home/econ-ark/.Xauthority

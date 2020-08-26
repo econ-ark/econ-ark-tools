@@ -1,6 +1,6 @@
 ;;; Version for XUBUNTARK
 
-(setq package-check-signature nil) ;;; Google "metaredux.com dealing with expired elpa gpg keys
+(setq package-check-signature nil) ;;; Google "metaredux.com" dealing with expired elpa gpg keys
 
 (prefer-coding-system 'utf-8)
 (setq default-buffer-file-coding-system 'utf-8-unix)
@@ -71,7 +71,6 @@
 (setq isearch-regexp-lax-whitespace t)
 (setq search-whitespace-regexp "[ \t\r\n]+")
 
-(setq case-fold-search t)
 
 (setq delete-by-moving-to-trash t)
 (setq dired-recursive-deletes t)
@@ -79,8 +78,10 @@
 ;;; Make sure the parens bounce back to show you where start and end points are
 '(show-paren-mode t)
 
-;; 2015-01-20: Copy full path of filename selected in dired onto the keyboard
+;; Copy full path of filename selected in dired onto the clipboard
 ;; From http://stackoverflow.com/questions/18812938/copy-full-file-path-into-copy-paste-clipboard
+
+;; from http://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 
 (defun clip-file ()
   "Put the current file name on the clipboard"
@@ -90,8 +91,6 @@
 		    (buffer-file-name))))
     (when filename
       (x-select-text filename))))
-
-;; from http://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 
 (defun put-file-name-on-clipboard ()
   "Put the current file name on the clipboard"
@@ -119,6 +118,7 @@
 ;; Handy key definition
 (define-key global-map "\M-Q" 'unfill-paragraph)
 
+
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
 (add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
@@ -142,15 +142,14 @@ The return value is the new value of LIST-VAR."
       (set list-var elements)))
   (symbol-value list-var))
 
-;; Make sure auctex and preview-latex are loaded whenever emacs gets launched, so that customizations below can be done
+;; Make sure auctex is loaded whenever emacs gets launched, so that customizations below can be done
 (load "auctex.el" nil t t)
-;; (load "preview-latex.el" nil t t)
 
+;; TeX defaults
 (setq TeX-auto-save t)
 (setq TeX-parse-self t)
 (setq TeX-latex-mode t)
 
-(load "auctex.el" nil t t)
 ;; (load "preview.el" nil t t)
 ;; Prevent annoying requirement to choose BibTeX over Biber every time
 (eval-after-load "tex-mode" 
@@ -238,11 +237,13 @@ The return value is the new value of LIST-VAR."
 
 (global-set-key (kbd "\C-x^") 'overwrite-mode)
 
+(setq case-fold-search t)
+
 ;; Set default to ignore case when sorting 
 (setq sort-fold-case t)
 
 ;; The default linux theme is appalling -- replace
 (load-theme 'tango-dark)
 
-;; Prevent emacs search from wrapping from bottom back to top
+;; Prevent emacs search from wrapping from bottom back to top and vice versa
 (setq isearch-wrap-function '(lambda nil))

@@ -11,20 +11,21 @@ if [[ "$(which autocutsel)" != "" ]]; then
     fi
 fi
 
-# If not already running, launch the vncserver
-# Makes it easier to connect to the VM - if it is on a network you can reach
-
-pgrep x0vncserver > /dev/null # Silence it
-[[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/$USER/.vnc/passwd >> /dev/null 2>&1 &)
-
 # Modify prompt to keep track of git branches
 parse_git_branch() {
     git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
 }
 export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "
 
+# If not already running, launch the vncserver
+# Makes it easier to connect to the VM - if it is on a network you can reach
+
+# Root user shares the useful stuff above 
 if [[ "$USER" == "root" ]]; then
-    return
+    pgrep x0vncserver > /dev/null # Silence it
+    # "$?" -eq 1 implies that no such process exists, in which case it should be started
+    [[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/$USER/.vnc/passwd &> /dev/null &)
+    return # End of stuff that root user should do
 fi
 
 # Stuff to be executed only the first time a user logs into an interactive GUI shell
@@ -38,7 +39,6 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /var/local/finished-software-install ]]; th
     xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch
     # This should terminate with reboot from end of finish
 fi
-
 
 if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]] && [[ ! -e /home/econ-ark/.secondboot ]]; then
     touch /home/econ-ark/.secondboot 
@@ -64,7 +64,7 @@ if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/lo
 
     # Turn off ALL the possible ways the screen might get locked -- user can undo this later
     # xfce4-session property /shutdown/LockScreen is one of (far too many) ways to lock the screen
-    xfconf-query --channel xfce4-session --property /shutdown/LockScreen 2>&1 /dev/null # Querying its value gives an error if it does not exist
+    xfconf-query --channel xfce4-session --property /shutdown/LockScreen &> /dev/null # Querying its value gives an error if it does not exist
     shutdownLockscreenCode="$?" # If it does NOT exist, the code will be NOT be zero
     # If it DOES exist set it to zero
     [[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false 
@@ -84,6 +84,6 @@ if [[ -e /home/econ-ark/.firstboot ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/lo
     lockEnabled="$?" # If it does not exist, create it 
     [[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
 
-    emacs /var/local/XUBUNTARK.md &
+    emacs --geometry --geometry 80x28+100+0 /var/local/XUBUNTARK.md &> /dev/null  &
     
 fi
