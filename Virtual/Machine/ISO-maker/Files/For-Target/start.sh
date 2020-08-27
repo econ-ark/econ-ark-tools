@@ -168,32 +168,32 @@ if ! grep -q econ-ark /etc/pam.d/lightdm          ; then # We have not yet added
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
 fi
 
-# Autologin to the keyring too
-# wiki.archlinux.org/index.php/GNOME/Keyring
-if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
-    sudo sed -i '1 a\
-auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
-fi
+# # Autologin to the keyring too
+# # wiki.archlinux.org/index.php/GNOME/Keyring
+# if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
+#     sudo sed -i '1 a\
+# auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
+# fi
 
-if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
-    sudo sed -i '1 a\
-auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
-fi
+# if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
+#     sudo sed -i '1 a\
+# auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
+# fi
 
-if ! grep -q gnome /etc/pam.d/common-session           ; then # automatically log into the keyring too
-    sudo sed -i '1 a\
-session optional pam_gnome_keyring.so autostart # Added by Econ-ARK ' /etc/pam.d/common-session
-fi
+# if ! grep -q gnome /etc/pam.d/common-session           ; then # automatically log into the keyring too
+#     sudo sed -i '1 a\
+# session optional pam_gnome_keyring.so autostart # Added by Econ-ARK ' /etc/pam.d/common-session
+# fi
 
-if ! grep -q gnome /etc/pam.d/passwd           ; then # automatically log into the keyring too
-    sudo sed -i '1 a\
-password optional pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/passwd
-fi
+# if ! grep -q gnome /etc/pam.d/passwd           ; then # automatically log into the keyring too
+#     sudo sed -i '1 a\
+# password optional pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/passwd
+# fi
 
-# Start the keyring on boot
-echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ssh) ; export SSH_AUTH_SOCK' >> /home/econ-ark/.xinitrc 
+# # Start the keyring on boot
+# echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ssh) ; export SSH_AUTH_SOCK' >> /home/econ-ark/.xinitrc 
 
-echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/econ-ark/.bash_profile
+# echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/econ-ark/.bash_profile
 
 # For some reason the pattern for the url this image doesn't fit the pattern of other downloads
 wget -O  /var/local/Econ-ARK.VolumeIcon.icns           https://github.com/econ-ark/econ-ark-tools/raw/master/Virtual/Machine/ISO-maker/Disk/Icons/Econ-ARK.VolumeIcon.icns
