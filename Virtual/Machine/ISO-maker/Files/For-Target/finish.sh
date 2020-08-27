@@ -77,7 +77,10 @@ wget -O   /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.
 wget -O   /var/local/$refindFile.sh                $online/Files/For-Target/$refindFile.sh
 wget -O   /var/local/$refindFile-README.md         $online/Files/For-Target/$refindFile-README.md
 chmod +x  /var/local/$refindFile.sh
-chmod a+r /var/local/$refindFile-README.md 
+chmod a+r /var/local/$refindFile-README.md
+wget -O /home/econ-ark/Downloads $online/Files/ForTarget/zoom_amd64.deb 
+    
+
 
 # Allow vnc (will only start up after reading ~/.bash_aliases)
 # scraping server means that you're not allowing vnc client to spawn new x sessions
@@ -145,7 +148,7 @@ size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 if [[ "$size" == "MIN" ]]; then
     sudo apt -y install python3-pip python-pytest python-is-python3
     sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
-    sudo pip install    pytest
+    sudo pip install pytest
     sudo pip install nbval
     sudo pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
 else
@@ -177,17 +180,17 @@ chmod a+rw -Rf /usr/local/share/data/GitHub/econ-ark
 
 
 
-echo 'This is your local, personal copy of HARK; it is also installed systemwide.  '    >  HARK-README.md
-echo 'Local mods will not affect systemwide, unless you change the default source via:' >> HARK-README.md
-echo "   cd $arkHOME ;  pip install -e setup.py "  >> HARK-README.md
+echo 'This is your local, personal copy of HARK; it is also installed systemwide.  '      >  HARK-README.md
+echo 'Local mods will not affect systemwide, unless you change the default source via:'   >> HARK-README.md
+echo "   cd $arkHOME ;  pip install -e setup.py "                                         >> HARK-README.md
 echo '' >> HARK-README.md
-echo '(You can switch back to the systemwide version using pip install econ-ark)' >> HARK-README.md
-echo 'To test whether everything works, in the root directory type:.  '    >>  HARK-README.md
-echo 'pytest '    >>  HARK-README.md
+echo '(You can switch back to the systemwide version using pip install econ-ark)'         >> HARK-README.md
+echo 'To test whether everything works, in the root directory type:.  '                   >> HARK-README.md
+echo 'pytest '                                                                            >> HARK-README.md
 
 echo 'This is your local, personal copy of DemARK, which you can modify.  '    >  DemARK-README.md
-echo 'To test whether everything works, in the root directory type:.  '    >>  DemARK-README.md
-echo 'cd notebooks ; pytest --nbval-lax *.ipynb  '    >>  DemARK-README.md
+echo 'To test whether everything works, in the root directory type:.  '       >>  DemARK-README.md
+echo 'cd notebooks ; pytest --nbval-lax *.ipynb  '                            >>  DemARK-README.md
 
 echo 'This is your local, personal copy of REMARK, which you can modify.  '    >  REMARK-README.md
 
@@ -198,10 +201,10 @@ cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirem
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirements.txt
 
 cd /usr/local/share/data/GitHub/econ-ark/HARK
-pytest
+pytest 
 
-cd /usr/local/share/data/GitHub/econ-ark/DemARK
-pytest
+cd /usr/local/share/data/GitHub/econ-ark/DemARK/notebooks
+pytest --nbval-lax *.ipynb
 
 # Allow reading of MacOS HFS+ files
 sudo apt -y install hfsplus hfsutils hfsprogs
@@ -211,7 +214,7 @@ hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name
 
 echo "hfsplusLabels=$hfsplusLabels"
 if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS+ exists...
-    cmd="mkfs.hfsplus -v 'refind-HFS' $hfsplusLabels"  # ... so FORMAT it as hfsplus
+    cmd="mkfs.hfsplus -s -v 'refind-HFS' $hfsplusLabels"  # ... so FORMAT it as hfsplus
     echo "cmd=$cmd"
     eval "$cmd"
     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS  # Mount the new partition in /tmp/refind-HFS

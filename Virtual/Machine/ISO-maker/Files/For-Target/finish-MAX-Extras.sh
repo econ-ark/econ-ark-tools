@@ -56,9 +56,8 @@ else
     # Extra packages for MAX
     sudo apt -y install evince texlive-full
     pip install quantecon
-    # Create a public key for security purposes
 
-    #Download and extract HARK, REMARK, DemARK from GitHUB repository
+    sudo apt -y install /var/local/zoom_amd64.deb
 fi
 
 conda install --yes -c conda-forge econ-ark # pip install econ-ark
