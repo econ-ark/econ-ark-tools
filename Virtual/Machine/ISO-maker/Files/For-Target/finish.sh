@@ -164,7 +164,7 @@ sudo jupyter nbextension enable collapsible_headings/main
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
-pip install -upgrade econ-ark 
+pip install --upgrade econ-ark 
 
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
