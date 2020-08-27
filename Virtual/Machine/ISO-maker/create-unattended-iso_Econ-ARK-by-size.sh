@@ -65,7 +65,7 @@ mkdir -p "$iso_done/$size"
 rm -f "$iso_make/preseed/$seed_file" # Make sure new version is downloaded
 
 datestr=`date +"%Y%m%d-%H%M%S"`
-hostname="built-$datestr"
+hostname="$size-$datestr"
 currentuser="$( whoami)"
 
 # define spinner function for slow tasks
