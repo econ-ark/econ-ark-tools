@@ -38,15 +38,6 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 	$reusemethod{ }				    \
 	method{ biosgrub }                          \
 	.			                    \
-    1024 1024 1024 hfs                                 \
-	$gptonly{ }				    \
-        $primary{ }                                 \
-	$bootable{ }                                \
-        label{ hfsplus }                            \
-        method{ keep } format{ }                    \
-        use_filesystem{ } filesystem{ hfs }         \
-        mountpoint{ /boot/hfsplus }                 \
-        .                                           \
     512 512 512 fat32                               \
 	$gptonly{ }				    \
         $primary{ }                                 \
@@ -55,6 +46,15 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         method{ efi } format{ }                     \
         use_filesystem{ } filesystem{ fat32 }       \
         mountpoint{ /efi/boot }                     \
+        .                                           \
+    1024 1024 1024 hfs                                 \
+	$gptonly{ }				    \
+        $primary{ }                                 \
+	$bootable{ }                                \
+        label{ hfsplus }                            \
+        method{ keep } format{ }                    \
+        use_filesystem{ } filesystem{ hfs }         \
+        mountpoint{ /boot/hfsplus }                 \
         .                                           \
     2048 4096 200% linux-swap                      \
         $lvmok{ }                                   \
