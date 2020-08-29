@@ -16,4 +16,6 @@
  touch /var/local/ 
  mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
  wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
+ cp -Rf /EFI/BOOT/About_This_Install/ /target/var/local 
+ cp /EFI/BOOT/About_This_Install.md /target/var/local 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf
