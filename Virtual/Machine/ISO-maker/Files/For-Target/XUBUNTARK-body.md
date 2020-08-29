@@ -1,12 +1,6 @@
 # Welcome to the Econ-ARK Xubuntu Virtual Machine
 
-## (='XUBUNTARK-MAX')
-
-This VM contains all the software necessary to use all parts of the Econ-ARK toolkit.
-
-In addition, it contains a rich suite of other software (like LaTeX) widely used 
-in scientific computing, including full installations of Anaconda, scipy, quantecon,
-and more.
+This machine contains all the software necessary to use all parts of the Econ-ARK toolkit.
 
 Configuration details:
 
@@ -18,7 +12,7 @@ Several tools for communicating with the VM are installed
 1. An ssh server is installed and operating
    * You should be able to connect via a command like:
       * `ssh econ-ark@[your-VM-IP-Address]` using the usual password
-1. There is a vnc server installed and operating 
+1. There is a [vnc](https://en.wikipedia.org/Virtual\_Network\_Computing) server installed and operating 
    * This enables viewing the VM's screen from another computer 
    * You will need VNC viewer client software to do so 
    * You can disable the VNC viewer (for security):

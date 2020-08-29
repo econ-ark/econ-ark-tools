@@ -145,6 +145,11 @@ cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 [[ -e ./Size-To-Make-Is-MIN ]] && size="MIN"
 
+welcome="# Welcome to the Econ-ARK Machine XUBUNTARK-$size, build "
+welcome+="$(cat /var/local/About_This_Install/short.git-hash)"
+
+echo "$welcome" > XUBUNTARK.md
+
 if [[ "$size" == "MIN" ]]; then
     sudo apt -y install python3-pip python-pytest python-is-python3
     sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
@@ -153,9 +158,15 @@ if [[ "$size" == "MIN" ]]; then
     sudo pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
 else
     sudo chmod +x /var/local/finish-MAX-Extras.sh
-    cp /var/local/XUBUNTARK-MAX.md /var/local/XUBUNTARK.md
     sudo /var/local/finish-MAX-Extras.sh
+    echo '' >> XUBUNTARK.md
+    echo 'In addition, it contains a rich suite of other software (like LaTeX) widely used 
+in scientific computing, including full installations of Anaconda, scipy, quantecon,
+and more.' >> XUBUNTARK.md
+    echo '' >> XUBUNTARK.md
  fi
+
+cat /var/local/XUBUNTARK-body.md >> XUBUNTARK.md
 
 # Configure jupyter notebook tools
 sudo pip install jupyter_contrib_nbextensions
