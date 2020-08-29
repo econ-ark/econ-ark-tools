@@ -146,6 +146,8 @@ DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.*
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4       # no sudo
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm   # no sudo
 
+sudo apt-get -y install x11-xserver-utils # Installs xrandr, among other utilities
+
 # Allow autologin (as far as unix is concerned)
 sudo groupadd --system autologin
 sudo adduser  econ-ark autologin
@@ -168,6 +170,8 @@ if ! grep -q econ-ark /etc/pam.d/lightdm          ; then # We have not yet added
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
 fi
 
+# Keyring autologin caused some problems that were hard to fix
+# They appeared to be because further config of some kind was needed
 # # Autologin to the keyring too
 # # wiki.archlinux.org/index.php/GNOME/Keyring
 # if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too

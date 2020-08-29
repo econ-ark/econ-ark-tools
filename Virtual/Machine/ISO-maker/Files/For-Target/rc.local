@@ -3,7 +3,7 @@
 # https://askubuntu.com/questions/156771/run-a-script-only-at-the-very-first-boot
 
 FLAG="/var/log/firstboot.log"
-if [ ! -f $FLAG ]; then
+if [ ! -f $FLAG ]; then # first boot 
     # Do stuff that should be done before autologin of first user
     set -x ; set -v ; /var/local/start.sh  |& tee /var/local/start.log |& tee /var/local/start-and-finish.log        
 
@@ -39,7 +39,8 @@ else # Not the first boot, so we must have run start.sh
 	hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
 	hostname "$hostdate"
 	echo "$HOSTNAME" > /etc/hostname
-    fi # End not-second-boot
+    fi # End second-boot
+    # Remainder happens in second and subsequent boots
     # Authorize econ-ark to use the display
     # Remove any old .Xauthority
     [[ -e /home/econ-ark/.Xauthority ]] && rm -f /home/econ-ark/.Xauthority
@@ -61,6 +62,7 @@ else # Not the first boot, so we must have run start.sh
     sudo chmod u+rw  /home/econ-ark/.Xauthority
 fi
 
+# Run these at the beginning of EVERY boot from the very first one
 sudo rm -f /var/crash/*blue* # Bluetooth crashes frequently and uselessly
 sudo systemctl restart avahi-daemon
 
