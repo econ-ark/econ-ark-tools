@@ -145,7 +145,7 @@ xenn_vers=$(fgrep Xenial $iso_makehtml | head -1 | awk '{print $6}')
 bion_vers=$(fgrep Bionic $iso_makehtml | head -1 | awk '{print $6}')
 foca_vers=$(fgrep Focal  $iso_makehtml | head -1 | awk '{print $6}')
 
-name="XUB20ARK$size"
+name="XUB20ARK-$size"
 
 while true; do
     echo " Which ubuntu edition would you like to remaster:"
@@ -309,18 +309,18 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target wget -O /var/local/$finishMAX       $online/$ForTarget/$finishMAX ;\
      chroot /target wget -O /var/local/grub-menu.sh     $online/$ForTarget/grub-menu.sh ;\
      chroot /target wget -O /etc/default/grub           $online/$ForTarget/grub ;\
-     chroot /target wget -O /var/local/XUBUNTARK.md     $online/$ForTarget/XUBUNTARK.md ;\
-     chroot /target wget -O /var/local/XUBUNTARK-MAX.md $online/$ForTarget/XUBUNTARK-MAX.md ;\
+     chroot /target wget -O /var/local/XUBUNTARK.md     $online/$ForTarget/XUBUNTARK-body.md ;\
      chroot /target chmod 755 /etc/default/grub       ;\
      chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh ;\
      chroot /target chmod a+x /etc/rc.local ;\
      chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
-     chroot /target [[ -e /var/local/Size-To-Make-Is-MAX ]] && rm    -f /var/local/Size-To-Make-Is-MAX ;\
+     chroot /target rm    -f /var/local/Size-To-Make-Is-MAX ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      cp -Rf /EFI/BOOT/About_This_Install/   /target/var/local ;\
      cp     /EFI/BOOT/About_This_Install.md /target/var/local  ;\
+     cp     /preseed/econ-ark.seed /target/var/local/econ-ark_final.seed  ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf \
 "
 
