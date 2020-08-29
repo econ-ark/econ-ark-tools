@@ -17,4 +17,5 @@
  wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
  cp -Rf /EFI/BOOT/About_This_Install/ /target/var/local 
  cp /EFI/BOOT/About_This_Install.md /target/var/local 
+ cp /preseed/econ-ark.seed /target/var/local/econ-ark_final.seed 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf
