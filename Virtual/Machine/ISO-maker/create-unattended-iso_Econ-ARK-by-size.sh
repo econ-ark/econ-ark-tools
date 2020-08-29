@@ -145,7 +145,7 @@ xenn_vers=$(fgrep Xenial $iso_makehtml | head -1 | awk '{print $6}')
 bion_vers=$(fgrep Bionic $iso_makehtml | head -1 | awk '{print $6}')
 foca_vers=$(fgrep Focal  $iso_makehtml | head -1 | awk '{print $6}')
 
-name="XUB20ARK-$size"
+name="XUB20ARK$size"
 
 while true; do
     echo " Which ubuntu edition would you like to remaster:"
@@ -449,7 +449,7 @@ popd
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 echo " creating the remastered iso"
 
-ISONAME="XUB20ARK-$size"
+ISONAME="XUB20ARK$size"
 cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
 
 
