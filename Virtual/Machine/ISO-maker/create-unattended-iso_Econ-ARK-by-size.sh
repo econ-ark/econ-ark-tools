@@ -351,7 +351,7 @@ eval "$cmd"
 late_command_changed="$?"
 echo "late_command_changed=$late_command_changed"
 
-if [[ "late_command_changed" != 0 ]]; then
+if [[ "$late_command_changed" != 0 ]]; then
     echo '' 
     echo "$ForTarget/late_command has changed."
     echo '' ; echo 'The diff output is: ' ; echo ''
