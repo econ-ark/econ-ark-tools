@@ -314,7 +314,6 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target wget -O  /var/local/grub-menu.sh           $online/$ForTarget/grub-menu.sh ;\
      chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
      chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md ;\
-     chroot /target wget -O  /var/local/About_This_Install.md  $online/$ForTarget/About_This_Install.md ;\
      chroot /target mkdir -p /var/local/About_This_Install                                              ;\
      chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
      chroot /target wget -O  /var/local/About_This_Install/short.git-hash     $online/$ForTarget/About_This_Install/short.git-hash ;\
@@ -421,7 +420,7 @@ git diff --exit-code $pathToScript/$ForTarget/$ATI.md
 about_this_install_changed_md="$?"
 
 # If anything relevant has changed, require a fix and a push
-if [[ about_this_install_changed != 0 ]] || [[ about_this_install_changed_md != 0 ]]; then
+if [[ "$about_this_install_changed" != 0 ]] || [[ "$about_this_install_changed_md" != 0 ]]; then
     echo "$ATI/ or $ATI.md has changed; the new version has been written"
     echo ''
     cmd="git diff --exit-code $pathToScript/$ForTarget/$ATI/"
