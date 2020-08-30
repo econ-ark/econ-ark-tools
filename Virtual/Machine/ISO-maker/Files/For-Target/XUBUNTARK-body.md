@@ -1,5 +1,3 @@
-# Welcome to the Econ-ARK Xubuntu Virtual Machine
-
 This machine contains all the software necessary to use all parts of the Econ-ARK toolkit.
 
 Configuration details:
