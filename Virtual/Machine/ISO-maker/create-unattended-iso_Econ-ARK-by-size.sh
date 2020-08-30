@@ -389,7 +389,7 @@ git diff --exit-code $pathToScript/$ForTarget/$ATI/
 about_this_install_changed="$?"
 
 # If anything relevant has changed, require a fix and a push
-if [[ "$about_this_install_changed" != 0 ]] || [[ "$about_this_install_changed_md" != 0 ]]; then
+if [[ "$about_this_install_changed" != 0 ]]; then
     echo "$ATI/ or $ATI.md has changed; the new version has been written"
     echo ''
     cmd="git diff --exit-code $pathToScript/$ForTarget/$ATI/"
