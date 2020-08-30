@@ -422,7 +422,16 @@ about_this_install_changed_md="$?"
 if [[ about_this_install_changed != 0 ]] || [[ about_this_install_changed_md != 0 ]]; then
     echo "$ATI/ or $ATI.md has changed; the new version has been written"
     echo ''
+    cmd="git diff --exit-code $pathToScript/$ForTarget/$ATI/"
+    echo "$cmd"
+    eval "$cmd"
+    echo ''
+    cmd="git diff --exit-code $pathToScript/$ForTarget/$ATI.md"
+    echo "$cmd"
+    eval "$cmd"
+    echo ''
     echo 'Please git add, commit, push then hit return:'
+    echo ''
     cmd="cd `pwd` ; git add $DIR/$ATI ; git add $DIR/$ATI.md ; git commit -m ATI-Update ; git push"
     echo "$cmd"
     echo "$cmd" | xclip -i 
@@ -482,7 +491,6 @@ cp $iso_make/iso_new/EFI/BOOT/BOOTx64.EFI $iso_make/iso_new/boot/efi/EFI/BOOT/BO
 pushd . ; cd "$pathToScript"
 
 sudo chmod a-w "$DIR" "$DIR/$ATI/short.git-hash" "$DIR/$ATI/commit-msg.txt" "$DIR/$ATI.md" "$DIR/$ATI"
-fi
 
 short_hash_last="$($DIR/$ATI/short.git-hash)"
 
