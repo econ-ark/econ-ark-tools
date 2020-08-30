@@ -23,6 +23,19 @@ download()
 # Debugging 
 set -x ; set -v 
 
+# Make links in /var/local to files installed in other places
+# (to provide a transparent gude to all the places the system has been tweaked)
+
+cd /var/local
+mkdir -p root/etc/default
+mkdir -p root/etc/systemd/system/getty@tty1.service.d  # /override.conf Allows autologin to console as econ-ark
+mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manager 
+
+ln -s /etc/rc.local                                          /var/local/root/etc
+ln -s /etc/default/grub                                      /var/local/root/etc/default
+ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
+ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm
+
 # # These probably are not needed given that they are also provided before the relevant commands below
 # # Left here because no time to debug and see if they can be deleted
 # sudo export DEBCONF_DEBUG=.*
