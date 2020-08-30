@@ -36,10 +36,12 @@ ln -s /etc/default/grub                                      /var/local/root/etc
 ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
 ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm
 
+msg="$(cat ./About_This_Install/commit-msg.txt)"
+short_hash="$(cat ./About_This_Install/short.git-hash)"
 
-# Create the "About This Image" markdown file
-cat <<EOF > /var/local/About_This_Image.md
-# Detailed Info About This Image
+# Create the "About This Install" markdown file
+cat <<EOF > /var/local/About_This_Install.md
+# Detailed Info About This Installation
 
 This machine (virtual or real) was built using 
 
