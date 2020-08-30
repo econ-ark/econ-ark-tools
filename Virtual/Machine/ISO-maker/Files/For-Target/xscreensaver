@@ -2,8 +2,8 @@
 # Written by xscreensaver-demo 5.42 for econ-ark on Fri Aug 21 23:48:16 2020.
 # https://www.jwz.org/xscreensaver/
 
-timeout:	0:10:00
-cycle:		0:10:00
+timeout:	0:99:00
+cycle:		0:99:00
 lock:		False
 lockTimeout:	0:00:00
 passwdTimeout:	0:00:30
