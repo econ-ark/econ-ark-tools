@@ -388,9 +388,6 @@ fi
 git diff --exit-code $pathToScript/$ForTarget/$ATI/
 about_this_install_changed="$?"
 
-git diff --exit-code $pathToScript/$ForTarget/$ATI.md
-about_this_install_changed_md="$?"
-
 # If anything relevant has changed, require a fix and a push
 if [[ "$about_this_install_changed" != 0 ]] || [[ "$about_this_install_changed_md" != 0 ]]; then
     echo "$ATI/ or $ATI.md has changed; the new version has been written"
@@ -399,13 +396,9 @@ if [[ "$about_this_install_changed" != 0 ]] || [[ "$about_this_install_changed_m
     echo "$cmd"
     eval "$cmd"
     echo ''
-    cmd="git diff --exit-code $pathToScript/$ForTarget/$ATI.md"
-    echo "$cmd"
-    eval "$cmd"
-    echo ''
     echo 'Please git add, commit, push then hit return:'
     echo ''
-    cmd="cd `pwd` ; git add $DIR/$ATI ; git add $DIR/$ATI.md ; git commit -m ATI-Update ; git push"
+    cmd="cd `pwd` ; git add $DIR/$ATI ; git commit -m ATI-Update ; git push"
     echo "$cmd"
     echo "$cmd" | xclip -i 
     echo "(should be on xclip clipboard - paste in xfce4-terminal via shift-ctrl-v)"
