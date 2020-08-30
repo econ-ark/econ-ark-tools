@@ -456,7 +456,7 @@ cp $iso_make/iso_new/EFI/BOOT/BOOTx64.EFI $iso_make/iso_new/boot/efi/EFI/BOOT/BO
 # Get info about the commit 
 pushd . ; cd "$pathToScript"
 
-sudo chmod a-w "$DIR" "$DIR/$ATI/short.git-hash" "$DIR/$ATI/commit-msg.txt" "$DIR/$ATI.md" "$DIR/$ATI"
+sudo chmod a-w "$DIR" "$DIR/$ATI/short.git-hash" "$DIR/$ATI/commit-msg.txt" "$DIR/$ATI"
 
 short_hash_last="$($DIR/$ATI/short.git-hash)"
 
