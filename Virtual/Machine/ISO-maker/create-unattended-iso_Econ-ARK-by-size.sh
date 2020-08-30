@@ -315,7 +315,8 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
      chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md ;\
      chroot /target wget -O  /var/local/About_This_Install.md  $online/$ForTarget/About_This_Install.md ;\
-     chroot /target wget -Or /var/local/About_This_Install     $online/$ForTarget/About_This_Install ;\
+     chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
+     chroot /target wget -O  /var/local/About_This_Install/short.git-hash     $online/$ForTarget/About_This_Install/short.git-hash ;\
      chroot /target chmod 755 /etc/default/grub       ;\
      chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh ;\
      chroot /target chmod a+x /etc/rc.local ;\
