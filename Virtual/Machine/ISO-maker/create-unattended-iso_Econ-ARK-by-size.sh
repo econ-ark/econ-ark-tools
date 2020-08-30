@@ -373,7 +373,7 @@ dirExtra="Files/For-Target"
 ATI="About_This_Install"
 DIR="$pathToScript/$dirExtra"
 
-if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]] || [[ ! -e "$pathToScript/$dirExtra/$ATI.md" ]] ; then
+if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]]; then
     cd "$pathToScript/$dirExtra"
     sudo chmod u+w "$DIR"
     sudo mkdir -p "$DIR/$ATI"
@@ -381,36 +381,8 @@ if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]] || [[ ! -e "$pathToScript/$dirExtra
 
     sudo touch "$DIR/$ATI/short.git-hash" ; sudo chmod a+rw "$DIR/$ATI/short.git-hash"
     sudo touch "$DIR/$ATI/commit-msg.txt" ; sudo chmod a+rw "$DIR/$ATI/commit-msg.txt"
-    sudo touch "$DIR/$ATI.md"             ; sudo chmod a+rw "$DIR/$ATI.md"
     sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
     sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
-    cat <<EOF > "$DIR/$ATI.md"
-
-
-# Detailed Info About This Image
-
-The image was built using scripts in commit $short_hash of
-
-https://github.com/econ-ark/econ-ark-tools.git
-
-with commit message "$msg"
-
-
-Starting at the root of a cloned version of that repo,
-you should be able to reproduce the installer with:
-
-``` 
-    git checkout $short_hash
-    cd Virtual/Machine/ISO-maker ; create-unattended-iso_Econ-ARK-by-size.sh [ MIN | MAX ]
-```
-
-or, if you want to make and post both ISO's to Google Drive:
-
-
-    `./make-and-send-both.sh'
-
-EOF
-
 fi
 
 git diff --exit-code $pathToScript/$ForTarget/$ATI/

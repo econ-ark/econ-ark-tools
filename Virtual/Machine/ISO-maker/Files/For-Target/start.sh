@@ -36,6 +36,33 @@ ln -s /etc/default/grub                                      /var/local/root/etc
 ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
 ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm
 
+
+# Create the "About This Image" markdown file
+cat <<EOF > /var/local/About_This_Image.md
+# Detailed Info About This Image
+
+This machine (virtual or real) was built using 
+
+https://github.com/econ-ark/econ-ark-tools.git
+
+using scripts in commit $short_hash 
+with commit message "$msg"
+
+
+Starting at the root of a cloned version of that repo,
+you should be able to reproduce the installer with:
+
+``` 
+    git checkout $short_hash
+    cd Virtual/Machine/ISO-maker ; ./create-unattended-iso_Econ-ARK-by-size.sh [ MIN | MAX ]
+```
+
+or, if you want to make and post both MAX and MIN ISO's to Google Drive:
+
+    `./make-and-send-both.sh`
+
+EOF
+
 # # These probably are not needed given that they are also provided before the relevant commands below
 # # Left here because no time to debug and see if they can be deleted
 # sudo export DEBCONF_DEBUG=.*
