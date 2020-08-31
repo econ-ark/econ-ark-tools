@@ -148,13 +148,13 @@ size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 welcome="# Welcome to the Econ-ARK Machine XUBUNTARK-$size, build "
 welcome+="$(cat /var/local/About_This_Install/short.git-hash)"
 
+cat <<EOF > XUBUNTARK.md
+"$welcome"
 
-echo "$welcome" > XUBUNTARK.md
+This machine contains all the software necessary to use all parts of the
+Econ-ARK toolkit.
 
-echo ''
-echo 'This VM contains all the software necessary to use all parts of the'
-echo 'Econ-ARK toolkit.'
-echo ''
+EOF
 
 if [[ "$size" == "MIN" ]]; then
     sudo apt -y install python3-pip python-pytest python-is-python3

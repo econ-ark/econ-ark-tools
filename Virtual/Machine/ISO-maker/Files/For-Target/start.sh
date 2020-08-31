@@ -54,14 +54,18 @@ with commit message "$msg"
 Starting at the root of a cloned version of that repo,
 you should be able to reproduce the installer with:
 
-``` 
     git checkout $short_hash
     cd Virtual/Machine/ISO-maker ; ./create-unattended-iso_Econ-ARK-by-size.sh [ MIN | MAX ]
-```
 
 or, if you want to make and post both MAX and MIN ISO's to Google Drive:
 
-    `./make-and-send-both.sh`
+    ./make-and-send-both.sh
+
+A copy of the ISO installer that generated this machine should be in the
+
+    /media
+
+directory.
 
 EOF
 

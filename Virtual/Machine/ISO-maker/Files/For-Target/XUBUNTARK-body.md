@@ -1,4 +1,3 @@
-This machine contains all the software necessary to use all parts of the Econ-ARK toolkit.
 
 Configuration details:
 
@@ -28,4 +27,7 @@ To install to another drive/USB-stick:
    1. Boot your computer from the "burned" installer
    1. Choose the new medium on which you want to install XUBUNTARK
 
-For further information, see [econ-ark-tools](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual#most-powerful)
+For a bit more information, see the file `/var/local/About_This_Install.md`
+
+For detailed information about how the machine was constructed and configured, see [econ-ark-tools](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual#most-powerful)
+
