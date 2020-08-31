@@ -145,11 +145,13 @@ cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 [[ -e ./Size-To-Make-Is-MIN ]] && size="MIN"
 
+isoSize="$size"
 welcome="# Welcome to the Econ-ARK Machine XUBUNTARK-$size, build "
 welcome+="$(cat /var/local/About_This_Install/short.git-hash)"
 
 cat <<EOF > XUBUNTARK.md
 "$welcome"
+
 
 This machine contains all the software necessary to use all parts of the
 Econ-ARK toolkit.
@@ -166,8 +168,8 @@ else
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
     echo '' >> XUBUNTARK.md
-    echo 'In addition, it contains a rich suite of other software (like LaTeX) widely '
-    echo 'used in scientific computing, including full installations of Anaconda, '
+    echo 'In addition, it contains a rich suite of other software (like LaTeX) widely ' >> XUBUNTARK.md
+    echo 'used in scientific computing, including full installations of Anaconda, '     >> XUBUNTARK.md
     echo 'scipy, quantecon, and more.' >> XUBUNTARK.md
     echo '' >> XUBUNTARK.md
  fi
@@ -248,7 +250,7 @@ if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS
 fi
 
 # Download the installer (very meta!)
-isoName="econ-ark_$size_ubuntu-20.04-legacy-server-amd64-unattended.iso"
+isoName="econ-ark_$isoSize_ubuntu-20.04-legacy-server-amd64-unattended.iso"
 echo ''
 echo 'Fetching online image of this installer to '
 echo "/media/$isoName"
