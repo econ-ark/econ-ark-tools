@@ -256,9 +256,11 @@ echo "/media/$isoName"
 [[ -e "/media/$isoName" ]] && sudo rm "/media/$isoName"
 pip  install gdown # Google download
 
+cd /media
 if [ "$size" == "MIN" ]; then
-    gdown --id "13DgxXoc5oSXi9YPLEdBx6hI3V6n8cm9E" --output "/media/$isoName"
-else # size = MAX
+#    gdown --id "13DgxXoc5oSXi9YPLEdBx6hI3V6n8cm9E" --output "/media/$isoName"
+    gdown --ID "1iPyEwhhrUv1XQfRV7uSjmy5k7_TXsKmM"
+else    # size = MAX
     gdown --id "1Qs8TpId5css7q9L315VUre0mjIRqjw8Z" --output "/media/$isoName"
 fi
 
