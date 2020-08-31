@@ -148,7 +148,13 @@ size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 welcome="# Welcome to the Econ-ARK Machine XUBUNTARK-$size, build "
 welcome+="$(cat /var/local/About_This_Install/short.git-hash)"
 
+
 echo "$welcome" > XUBUNTARK.md
+
+echo ''
+echo 'This VM contains all the software necessary to use all parts of the'
+echo 'Econ-ARK toolkit.'
+echo ''
 
 if [[ "$size" == "MIN" ]]; then
     sudo apt -y install python3-pip python-pytest python-is-python3
@@ -160,9 +166,9 @@ else
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
     echo '' >> XUBUNTARK.md
-    echo 'In addition, it contains a rich suite of other software (like LaTeX) widely used 
-in scientific computing, including full installations of Anaconda, scipy, quantecon,
-and more.' >> XUBUNTARK.md
+    echo 'In addition, it contains a rich suite of other software (like LaTeX) widely '
+    echo 'used in scientific computing, including full installations of Anaconda, '
+    echo 'scipy, quantecon, and more.' >> XUBUNTARK.md
     echo '' >> XUBUNTARK.md
  fi
 
@@ -251,7 +257,7 @@ echo "/media/$isoName"
 pip  install gdown # Google download
 
 if [ "$size" == "MIN" ]; then
-    gdown --id "19AL7MsaFkTdFA1Uuh7gE57Ksshle2RRR" --output "/media/$isoName"
+    gdown --id "13DgxXoc5oSXi9YPLEdBx6hI3V6n8cm9E" --output "/media/$isoName"
 else # size = MAX
     gdown --id "1Qs8TpId5css7q9L315VUre0mjIRqjw8Z" --output "/media/$isoName"
 fi
