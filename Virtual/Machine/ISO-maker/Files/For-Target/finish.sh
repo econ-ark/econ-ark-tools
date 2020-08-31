@@ -30,7 +30,7 @@ sudo systemctl disable cups-browsed.service
 sudo apt -y install software-properties-common # Manage software like dbus 
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils
 
 # Make a home for econ-ark in /usr/local/share/data and link to it from home directory
 mkdir -p /home/econ-ark/GitHub
