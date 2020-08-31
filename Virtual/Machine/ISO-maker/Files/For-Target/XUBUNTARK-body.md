@@ -4,8 +4,12 @@ Configuration details:
 
 1. The screensaver and lock-screen features are turned off by default
    * Fix this, if desired, using the control panel at the upper left
-   
-Several tools for communicating with the VM are installed
+1. The machine is configured with only one username: econ-ark
+   * The password is the username spelled backwards
+1. This machine is highly insecure
+   * Do not store important personal information on it
+
+Several tools for communicating with the machine are installed
 
 1. An ssh server is installed and operating
    * You should be able to connect via a command like:
