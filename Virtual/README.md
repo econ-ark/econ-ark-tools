@@ -87,7 +87,7 @@ several hours.
 
    * On Macs, mounting is done with the Disk Utility app ("open image")
    * Next, make a "bootable USB" stick by burning the ISO image
-      * ["Carbon Copy Cloner"](https://bombich.com/ccc5/how-does-free-30-day-trial-work) is the most reliable option for this
+      * ["Carbon Copy Cloner"](https://bombich.com/software/download_ccc.php) is the most reliable option for this
 	     * There is a free trial version that should work
 	     * Format your USB stick to MS-DOS
 		 * Clone from the mounted ISO image to the formatted USB stick
