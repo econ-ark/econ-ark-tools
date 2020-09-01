@@ -47,7 +47,7 @@ of instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/
 
 # MIN or MAX
 
-### [xubark-MIN](https://drive.google.com/drive/folders/1yGk_LFM6y3M_Y_8BbYdwoMQ14wGFQPZB?usp=sharing)
+### [XUBUNTARK-MIN](https://drive.google.com/drive/folders/1WVs4TpsMrB8erCIykymzMYmYtxvTjtwk?usp=sharing)
 
 Installs python3, jupyter lab, Econ-ARK, and not much else. The total size
 of the software is about 6 GB, and a minimal so even if you have a fairly small USB
@@ -59,7 +59,7 @@ fast internet access.
 Even if you plan ultimately to install the MAX version described below, you might
 do a "test run" with the MIN version because it is considerably faster.
 
-### [xubark-MAX](https://drive.google.com/drive/folders/1OarYGCwW4Avc1UMpPHsIMWr4jh0tKUn6?usp=sharing)
+### [XUBUNTARK-MAX](https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing)
 
 In addition to the contents of [xubark-MIN](#xubark-MIN), the MAX version includes a full installation of:
 
