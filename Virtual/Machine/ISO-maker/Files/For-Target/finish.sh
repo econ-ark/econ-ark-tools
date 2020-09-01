@@ -78,8 +78,8 @@ wget -O   /var/local/$refindFile.sh                $online/Files/For-Target/$ref
 wget -O   /var/local/$refindFile-README.md         $online/Files/For-Target/$refindFile-README.md
 chmod +x  /var/local/$refindFile.sh
 chmod a+r /var/local/$refindFile-README.md
-wget -O /home/econ-ark/Downloads $online/Files/ForTarget/zoom_amd64.deb 
-    
+#wget -O /var/local/zoom_amd64.deb $online/Files/ForTarget/zoom_amd64.deb 
+wget -O /var/local/zoom_amd64.deb https://zoom.us/client/latest/zoom_amd64.deb
 
 
 # Allow vnc (will only start up after reading ~/.bash_aliases)
