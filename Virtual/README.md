@@ -23,7 +23,7 @@ tools
    1. A large one to hold the installed system
       * at least 64 GB; 128 GB recommended
 * Be sure to get a _fast_ USB stick, at least for the large dive
-* Use the [xubark-MAX](#MIN-or-MAX) ISO image file described below
+* Use the [XUBUNTARK-MAX](#MIN-or-MAX) ISO image file described below
    * Follow the rest of the instructions below
 
 #### Hybrid
@@ -47,7 +47,7 @@ of instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/
 
 # MIN or MAX
 
-### [XUBUNTARK-MIN](https://drive.google.com/drive/folders/1WVs4TpsMrB8erCIykymzMYmYtxvTjtwk?usp=sharing)
+### [XUBUNTARK-MIN](https://drive.google.com/drive/folders/1iPyEwhhrUv1XQfRV7uSjmy5k7_TXsKmM?usp=sharing)
 
 Installs python3, jupyter lab, Econ-ARK, and not much else. The total size
 of the software is about 6 GB, and a minimal so even if you have a fairly small USB
@@ -59,9 +59,9 @@ fast internet access.
 Even if you plan ultimately to install the MAX version described below, you might
 do a "test run" with the MIN version because it is considerably faster.
 
-### [XUBUNTARK-MAX](https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing)
+### [XUBUNTARK-MAX](https://drive.google.com/drive/folders/1bTa_OnD_sq0oFU3-bJWeG7VzIZ4gK1RR?usp=sharing)
 
-In addition to the contents of [xubark-MIN](#xubark-MIN), the MAX version includes a full installation of:
+In addition to the contents of [XUBUNTARK-MIN](#XUBUNTARK-MIN), the MAX version includes a full installation of:
 
 1. Anaconda 3
 1. LaTeX
