@@ -33,7 +33,7 @@ MAX software suite. So you can do all the Docker stuff from inside your VM
 
 ### In-Between
 
-You can install [VirtualBox][https://virtualbox.org] on your computer,
+You can install [VirtualBox](https://virtualbox.org) on your computer,
 which will allow you to run Linux in a virtual machine that is
 encapsulated on your regular hard drive.  This has the advantage of
 being very safe (the virtual machine is completely contained inside a
