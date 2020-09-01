@@ -150,7 +150,7 @@ welcome="# Welcome to the Econ-ARK Machine XUBUNTARK-$size, build "
 welcome+="$(cat /var/local/About_This_Install/short.git-hash)"
 
 cat <<EOF > XUBUNTARK.md
-"$welcome"
+$welcome
 
 
 This machine contains all the software necessary to use all parts of the
