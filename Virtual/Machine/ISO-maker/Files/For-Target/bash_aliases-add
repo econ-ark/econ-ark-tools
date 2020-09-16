@@ -31,7 +31,7 @@ fi
 
 # Stuff to be executed only the first time a user logs into an interactive GUI shell
 if [[ "$DISPLAY" != "" ]] && [[ ! -e /var/local/finished-software-install ]]; then
-    xset r off # Repeated keys does not work well on VirtualBox
+    [[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && xset r off # Repeated keys does not work well on VirtualBox
 
     pkill xfce4-screensaver # Prevent lock screen 
     # Configure backdrop - can't be done in start.sh or finish.sh because dbus not running until GUI is up

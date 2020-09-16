@@ -21,7 +21,7 @@ export DEBCONF_DEBUG=.*
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
-sudo apt -y install meld autocutsel ca-certificates 
+sudo apt -y install meld autocutsel ca-certificates nbreproduce
 
 # The cups service sometimes gets stuck; stop it before that happens
 sudo systemctl stop    cups-browsed.service 
@@ -186,7 +186,8 @@ sudo jupyter nbextension enable collapsible_headings/main
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
-pip install --upgrade econ-ark 
+pip install --upgrade econ-ark
+pip install --upgrade nbreproduce
 
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
@@ -195,7 +196,7 @@ git clone https://github.com/econ-ark/REMARK.git
 git clone https://github.com/econ-ark/HARK.git
 git clone https://github.com/econ-ark/DemARK.git
 git clone https://github.com/econ-ark/econ-ark-tools.git
-chmod a+rw -Rf /usr/local/share/data/GitHub/econ-ark
+chmod -Rf a+rwx /usr/local/share/data/GitHub/econ-ark
 
 
 
@@ -273,7 +274,7 @@ sudo apt install /var/local/google-chrome-stable_current_amd64.deb
 chown -Rf $myuser:$myuser /home/$myuser/
 
 # bring system up to date
-sudo apt -y update && sudo apt -y upgrade  
+sudo apt -y update && sudo apt -y upgrade
 
 # Signal that we've finished software install
 touch /var/local/finished-software-install 

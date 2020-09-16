@@ -21,3 +21,4 @@ curl -fsSL https://get.docker.com -o installers/get-docker.sh
 cd installers
 sh get-docker.sh
 
+sudo usermod -aG docker econ-ark
