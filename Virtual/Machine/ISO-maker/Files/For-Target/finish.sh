@@ -21,7 +21,7 @@ export DEBCONF_DEBUG=.*
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
-sudo apt -y install meld autocutsel ca-certificates nbreproduce
+sudo apt -y install meld autocutsel ca-certificates
 
 # The cups service sometimes gets stuck; stop it before that happens
 sudo systemctl stop    cups-browsed.service 
@@ -167,12 +167,13 @@ if [[ "$size" == "MIN" ]]; then
 else
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
+    source /etc/environment # Update the path
     echo '' >> XUBUNTARK.md
     echo 'In addition, it contains a rich suite of other software (like LaTeX) widely ' >> XUBUNTARK.md
     echo 'used in scientific computing, including full installations of Anaconda, '     >> XUBUNTARK.md
     echo 'scipy, quantecon, and more.' >> XUBUNTARK.md
     echo '' >> XUBUNTARK.md
- fi
+fi
 
 cat /var/local/XUBUNTARK-body.md >> XUBUNTARK.md
 
@@ -186,8 +187,8 @@ sudo jupyter nbextension enable collapsible_headings/main
 
 #Download and extract HARK, REMARK, DemARK from GitHUB repository
 
-pip install --upgrade econ-ark
-pip install --upgrade nbreproduce
+sudo pip install --upgrade econ-ark
+sudo pip install --upgrade nbreproduce
 
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
@@ -242,8 +243,8 @@ if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS
     sudo chmod a+x                                /tmp/refind-HFS/*.sh # make it executable
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns   /tmp/refind-HFS/.VolumeIcon.icns # Should endow the HFS+ volume with the Econ-ARK logo
     echo  "$online/Disk/Icons/.VolumeIcon.icns" > /tmp/refind-HFS/.VolumeIcon_icns.source
-#    sudo wget -O  /tmp/refind-HFS/.VolumeIcon.icns "$online/Disk/Icons/os_refit.icns" 
-#    echo  "$online/Disk/Icons/os_refit.icns" >   /tmp/refind-HFS/.VolumeIcon_icns.source
+    #    sudo wget -O  /tmp/refind-HFS/.VolumeIcon.icns "$online/Disk/Icons/os_refit.icns" 
+    #    echo  "$online/Disk/Icons/os_refit.icns" >   /tmp/refind-HFS/.VolumeIcon_icns.source
     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
@@ -257,7 +258,7 @@ echo 'Fetching online image of this installer to '
 echo "/media/$isoName"
 
 [[ -e "/media/$isoName" ]] && sudo rm "/media/$isoName"
-pip  install gdown # Google download
+sudo pip  install gdown # Google download
 
 cd /media
 if [ "$size" == "MIN" ]; then

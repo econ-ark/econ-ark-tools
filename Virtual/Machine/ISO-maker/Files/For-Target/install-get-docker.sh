@@ -16,7 +16,9 @@ fi
 for f in docker docker-engine docker.io containerd runc; do
     sudo apt-get -y remove "$f"
 done
-	 
+
+mkdir -p installers
+
 curl -fsSL https://get.docker.com -o installers/get-docker.sh
 cd installers
 sh get-docker.sh
