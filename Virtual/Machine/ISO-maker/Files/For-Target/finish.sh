@@ -270,6 +270,8 @@ fi
 # Install Chrome browser 
 wget -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt install /var/local/google-chrome-stable_current_amd64.deb
+sudo -u econ-ark xdg-settings set default-web-browser google-chrome.desktop
+xdg-settings set default-web-browser google-chrome.desktop
 
 # Make sure that everything in the home user's path is owned by home user 
 chown -Rf $myuser:$myuser /home/$myuser/

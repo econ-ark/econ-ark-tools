@@ -55,6 +55,9 @@ else
     sudo apt -y install cifs-utils nautilus-share
     # Extra packages for MAX
     sudo apt -y install evince texlive-full
+
+    # Allow evince to ask the filesystem to open urls
+    # (not sure how to do this)
     pip install quantecon
 
     sudo apt -y install /var/local/zoom_amd64.deb
