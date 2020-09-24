@@ -220,6 +220,7 @@ git submodule update --init --recursive --remote
 git pull
 cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirements.txt
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirements.txt
+cd /usr/local/share/data/GitHub/econ-ark/HARK          ; pip install -r requirements.txt
 
 cd /usr/local/share/data/GitHub/econ-ark/HARK
 pytest 
