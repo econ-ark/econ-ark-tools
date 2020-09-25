@@ -142,6 +142,8 @@ The return value is the new value of LIST-VAR."
       (set list-var elements)))
   (symbol-value list-var))
 
+(require 'tex-site)
+
 ;; Make sure auctex is loaded whenever emacs gets launched, so that customizations below can be done
 (load "auctex.el" nil t t)
 
