@@ -1,3 +1,4 @@
+;;; # -*- mode: emacs-lisp ;-*- ;;; Forces editing in emacs-mode
 ;;; Version for XUBUNTARK
 
 (setq package-check-signature nil) ;;; Google "metaredux.com" dealing with expired elpa gpg keys
@@ -52,17 +53,17 @@
 	(indent-buffer)
 	(message "Indented buffer.")))))
 
-(global-set-key (kbd "C-M-\\") 'indent-region-or-buffer)
+(global-set-key (kbd "C-M-\\") 'indent-region-or-buffer) ;; on Mac, ESC-C-\
 
 ;;; 2017-05-30: Display full file path in frame title, only works in Xterm (not Terminal.app)
 
 (setq-default frame-title-format "%b (%f)")
+
+;;; Suppress some annoying and useless error messages
 (when (string= system-type "darwin")
   (setq dired-use-ls-dired nil)) ;;; Inhibit annoying error message if running on MacOS
 (setq inhibit-startup-message t) ;;; Inhibit annoying startup message
 (require 'dired-x)
-
-;;; (process-kill-without-query (get-process "shell"))
 
 ;;; Match words across line breaks
 ;;; https://emacs.stackexchange.com/questions/10582/search-for-string-ignoring-new-lines
@@ -71,8 +72,7 @@
 (setq isearch-regexp-lax-whitespace t)
 (setq search-whitespace-regexp "[ \t\r\n]+")
 
-
-(setq delete-by-moving-to-trash t)
+(setq delete-by-moving-to-trash t)  ;; can be slow for large deletes 
 (setq dired-recursive-deletes t)
 
 ;;; Make sure the parens bounce back to show you where start and end points are
@@ -80,7 +80,6 @@
 
 ;; Copy full path of filename selected in dired onto the clipboard
 ;; From http://stackoverflow.com/questions/18812938/copy-full-file-path-into-copy-paste-clipboard
-
 ;; from http://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
 
 (defun clip-file ()
@@ -104,8 +103,7 @@
 	(clipboard-kill-region (point-min) (point-max)))
       (message filename))))
 
-(define-key (current-global-map) "\C-c\C-b"     'put-file-name-on-clipboard)
-(define-key (current-global-map) "\C-\M-b"       'put-file-name-on-clipboard) ;; Alternative definition because \C-c\C-c\C-b is defined already in LaTeX and Markdown modes
+(define-key (current-global-map) "\C-\M-b"       'put-file-name-on-clipboard) ;; Ctrl-ESC-b
 
 ;;; From http://www.emacswiki.org/emacs/UnfillParagraph
 ;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
@@ -118,39 +116,19 @@
 ;; Handy key definition
 (define-key global-map "\M-Q" 'unfill-paragraph)
 
-
+;; File extensions that trigger markdown-mode
 (autoload 'markdown-mode "markdown-mode"
   "Major mode for editing Markdown files" t)
-(add-to-list 'auto-mode-alist '("\\.text\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.text\\'"     . markdown-mode))
 (add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'"       . markdown-mode))
 
 (autoload 'gfm-mode "markdown-mode"
   "Major mode for editing GitHub Flavored Markdown files" t)
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 
-;; Useful function defined in https://stackoverflow.com/questions/24356401/how-to-append-multiple-elements-to-a-list-in-emacs-lisp
-(defun append-to-list (list-var elements)
-  "Append ELEMENTS to the end of LIST-VAR.
-
-The return value is the new value of LIST-VAR."
-  (unless (consp elements)
-    (error "ELEMENTS must be a list"))
-  (let ((list (symbol-value list-var)))
-    (if list
-	(setcdr (last list) elements)
-      (set list-var elements)))
-  (symbol-value list-var))
-
-(require 'tex-site)
-
 ;; Make sure auctex is loaded whenever emacs gets launched, so that customizations below can be done
 (load "auctex.el" nil t t)
-
-;; TeX defaults
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq TeX-latex-mode t)
 
 ;; (load "preview.el" nil t t)
 ;; Prevent annoying requirement to choose BibTeX over Biber every time
@@ -175,12 +153,6 @@ The return value is the new value of LIST-VAR."
 (setq python-shell-interpreter "ipython"
       python-shell-interpreter-args "-i --simple-prompt")
 (setq python-fill-docstring-style 'django)
-
-;; Flexible text folding
-(with-eval-after-load 'origami
-  (define-key origami-mode-map (kbd "C-c f") 'origami-recursively-toggle-node)
-  (define-key origami-mode-map (kbd "C-c F") 'origami-toggle-all-nodes)
-  )
 
 ;; When in X windows graphical mode, sync between emacs kill ring and system clipboard
 ;; (defun copy-from-ubuntu (text &optional push)
@@ -214,9 +186,9 @@ The return value is the new value of LIST-VAR."
 ;; 	     (setq interprogram-paste-function 'xsel-paste-function)
 ;; 	     )
 ;; 	   )
-	   
+
 ;;     )
-    
+
 ;;   (setq interprogram-cut-function 'copy-from-ubuntu)
 ;;   )
 
@@ -231,18 +203,15 @@ The return value is the new value of LIST-VAR."
 ;;     )
 ;; )
 
-
 ;; (setq x-select-enable-clipboard t)
 ;; (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
 (setq message-kill-buffer-on-exit t)
 
-(global-set-key (kbd "\C-x^") 'overwrite-mode)
+(global-set-key (kbd "\C-x^") 'overwrite-mode)  ;; typing replaces characters rather than inserting them
 
-(setq case-fold-search t)
-
-;; Set default to ignore case when sorting 
-(setq sort-fold-case t)
+(setq case-fold-search t) ;; case-insensitive searching: typing Dog and dog will both find doG and dOg
+(setq sort-fold-case t)   ;; Set default to ignore case when sorting  
 
 ;; The default linux theme is appalling -- replace
 (load-theme 'tango-dark)
