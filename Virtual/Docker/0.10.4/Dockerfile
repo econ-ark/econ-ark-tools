@@ -17,7 +17,7 @@ WORKDIR $HOME
 # packages required on top of scipy-notebook docker stack.
 # install latest release of econ-ark
 RUN conda install  --yes \
-    'econ-ark=0.10.7' \
+    'econ-ark=0.10.4' \
     'mamba' \
     && \
     conda clean --all -f -y && \
