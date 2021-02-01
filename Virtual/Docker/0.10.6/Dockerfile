@@ -18,6 +18,7 @@ WORKDIR $HOME
 # install latest release of econ-ark
 RUN conda install  --yes \
     'econ-ark=0.10.6' \
+    'mamba' \
     && \
     conda clean --all -f -y && \
     fix-permissions $CONDA_DIR && \
