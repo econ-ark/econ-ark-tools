@@ -181,7 +181,7 @@ while true; do
                 new_iso_base="$name-ubuntu-18.04.4-server-amd64-unattended"
                 new_iso_name="$name-ubuntu-18.04.4-server-amd64-unattended.iso"
                 break;;
-        [5]* )  download_file="ubuntu-20.04-legacy-server-amd64.iso"
+        [5]* )  download_file="ubuntu-20.04.1-legacy-server-amd64.iso"
                 download_location="http://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/"
                 new_iso_base="ubuntu-20.04-legacy-server-amd64-unattended"
                 new_iso_name="$name-ubuntu-20.04-legacy-server-amd64-unattended.iso"
