@@ -30,7 +30,7 @@ sudo systemctl disable cups-browsed.service
 sudo apt -y install software-properties-common # Manage software like dbus 
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone
 
 # Make a home for econ-ark in /usr/local/share/data and link to it from home directory
 mkdir -p /home/econ-ark/GitHub
@@ -137,9 +137,6 @@ mkdir -p /EFI/BOOT/
 cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
 cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
 echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
-
-# Get other default packages for Econ-ARK machine
-sudo apt -y install cifs-utils xclip xsel
 
 cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
