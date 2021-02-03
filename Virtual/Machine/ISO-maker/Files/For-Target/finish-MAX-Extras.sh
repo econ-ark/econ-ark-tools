@@ -15,12 +15,8 @@ else
     [[ -e /tmp/Anaconda ]] && sudo rm -Rf /tmp/Anaconda # delete any prior install
     mkdir /tmp/Anaconda ; cd /tmp/Anaconda
     CONTREPO=https://repo.continuum.io/archive
-    # Stepwise filtering of the html at $CONTREPO
-    # Get the topmost line that matches our requirements, extract the file name
-    # (this gives us the latest stable version)
-    #    ANACONDAURL=$(wget -q -O - $CONTREPO index.html | grep "Anaconda3-" | grep "Linux" | grep "86_64" | tail -n 1 | cut -d \" -f 2)
-    LATEST="Anaconda3-2020.11-Linux-x86_64.sh"
-    #    ANACONDAURL="$CONTREPO$LATEST"
+    LATEST="Anaconda3-2020.11-Linux-x86_64.sh" # Gave up on automatically retrieving latest version
+    # 20210203: Python version is 3.8.5
     cmd="wget -O /tmp/Anaconda/$LATEST $CONTREPO/$LATEST ; cd /tmp/Anaconda"
     echo "$cmd" # tell
     eval "$cmd" # do 
@@ -48,13 +44,19 @@ else
     fi
     source /etc/environment  # Get the new environment
 
-    pushd . ; cd /usr/local/anaconda3 ; sudo find . -type f -iname ".sh" -exec chmod a+x {} \;
-    popd 
-    #    sudo conda install --yes -c conda-forge mamba
-    #    sudo conda create --name base_py37   --clone base 
-    #    sudo conda create --name anaconda_37 --name anaconda # Make the anaconda standard 
+    # The sudos below are not necessary when this script is originally run
+    # But they are useful when debugging it because they allow copy and paste
+    # of text to a non-root shell on a line-by-line basis
 
-    #    mamba update --yes --name base      conda    python=3.8
+    sudo conda init
+
+    # Because installed as root, files are not executable by non-root users but should be
+    pushd .
+    cd /usr/local/anaconda3 
+    sudo find . -type f -iname ".sh"  -exec chmod a+x {} \;
+    sudo find . -type f -iname "..sh" -exec chmod a+x {} \; # Gets csh, zsh, whatever
+    popd
+
     sudo conda install -c conda-forge mamba 
     sudo mamba create --yes --name base_py38 python=3.8 anaconda
     sudo conda activate base_py38
@@ -71,8 +73,6 @@ else
     sudo mamba install --yes -c anaconda pyopengl # Otherwise you get an error "Segmentation fault (core dumped)" on some Ubuntu machines
     sudo mamba install --yes -c conda-forge jupyter_contrib_nbextensions
     # Make sure commands are executable by regular users
-
-    sudo conda init
 
     # Get default packages for Econ-ARK machine
     sudo apt -y install cifs-utils nautilus-share
