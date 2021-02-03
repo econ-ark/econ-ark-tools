@@ -544,6 +544,8 @@ unset seed_file
 
 umount /usr/local/share/iso_make/iso_org
 
+rm "$pathToScript/Size-To-Make-Is-$size"
+
 exit
 
 rm -rf $iso_make/iso_new
