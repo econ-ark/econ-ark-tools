@@ -28,6 +28,7 @@ set -x ; set -v
 
 cd /var/local
 mkdir -p root/etc/default
+mkdir -p root/.config/rclone
 mkdir -p root/etc/systemd/system/getty@tty1.service.d  # /override.conf Allows autologin to console as econ-ark
 mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manager 
 
@@ -82,7 +83,10 @@ mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
 # This allows git branches during debugging 
 branch_name=master 
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
-                       
+
+# Get pasword-encrypted rclone key for Google drive 
+wget -O  /var/local/root/.config/rclone/rcloneconf.zip $online/root/.config/rclone/rcloneconf.zip
+
 # Configure boot information
 sudo update-grub
 
@@ -101,6 +105,7 @@ if [[ ! -e /home/$myuser/.ssh ]]; then
 fi    
 
 sudo apt -y install gpg # Required to set up security for emacs package downloading 
+
 
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 
