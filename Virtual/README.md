@@ -2,9 +2,9 @@
 
 You have several options for installing a virtual machine containing the Econ-ARK tools.
 
-### Easiest
+### Easiest (But Least Powerful -- For Running Existing Tools)
 
-Install "Docker" on your computer, and follow the instructions in the [Docker](/home/econ-ark/GitHub/econ-ark/econ-ark-tools/tree/master/Virtual/Docker/README.md) directory to run everything inside a "container" on your computer
+Install "Docker" on your computer, and follow the instructions in the [Docker](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Docker) directory to create a Docker "container" on your computer
 
 * Docker shares resources with your computer
 * Your computer's regular operations will sap the performance of the Docker machine
@@ -26,9 +26,7 @@ tools
 * Use the [XUBUNTARK-MAX](#MIN-or-MAX) ISO image file described below
    * Follow the rest of the instructions below
 
-#### Hybrid
-
-This option embeds the "Docker" option because docker is installed as part of the 
+n.b.: This option embeds the "Docker" option because docker is installed as part of the 
 MAX software suite. So you can do all the Docker stuff from inside your VM
 
 ### In-Between
@@ -76,7 +74,7 @@ the full results of several computational economics papers.
 This machine is considerably larger, and so will take longer to install, perhaps
 several hours.
 
-## Instructions for Installing your VM
+## Instructions for Installing your VM on a Bootable USB Medium
 
 ### [Burn](#burn) your chosen ISO image (MIN or MAX) to the small USB stick
 
