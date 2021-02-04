@@ -17,7 +17,7 @@ else
     CONTREPO=https://repo.continuum.io/archive
     LATEST="Anaconda3-2020.11-Linux-x86_64.sh" # Gave up on automatically retrieving latest version
     # 20210203: Python version is 3.8.5
-    cmd="wget -O /tmp/Anaconda/$LATEST $CONTREPO/$LATEST ; cd /tmp/Anaconda"
+    cmd="wget --quiet -O /tmp/Anaconda/$LATEST $CONTREPO/$LATEST ; cd /tmp/Anaconda"
     echo "$cmd" # tell
     eval "$cmd" # do 
 
