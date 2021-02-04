@@ -1,6 +1,10 @@
 ;;; # -*- mode: emacs-lisp ;-*- ;;; Forces editing in emacs-mode
 ;;; Version for XUBUNTARK
 
+(package-initialize)
+(package-refresh-contents)
+(package-install 'use-package)
+
 (setq package-check-signature nil) ;;; Google "metaredux.com" dealing with expired elpa gpg keys
 
 (prefer-coding-system 'utf-8)
