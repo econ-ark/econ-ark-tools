@@ -13,7 +13,7 @@ if [[ ! -e /root/.config/rclone/rclone.conf ]]; then
     echo ''
     echo 'which can be unzipped using the econ-ark@jhuecon.org login password:'
     echo ''
-    echo 'sudo mkdir -p /root/.config/rclone ; cd /var/local/root/.config/rclone ; sudo unzip /root/.config/rclone/rcloneconf.zip'
+    echo 'sudo mkdir -p /root/.config/rclone ; cd /var/local/root/.config/rclone ; sudo unzip /var/local/root/.config/rclone/rcloneconf.zip'
     echo ''
     echo 'then '
     echo ''

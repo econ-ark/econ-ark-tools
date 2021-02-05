@@ -8,7 +8,7 @@ download()
 {
     local url=$1
     #    echo -n "    "
-    wget --quiet --progress=dot $url 2>&1 | grep --line-buffered "%" | \
+    wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
         sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
     #    echo -ne "\b\b\b\b"
     #    echo " DONE"
@@ -72,10 +72,10 @@ cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
 # Get misc other stuff 
 refindFile="refind-install-MacOS"
-wget --quiet -O   /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
-wget --quiet -O   /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
-wget --quiet -O   /var/local/$refindFile.sh                $online/Files/For-Target/$refindFile.sh
-wget --quiet -O   /var/local/$refindFile-README.md         $online/Files/For-Target/$refindFile-README.md
+wget -O   /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
+wget -O   /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
+wget -O   /var/local/$refindFile.sh                $online/Files/For-Target/$refindFile.sh
+wget -O   /var/local/$refindFile-README.md         $online/Files/For-Target/$refindFile-README.md
 chmod +x  /var/local/$refindFile.sh
 chmod a+r /var/local/$refindFile-README.md
 #wget --quiet -O /var/local/zoom_amd64.deb $online/Files/ForTarget/zoom_amd64.deb 
@@ -155,6 +155,39 @@ Econ-ARK toolkit.
 
 EOF
 
+
+# Download the installer (very meta!)
+isoName="econ-ark_$isoSize_ubuntu-20.04-legacy-server-amd64-unattended.iso"
+echo ''
+echo 'Fetching online image of this installer to '
+echo "/media/$isoName"
+
+[[ -e "/media/$isoName" ]] && sudo rm "/media/$isoName"
+sudo pip  install gdown # Google download
+
+cd /media
+if [ "$size" == "MIN" ]; then
+    sudo gdown --id "13DgxXoc5oSXi9YPLEdBx6hI3V6n8cm9E" --output "/media/$isoName"
+else    # size = MAX
+    sudo gdown --id "1Qs8TpId5css7q9L315VUre0mjIRqjw8Z" --output "/media/$isoName"
+fi
+
+# Install Chrome browser 
+wget --quiet -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt install /var/local/google-chrome-stable_current_amd64.deb
+sudo -u econ-ark xdg-settings set default-web-browser google-chrome.desktop
+xdg-settings set default-web-browser google-chrome.desktop
+
+# Make sure that everything in the home user's path is owned by home user 
+chown -Rf $myuser:$myuser /home/$myuser/
+
+# bring system up to date
+sudo apt -y update && sudo apt -y upgrade
+
+# Signal that we've finished software install
+touch /var/local/finished-software-install 
+
+
 if [[ "$size" == "MIN" ]]; then
     sudo apt -y install python3-pip python-pytest python-is-python3
     sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
@@ -195,8 +228,6 @@ git clone https://github.com/econ-ark/HARK.git
 git clone https://github.com/econ-ark/DemARK.git
 git clone https://github.com/econ-ark/econ-ark-tools.git
 chmod -Rf a+rwx /usr/local/share/data/GitHub/econ-ark
-
-
 
 echo 'This is your local, personal copy of HARK; it is also installed systemwide.  '      >  HARK-README.md
 echo 'Local mods will not affect systemwide, unless you change the default source via:'   >> HARK-README.md
@@ -248,37 +279,6 @@ if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS
     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
     # sudo refind-install --usedefault "$ESP"
 fi
-
-# Download the installer (very meta!)
-isoName="econ-ark_$isoSize_ubuntu-20.04-legacy-server-amd64-unattended.iso"
-echo ''
-echo 'Fetching online image of this installer to '
-echo "/media/$isoName"
-
-[[ -e "/media/$isoName" ]] && sudo rm "/media/$isoName"
-sudo pip  install gdown # Google download
-
-cd /media
-if [ "$size" == "MIN" ]; then
-    sudo gdown --id "13DgxXoc5oSXi9YPLEdBx6hI3V6n8cm9E" --output "/media/$isoName"
-else    # size = MAX
-    sudo gdown --id "1Qs8TpId5css7q9L315VUre0mjIRqjw8Z" --output "/media/$isoName"
-fi
-
-# Install Chrome browser 
-wget --quiet -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt install /var/local/google-chrome-stable_current_amd64.deb
-sudo -u econ-ark xdg-settings set default-web-browser google-chrome.desktop
-xdg-settings set default-web-browser google-chrome.desktop
-
-# Make sure that everything in the home user's path is owned by home user 
-chown -Rf $myuser:$myuser /home/$myuser/
-
-# bring system up to date
-sudo apt -y update && sudo apt -y upgrade
-
-# Signal that we've finished software install
-touch /var/local/finished-software-install 
 
 # Restore printer services (disabled earlier because sometimes cause hang of boot)
 sudo systemctl enable cups-browsed.service 

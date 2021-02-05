@@ -32,6 +32,7 @@ mkdir -p root/.config/rclone
 mkdir -p root/etc/systemd/system/getty@tty1.service.d  # /override.conf Allows autologin to console as econ-ark
 mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manager 
 
+# These items are created in econ-ark.seed; put them in /var/local so all system mods are findable there 
 ln -s /etc/rc.local                                          /var/local/root/etc
 ln -s /etc/default/grub                                      /var/local/root/etc/default
 ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
@@ -176,7 +177,7 @@ fi
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
-[[ "$(which lshw)" ]] && vbox="$(lshw | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+[[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 
 # Install xubuntu-desktop 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version # no sudo 
