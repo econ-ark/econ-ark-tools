@@ -1,9 +1,15 @@
 ;;; # -*- mode: emacs-lisp ;-*- ;;; Forces editing in emacs-mode
 ;;; Version for XUBUNTARK
 
+;;; Bootstrap for first use of emacs -- see https://debbugs.gu.org/cgi/bugreport.cgi?bug=31397
+(require 'package)
+(add-to-list 'package-archives
+	     '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
-(package-refresh-contents)
-(package-install 'use-package)
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
 
 (setq package-check-signature nil) ;;; Google "metaredux.com" dealing with expired elpa gpg keys
 
