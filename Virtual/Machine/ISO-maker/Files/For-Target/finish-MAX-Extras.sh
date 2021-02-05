@@ -81,7 +81,7 @@ else
     sudo apt -y install /var/local/zoom_amd64.deb
 fi
 
-sudo conda install --yes -c conda-forge econ-ark # pip install econ-ark
+# sudo conda install --yes -c conda-forge econ-ark # pip install econ-ark
 
 source /etc/environment  # Get the new environment
 
@@ -94,3 +94,4 @@ sudo pip install quantecon
 # Get docker 
 sudo apt -y remove  man-db # As of 2020-08-16, install of docker freezes at man-db step
 sudo apt -y install docker 
+sudo apt -y install man-db 
