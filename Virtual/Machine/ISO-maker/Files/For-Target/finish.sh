@@ -157,19 +157,18 @@ EOF
 
 
 # Download the installer (very meta!)
-isoName="econ-ark_$isoSize_ubuntu-20.04-legacy-server-amd64-unattended.iso"
 echo ''
 echo 'Fetching online image of this installer to '
-echo "/media/$isoName"
+echo "/media/"
 
-[[ -e "/media/$isoName" ]] && sudo rm "/media/$isoName"
+[[ -e "/media/*.iso" ]] && sudo rm "/media/*.iso"
 sudo pip  install gdown # Google download
 
 cd /media
 if [ "$size" == "MIN" ]; then
-    sudo gdown --id "13DgxXoc5oSXi9YPLEdBx6hI3V6n8cm9E" --output "/media/$isoName"
+    sudo gdown --id "13DgxXoc5oSXi9YPLEdBx6hI3V6n8cm9E" # --output "/media/$isoName"
 else    # size = MAX
-    sudo gdown --id "1Qs8TpId5css7q9L315VUre0mjIRqjw8Z" --output "/media/$isoName"
+    sudo gdown --id "1Qs8TpId5css7q9L315VUre0mjIRqjw8Z" # --output "/media/$isoName"
 fi
 
 # Install Chrome browser 
@@ -205,7 +204,7 @@ else
     echo '' >> XUBUNTARK.md
 fi
 
-cat /var/local/XUBUNTARK-body.md >> XUBUNTARK.md
+cat /var/local/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
 
 # Configure jupyter notebook tools
 sudo pip install jupyter_contrib_nbextensions
@@ -215,19 +214,27 @@ sudo jupyter nbextension enable codefolding/edit
 sudo jupyter nbextension enable toc2/main
 sudo jupyter nbextension enable collapsible_headings/main
 
-#Download and extract HARK, REMARK, DemARK from GitHUB repository
-
+# Install systemwide copy of econ-ark 
 sudo pip install --upgrade econ-ark
 sudo pip install --upgrade nbreproduce
+
+
+# Install user-owned copies of useful repos
+# Download and extract HARK, REMARK, DemARK, econ-ark-tools from GitHub
 
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
 cd "$arkHome"
-git clone https://github.com/econ-ark/REMARK.git
-git clone https://github.com/econ-ark/HARK.git
-git clone https://github.com/econ-ark/DemARK.git
-git clone https://github.com/econ-ark/econ-ark-tools.git
-chmod -Rf a+rwx /usr/local/share/data/GitHub/econ-ark
+
+for repo in REMARK HARK DemARK econ-ark-tools; do
+    git clone https://github.com/econ-ark/$repo
+    # Make it all owned by the econ-ark user -- including invisible files like .git
+    chown econ-ark:econ-ark $repo/.?*
+    chown econ-ark:econ-ark $repo/*
+    # Install all requirements
+    [[ -e $repo/requirements.txt ]] && sudo pip install -r $repo/requirements.tx
+    [[ -e $repo/binder/requirements.txt ]] && sudo pip install -r $repo/binder/requirements.txt
+done
 
 echo 'This is your local, personal copy of HARK; it is also installed systemwide.  '      >  HARK-README.md
 echo 'Local mods will not affect systemwide, unless you change the default source via:'   >> HARK-README.md
@@ -243,18 +250,19 @@ echo 'cd notebooks ; pytest --nbval-lax *.ipynb  '                            >>
 
 echo 'This is your local, personal copy of REMARK, which you can modify.  '    >  REMARK-README.md
 
+# Submodules are links to repos stored elsewhere -- pull a local copy in
 cd /usr/local/share/data/GitHub/econ-ark/REMARK
 git submodule update --init --recursive --remote
 git pull
-cd /usr/local/share/data/GitHub/econ-ark/REMARK/binder ; pip install -r requirements.txt
-cd /usr/local/share/data/GitHub/econ-ark/DemARK/binder ; pip install -r requirements.txt
-cd /usr/local/share/data/GitHub/econ-ark/HARK          ; pip install -r requirements.txt
 
+# Run the automated tests to make sure everything installed properly
 cd /usr/local/share/data/GitHub/econ-ark/HARK
 pytest 
 
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/notebooks
 pytest --nbval-lax *.ipynb
+
+
 
 # Allow reading of MacOS HFS+ files
 sudo apt -y install hfsplus hfsutils hfsprogs
