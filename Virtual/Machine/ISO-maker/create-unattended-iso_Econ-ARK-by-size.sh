@@ -37,8 +37,8 @@ echo "size_to_build=$size"
 pathToScript=$(dirname `realpath "$0"`)
 # pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker
 # Keep track locally of what was the most recently built version
-[[ -e rm    "$pathToScript/Size-To-Make-Is-MIN" ]] && rm    "$pathToScript/Size-To-Make-Is-MIN"
-[[ -e rm    "$pathToScript/Size-To-Make-Is-MAX" ]] && rm    "$pathToScript/Size-To-Make-Is-MAX"
+[[ -e "$pathToScript/Size-To-Make-Is-MIN" ]] && rm    "$pathToScript/Size-To-Make-Is-MIN"
+[[ -e "$pathToScript/Size-To-Make-Is-MAX" ]] && rm    "$pathToScript/Size-To-Make-Is-MAX"
 touch "$pathToScript/Size-To-Make-Is-$size"
 
 # Names/paths of local and remote files
