@@ -39,7 +39,8 @@ mkdir -p          /root/GitHub
 # Get to econ-ark via ~/econ-ark whether you are root or econ-ark
 ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
 ln -s /usr/local/share/data/GitHub/econ-ark          /root/GitHub/econ-ark
-chown -Rf econ-ark:econ-ark /home/econ-ark/GitHub
+chown -Rf econ-ark:econ-ark /home/econ-ark/GitHub/econ-ark
+chown -Rf econ-ark:econ-ark /home/econ-ark/GitHub/econ-ark/.?*
 chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
 
 myuser="econ-ark"
