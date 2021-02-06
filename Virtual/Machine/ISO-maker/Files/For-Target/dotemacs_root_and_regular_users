@@ -7,6 +7,8 @@
 	     '("melpa" . "https://melpa.org/packages/"))
 (package-initialize)
 
+(menu-bar-mode -1) ;;; GTK throws worrisome but innocuous errors when there's a menu bar
+
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
