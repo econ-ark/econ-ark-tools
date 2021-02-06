@@ -9,15 +9,15 @@ if [[ ! -e /root/.config/rclone/rclone.conf ]]; then
     echo ''
     echo 'An example rclone.conf file that links to the econ-ark@jhuecon.org drive is at'
     echo ''
-    echo '/var/local/root/.config/rcloneconf.zip'
+    echo '/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/root/.config/rclone/rcloneconf.zip'
     echo ''
     echo 'which can be unzipped using the econ-ark@jhuecon.org login password:'
     echo ''
-    echo 'sudo mkdir -p /root/.config/rclone ; cd /var/local/root/.config/rclone ; sudo unzip /var/local/root/.config/rclone/rcloneconf.zip'
+    echo 'sudo mkdir -p /root/.config/rclone ; cd /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/root/.config/rclone ; unzip rcloneconf.zip'
     echo ''
     echo 'then '
     echo ''
-    echo 'sudo cp /var/local/root/.config/rclone/rclone.conf /root/.config/rclone'
+    echo 'sudo mv rclone.conf /root/.config/rclone'
     echo ''
     sleep 10
     exit
