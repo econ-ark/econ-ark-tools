@@ -37,8 +37,8 @@ echo "size_to_build=$size"
 pathToScript=$(dirname `realpath "$0"`)
 # pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker
 # Keep track locally of what was the most recently built version
-rm    "$pathToScript/Size-To-Make-Is-MIN"
-rm    "$pathToScript/Size-To-Make-Is-MAX"
+[[ -e rm    "$pathToScript/Size-To-Make-Is-MIN" ]] && rm    "$pathToScript/Size-To-Make-Is-MIN"
+[[ -e rm    "$pathToScript/Size-To-Make-Is-MAX" ]] && rm    "$pathToScript/Size-To-Make-Is-MAX"
 touch "$pathToScript/Size-To-Make-Is-$size"
 
 # Names/paths of local and remote files
@@ -182,9 +182,9 @@ while true; do
                 new_iso_name="$name-ubuntu-18.04.4-server-amd64-unattended.iso"
                 break;;
         [5]* )  download_file="ubuntu-20.04.1-legacy-server-amd64.iso"
-                download_location="http://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/"
-                new_iso_base="ubuntu-20.04-legacy-server-amd64-unattended"
-                new_iso_name="$name-ubuntu-20.04-legacy-server-amd64-unattended.iso"
+                download_location="http://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04.1/release/"
+                new_iso_base="ubuntu-20.04.1-legacy-server-amd64-unattended"
+                new_iso_name="$name-ubuntu-20.04.1-legacy-server-amd64-unattended.iso"
                 break;;
         * ) echo " please answer [1], [2], [3], [4], [5]:";;
     esac
