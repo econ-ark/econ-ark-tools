@@ -112,14 +112,18 @@ sudo apt -y install gpg # Required to set up security for emacs package download
 
 sudo apt -y install emacs
 
-sudo wget -O  /var/local/dotemacs                                          $online/dotemacs
+for dotemacspart in dotemacs_regular_users_only dotemacs_root_and_regular_users; do
+    sudo wget -O /var/local/$dotemacspart $online/$dotemacspart
+done
 
 [[ -e /home/econ-ark/.emacs ]] && sudo rm -f /home/econ-ark/.emacs
-[[ -e          /root/.emacs ]] && sudo rm -f           root/.emacs 
+[[ -e          /root/.emacs ]] && sudo rm -f           root/.emacs
+
+cat /var/local/dotemacs_root_and_regular_users /var/local/dotemacs_regular_users_only > /var/local/dotemacs
 
 # Link both of them to the downloaded template 
 sudo ln -s /var/local/dotemacs /home/econ-ark/.emacs
-sudo ln -s /var/local/dotemacs /root/.emacs
+sudo ln -s /var/local/dotemacs_root_and_regular_users /root/.emacs
 
 # Make it clear in /var/local, where its content is used
 sudo ln -s /home/econ-ark/.emacs /var/local/dotemacs-home 
@@ -176,9 +180,6 @@ fi
 # One of several ways to try to make sure lightdm is the display manager
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
-# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
-[[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox) | grep VirtualBox"  && [[ "$vbox" != "" ]] && sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
-
 # Install xubuntu-desktop 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version # no sudo 
 
@@ -192,6 +193,18 @@ sudo apt-get -y purge --auto-remove ubuntu-gnome-desktop
 sudo apt-get -y purge gdm3     # Get rid of gnome 
 sudo apt-get -y purge numlockx
 sudo apt-get -y autoremove
+
+# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
+if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
+    
+    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+    # Get a bugfix release of lightdm to avoid a crash on VM's
+    # https://launchpad.net/ubuntu/+source/lightdm-gtk-greeter
+    # Bug #1890394 "Lightdm-gtk-greeter coredump during boot"
+    wget -O /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb $online/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
+    dpkg -i /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
+fi
+
 
 # Once again -- doubtless only one of the methods is needed, but debugging which would take too long
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm     # no sudo
