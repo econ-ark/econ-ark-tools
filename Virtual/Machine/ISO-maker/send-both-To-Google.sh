@@ -13,7 +13,7 @@ if [[ ! -e /root/.config/rclone/rclone.conf ]]; then
     echo ''
     echo 'which can be unzipped using the econ-ark@jhuecon.org login password:'
     echo ''
-    echo 'sudo mkdir -p /root/.config/rclone ; cd /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/root/.config/rclone ; unzip rcloneconf.zip'
+    echo 'sudo mkdir -p /root/.config/rclone ; sudo unzip /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/root/.config/rclone/rcloneconf.zip -d /root/.config/rclone '
     echo ''
     echo 'then '
     echo ''
