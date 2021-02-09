@@ -332,8 +332,8 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target apt-get --yes purge shim ;\
-     chroot /target [[ -e /boot/efi/EFI/ubuntu ]] && mv /boot/efi/EFI/ubuntu /root/ubuntu-efi.bak ;\ 
-     chroot /target grub-install
+     chroot /target [[ -e /boot/efi/EFI/ubuntu ]] && mv /boot/efi/EFI/ubuntu /root/ubuntu-efi.bak ;\
+     chroot /target grub-install ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf \
 "
 

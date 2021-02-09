@@ -20,4 +20,5 @@
  wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
  apt-get --yes purge shim 
  [[ -e /boot/efi/EFI/ubuntu ]] && mv /boot/efi/EFI/ubuntu /root/ubuntu-efi.bak 
-\ grub-install chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf
+ grub-install 
+ chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf
