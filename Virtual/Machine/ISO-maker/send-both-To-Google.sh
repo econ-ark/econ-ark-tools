@@ -17,9 +17,8 @@ if [[ ! -e /root/.config/rclone/rclone.conf ]]; then
     echo ''
     echo 'then '
     echo ''
-    echo 'sudo mv rclone.conf /root/.config/rclone'
+    echo 'sudo mv /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/root/.config/rclone/rclone.conf /root/.config/rclone ; cd ~/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/'
     echo ''
-    sleep 10
     exit
 fi
 
