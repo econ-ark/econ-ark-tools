@@ -124,14 +124,6 @@ d-i shared/default-x-display-manager                    select      lightdm
 # Force installation of EFI
 grub-efi-amd64 grub2/force_efi_extra_removable              boolean     true
 
-
-# late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
-# https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1867092
-d-i preseed/late_command string \
-in-target [[ ! "($apt list --installed | grep shim-signed)" == "" ]] && apt-get --yes purge shim ;
-in-target [[ -e /boot/efi/EFI/ubuntu ]] && mv /boot/efi/EFI/ubuntu /root/ubuntu-efi.bak ; 
-grub-install
-
 # Finish
 d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
 d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging 
