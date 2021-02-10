@@ -18,10 +18,11 @@
  touch /var/local/ 
  mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
  wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
- for i in /dev /dev/pts /proc /sys /sys/firmware/efi/efivars /run
- do sudo mount -B Ri /target
- done apt-get --yes purge shim 
- [[ -e /boot/efi/EFI/ubuntu ]] && mv /boot/efi/EFI/ubuntu /root/ubuntu-efi.bak 
+ for i in /dev/pts /proc /sys /sys/firmware/efi/efivars /run \
+ do mount --bind /target \
+ done \
+ apt-get --yes purge shim 
+ [[ -e /target/boot/efi/EFI/ubuntu ]] && mv /target/boot/efi/EFI/ubuntu /root/ubuntu-efi.bak 
  grub-install 
  update-grub 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf
