@@ -331,9 +331,11 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
+     for i in /dev /dev/pts /proc /sys /sys/firmware/efi/efivars /run; do sudo mount -B Ri /target$i; done
      chroot /target apt-get --yes purge shim ;\
      chroot /target [[ -e /boot/efi/EFI/ubuntu ]] && mv /boot/efi/EFI/ubuntu /root/ubuntu-efi.bak ;\
      chroot /target grub-install ;\
+     chroot /target update-grub ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf \
 "
 
