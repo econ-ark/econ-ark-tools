@@ -21,8 +21,8 @@
  mount --bind /dev/pts /target/dev/pts 
  mount --bind /proc /target/proc 
  mount --bind /sys /target/sys 
-\ mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars 
-\ apt-get --yes purge shim 
+ mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars 
+ apt-get --yes purge shim 
  [[ -e /target/boot/efi/EFI/ubuntu ]] && mv /target/boot/efi/EFI/ubuntu /root/ubuntu-efi.bak 
  grub-install 
  update-grub 
