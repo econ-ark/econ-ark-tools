@@ -120,7 +120,6 @@ d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     true
 
 d-i shared/default-x-display-manager                    select      lightdm
-
 # Force installation of EFI
 grub-efi-amd64 grub2/force_efi_extra_removable              boolean     true
 
