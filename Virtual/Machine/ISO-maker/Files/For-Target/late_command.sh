@@ -1,6 +1,6 @@
 #!/bin/bash
 if [[ 0 == 0 ]] 
-\ then mount --bind /dev/pts /target/dev/pts 
+ then mount --bind /dev/pts /target/dev/pts 
  mount --bind /proc /target/proc 
  mount --bind /sys /target/sys 
  mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars 
