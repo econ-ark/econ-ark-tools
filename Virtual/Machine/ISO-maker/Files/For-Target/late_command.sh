@@ -1,12 +1,12 @@
 #!/bin/bash
-if [[ 0 == 0 ]]
- then mount --bind /dev/pts /target/dev/pts 
+if [[ 0 == 0 ]] 
+$ then $ mount --bind /dev/pts /target/dev/pts 
  mount --bind /proc /target/proc 
  mount --bind /sys /target/sys 
  mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars 
  apt-get --yes purge shim 
  [[ -e /target/boot/efi/EFI/ubuntu ]] && mv /target/boot/efi/EFI/ubuntu /root/ubuntu-efi.bak 
- fi \
+ fi 
  wget -O /var/local/econ-ark.seed https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-ISO/econ-ark.seed 
  wget -O /var/local/start.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/start.sh 
  wget -O /etc/rc.local https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/rc.local 
