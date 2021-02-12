@@ -120,13 +120,12 @@ d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     true
 
 d-i shared/default-x-display-manager                    select      lightdm
-
 # Force installation of EFI
 grub-efi-amd64 grub2/force_efi_extra_removable              boolean     true
 
 # Finish
-d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
 d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging 
-d-i cdrom-detect/eject                                      boolean     true   # Eject virtual install ISO
-d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
-d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
+#d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
+# d-i cdrom-detect/eject                                      boolean     true   # Eject virtual install ISO
+# d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
+# d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
