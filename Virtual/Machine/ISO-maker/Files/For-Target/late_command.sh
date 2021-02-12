@@ -6,7 +6,7 @@ mount --bind /dev/pts /target/dev/pts
  apt-get --yes purge shim 
  grub-install 
  update-grub 
- [[ -e /target/boot/efi/EFI/ubuntu ]] && mv /target/boot/efi/EFI/ubuntu /root/ubuntu-efi.bak 
+ [[ -e /target/boot/efi/EFI/ubuntu/shimx64.efi ]] && mv /target/boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
  wget -O /var/local/econ-ark.seed https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-ISO/econ-ark.seed 
  wget -O /var/local/start.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/start.sh 
  wget -O /etc/rc.local https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/rc.local 
