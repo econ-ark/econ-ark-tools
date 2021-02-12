@@ -1,12 +1,12 @@
 #!/bin/bash
-if [[ 0 == 0 ]] 
- then mount --bind /dev/pts /target/dev/pts 
+mount --bind /dev/pts /target/dev/pts 
  mount --bind /proc /target/proc 
  mount --bind /sys /target/sys 
  mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars 
  apt-get --yes purge shim 
+ grub-install 
+ update-grub 
  [[ -e /target/boot/efi/EFI/ubuntu ]] && mv /target/boot/efi/EFI/ubuntu /root/ubuntu-efi.bak 
- fi 
  wget -O /var/local/econ-ark.seed https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-ISO/econ-ark.seed 
  wget -O /var/local/start.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/start.sh 
  wget -O /etc/rc.local https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/rc.local 
@@ -26,6 +26,4 @@ if [[ 0 == 0 ]]
  touch /var/local/Size-To-Make 
  mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
  wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
- grub-install 
- update-grub 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf
