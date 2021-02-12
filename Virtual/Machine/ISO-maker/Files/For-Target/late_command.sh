@@ -26,4 +26,5 @@ mount --bind /dev/pts /target/dev/pts
  touch /var/local/Size-To-Make 
  mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
  wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
+ update-initramfs -c -k 5.4.0-65-generic 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf
