@@ -311,7 +311,15 @@ cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.Volume
 # and it is NOT worth it to try to change initrd
 # So everything that goes on the target must come from somewhere outside of /
 # set late_command 
-late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
+late_command="if [[ 0 == 0 ]] ;\
+     then mount --bind /dev/pts /target/dev/pts ;\
+     mount --bind /proc /target/proc ;\
+     mount --bind /sys /target/sys ;\
+     mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
+     chroot /target apt-get --yes purge shim ;\
+     [[ -e /target/boot/efi/EFI/ubuntu ]] && mv /target/boot/efi/EFI/ubuntu /root/ubuntu-efi.bak ;\
+     fi ;\
+     chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
      chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
      chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
      chroot /target wget -O  /etc/rc.local                     $online/$ForTarget/$rclocal_file ;\
@@ -331,12 +339,6 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
-     mount --bind /dev/pts /target/dev/pts ;\
-     mount --bind /proc /target/proc ;\
-     mount --bind /sys /target/sys ;\
-     mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
-     chroot /target apt-get --yes purge shim ;\
-     [[ -e /target/boot/efi/EFI/ubuntu ]] && mv /target/boot/efi/EFI/ubuntu /root/ubuntu-efi.bak ;\
      chroot /target grub-install ;\
      chroot /target update-grub ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf \
@@ -351,8 +353,8 @@ late_command_last=""
 [[ -e $ForTarget/late_command.raw ]] && late_command_last="$(< $ForTarget/late_command.raw)" #; echo "$late_command_last"
 
 # Don't treat "Size-To-Make-Is" choice as meaningful for a change to late_command
-late_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX//g' | sed -e 's/Size-To-Make-Is-MIN//g')" #; echo "$late_command_curr_purged"
-late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX//g' | sed -e 's/Size-To-Make-Is-MIN//g')" #; echo "$late_command_last_purged"
+late_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_curr_purged"
+late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_last_purged"
 
 # Create a human-readable and bash executable version of late_command
 echo "#!/bin/bash" > $ForTarget/late_command.sh
@@ -511,6 +513,36 @@ echo "make-and-move one-liner:"
 echo '' 
 echo "pushd . ; $mke ; $cmd ; popd"
 echo ''
+
+# # Now make a version of the iso that has the original ISO in /var/local; meta!
+# cp -p $iso_done/$new_iso_name 
+# ISONAME="XUB20ARK$size_Meta"
+# cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
+
+
+# mke="$cmd"
+# echo "$cmd"
+# eval "$cmd"
+
+# spinner $!
+
+# # make iso bootable (for dd'ing to USB stick)
+# if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
+#     isohybrid $iso_make/$new_iso_name
+# fi
+
+# # Move it to the destination
+# cmd="[[ -e $iso_done/$size/$new_iso_name ]] && rm $iso_done/$size/$new_iso_name"
+# echo "$cmd"
+# eval "$cmd"
+# cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name "
+# echo "$cmd"
+# eval "$cmd"
+# echo ""
+# echo "make-and-move one-liner:"
+# echo '' 
+# echo "pushd . ; $mke ; $cmd ; popd"
+# echo ''
 
 # print info to user
 echo " -----"

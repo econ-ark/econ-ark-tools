@@ -165,12 +165,16 @@ echo "/media/"
 [[ -e "/media/*.iso" ]] && sudo rm "/media/*.iso"
 sudo pip  install gdown # Google download
 
-cd /media
+cd /var/local
 if [ "$size" == "MIN" ]; then
-    sudo gdown --id "13DgxXoc5oSXi9YPLEdBx6hI3V6n8cm9E" # --output "/media/$isoName"
+    sudo gdown --id "13DgxXoc5oSXi9YPLEdBx6hI3V6n8cm9E" # --output /media not necessary
 else    # size = MAX
-    sudo gdown --id "1Qs8TpId5css7q9L315VUre0mjIRqjw8Z" # --output "/media/$isoName"
+    wget -O /tmp/ISO.id https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/XUBUNTARK-MAX-Non-Secure-Boot.id
+    MAX_NONSECURE_ID=`cat /tmp/ISO.id`
+    sudo gdown --id "$MAX_NONSECURE_ID" 
 fi
+
+cd /media
 
 # Install Chrome browser 
 wget --quiet -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
