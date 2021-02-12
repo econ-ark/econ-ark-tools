@@ -311,14 +311,14 @@ cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.Volume
 # and it is NOT worth it to try to change initrd
 # So everything that goes on the target must come from somewhere outside of /
 # set late_command 
-late_command="if [[ 0 == 0 ]] ;\
-     then mount --bind /dev/pts /target/dev/pts ;\
+late_command="mount --bind /dev/pts /target/dev/pts ;\
      mount --bind /proc /target/proc ;\
      mount --bind /sys /target/sys ;\
      mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
      chroot /target apt-get --yes purge shim ;\
+     chroot /target grub-install ;\
+     chroot /target update-grub ;\
      [[ -e /target/boot/efi/EFI/ubuntu ]] && mv /target/boot/efi/EFI/ubuntu /root/ubuntu-efi.bak ;\
-     fi ;\
      chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
      chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
      chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
@@ -339,8 +339,6 @@ late_command="if [[ 0 == 0 ]] ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
-     chroot /target grub-install ;\
-     chroot /target update-grub ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf \
 "
 
