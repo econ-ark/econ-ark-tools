@@ -95,7 +95,7 @@ sudo update-grub
 sudo apt-get -y install firmware-b43-installer
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server expect
+sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server expect rpl
 
 # Create a public key for security purposes
 if [[ ! -e /home/$myuser/.ssh ]]; then

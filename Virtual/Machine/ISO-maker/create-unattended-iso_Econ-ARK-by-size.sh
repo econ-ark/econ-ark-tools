@@ -306,6 +306,9 @@ echo ARKINSTALL                                      > $iso_make/iso_new/EFI/BOO
 cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/EFI/BOOT/.VolumeIcon.icns
 cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.VolumeIcon.icns
 
+# Allow hash to be updated 
+chmod a+w /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/short.git-hash
+
 # Constraint: Nothing can be copied from the installer ISO to target
 # because the system that installs everything derives instead from initrd
 # and it is NOT worth it to try to change initrd
