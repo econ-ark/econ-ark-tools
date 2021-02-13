@@ -1,4 +1,3 @@
-# ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 # 20200807-2227h Works for VirtualBox, MacPro9,1, MacPro 5,1, VirtualBox Windows 10 envt
 
 # Show install info rather than eye candy
@@ -130,5 +129,3 @@ d-i finish-install/keep-consoles                            boolean     true   #
 # d-i cdrom-detect/eject                                      boolean     true   # Eject virtual install ISO
 # d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
 # d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
-
-# late_command is added by create-unattended-iso script

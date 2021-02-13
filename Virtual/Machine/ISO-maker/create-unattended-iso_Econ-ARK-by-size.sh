@@ -308,6 +308,7 @@ cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.Volume
 
 # Allow hash to be updated 
 chmod a+w /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/short.git-hash
+#      chroot /target update-grub ;\
 
 # Constraint: Nothing can be copied from the installer ISO to target
 # because the system that installs everything derives instead from initrd
@@ -318,10 +319,12 @@ late_command="mount --bind /dev/pts /target/dev/pts ;\
      mount --bind /proc /target/proc ;\
      mount --bind /sys /target/sys ;\
      mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
+     boot_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
+     boot=${boot_efi%?}  
      chroot /target apt-get --yes purge shim ;\
-     chroot /target grub-install ;\
-     chroot /target update-grub ;\
-     [[ -e /target/boot/efi/EFI/ubuntu ]] && mv /target/boot/efi/EFI/ubuntu /root/ubuntu-efi.bak ;\
+     chroot /target apt-get --yes purge mokutil ;\
+     chroot /target grub-install --efi-directory=/boot/efi/ --removable $boot ;\
+     chroot mv /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
      chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
      chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
      chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
@@ -342,6 +345,7 @@ late_command="mount --bind /dev/pts /target/dev/pts ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
+     chroot /target update-initramfs -c -k $(uname -r)  ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf \
 "
 
