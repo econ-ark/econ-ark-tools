@@ -28,6 +28,6 @@ mount --bind /dev/pts /target/dev/pts
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
  # boot_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
  boot=${boot_efi%?} 
-\ grub-install --efi-directory=/boot/efi/ --removable $boot 
+ grub-install --efi-directory=/boot/efi/ --removable $boot 
  chroot mv /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
 
