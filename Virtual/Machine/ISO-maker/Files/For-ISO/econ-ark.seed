@@ -39,7 +39,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 	$reusemethod{ }				    \
 	method{ biosgrub }                          \
 	.			                    \
-    1024 1024 1024 hfs                                 \
+    1024 1024 1024 hfs                              \
 	$gptonly{ }				    \
         $primary{ }                                 \
 	$bootable{ }                                \
@@ -57,7 +57,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ fat32 }       \
         mountpoint{ /efi/boot }                     \
         .                                           \
-    2048 4096 200% linux-swap                      \
+    2048 4096 200% linux-swap                       \
         $lvmok{ }                                   \
         in_vg { ubuntu-vg } lv_name{ swap_1 }       \
         method{ swap } format{ }                    \
@@ -76,6 +76,11 @@ d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 # ### Grub
 d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true
+d-i grub-installer/force-efi-extra-removable boolean true
+# Force installation of EFI
+grub-efi-amd64 grub/force_efi_extra_removable              boolean     true
+
+
 d-i netcfg/choose_interface select auto
 d-i netcfg/get_hostname                                     string      {{hostname}}
 d-i hw-detect/load_firmware boolean true
@@ -121,8 +126,6 @@ d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     true
 
 d-i shared/default-x-display-manager                    select      lightdm
-# Force installation of EFI
-grub-efi-amd64 grub2/force_efi_extra_removable              boolean     true
 
 # Finish
 d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging 

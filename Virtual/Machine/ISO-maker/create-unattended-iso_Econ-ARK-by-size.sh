@@ -312,7 +312,7 @@ cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.Volume
 # because the system that installs everything derives instead from initrd
 # and it is NOT worth it to try to change initrd
 # So everything that goes on the target must come from somewhere outside of /
-# set late_command 
+# set late_command
 late_command="mount --bind /dev/pts /target/dev/pts ;\
      mount --bind /proc /target/proc ;\
      mount --bind /sys /target/sys ;\
@@ -341,9 +341,9 @@ late_command="mount --bind /dev/pts /target/dev/pts ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target update-initramfs -c -k \$(uname -r)  ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf ;\
-     # boot_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
-     boot=\${boot_efi%?}  ;\ 
-     chroot /target grub-install --efi-directory=/boot/efi/ --removable \$boot ;\
+#     target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
+     target_dev=\${target_efi%?}  ;\
+     chroot /target grub-install --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
      chroot mv /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
 "
 
@@ -360,7 +360,7 @@ late_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-
 late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_last_purged"
 
 # Create a human-readable and bash executable version of late_command
-echo "#!/bin/bash" > $ForTarget/late_command.sh
+echo "#!/bin/sh" > $ForTarget/late_command.sh
 echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command >> $ForTarget/late_command.sh
 chmod a+x $ForTarget/late_command.sh
 
@@ -373,7 +373,7 @@ late_command_changed="$?"
 echo "late_command_changed=$late_command_changed"
 
 if [[ "$late_command_changed" != 0 ]]; then
-    echo '' 
+    echo ''
     echo "$ForTarget/late_command has changed."
     echo '' ; echo 'The diff output is: ' ; echo ''
     git diff --exit-code $pathToScript/$ForTarget/late_command.sh
@@ -381,13 +381,13 @@ if [[ "$late_command_changed" != 0 ]]; then
     echo 'Please git add, commit, push then hit return:'
     cmd="cd `pwd` ; git add $ForTarget ; git add $ForTarget/late_command.raw ; git commit -m ISOmaker-Update ; git push"
     echo "$cmd"
-    echo "$cmd" | xclip -i 
+    echo "$cmd" | xclip -i
     echo "(should be on xclip clipboard - paste in xfce4-terminal via shift-ctrl-v)"
     read answer
 fi
 
 
-# Get the latest git commit hash and message 
+# Get the latest git commit hash and message
 short_hash="$(git rev-parse --short HEAD)"
 msg="$(git log -1 --pretty=%B)"
 
@@ -421,7 +421,7 @@ if [[ "$about_this_install_changed" != 0 ]]; then
     echo ''
     cmd="cd `pwd` ; git add $DIR/$ATI ; git commit -m ATI-Update ; git push"
     echo "$cmd"
-    echo "$cmd" | xclip -i 
+    echo "$cmd" | xclip -i
     echo "(should be on xclip clipboard - paste in xfce4-terminal via shift-ctrl-v)"
     read answer
 fi
@@ -447,7 +447,7 @@ seed_checksum=$(md5sum $iso_make/iso_new/preseed/$seed_file)
 cd $iso_make/iso_new
 
 # Very ugly to have all on one line using newlines, but very painful
-# to try to have it look prettier then convert to single string 
+# to try to have it look prettier then convert to single string
 if [ "$version" == "base" ]; then
     sudo /bin/sed -i 's|set timeout=30|set timeout=10\nmenuentry "Autoinstall Econ-ARK Xubuntu" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Most Macs" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "MacBookPro9,1-Mid-2012 (noapic)" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US noapic  ---\n	initrd	/install/initrd.gz\n}\nsubmenu "Boot debug options ..." {\nmenuentry "acpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    acpi=off        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "nolapic noapic irqpoll" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    noapic irqpoll       ---\n	initrd	/install/initrd.gz\n}\nmenuentry "noapic" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    noapic        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi=ht" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    acpi=ht        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi_osi=Linux" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    cpi_osi=Linux ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noacpi" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/ecopn-ark.seed auto=true priority=critical locale=en_US                    pci=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    pci=noirq        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "apci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    acpi=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pnpacpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    pnpacpi=off        ---\n	initrd	/install/initrd.gz\n}\n}|g' $iso_make/iso_new/boot/grub/grub.cfg
     
@@ -543,7 +543,7 @@ echo ''
 # eval "$cmd"
 # echo ""
 # echo "make-and-move one-liner:"
-# echo '' 
+# echo ''
 # echo "pushd . ; $mke ; $cmd ; popd"
 # echo ''
 
