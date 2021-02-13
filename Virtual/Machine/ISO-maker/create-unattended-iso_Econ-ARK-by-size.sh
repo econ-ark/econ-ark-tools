@@ -341,11 +341,11 @@ late_command="mount --bind /dev/pts /target/dev/pts ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
-     chroot /target update-initramfs -c -k \"\$(uname\" -r)  ;\
+     chroot /target update-initramfs -c -k \$(uname -r)  ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf ;\
-     # boot_efi=\"\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1)\" ;\
-     boot=\"\${boot_efi%?}\"  ;\ 
-     chroot /target grub-install --efi-directory=/boot/efi/ --removable \"\$boot\" ;\
+     # boot_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
+     boot=\${boot_efi%?}  ;\ 
+     chroot /target grub-install --efi-directory=/boot/efi/ --removable \$boot ;\
      chroot mv /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
 "
 
