@@ -319,11 +319,11 @@ late_command="mount --bind /dev/pts /target/dev/pts ;\
      mount --bind /proc /target/proc ;\
      mount --bind /sys /target/sys ;\
      mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
-     boot_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
-     boot=${boot_efi%?}  
+     boot_efi=\"\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1)\" ;\
+     boot=\"\${boot_efi%?}\"  ;\ 
      chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
-     chroot /target grub-install --efi-directory=/boot/efi/ --removable $boot ;\
+     chroot /target grub-install --efi-directory=/boot/efi/ --removable \"\$boot\" ;\
      chroot mv /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
      chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
      chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\

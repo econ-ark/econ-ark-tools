@@ -3,10 +3,11 @@ mount --bind /dev/pts /target/dev/pts
  mount --bind /proc /target/proc 
  mount --bind /sys /target/sys 
  mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars 
- boot_efi= 
- boot= apt-get --yes purge shim 
+ boot_efi="$(mount | grep '/target/boot/efi' | cut -d ' ' -f1)" 
+ boot="${boot_efi%?}" 
+\ apt-get --yes purge shim 
  apt-get --yes purge mokutil 
- grub-install --efi-directory=/boot/efi/ --removable 
+ grub-install --efi-directory=/boot/efi/ --removable "$boot" 
  chroot mv /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
  wget -O /var/local/econ-ark.seed https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-ISO/econ-ark.seed 
  wget -O /var/local/start.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/start.sh 
