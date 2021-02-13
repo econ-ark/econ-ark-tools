@@ -306,8 +306,6 @@ echo ARKINSTALL                                      > $iso_make/iso_new/EFI/BOO
 cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/EFI/BOOT/.VolumeIcon.icns
 cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.VolumeIcon.icns
 
-# Allow hash to be updated 
-chmod a+w /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/short.git-hash
 #      chroot /target update-grub ;\
 
 # Constraint: Nothing can be copied from the installer ISO to target
@@ -402,12 +400,12 @@ if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]]; then
     sudo chmod u+w "$DIR"
     sudo mkdir -p "$DIR/$ATI"
     sudo chmod u+w "$DIR/$ATI"
-
-    sudo touch "$DIR/$ATI/short.git-hash" ; sudo chmod a+rw "$DIR/$ATI/short.git-hash"
-    sudo touch "$DIR/$ATI/commit-msg.txt" ; sudo chmod a+rw "$DIR/$ATI/commit-msg.txt"
-    sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
-    sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
 fi
+
+sudo touch "$DIR/$ATI/short.git-hash" ; sudo chmod a+rw "$DIR/$ATI/short.git-hash"
+sudo touch "$DIR/$ATI/commit-msg.txt" ; sudo chmod a+rw "$DIR/$ATI/commit-msg.txt"
+sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
+sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
 
 git diff --exit-code $pathToScript/$ForTarget/$ATI/
 about_this_install_changed="$?"
@@ -480,6 +478,7 @@ cp $iso_make/iso_new/EFI/BOOT/BOOTx64.EFI $iso_make/iso_new/boot/efi/EFI/BOOT/BO
 # Get info about the commit 
 pushd . ; cd "$pathToScript"
 
+echo sudo chmod a-w "$DIR" "$DIR/$ATI/short.git-hash" "$DIR/$ATI/commit-msg.txt" "$DIR/$ATI"
 sudo chmod a-w "$DIR" "$DIR/$ATI/short.git-hash" "$DIR/$ATI/commit-msg.txt" "$DIR/$ATI"
 
 short_hash_last="$($DIR/$ATI/short.git-hash)"
