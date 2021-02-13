@@ -1,1 +1,1 @@
-ISOmaker-Update
+Fix permissions error for short-hash
