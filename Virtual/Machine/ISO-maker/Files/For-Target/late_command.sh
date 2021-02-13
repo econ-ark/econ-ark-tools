@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 mount --bind /dev/pts /target/dev/pts 
  mount --bind /proc /target/proc 
  mount --bind /sys /target/sys 
@@ -26,8 +26,8 @@ mount --bind /dev/pts /target/dev/pts
  wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
  update-initramfs -c -k $(uname -r) 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
- # boot_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
- boot=${boot_efi%?} 
- grub-install --efi-directory=/boot/efi/ --removable $boot 
+# target_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
+ target_dev=${target_efi%?} 
+ grub-install --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot 
  chroot mv /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
 
