@@ -400,12 +400,11 @@ if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]]; then
     sudo chmod u+w "$DIR"
     sudo mkdir -p "$DIR/$ATI"
     sudo chmod u+w "$DIR/$ATI"
+    sudo touch "$DIR/$ATI/short.git-hash" ; sudo chmod a+rw "$DIR/$ATI/short.git-hash"
+    sudo touch "$DIR/$ATI/commit-msg.txt" ; sudo chmod a+rw "$DIR/$ATI/commit-msg.txt"
+    sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
+    sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
 fi
-
-sudo touch "$DIR/$ATI/short.git-hash" ; sudo chmod a+rw "$DIR/$ATI/short.git-hash"
-sudo touch "$DIR/$ATI/commit-msg.txt" ; sudo chmod a+rw "$DIR/$ATI/commit-msg.txt"
-sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
-sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
 
 git diff --exit-code $pathToScript/$ForTarget/$ATI/
 about_this_install_changed="$?"
