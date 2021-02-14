@@ -313,6 +313,7 @@ cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.Volume
 # and it is NOT worth it to try to change initrd
 # So everything that goes on the target must come from somewhere outside of /
 # set late_command
+#     chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
 late_command="mount --bind /dev /target/dev ;\
      mount --bind /dev/pts /target/dev/pts ;\
      mount --bind /proc /target/proc ;\
@@ -325,7 +326,6 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target wget -O  /var/local/finish.sh              $online/$ForTarget/$finishFile ;\
      chroot /target wget -O  /var/local/$finishMAX             $online/$ForTarget/$finishMAX ;\
      chroot /target wget -O  /var/local/grub-menu.sh           $online/$ForTarget/grub-menu.sh ;\
-     chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
      chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md ;\
      chroot /target mkdir -p /var/local/About_This_Install                                              ;\
      chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
@@ -339,16 +339,16 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf ;\
-#    chroot /target mount /dev/sda3 /boot/efi
-     chroot /target swapon /dev/sda4 
+#    target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
+     target_dev=\${target_efi%?}  ;\
+     target_swap=\${target_dev}4  ;\
+     swapon \$target_swap ;\
      chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
      chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
      chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
      chroot /target apt-get --yes install initramfs-tools ;\
      chroot /target update-initramfs -v -c -k all  ;\
-     target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
-     target_dev=\${target_efi%?}  ;\
      chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
 "
 
@@ -485,7 +485,12 @@ pushd . ; cd "$pathToScript"
 echo sudo chmod a-w "$DIR" "$DIR/$ATI/short.git-hash" "$DIR/$ATI/commit-msg.txt" "$DIR/$ATI"
 sudo chmod a-w "$DIR" "$DIR/$ATI/short.git-hash" "$DIR/$ATI/commit-msg.txt" "$DIR/$ATI"
 
-short_hash_last="$($DIR/$ATI/short.git-hash)"
+short_hash="`cat $($DIR/$ATI/short.git-hash)`"
+short_hash_last="`cat $($DIR/$ATI/short.git-hash)`"
+
+iso_date=`date +"%Y%m%d-%H%M%S"`
+
+iso_name_new="$iso_name_new-$short-hash-$iso_date"
 
 popd
 
@@ -493,6 +498,11 @@ popd
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 echo " creating the remastered iso"
+
+cd "$iso_make/$new_iso_name"
+chmod +w README.diskdefines
+rpl 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' README.diskdefines
+chmod -w README.diskdefines
 
 ISONAME="XUB20ARK$size"
 cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
