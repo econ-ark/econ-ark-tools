@@ -7,7 +7,8 @@ GRUB_DEFAULT=0
 GRUB_TIMEOUT_STYLE=menu
 GRUB_TIMEOUT=2
 GRUB_DISTRIBUTOR=`lsb_release -i -s 2> /dev/null || echo Debian`
-GRUB_CMDLINE_LINUX_DEFAULT="quiet"
+#GRUB_CMDLINE_LINUX_DEFAULT="quiet"
+GRUB_CMDLINE_LINUX_DEFAULT="verbose nosplash debug ignore_loglevel"
 GRUB_CMDLINE_LINUX=""
 
 # Uncomment to enable BadRAM filtering, modify to suit your needs
@@ -30,4 +31,4 @@ GRUB_CMDLINE_LINUX=""
 #GRUB_DISABLE_RECOVERY="true"
 
 # Uncomment to get a beep at grub start
-#GRUB_INIT_TUNE="480 440 1"
+GRUB_INIT_TUNE="480 440 1"
