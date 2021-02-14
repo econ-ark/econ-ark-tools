@@ -164,27 +164,27 @@ while true; do
     echo
     read -ep " please enter your preference: [1|2|3|4]: " -i "5" ubver
     case $ubver in
-        [1]* )  download_file="ubuntu-$prec_vers-server-amd64.iso"           # filename of the iso to be downloaded
+        [1]* )  download_file="ubuntu-$prec_vers-server-amd64"           # filename of the iso to be downloaded
                 download_location="http://cdimage.ubuntu.com/releases/$prec/"     # location of the file to be downloaded
-                new_iso_name="$name_ubuntu-$prec_vers-server-amd64-unattended.iso" # filename of the new iso file to be created
+                new_iso_name="$name_ubuntu-$prec_vers-server-amd64-unattended" # filename of the new iso file to be created
                 break;;
-	[2]* )  download_file="ubuntu-$trus_vers-server-amd64.iso"             # filename of the iso to be downloaded
+	[2]* )  download_file="ubuntu-$trus_vers-server-amd64"             # filename of the iso to be downloaded
                 download_location="http://cdimage.ubuntu.com/releases/$trus/"     # location of the file to be downloaded
-                new_iso_name="$name_ubuntu-$trus_vers-server-amd64-unattended.iso"   # filename of the new iso file to be created
+                new_iso_name="$name_ubuntu-$trus_vers-server-amd64-unattended"   # filename of the new iso file to be created
                 break;;
-        [3]* )  download_file="ubuntu-$xenn_vers-server-amd64.iso"
+        [3]* )  download_file="ubuntu-$xenn_vers-server-amd64"
                 download_location="http://cdimage.ubuntu.com/releases/$xenn/"
-                new_iso_name="$name_ubuntu-$xenn_vers-server-amd64-unattended.iso"
+                new_iso_name="$name_ubuntu-$xenn_vers-server-amd64-unattended"
                 break;;
-        [4]* )  download_file="ubuntu-18.04.4-server-amd64.iso"
+        [4]* )  download_file="ubuntu-18.04.4-server-amd64"
                 download_location="http://releases.ubuntu.com/18.04/"
                 new_iso_base="$name-ubuntu-18.04.4-server-amd64-unattended"
-                new_iso_name="$name-ubuntu-18.04.4-server-amd64-unattended.iso"
+                new_iso_name="$name-ubuntu-18.04.4-server-amd64-unattended"
                 break;;
-        [5]* )  download_file="ubuntu-20.04.1-legacy-server-amd64.iso"
+        [5]* )  download_file="ubuntu-20.04.1-legacy-server-amd64"
                 download_location="http://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04.1/release/"
                 new_iso_base="ubuntu-20.04.1-legacy-server-amd64-unattended"
-                new_iso_name="$name-ubuntu-20.04.1-legacy-server-amd64-unattended.iso"
+                new_iso_name="$name-ubuntu-20.04.1-legacy-server-amd64-unattended"
                 break;;
         * ) echo " please answer [1], [2], [3], [4], [5]:";;
     esac
@@ -482,19 +482,12 @@ cp $iso_make/iso_new/EFI/BOOT/BOOTx64.EFI $iso_make/iso_new/boot/efi/EFI/BOOT/BO
 # Get info about the commit 
 pushd . ; cd "$pathToScript"
 
-#echo sudo chmod a-w "$DIR" "$DIR/$ATI/short.git-hash" "$DIR/$ATI/commit-msg.txt" "$DIR/$ATI"
-#sudo chmod a-w "$DIR" "$DIR/$ATI/short.git-hash" "$DIR/$ATI/commit-msg.txt" "$DIR/$ATI"
-
-short_hash_cmd="cat $DIR/$ATI/short.git-hash"
-#echo "$short_hash_cmd"
 short_hash="$(cat $DIR/$ATI/short.git-hash)"
 short_hash_last="$(cat $DIR/$ATI/short.git-hash)"
-echo "short_hash_cmd=$short_hash_cmd"
-echo "short_hash=$short_hash"
 
 iso_date=`date +"%Y%m%d-%H%M%S"`
 
-new_iso_name="$new_iso_name-$short_hash-$iso_date"
+new_iso_name="$new_iso_name-$short_hash-$iso_date.iso"
 
 popd
 
