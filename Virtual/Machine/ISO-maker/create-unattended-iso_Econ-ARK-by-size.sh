@@ -313,14 +313,11 @@ cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.Volume
 # and it is NOT worth it to try to change initrd
 # So everything that goes on the target must come from somewhere outside of /
 # set late_command
-late_command="mount --bind /dev/pts /target/dev/pts ;\
+late_command="mount --bind /dev /target/dev ;\
+     mount --bind /dev/pts /target/dev/pts ;\
      mount --bind /proc /target/proc ;\
      mount --bind /sys /target/sys ;\
      mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
-     chroot /target apt-get --yes purge shim ;\
-     chroot /target apt-get --yes purge mokutil ;\
-     chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
-     chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
      chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
      chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
      chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
@@ -342,10 +339,17 @@ late_command="mount --bind /dev/pts /target/dev/pts ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf ;\
-     chroot /target update-initramfs -c -k \$(uname -r)  ;\
-#     target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
+#    chroot /target mount /dev/sda3 /boot/efi
+     chroot /target swapon /dev/sda4 
+     chroot /target apt-get --yes purge shim ;\
+     chroot /target apt-get --yes purge mokutil ;\
+     chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
+     chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
+     chroot /target apt-get --yes install initramfs-tools ;\
+     chroot /target update-initramfs -v -c -k all  ;\
+     target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
      target_dev=\${target_efi%?}  ;\
-     chroot /target grub-install --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
+     chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
 "
 
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
