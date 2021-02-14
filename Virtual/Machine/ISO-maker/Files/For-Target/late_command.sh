@@ -22,11 +22,11 @@ mount --bind /dev /target/dev
  mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
  wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
- apt-get --yes purge shim 
+# apt-get --yes purge shim 
  apt-get --yes purge mokutil 
  chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
  chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi 
-# target_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
+ target_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
  target_dev=${target_efi%?} 
  target_swap=${target_dev}4 
  swapon $target_swap 
