@@ -485,12 +485,16 @@ pushd . ; cd "$pathToScript"
 #echo sudo chmod a-w "$DIR" "$DIR/$ATI/short.git-hash" "$DIR/$ATI/commit-msg.txt" "$DIR/$ATI"
 #sudo chmod a-w "$DIR" "$DIR/$ATI/short.git-hash" "$DIR/$ATI/commit-msg.txt" "$DIR/$ATI"
 
-short_hash="`cat $($DIR/$ATI/short.git-hash)`"
-short_hash_last="`cat $($DIR/$ATI/short.git-hash)`"
+short_hash_cmd="cat $DIR/$ATI/short.git-hash"
+#echo "$short_hash_cmd"
+short_hash="$(cat $DIR/$ATI/short.git-hash)"
+short_hash_last="$(cat $DIR/$ATI/short.git-hash)"
+echo "short_hash_cmd=$short_hash_cmd"
+echo "short_hash=$short_hash"
 
 iso_date=`date +"%Y%m%d-%H%M%S"`
 
-iso_name_new="$iso_name_new-$short-hash-$iso_date"
+new_iso_name="$new_iso_name-$short_hash-$iso_date"
 
 popd
 
