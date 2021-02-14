@@ -319,6 +319,8 @@ late_command="mount --bind /dev/pts /target/dev/pts ;\
      mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
      chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
+     chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
+     chroot cp /boot/efi/EFI/ubuntu/bootx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
      chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
      chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
      chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
@@ -344,7 +346,6 @@ late_command="mount --bind /dev/pts /target/dev/pts ;\
 #     target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
      target_dev=\${target_efi%?}  ;\
      chroot /target grub-install --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
-     chroot mv /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
 "
 
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
