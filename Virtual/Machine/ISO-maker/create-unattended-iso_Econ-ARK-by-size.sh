@@ -164,24 +164,24 @@ while true; do
     echo
     read -ep " please enter your preference: [1|2|3|4]: " -i "5" ubver
     case $ubver in
-        [1]* )  download_file="ubuntu-$prec_vers-server-amd64"           # filename of the iso to be downloaded
+        [1]* )  download_file="ubuntu-$prec_vers-server-amd64.iso"           # filename of the iso to be downloaded
                 download_location="http://cdimage.ubuntu.com/releases/$prec/"     # location of the file to be downloaded
                 new_iso_name="$name_ubuntu-$prec_vers-server-amd64-unattended" # filename of the new iso file to be created
                 break;;
-	[2]* )  download_file="ubuntu-$trus_vers-server-amd64"             # filename of the iso to be downloaded
+	[2]* )  download_file="ubuntu-$trus_vers-server-amd64.iso"             # filename of the iso to be downloaded
                 download_location="http://cdimage.ubuntu.com/releases/$trus/"     # location of the file to be downloaded
                 new_iso_name="$name_ubuntu-$trus_vers-server-amd64-unattended"   # filename of the new iso file to be created
                 break;;
-        [3]* )  download_file="ubuntu-$xenn_vers-server-amd64"
+        [3]* )  download_file="ubuntu-$xenn_vers-server-amd64.iso"
                 download_location="http://cdimage.ubuntu.com/releases/$xenn/"
                 new_iso_name="$name_ubuntu-$xenn_vers-server-amd64-unattended"
                 break;;
-        [4]* )  download_file="ubuntu-18.04.4-server-amd64"
+        [4]* )  download_file="ubuntu-18.04.4-server-amd64.iso"
                 download_location="http://releases.ubuntu.com/18.04/"
                 new_iso_base="$name-ubuntu-18.04.4-server-amd64-unattended"
                 new_iso_name="$name-ubuntu-18.04.4-server-amd64-unattended"
                 break;;
-        [5]* )  download_file="ubuntu-20.04.1-legacy-server-amd64"
+        [5]* )  download_file="ubuntu-20.04.1-legacy-server-amd64.iso"
                 download_location="http://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04.1/release/"
                 new_iso_base="ubuntu-20.04.1-legacy-server-amd64-unattended"
                 new_iso_name="$name-ubuntu-20.04.1-legacy-server-amd64-unattended"
@@ -313,8 +313,6 @@ cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.Volume
 # and it is NOT worth it to try to change initrd
 # So everything that goes on the target must come from somewhere outside of /
 # set late_command
-#     chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
-#     chroot /target chmod 755 /etc/default/grub       ;\
 late_command="mount --bind /dev /target/dev ;\
      mount --bind /dev/pts /target/dev/pts ;\
      mount --bind /proc /target/proc ;\
@@ -327,7 +325,9 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target wget -O  /var/local/finish.sh              $online/$ForTarget/$finishFile ;\
      chroot /target wget -O  /var/local/$finishMAX             $online/$ForTarget/$finishMAX ;\
      chroot /target wget -O  /var/local/grub-menu.sh           $online/$ForTarget/grub-menu.sh ;\
-     chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md ;\
+     chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md      chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
+     chroot /target chmod 755 /etc/default/grub       ;\
+;\
      chroot /target mkdir -p /var/local/About_This_Install                                              ;\
      chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
      chroot /target wget -O  /var/local/About_This_Install/short.git-hash     $online/$ForTarget/About_This_Install/short.git-hash ;\
@@ -348,8 +348,9 @@ late_command="mount --bind /dev /target/dev ;\
      target_swap=\${target_dev}4  ;\
      swapon \$target_swap ;\
      chroot /target apt-get --yes install initramfs-tools ;\
-     chroot /target update-initramfs -v -c -k all  ;\
-     chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
+     chroot /target update-initramfs -v -c -k all --gzip ;\
+     chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot 
+     chroot /target update-grub ;\
 "
 
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
