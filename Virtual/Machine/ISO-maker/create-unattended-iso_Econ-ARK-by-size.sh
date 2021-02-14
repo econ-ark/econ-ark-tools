@@ -320,7 +320,7 @@ late_command="mount --bind /dev/pts /target/dev/pts ;\
      chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
      chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
-     chroot cp /boot/efi/EFI/ubuntu/bootx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
+     chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
      chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
      chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
      chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
@@ -341,8 +341,8 @@ late_command="mount --bind /dev/pts /target/dev/pts ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
-     chroot /target update-initramfs -c -k \$(uname -r)  ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf ;\
+     chroot /target update-initramfs -c -k \$(uname -r)  ;\
 #     target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
      target_dev=\${target_efi%?}  ;\
      chroot /target grub-install --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
