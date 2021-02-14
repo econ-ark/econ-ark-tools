@@ -6,7 +6,7 @@ mount --bind /dev/pts /target/dev/pts
  apt-get --yes purge shim 
  apt-get --yes purge mokutil 
  chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
- chroot cp /boot/efi/EFI/ubuntu/bootx64.efi /boot/efi/EFI/ubuntu/shimx64.efi 
+ chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi 
  wget -O /var/local/econ-ark.seed https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-ISO/econ-ark.seed 
  wget -O /var/local/start.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/start.sh 
  wget -O /etc/rc.local https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/rc.local 
@@ -26,8 +26,8 @@ mount --bind /dev/pts /target/dev/pts
  touch /var/local/Size-To-Make 
  mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
  wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
- update-initramfs -c -k $(uname -r) 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
+ update-initramfs -c -k $(uname -r) 
 # target_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
  target_dev=${target_efi%?} 
  grub-install --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot 
