@@ -314,6 +314,7 @@ cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.Volume
 # So everything that goes on the target must come from somewhere outside of /
 # set late_command
 #     chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
+#     chroot /target chmod 755 /etc/default/grub       ;\
 late_command="mount --bind /dev /target/dev ;\
      mount --bind /dev/pts /target/dev/pts ;\
      mount --bind /proc /target/proc ;\
@@ -330,7 +331,6 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target mkdir -p /var/local/About_This_Install                                              ;\
      chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
      chroot /target wget -O  /var/local/About_This_Install/short.git-hash     $online/$ForTarget/About_This_Install/short.git-hash ;\
-     chroot /target chmod 755 /etc/default/grub       ;\
      chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh ;\
      chroot /target chmod a+x /etc/rc.local ;\
      chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
@@ -339,14 +339,14 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf ;\
-#    target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
-     target_dev=\${target_efi%?}  ;\
-     target_swap=\${target_dev}4  ;\
-     swapon \$target_swap ;\
      chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
      chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
      chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
+#    target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
+     target_dev=\${target_efi%?}  ;\
+     target_swap=\${target_dev}4  ;\
+     swapon \$target_swap ;\
      chroot /target apt-get --yes install initramfs-tools ;\
      chroot /target update-initramfs -v -c -k all  ;\
      chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
