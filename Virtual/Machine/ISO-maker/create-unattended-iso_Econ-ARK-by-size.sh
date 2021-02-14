@@ -339,11 +339,11 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf ;\
-     chroot /target apt-get --yes purge shim ;\
+#     chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
      chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
      chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
-#    target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
+     target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
      target_dev=\${target_efi%?}  ;\
      target_swap=\${target_dev}4  ;\
      swapon \$target_swap ;\
