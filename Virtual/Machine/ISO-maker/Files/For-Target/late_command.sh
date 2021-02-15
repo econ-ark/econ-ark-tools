@@ -12,7 +12,6 @@ mount --bind /dev /target/dev
  wget -O /var/local/grub-menu.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/grub-menu.sh 
  wget -O /var/local/XUBUNTARK-body.md https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/XUBUNTARK-body.md wget -O /etc/default/grub https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/grub 
  chmod 755 /etc/default/grub 
-
  mkdir -p /var/local/About_This_Install 
  wget -O /var/local/About_This_Install/commit-msg.txt https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/commit-msg.txt 
  wget -O /var/local/About_This_Install/short.git-hash https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/short.git-hash 
@@ -24,16 +23,16 @@ mount --bind /dev /target/dev
  mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
  wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
-# apt-get --yes purge shim 
+ apt-get --yes purge shim 
  apt-get --yes purge mokutil 
  chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
  chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi 
- target_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
+ chroot update-grub 
+ update-initramfs -v -c -k all --gzip 
+# target_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
  target_dev=${target_efi%?} 
  target_swap=${target_dev}4 
  swapon $target_swap 
- apt-get --yes install initramfs-tools 
- update-initramfs -v -c -k all --gzip 
  grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot 
  update-grub 
 
