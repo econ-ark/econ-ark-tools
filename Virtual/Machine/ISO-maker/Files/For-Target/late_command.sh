@@ -29,11 +29,12 @@ mount --bind /dev /target/dev
  apt-get --yes purge mokutil 
  chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
  chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi 
- sed -i 's/COMPRESS=l4z/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf 
+ sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf 
  update-initramfs -v -c -k all 
  target_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
  target_dev=${target_efi%?} 
  target_swap=${target_dev}4 
- echo grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot > /target/var/local/grub-install-test.sh 
-# update-grub 
+ grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot > /target/var/local/grub-install-test.sh 
+ grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot 
+ update-grub 
 
