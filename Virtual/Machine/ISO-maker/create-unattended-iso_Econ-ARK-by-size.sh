@@ -313,10 +313,12 @@ cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.Volume
 # and it is NOT worth it to try to change initrd
 # So everything that goes on the target must come from somewhere outside of /
 # set late_command
+# mount --bind /etc/resolv.conf /target/etc/resolv.conf ;\ 
 late_command="mount --bind /dev /target/dev ;\
      mount --bind /dev/pts /target/dev/pts ;\
      mount --bind /proc /target/proc ;\
      mount --bind /sys /target/sys ;\
+     mount --bind /run /target/run ;\
      mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
      chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
      chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
@@ -325,7 +327,8 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target wget -O  /var/local/finish.sh              $online/$ForTarget/$finishFile ;\
      chroot /target wget -O  /var/local/$finishMAX             $online/$ForTarget/$finishMAX ;\
      chroot /target wget -O  /var/local/grub-menu.sh           $online/$ForTarget/grub-menu.sh ;\
-     chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md      chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
+     chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md ;\
+     chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
      chroot /target chmod 755 /etc/default/grub       ;\
      chroot /target mkdir -p /var/local/About_This_Install                                              ;\
      chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
@@ -347,7 +350,7 @@ late_command="mount --bind /dev /target/dev ;\
      target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
      target_dev=\${target_efi%?}  ;\
      target_swap=\${target_dev}4  ;\
-#     chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
+     echo chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot > /target/var/local/grub-install-test.sh ;\
 #     chroot /target update-grub ;\
 "
 #     swapon \$target_swap ;\
