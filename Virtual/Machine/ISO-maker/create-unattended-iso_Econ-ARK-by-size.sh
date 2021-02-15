@@ -327,7 +327,6 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target wget -O  /var/local/grub-menu.sh           $online/$ForTarget/grub-menu.sh ;\
      chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md      chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
      chroot /target chmod 755 /etc/default/grub       ;\
-;\
      chroot /target mkdir -p /var/local/About_This_Install                                              ;\
      chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
      chroot /target wget -O  /var/local/About_This_Install/short.git-hash     $online/$ForTarget/About_This_Install/short.git-hash ;\
@@ -339,16 +338,16 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf ;\
-#     chroot /target apt-get --yes purge shim ;\
+     chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
      chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
      chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
-     target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
+     chroot update-grub ;\
+     chroot /target update-initramfs -v -c -k all --gzip ;\
+#     target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
      target_dev=\${target_efi%?}  ;\
      target_swap=\${target_dev}4  ;\
      swapon \$target_swap ;\
-     chroot /target apt-get --yes install initramfs-tools ;\
-     chroot /target update-initramfs -v -c -k all --gzip ;\
      chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
      chroot /target update-grub ;\
 "
@@ -480,6 +479,10 @@ mkdir -p $iso_make/iso_new/boot/efi/EFI/BOOT/
 cp $iso_make/iso_new/EFI/BOOT/grubx64.efi $iso_make/iso_new/boot/efi/EFI/BOOT/grubx64.efi  
 cp $iso_make/iso_new/EFI/BOOT/BOOTx64.EFI $iso_make/iso_new/boot/efi/EFI/BOOT/BOOTx64.EFI
 
+chmod chmod +w $iso_make/iso_new/README.diskdefines
+rpl 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' $iso_make/iso_new/README.diskdefines
+chmod -w $iso_make/iso_new/README.diskdefines
+
 # Get info about the commit 
 pushd . ; cd "$pathToScript"
 
@@ -496,11 +499,6 @@ popd
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 echo " creating the remastered iso"
-
-cd "$iso_make/$new_iso_name"
-chmod +w README.diskdefines
-rpl 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' README.diskdefines
-chmod -w README.diskdefines
 
 ISONAME="XUB20ARK$size"
 cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
