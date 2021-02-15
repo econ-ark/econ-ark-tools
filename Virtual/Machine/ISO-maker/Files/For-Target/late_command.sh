@@ -32,6 +32,6 @@ mount --bind /dev /target/dev
  target_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
  target_dev=${target_efi%?} 
  target_swap=${target_dev}4 
- grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot 
- update-grub 
+# grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot 
+# update-grub 
 
