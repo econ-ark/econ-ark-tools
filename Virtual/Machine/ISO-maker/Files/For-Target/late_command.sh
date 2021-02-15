@@ -27,8 +27,6 @@ mount --bind /dev /target/dev
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
  apt-get --yes purge shim 
  apt-get --yes purge mokutil 
- chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
- chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi 
  sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf 
  update-initramfs -v -c -k all 
  target_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
@@ -37,4 +35,6 @@ mount --bind /dev /target/dev
  grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot > /target/var/local/grub-install-test.sh 
  grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot 
  update-grub 
+ chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
+ chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi 
 
