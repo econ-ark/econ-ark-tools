@@ -34,5 +34,6 @@ mount --bind /dev /target/dev
  swapon $target_swap 
  apt-get --yes install initramfs-tools 
  update-initramfs -v -c -k all --gzip 
- grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot update-grub 
+ grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot 
+ update-grub 
 
