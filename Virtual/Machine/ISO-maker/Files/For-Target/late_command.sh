@@ -10,7 +10,9 @@ mount --bind /dev /target/dev
  wget -O /var/local/finish.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/finish.sh 
  wget -O /var/local/finish-MAX-Extras.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/finish-MAX-Extras.sh 
  wget -O /var/local/grub-menu.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/grub-menu.sh 
- wget -O /var/local/XUBUNTARK-body.md https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/XUBUNTARK-body.md 
+ wget -O /var/local/XUBUNTARK-body.md https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/XUBUNTARK-body.md wget -O /etc/default/grub https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/grub 
+ chmod 755 /etc/default/grub 
+
  mkdir -p /var/local/About_This_Install 
  wget -O /var/local/About_This_Install/commit-msg.txt https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/commit-msg.txt 
  wget -O /var/local/About_This_Install/short.git-hash https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/short.git-hash 
@@ -31,6 +33,6 @@ mount --bind /dev /target/dev
  target_swap=${target_dev}4 
  swapon $target_swap 
  apt-get --yes install initramfs-tools 
- update-initramfs -v -c -k all 
- grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot 
+ update-initramfs -v -c -k all --gzip 
+ grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot update-grub 
 

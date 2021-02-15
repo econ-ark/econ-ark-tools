@@ -349,7 +349,7 @@ late_command="mount --bind /dev /target/dev ;\
      swapon \$target_swap ;\
      chroot /target apt-get --yes install initramfs-tools ;\
      chroot /target update-initramfs -v -c -k all --gzip ;\
-     chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot 
+     chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
      chroot /target update-grub ;\
 "
 
