@@ -17,7 +17,7 @@ if [ "$TERM" == "dumb" ]; then
     exit 1
 fi
 
-version="full" # or "full" for debugging (too-many-options) on the grub menu
+version="base" # or "full" for debugging (too-many-options) on the grub menu
 
 if [ "$#" -ne 1 ]; then
     echo "Wrong number of arguments:"
@@ -342,15 +342,15 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target apt-get --yes purge mokutil ;\
      chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
      chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
-     chroot update-grub ;\
-#     chroot /target update-initramfs -v -c -k all --gzip ;\
+     chroot /target sed -i 's/COMPRESS=l4z/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
+     chroot /target update-initramfs -v -c -k all ;\
      target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
      target_dev=\${target_efi%?}  ;\
      target_swap=\${target_dev}4  ;\
-     swapon \$target_swap ;\
      chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
      chroot /target update-grub ;\
 "
+#     swapon \$target_swap ;\
 
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
 # https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1867092
