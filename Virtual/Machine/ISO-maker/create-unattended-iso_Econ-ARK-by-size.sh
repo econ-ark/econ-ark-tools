@@ -17,7 +17,7 @@ if [ "$TERM" == "dumb" ]; then
     exit 1
 fi
 
-version="base" # or "full" for debugging (too-many-options) on the grub menu
+version="full" # or "full" for debugging (too-many-options) on the grub menu
 
 if [ "$#" -ne 1 ]; then
     echo "Wrong number of arguments:"
@@ -407,15 +407,15 @@ if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]]; then
     sudo chmod u+w "$DIR/$ATI"
     sudo touch "$DIR/$ATI/short.git-hash" ; sudo chmod a+rw "$DIR/$ATI/short.git-hash"
     sudo touch "$DIR/$ATI/commit-msg.txt" ; sudo chmod a+rw "$DIR/$ATI/commit-msg.txt"
+    sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
+    sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
 fi
-sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
-sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
 
 git diff --exit-code $pathToScript/$ForTarget/$ATI/
 about_this_install_changed="$?"
 
 # If anything relevant has changed, require a fix and a push
-if [[ "$about_this_install_changed" != 0 ]]; then
+if [[ "$about_this_install_changed" != 0 && "$msg" != "ATI-Update" ]]; then
     echo "$ATI/ or $ATI.md has changed; the new version has been written"
     echo ''
     cmd="git diff --exit-code $pathToScript/$ForTarget/$ATI/"

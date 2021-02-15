@@ -28,8 +28,8 @@ mount --bind /dev /target/dev
  chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
  chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi 
  chroot update-grub 
- update-initramfs -v -c -k all --gzip 
-# target_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
+# update-initramfs -v -c -k all --gzip 
+ target_efi=$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) 
  target_dev=${target_efi%?} 
  target_swap=${target_dev}4 
  swapon $target_swap 
