@@ -28,10 +28,7 @@ if [[ ! -e /root/.config/rclone/rclone.conf ]]; then
     echo ''
     echo 'sudo mkdir -p /root/.config/rclone ; sudo unzip /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/root/.config/rclone/rcloneconf.zip -d /root/.config/rclone '
     echo ''
-    echo 'then '
-    echo ''
-    echo 'sudo mv /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/root/.config/rclone/rclone.conf /root/.config/rclone ; cd ~/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/'
-    echo ''
+    echo 'Then run again'
     exit
 fi
 
