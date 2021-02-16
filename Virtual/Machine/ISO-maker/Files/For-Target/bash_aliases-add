@@ -153,8 +153,8 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     touch /home/econ-ark/.second_user_login_finished
 
     echo ''
-    echo 'Finally, download the appropriate installer file to the Downloads folder of this machine.'
-    echo 'That way you will be able to recreate the machine in its pristine form whenever you like'
+    echo 'Now download the ISO to the Downloads folder of this machine'
+    echo '(So you can recreate the machine in its pristine form later)'
     echo ''
     echo ''
     echo 'Hit return to launch firefox at the appropriate link:'
