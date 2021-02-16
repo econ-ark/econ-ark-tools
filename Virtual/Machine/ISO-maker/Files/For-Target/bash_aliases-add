@@ -38,7 +38,7 @@ fi
 
 # If we've got a graphical display but the software hasn't finished installing
 if [[ "$DISPLAY" != "" ]] && [[ ! -e /var/local/finished-software-install ]]; then
-    [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox) "  && [[ "$vbox" != "" ]] && xset r off # Repeated keys does not work well on VirtualBox
+    [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] && xset r off # Repeated keys does not work well on VirtualBox
 
     touch /home/econ-ark/.first_user_login  # Signal that first GUI boot user login has succeeded
     pkill xfce4-screensaver # Prevent screensaver from activating while software installing
@@ -74,7 +74,7 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /var/local/finished-software-install ]]; th
     # Turn off ALL the possible ways the screen might get locked -- user can undo this later
     # xfce4-session property /shutdown/LockScreen is one of (far too many) ways to lock the screen
     xfconf-query --channel xfce4-session --property /shutdown/LockScreen &> /dev/null # Querying its value gives an error if it does not exist
-    shutdownLockscreenCode="$?" If it does NOT exist, the code will be NOT be zero
+    shutdownLockscreenCode="$?" # If it does NOT exist, the code will be NOT be zero
     # If it DOES exist set it to zero
     [[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false 
 
