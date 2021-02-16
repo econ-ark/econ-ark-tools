@@ -351,8 +351,8 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot > /target/var/local/grub-install-test.sh ;\
      chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
      chroot /target update-grub ;\
-     chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
-     chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
+     chroot /target cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
+     chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
 "
 #     swapon \$target_swap ;\
 
