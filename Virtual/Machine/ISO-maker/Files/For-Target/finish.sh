@@ -225,10 +225,8 @@ mkdir -p "$arkHome"
 cd "$arkHome"
 
 for repo in REMARK HARK DemARK econ-ark-tools; do
-    git clone https://github.com/econ-ark/$repo
+    sudo -u econ-ark git clone https://github.com/econ-ark/$repo
     # Make it all owned by the econ-ark user -- including invisible files like .git
-    chown econ-ark:econ-ark $repo/.?*
-    chown econ-ark:econ-ark $repo/*
     # Install all requirements
     [[ -e $repo/requirements.txt ]] && sudo pip install -r $repo/requirements.tx
     [[ -e $repo/binder/requirements.txt ]] && sudo pip install -r $repo/binder/requirements.txt
