@@ -153,9 +153,12 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     touch /home/econ-ark/.second_user_login_finished
 
     echo ''
-    echo 'Finally, download the appropriate installer file to the /media folder of this machine.'
+    echo 'Finally, download the appropriate installer file to the Downloads folder of this machine.'
     echo 'That way you will be able to recreate the machine in its pristine form whenever you like'
     echo ''
+    echo ''
+    echo 'Hit return to launch firefox at the appropriate link:'
+    read answer
 
     firefox 'https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing'
 
