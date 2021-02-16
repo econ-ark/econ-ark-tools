@@ -416,7 +416,7 @@ else
     msg_last=""
     [[ -e "$DIR/$ATI/commit-msg.txt" ]] && msg_last="$(cat $DIR/$ATI/commit-msg.txt)"
     if [[ "$msg" != "$msg_last" ]] ; then
-	if [[ "$msg" != "ISOmaker-Update" ]]; then
+	if [[ "$msg" != "ISOmaker-Update" && "$msg" != "ATI-Update" ]]; then
 	    sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
 	    sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
 	fi
