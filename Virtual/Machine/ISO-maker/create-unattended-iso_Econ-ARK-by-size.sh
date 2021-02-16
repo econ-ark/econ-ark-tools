@@ -593,7 +593,7 @@ echo ""
 
 
 cmd="rclone --progress copy '"$iso_done/$size/$new_iso_name"'"
-cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/XUBUNTU-$size/$new_iso_name"
+cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/XUBUNTU-$size"
 echo 'To copy to Google drive, execute the command below:'
 echo ''
 echo "$cmd"
