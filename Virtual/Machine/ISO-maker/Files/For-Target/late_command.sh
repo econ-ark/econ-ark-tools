@@ -35,6 +35,6 @@ mount --bind /dev /target/dev
  grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot > /target/var/local/grub-install-test.sh 
  grub-install --verbose --efi-directory=/boot/efi/ --removable $target_dev --no-uefi-secure-boot 
  update-grub 
- chroot cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
- chroot cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi 
+ cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak 
+ cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi 
 
