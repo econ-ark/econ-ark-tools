@@ -21,7 +21,8 @@ d-i console-setup/ask_detect boolean false
 d-i keyboard-configuration/xkb-keymap select us
 
 # Unmount installer medium (so it does not try to install over itself)
-d-i preseed/early_command string umount /media
+# Can't preseed this because doesn't work on VirtualBox
+# d-i preseed/early_command string umount /media
 
 # Counterintuitively, the setting below forces it TO BE an efi system
 d-i partman-efi/non_efi_system boolean true
