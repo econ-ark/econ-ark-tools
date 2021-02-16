@@ -105,7 +105,7 @@ fi
 
 # Run this if first user loging has finished and software install has finished but second interactive login has not occurred yet 
 if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]] && [[ ! -e /home/econ-ark/.second_user_login ]]; then
-    touch /home/econ-ark/.second_user_login_finished
+    touch /home/econ-ark/.second_user_login
     # In case monitor config did not stick, redo it 
     monitor=""  
     while [[ "$monitor" == "" ]] ; do # 
@@ -161,6 +161,7 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     read answer
 
     firefox 'https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing'
+    touch /home/econ-ark/.second_user_login_finished
 
 fi
 
