@@ -97,6 +97,10 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /var/local/finished-software-install ]]; th
     xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch
     # This should terminate with reboot from end of finish
     touch /home/econ-ark/.first_user_login_finished  # Signal that first GUI boot user login has succeeded
+    while [[ "$($( pgrep tail >/dev/null ) ; echo $? )" == 0 ]]; do
+	echo Waiting for sofware install to finish
+	sleep 1
+    done
 fi
 
 # Run this if first user loging has finished and software install has finished but second interactive login has not occurred yet 
