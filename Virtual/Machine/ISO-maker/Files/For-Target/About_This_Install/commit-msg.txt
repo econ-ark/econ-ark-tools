@@ -1,1 +1,1 @@
-ISOmaker-Update
+Try to fix hash in filename; move initramfs to comments

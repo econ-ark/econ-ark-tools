@@ -165,12 +165,9 @@ echo "/media/"
 [[ -e "/media/*.iso" ]] && sudo rm "/media/*.iso"
 sudo pip  install gdown # Google download
 
+cd /var/local
+
 cd /media
-if [ "$size" == "MIN" ]; then
-    sudo gdown --id "13DgxXoc5oSXi9YPLEdBx6hI3V6n8cm9E" # --output "/media/$isoName"
-else    # size = MAX
-    sudo gdown --id "1Qs8TpId5css7q9L315VUre0mjIRqjw8Z" # --output "/media/$isoName"
-fi
 
 # Install Chrome browser 
 wget --quiet -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb

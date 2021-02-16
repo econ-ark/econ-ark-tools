@@ -166,25 +166,25 @@ while true; do
     case $ubver in
         [1]* )  download_file="ubuntu-$prec_vers-server-amd64.iso"           # filename of the iso to be downloaded
                 download_location="http://cdimage.ubuntu.com/releases/$prec/"     # location of the file to be downloaded
-                new_iso_name="$name_ubuntu-$prec_vers-server-amd64-unattended.iso" # filename of the new iso file to be created
+                new_iso_name="$name_ubuntu-$prec_vers-server-amd64-unattended" # filename of the new iso file to be created
                 break;;
 	[2]* )  download_file="ubuntu-$trus_vers-server-amd64.iso"             # filename of the iso to be downloaded
                 download_location="http://cdimage.ubuntu.com/releases/$trus/"     # location of the file to be downloaded
-                new_iso_name="$name_ubuntu-$trus_vers-server-amd64-unattended.iso"   # filename of the new iso file to be created
+                new_iso_name="$name_ubuntu-$trus_vers-server-amd64-unattended"   # filename of the new iso file to be created
                 break;;
         [3]* )  download_file="ubuntu-$xenn_vers-server-amd64.iso"
                 download_location="http://cdimage.ubuntu.com/releases/$xenn/"
-                new_iso_name="$name_ubuntu-$xenn_vers-server-amd64-unattended.iso"
+                new_iso_name="$name_ubuntu-$xenn_vers-server-amd64-unattended"
                 break;;
         [4]* )  download_file="ubuntu-18.04.4-server-amd64.iso"
                 download_location="http://releases.ubuntu.com/18.04/"
                 new_iso_base="$name-ubuntu-18.04.4-server-amd64-unattended"
-                new_iso_name="$name-ubuntu-18.04.4-server-amd64-unattended.iso"
+                new_iso_name="$name-ubuntu-18.04.4-server-amd64-unattended"
                 break;;
         [5]* )  download_file="ubuntu-20.04.1-legacy-server-amd64.iso"
                 download_location="http://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04.1/release/"
                 new_iso_base="ubuntu-20.04.1-legacy-server-amd64-unattended"
-                new_iso_name="$name-ubuntu-20.04.1-legacy-server-amd64-unattended.iso"
+                new_iso_name="$name-ubuntu-20.04.1-legacy-server-amd64-unattended"
                 break;;
         * ) echo " please answer [1], [2], [3], [4], [5]:";;
     esac
@@ -306,24 +306,33 @@ echo ARKINSTALL                                      > $iso_make/iso_new/EFI/BOO
 cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/EFI/BOOT/.VolumeIcon.icns
 cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.VolumeIcon.icns
 
+#      chroot /target update-grub ;\
+
 # Constraint: Nothing can be copied from the installer ISO to target
 # because the system that installs everything derives instead from initrd
 # and it is NOT worth it to try to change initrd
 # So everything that goes on the target must come from somewhere outside of /
-# set late_command 
-late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
+# set late_command
+# mount --bind /etc/resolv.conf /target/etc/resolv.conf ;\ 
+late_command="mount --bind /dev /target/dev ;\
+     mount --bind /dev/pts /target/dev/pts ;\
+     mount --bind /proc /target/proc ;\
+     mount --bind /sys /target/sys ;\
+     mount --bind /run /target/run ;\
+     mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
+     chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
      chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
      chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
      chroot /target wget -O  /etc/rc.local                     $online/$ForTarget/$rclocal_file ;\
      chroot /target wget -O  /var/local/finish.sh              $online/$ForTarget/$finishFile ;\
      chroot /target wget -O  /var/local/$finishMAX             $online/$ForTarget/$finishMAX ;\
      chroot /target wget -O  /var/local/grub-menu.sh           $online/$ForTarget/grub-menu.sh ;\
-     chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
      chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md ;\
+     chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
+     chroot /target chmod 755 /etc/default/grub       ;\
      chroot /target mkdir -p /var/local/About_This_Install                                              ;\
      chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
      chroot /target wget -O  /var/local/About_This_Install/short.git-hash     $online/$ForTarget/About_This_Install/short.git-hash ;\
-     chroot /target chmod 755 /etc/default/grub       ;\
      chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh ;\
      chroot /target chmod a+x /etc/rc.local ;\
      chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
@@ -331,16 +340,21 @@ late_command="chroot /target wget -O /var/local/late_command.sh $online/$ForTarg
      chroot /target touch /var/local/Size-To-Make-Is-$size ;\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
-     mount --bind /dev/pts /target/dev/pts ;\
-     mount --bind /proc /target/proc ;\
-     mount --bind /sys /target/sys ;\
-     mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
+     chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target apt-get --yes purge shim ;\
-     [[ -e /target/boot/efi/EFI/ubuntu ]] && mv /target/boot/efi/EFI/ubuntu /root/ubuntu-efi.bak ;\
-     chroot /target grub-install ;\
+     chroot /target apt-get --yes purge mokutil ;\
+     chroot /target sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf ;\
+     chroot /target update-initramfs -v -c -k all ;\
+     target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
+     target_dev=\${target_efi%?}  ;\
+     target_swap=\${target_dev}4  ;\
+     chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot > /target/var/local/grub-install-test.sh ;\
+     chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
      chroot /target update-grub ;\
-     chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf \
+     chroot /target cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
+     chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
 "
+#     swapon \$target_swap ;\
 
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
 # https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1867092
@@ -351,11 +365,11 @@ late_command_last=""
 [[ -e $ForTarget/late_command.raw ]] && late_command_last="$(< $ForTarget/late_command.raw)" #; echo "$late_command_last"
 
 # Don't treat "Size-To-Make-Is" choice as meaningful for a change to late_command
-late_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX//g' | sed -e 's/Size-To-Make-Is-MIN//g')" #; echo "$late_command_curr_purged"
-late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX//g' | sed -e 's/Size-To-Make-Is-MIN//g')" #; echo "$late_command_last_purged"
+late_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_curr_purged"
+late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_last_purged"
 
 # Create a human-readable and bash executable version of late_command
-echo "#!/bin/bash" > $ForTarget/late_command.sh
+echo "#!/bin/sh" > $ForTarget/late_command.sh
 echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command >> $ForTarget/late_command.sh
 chmod a+x $ForTarget/late_command.sh
 
@@ -368,7 +382,7 @@ late_command_changed="$?"
 echo "late_command_changed=$late_command_changed"
 
 if [[ "$late_command_changed" != 0 ]]; then
-    echo '' 
+    echo ''
     echo "$ForTarget/late_command has changed."
     echo '' ; echo 'The diff output is: ' ; echo ''
     git diff --exit-code $pathToScript/$ForTarget/late_command.sh
@@ -376,13 +390,13 @@ if [[ "$late_command_changed" != 0 ]]; then
     echo 'Please git add, commit, push then hit return:'
     cmd="cd `pwd` ; git add $ForTarget ; git add $ForTarget/late_command.raw ; git commit -m ISOmaker-Update ; git push"
     echo "$cmd"
-    echo "$cmd" | xclip -i 
+    echo "$cmd" | xclip -i
     echo "(should be on xclip clipboard - paste in xfce4-terminal via shift-ctrl-v)"
     read answer
 fi
 
 
-# Get the latest git commit hash and message 
+# Get the latest git commit hash and message
 short_hash="$(git rev-parse --short HEAD)"
 msg="$(git log -1 --pretty=%B)"
 
@@ -395,7 +409,6 @@ if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]]; then
     sudo chmod u+w "$DIR"
     sudo mkdir -p "$DIR/$ATI"
     sudo chmod u+w "$DIR/$ATI"
-
     sudo touch "$DIR/$ATI/short.git-hash" ; sudo chmod a+rw "$DIR/$ATI/short.git-hash"
     sudo touch "$DIR/$ATI/commit-msg.txt" ; sudo chmod a+rw "$DIR/$ATI/commit-msg.txt"
     sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
@@ -406,7 +419,7 @@ git diff --exit-code $pathToScript/$ForTarget/$ATI/
 about_this_install_changed="$?"
 
 # If anything relevant has changed, require a fix and a push
-if [[ "$about_this_install_changed" != 0 ]]; then
+if [[ "$about_this_install_changed" != 0 && "$msg" != "ATI-Update" ]]; then
     echo "$ATI/ or $ATI.md has changed; the new version has been written"
     echo ''
     cmd="git diff --exit-code $pathToScript/$ForTarget/$ATI/"
@@ -417,7 +430,7 @@ if [[ "$about_this_install_changed" != 0 ]]; then
     echo ''
     cmd="cd `pwd` ; git add $DIR/$ATI ; git commit -m ATI-Update ; git push"
     echo "$cmd"
-    echo "$cmd" | xclip -i 
+    echo "$cmd" | xclip -i
     echo "(should be on xclip clipboard - paste in xfce4-terminal via shift-ctrl-v)"
     read answer
 fi
@@ -443,9 +456,15 @@ seed_checksum=$(md5sum $iso_make/iso_new/preseed/$seed_file)
 cd $iso_make/iso_new
 
 # Very ugly to have all on one line using newlines, but very painful
-# to try to have it look prettier then convert to single string 
+# to try to have it look prettier then convert to single string
 if [ "$version" == "base" ]; then
-    sudo /bin/sed -i 's|set timeout=30|set timeout=10\nmenuentry "Autoinstall Econ-ARK Xubuntu" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Most Macs" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "MacBookPro9,1-Mid-2012 (noapic)" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US noapic  ---\n	initrd	/install/initrd.gz\n}\nsubmenu "Boot debug options ..." {\nmenuentry "acpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    acpi=off        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "nolapic noapic irqpoll" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    noapic irqpoll       ---\n	initrd	/install/initrd.gz\n}\nmenuentry "noapic" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    noapic        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi=ht" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    acpi=ht        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi_osi=Linux" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    cpi_osi=Linux ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noacpi" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/ecopn-ark.seed auto=true priority=critical locale=en_US                    pci=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    pci=noirq        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "apci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    acpi=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pnpacpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    pnpacpi=off        ---\n	initrd	/install/initrd.gz\n}\n}|g' $iso_make/iso_new/boot/grub/grub.cfg
+    sudo chmod u+w $iso_make/iso_new/boot/grub/grub.cfg 
+    sudo /bin/sed -i 's|set gfxmode=auto|gfxmode=640x480|g' $iso_make/iso_new/boot/grub/grub.cfg
+    sudo /bin/sed -i 's|gfxterm|console|g'                  $iso_make/iso_new/boot/grub/grub.cfg
+    # 20210215: Spent a couple of hours trying to diagnose why MacBookPro9,1 now will not boot
+    #    seems to give up when thunderbolt does not respond, rather than looking for drives on USB.
+    #    Google searches largely fruitless.  Gave up.
+    sudo /bin/sed -i 's|set timeout=30|set timeout=10\nmenuentry "Autoinstall Econ-ARK Xubuntu" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US DEBCONF_DEBUG=5 nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Most Macs" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "MacBookPro9,1-Mid-2012 (noapic-still might not work)" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US noapic  ---\n	initrd	/install/initrd.gz\n}\nsubmenu "Boot debug options ..." {\nmenuentry "acpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    acpi=off        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "nolapic noapic irqpoll" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    noapic irqpoll       ---\n	initrd	/install/initrd.gz\n}\nmenuentry "noapic" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    noapic        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi=ht" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    acpi=ht        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi_osi=Linux" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    cpi_osi=Linux ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noacpi" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/ecopn-ark.seed auto=true priority=critical locale=en_US                    pci=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    pci=noirq        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "apci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    acpi=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pnpacpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical locale=en_US                    pnpacpi=off        ---\n	initrd	/install/initrd.gz\n}\n}|g' $iso_make/iso_new/boot/grub/grub.cfg
     
     # Delete original options
     /bin/sed -i '/^menuentry "Install Ubuntu Server"/,/^grub_platform/{/^grub_platform/!d}' $iso_make/iso_new/boot/grub/grub.cfg
@@ -470,12 +489,19 @@ mkdir -p $iso_make/iso_new/boot/efi/EFI/BOOT/
 cp $iso_make/iso_new/EFI/BOOT/grubx64.efi $iso_make/iso_new/boot/efi/EFI/BOOT/grubx64.efi  
 cp $iso_make/iso_new/EFI/BOOT/BOOTx64.EFI $iso_make/iso_new/boot/efi/EFI/BOOT/BOOTx64.EFI
 
+chmod chmod +w $iso_make/iso_new/README.diskdefines
+rpl 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' $iso_make/iso_new/README.diskdefines
+chmod -w $iso_make/iso_new/README.diskdefines
+
 # Get info about the commit 
 pushd . ; cd "$pathToScript"
 
-sudo chmod a-w "$DIR" "$DIR/$ATI/short.git-hash" "$DIR/$ATI/commit-msg.txt" "$DIR/$ATI"
+short_hash="$(cat $DIR/$ATI/short.git-hash)"
+short_hash_last="$(cat $DIR/$ATI/short.git-hash)"
 
-short_hash_last="$($DIR/$ATI/short.git-hash)"
+iso_date=`date +"%Y%m%d-%H%M%S"`
+
+new_iso_name="$new_iso_name-$short_hash-$iso_date.iso"
 
 popd
 
@@ -511,6 +537,36 @@ echo "make-and-move one-liner:"
 echo '' 
 echo "pushd . ; $mke ; $cmd ; popd"
 echo ''
+
+# # Now make a version of the iso that has the original ISO in /var/local; meta!
+# cp -p $iso_done/$new_iso_name 
+# ISONAME="XUB20ARK$size_Meta"
+# cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
+
+
+# mke="$cmd"
+# echo "$cmd"
+# eval "$cmd"
+
+# spinner $!
+
+# # make iso bootable (for dd'ing to USB stick)
+# if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
+#     isohybrid $iso_make/$new_iso_name
+# fi
+
+# # Move it to the destination
+# cmd="[[ -e $iso_done/$size/$new_iso_name ]] && rm $iso_done/$size/$new_iso_name"
+# echo "$cmd"
+# eval "$cmd"
+# cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name "
+# echo "$cmd"
+# eval "$cmd"
+# echo ""
+# echo "make-and-move one-liner:"
+# echo ''
+# echo "pushd . ; $mke ; $cmd ; popd"
+# echo ''
 
 # print info to user
 echo " -----"

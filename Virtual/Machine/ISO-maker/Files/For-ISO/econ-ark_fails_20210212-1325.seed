@@ -1,4 +1,3 @@
-# ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 # 20200807-2227h Works for VirtualBox, MacPro9,1, MacPro 5,1, VirtualBox Windows 10 envt
 
 # Show install info rather than eye candy
@@ -24,7 +23,7 @@ d-i keyboard-configuration/xkb-keymap select us
 # d-i preseed/early_command string umount /media
 
 # Counterintuitively, the setting below forces it TO BE an efi system
-d-i partman-efi/non_efi_system boolean true
+#d-i partman-efi/non_efi_system boolean true
 # Needed to make sure the partitioning scheme is usable with GPT systems
 d-i partman-partitioning/default_label string gpt 
 
@@ -39,7 +38,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 	$reusemethod{ }				    \
 	method{ biosgrub }                          \
 	.			                    \
-    1024 1024 1024 hfs                              \
+    1024 1024 1024 hfs                                 \
 	$gptonly{ }				    \
         $primary{ }                                 \
 	$bootable{ }                                \
@@ -57,7 +56,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ fat32 }       \
         mountpoint{ /efi/boot }                     \
         .                                           \
-    2048 4096 200% linux-swap                       \
+    2048 4096 200% linux-swap                      \
         $lvmok{ }                                   \
         in_vg { ubuntu-vg } lv_name{ swap_1 }       \
         method{ swap } format{ }                    \
@@ -74,14 +73,8 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
 # ### Grub
-# d-i grub-installer/only_debian boolean true
-# d-i grub-installer/with_other_os boolean true
-# d-i grub-installer/force-efi-extra-removable boolean true
-
-# Force installation of EFI
-grub-efi-amd64 grub/force_efi_extra_removable              boolean     true
-d-i grub-installer/no-uefi-secure-boot                     boolean     true
-
+d-i grub-installer/only_debian boolean true
+d-i grub-installer/with_other_os boolean true
 d-i netcfg/choose_interface select auto
 d-i netcfg/get_hostname                                     string      {{hostname}}
 d-i hw-detect/load_firmware boolean true
@@ -127,6 +120,8 @@ d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     true
 
 d-i shared/default-x-display-manager                    select      lightdm
+# Force installation of EFI
+grub-efi-amd64 grub2/force_efi_extra_removable              boolean     true
 
 # Finish
 d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging 
@@ -134,5 +129,3 @@ d-i finish-install/keep-consoles                            boolean     true   #
 # d-i cdrom-detect/eject                                      boolean     true   # Eject virtual install ISO
 # d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
 # d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
-
-# late_command is added by create-unattended-iso script
