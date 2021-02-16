@@ -166,13 +166,6 @@ echo "/media/"
 sudo pip  install gdown # Google download
 
 cd /var/local
-if [ "$size" == "MIN" ]; then
-    sudo gdown --id "13DgxXoc5oSXi9YPLEdBx6hI3V6n8cm9E" # --output /media not necessary
-else    # size = MAX
-    wget -O /tmp/ISO.id https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/VirtualBox/XUBUNTARK-MAX-Non-Secure-Boot.id
-    MAX_NONSECURE_ID=`cat /tmp/ISO.id`
-    sudo gdown --id "$MAX_NONSECURE_ID" 
-fi
 
 cd /media
 

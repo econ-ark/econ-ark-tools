@@ -145,6 +145,14 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     emacs --geometry 80x28-100+0 /var/local/XUBUNTARK.md &> /dev/null  &
 
     touch /home/econ-ark/.second_user_login
+
+    echo ''
+    echo 'Finally, download the appropriate installer file to the /media folder of this machine.'
+    echo 'That way you will be able to recreate the machine in its pristine form whenever you like'
+    echo ''
+
+    firefox 'https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing'
+
 fi
 
 # All subsequent logins
