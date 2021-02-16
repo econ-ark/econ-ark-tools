@@ -343,7 +343,7 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
-     chroot /target sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
+     chroot /target sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf ;\
      chroot /target update-initramfs -v -c -k all ;\
      target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
      target_dev=\${target_efi%?}  ;\
