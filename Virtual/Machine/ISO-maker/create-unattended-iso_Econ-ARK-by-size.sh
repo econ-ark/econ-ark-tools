@@ -399,7 +399,6 @@ fi
 # Get the latest git commit hash and message
 short_hash="$(git rev-parse --short HEAD)"
 msg="$(git log -1 --pretty=%B)"
-
 dirExtra="Files/For-Target"
 ATI="About_This_Install"
 DIR="$pathToScript/$dirExtra"
@@ -413,6 +412,15 @@ if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]]; then
     sudo touch "$DIR/$ATI/commit-msg.txt" ; sudo chmod a+rw "$DIR/$ATI/commit-msg.txt"
     sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
     sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
+else
+    msg_last=""
+    [[ -e "$DIR/$ATI/commit-msg.txt" ]] && msg_last="$(cat $DIR/$ATI/commit-msg.txt)"
+    if [[ "$msg" != "$msg_last" ]] ; then
+	if [[ "$msg" != "ISOmaker-Update" ]]; then
+	    sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
+	    sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
+	fi
+    fi
 fi
 
 git diff --exit-code $pathToScript/$ForTarget/$ATI/
