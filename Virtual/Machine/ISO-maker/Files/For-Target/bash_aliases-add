@@ -37,7 +37,7 @@ fi
 # So .first_user_login and .second_user_login here are on second and third boots
 
 # If we've got a graphical display but the software hasn't finished installing
-if [[ "$DISPLAY" != "" ]] && [[ ! -e /var/local/finished-software-install ]]; then
+if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first-user-login ]]; then
     [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox) "  && [[ "$vbox" != "" ]] && xset r off # Repeated keys does not work well on VirtualBox
 
     touch /home/econ-ark/.first_user_login  # Signal that first GUI boot user login has succeeded
@@ -161,8 +161,6 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     read answer
 
     firefox 'https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing'
-    touch /home/econ-ark/.second_user_login_finished
-
 fi
 
 # All subsequent logins
@@ -172,6 +170,7 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     
     [[ "$(which conda)" != "" ]] && echo 'To install conda packages: "sudo mamba install [package-name]"' # Conda is installed only on XUBUNTARKMAX
     echo 'To install pip   packages: "sudo pip   install [package-name]"' # pip is installed by root user -- probably a mistake but ...
+    echo ''
     #    echo "To upgrade HARK, 'sudo pip install --upgrade econ-ark' "
 fi
 
