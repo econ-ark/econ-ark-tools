@@ -1,1 +1,1 @@
-Try again with short hash commit
+Fix syntax error
