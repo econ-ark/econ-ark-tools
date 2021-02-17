@@ -1,1 +1,1 @@
-Comment out redundant code in create-unattended
+Remove error checking from create-unattended
