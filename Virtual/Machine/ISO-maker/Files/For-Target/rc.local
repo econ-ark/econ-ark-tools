@@ -9,6 +9,12 @@ if [ ! -f $FLAG ]; then # first boot
 
     # create an empty 'signal' file so the if will fail after the first boot
     touch "$FLAG"
+
+    # Allows redoing everything on reboot via "rm -f /var/log/firstboot.log"
+    [[ -e /var/local/finished-software-install ]] && rm -f /var/local/finished-software-install
+    [[ -e /home/econ-ark/.first_user_login ]] && rm -f /home/econ-ark/.first_user_login
+    [[ -e /home/econ-ark/.second_user_login ]] && rm -f /home/econ-ark/.second_user_login
+    
     # On some systems, xfce4-power-manager causes a crash if you don't quit it before reboot 
     xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list)"
     xfce4powermanagerexistsCode="$?"
