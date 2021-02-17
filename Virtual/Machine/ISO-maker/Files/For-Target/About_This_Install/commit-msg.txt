@@ -1,1 +1,1 @@
-Remove error checking from create-unattended
+Exit shell after first login
