@@ -417,16 +417,20 @@ else
     # If not empty locally, get it 
     [[ -e "$DIR/$ATI/commit-msg.txt" ]] && msg_last="$(cat $DIR/$ATI/commit-msg.txt)" 
     if [[ "$msg" != "$msg_last" ]] ; then
-#	if [[ "$msg" != "ISOmaker-Update" && "$msg" != "ATI-Update" ]]; then
+	if [[ "$msg" != "ISOmaker-Update" && "$msg" != "ATI-Update" ]]; then
 	    sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
 	    sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
-#	fi
+	fi
     fi
 fi
 
-git diff --exit-code $pathToScript/$ForTarget/$ATI/
+# git diff --exit-code $pathToScript/$ForTarget/$ATI/
+# git diff --exit-code ~/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/
+# msg_last="$(cat ~/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/commit-msg.txt)" 
+# msg="$(git log -1 --pretty=%B)"
 about_this_install_changed="$?"
 
+read answer 
 # If anything relevant has changed, require a fix and a push
 if [[ "$about_this_install_changed" != 0 ]] && [[ "$msg" != "ATI-Update" ]] && [[ "$msg" != "ISOmaker-Update" ]]; then
     echo "$ATI/ or $ATI.md has changed; the new version has been written"
