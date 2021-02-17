@@ -1,1 +1,1 @@
-One more try
+Minor fixes to bash_aliases-add

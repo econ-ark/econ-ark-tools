@@ -424,11 +424,11 @@ else
     fi
 fi
 
-git diff --exit-code $pathToScript/$ForTarget/$ATI/
-git diff --exit-code ~/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/
-about_this_install_changed="$?"
-msg_last="$(cat ~/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/commit-msg.txt)" 
-msg="$(git log -1 --pretty=%B)"
+# git diff --exit-code $pathToScript/$ForTarget/$ATI/
+# git diff --exit-code ~/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/
+# about_this_install_changed="$?"
+# msg_last="$(cat ~/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/commit-msg.txt)" 
+# msg="$(git log -1 --pretty=%B)"
 
 read answer 
 # If anything relevant has changed, require a fix and a push
