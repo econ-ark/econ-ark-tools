@@ -1,1 +1,1 @@
-Tweak first and second interactive logins
+.first-user-login -> .first_user_login
