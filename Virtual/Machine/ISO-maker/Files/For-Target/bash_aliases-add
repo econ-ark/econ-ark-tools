@@ -94,13 +94,14 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first-user-login ]]; then
     [[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
 
     # Monitor installations occurring via the start.sh and finish.sh installation scripts
-    xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  # Watch
-    # This should terminate with reboot from end of finish
-    touch /home/econ-ark/.first_user_login_finished  # Signal that first GUI boot user login has succeeded
-    exit
+    xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  &  # Watch
+
+    echo ''
+    echo 'Machine reboot without warning when software install completes'
+    echo ''
 fi
 
-# Run this if first user loging has finished and software install has finished but second interactive login has not occurred yet 
+# Run this if first user login setup has finished and software install has finished but second interactive login has not occurred yet; scenario of normal setup 
 if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]] && [[ ! -e /home/econ-ark/.second_user_login ]]; then
     touch /home/econ-ark/.second_user_login
     # In case monitor config did not stick, redo it 
@@ -111,7 +112,6 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     done
 
     monitorPath="/backdrop/screen0/monitor$monitor/workspace0" # Get the property name of the monitor
-
     xfconf-query --channel xfce4-desktop --property "$monitorPath/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
     xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style" --set 4 # Scaling
 
