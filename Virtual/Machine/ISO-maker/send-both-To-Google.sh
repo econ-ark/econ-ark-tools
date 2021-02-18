@@ -33,8 +33,8 @@ if [[ ! -e /root/.config/rclone/rclone.conf ]]; then
 fi
 
 echo ''
-echo "/tmp/rclone-to-Google-Drive_Last-ISO-Made-MIN.sh:"
-[[ -e /tmp/rclone-to-Google-Drive_Last-ISO-Made-MIN.sh ]] && sudo /tmp/rclone-to-Google-Drive_Last-ISO-Made-MIN.sh
+# echo "/tmp/rclone-to-Google-Drive_Last-ISO-Made-MIN.sh:"
+# [[ -e /tmp/rclone-to-Google-Drive_Last-ISO-Made-MIN.sh ]] && sudo /tmp/rclone-to-Google-Drive_Last-ISO-Made-MIN.sh
 
 echo ''
 echo "/tmp/rclone-to-Google-Drive_Last-ISO-Made-MAX.sh:"

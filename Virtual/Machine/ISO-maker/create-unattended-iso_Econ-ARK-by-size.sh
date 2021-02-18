@@ -369,7 +369,7 @@ late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-
 # Create a human-readable and bash executable version of late_command
 echo "#!/bin/sh" > $ForTarget/late_command.sh
 echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command >> $ForTarget/late_command.sh
-chmod a+x $ForTarget/late_command.sh
+sudo chmod a+x $ForTarget/late_command.sh
 
 # Test whether anything has changed that requires a new push
 echo ''
@@ -483,7 +483,7 @@ fi
 
 sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back
 
-rpl 'timeout 300' 'timeout 10'  isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
+rpl --quiet 'timeout 300' 'timeout 10'  isolinux/isolinux.cfg # Shuts down language choice screen after 10 deciseconds (1 second)
 
 # 32 bit bootloader obtained from Ubuntu-Server 18.04 EFI/BOOT
 
@@ -494,8 +494,8 @@ cp $iso_make/iso_new/EFI/BOOT/grubx64.efi $iso_make/iso_new/boot/efi/EFI/BOOT/gr
 cp $iso_make/iso_new/EFI/BOOT/BOOTx64.EFI $iso_make/iso_new/boot/efi/EFI/BOOT/BOOTx64.EFI
 
 chmod chmod +w $iso_make/iso_new/README.diskdefines
-rpl 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' $iso_make/iso_new/README.diskdefines
-chmod -w $iso_make/iso_new/README.diskdefines
+rpl --quiet 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' $iso_make/iso_new/README.diskdefines
+sudo chmod u-w $iso_make/iso_new/README.diskdefines
 
 # Get info about the commit 
 pushd . ; cd "$pathToScript"
