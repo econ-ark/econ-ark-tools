@@ -37,7 +37,7 @@ fi
 # So .first_user_login and .second_user_login here are on second and third boots
 
 # If we've got a graphical display but the software hasn't finished installing
-if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first-user-login ]]; then
+if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
     [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox) "  && [[ "$vbox" != "" ]] && xset r off # Repeated keys does not work well on VirtualBox
 
     touch /home/econ-ark/.first_user_login  # Signal that first GUI boot user login has succeeded
@@ -97,7 +97,7 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first-user-login ]]; then
     xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  &  # Watch
 
     echo ''
-    echo 'Machine reboot without warning when software install completes'
+    echo 'WARNING: Machine will reboot whenever software install completes'
     echo ''
 fi
 
@@ -157,7 +157,7 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     echo 'Hit return to launch firefox at the appropriate link:'
     read answer
 
-    firefox 'https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing'
+    firefox 'https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing' &
 fi
 
 # All subsequent logins
