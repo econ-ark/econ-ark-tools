@@ -65,6 +65,8 @@ You may need to either
 1. Disable secure-boot on your machine; or
 1. Seek instructions on the internet for installing Ubuntu on your particular machine
 
+(Machines new enough to have secure boot probably are powerful enough to use the [VirtualBox](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/VirtualBox) method)
+
 In addition to the contents of [XUBUNTARK-MIN](#XUBUNTARK-MIN), the MAX version includes a full installation of:
 
 1. Anaconda 3
