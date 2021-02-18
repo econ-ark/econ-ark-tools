@@ -24,6 +24,13 @@ else # Not the first boot, so we must have run start.sh
     FLAG2="/var/log/secondboot.log" 
     if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
 	# Launch remainder of work as a background process so econ-ark user can autologin
+	# Change the hostname to the current moment 
+	DATE="$(stat -c %z /proc)"
+	size="MAX"
+	[[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
+	hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
+	hostname "$hostdate"
+	echo "$HOSTNAME" > /etc/hostname
 	(set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log  ) & 
 	
 	# create an empty 'signal' file so the if will fail after the first boot
@@ -38,13 +45,6 @@ else # Not the first boot, so we must have run start.sh
 	xfce4powermanagerexistsCode="$?"
 	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
 
-	# Change the hostname to the current moment 
-	DATE="$(stat -c %z /proc)"
-	size="MAX"
-	[[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
-	hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
-	hostname "$hostdate"
-	echo "$HOSTNAME" > /etc/hostname
     fi # End second-boot
     # Remainder happens in second and subsequent boots
     # Authorize econ-ark to use the display
