@@ -1,1 +1,1 @@
-.first-user-login -> .first_user_login
+Put date before hash in filename
