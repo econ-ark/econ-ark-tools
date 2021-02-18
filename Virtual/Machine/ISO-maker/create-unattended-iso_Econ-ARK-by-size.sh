@@ -69,8 +69,6 @@ mkdir -p "$iso_done/$size"
 #rm -f "$iso_make/$ks_file" # Make sure new version is downloaded
 rm -f "$iso_make/preseed/$seed_file" # Make sure new version is downloaded
 
-datestr=`date +"%Y%m%d-%H%M%S"`
-hostname="$size-$datestr"
 currentuser="$( whoami)"
 
 # define spinner function for slow tasks
@@ -506,8 +504,7 @@ short_hash="$(cat $DIR/$ATI/short.git-hash)"
 short_hash_last="$(cat $DIR/$ATI/short.git-hash)"
 
 iso_date=`date +"%Y%m%d-%H%M%S"`
-
-new_iso_name="$new_iso_name-$short_hash-$iso_date.iso"
+new_iso_name="$new_iso_name-$iso_date.iso-$short_hash"
 
 popd
 
