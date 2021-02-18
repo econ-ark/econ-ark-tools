@@ -1,1 +1,1 @@
-Put date before hash in filename
+Fix iso ending
