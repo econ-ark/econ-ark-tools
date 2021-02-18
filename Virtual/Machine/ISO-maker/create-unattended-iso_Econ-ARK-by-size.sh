@@ -445,6 +445,7 @@ echo "d-i preseed/late_command                                    string      $l
 
 # generate the password hash
 pwhash=$(echo $password | mkpasswd -s -m sha-512)
+hostname="XUB20ARK"
 
 # update the seed file to reflect the users' choices
 # the normal separator for sed is /, but both the password and the timezone may contain it
