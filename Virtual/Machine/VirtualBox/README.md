@@ -23,7 +23,7 @@ Because this installer is based on the Xubuntu distribution of Linux, and also i
    * Your VirtualBox virtual machine will boot from this as a virtual CD-ROM
 1. Run VirtualBox, then:
    * New -> (Choose "expert mode" at botom of New dialog box)
-      * Name: XUBARK-MIN or XUBARK-MAX
+      * Name: XUBARK-MAX
 	  * Machine Folder: Where you want it stored (your USB stick; your computer ...)
 	  * Type: Linux
 	  * Version: Ubuntu (64-bit)
@@ -78,3 +78,4 @@ modify, of several repos are installed:
 1. DemARK
 1. REMARK
 1. HARK
+1. econ-ark-tools
