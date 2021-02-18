@@ -23,7 +23,7 @@ tools
    1. A large one to hold the installed system
       * at least 64 GB; 128 GB recommended
 * Be sure to get a _fast_ USB stick, at least for the large dive
-* Use the [XUBUNTARK-MAX](#MIN-or-MAX) ISO image file described below
+* Use the [XUBUNTARK-MAX](#MAX) ISO image file described below
    * Follow the rest of the instructions below
 
 n.b.: This option embeds the "Docker" option because docker is installed as part of the 
@@ -59,7 +59,13 @@ do a "test run" with the MIN version because it is considerably faster.
 
 ### [XUBUNTARK-MAX](https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing)
 
-#### (If your machine is fairly new, it will probably be a 'secure boot' machine)
+#### Note: The installer may not work on a machine with "secure boot" enabled
+
+You may need to either
+1. Disable secure-boot on your machine; or
+1. Seek instructions on the internet for installing Ubuntu on your particular machine
+
+(Machines new enough to have secure boot probably are powerful enough to use the [VirtualBox](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/VirtualBox) method)
 
 In addition to the contents of [XUBUNTARK-MIN](#XUBUNTARK-MIN), the MAX version includes a full installation of:
 
