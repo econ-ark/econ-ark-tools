@@ -1,1 +1,1 @@
-Try to make secure-boot version
+Restore hostname as XUBARK before reset
