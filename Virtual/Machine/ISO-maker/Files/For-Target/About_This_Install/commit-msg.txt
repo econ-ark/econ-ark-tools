@@ -1,1 +1,1 @@
-Fix wget tries=inf to tries=0
+Fix auto upgrade
