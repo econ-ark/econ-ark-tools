@@ -222,6 +222,8 @@ sudo pip install --upgrade nbreproduce
 
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
+sudo chown -u econ-ark:econ-ark $arkHome
+
 cd "$arkHome"
 
 for repo in REMARK HARK DemARK econ-ark-tools; do
