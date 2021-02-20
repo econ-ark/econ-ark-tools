@@ -1,1 +1,1 @@
-Merge from upstream
+Update rc.local to fix hostname renaming during second boot
