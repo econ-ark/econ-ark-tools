@@ -118,7 +118,7 @@ sudo apt -y install gpg # Required to set up security for emacs package download
 sudo apt -y install emacs
 
 for dotemacspart in dotemacs_regular_users_only dotemacs_root_and_regular_users; do
-    sudo wget --tries=inf -O /var/local/$dotemacspart $online/$dotemacspart
+    sudo wget --tries=0 -O /var/local/$dotemacspart $online/$dotemacspart
 done
 
 [[ -e /home/econ-ark/.emacs ]] && sudo rm -f /home/econ-ark/.emacs
@@ -170,7 +170,7 @@ ln -s /home/$myuser/.emacs.d /root/.emacs.d
 sudo adduser econ-ark netdev
 
 # .bash_aliases is run by all interactive scripts
-wget -O --tries=inf /var/local/bash_aliases-add $online/bash_aliases-add
+wget --tries=0 -O /var/local/bash_aliases-add $online/bash_aliases-add
 
 # add this stuff to any existing ~/.bash_aliases
 if ! grep -q econ-ark /home/econ-ark/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
@@ -206,7 +206,7 @@ if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ 
     # Get a bugfix release of lightdm to avoid a crash on VM's
     # https://launchpad.net/ubuntu/+source/lightdm-gtk-greeter
     # Bug #1890394 "Lightdm-gtk-greeter coredump during boot"
-    wget --tries=inf -O /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb $online/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
+    wget --tries=0 -O /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb $online/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
     dpkg -i /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
 fi
 
@@ -296,18 +296,18 @@ sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/econ-ark
 
 # Put in both /var/local and in target 
-wget --tries=inf -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
-wget --tries=inf -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+wget --tries=0 -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+wget --tries=0 -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 
-wget --tries=inf -O  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
-wget --tries=inf -O                 /etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
+wget --tries=0 -O  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
+wget --tries=0 -O                 /etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
 
 # One of many ways to try to prevent screen lock
-wget --tries=inf -O  /var/local/root/home/econ-ark/.xscreensaver                                  $online/xscreensaver
-wget --tries=inf -O                 /home/econ-ark/.xscreensaver                                  $online/xscreensaver
+wget --tries=0 -O  /var/local/root/home/econ-ark/.xscreensaver                                  $online/xscreensaver
+wget --tries=0 -O                 /home/econ-ark/.xscreensaver                                  $online/xscreensaver
 
 chown $myuser:$myuser /home/econ-ark/.dmrc
-wget --tries=inf -O  /home/econ-ark/.xscreensaver                                   $online/xscreensaver
+wget --tries=0 -O  /home/econ-ark/.xscreensaver                                   $online/xscreensaver
 chown $myuser:$myuser /home/econ-ark/.xscreensaver                      # session-name xubuntu
 
 # Create directory designating things to autostart 
