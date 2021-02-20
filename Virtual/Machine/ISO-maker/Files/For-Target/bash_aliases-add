@@ -164,7 +164,7 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     LockScreenExists="$(xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false &>/dev/null)"
     lockEnabled="$?" # If it does not exist, create it 
     [[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
-    emacs --geometry 80x28-100+0 /var/local/XUBUNTARK.md &> /dev/null  &
+    emacs --name "Emacs Editor" --geometry 80x28-100+0 /var/local/XUBUNTARK.md &> /dev/null  &
 
     touch /home/econ-ark/.second_user_login_finished
 
