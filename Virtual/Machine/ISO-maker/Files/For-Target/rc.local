@@ -28,9 +28,9 @@ else # Not the first boot, so we must have run start.sh
 	DATE="$(stat -c %z /proc)"
 	size="MAX"
 	[[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
-	hostdate="xubark-$size-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
+	hostdate="xubark-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
 	hostname "$hostdate"
-	echo "$HOSTNAME" > /etc/hostname
+	echo "$hostdate" > /etc/hostname
 	(set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log  ) & 
 	
 	# create an empty 'signal' file so the if will fail after the first boot
@@ -54,9 +54,15 @@ else # Not the first boot, so we must have run start.sh
     # Create new empty file
     touch /home/econ-ark/.Xauthority
 
+    DATE="$(stat -c %z /proc)"
+    size="MAX"
+    [[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
+    hostdate="xubark-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
+    sudo hostname "$hostdate"
+    sudo echo "$hostdate" > /etc/hostname
     # Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
-    magic="$(xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
-    sudo xauth -f /root/.Xauthority add $HOSTNAME/unix:0 . "$magic"
+    magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
+    sudo xauth -f /root/.Xauthority add $hostdate/unix:0 . "$magic"
     # Merge so that either the old or the new hostname should work
     sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
     sudo cp /root/.Xauthority /home/econ-ark/.Xauthority
