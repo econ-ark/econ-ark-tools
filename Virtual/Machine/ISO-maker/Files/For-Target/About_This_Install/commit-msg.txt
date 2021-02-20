@@ -1,1 +1,1 @@
-Try to fix crashes on boot
+Minor debugging
