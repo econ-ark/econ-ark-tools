@@ -1,1 +1,1 @@
-seed with and without secure boot were switched
+Fix wget tries=inf to tries=0
