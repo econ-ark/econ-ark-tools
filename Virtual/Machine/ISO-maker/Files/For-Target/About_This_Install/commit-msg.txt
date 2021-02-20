@@ -1,1 +1,1 @@
-Minor debugging
+seed with and without secure boot were switched
