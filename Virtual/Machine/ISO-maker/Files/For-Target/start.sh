@@ -4,7 +4,7 @@
 # The reboot at the end kicks off the running of the finish.sh script
 # The GUI launches automatically at the first boot after installation of the desktop
 
-rm /var/local/finished-software-install
+[[ -e /var/local/finished-software-install ]] && rm -f /var/local/finished-software-install
 # To redo the whole installation sequence (without having to redownload anything):
 # sudo bash -c '(rm -f /var/local/finished-software-install ; rm -f /var/log/firstboot.log ; rm -f /var/log/secondboot.log ; rm -f /home/econ-ark/.firstboot ; rm -f /home/econ-ark/.secondboot)' >/dev/null
 
