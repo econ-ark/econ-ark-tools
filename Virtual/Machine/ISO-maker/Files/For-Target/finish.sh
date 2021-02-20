@@ -287,6 +287,9 @@ if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS
     # sudo refind-install --usedefault "$ESP"
 fi
 
+sudo apt-get update
+sudo apt-get upgrade
+
 # Restore printer services (disabled earlier because sometimes cause hang of boot)
 sudo systemctl enable cups-browsed.service 
 
