@@ -14,7 +14,7 @@ if [ ! -f $FLAG ]; then # first boot
     touch "$FLAG"
 
     # Allows redoing everything on reboot via "rm -f /var/log/firstboot.log"
-    [[ -e /var/local/finished-software-install ]] && rm -f /var/local/finished_software_install
+    [[ -e /var/local/finished_software_install ]] && rm -f /var/local/finished_software_install
     [[ -e /home/econ-ark/.first_user_login ]] && rm -f /home/econ-ark/.first_user_login*
     [[ -e /home/econ-ark/.second_user_login ]] && rm -f /home/econ-ark/.second_user_login*
     
