@@ -21,16 +21,17 @@ export DEBCONF_DEBUG=.*
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
-sudo apt -y install meld autocutsel ca-certificates
-
 # The cups service sometimes gets stuck; stop it before that happens
 sudo systemctl stop    cups-browsed.service 
 sudo systemctl disable cups-browsed.service
 
 sudo apt -y install software-properties-common # Manage software like dbus 
 
+# Meld is a good file/folder diff tool
+sudo apt -y install meld
+
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel ca-certificates
 
 # Make a home for econ-ark in /usr/local/share/data and link to it from home directory
 mkdir -p /home/econ-ark/GitHub
