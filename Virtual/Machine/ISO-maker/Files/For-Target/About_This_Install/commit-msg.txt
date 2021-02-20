@@ -1,1 +1,1 @@
-Update rc.local to fix hostname renaming during second boot
+Try to fix crashes on boot
