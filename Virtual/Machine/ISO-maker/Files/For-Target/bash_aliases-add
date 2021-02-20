@@ -25,6 +25,25 @@ pgrep x0vncserver > /dev/null # Silence it
 # "$?" -eq 1 implies that no such process exists, in which case it should be started
 [[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/$USER/.vnc/passwd &> /dev/null &)
 
+
+if [[ "$(which conda)" != "" ]]; then
+    # >>> conda initialize >>>
+    # !! Contents within this block are managed by 'conda init' !!
+    __conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+    if [ $? -eq 0 ]; then
+	eval "$__conda_setup"
+    else
+	if [ -f "/usr/local/anaconda3/etc/profile.d/conda.sh" ]; then
+            . "/usr/local/anaconda3/etc/profile.d/conda.sh"
+	else
+            export PATH="/usr/local/anaconda3/bin:$PATH"
+	fi
+    fi
+    unset __conda_setup
+    # <<< conda initialize <<<
+
+fi
+
 # Root user shares the useful stuff above 
 if [[ "$USER" == "root" ]]; then
     return # End of stuff that root user should do
@@ -169,22 +188,4 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     echo 'To install pip   packages: "sudo pip   install [package-name]"' # pip is installed by root user -- probably a mistake but ...
     echo ''
     #    echo "To upgrade HARK, 'sudo pip install --upgrade econ-ark' "
-fi
-
-if [[ "$(which conda)" != "" ]]; then
-    # >>> conda initialize >>>
-    # !! Contents within this block are managed by 'conda init' !!
-    __conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-    if [ $? -eq 0 ]; then
-	eval "$__conda_setup"
-    else
-	if [ -f "/usr/local/anaconda3/etc/profile.d/conda.sh" ]; then
-            . "/usr/local/anaconda3/etc/profile.d/conda.sh"
-	else
-            export PATH="/usr/local/anaconda3/bin:$PATH"
-	fi
-    fi
-    unset __conda_setup
-    # <<< conda initialize <<<
-
 fi
