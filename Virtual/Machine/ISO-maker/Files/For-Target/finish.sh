@@ -222,7 +222,7 @@ sudo pip install --upgrade nbreproduce
 
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
-sudo chown -u econ-ark:econ-ark $arkHome
+sudo chown econ-ark:econ-ark $arkHome
 
 cd "$arkHome"
 
