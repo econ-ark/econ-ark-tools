@@ -64,11 +64,11 @@ for d in ./*/; do
 done
 
 # Play nice with Macs (in hopes of being able to monitor it)
-sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown nss-mdns
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
-wget --quiet -O  /etc/avahi $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
+wget --quiet -O  /etc/avahi/ $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
 # Enable ssh over avahi
 cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
@@ -231,7 +231,7 @@ for repo in REMARK HARK DemARK econ-ark-tools; do
     sudo -u econ-ark git clone https://github.com/econ-ark/$repo
     # Make it all owned by the econ-ark user -- including invisible files like .git
     # Install all requirements
-    [[ -e $repo/requirements.txt ]] && sudo pip install -r $repo/requirements.tx
+    [[ -e $repo/requirements.txt ]] && sudo pip install -r $repo/requirements.txt
     [[ -e $repo/binder/requirements.txt ]] && sudo pip install -r $repo/binder/requirements.txt
 done
 
