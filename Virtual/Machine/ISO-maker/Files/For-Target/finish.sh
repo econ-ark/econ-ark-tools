@@ -291,7 +291,7 @@ sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install unattended-upgrades
 
-sudo mkdir -p /etc/apt/apt.conf.d/20auto-upgrades
+sudo mkdir -p /etc/apt/apt.conf.d
 sudo wget -O  /etc/apt/apt.conf.d/20auto-upgrades $online/Files/For-Target/root/etc/apt/apt.conf.d/20auto-upgrades
 
 # Restore printer services (disabled earlier because sometimes cause hang of boot)
