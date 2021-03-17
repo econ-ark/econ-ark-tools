@@ -16,7 +16,8 @@
  chmod 755 /etc/default/grub 
  mkdir -p /var/local/About_This_Install 
  wget -O /var/local/About_This_Install/commit-msg.txt https://raw.githubusercontent.com/econ-ark/econ-ark-tools/metal/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/commit-msg.txt 
- wget -O /var/local/About_This_Install/short.git-hash https://raw.githubusercontent.com/econ-ark/econ-ark-tools/metal/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/short.git-hash 
+ wget -O /var/local/About_This_Install/short.git-hash https://raw.githubusercontent.com/econ-ark/econ-ark-tools/metal/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/short.git-hash
+  wget -O /var/local/About_This_Install/short.git-hash https://raw.githubusercontent.com/econ-ark/econ-ark-tools/metal/Virtual/Machine/ISO-maker/Files/For-Target/late_command.sh
  chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh 
  chmod a+x /etc/rc.local 
  rm -f /var/local/Size-To-Make 
