@@ -25,7 +25,7 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 cd /var/local
 
 # This allows git branches during debugging 
-branch_name=master 
+branch_name=metal
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
 # Get pasword-encrypted rclone key for Google drive 
