@@ -50,18 +50,18 @@ mypass="kra-noce"
 # branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
 # branch_name="${branch_name#refs/heads/}"
 
-branch_name=master
+branch_name=metal
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
 
 # Remove the linux automatically created directories like "Music" and "Pictures"
 # Leave only required directories Downloads and Desktop
 cd /home/$myuser
 
-for d in ./*/; do
-    if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]] && [[ ! "$d" == "./GitHub/" ]] ; then
-	rm -Rf "$d"
-    fi
-done
+# for d in ./*/; do
+#     if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]] && [[ ! "$d" == "./GitHub/" ]] ; then
+# 	rm -Rf "$d"
+#     fi
+# done
 
 # Play nice with Macs (in hopes of being able to monitor it)
 sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
@@ -76,49 +76,49 @@ cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 refindFile="refind-install-MacOS"
 wget -O   /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
 wget -O   /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
-wget -O   /var/local/$refindFile.sh                $online/Files/For-Target/$refindFile.sh
-wget -O   /var/local/$refindFile-README.md         $online/Files/For-Target/$refindFile-README.md
-chmod +x  /var/local/$refindFile.sh
-chmod a+r /var/local/$refindFile-README.md
+# wget -O   /var/local/$refindFile.sh                $online/Files/For-Target/$refindFile.sh
+# wget -O   /var/local/$refindFile-README.md         $online/Files/For-Target/$refindFile-README.md
+# chmod +x  /var/local/$refindFile.sh
+# chmod a+r /var/local/$refindFile-README.md
 #wget --quiet -O /var/local/zoom_amd64.deb $online/Files/ForTarget/zoom_amd64.deb 
 wget --quiet -O /var/local/zoom_amd64.deb https://zoom.us/client/latest/zoom_amd64.deb
 
 
 # Allow vnc (will only start up after reading ~/.bash_aliases)
 # scraping server means that you're not allowing vnc client to spawn new x sessions
-sudo apt -y install tigervnc-scraping-server
+#sudo apt -y install tigervnc-scraping-server
 
 # If a previous version exists, delete it
-[[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  
-sudo mkdir -p /home/$myuser/.vnc
+# [[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  
+# sudo mkdir -p /home/$myuser/.vnc
 
 # https://askubuntu.com/questions/328240/assign-vnc-password-using-script
 
-prog=/usr/bin/vncpasswd
-/usr/bin/expect <<EOF
-spawn "$prog"
-expect "Password:"
-send "$mypass\r"
-expect "Verify:"
-send "$mypass\r"
-expect "Would you like to enter a view-only password (y/n)?"
-send "y\r"
-expect "Password:"
-send "$mypass\r"
-expect "Verify:"
-send "$mypass\r"
-expect eof
-exit
-EOF
+# prog=/usr/bin/vncpasswd
+# /usr/bin/expect <<EOF
+# spawn "$prog"
+# expect "Password:"
+# send "$mypass\r"
+# expect "Verify:"
+# send "$mypass\r"
+# expect "Would you like to enter a view-only password (y/n)?"
+# send "y\r"
+# expect "Password:"
+# send "$mypass\r"
+# expect "Verify:"
+# send "$mypass\r"
+# expect eof
+# exit
+# EOF
 
 # set defaults
-default_hostname="$(hostname)"
-default_domain=""
+# default_hostname="$(hostname)"
+# default_domain=""
 
-# Change the name of the host to the date and time of its creation
-datetime="$(date +%Y%m%d%H%S)"
-sed -i "s/xubuntu/$datetime/g" /etc/hostname
-sed -i "s/xubuntu/$datetime/g" /etc/hosts
+# # Change the name of the host to the date and time of its creation
+# datetime="$(date +%Y%m%d%H%S)"
+# sed -i "s/xubuntu/$datetime/g" /etc/hostname
+# sed -i "s/xubuntu/$datetime/g" /etc/hosts
 
 cd /home/"$myuser"
 
@@ -135,10 +135,10 @@ chmod a+x "$bashadd"
 chown $myuser:$myuser "$bashadd" 
 
 # The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
-mkdir -p /EFI/BOOT/
-cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
-cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
-echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
+# mkdir -p /EFI/BOOT/
+# cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
+# cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
+# echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 
 cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
@@ -180,7 +180,7 @@ xdg-settings set default-web-browser google-chrome.desktop
 chown -Rf $myuser:$myuser /home/$myuser/
 
 # bring system up to date
-sudo apt -y update && sudo apt -y upgrade
+#sudo apt -y update && sudo apt -y upgrade
 
 # Signal that we've finished software install
 touch /var/local/finished-software-install 
@@ -263,36 +263,36 @@ pytest --nbval-lax *.ipynb
 
 
 
-# Allow reading of MacOS HFS+ files
-sudo apt -y install hfsplus hfsutils hfsprogs
+# # Allow reading of MacOS HFS+ files
+# sudo apt -y install hfsplus hfsutils hfsprogs
 
-# Prepare partition for reFind boot manager in MacOS
-hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
+# # Prepare partition for reFind boot manager in MacOS
+# hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
 
-echo "hfsplusLabels=$hfsplusLabels"
-if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS+ exists...
-    cmd="mkfs.hfsplus -s -v 'refind-HFS' $hfsplusLabels"  # ... so FORMAT it as hfsplus
-    echo "cmd=$cmd"
-    eval "$cmd"
-    sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS  # Mount the new partition in /tmp/refind-HFS
-    sudo cp /var/local/refind-install-MacOS.sh    /tmp/refind-HFS      # Put refind script on the partition
-    sudo chmod a+x                                /tmp/refind-HFS/*.sh # make it executable
-    sudo cp /var/local/Econ-ARK.VolumeIcon.icns   /tmp/refind-HFS/.VolumeIcon.icns # Should endow the HFS+ volume with the Econ-ARK logo
-    echo  "$online/Disk/Icons/.VolumeIcon.icns" > /tmp/refind-HFS/.VolumeIcon_icns.source
-    #    sudo wget --quiet -O  /tmp/refind-HFS/.VolumeIcon.icns "$online/Disk/Icons/os_refit.icns" 
-    #    echo  "$online/Disk/Icons/os_refit.icns" >   /tmp/refind-HFS/.VolumeIcon_icns.source
-    # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
-    # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
-    # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
-    # sudo refind-install --usedefault "$ESP"
-fi
+# echo "hfsplusLabels=$hfsplusLabels"
+# if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS+ exists...
+#     cmd="mkfs.hfsplus -s -v 'refind-HFS' $hfsplusLabels"  # ... so FORMAT it as hfsplus
+#     echo "cmd=$cmd"
+#     eval "$cmd"
+#     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS  # Mount the new partition in /tmp/refind-HFS
+#     sudo cp /var/local/refind-install-MacOS.sh    /tmp/refind-HFS      # Put refind script on the partition
+#     sudo chmod a+x                                /tmp/refind-HFS/*.sh # make it executable
+#     sudo cp /var/local/Econ-ARK.VolumeIcon.icns   /tmp/refind-HFS/.VolumeIcon.icns # Should endow the HFS+ volume with the Econ-ARK logo
+#     echo  "$online/Disk/Icons/.VolumeIcon.icns" > /tmp/refind-HFS/.VolumeIcon_icns.source
+#     #    sudo wget --quiet -O  /tmp/refind-HFS/.VolumeIcon.icns "$online/Disk/Icons/os_refit.icns" 
+#     #    echo  "$online/Disk/Icons/os_refit.icns" >   /tmp/refind-HFS/.VolumeIcon_icns.source
+#     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
+#     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
+#     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
+#     # sudo refind-install --usedefault "$ESP"
+# fi
 
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get install unattended-upgrades
+# sudo apt-get update
+# sudo apt-get upgrade
+# sudo apt-get install unattended-upgrades
 
-sudo mkdir -p /etc/apt/apt.conf.d
-sudo wget -O  /etc/apt/apt.conf.d/20auto-upgrades $online/Files/For-Target/root/etc/apt/apt.conf.d/20auto-upgrades
+# sudo mkdir -p /etc/apt/apt.conf.d
+# sudo wget -O  /etc/apt/apt.conf.d/20auto-upgrades $online/Files/For-Target/root/etc/apt/apt.conf.d/20auto-upgrades
 
 # Restore printer services (disabled earlier because sometimes cause hang of boot)
 sudo systemctl enable cups-browsed.service 
