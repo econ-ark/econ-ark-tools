@@ -17,15 +17,15 @@ download()
 # Set up bash verbose debugging
 set -x ; set -v
 
-export DEBCONF_DEBUG=.*
-export DEBIAN_FRONTEND=noninteractive
-export DEBCONF_NONINTERACTIVE_SEEN=true
+# export DEBCONF_DEBUG=.*
+# export DEBIAN_FRONTEND=noninteractive
+# export DEBCONF_NONINTERACTIVE_SEEN=true
 
-# The cups service sometimes gets stuck; stop it before that happens
-sudo systemctl stop    cups-browsed.service 
-sudo systemctl disable cups-browsed.service
+# # The cups service sometimes gets stuck; stop it before that happens
+# sudo systemctl stop    cups-browsed.service 
+# sudo systemctl disable cups-browsed.service
 
-sudo apt -y install software-properties-common # Manage software like dbus 
+# sudo apt -y install software-properties-common # Manage software like dbus 
 
 # Meld is a good file/folder diff tool
 sudo apt -y install meld
@@ -134,11 +134,11 @@ cat /var/local/bash_aliases-add >> "$bashadd"
 chmod a+x "$bashadd"
 chown $myuser:$myuser "$bashadd" 
 
-# The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
-mkdir -p /EFI/BOOT/
-cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
-cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
-echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
+# # The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
+# mkdir -p /EFI/BOOT/
+# cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
+# cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
+# echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 
 cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
@@ -212,6 +212,10 @@ sudo jupyter nbextension enable codefolding/main
 sudo jupyter nbextension enable codefolding/edit
 sudo jupyter nbextension enable toc2/main
 sudo jupyter nbextension enable collapsible_headings/main
+curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+sudo jupyter labextension install jupyterlab-jupytext
+sudo pip install ipywidgets
+sudo apt -y install nodejs
 
 # Install systemwide copy of econ-ark 
 sudo pip install --upgrade econ-ark
@@ -264,37 +268,37 @@ pytest --nbval-lax *.ipynb
 
 
 # Allow reading of MacOS HFS+ files
-sudo apt -y install hfsplus hfsutils hfsprogs
+# sudo apt -y install hfsplus hfsutils hfsprogs
 
-# Prepare partition for reFind boot manager in MacOS
-hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
+# # Prepare partition for reFind boot manager in MacOS
+# hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
 
-echo "hfsplusLabels=$hfsplusLabels"
-if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS+ exists...
-    cmd="mkfs.hfsplus -s -v 'refind-HFS' $hfsplusLabels"  # ... so FORMAT it as hfsplus
-    echo "cmd=$cmd"
-    eval "$cmd"
-    sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS  # Mount the new partition in /tmp/refind-HFS
-    sudo cp /var/local/refind-install-MacOS.sh    /tmp/refind-HFS      # Put refind script on the partition
-    sudo chmod a+x                                /tmp/refind-HFS/*.sh # make it executable
-    sudo cp /var/local/Econ-ARK.VolumeIcon.icns   /tmp/refind-HFS/.VolumeIcon.icns # Should endow the HFS+ volume with the Econ-ARK logo
-    echo  "$online/Disk/Icons/.VolumeIcon.icns" > /tmp/refind-HFS/.VolumeIcon_icns.source
-    #    sudo wget --quiet -O  /tmp/refind-HFS/.VolumeIcon.icns "$online/Disk/Icons/os_refit.icns" 
-    #    echo  "$online/Disk/Icons/os_refit.icns" >   /tmp/refind-HFS/.VolumeIcon_icns.source
-    # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
-    # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
-    # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
-    # sudo refind-install --usedefault "$ESP"
-fi
+# echo "hfsplusLabels=$hfsplusLabels"
+# if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS+ exists...
+#     cmd="mkfs.hfsplus -s -v 'refind-HFS' $hfsplusLabels"  # ... so FORMAT it as hfsplus
+#     echo "cmd=$cmd"
+#     eval "$cmd"
+#     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS  # Mount the new partition in /tmp/refind-HFS
+#     sudo cp /var/local/refind-install-MacOS.sh    /tmp/refind-HFS      # Put refind script on the partition
+#     sudo chmod a+x                                /tmp/refind-HFS/*.sh # make it executable
+#     sudo cp /var/local/Econ-ARK.VolumeIcon.icns   /tmp/refind-HFS/.VolumeIcon.icns # Should endow the HFS+ volume with the Econ-ARK logo
+#     echo  "$online/Disk/Icons/.VolumeIcon.icns" > /tmp/refind-HFS/.VolumeIcon_icns.source
+#     #    sudo wget --quiet -O  /tmp/refind-HFS/.VolumeIcon.icns "$online/Disk/Icons/os_refit.icns" 
+#     #    echo  "$online/Disk/Icons/os_refit.icns" >   /tmp/refind-HFS/.VolumeIcon_icns.source
+#     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
+#     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
+#     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
+#     # sudo refind-install --usedefault "$ESP"
+# fi
 
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install unattended-upgrades
 
-sudo mkdir -p /etc/apt/apt.conf.d
-sudo wget -O  /etc/apt/apt.conf.d/20auto-upgrades $online/Files/For-Target/root/etc/apt/apt.conf.d/20auto-upgrades
+#sudo mkdir -p /etc/apt/apt.conf.d
+#sudo wget -O  /etc/apt/apt.conf.d/20auto-upgrades $online/Files/For-Target/root/etc/apt/apt.conf.d/20auto-upgrades
 
 # Restore printer services (disabled earlier because sometimes cause hang of boot)
-sudo systemctl enable cups-browsed.service 
+# sudo systemctl enable cups-browsed.service 
 
-reboot
+# reboot
