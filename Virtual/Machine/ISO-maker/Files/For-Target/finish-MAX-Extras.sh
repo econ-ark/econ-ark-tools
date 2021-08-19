@@ -74,6 +74,8 @@ else
     sudo mamba install --yes -c conda-forge jupyter_contrib_nbextensions
     # Make sure commands are executable by regular users
 
+    sudo mamba install --yes -c conda-forge gh  # GitHub command line tools
+    
     # Get default packages for Econ-ARK machine
     sudo apt -y install cifs-utils nautilus-share
     # Extra packages for MAX
