@@ -268,3 +268,5 @@ sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ
 # sudo chmod a+rw /etc/cron.hourly/jobs.deny
 # sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local 
 
+echo unattended-upgrades unattended-upgrades/enable_auto_updates boolean true | sudo debconf-set-selections
+sudo dpkg-reconfigure -f noninteractive unattended-upgrades
