@@ -25,7 +25,7 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 cd /var/local
 
 # This allows git branches during debugging 
-branch_name=metal
+branch_name=master
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
 # Get pasword-encrypted rclone key for Google drive 
@@ -82,6 +82,7 @@ sudo chown econ-ark:econ-ark /home/econ-ark/.emacs
 sudo chown econ-ark:econ-ark -Rf /home/econ-ark/.emacs.d
 chmod a+rw /home/$myuser/.emacs.d 
 
+echo 'keyserver hkp://keys.gnupg.net' > /home/econ-ark/.emacs.d/elpa/gnupg/gpg.conf
 sudo -i -u  econ-ark gpg --list-keys 
 sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
 sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys

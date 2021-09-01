@@ -1,1 +1,1 @@
-Fix auto upgrade
+Update tlmgr and latexmkrc
