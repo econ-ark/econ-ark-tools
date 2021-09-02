@@ -1,1 +1,1 @@
-Update tlmgr and latexmkrc
+Update emacs gpg; tweak start.sh
