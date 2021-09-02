@@ -1,1 +1,1 @@
-Fix auto upgrade
+Update emacs gpg; tweak start.sh
