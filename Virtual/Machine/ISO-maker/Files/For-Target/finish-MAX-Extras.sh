@@ -79,7 +79,7 @@ else
     # Get default packages for Econ-ARK machine
     sudo apt -y install cifs-utils nautilus-share
     # Extra packages for MAX
-    sudo apt -y install evince perl-tk texlive-full
+    sudo apt -y install gv evince perl-tk texlive-full
     # Configure latexmkrc: https://mg.readthedocs.io/latexmk.html
     ltxmkrc=/home/econ-ark/.latekmkrc
     echo "'"'$dvi_previewer = start xdvi -watchfile 1.5'"';" > "$ltxmkrc"
