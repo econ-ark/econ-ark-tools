@@ -1,1 +1,1 @@
-priority=critical means do not ask Qs during install
+merge 'master' of econ-ark-tools
