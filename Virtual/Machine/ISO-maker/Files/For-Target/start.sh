@@ -87,7 +87,7 @@ myuser="econ-ark"  # Don't sudo because it needs to be an environment variable
 mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
 
 # This allows git branches during debugging 
-branch_name=master 
+branch_name=restore-2021-02-20-1827h-5ea42dd
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
 # Get pasword-encrypted rclone key for Google drive 
