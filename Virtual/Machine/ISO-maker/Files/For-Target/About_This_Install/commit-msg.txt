@@ -1,1 +1,3 @@
-Update emacs gpg; tweak start.sh
+Merge pull request #17 from econ-ark/master-fix
+
+Restore things removed for metal versions that somehow got to master
