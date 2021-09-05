@@ -13,6 +13,11 @@ sudo conda install anaconda=2021.05
 sudo env --name base_2021_05_fresh --clone base
 
 sudo apt-get install ripgrep fd-find
+sudo apt-get install flatpak
+sudo apt install gnome-software-plugin-flatpak
+sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+
+flatpak install flathub org.gnu.emacs
 
 # cd ~/.emacs.d/
 # git clone https://github.com/hlissner/doom-emacs
