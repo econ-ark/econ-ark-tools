@@ -169,7 +169,7 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     touch /home/econ-ark/.second_user_login_finished
 
     echo ''
-    echo 'Now download the ISO to the Downloads folder of this machine'
+    echo 'Now download the installer ISO to the Desktop of this machine'
     echo '(So you can recreate the machine in its pristine form later)'
     echo ''
     echo ''
