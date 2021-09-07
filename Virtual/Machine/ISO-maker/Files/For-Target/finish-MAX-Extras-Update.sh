@@ -9,7 +9,7 @@
 
 
 
-sudo conda install anaconda=2021.05
+sudo conda -y install anaconda=2021.05
 sudo env --name base_2021_05_fresh --clone base
 
 sudo apt -y install ripgrep fd-find
