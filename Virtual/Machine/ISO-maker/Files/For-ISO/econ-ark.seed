@@ -25,7 +25,7 @@ d-i keyboard-configuration/xkb-keymap select us
 # d-i preseed/early_command string umount /media
 
 # Counterintuitively, the setting below forces it TO BE an efi system
-d-i partman-efi/non_efi_system boolean true
+# d-i partman-efi/non_efi_system boolean true
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
 d-i partman-partitioning/default_label string gpt 
