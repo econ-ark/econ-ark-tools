@@ -17,7 +17,7 @@ sudo apt -y install flatpak
 sudo apt -y install gnome-software-plugin-flatpak
 sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
 
-flatpak install flathub org.gnu.emacs
+flatpak -y install flathub org.gnu.emacs
 
 # cd ~/.emacs.d/
 # git clone https://github.com/hlissner/doom-emacs
