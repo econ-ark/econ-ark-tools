@@ -4,6 +4,14 @@
 # The reboot at the end kicks off the running of the finish.sh script
 # The GUI launches automatically at the first boot after installation of the desktop
 
+sudo apt -y install lshw
+
+sudo adduser econ-ark
+sudo usermod -aG sudo econ-ark
+sudo usermod -aG cdrom econ-ark
+sudo usermod -aG adm econ-ark
+sudo usermod -aG plugdev econ-ark
+
 [[ -e /var/local/finished-software-install ]] && rm -f /var/local/finished-software-install
 # To redo the whole installation sequence (without having to redownload anything):
 # sudo bash -c '(rm -f /var/local/finished-software-install ; rm -f /var/log/firstboot.log ; rm -f /var/log/secondboot.log ; rm -f /home/econ-ark/.firstboot ; rm -f /home/econ-ark/.secondboot)' >/dev/null
@@ -24,7 +32,8 @@ download()
 set -x ; set -v 
 
 export DEBCONF_DEBUG=.*
-export DEBIAN_FRONTEND=noninteractive
+#export DEBIAN_FRONTEND=noninteractive
+export DEBIAN_FRONTEND=text
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
 # Make links in /var/local to files installed in other places
@@ -39,7 +48,7 @@ mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manag
 # These items are created in econ-ark.seed; put them in /var/local so all system mods are findable there
 # The ! -e are there in case the script is being rerun after a first install
 [[ ! -e /var/local/rc.local                                     ]] && ln -s /etc/rc.local                                          /var/local/root/etc
-[[ ! -e /var/local/root/etc/default    			        ]] && ln -s /etc/default/grub                                      /var/local/root/etc/default    
+# [[ ! -e /var/local/root/etc/default    			        ]] && ln -s /etc/default/grub                                      /var/local/root/etc/default    
 [[ ! -e /var/local/root/etc/systemd/system/getty@tty1.service.d ]] && ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
 [[ ! -e /var/local/root/usr/share/lightdm                       ]] && ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm                      
 
@@ -94,7 +103,7 @@ online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"
 wget -O  /var/local/root/.config/rclone/rcloneconf.zip $online/root/.config/rclone/rcloneconf.zip
 
 # Configure boot information
-sudo update-grub
+# sudo update-grub
 
 # Broadcom modems are common and require firmware-b43-installer for some reason
 sudo apt-get -y install firmware-b43-installer
@@ -187,7 +196,8 @@ fi
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
 # Install xubuntu-desktop 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version # no sudo 
+#DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version # no sudo
+DEBIAN_FRONTEND=text DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install task-xfce-desktop^  # The caret gets a slimmed down version # no sudo 
 
 # Another way to try to make sure lightdm is the display manager
 echo "set shared/default-x-display-manager lightdm" | DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* debconf-communicate  # no sudo 
@@ -213,9 +223,12 @@ fi
 
 
 # Once again -- doubtless only one of the methods is needed, but debugging which would take too long
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm     # no sudo
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4       # no sudo
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm   # no sudo
+#DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm     # no sudo
+#DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4       # no sudo
+#DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm   # no sudo
+DEBIAN_FRONTEND=text DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm     # no sudo
+DEBIAN_FRONTEND=text DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4       # no sudo
+DEBIAN_FRONTEND=text DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm   # no sudo
 
 sudo apt-get -y install x11-xserver-utils # Installs xrandr, among other utilities
 
