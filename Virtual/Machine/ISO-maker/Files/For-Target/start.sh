@@ -25,13 +25,15 @@ download()
 myuser="econ-ark"  # Don't sudo because it needs to be an environment variable
 mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
 
-sudo adduser --disabled-password --gecos "" "$myuser"
-sudo chpasswd <<<"$myuser:$mypass"
-
-sudo usermod -aG sudo econ-ark
-sudo usermod -aG cdrom econ-ark
-sudo usermod -aG adm econ-ark
-sudo usermod -aG plugdev econ-ark
+id -u "$myuser"
+if [[ "$?" == 1 ]]; then # the user does not yet exist
+    sudo adduser --disabled-password --gecos "" "$myuser"
+    sudo chpasswd <<<"$myuser:$mypass"
+    sudo usermod -aG sudo 
+    sudo usermod -aG cdrom "$myuser"
+    sudo usermod -aG adm "$myuser"
+    sudo usermod -aG plugdev "$myuser"
+fi
 
 # Debugging 
 set -x ; set -v 
@@ -98,6 +100,9 @@ wget -O  /var/local/root/.config/rclone/rcloneconf.zip $online/root/.config/rclo
 
 # Broadcom modems are common and require firmware-b43-installer for some reason
 sudo apt-get -y install firmware-b43-installer
+
+# Broadcom modems are common and require firmware-b43-installer for some reason
+sudo apt-get -y install xfce4-terminal
 
 # Get some basic immediately useful tools 
 sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server expect rpl
