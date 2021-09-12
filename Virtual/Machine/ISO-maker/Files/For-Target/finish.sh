@@ -167,7 +167,7 @@ cd /media
 
 # Install Chrome browser 
 wget --quiet -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt install /var/local/google-chrome-stable_current_amd64.deb
+sudo apt -y install /var/local/google-chrome-stable_current_amd64.deb
 sudo -u econ-ark xdg-settings set default-web-browser google-chrome.desktop
 xdg-settings set default-web-browser google-chrome.desktop
 
