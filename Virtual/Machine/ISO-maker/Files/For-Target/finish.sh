@@ -64,7 +64,7 @@ for d in ./*/; do
 done
 
 # Play nice with Macs (in hopes of being able to monitor it)
-sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns ifupdown
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
@@ -159,14 +159,9 @@ EOF
 
 
 # Download the installer (very meta!)
-echo ''
-echo 'Fetching online image of this installer to '
-echo "/media/"
-
-[[ -e "/media/*.iso" ]] && sudo rm "/media/*.iso"
-sudo pip  install gdown # Google download
-
-cd /var/local
+#echo ''
+#echo 'Fetching online image of this installer to '
+#echo "/media/"
 
 cd /media
 
@@ -184,7 +179,6 @@ sudo apt -y update && sudo apt -y upgrade
 
 # Signal that we've finished software install
 touch /var/local/finished-software-install 
-
 
 if [[ "$size" == "MIN" ]]; then
     sudo apt -y install python3-pip python-pytest python-is-python3
@@ -220,7 +214,6 @@ sudo apt -y install nodejs
 # Install systemwide copy of econ-ark 
 sudo pip install --upgrade econ-ark
 sudo pip install --upgrade nbreproduce
-
 
 # Install user-owned copies of useful repos
 # Download and extract HARK, REMARK, DemARK, econ-ark-tools from GitHub

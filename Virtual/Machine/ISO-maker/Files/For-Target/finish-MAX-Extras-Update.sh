@@ -22,3 +22,6 @@ flatpak -y install flathub org.gnu.emacs
 # cd ~/.emacs.d/
 # git clone https://github.com/hlissner/doom-emacs
 # ~/.emacs.d/bin/doom/install
+[[ -e "/media/*.iso" ]] && sudo rm "/media/*.iso"
+sudo pip  install gdown # Google download
+
