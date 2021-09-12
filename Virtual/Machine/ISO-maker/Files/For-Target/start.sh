@@ -20,6 +20,19 @@ download()
     #    echo " DONE"
 }
 
+
+# Resources
+myuser="econ-ark"  # Don't sudo because it needs to be an environment variable
+mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
+
+sudo adduser --disabled-password --gecos "" "$myuser"
+sudo chpasswd <<<"$myuser:$mypass"
+
+sudo usermod -aG sudo econ-ark
+sudo usermod -aG cdrom econ-ark
+sudo usermod -aG adm econ-ark
+sudo usermod -aG plugdev econ-ark
+
 # Debugging 
 set -x ; set -v 
 
@@ -39,7 +52,7 @@ mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manag
 # These items are created in econ-ark.seed; put them in /var/local so all system mods are findable there
 # The ! -e are there in case the script is being rerun after a first install
 [[ ! -e /var/local/rc.local                                     ]] && ln -s /etc/rc.local                                          /var/local/root/etc
-[[ ! -e /var/local/root/etc/default    			        ]] && ln -s /etc/default/grub                                      /var/local/root/etc/default    
+#[[ ! -e /var/local/root/etc/default    			        ]] && ln -s /etc/default/grub                                      /var/local/root/etc/default    
 [[ ! -e /var/local/root/etc/systemd/system/getty@tty1.service.d ]] && ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
 [[ ! -e /var/local/root/usr/share/lightdm                       ]] && ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm                      
 
@@ -76,25 +89,12 @@ directory.
 
 EOF
 
-# # These probably are not needed given that they are also provided before the relevant commands below
-# # Left here because no time to debug and see if they can be deleted
-# sudo export DEBCONF_DEBUG=.*
-# sudo export DEBIAN_FRONTEND=noninteractive
-# sudo export DEBCONF_NONINTERACTIVE_SEEN=true
-
-# Resources
-myuser="econ-ark"  # Don't sudo because it needs to be an environment variable
-mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
-
 # This allows git branches during debugging 
 branch_name=master
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
 # Get pasword-encrypted rclone key for Google drive 
 wget -O  /var/local/root/.config/rclone/rcloneconf.zip $online/root/.config/rclone/rcloneconf.zip
-
-# Configure boot information
-sudo update-grub
 
 # Broadcom modems are common and require firmware-b43-installer for some reason
 sudo apt-get -y install firmware-b43-installer
@@ -111,7 +111,6 @@ if [[ ! -e /home/$myuser/.ssh ]]; then
 fi    
 
 sudo apt -y install gpg # Required to set up security for emacs package downloading 
-
 
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 
@@ -165,7 +164,6 @@ sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs
 ln -s /home/$myuser/.emacs.d /root/.emacs.d
 
 # Finished with emacs
-
 
 # Allow user to control networking 
 sudo adduser econ-ark netdev

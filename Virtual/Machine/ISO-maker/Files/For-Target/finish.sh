@@ -73,13 +73,13 @@ wget --quiet -O  /etc/avahi/ $online/Files/For-Target/root/etc/avahi/avahi-daemo
 cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
 # Get misc other stuff 
-refindFile="refind-install-MacOS"
+#refindFile="refind-install-MacOS"
 wget -O   /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
 wget -O   /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
-wget -O   /var/local/$refindFile.sh                $online/Files/For-Target/$refindFile.sh
-wget -O   /var/local/$refindFile-README.md         $online/Files/For-Target/$refindFile-README.md
-chmod +x  /var/local/$refindFile.sh
-chmod a+r /var/local/$refindFile-README.md
+# wget -O   /var/local/$refindFile.sh                $online/Files/For-Target/$refindFile.sh
+# wget -O   /var/local/$refindFile-README.md         $online/Files/For-Target/$refindFile-README.md
+# chmod +x  /var/local/$refindFile.sh
+# chmod a+r /var/local/$refindFile-README.md
 #wget --quiet -O /var/local/zoom_amd64.deb $online/Files/ForTarget/zoom_amd64.deb 
 wget --quiet -O /var/local/zoom_amd64.deb https://zoom.us/client/latest/zoom_amd64.deb
 
@@ -134,11 +134,11 @@ cat /var/local/bash_aliases-add >> "$bashadd"
 chmod a+x "$bashadd"
 chown $myuser:$myuser "$bashadd" 
 
-# The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
-mkdir -p /EFI/BOOT/
-cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
-cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
-echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
+# # The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
+# mkdir -p /EFI/BOOT/
+# cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
+# cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
+# echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 
 cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
@@ -271,26 +271,26 @@ cd /usr/local/share/data/GitHub/econ-ark/DemARK/notebooks
 # Allow reading of MacOS HFS+ files
 sudo apt -y install hfsplus hfsutils hfsprogs
 
-# Prepare partition for reFind boot manager in MacOS
-hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
+# # Prepare partition for reFind boot manager in MacOS
+# hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
 
-echo "hfsplusLabels=$hfsplusLabels"
-if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS+ exists...
-    cmd="mkfs.hfsplus -s -v 'refind-HFS' $hfsplusLabels"  # ... so FORMAT it as hfsplus
-    echo "cmd=$cmd"
-    eval "$cmd"
-    sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS  # Mount the new partition in /tmp/refind-HFS
-    sudo cp /var/local/refind-install-MacOS.sh    /tmp/refind-HFS      # Put refind script on the partition
-    sudo chmod a+x                                /tmp/refind-HFS/*.sh # make it executable
-    sudo cp /var/local/Econ-ARK.VolumeIcon.icns   /tmp/refind-HFS/.VolumeIcon.icns # Should endow the HFS+ volume with the Econ-ARK logo
-    echo  "$online/Disk/Icons/.VolumeIcon.icns" > /tmp/refind-HFS/.VolumeIcon_icns.source
-    #    sudo wget --quiet -O  /tmp/refind-HFS/.VolumeIcon.icns "$online/Disk/Icons/os_refit.icns" 
-    #    echo  "$online/Disk/Icons/os_refit.icns" >   /tmp/refind-HFS/.VolumeIcon_icns.source
-    # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
-    # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
-    # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
-    # sudo refind-install --usedefault "$ESP"
-fi
+# echo "hfsplusLabels=$hfsplusLabels"
+# if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS+ exists...
+#     cmd="mkfs.hfsplus -s -v 'refind-HFS' $hfsplusLabels"  # ... so FORMAT it as hfsplus
+#     echo "cmd=$cmd"
+#     eval "$cmd"
+#     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS  # Mount the new partition in /tmp/refind-HFS
+#     sudo cp /var/local/refind-install-MacOS.sh    /tmp/refind-HFS      # Put refind script on the partition
+#     sudo chmod a+x                                /tmp/refind-HFS/*.sh # make it executable
+#     sudo cp /var/local/Econ-ARK.VolumeIcon.icns   /tmp/refind-HFS/.VolumeIcon.icns # Should endow the HFS+ volume with the Econ-ARK logo
+#     echo  "$online/Disk/Icons/.VolumeIcon.icns" > /tmp/refind-HFS/.VolumeIcon_icns.source
+#     #    sudo wget --quiet -O  /tmp/refind-HFS/.VolumeIcon.icns "$online/Disk/Icons/os_refit.icns" 
+#     #    echo  "$online/Disk/Icons/os_refit.icns" >   /tmp/refind-HFS/.VolumeIcon_icns.source
+#     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
+#     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
+#     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
+#     # sudo refind-install --usedefault "$ESP"
+# fi
 
 sudo apt-get update
 sudo apt-get upgrade
