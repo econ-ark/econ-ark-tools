@@ -20,6 +20,8 @@ download()
     #    echo " DONE"
 }
 
+sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+sudo apt -y install network-manager
 
 # Resources
 myuser="econ-ark"  # Don't sudo because it needs to be an environment variable
@@ -99,12 +101,12 @@ online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"
 wget -O  /var/local/root/.config/rclone/rcloneconf.zip $online/root/.config/rclone/rcloneconf.zip
 
 # Broadcom modems are common and require firmware-b43-installer for some reason
-sudo apt-get -y install firmware-b43-installer
+# sudo apt-get -y install firmware-b43-installer
 
 # Broadcom modems are common and require firmware-b43-installer for some reason
 sudo apt-get -y install xfce4-terminal
 
-# Get some basic immediately useful tools 
+# Get some basic immediately useful tools
 sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server expect rpl
 
 # Create a public key for security purposes
