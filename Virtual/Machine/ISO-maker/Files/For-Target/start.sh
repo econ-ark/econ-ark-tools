@@ -217,7 +217,7 @@ if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ 
     # https://launchpad.net/ubuntu/+source/lightdm-gtk-greeter
     # Bug #1890394 "Lightdm-gtk-greeter coredump during boot"
     wget --tries=0 -O /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb $online/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
-    dpkg -i -n /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
+    yes | dpkg --install /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
 fi
 
 
