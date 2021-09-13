@@ -29,7 +29,7 @@ id -u "$myuser"
 if [[ "$?" == 1 ]]; then # the user does not yet exist
     sudo adduser --disabled-password --gecos "" "$myuser"
     sudo chpasswd <<<"$myuser:$mypass"
-    sudo usermod -aG sudo 
+    sudo usermod -aG sudo "$myuser"
     sudo usermod -aG cdrom "$myuser"
     sudo usermod -aG adm "$myuser"
     sudo usermod -aG plugdev "$myuser"
@@ -277,17 +277,17 @@ fi
 wget -O  /var/local/Econ-ARK.VolumeIcon.icns           https://github.com/econ-ark/econ-ark-tools/raw/master/Virtual/Machine/ISO-maker/Disk/Icons/Econ-ARK.VolumeIcon.icns
 
 # Desktop backdrop 
-wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
-cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
+wget -O  /var/local/Econ-ARK-Logo-1536x768.png    $online/Econ-ARK-Logo-1536x768.png
+cp            /var/local/Econ-ARK-Logo-1536x768.png    /usr/share/xfce4/backdrops
 
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
 # So just replace the default image with the one we want 
 sudo rm -f                                                       /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
 
-sudo ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
+sudo ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.png /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
 
 # Document, in /var/local, where its content is used
-sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ-ARK-Logo-1536x768-target.jpg
+sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ-ARK-Logo-1536x768-target.png
 
 # Move but preserve the original versions
 sudo mv       /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf-orig
@@ -340,3 +340,4 @@ sudo touch /etc/cron.hourly/jobs.deny
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
 sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local 
 
+sudo usermod -aG vboxsf "$myuser"
