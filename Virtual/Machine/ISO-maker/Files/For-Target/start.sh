@@ -55,7 +55,7 @@ cd /var/local
 mkdir -p root/etc/default
 mkdir -p root/.config/rclone
 mkdir -p root/etc/systemd/system/getty@tty1.service.d  # /override.conf Allows autologin to console as econ-ark
-mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manager 
+sudo mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manager 
 
 # These items are created in econ-ark.seed; put them in /var/local so all system mods are findable there
 # The ! -e are there in case the script is being rerun after a first install
@@ -108,7 +108,7 @@ wget -O  /var/local/root/.config/rclone/rcloneconf.zip $online/root/.config/rclo
 # sudo apt-get -y install firmware-b43-installer
 
 # Broadcom modems are common and require firmware-b43-installer for some reason
-sudo apt-get -y install xfce4-terminal
+sudo apt-get -y --fix-broken install xfce4-terminal
 
 # Get some basic immediately useful tools
 sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server expect rpl
@@ -212,12 +212,12 @@ sudo apt-get -y autoremove
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
     
-    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+    sudo apt -n install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
     # Get a bugfix release of lightdm to avoid a crash on VM's
     # https://launchpad.net/ubuntu/+source/lightdm-gtk-greeter
     # Bug #1890394 "Lightdm-gtk-greeter coredump during boot"
     wget --tries=0 -O /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb $online/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
-    dpkg -i /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
+    dpkg -i -n /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
 fi
 
 
