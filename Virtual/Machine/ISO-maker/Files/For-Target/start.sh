@@ -4,6 +4,10 @@
 # The reboot at the end kicks off the running of the finish.sh script
 # The GUI launches automatically at the first boot after installation of the desktop
 
+mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
+wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/master/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
+chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
+
 [[ -e /var/local/finished-software-install ]] && rm -f /var/local/finished-software-install
 # To redo the whole installation sequence (without having to redownload anything):
 # sudo bash -c '(rm -f /var/local/finished-software-install ; rm -f /var/log/firstboot.log ; rm -f /var/log/secondboot.log ; rm -f /home/econ-ark/.firstboot ; rm -f /home/econ-ark/.secondboot)' >/dev/null
@@ -20,7 +24,7 @@ download()
     #    echo " DONE"
 }
 
-sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
 sudo apt -y install network-manager
 
 # Resources
