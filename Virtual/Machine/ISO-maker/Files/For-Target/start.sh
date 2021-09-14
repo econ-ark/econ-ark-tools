@@ -287,14 +287,13 @@ cp            /var/local/Econ-ARK-Logo-1536x768.png    /usr/share/xfce4/backdrop
 
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
 # So just replace the default image with the one we want 
-sudo rm -f                                                       /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
-
-sudo ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.png /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
-
 # Document, in /var/local, where its content is used
-sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ-ARK-Logo-1536x768-target.png
-
-sudo chmod a+r /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ-ARK-Logo-1536x768-target.png
+sudo chmod a+r /var/local/Econ-ARK-Logo-1536x768-target.png
+sudo chmod a+r /var/local/Econ-ARK-Logo-1536x768-target.jpg
+sudo rm -f                                              /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
+sudo rm -f                                              /usr/share/xfce4/backdrops/xubuntu-wallpaper.jpg
+sudo ln -s /var/local/Econ-ARK-Logo-1536x768-target.png /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
+sudo ln -s /var/local/Econ-ARK-Logo-1536x768-target.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.jpg
 
 # Move but preserve the original versions
 sudo mv       /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf-orig
