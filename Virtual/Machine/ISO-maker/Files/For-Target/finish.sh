@@ -177,9 +177,6 @@ chown -Rf $myuser:$myuser /home/$myuser/
 # bring system up to date
 sudo apt -y update && sudo apt -y upgrade
 
-# Signal that we've finished software install
-touch /var/local/finished-software-install 
-
 if [[ "$size" == "MIN" ]]; then
     sudo apt -y install python3-pip python-pytest python-is-python3
     sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
@@ -294,5 +291,9 @@ sudo wget -O  /etc/apt/apt.conf.d/20auto-upgrades $online/Files/For-Target/root/
 
 # Restore printer services (disabled earlier because sometimes cause hang of boot)
 sudo systemctl enable cups-browsed.service 
+
+
+# Signal that we've finished software install
+touch /var/local/finished-software-install 
 
 reboot
