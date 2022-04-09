@@ -2,9 +2,9 @@
 
 You have several options for installing a virtual machine containing the Econ-ARK tools.
 
-### Easiest
+### Easiest (But Least Powerful -- For Running Existing Tools)
 
-Install "Docker" on your computer, and follow the instructions in the [Docker](/home/econ-ark/GitHub/econ-ark/econ-ark-tools/tree/master/Virtual/Docker/README.md) directory to run everything inside a "container" on your computer
+Install "Docker" on your computer, and follow the instructions in the [Docker](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Docker) directory to create a Docker "container" on your computer
 
 * Docker shares resources with your computer
 * Your computer's regular operations will sap the performance of the Docker machine
@@ -23,12 +23,10 @@ tools
    1. A large one to hold the installed system
       * at least 64 GB; 128 GB recommended
 * Be sure to get a _fast_ USB stick, at least for the large dive
-* Use the [XUBUNTARK-MAX](#MIN-or-MAX) ISO image file described below
+* Use the [XUBUNTARK-MAX](#MAX) ISO image file described below
    * Follow the rest of the instructions below
 
-#### Hybrid
-
-This option embeds the "Docker" option because docker is installed as part of the 
+n.b.: This option embeds the "Docker" option because docker is installed as part of the 
 MAX software suite. So you can do all the Docker stuff from inside your VM
 
 ### In-Between
@@ -59,7 +57,15 @@ fast internet access.
 Even if you plan ultimately to install the MAX version described below, you might
 do a "test run" with the MIN version because it is considerably faster.
 
-### [XUBUNTARK-MAX](https://drive.google.com/drive/folders/1bTa_OnD_sq0oFU3-bJWeG7VzIZ4gK1RR?usp=sharing)
+### [XUBUNTARK-MAX](https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing)
+
+#### Note: The installer may not work on a machine with "secure boot" enabled
+
+You may need to either
+1. Disable secure-boot on your machine; or
+1. Seek instructions on the internet for installing Ubuntu on your particular machine
+
+(Machines new enough to have secure boot probably are powerful enough to use the [VirtualBox](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/VirtualBox) method)
 
 In addition to the contents of [XUBUNTARK-MIN](#XUBUNTARK-MIN), the MAX version includes a full installation of:
 
@@ -76,7 +82,7 @@ the full results of several computational economics papers.
 This machine is considerably larger, and so will take longer to install, perhaps
 several hours.
 
-## Instructions for Installing your VM
+## Instructions for Installing your VM on a Bootable USB Medium
 
 ### [Burn](#burn) your chosen ISO image (MIN or MAX) to the small USB stick
 
