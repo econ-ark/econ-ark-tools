@@ -311,14 +311,27 @@ cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.Volume
 # and it is NOT worth it to try to change initrd
 # So everything that goes on the target must come from somewhere outside of /
 # set late_command
-# mount --bind /etc/resolv.conf /target/etc/resolv.conf ;\ 
-late_command="mount --bind /dev /target/dev ;\
-     mount --bind /dev/pts /target/dev/pts ;\
-     mount --bind /proc /target/proc ;\
-     mount --bind /sys /target/sys ;\
-     mount --bind /run /target/run ;\
-     mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
-     chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
+
+# There are two versions of late_command: One that can be run to reconfigure a
+# machine that was set up in some other way than via the ISO installer,
+# versus via the ISO installer.  If the git_branch is "Make-ISO-Installer"
+# the extra components required for the installer are included"
+
+if [ "git_branch" == "Make-ISO-Installer" ]; then
+    late_command="mount --bind /etc/resolv.conf /target/etc/resolv.conf ;\
+    mount --bind /dev /target/dev ;\
+    mount --bind /dev/pts /target/dev/pts ;\
+    mount --bind /proc /target/proc ;\
+    mount --bind /sys /target/sys ;\
+    mount --bind /run /target/run ;\
+    mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
+    "
+else
+    late_command=""
+fi
+
+# These are the commands needed to convert a vagrant machine to an Econ-ARK one  
+late_command+="chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
      chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
      chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
      chroot /target wget -O  /etc/rc.local                     $online/$ForTarget/$rclocal_file ;\
@@ -335,15 +348,18 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target chmod a+x /etc/rc.local ;\
      chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
      chroot /target rm    -f /var/local/Size-To-Make-Is-MAX ;\
-     chroot /target touch /var/local/Size-To-Make-Is-$size ;\
+     chroot /target touch /var/local/Size-To-Make-Is-$size "
+
+if [ "git_branch" == "Make-ISO-Installer" ]; then
+    late_command+=";\
      chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
      chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
      chroot /target sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf ;\
-     chroot /target update-initramfs -v -c -k all ;\
-"
+     chroot /target update-initramfs -v -c -k all " #;\
+fi
 
      # target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
      # target_dev=\${target_efi%?}  ;\
@@ -352,10 +368,7 @@ late_command="mount --bind /dev /target/dev ;\
      # chroot /target update-grub ;\
      # chroot /target cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
      # chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
-
-
-
-#     swapon \$target_swap ;\
+     #     swapon \$target_swap ;\
 
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
 # https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1867092
