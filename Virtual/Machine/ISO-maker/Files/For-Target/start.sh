@@ -33,6 +33,8 @@ sudo usermod -aG cdrom econ-ark
 sudo usermod -aG adm econ-ark
 sudo usermod -aG plugdev econ-ark
 
+# Suspend hibernation (so that a swapfile instead of partition can be used)
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 # Debugging 
 set -x ; set -v 
 
@@ -335,3 +337,5 @@ sudo touch /etc/cron.hourly/jobs.deny
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
 sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local 
 
+# mdadm is for managing RAID systems but can cause backup problems; disable
+sudo apt -y remove mdadm
