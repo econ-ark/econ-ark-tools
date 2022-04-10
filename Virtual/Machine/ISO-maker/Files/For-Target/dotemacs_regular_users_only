@@ -70,4 +70,6 @@
       (dbus-register-signal
        :session nil "/org/gnome/evince/Window/0"
        "org.gnome.evince.Window" "SyncSource"
-       'auctex-evince-inverse-sync)))
+       'auctex-evince-inverse-sync)
+      )
+  )

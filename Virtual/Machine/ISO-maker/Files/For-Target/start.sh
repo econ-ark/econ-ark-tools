@@ -123,7 +123,7 @@ for dotemacspart in dotemacs_regular_users_only dotemacs_root_and_regular_users;
 done
 
 [[ -e /home/econ-ark/.emacs ]] && sudo rm -f /home/econ-ark/.emacs
-[[ -e          /root/.emacs ]] && sudo rm -f           root/.emacs
+[[ -e          /root/.emacs ]] && sudo rm -f          /root/.emacs
 
 cat /var/local/dotemacs_root_and_regular_users /var/local/dotemacs_regular_users_only > /var/local/dotemacs
 
