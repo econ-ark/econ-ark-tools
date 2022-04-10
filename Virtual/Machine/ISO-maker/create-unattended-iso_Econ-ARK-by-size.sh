@@ -343,15 +343,18 @@ late_command="mount --bind /dev /target/dev ;\
      chroot /target apt-get --yes purge mokutil ;\
      chroot /target sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf ;\
      chroot /target update-initramfs -v -c -k all ;\
-     target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
-     target_dev=\${target_efi%?}  ;\
-     target_swap=\${target_dev}4  ;\
-     chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot > /target/var/local/grub-install-test.sh ;\
-     chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot ;\
-     chroot /target update-grub ;\
-     chroot /target cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
-     chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
 "
+
+     # target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
+     # target_dev=\${target_efi%?}  ;\
+     # chroot /target echo grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot --target=x86_64-efi > /target/var/local/grub-install-test.sh ;\
+     # chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot --target=x86_64-efi ;\
+     # chroot /target update-grub ;\
+     # chroot /target cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
+     # chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
+
+
+
 #     swapon \$target_swap ;\
 
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
