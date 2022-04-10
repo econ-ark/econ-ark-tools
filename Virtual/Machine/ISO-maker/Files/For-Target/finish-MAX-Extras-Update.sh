@@ -19,6 +19,9 @@ sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub
 
 flatpak -y install flathub org.gnu.emacs
 
+sudo apt -y install backintime-qt4
+sudo apt -y install timeshift
+
 # cd ~/.emacs.d/
 # git clone https://github.com/hlissner/doom-emacs
 # ~/.emacs.d/bin/doom/install
