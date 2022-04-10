@@ -1,1 +1,1 @@
-Fixed some things after ccarrollDrive install
+Add backintime-qt and timeshift to finish-MAX-Extras
