@@ -1,1 +1,1 @@
-Removing non_efi_system boolean true should make it non-efi?
+Fixed some things after ccarrollDrive install
