@@ -35,7 +35,7 @@ size="$1"
 echo "size_to_build=$size"
 
 pathToScript=$(dirname `realpath "$0"`)
-# pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker
+
 # Keep track locally of what was the most recently built version
 [[ -e "$pathToScript/Size-To-Make-Is-MIN" ]] && rm    "$pathToScript/Size-To-Make-Is-MIN"
 [[ -e "$pathToScript/Size-To-Make-Is-MAX" ]] && rm    "$pathToScript/Size-To-Make-Is-MAX"
@@ -388,7 +388,14 @@ echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot
 sudo chmod a+x $ForTarget/late_command.sh
 
 # Test whether anything has changed that requires a new push
-echo ''
+
+if [[ -z "$(git status --untracked-files=normal --porcelain 2>/dev/null)" ]]; then #
+    echo '' ; echo 'Nothing has changed since last commit; continuing'
+else
+    echo '' ; echo 'You have uncommited changes; please commit them with a commit message and rerun the script'
+    exit 1
+fi
+
 cmd="git diff --exit-code $pathToScript/$ForTarget/late_command.sh"
 echo "$cmd"
 eval "$cmd"
@@ -510,7 +517,7 @@ mkdir -p $iso_make/iso_new/boot/efi/EFI/BOOT/
 cp $iso_make/iso_new/EFI/BOOT/grubx64.efi $iso_make/iso_new/boot/efi/EFI/BOOT/grubx64.efi  
 cp $iso_make/iso_new/EFI/BOOT/BOOTx64.EFI $iso_make/iso_new/boot/efi/EFI/BOOT/BOOTx64.EFI
 
-chmod chmod +w $iso_make/iso_new/README.diskdefines
+chmod +w $iso_make/iso_new/README.diskdefines
 rpl --quiet 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' $iso_make/iso_new/README.diskdefines
 sudo chmod u-w $iso_make/iso_new/README.diskdefines
 
@@ -523,6 +530,7 @@ short_hash_last="$(cat $DIR/$ATI/short.git-hash)"
 iso_date=`date +"%Y%m%d-%H%M%S"`
 new_iso_name="$new_iso_name-$iso_date-$short_hash.iso"
 
+echo 'new_iso_name='$new_iso_name
 popd
 
 #sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/root/EFI/BOOT/rename-efi-entry.bash 
@@ -532,8 +540,7 @@ echo " creating the remastered iso"
 
 ISONAME="XUB20ARK$size"
 cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
-
-
+vv
 mke="$cmd"
 echo "$cmd"
 eval "$cmd"
