@@ -1,1 +1,1 @@
-Add backintime-qt and timeshift to finish-MAX-Extras
+Improve create script

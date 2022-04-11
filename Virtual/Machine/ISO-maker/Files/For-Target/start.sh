@@ -95,6 +95,8 @@ EOF
 branch_name=master
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
+
+
 # Get pasword-encrypted rclone key for Google drive 
 wget -O  /var/local/root/.config/rclone/rcloneconf.zip $online/root/.config/rclone/rcloneconf.zip
 
@@ -103,6 +105,10 @@ sudo apt-get -y install firmware-b43-installer
 
 # Get some basic immediately useful tools 
 sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server expect rpl
+
+# Packages present in "live" but not in "legacy" version of server
+# https://ubuntuforums.org/showthread.php?t=2443047
+sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1 
 
 # Create a public key for security purposes
 if [[ ! -e /home/$myuser/.ssh ]]; then
