@@ -57,7 +57,7 @@ fast internet access.
 Even if you plan ultimately to install the MAX version described below, you might
 do a "test run" with the MIN version because it is considerably faster.
 
-### [XUBUNTARK-MAX](https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing)
+### [XUBUNTARK-MAX](https://drive.google.com/drive/folders/1-DBAWfJYPBVNXKkVytZeF-BMBAaL7r1m?usp=sharing)
 
 #### Note: The installer may not work on a machine with "secure boot" enabled
 
