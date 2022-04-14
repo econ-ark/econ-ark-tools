@@ -93,14 +93,13 @@ d-i grub-installer/no-uefi-secure-boot                     boolean     true
 d-i netcfg/enable boolean true
 d-i netcfg/use_autoconfig boolean true
 d-i netcfg/get_domain string unassigned-domain
-d-i netcfg/wireless_show_essids select manual
 # d-i netcfg/wireless_essid string loader
 # d-i netcfg/wireless_essid_again string loader
 # d-i netcfg/wireless_security_type select wpa
 
 d-i netcfg/get_hostname                                     string      {{hostname}}
-d-i netcfg/wireless_adhoc_managed select Infrastructure (Managed) network
-d-i netcfg/link_wait_timeout string 9
+#d-i netcfg/wireless_adhoc_managed select Infrastructure (Managed) network
+#d-i netcfg/link_wait_timeout string 9
 # d-i netcfg/wireless_security_type select WPA
 
 # We want the seed to work on systems with or without successful dhcp config
