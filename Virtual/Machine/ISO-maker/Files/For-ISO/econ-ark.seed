@@ -93,8 +93,7 @@ d-i grub-installer/no-uefi-secure-boot                     boolean     true
 d-i netcfg/enable boolean true
 d-i netcfg/use_autoconfig boolean true
 d-i netcfg/get_domain string unassigned-domain
-#d-i netcfg/choose_interface select ${ifchoices}
-#d-i netcfg/wireless select ${essid_list}
+d-i netcfg/wireless_show_essids select manual
 # d-i netcfg/wireless_essid string loader
 # d-i netcfg/wireless_essid_again string loader
 # d-i netcfg/wireless_security_type select wpa
