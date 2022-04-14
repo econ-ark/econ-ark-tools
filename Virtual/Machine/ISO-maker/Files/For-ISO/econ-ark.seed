@@ -89,9 +89,8 @@ d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
 d-i grub-installer/no-uefi-secure-boot                     boolean     true
 
-#d-i netcfg/choose_interface select auto
-d-i netcfg/use_autoconfig boolean true
-#d-i netcfg/choose_interface select manual
+d-i netcfg/choose_interface select auto
+d-i netcfg/use_autoconfig                                   boolean     false
 d-i netcfg/get_hostname                                     string      {{hostname}}
 #d-i netcfg/choose_interface select manual
 #d-i netcfg/wireless_show_essids select manual

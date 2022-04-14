@@ -1,1 +1,1 @@
-choose_interface select manual
+netcfg/use_autoconfig boolean true
