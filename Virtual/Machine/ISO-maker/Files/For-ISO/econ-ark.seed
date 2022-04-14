@@ -89,10 +89,25 @@ d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
 d-i grub-installer/no-uefi-secure-boot                     boolean     true
 
+# Networking
+d-i netcfg/choose_interface select manual
+d-i netcfg/get_hostname                                     string      {{hostname}}
+d-i netcfg/get_domain string unassigned-domain
 d-i netcfg/link_wait_timeout string 9
 d-i netcfg/get_domain string unassigned-domain
 d-i netcfg/wireless_security_type select WPA
-d-i netcfg/get_hostname                                     string      {{hostname}}
+
+d-i hw-detect/load_firmware boolean true
+
+# We want the seed to work on systems with or without successful dhcp config
+d-i netcfg/dhcp_failed note
+d-i netcfg/dhcp_options select Configure network manually
+
+d-i netcfg/wireless_show_essids select manual
+d-i netcfg/wireless_essid string loader
+d-i netcfg/wireless_essid_again string loader
+d-i netcfg/wireless_security_type select wpa
+
 
 # d-i netcfg/disable_autoconfig boolean true
 
@@ -109,9 +124,6 @@ d-i netcfg/get_hostname                                     string      {{hostna
 #d-i netcfg/choose_interface select manual
 #d-i netcfg/wireless_show_essids select manual
 
-d-i hw-detect/load_firmware boolean true
-
-# Networking
 ## mirror settings
 d-i mirror/country string manual
 d-i mirror/http/hostname string archive.ubuntu.com

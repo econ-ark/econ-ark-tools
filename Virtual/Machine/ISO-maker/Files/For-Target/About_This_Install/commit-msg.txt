@@ -1,1 +1,1 @@
-netcfg/disable_autoconfig boolean true
+wireless_security_type select WPA
