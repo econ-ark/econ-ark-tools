@@ -1,1 +1,1 @@
-netcfg/use_autoconfig boolean false
+netcfg/choose_interface select wlan0
