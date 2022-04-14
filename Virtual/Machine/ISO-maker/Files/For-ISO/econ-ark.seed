@@ -89,8 +89,12 @@ d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
 d-i grub-installer/no-uefi-secure-boot                     boolean     true
 
-# d-i netcfg/choose_interface select auto
+#d-i netcfg/choose_interface select auto
 d-i netcfg/get_hostname                                     string      {{hostname}}
+d-i netcfg/choose_interface select wlan0
+#preseed netcfg/wireless_show_essids select manualpreseed netcfg/wireless_essid string WPA_essid
+#preseed netcfg/wireless_essid_again string;WPA_ESSID
+
 d-i hw-detect/load_firmware boolean true
 
 # Networking
