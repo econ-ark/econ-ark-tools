@@ -1,1 +1,1 @@
-Add packages included on Live installer
+Minor tweaks
