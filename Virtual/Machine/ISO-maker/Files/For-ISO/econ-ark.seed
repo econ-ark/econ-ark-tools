@@ -14,14 +14,14 @@ d-i debconf/priority select high
 
 ### Localization
 d-i debian-installer/locale string en_US.UTF-8
-d-i localechooser/supported-locales multiselect en_US.UTF-8
+#d-i localechooser/supported-locales multiselect en_US.UTF-8
 d-i debian-installer/country string US
 
 # Keyboard
 d-i console-setup/ask_detect boolean false
-d-i console-setup/modelcode string skip-config
-d-i console-setup/layoutcode string us
 d-i keyboard-configuration/xkb-keymap select us
+d-i console-setup/layoutcode string us
+d-i console-setup/modelcode string skip-config
 
 # Unmount installer medium (so it does not try to install over itself)
 # Can't preseed this because doesn't work on VirtualBox
