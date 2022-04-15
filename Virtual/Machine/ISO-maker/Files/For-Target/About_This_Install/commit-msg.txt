@@ -1,1 +1,1 @@
-priority: high but not critical
+hashes for do-not-show-compile-log
