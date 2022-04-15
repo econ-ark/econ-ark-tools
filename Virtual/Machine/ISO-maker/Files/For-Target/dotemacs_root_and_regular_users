@@ -222,3 +222,10 @@
 
 ;; Prevent incremental searches from jumping back to top after last found instance
 (setq isearch-wrap-function '(lambda nil)) 
+
+;; hide compile log when it exists
+
+(add-hook 'compilation-finish-functions
+	  (lambda (buf strg)
+	    (let ((win  (get-buffer-window buf 'visible)))
+	      (when win (delete-window win)))))
