@@ -93,6 +93,7 @@ EOF
 
 # This allows git branches during debugging 
 branch_name=master
+[[ -e git_branch ]] && branch_name=$(<git_branch)
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
 
