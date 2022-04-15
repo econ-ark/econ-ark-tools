@@ -15,9 +15,12 @@ d-i debconf/priority select high
 ### Localization
 d-i debian-installer/locale string en_US.UTF-8
 d-i localechooser/supported-locales multiselect en_US.UTF-8
+d-i debian-installer/country string US
 
 # Keyboard
 d-i console-setup/ask_detect boolean false
+d-i console-setup/modelcode string skip-config
+d-i console-setup/layoutcode string us
 d-i keyboard-configuration/xkb-keymap select us
 
 # Unmount installer medium (so it does not try to install over itself)
@@ -80,7 +83,7 @@ d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
 # d-i grub-installer/only_debian boolean true # Makes it install to the MBR: BAD
-# d-i grub-installer/with_other_os boolean true
+d-i grub-installer/with_other_os boolean false # don't install to other drives
 # Despite Google search indications otherwise, the command below caused crash
 # Might be that it is out of date version and correct version is below
 # d-i grub-installer/force-efi-extra-removable boolean true
@@ -146,7 +149,7 @@ d-i passwd/username                                         string      {{userna
 d-i passwd/user-password-crypted                            password    {{pwhash}}
 d-i passwd/user-uid                                         string
 d-i user-setup/allow-password-weak                          boolean     false
-d-i passwd/user-default-groups                              string      adm cdrom dialout lpadmin plugdev sambashare
+d-i passwd/user-default-groups                              string      adm cdrom dialout lpadmin plugdev sambashare vboxsf
 d-i user-setup/encrypt-home                                 boolean     false
 # allow login as root
 user-setup-udeb passwd/root-login boolean true
