@@ -1,1 +1,1 @@
-minimal netcfg
+Increase priority to medium
