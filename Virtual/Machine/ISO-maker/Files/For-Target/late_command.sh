@@ -15,5 +15,5 @@
  chmod a+x /etc/rc.local 
  rm -f /var/local/Size-To-Make 
  rm -f /var/local/Size-To-Make 
- echo Make-ISO-Installer /var/local/git_branch 
+ echo Make-ISO-Installer > /var/local/git_branch 
  touch /var/local/Size-To-Make

@@ -348,7 +348,7 @@ late_command+="chroot /target wget -O /var/local/late_command.sh $online/$ForTar
      chroot /target chmod a+x /etc/rc.local ;\
      chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
      chroot /target rm    -f /var/local/Size-To-Make-Is-MAX ;\
-     chroot /target echo $git_branch /var/local/git_branch ;\
+     chroot /target echo $git_branch > /var/local/git_branch ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size "
 
 if [ "git_branch" == "Make-ISO-Installer" ]; then
