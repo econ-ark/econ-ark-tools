@@ -1,1 +1,1 @@
-Fit git_branch -> git_name for start.sh
+Test making ISO in target from shell
