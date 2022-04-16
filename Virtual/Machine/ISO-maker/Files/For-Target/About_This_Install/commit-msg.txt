@@ -1,1 +1,1 @@
-Test making ISO in target from shell
+Restore automatic reboot
