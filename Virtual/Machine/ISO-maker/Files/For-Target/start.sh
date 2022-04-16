@@ -237,7 +237,7 @@ sudo adduser  econ-ark nopasswdlogin
 sudo gpasswd -a econ-ark nopasswdlogin
 
 # Allow autologin
-if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin
+if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the lines that makes PAM permit autologin
     sudo sed -i '1 a\
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
 fi
@@ -246,6 +246,8 @@ fi
 if ! grep -q econ-ark /etc/pam.d/lightdm          ; then # We have not yet added the line that makes PAM permit autologin
     sudo sed -i '1 a\
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
+    sudo sed -i '1 a\
+auth    include         system-login # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
 fi
 
 # Keyring autologin caused some problems that were hard to fix

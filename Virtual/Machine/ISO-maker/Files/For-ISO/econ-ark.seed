@@ -146,7 +146,7 @@ d-i user-setup/allow-password-weak                          boolean     false
 d-i passwd/user-default-groups                              string      adm cdrom dialout lpadmin plugdev sambashare vboxsf
 d-i user-setup/encrypt-home                                 boolean     false
 # allow login as root
-d-i user-setup-udeb passwd/root-login boolean true
+# d-i user-setup-udeb passwd/root-login boolean true
 
 # configure apt
 d-i apt-setup/restricted                                    boolean     true

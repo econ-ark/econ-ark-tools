@@ -1,1 +1,1 @@
-Restore automatic reboot
+delete git_branch from /var/local to test whether XFCE or Econ-ARK boot
