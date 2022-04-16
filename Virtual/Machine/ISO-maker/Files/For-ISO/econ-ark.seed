@@ -96,7 +96,7 @@ d-i grub-installer/no-uefi-secure-boot                     boolean     true
 # Networking
 d-i netcfg/enable boolean true
 d-i netcfg/use_autoconfig boolean true
-d-i netcfg/get_domain string unassigned-domain
+# d-i netcfg/get_domain string unassigned-domain
 d-i netcfg/get_hostname                                     string      {{hostname}}
 
 # We want the seed to work on systems with or without successful dhcp config
