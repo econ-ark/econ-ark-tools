@@ -1,1 +1,1 @@
-Add hashes
+Fit git_branch -> git_name for start.sh

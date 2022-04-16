@@ -46,6 +46,7 @@ ForTarget="Files/For-Target"
 ForISO="Files/For-ISO"
 # Allow for branches to test alternative builds
 git_branch="$(git symbolic-ref HEAD 2>/dev/null)" ; git_branch=${git_branch##refs/heads/}
+echo $git_branch > $ForTarget/git_branch
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/ISO-maker"
 startFile="start.sh"
 finishFile="finish.sh"
@@ -340,6 +341,7 @@ late_command+="chroot /target wget -O /var/local/late_command.sh $online/$ForTar
      chroot /target wget -O  /var/local/grub-menu.sh           $online/$ForTarget/grub-menu.sh ;\
      chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md ;\
      chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
+     chroot /target wget -O  /var/local/git_branch             $online/$ForTarget/grub ;\
      chroot /target chmod 755 /etc/default/grub       ;\
      chroot /target mkdir -p /var/local/About_This_Install                                              ;\
      chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
@@ -348,7 +350,6 @@ late_command+="chroot /target wget -O /var/local/late_command.sh $online/$ForTar
      chroot /target chmod a+x /etc/rc.local ;\
      chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
      chroot /target rm    -f /var/local/Size-To-Make-Is-MAX ;\
-     chroot /target echo $git_branch > /var/local/git_branch ;\
      chroot /target touch /var/local/Size-To-Make-Is-$size "
 
 if [ "git_branch" == "Make-ISO-Installer" ]; then
