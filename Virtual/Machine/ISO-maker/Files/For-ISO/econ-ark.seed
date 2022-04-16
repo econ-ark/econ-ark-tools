@@ -162,7 +162,7 @@ tasksel tasksel/desktop                                     multiselect xfce # S
 d-i pkgsel/upgrade                                          select      none
 # Uncommenting line below to allow unattended upgrades caused crash
 #d-i pkgsel/update-policy                                    select      unattended-upgrades
-d-i pkgsel/update-policy                                    select      none
+# d-i pkgsel/update-policy                                    select      none
 d-i pkgsel/updatedb                                         boolean     true
 
 # Display manager
