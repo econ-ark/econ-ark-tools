@@ -52,12 +52,9 @@ d-i keyboard-configuration/xkb-keymap select us
 # Counterintuitively, the setting below forces it TO BE an efi system
 # d-i partman-efi/non_efi_system boolean true
 
+
 # Needed to make sure the partitioning scheme is usable with GPT systems
 d-i partman-partitioning/default_label string gpt 
-
-# Unmount active partitions, if any
-d-i partman/unmount_active boolean true  # Like, partition containing the installer
-d-i partman/unmount_active seen
 
 d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
 
@@ -103,12 +100,18 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 # Tee up reasonable set of potential devices that might be used 
 d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
+
+
+# Unmount active partitions, if any
+d-i partman/unmount_active boolean true  # Like, partition containing the installer
+d-i partman/unmount_active seen
+
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
 # d-i grub-installer/bootdev string default   # Default is to choose first available
 d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
 d-i grub-installer/with_other_os boolean false # don't install to other drives
-d-i grub-installer/bootdev string /dev/sda
+# d-i grub-installer/bootdev string /dev/sda
 
 ## Force installation of EFI
 d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
