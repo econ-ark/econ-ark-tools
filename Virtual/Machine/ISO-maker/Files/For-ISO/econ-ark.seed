@@ -109,8 +109,8 @@ d-i grub-installer/no-uefi-secure-boot                     boolean     true
 # d-i netcfg/enable boolean true # this is already the default
 # d-i netcfg/use_autoconfig boolean true # this is already the default
 # d-i netcfg/get_domain string unassigned-domain
-# d-i netcfg/get_hostname                                     string      {{hostname}}
-d-i netcfg/hostname                                     string      {{hostname}}
+d-i netcfg/get_hostname                                     string      {{hostname}}
+#d-i netcfg/hostname                                     string      {{hostname}}
 
 # We want the seed to work on systems with or without successful dhcp config
 #d-i netcfg/dhcp_failed note
@@ -171,12 +171,11 @@ d-i apt-setup/security_path                                 string      /ubuntu
 tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard is recommended for all installs
 tasksel tasksel/desktop                                     multiselect xfce # Selects, but does not install, xfce
 # Uncommenting line below to allow automated upgrades caused crash
-#d-i pkgsel/upgrade                                          select      safe-upgrade         
-d-i pkgsel/upgrade                                          select      none
+d-i pkgsel/updatedb                                         boolean     true
+d-i pkgsel/upgrade                                          select      safe-upgrade         
 # Uncommenting line below to allow unattended upgrades caused crash
 #d-i pkgsel/update-policy                                    select      unattended-upgrades
 # d-i pkgsel/update-policy                                    select      none
-d-i pkgsel/updatedb                                         boolean     true
 
 # Display manager
 d-i shared/default-x-display-manager                    select      lightdm
