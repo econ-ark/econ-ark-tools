@@ -103,13 +103,10 @@ d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
-d-i grub-installer/only_debian boolean true # Makes it install to the MBR: BAD
-d-i grub-installer/bootdev string default
+d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
+d-i grub-installer/bootdev string default   # Default is to choose first available
 
 # d-i grub-installer/with_other_os boolean false # don't install to other drives
-# Despite Google search indications otherwise, the command below caused crash
-# Might be that it is out of date version and correct version is below
-# d-i grub-installer/force-efi-extra-removable boolean true
 
 ## Force installation of EFI
 d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
@@ -180,10 +177,13 @@ d-i apt-setup/security_host                                 string      security
 d-i apt-setup/security_path                                 string      /ubuntu
 tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard is recommended for all installs
 tasksel tasksel/desktop                                     multiselect xfce # Selects, but does not install, xfce
-# Uncommenting line below to allow automated upgrades caused crash
+
+# Automatic update
 d-i pkgsel/updatedb                                         boolean     true
+d-i pkgsel/upgrade seen true
 d-i pkgsel/upgrade                                          select      safe-upgrade
 d-i pkgsel/upgrade seen true
+d-i pkgsel/update-policy select unattended-upgrades
 
 # Uncommenting line below to allow unattended upgrades caused crash
 #d-i pkgsel/update-policy                                    select      unattended-upgrades
@@ -195,9 +195,9 @@ d-i shared/default-x-display-manager                    select      lightdm
 # Finish
 d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging
 ## Comment all remaining lines to allow debugging by choosing to drop to shell at last moment before reboot
-d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
-d-i cdrom-detect/eject                                      boolean     true   # Eject virtual install ISO
-d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
-d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
+# d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
+# d-i cdrom-detect/eject                                      boolean     true   # Eject virtual install ISO
+# d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
+# d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
 
 # late_command is added by create-unattended-iso script
