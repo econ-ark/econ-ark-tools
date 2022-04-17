@@ -353,6 +353,7 @@ sudo apt -y remove mdadm
 
 if [[ "$?" == 0 ]]; then # mount of installer ISO succeeded
     dd if=/dev/sr0 of=/var/local/XUBUNTARK.iso bs=2048 count=425426 status=progress
+    umount /dev/sr0
 fi
 
 installer=$(mount | grep XUB20ARK | cut -d ' ' -f1)
