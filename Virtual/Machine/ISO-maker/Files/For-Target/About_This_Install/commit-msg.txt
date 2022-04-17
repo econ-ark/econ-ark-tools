@@ -1,1 +1,1 @@
-Remove chroots for grub on target
+Only grub-installer/bootdev string default
