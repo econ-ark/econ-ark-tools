@@ -1,1 +1,1 @@
-Try to eliminate question about whether to install GRUB
+Debug early_command bootdev seen true
