@@ -29,6 +29,7 @@ d-i debian-installer/locale string en_US.UTF-8
 
 d-i console-setup/ask_detect boolean false
 d-i keyboard-configuration/xkb-keymap select us
+d-i keyboard-configuration/xkb-keymap seen
 d-i keymap select us
 d-i console-keymaps-at/select us
 d-i debconf/language string en_US:en				     
@@ -55,8 +56,8 @@ d-i keyboard-configuration/xkb-keymap select us
 d-i partman-partitioning/default_label string gpt 
 
 # Unmount active partitions, if any
-d-i partman/unmount_active boolean true  # Like, partition containing the installer
 # d-i partman/unmount_active seen
+d-i partman/unmount_active boolean true  # Like, partition containing the installer
 
 d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
 
