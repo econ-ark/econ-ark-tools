@@ -1,1 +1,1 @@
-Only grub-installer/bootdev string default
+Drop to shell before reboot
