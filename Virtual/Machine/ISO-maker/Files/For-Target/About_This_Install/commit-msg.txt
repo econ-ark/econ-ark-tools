@@ -1,1 +1,1 @@
-hashes
+Switch back and forth between priority high and critical
