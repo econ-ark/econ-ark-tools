@@ -177,7 +177,9 @@ tasksel tasksel/first                                       multiselect standard
 tasksel tasksel/desktop                                     multiselect xfce # Selects, but does not install, xfce
 # Uncommenting line below to allow automated upgrades caused crash
 d-i pkgsel/updatedb                                         boolean     true
-d-i pkgsel/upgrade                                          select      safe-upgrade         
+d-i pkgsel/upgrade                                          select      safe-upgrade
+d-i pkgsel/upgrade seen true
+
 # Uncommenting line below to allow unattended upgrades caused crash
 #d-i pkgsel/update-policy                                    select      unattended-upgrades
 # d-i pkgsel/update-policy                                    select      none

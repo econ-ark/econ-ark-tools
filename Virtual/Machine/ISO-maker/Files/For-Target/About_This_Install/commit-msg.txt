@@ -1,1 +1,1 @@
-Debug early_command bootdev seen true
+Try to add localechooser/languagelist etc to kernel
