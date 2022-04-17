@@ -299,6 +299,9 @@ sudo apt-get install unattended-upgrades
 sudo mkdir -p /etc/apt/apt.conf.d/20auto-upgrades
 sudo wget -O  /etc/apt/apt.conf.d/20auto-upgrades $online/Files/For-Target/root/etc/apt/apt.conf.d/20auto-upgrades
 
+# Batch compile emacs so it will get all its packages
+sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  
+
 # Restore printer services (disabled earlier because sometimes cause hang of boot)
 sudo systemctl enable cups-browsed.service 
 
