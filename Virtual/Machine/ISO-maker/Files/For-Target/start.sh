@@ -348,3 +348,17 @@ sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local
 
 # mdadm is for managing RAID systems but can cause backup problems; disable
 sudo apt -y remove mdadm
+
+# Make an ISO file of the installation medium
+
+if [[ "$?" == 0 ]]; then # mount of installer ISO succeeded
+    dd if=/dev/sr0 of=/var/local/XUBUNTARK.iso bs=2048 count=425426 status=progress
+fi
+
+installer=$(mount | grep XUB20ARK | cut -d ' ' -f1)
+
+if [[ "$installer" != "" ]]; then
+    dd if="$installer" of=/var/local/XUB20ARK.iso
+fi
+    
+				 
