@@ -1,1 +1,1 @@
-Restore mount of /dev/sr0
+Try to eliminate question about whether to install GRUB
