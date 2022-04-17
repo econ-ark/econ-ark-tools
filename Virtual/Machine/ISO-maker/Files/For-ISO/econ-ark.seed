@@ -38,7 +38,7 @@ d-i console-keymaps-at/select us
 # Keyboard
 d-i console-setup/ask_detect boolean false
 d-i keyboard-configuration/xkb-keymap select us
-d-i keymap/skip-config
+# d-i keymap/skip-config
 
 #d-i console-setup/layoutcode string us
 #d-i console-setup/modelcode string skip-config
@@ -55,7 +55,7 @@ d-i partman-partitioning/default_label string gpt
 
 # Unmount active partitions, if any
 d-i partman/unmount_active boolean true  # Like, partition containing the installer
-d-i partman/unmount_active seen
+# d-i partman/unmount_active seen
 
 d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
 

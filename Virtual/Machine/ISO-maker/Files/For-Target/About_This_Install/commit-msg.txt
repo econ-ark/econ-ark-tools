@@ -1,1 +1,1 @@
-seed: pkgsel/upgrade seen true
+Remove chroots for grub on target
