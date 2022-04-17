@@ -14,7 +14,19 @@ d-i debconf/priority select high
 
 ### Localization
 d-i debian-installer/locale string en_US.UTF-8
-#d-i localechooser/supported-locales multiselect en_US.UTF-8
+
+# It is not possible to use preseeding to set language, country, and keyboard
+# Instead you must use kernel parameters
+# languagechooser/language-name=English
+# countrychooser/shortlist=US
+# Disable automatic (interactive) keymap detection.
+
+d-i console-setup/ask_detect boolean false
+d-i keyboard-configuration/xkb-keymap select us
+d-i keymap select us
+d-i console-keymaps-at/select us
+				     
+
 #d-i debian-installer/language string en
 #d-i debian-installer/country string US
 
@@ -94,10 +106,11 @@ d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
 d-i grub-installer/no-uefi-secure-boot                     boolean     true
 
 # Networking
-d-i netcfg/enable boolean true
-d-i netcfg/use_autoconfig boolean true
+# d-i netcfg/enable boolean true # this is already the default
+# d-i netcfg/use_autoconfig boolean true # this is already the default
 # d-i netcfg/get_domain string unassigned-domain
-d-i netcfg/get_hostname                                     string      {{hostname}}
+# d-i netcfg/get_hostname                                     string      {{hostname}}
+d-i netcfg/hostname                                     string      {{hostname}}
 
 # We want the seed to work on systems with or without successful dhcp config
 #d-i netcfg/dhcp_failed note
