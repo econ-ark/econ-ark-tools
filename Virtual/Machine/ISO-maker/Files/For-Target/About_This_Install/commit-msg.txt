@@ -1,1 +1,1 @@
-Drop to shell before reboot
+hashes
