@@ -26,11 +26,12 @@ d-i debian-installer/locale string en_US.UTF-8
 # countrychooser/shortlist=US
 # Disable automatic (interactive) keymap detection.
 
+
 d-i console-setup/ask_detect boolean false
 d-i keyboard-configuration/xkb-keymap select us
 d-i keymap select us
 d-i console-keymaps-at/select us
-				     
+d-i debconf/language string en_US:en				     
 
 #d-i debian-installer/language string en
 #d-i debian-installer/country string US
@@ -103,10 +104,10 @@ d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
-d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
-d-i grub-installer/bootdev string default   # Default is to choose first available
+# d-i grub-installer/bootdev string default   # Default is to choose first available
 
-# d-i grub-installer/with_other_os boolean false # don't install to other drives
+d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
+d-i grub-installer/with_other_os boolean false # don't install to other drives
 
 ## Force installation of EFI
 d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
