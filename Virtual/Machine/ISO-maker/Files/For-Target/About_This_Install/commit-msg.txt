@@ -1,1 +1,1 @@
-Unmount live boot CDROM
+Restore mount of /dev/sr0

@@ -1,6 +1,11 @@
 # ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 # 20200807-2227h Works for VirtualBox, MacPro9,1, MacPro 5,1, VirtualBox Windows 10 envt
 
+# early_command to prevent asking whether to install grub
+d-i preseed/early_command string \
+    . /usr/share/debconf/confmodule;\
+    db_fset grub-installer/bootdev seen true
+
 # Show install info rather than eye candy
 d-i debian-installer/splash                                 boolean     false
 
@@ -95,8 +100,8 @@ d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
-# d-i grub-installer/only_debian boolean true # Makes it install to the MBR: BAD
-d-i grub-installer/with_other_os boolean false # don't install to other drives
+d-i grub-installer/only_debian boolean true # Makes it install to the MBR: BAD
+# d-i grub-installer/with_other_os boolean false # don't install to other drives
 # Despite Google search indications otherwise, the command below caused crash
 # Might be that it is out of date version and correct version is below
 # d-i grub-installer/force-efi-extra-removable boolean true
