@@ -106,6 +106,7 @@ d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
 # d-i grub-installer/bootdev string default   # Default is to choose first available
+d-i grub-installer/bootdev string /dev/sda
 
 d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
 d-i grub-installer/with_other_os boolean false # don't install to other drives
