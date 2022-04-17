@@ -1,1 +1,1 @@
-Try to add localechooser/languagelist etc to kernel
+seed: pkgsel/upgrade seen true

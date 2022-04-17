@@ -361,8 +361,6 @@ if [ "git_branch" == "Make-ISO-Installer" ]; then
      chroot /target apt-get --yes purge mokutil ;\
      chroot /target sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf ;\
      chroot /target update-initramfs -v -c -k all ;\
-     chroot /target grub-install ;\
-     chroot /target update-grub ;\
 " #;\
 fi
 
