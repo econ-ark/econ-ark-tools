@@ -6,6 +6,9 @@
 #    . /usr/share/debconf/confmodule;\
 #    db_fset grub-installer/bootdev seen true;
 
+# Only ask critically important questions (at first)
+d-i debconf/priority select critical
+
 # Show install info rather than eye candy
 d-i debian-installer/splash                                 boolean     false
 
@@ -15,7 +18,6 @@ d-i apt-setup/extras     boolean true
 
 ### Automatic Installation
 d-i auto-install/enable boolean true
-d-i debconf/priority select critical
 
 ### Localization
 d-i debian-installer/locale string en_US.UTF-8
@@ -25,7 +27,6 @@ d-i debian-installer/locale string en_US.UTF-8
 # languagechooser/language-name=English
 # countrychooser/shortlist=US
 # Disable automatic (interactive) keymap detection.
-
 
 d-i console-setup/ask_detect boolean false
 d-i keyboard-configuration/xkb-keymap select us
@@ -118,6 +119,7 @@ d-i grub-installer/bootdev string /dev/sda
 d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
 d-i grub-installer/no-uefi-secure-boot                     boolean     true
 
+# Networking is required under high but not critical
 d-i debconf/priority select high
 
 # Networking
@@ -146,7 +148,7 @@ d-i netcfg/wireless_show_essids select manual
 #d-i netcfg/choose_interface select manual
 # d-i netcfg/wireless_show_essids select manual
 
-d-i debconf/priority select high
+d-i debconf/priority select critical
 
 # Allow nonfree drivers
 d-i hw-detect/load_firmware boolean true
