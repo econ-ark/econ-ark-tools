@@ -202,6 +202,8 @@ d-i pkgsel/update-policy select unattended-upgrades
 # Display manager
 d-i shared/default-x-display-manager                    select      lightdm
 
+d-i debconf/priority select medium
+
 # Finish
 d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging
 ## Comment all remaining lines to allow debugging by choosing to drop to shell at last moment before reboot

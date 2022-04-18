@@ -1,1 +1,1 @@
-Prevent reboot after install
+seed: d-i partman/init_automatically_partition select use entire disk
