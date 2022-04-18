@@ -55,6 +55,8 @@ d-i keyboard-configuration/xkb-keymap select us
 # Needed to make sure the partitioning scheme is usable with GPT systems
 d-i partman-partitioning/default_label string gpt 
 
+d-i partman-auto/init_automatically_partition select Guided - use entire disk
+
 d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
 
 d-i partman-auto/expert_recipe string root-disk ::  \

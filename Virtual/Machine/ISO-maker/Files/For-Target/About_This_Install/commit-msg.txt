@@ -1,1 +1,1 @@
-Remove firefox ISO download; do not eject CD at end of install
+Prevent reboot after install
