@@ -1,1 +1,1 @@
-Restore netcfg/wireless lines
+netcfg/enable; netcfg/use_autoconfig
