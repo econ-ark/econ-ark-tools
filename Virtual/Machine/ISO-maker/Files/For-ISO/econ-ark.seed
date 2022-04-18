@@ -203,9 +203,9 @@ d-i shared/default-x-display-manager                    select      lightdm
 # Finish
 d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging
 ## Comment all remaining lines to allow debugging by choosing to drop to shell at last moment before reboot
-d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
-d-i cdrom-detect/eject                                      boolean     false   # Eject virtual install ISO
-d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
-d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
+# d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
+# d-i cdrom-detect/eject                                      boolean     false   # Eject virtual install ISO
+# d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
+# d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
 
 # late_command is added by create-unattended-iso script

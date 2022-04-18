@@ -1,1 +1,1 @@
-Undo code to list devices
+Remove firefox ISO download; do not eject CD at end of install
