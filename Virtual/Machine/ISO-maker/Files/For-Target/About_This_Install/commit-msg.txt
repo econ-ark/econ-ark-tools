@@ -1,1 +1,1 @@
-Reenable netcfg/wireless_show_essids
+Less network autoconf - only wireless_show_essids select manual
