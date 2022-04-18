@@ -146,7 +146,7 @@ d-i netcfg/wireless_show_essids select manual
 #d-i netcfg/choose_interface select manual
 # d-i netcfg/wireless_show_essids select manual
 
-d-i debconf/priority select critical
+d-i debconf/priority select high
 
 # Allow nonfree drivers
 d-i hw-detect/load_firmware boolean true
@@ -202,7 +202,6 @@ d-i pkgsel/update-policy select unattended-upgrades
 # Display manager
 d-i shared/default-x-display-manager                    select      lightdm
 
-d-i debconf/priority select medium
 
 # Finish
 d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging
