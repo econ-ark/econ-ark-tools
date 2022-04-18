@@ -1,1 +1,1 @@
-Less network autoconf - only wireless_show_essids select manual
+Restore netcfg/wireless lines
