@@ -128,8 +128,8 @@ d-i netcfg/get_hostname                                     string      {{hostna
 #d-i netcfg/hostname                                     string      {{hostname}}
 
 # We want the seed to work on systems with or without successful dhcp config
-d-i netcfg/dhcp_failed note
-d-i netcfg/dhcp_options select Configure network manually
+# d-i netcfg/dhcp_failed note
+# d-i netcfg/dhcp_options select Configure network manually
 
 # d-i netcfg/disable_autoconfig boolean true
 
@@ -144,7 +144,7 @@ d-i netcfg/wireless_show_essids select manual
 #d-i netcfg/use_autoconfig                                   boolean     false
 #d-i netcfg/get_hostname                                     string      {{hostname}}
 #d-i netcfg/choose_interface select manual
-d-i netcfg/wireless_show_essids select manual
+# d-i netcfg/wireless_show_essids select manual
 
 d-i debconf/priority select critical
 

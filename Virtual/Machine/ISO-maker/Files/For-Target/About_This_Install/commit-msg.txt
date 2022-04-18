@@ -1,1 +1,1 @@
-seed: d-i partman/init_automatically_partition select use entire disk
+Reenable netcfg/wireless_show_essids
