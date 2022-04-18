@@ -1,1 +1,1 @@
-Restore priority high
+Priority: Critical first, then high (for netcfg), then critical
