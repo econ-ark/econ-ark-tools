@@ -1,1 +1,1 @@
-hashes
+netcfg/wireless_show_essids select manual only
