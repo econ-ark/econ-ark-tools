@@ -1,1 +1,1 @@
-Restore /dev/sda
+Undo code to list devices
