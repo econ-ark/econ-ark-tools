@@ -125,7 +125,7 @@ d-i netcfg/enable boolean true # this is already the default
 d-i netcfg/use_autoconfig boolean true # this is already the default
 # d-i netcfg/get_domain string unassigned-domain
 # d-i netcfg/get_hostname                                     string      {{hostname}}
-#d-i netcfg/hostname                                     string      {{hostname}}
+d-i netcfg/hostname                                     string      {{hostname}}
 
 # We want the seed to work on systems with or without successful dhcp config
 # d-i netcfg/dhcp_failed note
