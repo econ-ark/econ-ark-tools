@@ -121,8 +121,8 @@ d-i grub-installer/no-uefi-secure-boot                     boolean     true
 d-i debconf/priority select high
 
 # Networking
-# d-i netcfg/enable boolean true # this is already the default
-# d-i netcfg/use_autoconfig boolean true # this is already the default
+d-i netcfg/enable boolean true # this is already the default
+d-i netcfg/use_autoconfig boolean true # this is already the default
 # d-i netcfg/get_domain string unassigned-domain
 # d-i netcfg/get_hostname                                     string      {{hostname}}
 #d-i netcfg/hostname                                     string      {{hostname}}
