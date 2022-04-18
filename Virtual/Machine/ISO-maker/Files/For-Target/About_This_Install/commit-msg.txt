@@ -1,1 +1,1 @@
-Move unmount_active to after partman-auto; remove grub-installer/bootdev string /dev/sda
+Restore /dev/sda

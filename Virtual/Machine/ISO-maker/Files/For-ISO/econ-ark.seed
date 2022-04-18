@@ -52,13 +52,6 @@ d-i keyboard-configuration/xkb-keymap select us
 # Counterintuitively, the setting below forces it TO BE an efi system
 # d-i partman-efi/non_efi_system boolean true
 
-d-i partman/early_command string \
-USBDEV=$(list-devices usb-partition | sed "s/\(.*\)./\1/");\
-BOOTDEV=$(list-devices disk | grep -v "$USBDEV" | head -1);\
-debconf-set partman-auto/disk $BOOTDEV;\
-debconf-set grub-installer/bootdev $BOOTDEV; \
-umount /media;
-
 # Needed to make sure the partitioning scheme is usable with GPT systems
 d-i partman-partitioning/default_label string gpt 
 
