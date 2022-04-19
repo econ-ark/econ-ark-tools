@@ -56,9 +56,14 @@ d-i keyboard-configuration/xkb-keymap select us
 # Needed to make sure the partitioning scheme is usable with GPT systems
 d-i partman-partitioning/default_label string gpt 
 
+
+# Unmount active partitions, if any
+d-i partman/unmount_active boolean true  # Like, partition containing the installer
+d-i partman/unmount_active seen
+
 d-i partman-auto/init_automatically_partition select Guided - use entire disk
 
-d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
+# d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
 
 d-i partman-auto/expert_recipe string root-disk ::  \
     64 64 64 free                                   \
@@ -98,10 +103,6 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ ext4 }        \
         mountpoint{ / }                             \
        .
-
-# Unmount active partitions, if any
-d-i partman/unmount_active boolean true  # Like, partition containing the installer
-d-i partman/unmount_active seen
 
 # Tee up reasonable set of potential devices that might be used 
 d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
