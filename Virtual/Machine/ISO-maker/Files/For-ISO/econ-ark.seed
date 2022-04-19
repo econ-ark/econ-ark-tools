@@ -99,14 +99,15 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         mountpoint{ / }                             \
        .
 
-# Tee up reasonable set of potential devices that might be used 
-d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
-
-
-
 # Unmount active partitions, if any
 d-i partman/unmount_active boolean true  # Like, partition containing the installer
 d-i partman/unmount_active seen
+
+# Tee up reasonable set of potential devices that might be used 
+d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
+
+# Agree to finish
+d-i partman-partitioning/confirm_write_new_label boolean true
 
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
@@ -128,6 +129,7 @@ d-i netcfg/use_autoconfig boolean true # this is already the default
 # d-i netcfg/get_domain string unassigned-domain
 # d-i netcfg/get_hostname                                     string      {{hostname}}
 d-i netcfg/hostname                                     string      {{hostname}}
+d-i netcfg/hostname_seen                                true
 
 # We want the seed to work on systems with or without successful dhcp config
 # d-i netcfg/dhcp_failed note
