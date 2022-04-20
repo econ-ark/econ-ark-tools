@@ -28,12 +28,14 @@ d-i debian-installer/locale string en_US.UTF-8
 # countrychooser/shortlist=US
 # Disable automatic (interactive) keymap detection.
 
+d-i keyboard-configuration/xkb-keymap skip-config
 d-i console-setup/ask_detect boolean false
-d-i keyboard-configuration/xkb-keymap select us
-d-i keyboard-configuration/xkb-keymap seen
-d-i keymap select us
-d-i console-keymaps-at/select us
-d-i debconf/language string en_US:en				     
+
+# d-i keyboard-configuration/xkb-keymap select us
+# d-i keyboard-configuration/xkb-keymap seen
+# d-i keymap select us
+# d-i console-keymaps-at/select us
+# d-i debconf/language string en_US:en				     
 
 #d-i debian-installer/language string en
 #d-i debian-installer/country string US
@@ -60,8 +62,6 @@ d-i partman-partitioning/default_label string gpt
 # Unmount active partitions, if any
 d-i partman/unmount_active boolean true  # Like, partition containing the installer
 d-i partman/unmount_active seen
-
-d-i partman-auto/init_automatically_partition select Guided - use entire disk
 
 # d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
 
@@ -103,6 +103,9 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ ext4 }        \
         mountpoint{ / }                             \
        .
+
+d-i partman-auto/init_automatically_partition select Guided - use entire disk
+d-i partman-auto/init_automatically_partition seen true
 
 # Tee up reasonable set of potential devices that might be used 
 d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
@@ -169,9 +172,9 @@ d-i clock-setup/ntp                                         boolean     true
 
 # user account setup
 # DO NOT uncomment root-password lines: That disables sudo for main user
-#d-i passwd/root-password                                    password    {{pwhash}}
-#d-i passwd/root-password-again                              password    {{pwhash}}
-#d-i passwd/root-login                                       boolean     true
+d-i passwd/root-login                                       boolean     true
+d-i passwd/root-password                                    password    {{pwhash}}
+d-i passwd/root-password-again                              password    {{pwhash}}
 d-i passwd/make-user                                        boolean     true
 d-i passwd/user-fullname                                    string      {{username}}
 d-i passwd/username                                         string      {{username}}
