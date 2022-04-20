@@ -1,1 +1,1 @@
-restore priority high
+keymap skip-config; select entire disk
