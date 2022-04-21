@@ -1,1 +1,1 @@
-early_command: debconf-set partman/unmount active true
+Fix typo in early_command
