@@ -1,1 +1,1 @@
-remove automatically_partition seen and partman-auto/disk string
+early_command partman-autoo/disk; comment out all netcfg except wireless_show_essids select manual
