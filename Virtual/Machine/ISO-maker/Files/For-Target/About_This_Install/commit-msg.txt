@@ -1,1 +1,1 @@
-partman/unmount_active true as partman/early_command
+Unmount media in partman/early_command
