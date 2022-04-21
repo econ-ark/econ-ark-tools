@@ -1,1 +1,1 @@
-keymap skip-config; select entire disk
+partman-auto/init_automatically_partition seen true off
