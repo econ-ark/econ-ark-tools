@@ -1,1 +1,1 @@
-Remove d-i partmount later
+Move unmount to before disk
