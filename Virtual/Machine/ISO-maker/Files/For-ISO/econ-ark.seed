@@ -105,10 +105,10 @@ d-i partman-auto/expert_recipe string root-disk ::  \
        .
 
 d-i partman-auto/init_automatically_partition select Guided - use entire disk
-d-i partman-auto/init_automatically_partition seen true
+# d-i partman-auto/init_automatically_partition seen true
 
 # Tee up reasonable set of potential devices that might be used 
-d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
+d-i partman-auto/disk string /dev/sdb /dev/sdc /dev/sdd /dev/sde # assume sda is internal
 
 # Agree to finish
 # d-i partman-partitioning/confirm_write_new_label boolean true
@@ -118,7 +118,7 @@ d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 # d-i grub-installer/bootdev string default   # Default is to choose first available
 d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
 d-i grub-installer/with_other_os boolean true # find other potential os's
-d-i grub-installer/bootdev string /dev/sda
+# d-i grub-installer/bootdev string /dev/sda
 
 ## Force installation of EFI
 d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
