@@ -8,7 +8,7 @@
 
 d-i partman/early_command string \
     debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)" ;\
-    debconf-set partman/unmount_active true
+    debconf-set partman/unmount_active boolean true
 
     
 # Only ask critically important questions (at first)
@@ -66,8 +66,8 @@ d-i partman-partitioning/default_label string gpt
 
 
 # Unmount active partitions, if any
-d-i partman/unmount_active boolean true  # Like, partition containing the installer
-d-i partman/unmount_active seen
+# d-i partman/unmount_active boolean true  # Like, partition containing the installer
+#d-i partman/unmount_active seen
 
 # d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
 
