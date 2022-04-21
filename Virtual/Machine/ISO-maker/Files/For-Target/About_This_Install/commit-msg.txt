@@ -1,1 +1,1 @@
-Fix typo in early_command
+Remove d-i partmount later
