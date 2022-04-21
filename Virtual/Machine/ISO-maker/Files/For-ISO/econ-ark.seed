@@ -6,6 +6,9 @@
 #    . /usr/share/debconf/confmodule;\
 #    db_fset grub-installer/bootdev seen true;
 
+d-i partman/early_command \
+    string debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)"
+
 # Only ask critically important questions (at first)
 d-i debconf/priority select high
 
@@ -126,8 +129,8 @@ d-i grub-installer/no-uefi-secure-boot                     boolean     true
 d-i debconf/priority select high
 
 # Networking
-d-i netcfg/enable boolean true # this is already the default
-d-i netcfg/use_autoconfig boolean true # this is already the default
+#d-i netcfg/enable boolean true # this is already the default
+#d-i netcfg/use_autoconfig boolean true # this is already the default
 # d-i netcfg/get_domain string unassigned-domain
 # d-i netcfg/get_hostname                                     string      {{hostname}}
 d-i netcfg/hostname                                     string      {{hostname}}
