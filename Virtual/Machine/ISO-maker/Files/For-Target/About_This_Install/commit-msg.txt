@@ -1,1 +1,1 @@
-Move unmount to before disk
+partman/unmount_active true as partman/early_command
