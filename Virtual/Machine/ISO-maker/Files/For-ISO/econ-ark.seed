@@ -111,7 +111,7 @@ d-i partman-auto/init_automatically_partition seen true
 d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
 # Agree to finish
-d-i partman-partitioning/confirm_write_new_label boolean true
+# d-i partman-partitioning/confirm_write_new_label boolean true
 
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
@@ -214,9 +214,9 @@ d-i shared/default-x-display-manager                    select      lightdm
 # Finish
 d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging
 ## Comment all remaining lines to allow debugging by choosing to drop to shell at last moment before reboot
-# d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
-# d-i cdrom-detect/eject                                      boolean     false   # Eject virtual install ISO
-# d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
-# d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
+d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
+d-i cdrom-detect/eject                                      boolean     false   # Eject virtual install ISO
+d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
+d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
 
 # late_command is added by create-unattended-iso script
