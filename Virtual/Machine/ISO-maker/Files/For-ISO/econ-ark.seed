@@ -6,9 +6,11 @@
 #    . /usr/share/debconf/confmodule;\
 #    db_fset grub-installer/bootdev seen true;
 
-d-i partman/early_command \
-    string debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)"
+d-i partman/early_command string \
+    debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)" ;\
+    debconf-set partman/unmount_active true ;\
 
+    
 # Only ask critically important questions (at first)
 d-i debconf/priority select high
 
