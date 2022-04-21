@@ -1,1 +1,1 @@
-early_command partman-autoo/disk; comment out all netcfg except wireless_show_essids select manual
+early_command: debconf-set partman/unmount active true
