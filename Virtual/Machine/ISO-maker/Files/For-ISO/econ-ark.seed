@@ -56,6 +56,7 @@ d-i keyboard-configuration/xkb-keymap select us
 # d-i partman-efi/non_efi_system boolean true
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
+d-i partman-partitioning/choose_label string gpt 
 d-i partman-partitioning/default_label string gpt 
 
 
@@ -108,10 +109,7 @@ d-i partman-auto/init_automatically_partition select Guided - use entire disk
 # d-i partman-auto/init_automatically_partition seen true
 
 # Tee up reasonable set of potential devices that might be used 
-d-i partman-auto/disk string /dev/sdb /dev/sdc /dev/sdd /dev/sde # assume sda is internal
-
-# Agree to finish
-# d-i partman-partitioning/confirm_write_new_label boolean true
+# d-i partman-auto/disk string /dev/sdb /dev/sdc /dev/sdd /dev/sde # assume sda is internal
 
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
