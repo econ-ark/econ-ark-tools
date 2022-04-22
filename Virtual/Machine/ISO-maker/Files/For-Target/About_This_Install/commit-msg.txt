@@ -1,1 +1,1 @@
-Reduce maximal size to 32768
+Omit swap; make / as large as possible
