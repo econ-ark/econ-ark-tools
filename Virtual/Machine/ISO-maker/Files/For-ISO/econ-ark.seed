@@ -67,13 +67,13 @@ d-i keyboard-configuration/xkb-keymap select us
 # Unmount active partitions, if any
 d-i partman/unmount_active boolean true  # Like, partition containing the installer
 
-d-i partman-auto/init_automatically_partition select Guided - use entire disk
+# d-i partman-auto/init_automatically_partition select Guided - use entire disk
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
 # d-i partman-partitioning/choose_label string gpt 
 # d-i partman-partitioning/default_label string gpt 
 d-i partman-auto/disk string /dev/sdb /dev/sdc /dev/sdd /dev/sde
-# d-i partman-auto/method string regular
+d-i partman-auto/method string regular
 
 # Unmount active partitions, if any
 # d-i partman/unmount_active boolean true  # Like, partition containing the installer
