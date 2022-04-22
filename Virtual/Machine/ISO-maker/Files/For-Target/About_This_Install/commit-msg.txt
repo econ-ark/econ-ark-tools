@@ -1,1 +1,1 @@
-partman-ato/expert_recipe string root befor expert_recipe definition
+Remove partman-auto/method string regular
