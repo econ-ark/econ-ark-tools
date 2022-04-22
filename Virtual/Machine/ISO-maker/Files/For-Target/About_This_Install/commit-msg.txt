@@ -1,1 +1,1 @@
-Undo partman-auto/method string regular
+restore method string regular; remove init_automatically_partition
