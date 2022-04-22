@@ -68,7 +68,7 @@ d-i partman-auto/init_automatically_partition select Guided - use entire disk
 # Needed to make sure the partitioning scheme is usable with GPT systems
 # d-i partman-partitioning/choose_label string gpt 
 # d-i partman-partitioning/default_label string gpt 
-
+d-i partman-auto/disk /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
 # Unmount active partitions, if any
 # d-i partman/unmount_active boolean true  # Like, partition containing the installer
