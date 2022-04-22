@@ -63,9 +63,11 @@ d-i keyboard-configuration/xkb-keymap select us
 # Counterintuitively, the setting below forces it TO BE an efi system
 # d-i partman-efi/non_efi_system boolean true
 
+d-i partman-auto/init_automatically_partition select Guided - use entire disk
+
 # Needed to make sure the partitioning scheme is usable with GPT systems
-d-i partman-partitioning/choose_label string gpt 
-d-i partman-partitioning/default_label string gpt 
+# d-i partman-partitioning/choose_label string gpt 
+# d-i partman-partitioning/default_label string gpt 
 
 
 # Unmount active partitions, if any
@@ -113,7 +115,6 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         mountpoint{ / }                             \
        .
 
-d-i partman-auto/init_automatically_partition select Guided - use entire disk
 # d-i partman-auto/init_automatically_partition seen true
 
 # Tee up reasonable set of potential devices that might be used 
