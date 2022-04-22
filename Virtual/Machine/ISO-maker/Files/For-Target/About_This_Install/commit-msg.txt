@@ -1,1 +1,1 @@
-Make first partman command to unmount active partitions
+Move partman/unmount_active to early_command
