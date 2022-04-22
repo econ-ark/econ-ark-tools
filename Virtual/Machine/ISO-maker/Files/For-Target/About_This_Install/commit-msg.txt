@@ -1,1 +1,1 @@
-Actually add the partman-efi/non_efi_system boolean true change
+Fix partman method regular; remove choose root expert_recipe
