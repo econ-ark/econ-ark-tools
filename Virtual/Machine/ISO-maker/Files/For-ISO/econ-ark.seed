@@ -7,6 +7,7 @@
 #    db_fset grub-installer/bootdev seen true;
 
 d-i partman/early_command string \
+    debconf-set partman/unmount_active true  ;\
     debconf-set partman-auto/init_automatically_partition select Guided - use entire disk ;\
     debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)" ;\
     echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'` > /tmp/partman-auto_disk.txt 
@@ -64,7 +65,7 @@ d-i keyboard-configuration/xkb-keymap select us
 # d-i partman-efi/non_efi_system boolean true
 
 # Unmount active partitions, if any
-d-i partman/unmount_active boolean true  # Like, partition containing the installer
+#d-i partman/unmount_active boolean true  # Like, partition containing the installer
 
 d-i partman-auto/init_automatically_partition select Guided - use entire disk
 
