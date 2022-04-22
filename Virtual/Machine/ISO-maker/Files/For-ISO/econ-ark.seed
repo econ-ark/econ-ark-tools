@@ -81,7 +81,7 @@ d-i partman-auto/method string regular
 
 # d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
 
-d-i partman-auto/expert_recipe string root-disk ::  \
+d-i partman-auto/expert_recipe string root ::  \
     64 64 64 free                                   \
 	$gptonly{ }				    \
 	$reusemethod{ }				    \
@@ -119,6 +119,8 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ ext4 }        \
         mountpoint{ / }                             \
        .
+
+d-i partman-auto/choose_recipe select root
 
 # d-i partman-auto/init_automatically_partition seen true
 
