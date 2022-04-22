@@ -1,1 +1,1 @@
-partman-auto/choose_recipe select root
+partman-ato/expert_recipe string root befor expert_recipe definition
