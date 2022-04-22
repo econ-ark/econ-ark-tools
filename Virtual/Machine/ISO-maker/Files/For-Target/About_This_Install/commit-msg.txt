@@ -1,1 +1,1 @@
-Fix partman method regular; remove choose root expert_recipe
+Reduce maximal size to 32768
