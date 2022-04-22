@@ -1,1 +1,1 @@
-partman/auto disk /dev/sdb -> partman/auto disk string /dev/sdb; partman-auto/method string regular
+partman-auto/choose_recipe select root
