@@ -1,1 +1,1 @@
-Restore debconf-set partman-auto disk
+Disable unmount /media
