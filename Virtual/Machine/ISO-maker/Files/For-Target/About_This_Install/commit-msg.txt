@@ -1,1 +1,1 @@
-Remove partman-auto/method string regular
+Undo partman-auto/method string regular
