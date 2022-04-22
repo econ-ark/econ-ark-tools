@@ -1,1 +1,1 @@
-move init_automatically to before expert_recipie
+Restore partman-auto/disk /dev/sdb /dev/sdc /dev/sdd /dev/sde
