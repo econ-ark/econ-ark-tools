@@ -1,1 +1,1 @@
-Restore partman-auto/disk /dev/sdb /dev/sdc /dev/sdd /dev/sde
+Make first partman command to unmount active partitions
