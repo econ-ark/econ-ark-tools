@@ -78,17 +78,18 @@ d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume 
 # d-i partman-partitioning/choose_label string gpt 
 # d-i partman-partitioning/default_label string gpt 
 d-i partman-auto/disk string /dev/sdb /dev/sdc /dev/sdd /dev/sde
-d-i partman-auto/method string regular   # Not, say, encrypted or lvm
+# method regular : Not, say, encrypted or lvm
+d-i partman-auto/method string regular   
 
 # Unmount active partitions, if any
 # d-i partman/unmount_active boolean true  # Like, partition containing the installer
 #d-i partman/unmount_active seen
 
-# d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
+d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
 
-d-i partman-auto/choose_recipe select root
+# d-i partman-auto/choose_recipe select root
 
-d-i partman-auto/expert_recipe string root ::  \
+d-i partman-auto/expert_recipe string root-disk ::  \
     64 64 64 free                                   \
 	$gptonly{ }				    \
 	$reusemethod{ }				    \
