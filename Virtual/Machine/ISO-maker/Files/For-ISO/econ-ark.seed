@@ -7,8 +7,10 @@
 #    db_fset grub-installer/bootdev seen true;
 
 d-i partman/early_command string \
+    debconf-set partman-auto/init_automatically_partition select Guided - use entire disk ;\
     debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)" ;\
-    [ "$(mount | grep /media)" ] && umount /media || echo "no mounted partition found" > /tmp/early.log
+    echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'` > /tmp/partman-auto_disk.txt 
+#    [ "$(mount | grep /media)" ] && umount /media  
 
 #    debconf-set partman/unmount_active true \;
 
