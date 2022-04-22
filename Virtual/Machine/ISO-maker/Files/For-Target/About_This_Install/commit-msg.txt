@@ -1,1 +1,1 @@
-restore method string regular; remove init_automatically_partition
+Comment out partman/early_command
