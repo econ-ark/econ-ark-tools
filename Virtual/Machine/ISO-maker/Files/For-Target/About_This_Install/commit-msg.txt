@@ -1,1 +1,1 @@
-Comment out partman/early_command
+partman-efi/non_efi_system boolean true
