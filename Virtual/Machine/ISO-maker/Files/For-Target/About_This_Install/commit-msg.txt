@@ -1,1 +1,1 @@
-Move partman/unmount_active to early_command
+partman/auto disk /dev/sdb -> partman/auto disk string /dev/sdb; partman-auto/method string regular
