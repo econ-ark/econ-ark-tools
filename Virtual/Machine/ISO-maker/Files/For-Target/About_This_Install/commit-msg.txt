@@ -1,1 +1,1 @@
-Disable unmount /media
+move init_automatically to before expert_recipie
