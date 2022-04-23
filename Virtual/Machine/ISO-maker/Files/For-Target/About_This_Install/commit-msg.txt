@@ -1,1 +1,1 @@
-partman-auto/init_automatically_partition select Guided - use entire disk
+Remove partman-auto/method string lvm
