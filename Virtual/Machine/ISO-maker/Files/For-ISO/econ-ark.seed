@@ -81,7 +81,7 @@ d-i partman-auto-lvm/new_vg_name string xubuntu-vg
 # Needed to make sure the partitioning scheme is usable with GPT systems
 # d-i partman-partitioning/choose_label string gpt 
 # d-i partman-partitioning/default_label string gpt 
-d-i partman-auto/disk string /dev/sdc 
+#d-i partman-auto/disk string /dev/sdc 
 # method regular : Not, say, encrypted or lvm
 # d-i partman-auto/method string lvm
 
@@ -133,7 +133,6 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 # d-i partman-auto/init_automatically_partition seen true
 
 # Tee up reasonable set of potential devices that might be used 
-# d-i partman-auto/disk string /dev/sdb /dev/sdc /dev/sdd /dev/sde # assume sda is internal
 
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version

@@ -1,1 +1,1 @@
-grub-installer/bootdev string /dev/sdc
+Restore preseed to set partman-auto/disk to include only USB devices
