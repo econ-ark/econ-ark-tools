@@ -17,6 +17,7 @@
 
 d-i partman/early_command string \
     [ "$(mount | grep /media)" ] && umount /media
+
 # ;\
 #    debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)" ;\
 #    echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'` > /tmp/partman-auto_disk.txt 
