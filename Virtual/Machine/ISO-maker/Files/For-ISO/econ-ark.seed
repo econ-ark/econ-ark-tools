@@ -138,7 +138,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 # d-i grub-installer/bootdev string default   # Default is to choose first available
 d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
 d-i grub-installer/with_other_os boolean true # find other potential os's
-# d-i grub-installer/bootdev string /dev/sda
+d-i grub-installer/bootdev string /dev/sdc
 
 ## Force installation of EFI
 #d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
