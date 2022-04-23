@@ -1,1 +1,1 @@
-Fix lvm name (no # comment after!)
+Second instance of new_vg_name xubuntu-vg corrected
