@@ -1,1 +1,1 @@
-Second instance of new_vg_name xubuntu-vg corrected
+partman/early_command umount media
