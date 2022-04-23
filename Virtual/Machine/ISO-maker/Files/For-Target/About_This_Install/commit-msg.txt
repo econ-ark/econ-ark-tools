@@ -1,1 +1,1 @@
-Restore preseed to set partman-auto/disk to include only USB devices
+remove manual partman-auto/disk /dev/sdc
