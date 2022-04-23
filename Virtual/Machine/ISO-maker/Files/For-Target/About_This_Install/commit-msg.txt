@@ -1,1 +1,1 @@
-Min size / 16384
+Minimum size 8192; restore partman-auto/disks in partman-auto/early_command
