@@ -71,12 +71,12 @@ d-i keyboard-configuration/xkb-keymap select us
 # Unmount active partitions, if any
 d-i partman/unmount_active boolean true  # Like, partition containing the installer
 
-d-i partman-auto/init_automatically_partition select Guided - use entire disk
-# Counterintuitively, the setting below forces it TO BE an efi system
-# d-i partman-efi/non_efi_system boolean true
-
 # Set up for logical volume management
 d-i partman-auto-lvm/new_vg_name string xubuntu-vg
+
+d-i partman-auto/automatically_partition select Guided - use entire disk
+# Counterintuitively, the setting below forces it TO BE an efi system
+# d-i partman-efi/non_efi_system boolean true
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
 # d-i partman-partitioning/choose_label string gpt 
@@ -111,14 +111,13 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         $primary{ }                                 \
         $bootable{ }                                \
         label{ ESP }                                \
-#        method{ efi } format{ }                     \
         use_filesystem{ } filesystem{ fat32 }       \
         mountpoint{ /efi/boot }                     \
         .                                           \
     2048 4096 200% linux-swap                       \
     	$gptonly{ }				    \
         $lvmok{ }                                   \
-        in_vg { ubuntu-vg } lv_name{ swap_1 }       \
+        in_vg { xubuntu-vg } lv_name{ swap_1 }       \
         method{ swap } format{ }                    \
         .  	                                    \
     8192 32768 -1 ext4                        \
