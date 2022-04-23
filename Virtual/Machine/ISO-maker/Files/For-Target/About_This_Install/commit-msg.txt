@@ -1,1 +1,1 @@
-preseed guided use entire disk
+init_automatically_partition select Guided - use entire disk and set up LVM
