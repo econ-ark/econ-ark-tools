@@ -65,14 +65,15 @@ d-i keyboard-configuration/xkb-keymap select us
 # Can't preseed this because doesn't work on VirtualBox
 # d-i preseed/early_command string umount /media
 
+# Unmount active partitions, if any
+d-i partman/unmount_active boolean true  # Like, partition containing the installer
+
 d-i partman-auto/init_automatically_partition select select Guided - use entire disk and set up LVM
 # Counterintuitively, the setting below forces it TO BE an efi system
 # d-i partman-efi/non_efi_system boolean true
 
-# Unmount active partitions, if any
-d-i partman/unmount_active boolean true  # Like, partition containing the installer
-
-d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
+# Set up for logical volume management
+d-i partman-auto-lvm/new_vg_name string xubuntu-vg
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
 # d-i partman-partitioning/choose_label string gpt 
