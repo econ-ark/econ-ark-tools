@@ -1,1 +1,1 @@
-automatically_partition AND init_automatically_partition some_device
+priority critical ; do not explicitly invoke grub
