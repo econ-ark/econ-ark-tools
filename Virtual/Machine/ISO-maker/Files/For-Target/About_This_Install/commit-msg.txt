@@ -1,1 +1,1 @@
-Uncomment swap
+grub-installer/bootdev string /dev/sdc
