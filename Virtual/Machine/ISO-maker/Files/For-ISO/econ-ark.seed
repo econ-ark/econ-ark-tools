@@ -76,7 +76,7 @@ d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume 
 # Needed to make sure the partitioning scheme is usable with GPT systems
 # d-i partman-partitioning/choose_label string gpt 
 # d-i partman-partitioning/default_label string gpt 
-d-i partman-auto/disk string /dev/sdb /dev/sdc /dev/sdd /dev/sde
+# d-i partman-auto/disk string /dev/sdb /dev/sdc /dev/sdd /dev/sde
 # method regular : Not, say, encrypted or lvm
 d-i partman-auto/method string regular   
 
