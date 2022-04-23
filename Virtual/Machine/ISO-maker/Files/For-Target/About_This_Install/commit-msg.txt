@@ -1,1 +1,1 @@
-init_automatically_partition select Guided - use entire disk and set up LVM
+Disable EFI on created disk - only bios
