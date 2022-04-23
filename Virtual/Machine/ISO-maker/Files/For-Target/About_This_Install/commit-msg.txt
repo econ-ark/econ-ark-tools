@@ -1,1 +1,1 @@
-Fix bad partman/early_command
+automatically_partition AND init_automatically_partition some_device
