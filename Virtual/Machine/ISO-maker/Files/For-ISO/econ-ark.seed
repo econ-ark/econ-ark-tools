@@ -119,7 +119,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     #     in_vg { ubuntu-vg } lv_name{ swap_1 }       \
     #     method{ swap } format{ }                    \
     #     .  	                                    \
-    32768 32768 -1 ext4                        \
+    16384 32768 -1 ext4                        \
 	$gptonly{ }				    \
         $primary{ } $bootable{ }                    \
 	label{ root }                               \
