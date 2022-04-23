@@ -67,7 +67,7 @@ d-i keyboard-configuration/xkb-keymap select us
 
 d-i partman-auto/init_automatically_partition select select Guided - use entire disk and set up LVM
 # Counterintuitively, the setting below forces it TO BE an efi system
-d-i partman-efi/non_efi_system boolean true
+# d-i partman-efi/non_efi_system boolean true
 
 # Unmount active partitions, if any
 d-i partman/unmount_active boolean true  # Like, partition containing the installer
@@ -75,8 +75,8 @@ d-i partman/unmount_active boolean true  # Like, partition containing the instal
 d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
-d-i partman-partitioning/choose_label string gpt 
-d-i partman-partitioning/default_label string gpt 
+# d-i partman-partitioning/choose_label string gpt 
+# d-i partman-partitioning/default_label string gpt 
 d-i partman-auto/disk string /dev/sdc 
 # method regular : Not, say, encrypted or lvm
 d-i partman-auto/method string lvm
@@ -109,7 +109,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         $primary{ }                                 \
         $bootable{ }                                \
         label{ ESP }                                \
-        method{ efi } format{ }                     \
+#        method{ efi } format{ }                     \
         use_filesystem{ } filesystem{ fat32 }       \
         mountpoint{ /efi/boot }                     \
         .                                           \
@@ -141,8 +141,8 @@ d-i grub-installer/with_other_os boolean true # find other potential os's
 # d-i grub-installer/bootdev string /dev/sda
 
 ## Force installation of EFI
-d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
-d-i grub-installer/no-uefi-secure-boot                     boolean     true
+#d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
+#d-i grub-installer/no-uefi-secure-boot                     boolean     true
 
 # Networking is required under high but not critical
 d-i debconf/priority select high
