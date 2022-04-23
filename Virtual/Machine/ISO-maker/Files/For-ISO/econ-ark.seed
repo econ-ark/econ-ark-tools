@@ -16,9 +16,10 @@
 #     debconf-set partman-auto/init_automatically_partition select Guided - use entire disk 
 
 d-i partman/early_command string \
-    [ "$(mount | grep /media)" ] && umount /media  
-    debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)" ;\
-    echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'` > /tmp/partman-auto_disk.txt 
+    [ "$(mount | grep /media)" ] && umount /media
+# ;\
+#    debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)" ;\
+#    echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'` > /tmp/partman-auto_disk.txt 
 
 #    debconf-set partman/unmount_active true \;
 
@@ -74,7 +75,11 @@ d-i partman/unmount_active boolean true  # Like, partition containing the instal
 # Set up for logical volume management
 d-i partman-auto-lvm/new_vg_name string xubuntu-vg
 
-d-i partman-auto/automatically_partition select Guided - use entire disk
+# Guided - use entire disk
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-md/device_remove_md boolean true
+#d-i partman-auto/automatically_partition select some_device
+d-i partman-auto/init_automatically_partition select some_device
 # Counterintuitively, the setting below forces it TO BE an efi system
 # d-i partman-efi/non_efi_system boolean true
 
