@@ -1,1 +1,1 @@
-Do not set root password
+partman-auto/init_automatically_partition select some_device
