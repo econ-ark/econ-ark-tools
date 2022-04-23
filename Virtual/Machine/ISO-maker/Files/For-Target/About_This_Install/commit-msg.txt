@@ -1,1 +1,1 @@
-d-i partman-auto/disk string /dev/sdb
+preseed guided use entire disk

@@ -12,8 +12,8 @@
 #     debconf-set partman-auto/init_automatically_partition select Guided - use entire disk ;\
 #     echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'` > /tmp/partman-auto_disk.txt 
 
-d-i partman/early_command string \
-     debconf-set partman-auto/init_automatically_partition select Guided - use entire disk 
+#d-i partman/early_command string \
+#     debconf-set partman-auto/init_automatically_partition select Guided - use entire disk 
 
 #    [ "$(mount | grep /media)" ] && umount /media  
 
@@ -65,6 +65,7 @@ d-i keyboard-configuration/xkb-keymap select us
 # Can't preseed this because doesn't work on VirtualBox
 # d-i preseed/early_command string umount /media
 
+d-i partman-auto/init_automatically_partition select select Guided - use entire disk and set up LVM
 # Counterintuitively, the setting below forces it TO BE an efi system
 d-i partman-efi/non_efi_system boolean true
 
@@ -74,11 +75,11 @@ d-i partman/unmount_active boolean true  # Like, partition containing the instal
 d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume management
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
-# d-i partman-partitioning/choose_label string gpt 
-# d-i partman-partitioning/default_label string gpt 
+d-i partman-partitioning/choose_label string gpt 
+d-i partman-partitioning/default_label string gpt 
 d-i partman-auto/disk string /dev/sdc 
 # method regular : Not, say, encrypted or lvm
-d-i partman-auto/method string regular   
+d-i partman-auto/method string lvm
 
 # Unmount active partitions, if any
 # d-i partman/unmount_active boolean true  # Like, partition containing the installer
