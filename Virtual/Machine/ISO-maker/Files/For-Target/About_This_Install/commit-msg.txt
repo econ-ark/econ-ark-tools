@@ -1,1 +1,1 @@
-Remove partman-auto/method string lvm
+Uncomment swap
