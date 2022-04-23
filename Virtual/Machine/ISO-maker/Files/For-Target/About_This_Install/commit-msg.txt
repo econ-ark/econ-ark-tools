@@ -1,1 +1,1 @@
-partman-auto/init_automatically_partition select some_device
+Fix bad partman/early_command
