@@ -1,1 +1,1 @@
-remove partman-auto/disk sdb sdc sdd sde
+d-i partman-auto/disk string /dev/sdb
