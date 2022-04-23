@@ -15,7 +15,8 @@
 #d-i partman/early_command string \
 #     debconf-set partman-auto/init_automatically_partition select Guided - use entire disk 
 
-#    [ "$(mount | grep /media)" ] && umount /media  
+d-i partman/early_command string \
+    [ "$(mount | grep /media)" ] && umount /media  
 
 #    debconf-set partman/unmount_active true \;
 
