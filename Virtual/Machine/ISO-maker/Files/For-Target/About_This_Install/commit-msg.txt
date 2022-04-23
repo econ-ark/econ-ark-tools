@@ -1,1 +1,1 @@
-Disable EFI on created disk - only bios
+Fix lvm name (no # comment after!)
