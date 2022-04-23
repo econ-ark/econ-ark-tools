@@ -6,14 +6,14 @@
 #    . /usr/share/debconf/confmodule;\
 #    db_fset grub-installer/bootdev seen true;
 
-d-i partman/early_command string \
-      debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)" 
+#d-i partman/early_command string \
+#      debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)" 
 #     debconf-set partman/unmount_active true  ;\
 #     debconf-set partman-auto/init_automatically_partition select Guided - use entire disk ;\
 #     echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'` > /tmp/partman-auto_disk.txt 
 
-
-
+d-i partman/early_command string \
+     debconf-set partman-auto/init_automatically_partition select Guided - use entire disk 
 
 #    [ "$(mount | grep /media)" ] && umount /media  
 
@@ -76,7 +76,7 @@ d-i partman-auto-lvm/new_vg_name string xubuntu-vg  # Set up for logical volume 
 # Needed to make sure the partitioning scheme is usable with GPT systems
 # d-i partman-partitioning/choose_label string gpt 
 # d-i partman-partitioning/default_label string gpt 
-d-i partman-auto/disk string /dev/sdb 
+d-i partman-auto/disk string /dev/sdc 
 # method regular : Not, say, encrypted or lvm
 d-i partman-auto/method string regular   
 
