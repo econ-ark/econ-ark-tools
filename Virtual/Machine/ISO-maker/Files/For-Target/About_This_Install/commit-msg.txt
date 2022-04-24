@@ -1,1 +1,1 @@
-Remove wireless_show_essids select manual
+auto-install enable boolean false
