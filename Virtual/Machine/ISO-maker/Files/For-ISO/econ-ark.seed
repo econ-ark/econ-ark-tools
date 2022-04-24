@@ -24,6 +24,13 @@
 
 #    debconf-set partman/unmount_active true \;
 
+d-i netcfg/early_command string \
+    debconf-set netcfg/wireless_wep string
+
+#;\
+#    debconf-set netcfg/wireless_show_essids select manual
+    
+
 # Only ask critically important questions (at first)
 d-i debconf/priority select low
 
@@ -81,13 +88,18 @@ d-i keyboard-configuration/xkb-keymap select us
 
 # d-i netcfg/choose_interface select auto
 
-d-i netcfg/wireless_show_essids select manual
+#d-i hw-detect/load_firmware boolean true
+
+d-i netcfg/wireless_show_essids select
+#d-i netcfg/wireless_essid string llorraccNet
+#d-i netcfg/wireless_essid_again string llorraccNet
+#d-i netcfg/wireless_security_type wpa
+
 # d-i netcfg/hostname                                     string      {{hostname}}
 # d-i netcfg/hostname_seen                                true
 
 # d-i netcfg/get_hostname string unassigned-hostname
 # d-i netcfg/get_domain string unassigned-domain
-# d-i hw-detect/load_firmware boolean true
 
 # d-i nextcfg/dhcp_failed note
 # d-i netcfg/dhcp_options select Configure network manually
