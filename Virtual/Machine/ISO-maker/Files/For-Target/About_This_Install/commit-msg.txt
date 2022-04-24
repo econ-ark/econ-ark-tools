@@ -1,1 +1,1 @@
-disable_autoconfig boolean true
+comment out d-i netcfg/choose_interface select manual
