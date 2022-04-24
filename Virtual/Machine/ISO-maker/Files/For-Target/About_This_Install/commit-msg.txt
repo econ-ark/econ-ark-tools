@@ -1,1 +1,1 @@
-disable autoconfig=true
+disable_autoconfig boolean true
