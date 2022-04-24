@@ -1,1 +1,1 @@
-priority critical ; do not explicitly invoke grub
+netcfg/wireless_show_essids select manual
