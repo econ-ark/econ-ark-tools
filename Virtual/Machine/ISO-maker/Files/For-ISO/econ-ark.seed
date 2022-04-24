@@ -77,6 +77,8 @@ d-i keyboard-configuration/xkb-keymap select us
 # d-i netcfg/get_hostname                                     string      {{hostname}}
 
 # new
+d-i netcfg/disable_autoconfig=true
+
 d-i netcfg/choose_interface select manual
 
 d-i netcfg/hostname                                     string      {{hostname}}
