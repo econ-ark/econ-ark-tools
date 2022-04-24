@@ -15,8 +15,8 @@
 #d-i partman/early_command string \
 #     debconf-set partman-auto/init_automatically_partition select Guided - use entire disk 
 
-d-i partman/early_command string \
-    [ "$(mount | grep /media)" ] && umount /media
+# d-i partman/early_command string \
+#     [ "$(mount | grep /media)" ] && umount /media
 
 # ;\
 #    debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)" ;\
@@ -25,7 +25,7 @@ d-i partman/early_command string \
 #    debconf-set partman/unmount_active true \;
 
 # Only ask critically important questions (at first)
-d-i debconf/priority select high
+d-i debconf/priority select low
 
 # Show install info rather than eye candy
 d-i debian-installer/splash                                 boolean     false
@@ -35,7 +35,7 @@ d-i apt-setup/universe   boolean true     # Allow the universe of packages
 d-i apt-setup/extras     boolean true
 
 ### Automatic Installation
-d-i auto-install/enable boolean true
+#d-i auto-install/enable boolean true
 
 ### Localization
 d-i debian-installer/locale string en_US.UTF-8
@@ -69,6 +69,48 @@ d-i keyboard-configuration/xkb-keymap select us
 # Unmount installer medium (so it does not try to install over itself)
 # Can't preseed this because doesn't work on VirtualBox
 # d-i preseed/early_command string umount /media
+
+# Networking
+#d-i netcfg/enable boolean true # this is already the default
+#d-i netcfg/use_autoconfig boolean true # this is already the default
+# d-i netcfg/get_domain string unassigned-domain
+# d-i netcfg/get_hostname                                     string      {{hostname}}
+
+# new
+d-i netcfg/choose_interface select manual
+
+d-i netcfg/hostname                                     string      {{hostname}}
+d-i netcfg/hostname_seen                                true
+
+d-i netcfg/get_hostname string unassigned-hostname
+d-i netcfg/get_domain string unassigned-domain
+d-i hw-detect/load_firmware boolean true
+
+d-i nextcfg/dhcp_failed note
+d-i netcfg/dhcp_options select Configure network manually
+
+d-i netcfg/wireless_show_essids select manual
+d-i netcfg/wireless_security_type select wpa
+
+# We want the seed to work on systems with or without successful dhcp config
+# d-i netcfg/dhcp_failed note
+# d-i netcfg/dhcp_options select Configure network manually
+
+d-i netcfg/disable_autoconfig boolean true
+
+# d-i netcfg/choose_interface select wlan0
+d-i netcfg/wireless_show_essids select manual
+#d-i netcfg/wireless_essid string WPA_ESSID
+#d-i netcfg/wireless_essid_again string WPA_ESSID
+#d-i netcfg/wireless_security_type slect wpa
+#d-i netcfg/wireless_wpa string WPA_PASS
+
+#d-i netcfg/choose_interface select auto
+#d-i netcfg/use_autoconfig                                   boolean     false
+#d-i netcfg/get_hostname                                     string      {{hostname}}
+#d-i netcfg/choose_interface select manual
+# d-i netcfg/wireless_show_essids select manual
+
 
 # Unmount active partitions, if any
 d-i partman/unmount_active boolean true  # Like, partition containing the installer
@@ -153,33 +195,6 @@ d-i grub-installer/with_other_os boolean true # find other potential os's
 
 # Networking is required under high but not critical
 d-i debconf/priority select high
-
-# Networking
-#d-i netcfg/enable boolean true # this is already the default
-#d-i netcfg/use_autoconfig boolean true # this is already the default
-# d-i netcfg/get_domain string unassigned-domain
-# d-i netcfg/get_hostname                                     string      {{hostname}}
-d-i netcfg/hostname                                     string      {{hostname}}
-d-i netcfg/hostname_seen                                true
-
-# We want the seed to work on systems with or without successful dhcp config
-# d-i netcfg/dhcp_failed note
-# d-i netcfg/dhcp_options select Configure network manually
-
-d-i netcfg/disable_autoconfig boolean true
-
-# d-i netcfg/choose_interface select wlan0
-d-i netcfg/wireless_show_essids select manual
-#d-i netcfg/wireless_essid string WPA_ESSID
-#d-i netcfg/wireless_essid_again string WPA_ESSID
-#d-i netcfg/wireless_security_type slect wpa
-#d-i netcfg/wireless_wpa string WPA_PASS
-
-#d-i netcfg/choose_interface select auto
-#d-i netcfg/use_autoconfig                                   boolean     false
-#d-i netcfg/get_hostname                                     string      {{hostname}}
-#d-i netcfg/choose_interface select manual
-# d-i netcfg/wireless_show_essids select manual
 
 d-i debconf/priority select critical
 
