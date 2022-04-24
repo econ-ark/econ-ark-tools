@@ -1,0 +1,278 @@
+# ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
+# 20200807-2227h Works for VirtualBox, MacPro9,1, MacPro 5,1, VirtualBox Windows 10 envt
+
+# early_command to prevent asking whether to install grub
+#d-i partman/early_command string \
+#    . /usr/share/debconf/confmodule;\
+#    db_fset grub-installer/bootdev seen true;
+
+#d-i partman/early_command string \
+#      debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)" 
+#     debconf-set partman/unmount_active true  ;\
+#     debconf-set partman-auto/init_automatically_partition select Guided - use entire disk ;\
+#     echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'` > /tmp/partman-auto_disk.txt 
+
+#d-i partman/early_command string \
+#     debconf-set partman-auto/init_automatically_partition select Guided - use entire disk 
+
+# d-i partman/early_command string \
+#     [ "$(mount | grep /media)" ] && umount /media
+
+# ;\
+#    debconf-set partman-auto/disk "$(echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'`)" ;\
+#    echo /dev/`ls -l /sys/block/[hs]d* | grep "usb" | tail -n1 | sed 's/^.*\([hs]d[a-z]\+\).*$/\1/'` > /tmp/partman-auto_disk.txt 
+
+#    debconf-set partman/unmount_active true \;
+
+d-i netcfg/early_command string \
+    debconf-set netcfg/wireless_wep string
+
+#;\
+#    debconf-set netcfg/wireless_show_essids select manual
+    
+
+# Only ask critically important questions (at first)
+d-i debconf/priority select low
+
+# Show install info rather than eye candy
+d-i debian-installer/splash                                 boolean     false
+
+d-i apt-setup/restricted boolean true     # Allow installing restricted packages
+d-i apt-setup/universe   boolean true     # Allow the universe of packages 
+d-i apt-setup/extras     boolean true
+
+### Automatic Installation
+d-i auto-install/enable boolean false
+
+### Localization
+d-i debian-installer/locale string en_US.UTF-8
+
+# It is not possible to use preseeding to set language, country, and keyboard
+# Instead you must use kernel parameters
+# languagechooser/language-name=English
+# countrychooser/shortlist=US
+# Disable automatic (interactive) keymap detection.
+
+d-i keyboard-configuration/xkb-keymap skip-config
+d-i console-setup/ask_detect boolean false
+
+# d-i keyboard-configuration/xkb-keymap select us
+# d-i keyboard-configuration/xkb-keymap seen
+# d-i keymap select us
+# d-i console-keymaps-at/select us
+# d-i debconf/language string en_US:en				     
+
+#d-i debian-installer/language string en
+#d-i debian-installer/country string US
+
+# Keyboard
+d-i console-setup/ask_detect boolean false
+d-i keyboard-configuration/xkb-keymap select us
+# d-i keymap/skip-config
+
+#d-i console-setup/layoutcode string us
+#d-i console-setup/modelcode string skip-config
+
+# Unmount installer medium (so it does not try to install over itself)
+# Can't preseed this because doesn't work on VirtualBox
+# d-i preseed/early_command string umount /media
+
+# Networking
+#d-i netcfg/enable boolean true # this is already the default
+#d-i netcfg/use_autoconfig boolean true # this is already the default
+# d-i netcfg/get_domain string unassigned-domain
+# d-i netcfg/get_hostname                                     string      {{hostname}}
+
+# new
+#d-i netcfg/disable_autoconfig boolean true
+
+# d-i netcfg/choose_interface select auto
+
+#d-i hw-detect/load_firmware boolean true
+
+d-i netcfg/wireless_show_essids select
+#d-i netcfg/wireless_essid string llorraccNet
+#d-i netcfg/wireless_essid_again string llorraccNet
+#d-i netcfg/wireless_security_type wpa
+
+# d-i netcfg/hostname                                     string      {{hostname}}
+# d-i netcfg/hostname_seen                                true
+
+# d-i netcfg/get_hostname string unassigned-hostname
+# d-i netcfg/get_domain string unassigned-domain
+
+# d-i nextcfg/dhcp_failed note
+# d-i netcfg/dhcp_options select Configure network manually
+
+#d-i netcfg/wireless_security_type select wpa
+
+# We want the seed to work on systems with or without successful dhcp config
+# d-i netcfg/dhcp_failed note
+# d-i netcfg/dhcp_options select Configure network manually
+
+# d-i netcfg/disable_autoconfig boolean true
+
+# d-i netcfg/choose_interface select wlan0
+# d-i netcfg/wireless_show_essids select manual
+#d-i netcfg/wireless_essid string WPA_ESSID
+#d-i netcfg/wireless_essid_again string WPA_ESSID
+#d-i netcfg/wireless_security_type slect wpa
+#d-i netcfg/wireless_wpa string WPA_PASS
+
+#d-i netcfg/choose_interface select auto
+#d-i netcfg/use_autoconfig                                   boolean     false
+#d-i netcfg/get_hostname                                     string      {{hostname}}
+#d-i netcfg/choose_interface select manual
+# d-i netcfg/wireless_show_essids select manual
+
+
+# Unmount active partitions, if any
+d-i partman/unmount_active boolean true  # Like, partition containing the installer
+
+# Set up for logical volume management
+d-i partman-auto-lvm/new_vg_name string xubuntu-vg
+
+# Guided - use entire disk
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-md/device_remove_md boolean true
+d-i partman-md/confirm boolean true
+d-i partman-auto/automatically_partition select some_device
+d-i partman-auto/init_automatically_partition select some_device
+# Counterintuitively, the setting below forces it TO BE an efi system
+# d-i partman-efi/non_efi_system boolean true
+
+# Needed to make sure the partitioning scheme is usable with GPT systems
+# d-i partman-partitioning/choose_label string gpt 
+# d-i partman-partitioning/default_label string gpt 
+#d-i partman-auto/disk string /dev/sdc 
+# method regular : Not, say, encrypted or lvm
+# d-i partman-auto/method string lvm
+
+# Unmount active partitions, if any
+# d-i partman/unmount_active boolean true  # Like, partition containing the installer
+#d-i partman/unmount_active seen
+
+# d-i partman-auto/choose_recipe select root
+
+d-i partman-auto/expert_recipe string root-disk ::  \
+    64 64 64 free                                   \
+	$gptonly{ }				    \
+	$reusemethod{ }				    \
+	method{ biosgrub }                          \
+	.			                    \
+    1024 1024 1024 hfs                              \
+	$gptonly{ }				    \
+        $primary{ }                                 \
+	$bootable{ }                                \
+        label{ hfsplus }                            \
+        method{ keep } format{ }                    \
+        use_filesystem{ } filesystem{ hfs }         \
+        mountpoint{ /boot/hfsplus }                 \
+        .                                           \
+    512 512 512 fat32                               \
+	$gptonly{ }				    \
+        $primary{ }                                 \
+        $bootable{ }                                \
+        label{ ESP }                                \
+        use_filesystem{ } filesystem{ fat32 }       \
+        mountpoint{ /efi/boot }                     \
+        .                                           \
+    2048 4096 200% linux-swap                       \
+    	$gptonly{ }				    \
+        $lvmok{ }                                   \
+        in_vg { xubuntu-vg } lv_name{ swap_1 }       \
+        method{ swap } format{ }                    \
+        .  	                                    \
+    8192 32768 -1 ext4                        \
+	$gptonly{ }				    \
+        $primary{ } $bootable{ }                    \
+	label{ root }                               \
+        method{ format } format{ }                  \
+        use_filesystem{ } filesystem{ ext4 }        \
+        mountpoint{ / }                             \
+       .
+
+# d-i partman-auto/init_automatically_partition seen true
+
+# Tee up reasonable set of potential devices that might be used 
+
+# ### Grub
+# The commented-out commands all select where to put the MBR; we want an EFI-only version
+# d-i grub-installer/bootdev string default   # Default is to choose first available
+d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
+d-i grub-installer/with_other_os boolean true # find other potential os's
+
+## Force installation of EFI
+#d-i grub-efi-amd64 grub2/force_efi_extra_removable         boolean     true
+#d-i grub-installer/no-uefi-secure-boot                     boolean     true
+
+# Networking is required under high but not critical
+d-i debconf/priority select high
+
+d-i debconf/priority select critical
+
+# Allow nonfree drivers
+d-i hw-detect/load_firmware boolean true
+
+## mirror settings
+d-i mirror/country string manual
+d-i mirror/http/hostname string archive.ubuntu.com
+d-i mirror/http/directory string /ubuntu
+d-i mirror/http/proxy string
+
+# Clock and timezone settings
+d-i time/zone                                               string      {{timezone}}
+d-i clock-setup/utc                                         boolean     false
+d-i clock-setup/ntp                                         boolean     true
+
+# user account setup
+# DO NOT uncomment root-password lines: That disables sudo for main user
+# d-i passwd/root-login                                       boolean     true
+# d-i passwd/root-password                                    password    {{pwhash}}
+# d-i passwd/root-password-again                              password    {{pwhash}}
+d-i passwd/make-user                                        boolean     true
+d-i passwd/user-fullname                                    string      {{username}}
+d-i passwd/username                                         string      {{username}}
+d-i passwd/user-password-crypted                            password    {{pwhash}}
+d-i passwd/user-uid                                         string
+d-i user-setup/allow-password-weak                          boolean     false
+d-i passwd/user-default-groups                              string      adm cdrom dialout lpadmin plugdev sambashare vboxsf
+d-i user-setup/encrypt-home                                 boolean     false
+# allow login as root
+# d-i user-setup-udeb passwd/root-login boolean true
+
+# configure apt
+d-i apt-setup/restricted                                    boolean     true
+d-i apt-setup/universe                                      boolean     true
+d-i apt-setup/backports                                     boolean     true
+d-i apt-setup/services-select                               multiselect security
+d-i apt-setup/security_host                                 string      security.ubuntu.com
+d-i apt-setup/security_path                                 string      /ubuntu
+tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard is recommended for all installs
+tasksel tasksel/desktop                                     multiselect xfce # Selects, but does not install, xfce
+
+# Automatic update
+d-i pkgsel/updatedb                                         boolean     true
+d-i pkgsel/upgrade seen true
+d-i pkgsel/upgrade                                          select      safe-upgrade
+d-i pkgsel/upgrade seen true
+d-i pkgsel/update-policy select unattended-upgrades
+
+# Uncommenting line below to allow unattended upgrades caused crash
+#d-i pkgsel/update-policy                                    select      unattended-upgrades
+# d-i pkgsel/update-policy                                    select      none
+
+# Display manager
+d-i shared/default-x-display-manager                    select      lightdm
+
+
+# Finish
+d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging
+## Comment all remaining lines to allow debugging by choosing to drop to shell at last moment before reboot
+d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
+d-i cdrom-detect/eject                                      boolean     false   # Eject virtual install ISO
+d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
+d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
+
+# late_command is added by create-unattended-iso script
