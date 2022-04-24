@@ -1,1 +1,1 @@
-Remove dhcp_options select Configure network manually and d-i netcfg/wireless_security_type select wpa
+Remove wireless_show_essids select manual
