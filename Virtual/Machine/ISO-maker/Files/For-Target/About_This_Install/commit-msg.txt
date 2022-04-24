@@ -1,1 +1,1 @@
-restore netcfg/wireless_show_essids select manual
+remove manual from netcfg/wireless_show_essids
