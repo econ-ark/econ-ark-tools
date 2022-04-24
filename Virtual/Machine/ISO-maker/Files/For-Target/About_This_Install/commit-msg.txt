@@ -1,1 +1,1 @@
-auto-install enable boolean false
+netcfg/choose_interface select auto
