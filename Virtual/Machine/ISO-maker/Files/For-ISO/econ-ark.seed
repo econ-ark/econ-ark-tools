@@ -88,20 +88,20 @@ d-i netcfg/get_hostname string unassigned-hostname
 d-i netcfg/get_domain string unassigned-domain
 d-i hw-detect/load_firmware boolean true
 
-d-i nextcfg/dhcp_failed note
+# d-i nextcfg/dhcp_failed note
 # d-i netcfg/dhcp_options select Configure network manually
 
-d-i netcfg/wireless_show_essids select manual
+# d-i netcfg/wireless_show_essids select manual
 #d-i netcfg/wireless_security_type select wpa
 
 # We want the seed to work on systems with or without successful dhcp config
 # d-i netcfg/dhcp_failed note
 # d-i netcfg/dhcp_options select Configure network manually
 
-d-i netcfg/disable_autoconfig boolean true
+# d-i netcfg/disable_autoconfig boolean true
 
 # d-i netcfg/choose_interface select wlan0
-d-i netcfg/wireless_show_essids select manual
+# d-i netcfg/wireless_show_essids select manual
 #d-i netcfg/wireless_essid string WPA_ESSID
 #d-i netcfg/wireless_essid_again string WPA_ESSID
 #d-i netcfg/wireless_security_type slect wpa
