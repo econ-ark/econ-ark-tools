@@ -25,7 +25,7 @@ d-i partman/early_command string \
 #    debconf-set partman/unmount_active true \;
 
 # Only ask critically important questions (at first)
-d-i debconf/priority select critical
+d-i debconf/priority select high
 
 # Show install info rather than eye candy
 d-i debian-installer/splash                                 boolean     false
@@ -166,7 +166,7 @@ d-i netcfg/hostname_seen                                true
 # d-i netcfg/dhcp_failed note
 # d-i netcfg/dhcp_options select Configure network manually
 
-# d-i netcfg/disable_autoconfig boolean true
+d-i netcfg/disable_autoconfig boolean true
 
 # d-i netcfg/choose_interface select wlan0
 d-i netcfg/wireless_show_essids select manual
