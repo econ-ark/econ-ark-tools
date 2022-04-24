@@ -1,1 +1,1 @@
-comment out d-i netcfg/choose_interface select manual
+Remove dhcp_options select Configure network manually and d-i netcfg/wireless_security_type select wpa
