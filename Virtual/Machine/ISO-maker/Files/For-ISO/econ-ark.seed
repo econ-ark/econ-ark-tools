@@ -1,7 +1,7 @@
 # ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 
 d-i partman/early_command string \
-    [ "$(mount | grep /media)" ] && umount /media
+    [ $(mount | grep /media) ] && umount /media
 
 d-i keyboard-configuration/early_command string \
     debconf-set keyboard-configuration/xkb-keymap skipconfig
