@@ -1,1 +1,1 @@
-VirtualBox machine failed to reboot - remove kernel opts from preseed
+Remove double quotes from partman/preseed
