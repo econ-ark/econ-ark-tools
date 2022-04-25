@@ -1,1 +1,1 @@
-Add partition block
+Remove preseed; add partman/unmount_active
