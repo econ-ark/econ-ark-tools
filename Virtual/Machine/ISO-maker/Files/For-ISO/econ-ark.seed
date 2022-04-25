@@ -26,7 +26,7 @@ d-i apt-setup/universe   boolean true     # Allow the universe of packages
 d-i apt-setup/extras     boolean true
 
 ### Choose WPA security for WiFi
-d-i netcfg/wireless_security_type wpa
+d-i netcfg/wireless_security_type select wpa
 
 ### Preconfigure hostname
 d-i netcfg/get_domain string unassigned-domain
