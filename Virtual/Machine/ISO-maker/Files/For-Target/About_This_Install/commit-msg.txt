@@ -1,1 +1,1 @@
-Add finish and reboot (and configure lightdm)
+Undo partman/early_command unmount which fails on both arch without quotes
