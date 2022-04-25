@@ -1,1 +1,1 @@
-preseed partman/early_command Unmount /media
+Add partition block
