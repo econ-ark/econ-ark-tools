@@ -1,1 +1,1 @@
-Remove keyboard-configuration us
+preseed partman/early_command Unmount /media
