@@ -1,1 +1,1 @@
-WPA; get_domain; get_hostname; hostname; hostname_seen
+Autoconfigure user
