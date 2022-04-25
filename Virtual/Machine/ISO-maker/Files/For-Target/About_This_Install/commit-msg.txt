@@ -1,1 +1,1 @@
-Try simpler early_command to umount /media
+Try adding debconf-set for keyboard layout in preseed
