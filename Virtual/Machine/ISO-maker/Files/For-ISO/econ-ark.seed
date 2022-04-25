@@ -141,3 +141,8 @@ d-i pkgsel/upgrade                                          select      safe-upg
 d-i pkgsel/upgrade seen true
 d-i pkgsel/update-policy select unattended-upgrades
 
+# ### Grub
+# The commented-out commands all select where to put the MBR; we want an EFI-only version
+# d-i grub-installer/bootdev string default   # Default is to choose first available
+d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
+d-i grub-installer/with_other_os boolean true # find other potential os's
