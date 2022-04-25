@@ -1,1 +1,1 @@
-add grub options; restore preseed partman/early_command to unmount /media
+VirtualBox machine failed to reboot - remove kernel opts from preseed
