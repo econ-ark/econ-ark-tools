@@ -3,10 +3,11 @@
 # d-i partman/early_command string \
 #     [ "$(mount | grep /media)" ] && umount /media
 
-d-i preseed/early_command string umount /media || true
+d-i preseed/early_command string umount /media || true ;\
+    debconf-set keyboard-configuration/xkb-keymap skip-config
 
-d-i keyboard-configuration/early_command string \
-    debconf-set keyboard-configuration/xkb-keymap skipconfig
+# d-i keyboard-configuration/early_command string \
+#     debconf-set keyboard-configuration/xkb-keymap skip-config
 
 # Only ask critically important questions (at first)
 d-i debconf/priority select high
