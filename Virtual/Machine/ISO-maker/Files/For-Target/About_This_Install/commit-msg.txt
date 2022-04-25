@@ -1,1 +1,1 @@
-Add priority-medium and keyboard config
+Disable automatic (interactive) keymap
