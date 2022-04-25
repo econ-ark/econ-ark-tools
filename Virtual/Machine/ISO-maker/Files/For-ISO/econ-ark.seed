@@ -6,7 +6,9 @@
 d-i preseed/early_command string umount /media || true ;\
     debconf-set console-setup/ask_detect false ;\
     debconf-set keyboard-configuration/xkb-keymap skip-config ;\
-    debconf-set keyboard-configuration/layoutcode us
+    debconf-set console-setup/layoutcode us ;\
+    debconf-set console-setup/modelcode skip-config 
+    
 
 # d-i keyboard-configuration/early_command string \
 #     debconf-set keyboard-configuration/xkb-keymap skip-config
