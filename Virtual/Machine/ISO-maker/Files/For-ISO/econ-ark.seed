@@ -3,12 +3,11 @@
 # d-i partman/early_command string \
 #     [ "$(mount | grep /media)" ] && umount /media
 
-d-i preseed/early_command string umount /media || true ;\
+d-i preseed/early_command string \
     debconf-set console-setup/ask_detect false ;\
-    debconf-set keyboard-configuration/xkb-keymap skip-config ;\
     debconf-set console-setup/layoutcode us ;\
-    debconf-set console-setup/modelcode skip-config 
-    
+    debconf-set console-setup/modelcode skip-config ;\
+    umount /media || true 
 
 # d-i keyboard-configuration/early_command string \
 #     debconf-set keyboard-configuration/xkb-keymap skip-config
