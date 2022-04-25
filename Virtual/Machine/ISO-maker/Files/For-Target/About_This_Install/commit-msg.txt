@@ -1,1 +1,1 @@
-Undo partman/early_command unmount which fails on both arch without quotes
+Try simpler early_command to umount /media
