@@ -1,7 +1,7 @@
 # ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 
-d-i partman/early_command string \
-     [[ "$(mount | grep /media)" ]] && umount /media
+# d-i partman/early_command string \
+#      [[ "$(mount | grep /media)" ]] && umount /media
 
 # Only ask critically important questions (at first)
 d-i debconf/priority select high
@@ -51,7 +51,7 @@ d-i time/zone                                               string      {{timezo
 d-i clock-setup/utc                                         boolean     false
 d-i clock-setup/ntp                                         boolean     true
 
-# Unmount active partitions, if any
+### Unmount active partitions, if any
 d-i partman/unmount_active boolean true  # Like, partition containing the installer
 
 # Set up for logical volume management
