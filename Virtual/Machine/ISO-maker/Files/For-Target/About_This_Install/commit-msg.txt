@@ -1,1 +1,1 @@
-wireless_security_type select wpa
+Remove keyboard-configuration us
