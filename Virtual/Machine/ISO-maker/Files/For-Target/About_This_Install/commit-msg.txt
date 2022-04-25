@@ -1,1 +1,1 @@
-Remove preseed; add partman/unmount_active
+Preconfigure apt
