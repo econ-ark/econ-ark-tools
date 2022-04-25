@@ -1,1 +1,1 @@
-Disable automatic (interactive) keymap
+auto-install enable boolean true
