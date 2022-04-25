@@ -1,1 +1,1 @@
-Preconfigure apt
+restore partman/early_command and add automatic update of security
