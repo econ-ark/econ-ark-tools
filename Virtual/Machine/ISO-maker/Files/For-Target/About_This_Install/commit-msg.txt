@@ -1,1 +1,1 @@
-Remove double quotes from partman/preseed
+Add finish and reboot (and configure lightdm)
