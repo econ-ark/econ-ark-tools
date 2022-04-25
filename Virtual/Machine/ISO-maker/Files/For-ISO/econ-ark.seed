@@ -33,3 +33,13 @@ d-i netcfg/get_domain string unassigned-domain
 d-i netcfg/get_hostname string unassigned-hostname
 d-i netcfg/hostname                                     string      {{hostname}}
 d-i netcfg/hostname_seen                                true
+
+# user account setup
+# DO NOT uncomment root-password lines: That disables sudo for main user
+# d-i passwd/root-login                                       boolean     true
+# d-i passwd/root-password                                    password    {{pwhash}}
+# d-i passwd/root-password-again                              password    {{pwhash}}
+d-i passwd/make-user                                        boolean     true
+d-i passwd/user-fullname                                    string      {{username}}
+d-i passwd/username                                         string      {{username}}
+d-i passwd/user-password-crypted                            password    {{pwhash}}
