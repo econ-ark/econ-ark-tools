@@ -1,0 +1,151 @@
+# ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
+
+d-i partman/early_command string \
+    [ "$(mount | grep /media)" ] && umount /media
+
+d-i keyboard-configuration/early_command string \
+    debconf-set keyboard-configuration/xkb-keymap skipconfig
+
+# Only ask critically important questions (at first)
+d-i debconf/priority select high
+
+# auto-install allows installer to skip preseeded questions altogether
+d-i auto-install enable boolean true
+
+# Show install info rather than eye candy
+d-i debian-installer/splash                                 boolean     false
+
+### Localization
+d-i debian-installer/locale string en_US.UTF-8
+
+### Disable automatic (interactive) keymap detection.
+d-i keyboard-configuration/xkb-keymap skip-config
+d-i console-setup/ask_detect boolean false
+
+### Automatic Installation
+d-i auto-install/enable boolean false
+
+### Choose sources for software 
+d-i apt-setup/restricted boolean true     # Allow installing restricted packages
+d-i apt-setup/universe   boolean true     # Allow the universe of packages 
+d-i apt-setup/extras     boolean true
+
+### Choose WPA security for WiFi
+d-i netcfg/wireless_security_type select wpa
+
+### Preconfigure hostname
+d-i netcfg/get_domain string unassigned-domain
+d-i netcfg/get_hostname string unassigned-hostname
+d-i netcfg/hostname                                     string      {{hostname}}
+d-i netcfg/hostname_seen                                true
+
+### user account setup
+# DO NOT uncomment root-password lines: That disables sudo for main user
+# d-i passwd/root-login                                       boolean     true
+# d-i passwd/root-password                                    password    {{pwhash}}
+# d-i passwd/root-password-again                              password    {{pwhash}}
+d-i passwd/make-user                                        boolean     true
+d-i passwd/user-fullname                                    string      {{username}}
+d-i passwd/username                                         string      {{username}}
+d-i passwd/user-password-crypted                            password    {{pwhash}}
+
+### Clock and timezone settings
+d-i time/zone                                               string      {{timezone}}
+d-i clock-setup/utc                                         boolean     false
+d-i clock-setup/ntp                                         boolean     true
+
+### Unmount active partitions, if any
+d-i partman/unmount_active boolean true  # Like, partition containing the installer
+
+# Set up for logical volume management
+d-i partman-auto-lvm/new_vg_name string xubuntu-vg
+
+# Guided - use entire disk
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-md/device_remove_md boolean true
+d-i partman-md/confirm boolean true
+d-i partman-auto/automatically_partition select some_device
+d-i partman-auto/init_automatically_partition select some_device
+# Counterintuitively, the setting below forces it TO BE an efi system
+# d-i partman-efi/non_efi_system boolean true
+
+# Needed to make sure the partitioning scheme is usable with GPT systems
+# d-i partman-partitioning/choose_label string gpt 
+# d-i partman-partitioning/default_label string gpt 
+#d-i partman-auto/disk string /dev/sdc 
+# method regular : Not, say, encrypted or lvm
+# d-i partman-auto/method string lvm
+
+# Unmount active partitions, if any
+# d-i partman/unmount_active boolean true  # Like, partition containing the installer
+#d-i partman/unmount_active seen
+
+# d-i partman-auto/choose_recipe select root
+
+d-i partman-auto/expert_recipe string root-disk ::  \
+    64 64 64 free                                   \
+	$gptonly{ }				    \
+	$reusemethod{ }				    \
+	method{ biosgrub }                          \
+	.			                    \
+    1024 1024 1024 hfs                              \
+	$gptonly{ }				    \
+        $primary{ }                                 \
+	$bootable{ }                                \
+        label{ hfsplus }                            \
+        method{ keep } format{ }                    \
+        use_filesystem{ } filesystem{ hfs }         \
+        mountpoint{ /boot/hfsplus }                 \
+        .                                           \
+    512 512 512 fat32                               \
+	$gptonly{ }				    \
+        $primary{ }                                 \
+        $bootable{ }                                \
+        label{ ESP }                                \
+        use_filesystem{ } filesystem{ fat32 }       \
+        mountpoint{ /efi/boot }                     \
+        .                                           \
+    2048 4096 200% linux-swap                       \
+    	$gptonly{ }				    \
+        $lvmok{ }                                   \
+        in_vg { xubuntu-vg } lv_name{ swap_1 }       \
+        method{ swap } format{ }                    \
+        .  	                                    \
+    8192 32768 -1 ext4                        \
+	$gptonly{ }				    \
+        $primary{ } $bootable{ }                    \
+	label{ root }                               \
+        method{ format } format{ }                  \
+        use_filesystem{ } filesystem{ ext4 }        \
+        mountpoint{ / }                             \
+       .
+
+## mirror settings
+d-i mirror/country string manual
+d-i mirror/http/hostname string archive.ubuntu.com
+d-i mirror/http/directory string /ubuntu
+d-i mirror/http/proxy string
+
+### Configure apt 
+d-i apt-setup/services-select                               multiselect security
+d-i apt-setup/security_host                                 string      security.ubuntu.com
+d-i apt-setup/security_path                                 string      /ubuntu
+tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard is recommended for all installs
+tasksel tasksel/desktop                                     multiselect xfce # Selects, but does not install, xfce
+
+# Automatic update
+d-i pkgsel/updatedb                                         boolean     true
+d-i pkgsel/upgrade seen true
+d-i pkgsel/upgrade                                          select      safe-upgrade
+d-i pkgsel/upgrade seen true
+d-i pkgsel/update-policy select unattended-upgrades
+
+### Grub
+# The commented-out commands all select where to put the MBR; we want an EFI-only version
+# d-i grub-installer/bootdev string default   # Default is to choose first available
+d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
+d-i grub-installer/with_other_os boolean true # find other potential os's
+
+### Kernel options for boot in created machine
+d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash
