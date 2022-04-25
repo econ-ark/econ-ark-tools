@@ -1,1 +1,1 @@
-econ-ark.seed empty except for priority low
+Add priority-medium and keyboard config
