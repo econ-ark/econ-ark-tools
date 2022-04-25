@@ -2,8 +2,16 @@
     
 
 # Only ask critically important questions (at first)
-d-i debconf/priority select low
+d-i debconf/priority select medium
 
 # Show install info rather than eye candy
 d-i debian-installer/splash                                 boolean     false
+
+### Localization
+d-i debian-installer/locale string en_US.UTF-8
+
+### Automatic Installation
+d-i auto-install/enable boolean false
+d-i keyboard-configuration/xkb-keymap skip-config
+d-i console-setup/ask_detect boolean false
 

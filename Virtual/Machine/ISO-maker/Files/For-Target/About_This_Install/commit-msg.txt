@@ -1,1 +1,1 @@
-remove manual from netcfg/wireless_show_essids
+econ-ark.seed empty except for priority low
