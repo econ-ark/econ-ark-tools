@@ -1,1 +1,1 @@
-Try adding debconf-set for keyboard layout in preseed
+more preseeding of console and keyboard
