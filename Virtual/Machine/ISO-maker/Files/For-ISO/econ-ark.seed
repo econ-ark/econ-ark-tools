@@ -1,5 +1,8 @@
 # ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 
+d-i partman/early_command string \
+    [ "$(mount | grep /media)" ] && umount /media
+
 d-i keyboard-configuration/early_command string \
     debconf-set keyboard-configuration/xkb-keymap skipconfig
 
@@ -130,4 +133,11 @@ d-i apt-setup/security_host                                 string      security
 d-i apt-setup/security_path                                 string      /ubuntu
 tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard is recommended for all installs
 tasksel tasksel/desktop                                     multiselect xfce # Selects, but does not install, xfce
+
+# Automatic update
+d-i pkgsel/updatedb                                         boolean     true
+d-i pkgsel/upgrade seen true
+d-i pkgsel/upgrade                                          select      safe-upgrade
+d-i pkgsel/upgrade seen true
+d-i pkgsel/update-policy select unattended-upgrades
 
