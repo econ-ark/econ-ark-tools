@@ -1,7 +1,7 @@
 # ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 
-# d-i partman/early_command string \
-#      [[ "$(mount | grep /media)" ]] && umount /media
+d-i keyboard-configuration/early_command string \
+    debconf-set keyboard-configuration/xkb-keymap skipconfig
 
 # Only ask critically important questions (at first)
 d-i debconf/priority select high
@@ -117,4 +117,17 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ ext4 }        \
         mountpoint{ / }                             \
        .
+
+## mirror settings
+d-i mirror/country string manual
+d-i mirror/http/hostname string archive.ubuntu.com
+d-i mirror/http/directory string /ubuntu
+d-i mirror/http/proxy string
+
+### Configure apt 
+d-i apt-setup/services-select                               multiselect security
+d-i apt-setup/security_host                                 string      security.ubuntu.com
+d-i apt-setup/security_path                                 string      /ubuntu
+tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard is recommended for all installs
+tasksel tasksel/desktop                                     multiselect xfce # Selects, but does not install, xfce
 
