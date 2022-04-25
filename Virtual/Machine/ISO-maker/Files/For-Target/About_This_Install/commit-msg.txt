@@ -1,1 +1,1 @@
-auto-install enable boolean true
+WPA; get_domain; get_hostname; hostname; hostname_seen
