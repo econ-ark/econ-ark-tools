@@ -1,5 +1,8 @@
 # ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 
+d-i partman/early_command string \
+     [[ "$(mount | grep /media)" ]] && umount /media
+
 # Only ask critically important questions (at first)
 d-i debconf/priority select high
 
@@ -33,7 +36,7 @@ d-i netcfg/get_hostname string unassigned-hostname
 d-i netcfg/hostname                                     string      {{hostname}}
 d-i netcfg/hostname_seen                                true
 
-# user account setup
+### user account setup
 # DO NOT uncomment root-password lines: That disables sudo for main user
 # d-i passwd/root-login                                       boolean     true
 # d-i passwd/root-password                                    password    {{pwhash}}
@@ -42,3 +45,9 @@ d-i passwd/make-user                                        boolean     true
 d-i passwd/user-fullname                                    string      {{username}}
 d-i passwd/username                                         string      {{username}}
 d-i passwd/user-password-crypted                            password    {{pwhash}}
+
+### Clock and timezone settings
+d-i time/zone                                               string      {{timezone}}
+d-i clock-setup/utc                                         boolean     false
+d-i clock-setup/ntp                                         boolean     true
+
