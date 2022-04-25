@@ -24,3 +24,6 @@ d-i apt-setup/restricted boolean true     # Allow installing restricted packages
 d-i apt-setup/universe   boolean true     # Allow the universe of packages 
 d-i apt-setup/extras     boolean true
 
+# Disable automatic (interactive) keymap detection.
+d-i keyboard-configuration/xkb-keymap skip-config
+d-i console-setup/ask_detect boolean false
