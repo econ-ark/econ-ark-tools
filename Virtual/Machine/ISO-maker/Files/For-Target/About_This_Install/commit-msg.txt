@@ -1,1 +1,1 @@
-more preseeding of console and keyboard
+Move keyboard-configuration/xkb-keymap to kernel
