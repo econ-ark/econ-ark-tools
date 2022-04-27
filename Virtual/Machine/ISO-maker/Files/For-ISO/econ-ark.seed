@@ -90,10 +90,23 @@ d-i partman-auto/init_automatically_partition select some_device
 
 # d-i partman-auto/choose_recipe select root
 
+d-i partman-auto/disk string /dev/sda
+d-i partman-auto/method string regular
+###gpt
+d-i partman-basicfilesystems/choose_label string gpt
+d-i partman-basicfilesystems/default_label string gpt
+d-i partman-partitioning/choose_label string gpt
+d-i partman-partitioning/default_label string gpt
+d-i partman/choose_label string gpt
+d-i partman/default_label string gpt
+partman-partitioning partman-partitioning/choose_label select gpt
+
 d-i partman-auto/expert_recipe string root-disk ::  \
     64 64 64 free                                   \
 	$gptonly{ }				    \
+	$primary{ }				    \
 	$reusemethod{ }				    \
+	$bios_boot{ }                               \
 	method{ biosgrub }                          \
 	.			                    \
     512 512 512 fat32                               \
@@ -112,6 +125,18 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ ext4 }        \
         mountpoint{ / }                             \
        .
+
+d-i partman/confirm_write_new_label boolean true
+d-i partman/choose_partition        select  Finish partitioning and write changes to disk
+d-i partman/confirm         boolean true
+d-i partman-partitioning/confirm_copy   boolean true
+d-i partman/confirm_new_label       boolean true
+
+
+# This one makes grub-installer install to the MBR even if finds some other OS
+# too, which is less safe as it might not be able to boot that other OS.
+d-i     grub-installer/with_other_os    boolean true
+
 
 # originally partition 2
     # 1024 1024 1024 hfs                              \
@@ -133,7 +158,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     #     .  	                                    \
 
 # Should only assume /dev/sda on VirtualBox
-d-i grub-installer/bootdev string /dev/sda
+#d-i grub-installer/bootdev string /dev/sda
 
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
