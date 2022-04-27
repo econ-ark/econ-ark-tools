@@ -133,7 +133,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     #     .  	                                    \
 
 # Should only assume /dev/sda on VirtualBox
-# d-i grub/installer/bootdev string /dev/sda
+d-i grub-installer/bootdev string /dev/sda
 
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
