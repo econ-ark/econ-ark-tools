@@ -13,7 +13,7 @@ d-i preseed/early_command string \
 #     debconf-set keyboard-configuration/xkb-keymap skip-config
 
 # Only ask critically important questions (at first)
-d-i debconf/priority select high
+d-i debconf/priority select critical
 
 # auto-install allows installer to skip preseeded questions altogether
 d-i auto-install enable boolean true
@@ -63,8 +63,9 @@ d-i clock-setup/ntp                                         boolean     true
 ### Unmount active partitions, if any
 d-i partman/unmount_active boolean true  # Like, partition containing the installer
 
+# # # 
 # Set up for logical volume management
-d-i partman-auto-lvm/new_vg_name string xubuntu-vg
+# d-i partman-auto-lvm/new_vg_name string xubuntu-vg
 
 # Guided - use entire disk
 d-i partman-lvm/device_remove_lvm boolean true
@@ -95,15 +96,6 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 	$reusemethod{ }				    \
 	method{ biosgrub }                          \
 	.			                    \
-    1024 1024 1024 hfs                              \
-	$gptonly{ }				    \
-        $primary{ }                                 \
-	$bootable{ }                                \
-        label{ hfsplus }                            \
-        method{ keep } format{ }                    \
-        use_filesystem{ } filesystem{ hfs }         \
-        mountpoint{ /boot/hfsplus }                 \
-        .                                           \
     512 512 512 fat32                               \
 	$gptonly{ }				    \
         $primary{ }                                 \
@@ -112,12 +104,6 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ fat32 }       \
         mountpoint{ /efi/boot }                     \
         .                                           \
-    2048 4096 200% linux-swap                       \
-    	$gptonly{ }				    \
-        $lvmok{ }                                   \
-        in_vg { xubuntu-vg } lv_name{ swap_1 }       \
-        method{ swap } format{ }                    \
-        .  	                                    \
     8192 32768 -1 ext4                        \
 	$gptonly{ }				    \
         $primary{ } $bootable{ }                    \
@@ -126,6 +112,28 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ ext4 }        \
         mountpoint{ / }                             \
        .
+
+# originally partition 2
+    # 1024 1024 1024 hfs                              \
+    # 	$gptonly{ }				    \
+    #     $primary{ }                                 \
+    # 	$bootable{ }                                \
+    #     label{ hfsplus }                            \
+    #     method{ keep } format{ }                    \
+    #     use_filesystem{ } filesystem{ hfs }         \
+    #     mountpoint{ /boot/hfsplus }                 \
+    #     .                                           \
+
+# originally partition 4	
+    # 2048 4096 200% linux-swap                       \
+    # 	$gptonly{ }				    \
+    #     $lvmok{ }                                   \
+    #     in_vg { xubuntu-vg } lv_name{ swap_1 }       \
+    #     method{ swap } format{ }                    \
+    #     .  	                                    \
+
+# Should only assume /dev/sda on VirtualBox
+d-i grub/installer/bootdev string /dev/sda
 
 ## mirror settings
 d-i mirror/country string manual
