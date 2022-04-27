@@ -1,1 +1,1 @@
-github.com/nuada/ubuntu-pressed partitions-uefi-boot-root-swap.template
+github.com/nuada/ubuntu-preseed/partitions-uefi-boot-root-swap.template
