@@ -344,6 +344,8 @@ late_command+="chroot /target wget -O /var/local/late_command.sh $online/$ForTar
      chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
      chroot /target wget -O  /var/local/git_branch             $online/$ForTarget/git_branch ;\
      chroot /target chmod 755 /etc/default/grub       ;\
+     chroot /target update-grub ;\
+     chroot /target grub2-mkconfig ;\
      chroot /target mkdir -p /var/local/About_This_Install                                              ;\
      chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
      chroot /target wget -O  /var/local/About_This_Install/short.git-hash     $online/$ForTarget/About_This_Install/short.git-hash ;\
