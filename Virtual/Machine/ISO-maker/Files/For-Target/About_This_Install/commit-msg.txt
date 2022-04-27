@@ -1,1 +1,1 @@
-Remove pause in ./create
+add backup bad version of seed
