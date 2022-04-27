@@ -102,18 +102,20 @@ d-i partman/default_label string gpt
 partman-partitioning partman-partitioning/choose_label select gpt
 
 d-i partman-auto/expert_recipe string root-disk ::  \
-    64 64 64 free                                   \
-	$gptonly{ }				    \
-	$primary{ }				    \
-	$reusemethod{ }				    \
+    1 1 1 free                                   \
 	$bios_boot{ }                               \
 	method{ biosgrub }                          \
 	.			                    \
-    512 512 512 fat32                               \
-	$gptonly{ }				    \
+    200 200 200 fat32                               \
         $primary{ }                                 \
-        $bootable{ }                                \
+        $method{ efi }                              \
+	$format{ } \
+        .                                           \
+    512 512 512 fat32                               \
+        $primary{ }                                 \
+        $bootable{ }                                 \
         label{ ESP }                                \
+        $method{ efi }                              \
         use_filesystem{ } filesystem{ fat32 }       \
         mountpoint{ /efi/boot }                     \
         .                                           \
@@ -132,11 +134,10 @@ d-i partman/confirm         boolean true
 d-i partman-partitioning/confirm_copy   boolean true
 d-i partman/confirm_new_label       boolean true
 
-
-# This one makes grub-installer install to the MBR even if finds some other OS
-# too, which is less safe as it might not be able to boot that other OS.
-d-i     grub-installer/with_other_os    boolean true
-
+# originally partition 1
+#	$gptonly{ }				    \
+	# $primary{ }				    \
+	# $reusemethod{ }				    \
 
 # originally partition 2
     # 1024 1024 1024 hfs                              \
