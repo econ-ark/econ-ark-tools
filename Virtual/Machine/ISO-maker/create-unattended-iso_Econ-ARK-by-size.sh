@@ -288,9 +288,6 @@ echo "$cmd"
 ( rsync -rai --delete $iso_make/iso_org/ $iso_make/iso_new ) &
 spinner $!
 
-echo 'pausing'
-read answer
-
 # copy the seed file to the iso
 cmd="cp -rT $pathToScript/$ForISO/$seed_file $iso_make/iso_new/preseed/$seed_file"
 echo "$cmd"
