@@ -1,1 +1,1 @@
-grub-installer/bootdev string /dev/sda
+https://lists.debian.org/debian-user/2021/05/msg02708.html
