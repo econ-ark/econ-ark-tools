@@ -1,1 +1,1 @@
-add backup bad version of seed
+Restore grub-installer/only_debian boolean true; grub-installer/with_other_os bolean true
