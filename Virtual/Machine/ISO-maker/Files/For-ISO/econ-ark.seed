@@ -28,9 +28,6 @@ d-i debian-installer/locale string en_US.UTF-8
 d-i keyboard-configuration/xkb-keymap skip-config
 d-i console-setup/ask_detect boolean false
 
-### Automatic Installation
-d-i auto-install/enable boolean false
-
 ### Choose sources for software 
 d-i apt-setup/restricted boolean true     # Allow installing restricted packages
 d-i apt-setup/universe   boolean true     # Allow the universe of packages 
@@ -90,7 +87,7 @@ d-i partman-auto/init_automatically_partition select some_device
 
 # d-i partman-auto/choose_recipe select root
 
-d-i partman-auto/disk string /dev/sda
+d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 d-i partman-auto/method string regular
 ###gpt
 d-i partman-basicfilesystems/choose_label string gpt
@@ -165,7 +162,7 @@ d-i partman/confirm_new_label       boolean true
 
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
-# d-i grub-installer/bootdev string default   # Default is to choose first available
+d-i grub-installer/bootdev string default   # Default is to choose first available
 d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
 d-i grub-installer/with_other_os boolean true # find other potential os's
 
