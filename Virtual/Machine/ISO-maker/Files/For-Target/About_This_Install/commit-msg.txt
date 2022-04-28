@@ -1,1 +1,1 @@
-escape $ in sd=
+escape more $
