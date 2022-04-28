@@ -1,1 +1,1 @@
-sd=$(cat /tmp/dev | cut -d " " -f1 | sed "s/.$//")
+remove sudo before chroot
