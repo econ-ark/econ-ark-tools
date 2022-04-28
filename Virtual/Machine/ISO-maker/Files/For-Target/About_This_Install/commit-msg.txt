@@ -1,1 +1,1 @@
-sd=$(chroot /target df -hT | grep /$ | cut -d " " -f1 | sed "s/.$/:)
+sd=$(cat /tmp/dev | cut -d " " -f1 | sed "s/.$//")
