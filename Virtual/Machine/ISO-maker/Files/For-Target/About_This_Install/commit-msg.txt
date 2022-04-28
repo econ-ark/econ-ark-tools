@@ -1,1 +1,1 @@
-pause 5m at end of late_command to allow exploration
+correct command is sleep not pause
