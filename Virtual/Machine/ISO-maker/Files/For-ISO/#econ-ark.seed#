@@ -1,0 +1,211 @@
+# ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
+
+# d-i partman/early_command string \
+#     [ "$(mount | grep /media)" ] && umount /media
+
+d-i preseed/early_command string \
+    debconf-set console-setup/ask_detect false ;\
+    debconf-set console-setup/layoutcode us ;\
+    debconf-set console-setup/modelcode skip-config ;\
+    umount /media || true 
+
+# d-i keyboard-configuration/early_command string \
+#     debconf-set keyboard-configuration/xkb-keymap skip-config
+
+# Only ask critically important questions (at first)
+d-i debconf/priority select critical
+
+# auto-install allows installer to skip preseeded questions altogether
+d-i auto-install enable boolean true
+
+# Show install info rather than eye candy
+d-i debian-installer/splash                                 boolean     false
+
+### Localization
+d-i debian-installer/locale string en_US.UTF-8
+
+### Disable automatic (interactive) keymap detection.
+d-i keyboard-configuration/xkb-keymap skip-config
+d-i console-setup/ask_detect boolean false
+
+### Choose sources for software 
+d-i apt-setup/restricted boolean true     # Allow installing restricted packages
+d-i apt-setup/universe   boolean true     # Allow the universe of packages 
+d-i apt-setup/extras     boolean true
+
+### Choose WPA security for WiFi
+d-i netcfg/wireless_security_type select wpa
+
+### Preconfigure hostname
+d-i netcfg/get_domain string unassigned-domain
+d-i netcfg/get_hostname string unassigned-hostname
+d-i netcfg/hostname                                     string      {{hostname}}
+d-i netcfg/hostname_seen                                true
+
+### user account setup
+# DO NOT uncomment root-password lines: That disables sudo for main user
+# d-i passwd/root-login                                       boolean     true
+# d-i passwd/root-password                                    password    {{pwhash}}
+# d-i passwd/root-password-again                              password    {{pwhash}}
+d-i passwd/make-user                                        boolean     true
+d-i passwd/user-fullname                                    string      {{username}}
+d-i passwd/username                                         string      {{username}}
+d-i passwd/user-password-crypted                            password    {{pwhash}}
+
+### Clock and timezone settings
+d-i time/zone                                               string      {{timezone}}
+d-i clock-setup/utc                                         boolean     false
+d-i clock-setup/ntp                                         boolean     true
+
+### Unmount active partitions, if any
+d-i partman/unmount_active boolean true  # Like, partition containing the installer
+
+# # # 
+# Set up for logical volume management
+# d-i partman-auto-lvm/new_vg_name string xubuntu-vg
+
+# Guided - use entire disk
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-md/device_remove_md boolean true
+d-i partman-md/confirm boolean true
+d-i partman-auto/automatically_partition select some_device
+d-i partman-auto/init_automatically_partition select some_device
+# Counterintuitively, the setting below forces it TO BE an efi system
+# d-i partman-efi/non_efi_system boolean true
+
+# Needed to make sure the partitioning scheme is usable with GPT systems
+# d-i partman-partitioning/choose_label string gpt 
+# d-i partman-partitioning/default_label string gpt 
+#d-i partman-auto/disk string /dev/sdc 
+# method regular : Not, say, encrypted or lvm
+# d-i partman-auto/method string lvm
+
+# Unmount active partitions, if any
+# d-i partman/unmount_active boolean true  # Like, partition containing the installer
+#d-i partman/unmount_active seen
+
+# d-i partman-auto/choose_recipe select root
+
+d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
+d-i partman-auto/method string regular
+###gpt
+d-i partman-basicfilesystems/choose_label string gpt
+d-i partman-basicfilesystems/default_label string gpt
+d-i partman-partitioning/choose_label string gpt
+d-i partman-partitioning/default_label string gpt
+d-i partman/choose_label string gpt
+d-i partman/default_label string gpt
+
+d-i partman-efi/non_efi_system boolean true
+
+d-i partman-auto/expert_recipe string root-disk ::  \
+    1 1 1 free                                   \
+	$bios_boot{ }                               \
+	method{ biosgrub }                          \
+	.			                    \
+    200 200 200 fat32                               \
+        $primary{ }                                 \
+        $method{ efi }                              \
+	$format{ } \
+        .                                           \
+    512 512 512 fat32                               \
+        $primary{ }                                 \
+        $bootable{ }                                 \
+        label{ ESP }                                \
+        $method{ efi }                              \
+        use_filesystem{ } filesystem{ fat32 }       \
+        mountpoint{ /efi/boot }                     \
+        .                                           \
+    8192 32768 -1 ext4                        \
+	$gptonly{ }				    \
+        $primary{ } $bootable{ }                    \
+	label{ root }                               \
+        method{ format } format{ }                  \
+        use_filesystem{ } filesystem{ ext4 }        \
+        mountpoint{ / }                             \
+       .
+d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
+
+d-i partman/confirm_write_new_label boolean true
+d-i partman/choose_partition        select  Finish partitioning and write changes to disk
+d-i partman/confirm         boolean true
+d-i partman-partitioning/confirm_copy   boolean true
+d-i partman/confirm_new_label       boolean true
+
+# originally partition 1
+#	$gptonly{ }				    \
+	# $primary{ }				    \
+	# $reusemethod{ }				    \
+
+# originally partition 2
+    # 1024 1024 1024 hfs                              \
+    # 	$gptonly{ }				    \
+    #     $primary{ }                                 \
+    # 	$bootable{ }                                \
+    #     label{ hfsplus }                            \
+    #     method{ keep } format{ }                    \
+    #     use_filesystem{ } filesystem{ hfs }         \
+    #     mountpoint{ /boot/hfsplus }                 \
+    #     .                                           \
+
+# originally partition 4	
+    # 2048 4096 200% linux-swap                       \
+    # 	$gptonly{ }				    \
+    #     $lvmok{ }                                   \
+    #     in_vg { xubuntu-vg } lv_name{ swap_1 }       \
+    #     method{ swap } format{ }                    \
+    #     .  	                                    \
+
+# Should only assume /dev/sda on VirtualBox
+#d-i grub-installer/bootdev string /dev/sda
+
+# ### Grub
+# The commented-out commands all select where to put the MBR; we want an EFI-only version
+d-i grub-installer/bootdev string /dev/sda   # Default is to choose first available
+d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
+d-i grub-installer/with_other_os boolean true # find other potential os's
+
+
+## mirror settings
+d-i mirror/country string manual
+d-i mirror/http/hostname string archive.ubuntu.com
+d-i mirror/http/directory string /ubuntu
+d-i mirror/http/proxy string
+
+### Configure apt 
+d-i apt-setup/services-select                               multiselect security
+d-i apt-setup/security_host                                 string      security.ubuntu.com
+d-i apt-setup/security_path                                 string      /ubuntu
+tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard is recommended for all installs
+tasksel tasksel/desktop                                     multiselect xfce # Selects, but does not install, xfce
+
+# Automatic update
+d-i pkgsel/updatedb                                         boolean     true
+d-i pkgsel/upgrade seen true
+d-i pkgsel/upgrade                                          select      safe-upgrade
+d-i pkgsel/upgrade seen true
+d-i pkgsel/update-policy select unattended-upgrades
+
+### Grub
+# The commented-out commands all select where to put the MBR; we want an EFI-only version
+# d-i grub-installer/bootdev string default   # Default is to choose first available
+d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
+d-i grub-installer/with_other_os boolean true # find other potential os's
+
+### Kernel options for boot in created machine
+# d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash
+
+# Display manager
+d-i shared/default-x-display-manager                    select      lightdm
+
+
+# Finish
+d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging
+## Comment all remaining lines to allow debugging by choosing to drop to shell at last moment before reboot
+d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
+d-i cdrom-detect/eject                                      boolean     false   # Eject virtual install ISO
+d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
+d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
+
+# late_command is added by create-unattended-iso script
