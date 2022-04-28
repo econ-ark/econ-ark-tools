@@ -127,6 +127,7 @@ d-i partman/choose_partition        select  Finish partitioning and write change
 d-i partman/confirm         boolean true
 d-i partman-partitioning/confirm_copy   boolean true
 d-i partman/confirm_new_label       boolean true
+d-i partman-auto/method string regular
 
 # originally fat_32 partition
 # originally partition 1
