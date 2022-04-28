@@ -1,1 +1,1 @@
-partman-auto/method string regular
+Add grub-install to late_command
