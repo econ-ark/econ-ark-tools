@@ -355,7 +355,8 @@ late_command+="    mount --bind /dev /target/dev ;\
     cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
     cat /tmp/target-dev ;\
     sd=\$(cat /tmp/target-dev) ;\
-    chroot /target grub-install $sd ;\ 
+    echo \$sd ;\
+    chroot /target grub-install \$sd ;\ 
     chroot /target mkdir -p /var/local/About_This_Install ;\
     chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
     chroot /target wget -O  /var/local/About_This_Install/short.git-hash     $online/$ForTarget/About_This_Install/short.git-hash ;\
