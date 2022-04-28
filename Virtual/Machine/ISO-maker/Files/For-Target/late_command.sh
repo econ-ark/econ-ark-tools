@@ -14,7 +14,11 @@ mount --bind /dev /target/dev
  wget -O /etc/default/grub https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/grub 
  wget -O /var/local/git_branch https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/git_branch 
  chmod 755 /etc/default/grub 
- df -hT > /tmp/dev 
+ df -hT > /tmp/target-partition 
+ cat /tmp/target-partition | grep /$ 
+ cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 
+ cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
+ cat /tmp/target-dev 
  sd= 
  grub-install 
 \ mkdir -p /var/local/About_This_Install 
