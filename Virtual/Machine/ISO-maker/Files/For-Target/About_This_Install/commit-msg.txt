@@ -1,1 +1,1 @@
-grub-install [filesystem of /target]
+sd=$(chroot /target df -hT | grep /$ | cut -d " " -f1 | sed "s/.$/:)
