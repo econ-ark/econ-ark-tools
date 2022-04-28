@@ -9,8 +9,9 @@
  wget -O /etc/default/grub https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/grub 
  wget -O /var/local/git_branch https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/git_branch 
  chmod 755 /etc/default/grub 
- grub-install /dev/sda 
- mkdir -p /var/local/About_This_Install 
+ sd= 
+ grub-install 
+\ mkdir -p /var/local/About_This_Install 
  wget -O /var/local/About_This_Install/commit-msg.txt https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/commit-msg.txt 
  wget -O /var/local/About_This_Install/short.git-hash https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/short.git-hash 
  chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh 
@@ -18,4 +19,4 @@
  rm -f /var/local/Size-To-Make 
  rm -f /var/local/Size-To-Make 
  touch /var/local/Size-To-Make 
- sleep 60m
+ sleep 24h
