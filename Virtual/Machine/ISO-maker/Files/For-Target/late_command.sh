@@ -17,4 +17,5 @@
  chmod a+x /etc/rc.local 
  rm -f /var/local/Size-To-Make 
  rm -f /var/local/Size-To-Make 
- touch /var/local/Size-To-Make
+ touch /var/local/Size-To-Make 
+ pause sleep 5m

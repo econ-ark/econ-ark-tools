@@ -352,7 +352,8 @@ late_command+="chroot /target wget -O /var/local/late_command.sh $online/$ForTar
      chroot /target chmod a+x /etc/rc.local ;\
      chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
      chroot /target rm    -f /var/local/Size-To-Make-Is-MAX ;\
-     chroot /target touch /var/local/Size-To-Make-Is-$size "
+     chroot /target touch /var/local/Size-To-Make-Is-$size ;\
+     chroot /target pause sleep 5m"
 
 #     chroot /target update-grub ;\
 #     chroot /target grub2-mkconfig ;\
