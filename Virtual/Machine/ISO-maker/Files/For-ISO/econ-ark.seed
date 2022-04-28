@@ -104,11 +104,6 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 	$bios_boot{ }                               \
 	method{ biosgrub }                          \
 	.			                    \
-    200 200 200 fat32                               \
-        $primary{ }                                 \
-        $method{ efi }                              \
-	$format{ } \
-        .                                           \
     512 512 512 fat32                               \
         $primary{ }                                 \
         $bootable{ }                                 \
@@ -125,14 +120,15 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         use_filesystem{ } filesystem{ ext4 }        \
         mountpoint{ / }                             \
        .
-d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 
+d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 d-i partman/confirm_write_new_label boolean true
 d-i partman/choose_partition        select  Finish partitioning and write changes to disk
 d-i partman/confirm         boolean true
 d-i partman-partitioning/confirm_copy   boolean true
 d-i partman/confirm_new_label       boolean true
 
+# originally fat_32 partition
 # originally partition 1
 #	$gptonly{ }				    \
 	# $primary{ }				    \
@@ -165,7 +161,7 @@ d-i partman/confirm_new_label       boolean true
 d-i grub-installer/bootdev string /dev/sda   # Default is to choose first available
 d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
 d-i grub-installer/with_other_os boolean true # find other potential os's
-
+d-i grub-installer/no-uefi-secure-boot boolean true
 
 ## mirror settings
 d-i mirror/country string manual
