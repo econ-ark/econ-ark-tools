@@ -344,7 +344,8 @@ late_command+="chroot /target wget -O /var/local/late_command.sh $online/$ForTar
      chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
      chroot /target wget -O  /var/local/git_branch             $online/$ForTarget/git_branch ;\
      chroot /target chmod 755 /etc/default/grub ;\
-     sd=$(chroot /target df -hT | grep /$ | cut -d ' ' -f1 | sed 's/.$//') ;\
+     sudo chroot /target df -hT > /tmp/dev ;\
+     sd=$(cat /tmp/dev | grep /$ | cut -d ' ' -f1 | sed 's/.$//') ;\
      chroot /target grub-install $sd ;\ 
      chroot /target mkdir -p /var/local/About_This_Install                                              ;\
      chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
