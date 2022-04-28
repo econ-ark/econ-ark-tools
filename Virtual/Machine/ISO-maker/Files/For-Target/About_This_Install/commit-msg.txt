@@ -1,1 +1,1 @@
-remove sudo before chroot
+add mount --bind to late_command
