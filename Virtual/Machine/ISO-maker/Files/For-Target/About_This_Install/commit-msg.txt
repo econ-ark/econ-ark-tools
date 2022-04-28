@@ -1,1 +1,1 @@
-Add grub-install to late_command
+Fix: grub-install in late_command -> grub-install /dev/sda
