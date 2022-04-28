@@ -1,1 +1,1 @@
-Fix: grub-install in late_command -> grub-install /dev/sda
+pause 5m at end of late_command to allow exploration
