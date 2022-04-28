@@ -19,7 +19,7 @@ mount --bind /dev /target/dev
  cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 
  cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
  cat /tmp/target-dev 
- sd= 
+ sd=$(cat /tmp/target-dev) 
  grub-install 
 \ mkdir -p /var/local/About_This_Install 
  wget -O /var/local/About_This_Install/commit-msg.txt https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/commit-msg.txt 
