@@ -1,1 +1,1 @@
-correct command is sleep not pause
+grub-install [filesystem of /target]
