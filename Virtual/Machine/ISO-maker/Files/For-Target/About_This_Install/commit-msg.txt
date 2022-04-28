@@ -1,1 +1,1 @@
-bootdev sda
+no uefi secure boot; remove first FAT32 partition
