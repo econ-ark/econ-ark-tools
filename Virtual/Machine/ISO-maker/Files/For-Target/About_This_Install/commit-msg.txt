@@ -1,1 +1,1 @@
-non_efi_system_true; partman-auto /dev/sd[a-e]
+grub-installer/bootdev string default
