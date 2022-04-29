@@ -17,7 +17,4 @@ mount --bind /dev /target/dev
  df -hT > /tmp/target-partition 
  cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
  sd=$(cat /tmp/target-dev) 
- grub-install $sd 
-\ chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh 
- chmod a+x /etc/rc.local 
- sleep 24h
+ grub-install $sd
