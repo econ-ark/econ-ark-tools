@@ -1,1 +1,1 @@
-shorten late_command further; end at grub
+No comments after defining variables
