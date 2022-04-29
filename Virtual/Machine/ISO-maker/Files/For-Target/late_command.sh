@@ -15,19 +15,9 @@ mount --bind /dev /target/dev
  wget -O /var/local/git_branch https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/git_branch 
  chmod 755 /etc/default/grub 
  df -hT > /tmp/target-partition 
- cat /tmp/target-partition | grep /$ 
- cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 
  cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
- cat /tmp/target-dev 
  sd=$(cat /tmp/target-dev) 
- echo $sd 
  grub-install $sd 
-\ mkdir -p /var/local/About_This_Install 
- wget -O /var/local/About_This_Install/commit-msg.txt https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/commit-msg.txt 
- wget -O /var/local/About_This_Install/short.git-hash https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/short.git-hash 
- chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh 
+\ chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh 
  chmod a+x /etc/rc.local 
- rm -f /var/local/Size-To-Make 
- rm -f /var/local/Size-To-Make 
- touch /var/local/Size-To-Make 
  sleep 24h

@@ -333,7 +333,7 @@ else
 fi
 
 # These are the commands needed to convert a vagrant machine to an Econ-ARK one  
-late_command+="    mount --bind /dev /target/dev ;\
+late_command+="mount --bind /dev /target/dev ;\
     mount --bind /dev/pts /target/dev/pts ;\
     mount --bind /proc /target/proc ;\
     mount --bind /sys /target/sys ;\
@@ -350,23 +350,19 @@ late_command+="    mount --bind /dev /target/dev ;\
     chroot /target wget -O  /var/local/git_branch             $online/$ForTarget/git_branch ;\
     chroot /target chmod 755 /etc/default/grub ;\
     chroot /target df -hT > /tmp/target-partition ;\
-    cat /tmp/target-partition | grep /$ ;\
-    cat /tmp/target-partition | grep /$ | cut -d ' ' -f1  ;\
     cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
-    cat /tmp/target-dev ;\
     sd=\$(cat /tmp/target-dev) ;\
-    echo \$sd ;\
     chroot /target grub-install \$sd ;\ 
-    chroot /target mkdir -p /var/local/About_This_Install ;\
-    chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
-    chroot /target wget -O  /var/local/About_This_Install/short.git-hash     $online/$ForTarget/About_This_Install/short.git-hash ;\
     chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh ;\
     chroot /target chmod a+x /etc/rc.local ;\
-    chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
-    chroot /target rm    -f /var/local/Size-To-Make-Is-MAX ;\
-    chroot /target touch /var/local/Size-To-Make-Is-$size ;\
     chroot /target sleep 24h"
 
+    # chroot /target mkdir -p /var/local/About_This_Install ;\
+    # chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
+    # chroot /target wget -O  /var/local/About_This_Install/short.git-hash     $online/$ForTarget/About_This_Install/short.git-hash ;\
+    # chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
+    # chroot /target rm    -f /var/local/Size-To-Make-Is-MAX ;\
+    # chroot /target touch /var/local/Size-To-Make-Is-$size ;\
 #     chroot /target grub-install /dev/sda ;\
 #     chroot /target update-grub ;\
 #     chroot /target grub2-mkconfig ;\
