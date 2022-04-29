@@ -1,1 +1,1 @@
-shorten late_commannd
+shorten late_command further; end at grub
