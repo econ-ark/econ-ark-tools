@@ -1,1 +1,1 @@
-No comments after defining variables
+Restore 24h sleep before reboot
