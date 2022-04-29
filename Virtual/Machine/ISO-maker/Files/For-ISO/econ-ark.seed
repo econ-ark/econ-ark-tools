@@ -28,17 +28,19 @@ d-i debian-installer/locale string en_US.UTF-8
 d-i keyboard-configuration/xkb-keymap skip-config
 d-i console-setup/ask_detect boolean false
 
-### Choose sources for software 
-d-i apt-setup/restricted boolean true     # Allow installing restricted packages
-d-i apt-setup/universe   boolean true     # Allow the universe of packages 
+### Choose sources for software
+# Allow installing restricted packages
+d-i apt-setup/restricted boolean true
+
+d-i apt-setup/universe   boolean true     
 d-i apt-setup/extras     boolean true
 
 ### Choose WPA security for WiFi
 d-i netcfg/wireless_security_type select wpa
 
 ### Preconfigure hostname
-d-i netcfg/get_domain string unassigned-domain
-d-i netcfg/get_hostname string unassigned-hostname
+#d-i netcfg/get_domain string unassigned-domain
+#d-i netcfg/get_hostname string unassigned-hostname
 d-i netcfg/hostname                                     string      {{hostname}}
 d-i netcfg/hostname_seen                                true
 
@@ -58,7 +60,8 @@ d-i clock-setup/utc                                         boolean     false
 d-i clock-setup/ntp                                         boolean     true
 
 ### Unmount active partitions, if any
-d-i partman/unmount_active boolean true  # Like, partition containing the installer
+# Like, partition containing the installer
+d-i partman/unmount_active boolean true
 
 # # # 
 # Set up for logical volume management
@@ -160,14 +163,16 @@ d-i partman-auto/method string regular
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
 #d-i grub-installer/bootdev string /dev/sda   # Default is to choose first available
-d-i grub-installer/bootdev select manual   # make them select by hand
-d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
-d-i grub-installer/with_other_os boolean true # find other potential os's
-d-i grub-installer/no-uefi-secure-boot boolean true
+# d-i grub-installer/bootdev select manual   # make them select by hand
+# Makes it install to the MBR; necessary for vbox
+d-i grub-installer/only_debian boolean true
+# find other potential os's
+d-i grub-installer/with_other_os boolean true 
+sdd-i grub-installer/no-uefi-secure-boot boolean true
 
 ## mirror settings
 d-i mirror/country string manual
-d-i mirror/http/hostname string archive.ubuntu.com
+<d-i mirror/http/hostname string archive.ubuntu.com
 d-i mirror/http/directory string /ubuntu
 d-i mirror/http/proxy string
 
@@ -175,8 +180,10 @@ d-i mirror/http/proxy string
 d-i apt-setup/services-select                               multiselect security
 d-i apt-setup/security_host                                 string      security.ubuntu.com
 d-i apt-setup/security_path                                 string      /ubuntu
-tasksel tasksel/first                                       multiselect standard, xubuntu-desktop # standard is recommended for all installs
-tasksel tasksel/desktop                                     multiselect xfce # Selects, but does not install, xfce
+# standard is recommended for all installs
+tasksel tasksel/first                                       multiselect standard, xubuntu-desktop
+# Selects, but does not install, xfce
+tasksel tasksel/desktop                                     multiselect xfce 
 
 # Automatic update
 d-i pkgsel/updatedb                                         boolean     true
@@ -188,8 +195,10 @@ d-i pkgsel/update-policy select unattended-upgrades
 ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
 # d-i grub-installer/bootdev string default   # Default is to choose first available
-d-i grub-installer/only_debian boolean true # Makes it install to the MBR; necessary for vbox
-d-i grub-installer/with_other_os boolean true # find other potential os's
+# Makes it install to the MBR; necessary for vbox
+d-i grub-installer/only_debian boolean true
+# find other potential os's
+d-i grub-installer/with_other_os boolean true 
 
 ### Kernel options for boot in created machine
 # d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash
@@ -199,11 +208,16 @@ d-i shared/default-x-display-manager                    select      lightdm
 
 
 # Finish
-d-i finish-install/keep-consoles                            boolean     true   # Preserve consoles which help debugging
+# Preserve consoles which help debugging
+d-i finish-install/keep-consoles                            boolean     true   
 ## Comment all remaining lines to allow debugging by choosing to drop to shell at last moment before reboot
-d-i finish-install/reboot_in_progress                       note        # Avoid useless message about install being complete
-d-i cdrom-detect/eject                                      boolean     false   # Eject virtual install ISO
-d-i debian-installer/exit/halt                              boolean     false  # Halt just suspends 
-d-i debian-installer/exit/poweroff                          boolean     false  # Without poweroff, reboot happens instead
+# Avoid useless message about install being complete
+d-i finish-install/reboot_in_progress                       note
+ # Eject virtual install ISO
+d-i cdrom-detect/eject                                      boolean     false
+# Halt just suspends 
+d-i debian-installer/exit/halt                              boolean     false
+# Without poweroff, reboot happens instead
+d-i debian-installer/exit/poweroff                          boolean     false  
 
 # late_command is added by create-unattended-iso script
