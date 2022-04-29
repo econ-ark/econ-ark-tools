@@ -17,4 +17,5 @@ mount --bind /dev /target/dev
  df -hT > /tmp/target-partition 
  cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
  sd=$(cat /tmp/target-dev) 
- grub-install $sd
+ grub-install $sd 
+\
