@@ -1,1 +1,1 @@
-Do cd in installer not target fs
+Try to fix quotes problem
