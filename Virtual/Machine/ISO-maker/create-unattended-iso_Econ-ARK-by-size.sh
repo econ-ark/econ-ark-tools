@@ -363,21 +363,17 @@ late_command+="mount --bind /dev /target/dev ;\
    chroot /target apt -y install git ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
-   chroot /target cd /usr/local/share/data/GitHub/econ-ark ;\
-   chroot /target git clone https://github.com/econ-ark/econ-ark-tools ;\
-   chroot /target cd econ-ark-tools ;\
-   chroot /target git pull ;\
-   chroot /target git checkout $git_branch  ;\
-   chroot /target rm -f /var/local/grub /var/local/rc.local ;\
-   chroot /target cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /var/local ;\
-   chroot /target cd /var/local ;\
-   chroot /target mv /etc/rc.local /etc/rc.local_orig ;\
-   chroot /target mv rc.local /etc/rc.local ;\
-   chroot /target ln -s /etc/rc.local ;\
-   chroot /target mv /etc/default/grub /etc/default/grub_orig ;\
-   chroot /target mv grub /etc/default/grub ;\
-   chroot /target ln -s /etc/default/grub ;\
-   chroot /target chmod 755 /etc/default/grub ;\
+   chroot /target git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
+   chroot /target /bin/bash -c 'cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools; git checkout $git_branch' ; git pull' ;\
+   rm -f /target/var/local/grub /target/var/local/rc.local ;\
+   cd /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+   cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local ;\
+   cd /target/var/local ;\
+   mv /target/etc/rc.local /target/etc/rc.local_orig ;\
+   mv rc.local /target/etc/rc.local ;\
+   mv /target/etc/default/grub /target/etc/default/grub_orig ;\
+   mv grub /target/etc/default/grub ;\
+   chmod 755 /target/etc/default/grub ;\
    chroot /target df -hT > /tmp/target-partition ;\
    cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
    sd=\$(cat /tmp/target-dev) ;\

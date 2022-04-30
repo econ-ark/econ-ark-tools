@@ -3,21 +3,18 @@
  apt -y install git 
  mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 
  chmod -Rf a+rwx /usr/local/share/data 
- cd /usr/local/share/data/GitHub/econ-ark 
- git clone https://github.com/econ-ark/econ-ark-tools 
- cd econ-ark-tools 
- git pull 
- git checkout Make-ISO-Installer 
- rm -f /var/local/grub /var/local/rc.local 
- cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /var/local 
- cd /var/local 
- mv /etc/rc.local /etc/rc.local_orig 
- mv rc.local /etc/rc.local 
- ln -s /etc/rc.local 
- mv /etc/default/grub /etc/default/grub_orig 
- mv grub /etc/default/grub 
- ln -s /etc/default/grub 
- chmod 755 /etc/default/grub 
+ git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
+ /bin/bash -c 'cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+ git checkout Make-ISO-Installer' 
+ git pull' 
+ rm -f /target/var/local/grub /target/var/local/rc.local 
+ cd /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local 
+ cd /target/var/local 
+ mv /target/etc/rc.local /target/etc/rc.local_orig 
+ mv rc.local /target/etc/rc.local 
+ mv /target/etc/default/grub /target/etc/default/grub_orig 
+ mv grub /target/etc/default/grub 
+ chmod 755 /target/etc/default/grub 
  df -hT > /tmp/target-partition 
  cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
  sd=$(cat /tmp/target-dev) 
