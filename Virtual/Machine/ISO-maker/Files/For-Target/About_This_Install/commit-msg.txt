@@ -1,1 +1,1 @@
-Try ";" to insert ; into bash command line
+Another try with splitting lines
