@@ -5,7 +5,7 @@
  chmod -Rf a+rwx /usr/local/share/data 
  git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
  /bin/bash -c "cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
- git checkout "$git_branch" 
+ git checkout Make-ISO-Installer 
  git pull" 
  rm -f /target/var/local/grub /target/var/local/rc.local 
  cd /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local 
