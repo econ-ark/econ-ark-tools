@@ -398,9 +398,8 @@ if [ "$git_branch" == "Make-ISO-Installer" ]; then
      chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
      chroot /target sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf ;\
-     chroot /target update-initramfs -v -c -k all"
-fi
-#;\     sleep 24h 
+     chroot /target update-initramfs -v -c -k all ;\
+     sleep 24h"
 #;\
     # target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
      # target_dev=\${target_efi%?}  ;\
