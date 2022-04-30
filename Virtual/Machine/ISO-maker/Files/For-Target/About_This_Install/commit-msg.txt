@@ -1,1 +1,1 @@
-Restore double quotes
+Try to move $git_branch to where it is evaluated
