@@ -1,9 +1,4 @@
 #!/bin/sh
-mount --bind /dev /target/dev 
-mount --bind /dev/pts /target/dev/pts 
-mount --bind /proc /target/proc 
-mount --bind /sys /target/sys 
-mount --bind /run /target/run
 sudo apt -y update
 sudo apt -y install git
 sudo mkdir -p /usr/local/share/data/GitHub/econ-ark
