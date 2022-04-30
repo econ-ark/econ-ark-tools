@@ -1,1 +1,1 @@
-Try again with git_branch
+Make fixes to late_command that worked by hand on chroot target
