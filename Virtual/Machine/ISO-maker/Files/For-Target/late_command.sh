@@ -28,5 +28,4 @@
  apt-get --yes purge shim 
  apt-get --yes purge mokutil 
  sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf 
- update-initramfs -v -c -k all 
- sleep 24h
+ update-initramfs -v -c -k all
