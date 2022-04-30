@@ -1,1 +1,1 @@
-Replace wgets in seed with git clone
+Restore 24h pause
