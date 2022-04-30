@@ -1,1 +1,1 @@
-Make fixes to late_command that worked by hand on chroot target
+git_branch -> $git_branch; clone not to target
