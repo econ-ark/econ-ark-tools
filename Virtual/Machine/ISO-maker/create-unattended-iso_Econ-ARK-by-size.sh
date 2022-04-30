@@ -355,33 +355,33 @@ fi
 #     chroot /target grub-install \$sd"
 
 late_command+="mount --bind /dev /target/dev ;\
-    mount --bind /dev/pts /target/dev/pts ;\
-    mount --bind /proc /target/proc ;\
-    mount --bind /sys /target/sys ;\
-    mount --bind /run /target/run ;\
-    chroot /target apt -y update ;\
-    chroot /target apt -y install git ;\
-    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local  ;\
-    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
-    chroot /target cd /usr/local/share/data/GitHub/econ-ark ;\
-    chroot /target if [ ! -d econ-ark-tools ]; then git clone https://github.com/econ-ark/econ-ark-tools ; fi ;\
-    chroot /target cd econ-ark-tools ;\
-    chroot /target git pull ;\
-    chroot /target git checkout $git_branch  ;\
-    chroot /target rm -f /var/local/grub /var/local/rc.local ;\
-    chroot /target cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /var/local ;\
-    chroot /target cd /var/local ;\
-    chroot /target mv /etc/rc.local /etc/rc.local_orig ;\
-    chroot /target mv rc.local /etc/rc.local ;\
-    chroot /target ln -s /etc/rc.local ;\
-    chroot /target mv /etc/default/grub /etc/default/grub_orig ;\
-    chroot /target mv grub /etc/default/grub ;\
-    chroot /target ln -s /etc/default/grub ;\
-    chroot /target chmod 755 /etc/default/grub ;\
-    chroot /target df -hT > /tmp/target-partition ;\
-    cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
-    sd=\$(cat /tmp/target-dev) ;\
-    chroot /target grub-install \$sd ;\ 
+   mount --bind /dev/pts /target/dev/pts ;\
+   mount --bind /proc /target/proc ;\
+   mount --bind /sys /target/sys ;\
+   mount --bind /run /target/run ;\
+   chroot /target apt -y update ;\
+   chroot /target apt -y install git ;\
+   chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local  ;\
+   chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
+   chroot /target cd /usr/local/share/data/GitHub/econ-ark ;\
+   chroot /target git clone https://github.com/econ-ark/econ-ark-tools ;\
+   chroot /target cd econ-ark-tools ;\
+   chroot /target git pull ;\
+   chroot /target git checkout $git_branch  ;\
+   chroot /target rm -f /var/local/grub /var/local/rc.local ;\
+   chroot /target cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /var/local ;\
+   chroot /target cd /var/local ;\
+   chroot /target mv /etc/rc.local /etc/rc.local_orig ;\
+   chroot /target mv rc.local /etc/rc.local ;\
+   chroot /target ln -s /etc/rc.local ;\
+   chroot /target mv /etc/default/grub /etc/default/grub_orig ;\
+   chroot /target mv grub /etc/default/grub ;\
+   chroot /target ln -s /etc/default/grub ;\
+   chroot /target chmod 755 /etc/default/grub ;\
+   chroot /target df -hT > /tmp/target-partition ;\
+   cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
+   sd=\$(cat /tmp/target-dev) ;\
+   chroot /target grub-install \$sd ;\
    chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh ;\
    chroot /target chmod a+x /etc/rc.local ;\
    chroot /target sleep 24h "
