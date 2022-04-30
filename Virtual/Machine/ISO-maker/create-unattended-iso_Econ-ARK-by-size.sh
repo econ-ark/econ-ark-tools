@@ -364,7 +364,7 @@ late_command+="mount --bind /dev /target/dev ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
    chroot /target git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
-   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools \; git checkout '$git_branch' \; git pull"'" ;\
+   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ";" git checkout '$git_branch' ";" git pull"'" ;\
    rm -f /target/var/local/grub /target/var/local/rc.local ;\
    chroot /target /bin/bash -c "'"cd /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools \; cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local"'" ;\
    cd /target/var/local ;\
