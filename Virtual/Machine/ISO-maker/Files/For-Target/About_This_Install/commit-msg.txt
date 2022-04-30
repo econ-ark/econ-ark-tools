@@ -1,1 +1,1 @@
-Fix minor typos in late_command
+Do cd in installer not target fs
