@@ -4,8 +4,9 @@ sudo apt -y install git
 sudo mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local
 sudo chmod -Rf a+rwx /usr/local/share/data
 cd /usr/local/share/data/GitHub/econ-ark
-git clone https://github.com/econ-ark/econ-ark-tools
+[[ ! -d econ-ark-tools ]] && git clone https://github.com/econ-ark/econ-ark-tools
 cd econ-ark-tools
+git pull
 cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /var/local
 cd /var/local
 mv /etc/rc.local /etc/rc.local_orig
