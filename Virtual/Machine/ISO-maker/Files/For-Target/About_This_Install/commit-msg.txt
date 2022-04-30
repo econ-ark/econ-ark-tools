@@ -1,1 +1,1 @@
-git_branch -> $git_branch; clone not to target
+Try ";" to insert ; into bash command line
