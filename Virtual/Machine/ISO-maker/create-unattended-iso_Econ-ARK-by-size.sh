@@ -333,21 +333,50 @@ else
 fi
 
 # These are the commands needed to convert a vagrant machine to an Econ-ARK one  
+# late_command+="mount --bind /dev /target/dev ;\
+#     mount --bind /dev/pts /target/dev/pts ;\
+#     mount --bind /proc /target/proc ;\
+#     mount --bind /sys /target/sys ;\
+#     mount --bind /run /target/run ;\
+#     chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
+#     chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
+#     chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
+#     chroot /target wget -O  /etc/rc.local                     $online/$ForTarget/$rclocal_file ;\
+#     chroot /target wget -O  /var/local/finish.sh              $online/$ForTarget/$finishFile ;\
+#     chroot /target wget -O  /var/local/$finishMAX             $online/$ForTarget/$finishMAX ;\
+#     chroot /target wget -O  /var/local/grub-menu.sh           $online/$ForTarget/grub-menu.sh ;\
+#     chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md ;\
+#     chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
+#     chroot /target wget -O  /var/local/git_branch             $online/$ForTarget/git_branch ;\
+#     chroot /target chmod 755 /etc/default/grub ;\
+#     chroot /target df -hT > /tmp/target-partition ;\
+#     cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
+#     sd=\$(cat /tmp/target-dev) ;\
+#     chroot /target grub-install \$sd"
+
 late_command+="mount --bind /dev /target/dev ;\
     mount --bind /dev/pts /target/dev/pts ;\
     mount --bind /proc /target/proc ;\
     mount --bind /sys /target/sys ;\
     mount --bind /run /target/run ;\
-    chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
-    chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
-    chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
-    chroot /target wget -O  /etc/rc.local                     $online/$ForTarget/$rclocal_file ;\
-    chroot /target wget -O  /var/local/finish.sh              $online/$ForTarget/$finishFile ;\
-    chroot /target wget -O  /var/local/$finishMAX             $online/$ForTarget/$finishMAX ;\
-    chroot /target wget -O  /var/local/grub-menu.sh           $online/$ForTarget/grub-menu.sh ;\
-    chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md ;\
-    chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
-    chroot /target wget -O  /var/local/git_branch             $online/$ForTarget/git_branch ;\
+    chroot /target apt -y update ;\
+    chroot /target apt -y install git ;\
+    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local  ;\
+    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
+    chroot /target cd /usr/local/share/data/GitHub/econ-ark ;\
+    chroot /target if [ ! -d econ-ark-tools ]; then git clone https://github.com/econ-ark/econ-ark-tools ; fi ;\
+    chroot /target cd econ-ark-tools ;\
+    chroot /target git pull ;\
+    chroot /target git checkout $git_branch  ;\
+    chroot /target rm -f /var/local/grub /var/local/rc.local ;\
+    chroot /target cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /var/local ;\
+    chroot /target cd /var/local ;\
+    chroot /target mv /etc/rc.local /etc/rc.local_orig ;\
+    chroot /target mv rc.local /etc/rc.local ;\
+    chroot /target ln -s /etc/rc.local ;\
+    chroot /target mv /etc/default/grub /etc/default/grub_orig ;\
+    chroot /target mv grub /etc/default/grub ;\
+    chroot /target ln -s /etc/default/grub ;\
     chroot /target chmod 755 /etc/default/grub ;\
     chroot /target df -hT > /tmp/target-partition ;\
     cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
