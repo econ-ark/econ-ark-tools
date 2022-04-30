@@ -363,16 +363,15 @@ late_command+="mount --bind /dev /target/dev ;\
    chroot /target apt -y install git ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
-   chroot /target git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
-   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools; git checkout '$git_branch' ; git pull"'" ;\
+   chroot /target git clone https://github.com/econ-ark/econ-ark-tools /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
+   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools \; git checkout '$git_branch' \; git pull"'" ;\
    rm -f /target/var/local/grub /target/var/local/rc.local ;\
-   cd /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools
-   cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local ;\
+   chroot /target /bin/bash -c "'"cd /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools \; cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local"'" ;\
    cd /target/var/local ;\
    mv /target/etc/rc.local /target/etc/rc.local_orig ;\
-   mv rc.local /target/etc/rc.local ;\
+   mv rc.local /target/etc/rc.local &>/dev/null ;\
    mv /target/etc/default/grub /target/etc/default/grub_orig ;\
-   mv grub /target/etc/default/grub ;\
+   mv grub /target/etc/default/grub &>/dev/null ;\
    chmod 755 /target/etc/default/grub ;\
    chroot /target df -hT > /tmp/target-partition ;\
    cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
@@ -427,7 +426,7 @@ late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-
 
 # Create a human-readable and bash executable version of late_command
 echo "#!/bin/sh" > $ForTarget/late_command.sh
-echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command | grep -v 'bind' >> $ForTarget/late_command.sh
+echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command | grep -v 'bind' | sed 's|/target/|/|g' >> $ForTarget/late_command.sh
 sudo chmod a+x $ForTarget/late_command.sh
 
 # Test whether anything has changed that requires a new push
