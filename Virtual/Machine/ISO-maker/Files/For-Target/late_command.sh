@@ -22,4 +22,12 @@
  grub-install $sd 
  chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh 
  chmod a+x /etc/rc.local 
+ sleep 24h 
+ mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
+ wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
+ chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
+ apt-get --yes purge shim 
+ apt-get --yes purge mokutil 
+ sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf 
+ update-initramfs -v -c -k all 
  sleep 24h
