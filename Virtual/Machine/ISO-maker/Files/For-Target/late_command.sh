@@ -4,9 +4,7 @@
  mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 
  chmod -Rf a+rwx /usr/local/share/data 
  cd /usr/local/share/data/GitHub/econ-ark 
- if [ ! -d econ-ark-tools ]
- then git clone https://github.com/econ-ark/econ-ark-tools 
- fi 
+ git clone https://github.com/econ-ark/econ-ark-tools 
  cd econ-ark-tools 
  git pull 
  git checkout Make-ISO-Installer 
@@ -24,6 +22,6 @@
  cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
  sd=$(cat /tmp/target-dev) 
  grub-install $sd 
-\ chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh 
+ chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh 
  chmod a+x /etc/rc.local 
  sleep 24h
