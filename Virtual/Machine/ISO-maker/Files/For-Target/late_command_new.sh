@@ -7,6 +7,7 @@ cd /usr/local/share/data/GitHub/econ-ark
 if [ ! -d econ-ark-tools ]; then git clone https://github.com/econ-ark/econ-ark-tools ; fi
 cd econ-ark-tools
 git pull
+rm -f /var/local/grub /var/local/rc.local
 cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /var/local
 cd /var/local
 mv /etc/rc.local /etc/rc.local_orig
