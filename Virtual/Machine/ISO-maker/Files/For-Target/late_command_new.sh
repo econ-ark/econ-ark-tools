@@ -10,6 +10,7 @@ cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /var/local
 cd /var/local
 mv /etc/rc.local /etc/rc.local_orig
 mv rc.local /etc/rc.local
-ln -s /etc/rc.local 
+ln -s /etc/rc.local
+mv /etc/default/grub /etc/default/grub_orig
 mv grub /etc/default/grub
 ln -s /etc/default/grub
