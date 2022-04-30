@@ -1,1 +1,1 @@
-Restore 24h sleep before reboot
+Replace wgets in seed with git clone
