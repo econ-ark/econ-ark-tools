@@ -1,9 +1,4 @@
 #!/bin/sh
-mount --bind /dev /target/dev 
- mount --bind /dev/pts /target/dev/pts 
- mount --bind /proc /target/proc 
- mount --bind /sys /target/sys 
- mount --bind /run /target/run 
  wget -O /var/local/econ-ark.seed https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-ISO/econ-ark.seed 
  wget -O /var/local/start.sh https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/start.sh 
  wget -O /etc/rc.local https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/rc.local 

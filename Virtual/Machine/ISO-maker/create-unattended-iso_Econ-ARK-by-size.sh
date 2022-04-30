@@ -395,7 +395,7 @@ fi
 cd "$pathToScript"
 # If it exists, get the last late_command
 late_command_last=""
-[[ -e $ForTarget/late_command.raw ]] && late_command_last="$(< $ForTarget/late_command.raw)" #; echo "$late_command_last"
+[[ -e $ForTarget/late_command.sh ]] && late_command_last="$(< $ForTarget/late_command.sh)" #; echo "$late_command_last"
 
 # Don't treat "Size-To-Make-Is" choice as meaningful for a change to late_command
 late_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_curr_purged"
@@ -403,7 +403,7 @@ late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-
 
 # Create a human-readable and bash executable version of late_command
 echo "#!/bin/sh" > $ForTarget/late_command.sh
-echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command >> $ForTarget/late_command.sh
+echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command | grep -v 'bind' >> $ForTarget/late_command.sh
 sudo chmod a+x $ForTarget/late_command.sh
 
 # Test whether anything has changed that requires a new push
@@ -428,7 +428,7 @@ if [[ "$late_command_changed" != 0 ]]; then
     git diff --exit-code $pathToScript/$ForTarget/late_command.sh
     echo ''
     echo 'Please git add, commit, push then hit return:'
-    cmd="cd `pwd` ; git add $ForTarget ; git add $ForTarget/late_command.raw ; git commit -m ISOmaker-Update ; git push"
+    cmd="cd `pwd` ; git add $ForTarget ; git add $ForTarget/late_command.sh ; git commit -m ISOmaker-Update ; git push"
     echo "$cmd"
     echo "$cmd" | xclip -i
     echo "(should be on xclip clipboard - paste in xfce4-terminal via shift-ctrl-v)"
