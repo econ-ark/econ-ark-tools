@@ -334,25 +334,25 @@ fi
 
 # These are the commands needed to convert a vagrant machine to an Econ-ARK one  
 # late_command+="mount --bind /dev /target/dev ;\
-#     mount --bind /dev/pts /target/dev/pts ;\
-#     mount --bind /proc /target/proc ;\
-#     mount --bind /sys /target/sys ;\
-#     mount --bind /run /target/run ;\
-#     chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
-#     chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
-#     chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
-#     chroot /target wget -O  /etc/rc.local                     $online/$ForTarget/$rclocal_file ;\
-#     chroot /target wget -O  /var/local/finish.sh              $online/$ForTarget/$finishFile ;\
-#     chroot /target wget -O  /var/local/$finishMAX             $online/$ForTarget/$finishMAX ;\
-#     chroot /target wget -O  /var/local/grub-menu.sh           $online/$ForTarget/grub-menu.sh ;\
-#     chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md ;\
-#     chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
-#     chroot /target wget -O  /var/local/git_branch             $online/$ForTarget/git_branch ;\
-#     chroot /target chmod 755 /etc/default/grub ;\
-#     chroot /target df -hT > /tmp/target-partition ;\
-#     cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
-#     sd=\$(cat /tmp/target-dev) ;\
-#     chroot /target grub-install \$sd"
+    #     mount --bind /dev/pts /target/dev/pts ;\
+    #     mount --bind /proc /target/proc ;\
+    #     mount --bind /sys /target/sys ;\
+    #     mount --bind /run /target/run ;\
+    #     chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
+    #     chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
+    #     chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
+    #     chroot /target wget -O  /etc/rc.local                     $online/$ForTarget/$rclocal_file ;\
+    #     chroot /target wget -O  /var/local/finish.sh              $online/$ForTarget/$finishFile ;\
+    #     chroot /target wget -O  /var/local/$finishMAX             $online/$ForTarget/$finishMAX ;\
+    #     chroot /target wget -O  /var/local/grub-menu.sh           $online/$ForTarget/grub-menu.sh ;\
+    #     chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md ;\
+    #     chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
+    #     chroot /target wget -O  /var/local/git_branch             $online/$ForTarget/git_branch ;\
+    #     chroot /target chmod 755 /etc/default/grub ;\
+    #     chroot /target df -hT > /tmp/target-partition ;\
+    #     cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
+    #     sd=\$(cat /tmp/target-dev) ;\
+    #     chroot /target grub-install \$sd"
 
 late_command+="mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
@@ -366,19 +366,18 @@ late_command+="mount --bind /dev /target/dev ;\
    chroot /target git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
    chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
    rm -f /target/var/local/grub /target/var/local/rc.local ;\
-   chroot /target /bin/bash -c "'"cd /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local"'" ;\
+   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local"'" ;\
    cd /target/var/local ;\
    mv /target/etc/rc.local /target/etc/rc.local_orig ;\
-   mv rc.local /target/etc/rc.local &>/dev/null ;\
-   mv /target/etc/default/grub /target/etc/default/grub_orig ;\
-   mv grub /target/etc/default/grub &>/dev/null ;\
+   mv /target/var/local/rc.local /target/etc/rc.local &>/dev/null ;\
+   mv /target/var/local/root/etc/default/grub /target/etc/default/grub_orig ;\
+   mv /target/var/local/grub /target/etc/default/grub &>/dev/null ;\
    chmod 755 /target/etc/default/grub ;\
    chroot /target df -hT > /tmp/target-partition ;\
    cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
    sd=\$(cat /tmp/target-dev) ;\
    chroot /target grub-install \$sd ;\
-   chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh ;\
-   chroot /target chmod a+x /etc/rc.local "
+   chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local "
 # ;\
     # chroot /target mkdir -p /var/local/About_This_Install ;\
     # chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
@@ -386,30 +385,29 @@ late_command+="mount --bind /dev /target/dev ;\
     # chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
     # chroot /target rm    -f /var/local/Size-To-Make-Is-MAX ;\
     # chroot /target touch /var/local/Size-To-Make-Is-$size ;\
-#     chroot /target grub-install /dev/sda ;\
-#     chroot /target update-grub ;\
-#     chroot /target grub2-mkconfig ;\
+    #     chroot /target grub-install /dev/sda ;\
+    #     chroot /target update-grub ;\
+    #     chroot /target grub2-mkconfig ;\
 
 if [ "$git_branch" == "Make-ISO-Installer" ]; then
     late_command+=";\
-     chroot /target mkdir -p   /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d ;\
-     chroot /target wget -O /etc/systemd/system/getty@tty1.service.d/override.conf $online/$ForTarget/root/etc/systemd/system/getty@tty1.service.d/override.conf ;\
-     chroot /target chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf ;\
+     mkdir -p   /target/usr/share/lightdm/lightdm.conf.d /target/etc/systemd/system/getty@tty1.service.d ;\
+     cp /target/var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
+     chmod 755 /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
-     chroot /target sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf ;\
-     chroot /target update-initramfs -v -c -k all ;\
-     sleep 24h"
-#;\
+     sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
+     chroot /target update-initramfs -v -c -k all"
+    
     # target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
-     # target_dev=\${target_efi%?}  ;\
-     # chroot /target echo grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot --target=x86_64-efi > /target/var/local/grub-install-test.sh ;\
-     # chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot --target=x86_64-efi ;\
-     # chroot /target update-grub ;\
-     # chroot /target cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
-     # chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
-     #     swapon \$target_swap ;\
-
+	# target_dev=\${target_efi%?}  ;\
+	# chroot /target echo grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot --target=x86_64-efi > /target/var/local/grub-install-test.sh ;\
+	# chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot --target=x86_64-efi ;\
+	# chroot /target update-grub ;\
+	# chroot /target cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
+	# chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
+	#     swapon \$target_swap ;\
+	fi
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
 # https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1867092
 

@@ -12,18 +12,17 @@
  cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /var/local" 
  cd /var/local 
  mv /etc/rc.local /etc/rc.local_orig 
- mv rc.local /etc/rc.local &>/dev/null 
- mv /etc/default/grub /etc/default/grub_orig 
- mv grub /etc/default/grub &>/dev/null 
+ mv /var/local/rc.local /etc/rc.local &>/dev/null 
+ mv /var/local/root/etc/default/grub /etc/default/grub_orig 
+ mv /var/local/grub /etc/default/grub &>/dev/null 
  chmod 755 /etc/default/grub 
  df -hT > /tmp/target-partition 
  cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
  sd=$(cat /tmp/target-dev) 
  grub-install $sd 
- chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh 
- chmod a+x /etc/rc.local 
+ chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local 
  mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
- wget -O /etc/systemd/system/getty@tty1.service.d/override.conf https://raw.githubusercontent.com/econ-ark/econ-ark-tools/Make-ISO-Installer/Virtual/Machine/ISO-maker/Files/For-Target/root/etc/systemd/system/getty@tty1.service.d/override.conf 
+ cp /var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
  apt-get --yes purge shim 
  apt-get --yes purge mokutil 
