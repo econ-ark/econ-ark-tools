@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sleep 1h 
+sleep 2h 
  apt -y update 
  apt -y install git 
  mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 
@@ -9,14 +9,13 @@ sleep 1h
  /bin/bash -c "cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
  git checkout Make-ISO-Installer 
  git pull" 
- [[ -e /var/local/grub ]] && rm -f /var/local/grub 
- [[ -e /var/local/rc.local ]] && rm -f /var/local/rc.local 
+ [[ -e /var/local ]] && rm -f /var/local 
  cp -r /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/* /var/local 
  cd /var/local 
  [[ -e /etc/rc.local ]] && mv /etc/rc.local /etc/rc.local_orig 
- mv /var/local/rc.local /etc/rc.local &>/dev/null 
- mv /etc/default/grub /etc/default/grub_orig 
- mv /var/local/grub /etc/default/grub &>/dev/null 
+ [[ -e /var/local/rc.local ]] && mv /var/local/rc.local /etc/rc.local 
+ [[ -e /etc/default/grub ]] && mv /etc/default/grub /etc/default/grub_orig 
+ mv /var/local/grub /etc/default/grub 
  chmod 755 /etc/default/grub 
  df -hT > /tmp/target-partition 
  cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 

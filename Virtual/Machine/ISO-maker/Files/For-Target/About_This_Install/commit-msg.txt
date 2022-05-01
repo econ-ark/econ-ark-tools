@@ -1,1 +1,1 @@
-Fix late_command_busybox.sh to preseed
+chroot /target /bin/bash -c "cp -r" -> cp -r /target/

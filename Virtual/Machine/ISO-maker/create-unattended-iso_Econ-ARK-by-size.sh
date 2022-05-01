@@ -354,7 +354,7 @@ fi
     #     sd=\$(cat /tmp/target-dev) ;\
     #     chroot /target grub-install \$sd"
 
-late_command+="sleep 1h ;\
+late_command+="sleep 2h ;\
    mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
    mount --bind /proc /target/proc ;\
@@ -366,14 +366,13 @@ late_command+="sleep 1h ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
    chroot /target git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
    chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
-   [[ -e /target/var/local/grub     ]] && rm -f /target/var/local/grub ;\
-   [[ -e /target/var/local/rc.local ]] && rm -f /target/var/local/rc.local ;\
+   [[ -e /target/var/local     ]] && rm -f /target/var/local ;\
    cp -r /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local ;\
    cd /target/var/local ;\
    [[ -e /target/etc/rc.local ]] && mv /target/etc/rc.local /target/etc/rc.local_orig ;\
-   mv /target/var/local/rc.local /target/etc/rc.local &>/dev/null ;\
-   mv /etc/default/grub /target/etc/default/grub_orig ;\
-   mv /target/var/local/grub /target/etc/default/grub &>/dev/null ;\
+   [[ -e /target/var/local/rc.local ]] && mv /target/var/local/rc.local /target/etc/rc.local ;\
+   [[ -e /target/etc/default/grub ]] && mv /target/etc/default/grub /target/etc/default/grub_orig ;\
+   mv /target/var/local/grub /target/etc/default/grub ;\
    chmod 755 /target/etc/default/grub ;\
    chroot /target df -hT > /tmp/target-partition ;\
    cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
