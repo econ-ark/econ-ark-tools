@@ -378,6 +378,7 @@ late_command+="mount --bind /dev /target/dev ;\
    sd=\$(cat /tmp/target-dev) ;\
    chroot /target grub-install \$sd ;\
    chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local "
+
 # ;\
     # chroot /target mkdir -p /var/local/About_This_Install ;\
     # chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
@@ -398,17 +399,17 @@ if [ "$git_branch" == "Make-ISO-Installer" ]; then
      chroot /target apt-get --yes purge mokutil ;\
      sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
      chroot /target update-initramfs -v -c -k all"
-    
-    # target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
-	# target_dev=\${target_efi%?}  ;\
-	# chroot /target echo grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot --target=x86_64-efi > /target/var/local/grub-install-test.sh ;\
-	# chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot --target=x86_64-efi ;\
-	# chroot /target update-grub ;\
-	# chroot /target cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
-	# chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
-	#     swapon \$target_swap ;\
-	fi
-# late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
+fi
+
+# target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
+    # target_dev=\${target_efi%?}  ;\
+    # chroot /target echo grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot --target=x86_64-efi > /target/var/local/grub-install-test.sh ;\
+    # chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot --target=x86_64-efi ;\
+    # chroot /target update-grub ;\
+    # chroot /target cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
+    # chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
+    #     swapon \$target_swap ;\
+    # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
 # https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1867092
 
 cd "$pathToScript"
@@ -418,7 +419,7 @@ late_command_last=""
 
 
 # Don't treat "Size-To-Make-Is" choice as meaningful for a change to late_command
-OBlate_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_curr_purged"
+late_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_curr_purged"
 late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_last_purged"
 
 # Create a human-readable and bash executable version of late_command
