@@ -42,7 +42,7 @@ d-i netcfg/wireless_security_type select wpa
 #d-i netcfg/get_domain string unassigned-domain
 #d-i netcfg/get_hostname string unassigned-hostname
 d-i netcfg/hostname                                     string      {{hostname}}
-d-i netcfg/hostname_seen                                true
+d-i netcfg/hostname seen                                true
 
 ### user account setup
 # DO NOT uncomment root-password lines: That disables sudo for main user
