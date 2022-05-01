@@ -370,7 +370,7 @@ late_command+="mount --bind /dev /target/dev ;\
    cd /target/var/local ;\
    mv /target/etc/rc.local /target/etc/rc.local_orig ;\
    mv /target/var/local/rc.local /target/etc/rc.local &>/dev/null ;\
-   mv /target/var/local/root/etc/default/grub /target/etc/default/grub_orig ;\
+   mv /etc/default/grub /target/etc/default/grub_orig ;\
    mv /target/var/local/grub /target/etc/default/grub &>/dev/null ;\
    chmod 755 /target/etc/default/grub ;\
    chroot /target df -hT > /tmp/target-partition ;\
@@ -416,8 +416,9 @@ cd "$pathToScript"
 late_command_last=""
 [[ -e $ForTarget/late_command.sh ]] && late_command_last="$(< $ForTarget/late_command.sh)" #; echo "$late_command_last"
 
+
 # Don't treat "Size-To-Make-Is" choice as meaningful for a change to late_command
-late_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_curr_purged"
+OBlate_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_curr_purged"
 late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_last_purged"
 
 # Create a human-readable and bash executable version of late_command
