@@ -1,1 +1,1 @@
-test for existence of files before moving
+Fix failure to copy to /target/var/local
