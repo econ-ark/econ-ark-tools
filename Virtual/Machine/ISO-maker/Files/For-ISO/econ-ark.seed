@@ -168,11 +168,11 @@ d-i partman-auto/method string regular
 d-i grub-installer/only_debian boolean true
 # find other potential os's
 d-i grub-installer/with_other_os boolean true 
-sdd-i grub-installer/no-uefi-secure-boot boolean true
+d-i grub-installer/no-uefi-secure-boot boolean true
 
 ## mirror settings
 d-i mirror/country string manual
-<d-i mirror/http/hostname string archive.ubuntu.com
+d-i mirror/http/hostname string archive.ubuntu.com
 d-i mirror/http/directory string /ubuntu
 d-i mirror/http/proxy string
 
