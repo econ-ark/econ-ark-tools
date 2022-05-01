@@ -1,4 +1,5 @@
 #!/bin/sh
+sleep 1h 
  apt -y update 
  apt -y install git 
  mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 

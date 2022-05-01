@@ -354,7 +354,8 @@ fi
     #     sd=\$(cat /tmp/target-dev) ;\
     #     chroot /target grub-install \$sd"
 
-late_command+="mount --bind /dev /target/dev ;\
+late_command+="sleep 1h ;\
+   mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
    mount --bind /proc /target/proc ;\
    mount --bind /sys /target/sys ;\
