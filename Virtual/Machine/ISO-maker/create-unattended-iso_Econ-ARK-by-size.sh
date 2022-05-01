@@ -356,7 +356,8 @@ fi
 
 # sleep 2h ;\
    
-late_command+="mount --bind /dev /target/dev ;\
+late_command+="sleep 20m ;\ 
+mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
    mount --bind /proc /target/proc ;\
    mount --bind /sys /target/sys ;\
@@ -570,7 +571,7 @@ short_hash="$(cat $DIR/$ATI/short.git-hash)"
 short_hash_last="$(cat $DIR/$ATI/short.git-hash)"
 
 iso_date=`date +"%Y%m%d-%H%M%S"`
-new_iso_name="$new_iso_name-$iso_date-$short_hash.iso"
+new_iso_name="$new_iso_name-$iso_date-$short_hash-$msg.iso"
 
 echo 'new_iso_name='$new_iso_name
 popd
@@ -652,15 +653,16 @@ datestr=`date +"%Y%m%d-%H%M%S"`
 echo "$datestr"
 echo ""
 
+# 20220501: Gave up on rclone to Google because it requires a new token every [interval]
 
-cmd="rclone --progress copy '"$iso_done/$size/$new_iso_name"'"
-cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/XUBUNTU-$size"
-echo 'To copy to Google drive, execute the command below:'
-echo ''
-echo "$cmd"
-echo "#!/bin/bash" >  "/tmp/rclone-to-Google-Drive_Last-ISO-Made-$size.sh"
-echo "$cmd"        >> "/tmp/rclone-to-Google-Drive_Last-ISO-Made-$size.sh"
-chmod a+x             "/tmp/rclone-to-Google-Drive_Last-ISO-Made-$size.sh"
+# cmd="rclone --progress copy '"$iso_done/$size/$new_iso_name"'"
+# cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/XUBUNTU-$size"
+# echo 'To copy to Google drive, execute the command below:'
+# echo ''
+# echo "$cmd"
+# echo "#!/bin/bash" >  "/tmp/rclone-to-Google-Drive_Last-ISO-Made-$size.sh"
+# echo "$cmd"        >> "/tmp/rclone-to-Google-Drive_Last-ISO-Made-$size.sh"
+# chmod a+x             "/tmp/rclone-to-Google-Drive_Last-ISO-Made-$size.sh"
 
 # uncomment the exit to perform cleanup of drive after run
 # unset vars
