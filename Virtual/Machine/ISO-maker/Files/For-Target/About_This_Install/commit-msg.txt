@@ -1,1 +1,3 @@
-Fix failure to copy to /target/var/local
+Move_secure_boot_script_to_Old
+
+nomodeset_to_fix_blank_screen;_remove_2h_delay;_other_tweaks
