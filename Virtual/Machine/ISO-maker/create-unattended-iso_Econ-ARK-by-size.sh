@@ -356,8 +356,8 @@ fi
 
 # sleep 2h ;\
    
-late_command+="sleep 20m ;\ 
-mount --bind /dev /target/dev ;\
+late_command+="sleep 20m ;\
+   mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
    mount --bind /proc /target/proc ;\
    mount --bind /sys /target/sys ;\
