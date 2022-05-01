@@ -425,8 +425,8 @@ late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-
 
 # Create a human-readable and bash executable version of late_command
 echo "#!/bin/sh" > $ForTarget/late_command.sh
-echo "#!/bin/sh" > $ForTarget/late_command_busybox.sh
-echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' >> $ForTarget/late_command_busybox.sh
+echo "#!/bin/sh" > $iso_make/$iso_new/preseed/late_command_busybox.sh
+echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' >> $iso_make/$iso_new/preseed/late_command_busybox.sh
 echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command | grep -v 'bind' | sed 's|/target/|/|g' >> $ForTarget/late_command.sh
 sudo chmod a+x $ForTarget/late_command.sh
 
