@@ -1,1 +1,1 @@
-Remove 24 hour sleep
+/var/local/etc/defaults/grub -> /etc/defaults/grub
