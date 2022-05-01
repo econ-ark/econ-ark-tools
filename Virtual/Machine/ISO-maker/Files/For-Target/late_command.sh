@@ -1,4 +1,5 @@
 #!/bin/sh
+
 sleep 1h 
  apt -y update 
  apt -y install git 
@@ -9,8 +10,6 @@ sleep 1h
  git checkout Make-ISO-Installer 
  git pull" 
  rm -f /var/local/grub /var/local/rc.local 
- /bin/bash -c "cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
- cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /var/local" 
  cd /var/local 
  mv /etc/rc.local /etc/rc.local_orig 
  mv /var/local/rc.local /etc/rc.local &>/dev/null 

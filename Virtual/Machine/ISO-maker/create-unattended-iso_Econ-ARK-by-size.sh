@@ -367,7 +367,7 @@ late_command+="sleep 1h ;\
    chroot /target git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
    chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
    rm -f /target/var/local/grub /target/var/local/rc.local ;\
-   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; cp -r Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local"'" ;\
+   chroot /target /bin/bash -c "'"cp -r /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local"'" ;\
    cd /target/var/local ;\
    mv /target/etc/rc.local /target/etc/rc.local_orig ;\
    mv /target/var/local/rc.local /target/etc/rc.local &>/dev/null ;\
@@ -425,10 +425,13 @@ late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-
 
 # Create a human-readable and bash executable version of late_command
 echo "#!/bin/sh" > $ForTarget/late_command.sh
-echo "#!/bin/sh" > $iso_make/$iso_new/preseed/late_command_busybox.sh
-echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' >> $iso_make/$iso_new/preseed/late_command_busybox.sh
+echo '' >> $ForTarget/late_command.sh
+echo "#!/bin/sh" > $iso_make/iso_new/preseed/late_command_busybox.sh
+echo '' >> $iso_make/iso_new/preseed/late_command_busybox.sh
+echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | grep -v late_command >> $iso_make/iso_new/preseed/late_command_busybox.sh
 echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command | grep -v 'bind' | sed 's|/target/|/|g' >> $ForTarget/late_command.sh
 sudo chmod a+x $ForTarget/late_command.sh
+sudo chmod a+x $iso_make/iso_new/preseed/late_command_busybox.sh
 
 # Test whether anything has changed that requires a new push
 
