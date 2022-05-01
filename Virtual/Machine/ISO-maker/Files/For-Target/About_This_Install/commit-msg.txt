@@ -1,1 +1,1 @@
-chroot /target /bin/bash -c "cp -r" -> cp -r /target/
+test for existence of files before moving
