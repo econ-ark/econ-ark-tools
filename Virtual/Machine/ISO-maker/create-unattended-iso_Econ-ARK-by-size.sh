@@ -354,8 +354,9 @@ fi
     #     sd=\$(cat /tmp/target-dev) ;\
     #     chroot /target grub-install \$sd"
 
-late_command+="sleep 2h ;\
-   mount --bind /dev /target/dev ;\
+# sleep 2h ;\
+   
+late_command+="mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
    mount --bind /proc /target/proc ;\
    mount --bind /sys /target/sys ;\
@@ -364,7 +365,7 @@ late_command+="sleep 2h ;\
    chroot /target apt -y install git ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
-   chroot /target git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
+   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
    chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
    [[ -e /target/var/local     ]] && rm -Rf /target/var/local ;\
    cp -R /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ;\
@@ -373,20 +374,16 @@ late_command+="sleep 2h ;\
    [[ -e /target/var/local/rc.local ]] && mv /target/var/local/rc.local /target/etc/rc.local ;\
    [[ -e /target/etc/default/grub ]] && [[ -e /target/var/local/grub ]] && mv /target/etc/default/grub /target/etc/default/grub_orig && mv /target/var/local/grub /target/etc/default/grub ;\
    chmod 755 /target/etc/default/grub ;\
+   chroot /target update-grub ;\
    chroot /target df -hT > /tmp/target-partition ;\
    cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
    sd=\$(cat /tmp/target-dev) ;\
    chroot /target grub-install \$sd ;\
-   chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local "
+   chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local ;\
+    rm    -f /target/var/local/Size-To-Make-Is-MIN ;\
+    rm    -f /target/var/local/Size-To-Make-Is-MAX ;\
+    chroot /target touch /var/local/Size-To-Make-Is-$size "
 
-# ;\
-    # chroot /target mkdir -p /var/local/About_This_Install ;\
-    # chroot /target wget -O  /var/local/About_This_Install/commit-msg.txt     $online/$ForTarget/About_This_Install/commit-msg.txt ;\
-    # chroot /target wget -O  /var/local/About_This_Install/short.git-hash     $online/$ForTarget/About_This_Install/short.git-hash ;\
-    # chroot /target rm    -f /var/local/Size-To-Make-Is-MIN ;\
-    # chroot /target rm    -f /var/local/Size-To-Make-Is-MAX ;\
-    # chroot /target touch /var/local/Size-To-Make-Is-$size ;\
-    #     chroot /target grub-install /dev/sda ;\
     #     chroot /target update-grub ;\
     #     chroot /target grub2-mkconfig ;\
 
@@ -417,12 +414,12 @@ cd "$pathToScript"
 late_command_last=""
 [[ -e $ForTarget/late_command.sh ]] && late_command_last="$(< $ForTarget/late_command.sh)" #; echo "$late_command_last"
 
-
 # Don't treat "Size-To-Make-Is" choice as meaningful for a change to late_command
 late_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_curr_purged"
 late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_last_purged"
 
 # Create a human-readable and bash executable version of late_command
+# Running late_command.sh should convert existing machine to XUBARK
 echo "#!/bin/sh" > $ForTarget/late_command.sh
 echo '' >> $ForTarget/late_command.sh
 echo "#!/bin/sh" > $iso_make/iso_new/preseed/late_command_busybox.sh
@@ -464,7 +461,7 @@ fi
 
 # Get the latest git commit hash and message
 short_hash="$(git rev-parse --short HEAD)"
-msg="$(git log -1 --pretty=%B)"
+msg="$(git log -2 --pretty=%B | tr ' ' '_' | tr '/' '-')"
 dirExtra="Files/For-Target"
 ATI="About_This_Install"
 DIR="$pathToScript/$dirExtra"
@@ -491,7 +488,7 @@ else
 fi
 
 # If anything relevant has changed, require a fix and a push
-if [[ "$about_this_install_changed" != 0 ]] && [[ "$msg" != "ATI-Update" ]] && [[ "$msg" != "ISOmaker-Update" ]] && [[ "$msg" != "$msg_last" ]]; then
+if [[ "$about_this_install_changed" != 0 ]] && [[ "$msg" != "About-This-Install-Hash-Update" ]] && [[ "$msg" != "ISOmaker-Update" ]] && [[ "$msg" != "$msg_last" ]]; then
     echo "$ATI/ or $ATI.md has changed; the new version has been written"
     echo ''
     cmd="git diff --exit-code $pathToScript/$ForTarget/$ATI/"
@@ -500,9 +497,9 @@ if [[ "$about_this_install_changed" != 0 ]] && [[ "$msg" != "ATI-Update" ]] && [
     echo ''
     echo 'Please git add, commit, push then hit return:'
     echo ''
-    cmd="cd `pwd` ; git add $DIR/$ATI ; git commit -m ATI-Update ; git push"
+    cmd="cd `pwd` ; git add $DIR/$ATI ; git commit -m 'About-This-Install-Hash-Update' ; git push"
     echo "$cmd"
-    echo "$cmd" | xclip -i
+    echo "$cmd" | xclip -sel clip
     echo "(should be on xclip clipboard - paste in xfce4-terminal via shift-ctrl-v)"
     read answer
 fi
