@@ -9,13 +9,12 @@ sleep 2h
  /bin/bash -c "cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
  git checkout Make-ISO-Installer 
  git pull" 
- [[ -e /var/local ]] && rm -f /var/local 
- cp -r /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/* /var/local 
+ [[ -e /var/local ]] && rm -Rf /var/local 
+ cp -R /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
  cd /var/local 
  [[ -e /etc/rc.local ]] && mv /etc/rc.local /etc/rc.local_orig 
  [[ -e /var/local/rc.local ]] && mv /var/local/rc.local /etc/rc.local 
- [[ -e /etc/default/grub ]] && mv /etc/default/grub /etc/default/grub_orig 
- mv /var/local/grub /etc/default/grub 
+ [[ -e /etc/default/grub ]] && [[ -e /var/local/grub ]] && mv /etc/default/grub /etc/default/grub_orig && mv /var/local/grub /etc/default/grub 
  chmod 755 /etc/default/grub 
  df -hT > /tmp/target-partition 
  cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
