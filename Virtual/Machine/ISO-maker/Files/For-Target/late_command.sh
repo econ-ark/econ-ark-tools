@@ -9,9 +9,11 @@ sleep 1h
  /bin/bash -c "cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
  git checkout Make-ISO-Installer 
  git pull" 
- rm -f /var/local/grub /var/local/rc.local 
+ [[ -e /var/local/grub ]] && rm -f /var/local/grub 
+ [[ -e /var/local/rc.local ]] && rm -f /var/local/rc.local 
+ cp -r /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/* /var/local 
  cd /var/local 
- mv /etc/rc.local /etc/rc.local_orig 
+ [[ -e /etc/rc.local ]] && mv /etc/rc.local /etc/rc.local_orig 
  mv /var/local/rc.local /etc/rc.local &>/dev/null 
  mv /etc/default/grub /etc/default/grub_orig 
  mv /var/local/grub /etc/default/grub &>/dev/null 

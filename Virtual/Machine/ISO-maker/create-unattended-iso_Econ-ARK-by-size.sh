@@ -366,10 +366,11 @@ late_command+="sleep 1h ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
    chroot /target git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
    chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
-   rm -f /target/var/local/grub /target/var/local/rc.local ;\
-   chroot /target /bin/bash -c "'"cp -r /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local"'" ;\
+   [[ -e /target/var/local/grub     ]] && rm -f /target/var/local/grub ;\
+   [[ -e /target/var/local/rc.local ]] && rm -f /target/var/local/rc.local ;\
+   cp -r /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/* /target/var/local ;\
    cd /target/var/local ;\
-   mv /target/etc/rc.local /target/etc/rc.local_orig ;\
+   [[ -e /target/etc/rc.local ]] && mv /target/etc/rc.local /target/etc/rc.local_orig ;\
    mv /target/var/local/rc.local /target/etc/rc.local &>/dev/null ;\
    mv /etc/default/grub /target/etc/default/grub_orig ;\
    mv /target/var/local/grub /target/etc/default/grub &>/dev/null ;\
