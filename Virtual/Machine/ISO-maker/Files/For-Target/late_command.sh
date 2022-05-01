@@ -1,11 +1,10 @@
 #!/bin/sh
 
-sleep 2h 
  apt -y update 
  apt -y install git 
  mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 
  chmod -Rf a+rwx /usr/local/share/data 
- git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
+ [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
  /bin/bash -c "cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
  git checkout Make-ISO-Installer 
  git pull" 
@@ -16,11 +15,15 @@ sleep 2h
  [[ -e /var/local/rc.local ]] && mv /var/local/rc.local /etc/rc.local 
  [[ -e /etc/default/grub ]] && [[ -e /var/local/grub ]] && mv /etc/default/grub /etc/default/grub_orig && mv /var/local/grub /etc/default/grub 
  chmod 755 /etc/default/grub 
+ update-grub 
  df -hT > /tmp/target-partition 
  cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
  sd=$(cat /tmp/target-dev) 
  grub-install $sd 
  chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local 
+ rm -f /var/local/Size-To-Make 
+ rm -f /var/local/Size-To-Make 
+ touch /var/local/Size-To-Make 
  mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
  cp /var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
