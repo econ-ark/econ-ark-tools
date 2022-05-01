@@ -571,7 +571,7 @@ short_hash="$(cat $DIR/$ATI/short.git-hash)"
 short_hash_last="$(cat $DIR/$ATI/short.git-hash)"
 
 iso_date=`date +"%Y%m%d-%H%M%S"`
-new_iso_name="$new_iso_name-$iso_date-$short_hash-$msg.iso"
+new_iso_name="$new_iso_name-$iso_date-$short_hash_$msg.iso"
 
 echo 'new_iso_name='$new_iso_name
 popd
