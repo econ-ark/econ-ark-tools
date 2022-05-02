@@ -362,6 +362,7 @@ late_command+="mount --bind /dev /target/dev ;\
    mount --bind /sys /target/sys ;\
    mount --bind /run /target/run ;\
    chroot /target apt -y update ;\
+   sleep 1h ;\
    chroot /target apt -y install git ;\
    chroot /target apt -y install grub-efi ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local  ;\

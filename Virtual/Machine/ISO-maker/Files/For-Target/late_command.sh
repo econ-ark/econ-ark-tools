@@ -1,6 +1,7 @@
 #!/bin/sh
 
  apt -y update 
+ sleep 1h 
  apt -y install git 
  apt -y install grub-efi 
  mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 
