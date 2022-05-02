@@ -1,3 +1,3 @@
-Restore_automatically_partition_select_some_device
+Remove_partman-auto-disk
 
 About-This-Install-Hash-Update
