@@ -1,3 +1,3 @@
-Restore_preseeding_of_partitioning_commands
+Install_ONLY_to_USB_devices
 
 About-This-Install-Hash-Update
