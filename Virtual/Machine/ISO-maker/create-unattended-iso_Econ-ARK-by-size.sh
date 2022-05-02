@@ -363,7 +363,7 @@ late_command+="mount --bind /dev /target/dev ;\
    mount --bind /run /target/run ;\
    chroot /target apt -y update ;\
    chroot /target apt -y install git ;\
-   sleep 1h ;\
+   chroot /target apt -y install grub-efi ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
    [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target git clone --depth 1 https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\

@@ -2,10 +2,10 @@
 
  apt -y update 
  apt -y install git 
- sleep 1h 
+ apt -y install grub-efi 
  mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 
  chmod -Rf a+rwx /usr/local/share/data 
- [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
+ [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && git clone --depth 1 https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
  /bin/bash -c "cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
  git checkout Make-ISO-Installer 
  git pull" 
