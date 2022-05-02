@@ -2,6 +2,7 @@
 
  apt -y update 
  apt -y install git 
+ sleep 1h 
  mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 
  chmod -Rf a+rwx /usr/local/share/data 
  [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
