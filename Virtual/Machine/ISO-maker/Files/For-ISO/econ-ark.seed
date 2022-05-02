@@ -8,9 +8,9 @@ d-i preseed/early_command string \
     debconf-set console-setup/layoutcode us ;\
     debconf-set console-setup/modelcode skip-config ;\
     debconf-set keyboard-configuration xkb-keymap skip-config ;\
-    debconf-set partman/unmount_active DISKS /dev/sda ;\
-    umount /media || true 
-
+    umount /media || true
+    
+#    debconf-set partman/unmount_active /dev/sda ;\
 # d-i keyboard-configuration/early_command string \
 #     debconf-set keyboard-configuration/xkb-keymap skip-config
 
@@ -88,7 +88,7 @@ d-i partman-lvm/confirm boolean true
 d-i partman-md/device_remove_md boolean true
 d-i partman-md/confirm boolean true
 # d-i partman-auto/automatically_partition select Guided - use entire disk
-# d-i partman-auto/init_automatically_partition select Guided - 
+d-i partman-auto/init_automatically_partition select Guided - use entire disk
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
 d-i partman-partitioning/choose_label string gpt 
