@@ -119,13 +119,12 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         .                                           \
     512 512 512 ext4                                \
         $primary{ }				    \
-        $bootable { }                               \
+        $bootable{ }                                \
         method{ format } format{ }                  \
         use_filesystem{ } filesystem { ext4 }       \
         mountpoint{ /boot }                         \
         .                                           \
     8192 32768 -1 ext4                              \
-	$gptonly{ }				    \
 	label{ root }                               \
         method{ format } format{ }                  \
         use_filesystem{ } filesystem{ ext4 }        \
