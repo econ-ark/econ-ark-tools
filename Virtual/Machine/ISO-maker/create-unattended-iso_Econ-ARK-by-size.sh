@@ -397,13 +397,16 @@ if [ "$git_branch" == "Make-ISO-Installer" ]; then
      chroot /target apt-get --yes purge mokutil ;\
      sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
      chroot /target update-initramfs -v -c -k all ;\
-     in-target apt-get purge -y virtualbox-guest*"
+     in-target apt-get purge -y virtualbox-guest* ;\
+     chroot /target echo grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi > /target/var/local/grub-install-test.sh ;\
+     chroot /target      grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi ;\
+     chroot /target update-grub"
 fi
 
 # target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
     # target_dev=\${target_efi%?}  ;\
-    # chroot /target echo grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot --target=x86_64-efi > /target/var/local/grub-install-test.sh ;\
-    # chroot /target grub-install --verbose --efi-directory=/boot/efi/ --removable \$target_dev --no-uefi-secure-boot --target=x86_64-efi ;\
+    # chroot /target echo grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi > /target/var/local/grub-install-test.sh ;\
+    # chroot /target      grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi ;\
     # chroot /target update-grub ;\
     # chroot /target cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
     # chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\

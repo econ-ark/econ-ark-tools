@@ -102,7 +102,7 @@ d-i partman-partitioning/default_label string gpt
 d-i partman/choose_label string gpt
 d-i partman/default_label string gpt
 
-# d-i partman-efi/non_efi_system boolean true
+d-i partman-efi/non_efi_system boolean true
 
 d-i partman-auto/choose_recipe select root-disk
 d-i partman-auto/expert_recipe string root-disk ::  \
@@ -111,7 +111,9 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 	method{ biosgrub }                          \
 	.			                    \
     256 256 256 fat32                               \
+	label{ ESP }				    \
 	$primary{ }				    \
+	$bootable{ }				    \
         $iflabel{ gpt }                             \
         $reusemethod{ }                             \
         method{ efi } format{ }                     \
