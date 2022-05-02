@@ -1,3 +1,3 @@
-Install_ONLY_to_USB_devices
+Restore_sleep_to_late_command
 
 About-This-Install-Hash-Update
