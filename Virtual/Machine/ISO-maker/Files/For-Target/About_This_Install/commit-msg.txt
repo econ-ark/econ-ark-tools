@@ -1,3 +1,3 @@
-copy_expert_recipe_(mostly)_from_github.com-coreprocess-preseed.cfg
+comment_out_automatic_choice_of_partition
 
 About-This-Install-Hash-Update
