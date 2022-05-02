@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sleep 20m 
+sleep 1h 
  apt -y update 
  apt -y install git 
  mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 
@@ -31,4 +31,5 @@ sleep 20m
  apt-get --yes purge shim 
  apt-get --yes purge mokutil 
  sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf 
- update-initramfs -v -c -k all
+ update-initramfs -v -c -k all 
+ in-target apt-get purge -y virtualbox-guest*

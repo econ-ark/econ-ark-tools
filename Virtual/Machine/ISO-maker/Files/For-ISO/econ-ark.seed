@@ -7,6 +7,7 @@ d-i preseed/early_command string \
     debconf-set console-setup/ask_detect false ;\
     debconf-set console-setup/layoutcode us ;\
     debconf-set console-setup/modelcode skip-config ;\
+    debconf-set keyboard-configuration xkb-keymap skip-config ;\
     umount /media || true 
 
 # d-i keyboard-configuration/early_command string \
@@ -25,7 +26,7 @@ d-i debian-installer/splash                                 boolean     false
 d-i debian-installer/locale string en_US.UTF-8
 
 ### Disable automatic (interactive) keymap detection.
-d-i keyboard-configuration/xkb-keymap skip-config
+# d-i keyboard-configuration/xkb-keymap skip-config
 d-i console-setup/ask_detect boolean false
 
 ### Choose sources for software
@@ -78,17 +79,19 @@ d-i partman-auto/init_automatically_partition select some_device
 # d-i partman-efi/non_efi_system boolean true
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
-# d-i partman-partitioning/choose_label string gpt 
-# d-i partman-partitioning/default_label string gpt 
+d-i partman-partitioning/choose_label string gpt 
+d-i partman-partitioning/default_label string gpt 
 #d-i partman-auto/disk string /dev/sdc 
 # method regular : Not, say, encrypted or lvm
 # d-i partman-auto/method string lvm
 
 # Unmount active partitions, if any
-# d-i partman/unmount_active boolean true  # Like, partition containing the installer
-#d-i partman/unmount_active seen
 
 # d-i partman-auto/choose_recipe select root
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman-partitioning/choose_partition select finish
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
 
 d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 d-i partman-auto/method string regular
@@ -100,22 +103,20 @@ d-i partman-partitioning/default_label string gpt
 d-i partman/choose_label string gpt
 d-i partman/default_label string gpt
 
-d-i partman-efi/non_efi_system boolean true
+# d-i partman-efi/non_efi_system boolean true
 
 d-i partman-auto/expert_recipe string root-disk ::  \
-    1 1 1 free                                   \
+    1 1 1 free                                      \
 	$bios_boot{ }                               \
 	method{ biosgrub }                          \
 	.			                    \
     512 512 512 fat32                               \
-        $primary{ }                                 \
-        $bootable{ }                                 \
-        label{ ESP }                                \
-        $method{ efi }                              \
-        use_filesystem{ } filesystem{ fat32 }       \
-        mountpoint{ /efi/boot }                     \
+	$gptonly{ }				    \
+        $iflabel { gpt }                            \
+        method{ efi } format{ }                     \
+        mountpoint{ /boot/efi }                     \
         .                                           \
-    8192 32768 -1 ext4                        \
+    8192 32768 -1 ext4                              \
 	$gptonly{ }				    \
         $primary{ } $bootable{ }                    \
 	label{ root }                               \
