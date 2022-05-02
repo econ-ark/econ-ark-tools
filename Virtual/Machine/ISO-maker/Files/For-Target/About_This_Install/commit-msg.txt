@@ -1,3 +1,3 @@
-Restore_EFI_installer_stuff_in_late_command
+Remove_sleep_in_late_command.sh
 
 About-This-Install-Hash-Update
