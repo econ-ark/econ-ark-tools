@@ -87,8 +87,8 @@ d-i partman-lvm/device_remove_lvm boolean true
 d-i partman-lvm/confirm boolean true
 d-i partman-md/device_remove_md boolean true
 d-i partman-md/confirm boolean true
-d-i partman-auto/automatically_partition select some_device
-d-i partman-auto/init_automatically_partition select some_device
+# d-i partman-auto/automatically_partition select some_device
+# d-i partman-auto/init_automatically_partition select some_device
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
 d-i partman-partitioning/choose_label string gpt 
@@ -101,10 +101,10 @@ d-i partman-partitioning/default_label string gpt
 
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman-partitioning/choose_partition select finish
-# d-i partman/confirm boolean true
-d-i partman/confirm_nooverwrite boolean true
+d-i partman/confirm boolean true
+# rebd-i partman/confirm_nooverwrite boolean true
 
-d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
+# d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 d-i partman-auto/method string regular
 ###gpt
 d-i partman-basicfilesystems/choose_label string gpt
