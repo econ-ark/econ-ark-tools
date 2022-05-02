@@ -64,7 +64,20 @@ d-i clock-setup/ntp                                         boolean     true
 # Like, partition containing the installer
 d-i partman/unmount_active boolean true
 
-# # # 
+# From github.com/coreprocess/linux-unattended-installation/blob/master/ubuntu/20.04/custom/preseed.cfg
+# but changed to grep -f (below) from grep -vf (originally) to insist on
+# installation to USB device
+d-i partman/early_command string \
+    USBDEV_LIST="$(mktemp)"; \
+    list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
+    BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | head -n 1)"; \
+    debconf-set partman-auto/disk "$BOOTDEV"; \
+    debconf-set grub-installer/bootdev "$BOOTDEV"
+
+#; \    
+#    while /bin/true; do sleep 0.01; rm -f /target/etc/grub.d/30_os-prober; done &
+
+    # # # 
 # Set up for logical volume management
 # d-i partman-auto-lvm/new_vg_name string xubuntu-vg
 
