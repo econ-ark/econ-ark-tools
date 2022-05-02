@@ -1,3 +1,3 @@
-Remove_any_preseeding_from_partman-auto_that_might_cause_it_to_skip_asking_which_disk
+remove_partman-auto-disk_and_unmount_active_from_preseed-early_command
 
-Only_consider_USB_devices
+About-This-Install-Hash-Update
