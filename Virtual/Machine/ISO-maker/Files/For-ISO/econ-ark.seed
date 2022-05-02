@@ -8,6 +8,7 @@ d-i preseed/early_command string \
     debconf-set console-setup/layoutcode us ;\
     debconf-set console-setup/modelcode skip-config ;\
     debconf-set keyboard-configuration xkb-keymap skip-config ;\
+    debconf-set partman/unmount_active DISKS /dev/sda ;\
     umount /media || true 
 
 # d-i keyboard-configuration/early_command string \
@@ -60,19 +61,19 @@ d-i time/zone                                               string      {{timezo
 d-i clock-setup/utc                                         boolean     false
 d-i clock-setup/ntp                                         boolean     true
 
-### Unmount active partitions, if any
-# Like, partition containing the installer
-d-i partman/unmount_active boolean true
-
 # From github.com/coreprocess/linux-unattended-installation/blob/master/ubuntu/20.04/custom/preseed.cfg
 # but changed to grep -f (below) from grep -vf (originally) to insist on
-# installation to USB device
+# installation to USB device and tail -n1 to choose last usb device 
 d-i partman/early_command string \
     USBDEV_LIST="$(mktemp)"; \
     list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
-    BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | head -n 1)"; \
+    BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST")"; \
     debconf-set partman-auto/disk "$BOOTDEV"; \
-    debconf-set grub-installer/bootdev "$BOOTDEV"
+    debconf-set grub-installer/bootdev "$BOOTDEV" 
+
+### Unmount active partitions, if any
+# Like, partition containing the installer
+d-i partman/unmount_active boolean true
 
 #; \    
 #    while /bin/true; do sleep 0.01; rm -f /target/etc/grub.d/30_os-prober; done &
@@ -100,7 +101,7 @@ d-i partman-partitioning/default_label string gpt
 
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman-partitioning/choose_partition select finish
-d-i partman/confirm boolean true
+# d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
 
 d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
