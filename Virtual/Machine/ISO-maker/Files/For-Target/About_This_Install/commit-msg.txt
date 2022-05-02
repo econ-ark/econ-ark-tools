@@ -1,3 +1,3 @@
-Restore_sleep_for_1h_after_installing_git
+add:_chroot_-target_apt_-y_install_grub-efi
 
-About-This-Install-Hash-Update
+shallow:_git_clone_->_git_clone_--depth_1_econ-ark-tools
