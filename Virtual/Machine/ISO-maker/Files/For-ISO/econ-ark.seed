@@ -87,7 +87,6 @@ d-i partman-partitioning/default_label string gpt
 
 # Unmount active partitions, if any
 
-# d-i partman-auto/choose_recipe select root
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman-partitioning/choose_partition select finish
 d-i partman/confirm boolean true
@@ -105,20 +104,28 @@ d-i partman/default_label string gpt
 
 # d-i partman-efi/non_efi_system boolean true
 
+d-i partman-auto/choose_recipe select root-disk
 d-i partman-auto/expert_recipe string root-disk ::  \
     1 1 1 free                                      \
 	$bios_boot{ }                               \
 	method{ biosgrub }                          \
 	.			                    \
-    512 512 512 fat32                               \
-	$gptonly{ }				    \
-        $iflabel { gpt }                            \
+    256 256 256 fat32                               \
+	$primary{ }				    \
+        $iflabel{ gpt }                             \
+        $reusemethod{ }                             \
         method{ efi } format{ }                     \
         mountpoint{ /boot/efi }                     \
         .                                           \
+    512 512 512 ext4                                \
+        $primary{ }				    \
+        $bootable { }                               \
+        method{ format } format{ }                  \
+        use_filesystem{ } filesystem { ext4 }       \
+        mountpoint{ /boot }                         \
+        .                                           \
     8192 32768 -1 ext4                              \
 	$gptonly{ }				    \
-        $primary{ } $bootable{ }                    \
 	label{ root }                               \
         method{ format } format{ }                  \
         use_filesystem{ } filesystem{ ext4 }        \
