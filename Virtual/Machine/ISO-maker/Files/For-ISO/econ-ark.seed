@@ -67,7 +67,7 @@ d-i clock-setup/ntp                                         boolean     true
 d-i partman/early_command string \
     USBDEV_LIST="$(mktemp)"; \
     list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
-    BOOTDEV="$(list-devices disk | grep -vf "$USBDEV_LIST")"; \
+    BOOTDEV="$(list-devices disk | grep -vf "$USBDEV_LIST" | head -1)"; \
     debconf-set partman-auto/disk "$BOOTDEV"; \
     debconf-set grub-installer/bootdev "$BOOTDEV" 
 
