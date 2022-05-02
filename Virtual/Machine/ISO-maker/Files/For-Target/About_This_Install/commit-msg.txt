@@ -1,3 +1,3 @@
-Add_locale_to_kernel_command_arguments
+Restore_priority_critical
 
 About-This-Install-Hash-Update
