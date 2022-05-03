@@ -1,3 +1,3 @@
-make_3rd_partition_FAT32
+third_partition_should_be_ext4;_second_is_fat32
 
 About-This-Install-Hash-Update
