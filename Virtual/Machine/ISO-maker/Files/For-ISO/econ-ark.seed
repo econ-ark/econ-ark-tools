@@ -71,7 +71,9 @@ d-i partman/early_command string \
     echo BOOTDEV="$BOOTDEV"  ;\
     echo "$BOOTDEV" > /tmp/BOOTDEV ;\
     debconf-set partman-auto/disk "$BOOTDEV"; \
-    debconf-set grub-installer/bootdev "$BOOTDEV" 
+    debconf-set grub-installer/bootdev "$BOOTDEV" ;\
+    CDDEV="$(debconf-get cdrom-detect/cdrom_device | grep -v /dev/sr)" ;\
+    [[ ! -z "$CDDEV" ]] && umount "$CDDEV" || true
 
 ### Unmount active partitions, if any
 # Like, partition containing the installer
