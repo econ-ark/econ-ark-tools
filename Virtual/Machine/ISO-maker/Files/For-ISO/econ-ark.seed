@@ -69,6 +69,7 @@ d-i partman/early_command string \
     list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
     BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | tail -1)"; \
     BOOTDEV_LIST="$(mktemp)" ;\
+    echo BOOTDEV="$BOOTDEV"  ;\
     echo "$BOOTDEV" > "$BOOTDEV_LIST" ;\
     debconf-set partman-auto/disk "$BOOTDEV"; \
     debconf-set grub-installer/bootdev "$BOOTDEV" 
@@ -106,7 +107,6 @@ d-i partman-partitioning/default_label string gpt
 # d-i partman/confirm boolean true
 # rebd-i partman/confirm_nooverwrite boolean true
 
-# d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 d-i partman-auto/method string regular
 ###gpt
 d-i partman-basicfilesystems/choose_label string gpt
