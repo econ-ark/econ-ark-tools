@@ -1,3 +1,3 @@
-substitute_nuada_uefi-boot-root-swap_expert_recipe
+d-i_grub-efi-amd64_grub2-force_efi_extra_removable_boolean_true_and_comment_out_partman-early_command
 
-About-This-Install-Hash-Update
+prettify_expert_recipe
