@@ -6,8 +6,14 @@
 d-i preseed/early_command string \
     debconf-set console-setup/ask_detect false ;\
     debconf-set console-setup/layoutcode us ;\
+    debconf-set countrychooser/shortlist US ;\
+    debconf-set debian-installer/locale set en_US.UTF8 ;\
+    debconf-set netcfg/get_hostname xubuntark ;\
+    debconf-set kbd-chooser/method us ;\
     debconf-set console-setup/modelcode skip-config ;\
-    debconf-set keyboard-configuration xkb-keymap skip-config ;\
+    debconf-set keyboard-configuration variant USA ;\
+    debconf-set keyboard-configuration/layoutcode us ;\
+    debconf-set languagechooser/language-name English ;\
     umount /media || true
     
 #    debconf-set partman/unmount_active /dev/sda ;\
@@ -42,7 +48,7 @@ d-i netcfg/wireless_security_type select wpa
 
 ### Preconfigure hostname
 #d-i netcfg/get_domain string unassigned-domain
-#d-i netcfg/get_hostname string unassigned-hostname
+d-i netcfg/get_hostname string XUB20ARK
 d-i netcfg/hostname                                     string      {{hostname}}
 d-i netcfg/hostname seen                                true
 
@@ -91,7 +97,9 @@ d-i partman-lvm/device_remove_lvm boolean true
 d-i partman-lvm/confirm boolean true
 d-i partman-md/device_remove_md boolean true
 d-i partman-md/confirm boolean true
-d-i partman-auto/automatically_partition select auto
+# d-i partman-auto/automatically_partition select Guided partitioning
+# d-i partman-auto/init_automatically_partition select Guided - use entire disk
+d-i partman-auto/automatically_partition select some_device
 d-i partman-auto/init_automatically_partition select Guided - use entire disk
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
@@ -104,7 +112,7 @@ d-i partman-partitioning/default_label string gpt
 # Unmount active partitions, if any
 
 d-i partman-partitioning/confirm_write_new_label boolean true
-# d-i partman-partitioning/choose_partition select finish
+d-i partman-partitioning/choose_partition select Guided partitioning
 # d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
 
@@ -112,6 +120,7 @@ d-i partman-auto/method string regular
 ###gpt
 d-i partman-basicfilesystems/choose_label string gpt
 d-i partman-basicfilesystems/default_label string gpt
+#d-i partman-basicfilesystems/no_swap boolean true
 
 d-i partman-partitioning/choose_label string gpt
 d-i partman-partitioning/default_label string gpt
