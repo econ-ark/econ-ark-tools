@@ -136,19 +136,20 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         method{ efi } format{ }                     \
         mountpoint{ /boot/efi }                     \
         .                                           \
-    512 512 512 ext4                                \
-        $primary{ }				    \
-        $bootable{ }                                \
-        method{ format } format{ }                  \
-        use_filesystem{ } filesystem { ext4 }       \
-        mountpoint{ /boot }                         \
-        .                                           \
     8192 32768 -1 ext4                              \
 	label{ root }                               \
         method{ format } format{ }                  \
         use_filesystem{ } filesystem{ ext4 }        \
         mountpoint{ / }                             \
        .
+
+    # 512 512 512 ext4                                \
+    #     $primary{ }				    \
+    #     $bootable{ }                                \
+    #     method{ format } format{ }                  \
+    #     use_filesystem{ } filesystem { ext4 }       \
+    #     mountpoint{ /boot }                         \
+    #     .                                           \
 
 # d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
 # d-i partman/confirm_write_new_label boolean true
