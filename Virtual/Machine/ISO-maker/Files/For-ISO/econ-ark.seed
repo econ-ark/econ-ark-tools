@@ -124,25 +124,30 @@ d-i partman-efi/non_efi_system boolean true
 # This recipe was taken from github.com/nuada/ubuntu-preseed (uefi-boot-root-swap)
 d-i partman-auto/choose_recipe select root-disk
 d-i partman-auto/expert_recipe string root-disk ::  \
-    1 1 1 free                              \
+    1 1 1 free                           \
     $bios_boot{ }                        \
-    method{ biosgrub } .                 \
-    200 200 200 fat32                       \
+    method{ biosgrub }                   \
+    .                                    \
+    200 200 200 fat32                    \
     $primary{ }                          \
-    method{ efi } format{ } .            \
-    512 512 512 ext3                        \
+    method{ efi } format{ }              \
+    .                                    \
+    512 512 512 ext3                     \
     $primary{ } $bootable{ }             \
     method{ format } format{ }           \
     use_filesystem{ } filesystem{ ext3 } \
-    mountpoint{ /boot } .                \
-    1000 20000 -1 ext4                      \
+    mountpoint{ /boot }                  \
+    .                                    \
+    1000 20000 -1 ext4                   \
     $primary{ }                          \
     method{ format } format{ }           \
     use_filesystem{ } filesystem{ ext4 } \
-    mountpoint{ / } .                    \
-    65536 65536 65536 linux-swap            \
+    mountpoint{ / }                      \
+    .                                    \
+    65536 65536 65536 linux-swap         \
     $primary{ }                          \
-    method{ swap } format{ } .
+    method{ swap } format{ }             \
+    .
 
     # 1 1 1 free                                      \
     # 	$bios_boot{ }                               \
