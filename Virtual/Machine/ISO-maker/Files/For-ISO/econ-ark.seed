@@ -112,6 +112,7 @@ d-i partman/confirm_nooverwrite boolean true
 ###gpt
 d-i partman-basicfilesystems/choose_label string gpt
 d-i partman-basicfilesystems/default_label string gpt
+d-i partman-basicfilesystems/no_swap boolean false 
 d-i partman-partitioning/choose_label string gpt
 d-i partman-partitioning/default_label string gpt
 d-i partman/choose_label string gpt
