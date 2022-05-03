@@ -130,7 +130,6 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     256 256 256 fat32                               \
 	label{ ESP }				    \
 	$primary{ }				    \
-	$bootable{ }				    \
         $iflabel{ gpt }                             \
         $reusemethod{ }                             \
         method{ efi } format{ }                     \
