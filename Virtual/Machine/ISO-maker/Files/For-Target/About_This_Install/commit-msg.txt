@@ -1,3 +1,3 @@
-partman-confirm_nooverwrite_boolean_true
+Unmount_CDROM_if_mounted
 
 About-This-Install-Hash-Update
