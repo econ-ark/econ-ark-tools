@@ -6,7 +6,8 @@
 d-i preseed/early_command string \
     debconf-set console-setup/ask_detect false ;\
     debconf-set console-setup/layoutcode us ;\
-    debconf-set debian-installer/locale set en_US.UTF8 ;\
+    defconf-set countrychooser/shortlist US ;\
+    debconf-set debian-installer/locale set en_US.UTF-8 ;\
     debconf-set netcfg/get_hostname xubuntark ;\
     debconf-set console-setup/modelcode skip-config ;\
     debconf-set keyboard-configuration/layoutcode us ;\
@@ -16,6 +17,9 @@ d-i preseed/early_command string \
 # d-i keyboard-configuration/early_command string \
 #     debconf-set keyboard-configuration/xkb-keymap skip-config
 
+# Detect exotic hardware 
+d-i hw-detect/load_firmware boolean true
+    
 # Only ask critically important questions (at first)
 d-i debconf/priority select high
 
@@ -38,6 +42,9 @@ d-i apt-setup/restricted boolean true
 
 d-i apt-setup/universe   boolean true     
 d-i apt-setup/extras     boolean true
+
+# Extra firmware drivers for unusual cards
+d-i hw-detect/load_firmware boolean true
 
 ### Choose WPA security for WiFi
 d-i netcfg/wireless_security_type select wpa
