@@ -104,7 +104,7 @@ d-i partman-partitioning/default_label string gpt
 # d-i partman-partitioning/confirm_write_new_label boolean true
 # d-i partman-partitioning/choose_partition select finish
 # d-i partman/confirm boolean true
-# rebd-i partman/confirm_nooverwrite boolean true
+d-i partman/confirm_nooverwrite boolean true
 
 d-i partman-auto/method string regular
 ###gpt
