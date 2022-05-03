@@ -89,7 +89,7 @@ d-i partman-lvm/device_remove_lvm boolean true
 d-i partman-lvm/confirm boolean true
 d-i partman-md/device_remove_md boolean true
 d-i partman-md/confirm boolean true
-# d-i partman-auto/automatically_partition select Guided - use entire disk
+d-i partman-auto/automatically_partition select auto
 d-i partman-auto/init_automatically_partition select Guided - use entire disk
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
@@ -101,7 +101,7 @@ d-i partman-partitioning/default_label string gpt
 
 # Unmount active partitions, if any
 
-d-i partman-partitioning/confirm_write_new_label boolean true
+# d-i partman-partitioning/confirm_write_new_label boolean true
 # d-i partman-partitioning/choose_partition select finish
 # d-i partman/confirm boolean true
 # rebd-i partman/confirm_nooverwrite boolean true
@@ -149,9 +149,9 @@ d-i partman-auto/expert_recipe string root-disk ::  \
        .
 
 # d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
-d-i partman/confirm_write_new_label boolean true
-d-i partman/choose_partition        select  Finish partitioning and write changes to disk
-d-i partman/confirm         boolean true
+# d-i partman/confirm_write_new_label boolean true
+# d-i partman/choose_partition        select  Finish partitioning and write changes to disk
+# d-i partman/confirm         boolean true
 d-i partman-partitioning/confirm_copy   boolean true
 d-i partman/confirm_new_label       boolean true
 d-i partman-auto/method string regular
