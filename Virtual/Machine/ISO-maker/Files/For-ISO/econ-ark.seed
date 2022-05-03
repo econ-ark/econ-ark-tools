@@ -133,7 +133,6 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         $iflabel{ gpt }                             \
         $reusemethod{ }                             \
         method{ efi } format{ }                     \
-        use_filesystem{ } filesystem { fat32 }      \
         mountpoint{ /boot/efi }                     \
         .                                           \
     512 512 512 ext4                                \
