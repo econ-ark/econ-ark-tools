@@ -136,6 +136,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     200 200 200 fat32                    \
     $primary{ }                          \
     method{ efi } format{ }              \
+    label{ EFI System Partition }	 \
     .                                    \
     512 512 512 ext3                     \
     $primary{ } $bootable{ }             \
@@ -246,7 +247,7 @@ d-i apt-setup/services-select                               multiselect security
 d-i apt-setup/security_host                                 string      security.ubuntu.com
 d-i apt-setup/security_path                                 string      /ubuntu
 # standard is recommended for all installs
-tasksel tasksel/first                                       multiselect standard, xubuntu-desktop
+
 # Selects, but does not install, xfce
 tasksel tasksel/desktop                                     multiselect xfce 
 
