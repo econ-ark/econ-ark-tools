@@ -6,14 +6,10 @@
 d-i preseed/early_command string \
     debconf-set console-setup/ask_detect false ;\
     debconf-set console-setup/layoutcode us ;\
-    debconf-set countrychooser/shortlist US ;\
     debconf-set debian-installer/locale set en_US.UTF8 ;\
     debconf-set netcfg/get_hostname xubuntark ;\
-    debconf-set kbd-chooser/method us ;\
     debconf-set console-setup/modelcode skip-config ;\
-    debconf-set keyboard-configuration variant USA ;\
     debconf-set keyboard-configuration/layoutcode us ;\
-    debconf-set languagechooser/language-name English ;\
     umount /media || true
     
 #    debconf-set partman/unmount_active /dev/sda ;\
