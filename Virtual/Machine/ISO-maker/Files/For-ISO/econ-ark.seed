@@ -103,7 +103,7 @@ d-i partman-partitioning/default_label string gpt
 
 # Unmount active partitions, if any
 
-# d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman-partitioning/confirm_write_new_label boolean true
 # d-i partman-partitioning/choose_partition select finish
 # d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
@@ -121,33 +121,54 @@ d-i partman/default_label string gpt
 # Counterintuitively, the setting below forces it TO BE an efi system
 d-i partman-efi/non_efi_system boolean true
 
+# This recipe was taken from github.com/nuada/ubuntu-preseed (uefi-boot-root-swap)
 d-i partman-auto/choose_recipe select root-disk
 d-i partman-auto/expert_recipe string root-disk ::  \
-    1 1 1 free                                      \
-	$bios_boot{ }                               \
-	method{ biosgrub }                          \
-	.			                    \
-    256 256 256 fat32                               \
-	label{ ESP }				    \
-	$primary{ }				    \
-        $iflabel{ gpt }                             \
-        $reusemethod{ }                             \
-        method{ efi } format{ }                     \
-        mountpoint{ /boot/efi }                     \
-        .                                           \
-    512 512 512 ext4                                \
-        $primary{ }				    \
-        $bootable{ }                                \
-        method{ format } format{ }                  \
-        use_filesystem{ } filesystem { ext4 }       \
-        mountpoint{ /boot }                         \
-        .                                           \
-    8192 32768 -1 ext4                              \
-	label{ root }                               \
-        method{ format } format{ }                     \
-        use_filesystem{ } filesystem{ ext4 }        \
-        mountpoint{ / }                             \
-       .
+    1 1 1 free                              \
+    $bios_boot{ }                        \
+    method{ biosgrub } .                 \
+    200 200 200 fat32                       \
+    $primary{ }                          \
+    method{ efi } format{ } .            \
+    512 512 512 ext3                        \
+    $primary{ } $bootable{ }             \
+    method{ format } format{ }           \
+    use_filesystem{ } filesystem{ ext3 } \
+    mountpoint{ /boot } .                \
+    1000 20000 -1 ext4                      \
+    $primary{ }                          \
+    method{ format } format{ }           \
+    use_filesystem{ } filesystem{ ext4 } \
+    mountpoint{ / } .                    \
+    65536 65536 65536 linux-swap            \
+    $primary{ }                          \
+    method{ swap } format{ } .
+
+    # 1 1 1 free                                      \
+    # 	$bios_boot{ }                               \
+    # 	method{ biosgrub }                          \
+    # 	.			                    \
+    # 256 256 256 fat32                               \
+    # 	label{ ESP }				    \
+    # 	$primary{ }				    \
+    #     $iflabel{ gpt }                             \
+    #     $reusemethod{ }                             \
+    #     method{ efi } format{ }                     \
+    #     mountpoint{ /boot/efi }                     \
+    #     .                                           \
+    # 512 512 512 ext4                                \
+    #     $primary{ }				    \
+    #     $bootable{ }                                \
+    #     method{ format } format{ }                  \
+    #     use_filesystem{ } filesystem { ext4 }       \
+    #     mountpoint{ /boot }                         \
+    #     .                                           \
+    # 8192 32768 -1 ext4                              \
+    # 	label{ root }                               \
+    #     method{ format } format{ }                     \
+    #     use_filesystem{ } filesystem{ ext4 }        \
+    #     mountpoint{ / }                             \
+    #    .
 
     # 512 512 512 ext4                                \
     #     $primary{ }				    \
