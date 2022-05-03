@@ -138,7 +138,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
         .                                           \
     8192 32768 -1 ext4                              \
 	label{ root }                               \
-        method{ format } format{ }                  \
+        method{ efi } format{ }                     \
         use_filesystem{ } filesystem{ ext4 }        \
         mountpoint{ / }                             \
        .
