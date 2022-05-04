@@ -6,7 +6,7 @@
 d-i preseed/early_command string \
     debconf-set console-setup/ask_detect false ;\
     debconf-set console-setup/layoutcode us ;\
-    defconf-set countrychooser/shortlist US ;\
+    debconf-set countrychooser/shortlist US ;\
     debconf-set debian-installer/locale en_US.UTF-8 ;\
     debconf-set netcfg/get_hostname xubuntark ;\
     debconf-set console-setup/modelcode skip-config ;\
@@ -18,9 +18,6 @@ d-i preseed/early_command string \
 #     debconf-set keyboard-configuration/xkb-keymap skip-config
 
 # Extra firmware drivers for unusual cards
-# - did not fix problem for Macs with Broadcom modems
-# - introdueced an error 'Failed to determine the codename for the release'
-#   - when run on BIOS ThinkPad
 # d-i hw-detect/load_firmware boolean true
     
 # Only ask critically important questions (at first)
@@ -80,9 +77,11 @@ d-i partman/early_command string \
     echo BOOTDEV="$BOOTDEV"  ;\
     echo "$BOOTDEV" > /tmp/BOOTDEV ;\
     debconf-set partman-auto/disk "$BOOTDEV"; \
-    debconf-set grub-installer/bootdev "$BOOTDEV" ;\
-    CDDEV="$(debconf-get cdrom-detect/cdrom_device | grep -v /dev/sr)" ;\
-    [[ ! -z "$CDDEV" ]] && umount "$CDDEV" || true
+    debconf-set grub-installer/bootdev "$BOOTDEV"
+
+    #;\
+#    CDDEV="$(debconf-get cdrom-detect/cdrom_device | grep -v /dev/sr)" ;\
+#    [[ ! -z "$CDDEV" ]] && umount "$CDDEV" || true
 
 ### Unmount active partitions, if any
 # Like, partition containing the installer
