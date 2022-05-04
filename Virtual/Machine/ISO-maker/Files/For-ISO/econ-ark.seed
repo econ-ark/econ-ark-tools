@@ -74,6 +74,7 @@ d-i partman/early_command string \
     USBDEV_LIST="$(mktemp)"; \
     list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
     BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | tail -1)"; \
+    debconf-set partman-auto/automatically_partittion "$BOOTDEV" ;\
     echo BOOTDEV="$BOOTDEV"  ;\
     echo "$BOOTDEV" > /tmp/BOOTDEV ;\
     debconf-set partman-auto/disk "$BOOTDEV"; \
@@ -93,12 +94,12 @@ d-i partman/unmount_active boolean true
 # d-i partman-auto-lvm/new_vg_name string xubuntu-vg
 
 # Guided - use entire disk
-d-i partman-lvm/device_remove_lvm boolean true
-d-i partman-lvm/confirm boolean true
-d-i partman-md/device_remove_md boolean true
-d-i partman-md/confirm boolean true
+# d-i partman-lvm/device_remove_lvm boolean true
+# d-i partman-lvm/confirm boolean true
+# d-i partman-md/device_remove_md boolean true
+# d-i partman-md/confirm boolean true
 # d-i partman-auto/automatically_partition select Guided partitioning
-d-i partman-auto/automatically_partition select "$BOOTDEV"
+# d-i partman-auto/automatically_partition select "$BOOTDEV"
 d-i partman-auto/init_automatically_partition select Guided - use entire disk
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
@@ -236,9 +237,9 @@ d-i partman-auto/method string regular
 # Makes it install to the MBR; necessary for vbox
 d-i grub-installer/only_debian boolean true
 # find other potential os's
-d-i grub-installer/with_other_os boolean true 
-d-i grub-installer/no-uefi-secure-boot boolean true
-d-i grub-efi-amd64 grub2/force_efi_extra_removable boolan true
+#d-i grub-installer/with_other_os boolean true 
+#d-i grub-installer/no-uefi-secure-boot boolean true
+# d-i grub-efi-amd64 grub2/force_efi_extra_removable boolan true
 
 ## mirror settings
 d-i mirror/country string manual
