@@ -253,6 +253,9 @@ d-i apt-setup/security_host                                 string      security
 d-i apt-setup/security_path                                 string      /ubuntu
 # standard is recommended for all installs
 
+# Install all server tools
+tasksel tasksel/first multiselect server
+
 # Selects, but does not install, xfce
 tasksel tasksel/desktop                                     multiselect xfce 
 

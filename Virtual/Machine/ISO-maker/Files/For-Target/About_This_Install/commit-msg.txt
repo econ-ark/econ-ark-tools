@@ -1,3 +1,3 @@
-Make_sure_installer_is_mounted_on_-cdrom
+remove_languagechooser_from_kernel_args
 
-Restore_hw-detect:_It_was_NOT_the_reason_for_install_problems_on_ThinkPad
+About-This-Install-Hash-Update
