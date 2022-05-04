@@ -44,7 +44,10 @@ d-i apt-setup/universe   boolean true
 d-i apt-setup/extras     boolean true
 
 # Extra firmware drivers for unusual cards
-d-i hw-detect/load_firmware boolean true
+# - did not fix problem for Macs with Broadcom modems
+# - introdueced an error 'Failed to determine the codename for the release'
+#   - when run on BIOS ThinkPad
+# d-i hw-detect/load_firmware boolean true
 
 ### Choose WPA security for WiFi
 d-i netcfg/wireless_security_type select wpa
