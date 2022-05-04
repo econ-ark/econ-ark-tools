@@ -7,7 +7,7 @@ d-i preseed/early_command string \
     debconf-set console-setup/ask_detect false ;\
     debconf-set console-setup/layoutcode us ;\
     defconf-set countrychooser/shortlist US ;\
-    debconf-set debian-installer/locale set en_US.UTF-8 ;\
+    debconf-set debian-installer/locale en_US.UTF-8 ;\
     debconf-set netcfg/get_hostname xubuntark ;\
     debconf-set console-setup/modelcode skip-config ;\
     debconf-set keyboard-configuration/layoutcode us ;\
