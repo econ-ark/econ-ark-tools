@@ -98,8 +98,7 @@ d-i partman-lvm/confirm boolean true
 d-i partman-md/device_remove_md boolean true
 d-i partman-md/confirm boolean true
 # d-i partman-auto/automatically_partition select Guided partitioning
-# d-i partman-auto/init_automatically_partition select Guided - use entire disk
-d-i partman-auto/automatically_partition select some_device
+d-i partman-auto/automatically_partition select "$BOOTDEV"
 d-i partman-auto/init_automatically_partition select Guided - use entire disk
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
