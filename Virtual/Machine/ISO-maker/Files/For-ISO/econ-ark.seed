@@ -73,16 +73,16 @@ d-i clock-setup/ntp                                         boolean     true
 # From github.com/coreprocess/linux-unattended-installation/blob/master/ubuntu/20.04/custom/preseed.cfg
 # but changed to grep -f (below) from grep -vf (originally) to insist on
 # installation to USB device and tail -n1 to choose last usb device 
-# d-i partman/early_command string \
-#     USBDEV_LIST="$(mktemp)"; \
-#     list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
-#     BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | tail -1)"; \
-#     echo BOOTDEV="$BOOTDEV"  ;\
-#     echo "$BOOTDEV" > /tmp/BOOTDEV ;\
-#     debconf-set partman-auto/disk "$BOOTDEV"; \
-#     debconf-set grub-installer/bootdev "$BOOTDEV" ;\
-#     CDDEV="$(debconf-get cdrom-detect/cdrom_device | grep -v /dev/sr)" ;\
-#     [[ ! -z "$CDDEV" ]] && umount "$CDDEV" || true
+d-i partman/early_command string \
+    USBDEV_LIST="$(mktemp)"; \
+    list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
+    BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | tail -1)"; \
+    echo BOOTDEV="$BOOTDEV"  ;\
+    echo "$BOOTDEV" > /tmp/BOOTDEV ;\
+    debconf-set partman-auto/disk "$BOOTDEV"; \
+    debconf-set grub-installer/bootdev "$BOOTDEV" ;\
+    CDDEV="$(debconf-get cdrom-detect/cdrom_device | grep -v /dev/sr)" ;\
+    [[ ! -z "$CDDEV" ]] && umount "$CDDEV" || true
 
 ### Unmount active partitions, if any
 # Like, partition containing the installer
@@ -153,6 +153,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     .                                    \
     1000 20000 -1 ext4                   \
     $primary{ }                          \
+    $bootable{ }                         \
     method{ format } format{ }           \
     use_filesystem{ } filesystem{ ext4 } \
     mountpoint{ / }                      \
