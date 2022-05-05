@@ -1,3 +1,3 @@
-automatically_partition_was_set_twice
+remove_accidental_cut-and-paste
 
 About-This-Install-Hash-Update
