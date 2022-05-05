@@ -74,7 +74,7 @@ d-i partman/early_command string \
     USBDEV_LIST="$(mktemp)"; \
     list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
     BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | tail -1)"; \
-    debconf-set partman-auto/automatically_partittion "$BOOTDEV" ;\
+    debconf-set partman-auto/automatically_partition "$BOOTDEV" ;\
     echo BOOTDEV="$BOOTDEV"  ;\
     echo "$BOOTDEV" > /tmp/BOOTDEV ;\
     debconf-set partman-auto/disk "$BOOTDEV"; \
