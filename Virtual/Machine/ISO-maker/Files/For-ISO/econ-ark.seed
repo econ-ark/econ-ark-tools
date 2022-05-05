@@ -99,17 +99,12 @@ d-i partman/unmount_active boolean true
 # d-i partman-md/device_remove_md boolean true
 # d-i partman-md/confirm boolean true
 # d-i partman-auto/automatically_partition select Guided partitioning
-# d-i partman-auto/automatically_partition select "$BOOTDEV"
 d-i partman-auto/init_automatically_partition select Guided - use entire disk
+d-i partman-auto/automatically_partition select "$BOOTDEV"
 
 # Needed to make sure the partitioning scheme is usable with GPT systems
 d-i partman-partitioning/choose_label string gpt 
 d-i partman-partitioning/default_label string gpt 
-#d-i partman-auto/disk string /dev/sdc 
-# method regular : Not, say, encrypted or lvm
-# d-i partman-auto/method string lvm
-
-# Unmount active partitions, if any
 
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman-partitioning/choose_partition select Guided partitioning
