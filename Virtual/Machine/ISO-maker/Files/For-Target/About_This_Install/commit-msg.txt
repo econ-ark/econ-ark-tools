@@ -1,3 +1,3 @@
-Debug_select_disk
+debconf-set_partman-auto-select_disk_$BOOTDEV
 
 About-This-Install-Hash-Update
