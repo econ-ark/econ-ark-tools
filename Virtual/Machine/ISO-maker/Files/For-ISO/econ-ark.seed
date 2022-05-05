@@ -103,9 +103,8 @@ d-i partman/unmount_active boolean true
 # d-i partman-md/confirm boolean true
 d-i partman-auto/automatically_partition select Guided partitioning
 d-i partman-auto/init_automatically_partition select Guided - use entire disk
-d-i partman-auto/select_disk string $BOOTDEV
-echo $(d-i partman-auto/select_disk string $BOOTDEV)
-echo $(d-i partman-auto/select_disk string $BOOTDEV) > /tmp/d-i-partman-auto-select_disk
+debconf-set partman-auto/select_disk $BOOTDEV
+echo "$debconf-set partman-auto/select_disk $BOOTDEV" > /tmp/debconf-set partman-auto/select_disk)
 
 # d-i partman-auto/automatically_partition select "$BOOTDEV"
 
