@@ -103,8 +103,9 @@ d-i partman/unmount_active boolean true
 # d-i partman-md/confirm boolean true
 d-i partman-auto/automatically_partition select Guided partitioning
 d-i partman-auto/init_automatically_partition select Guided - use entire disk
-d-i partman-auto/select_disk string /dev/sdd
+d-i partman-auto/disk string /dev/sdd
 d-i grub-installer/bootdev string /dev/sdd
+d-i partman-auto/select_disk string /dev/sdd
 
 # d-i partman-auto/automatically_partition select "$BOOTDEV"
 
