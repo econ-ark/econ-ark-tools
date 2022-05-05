@@ -81,7 +81,6 @@ d-i partman/early_command string \
     echo debconf-set partman-auto/disk $BOOTDEV; \
     debconf-set partman-auto/disk $BOOTDEV; \
     echo debconf-set grub-installer/bootdev $BOOTDEV ;\
-    cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker ; git add /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install ; git commit -m 'About-This-Install-Hash-Update' ; git push
     debconf-set grub-installer/bootdev $BOOTDEV ;\
     CDDEV="$(debconf-get cdrom-detect/cdrom_device | sed 's/\(.*\)./\1/' | grep -f "$USBDEV_LIST")" ;\
     [[ ! -z "$CDDEV" ]] && umount "$CDDEV" && mount "$CDDEV" /cdrom || true
