@@ -1,3 +1,3 @@
-automatically_partition_select_$BOOTDEV
+debug_"$BOOTDEV"_as_blank_but_$BOOTDEV_not
 
-Remove_$bootable_from_partition_3
+About-This-Install-Hash-Update
