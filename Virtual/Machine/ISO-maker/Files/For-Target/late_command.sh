@@ -2,7 +2,8 @@
 
  apt -y update 
  apt -y install git 
- apt -y install grub-efi 
+ apt -y install grub-efi-amd64-bin 
+ apt -y install grub-pc 
  mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 
  chmod -Rf a+rwx /usr/local/share/data 
  [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && git clone --depth 1 https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
