@@ -74,20 +74,20 @@ d-i partman/early_command string \
     USBDEV_LIST="$(mktemp)"; \
     list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
     BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | tail -1)"; \
-#    echo debconf-set partman-auto/automatically_partition $BOOTDEV > /tmp/debconf-set- ;\
-#    debconf-set partman-auto/automatically_partition $BOOTDEV ;\
     echo BOOTDEV="$BOOTDEV"  ;\
     echo "$BOOTDEV" > /tmp/BOOTDEV ;\
-    echo debconf-set partman-auto/disk $BOOTDEV; \
-    debconf-set partman-auto/disk $BOOTDEV; \
-    echo debconf-set grub-installer/bootdev $BOOTDEV ;\
-    debconf-set grub-installer/bootdev $BOOTDEV ;\
     CDDEV="$(debconf-get cdrom-detect/cdrom_device | sed 's/\(.*\)./\1/' | grep -f "$USBDEV_LIST")" ;\
     [[ ! -z "$CDDEV" ]] && umount "$CDDEV" && mount "$CDDEV" /cdrom || true
 
+#        echo debconf-set partman-auto/disk $BOOTDEV; \
+#    echo debconf-set grub-installer/bootdev $BOOTDEV ;\
+
+    #    debconf-set grub-installer/bootdev $BOOTDEV ;\
+#    echo debconf-set partman-auto/automatically_partition $BOOTDEV > /tmp/debconf-set- ;\
+#    debconf-set partman-auto/automatically_partition $BOOTDEV ;\
 ### Unmount active partitions, if any
 # Like, partition containing the installer
-d-i partman/unmount_active boolean true
+# d-i partman/unmount_active boolean true
 
 #; \    
 #    while /bin/true; do sleep 0.01; rm -f /target/etc/grub.d/30_os-prober; done &
@@ -101,36 +101,33 @@ d-i partman/unmount_active boolean true
 # d-i partman-lvm/confirm boolean true
 # d-i partman-md/device_remove_md boolean true
 # d-i partman-md/confirm boolean true
+d-i partman-auto/method string regular
 d-i partman-auto/automatically_partition select Guided partitioning
 d-i partman-auto/init_automatically_partition select Guided - use entire disk
-d-i partman-auto/disk string /dev/sdd
-d-i grub-installer/bootdev string /dev/sdd
-d-i partman-auto/select_disk string /dev/sdd
 
 # d-i partman-auto/automatically_partition select "$BOOTDEV"
 
-# Needed to make sure the partitioning scheme is usable with GPT systems
-d-i partman-partitioning/choose_label string gpt 
-d-i partman-partitioning/default_label string gpt 
+# # Needed to make sure the partitioning scheme is usable with GPT systems
+# d-i partman-partitioning/choose_label string gpt 
+# d-i partman-partitioning/default_label string gpt 
 
 d-i partman-partitioning/confirm_write_new_label boolean true
-d-i partman-partitioning/choose_partition select Guided partitioning
+#d-i partman-partitioning/choose_partition select Guided partitioning
 d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
 
-d-i partman-auto/method string regular
-###gpt
-d-i partman-basicfilesystems/choose_label string gpt
-d-i partman-basicfilesystems/default_label string gpt
-#d-i partman-basicfilesystems/no_swap boolean true
+# ###gpt
+# d-i partman-basicfilesystems/choose_label string gpt
+# d-i partman-basicfilesystems/default_label string gpt
+# #d-i partman-basicfilesystems/no_swap boolean true
 
-d-i partman-partitioning/choose_label string gpt
-d-i partman-partitioning/default_label string gpt
-d-i partman/choose_label string gpt
-d-i partman/default_label string gpt
+# d-i partman-partitioning/choose_label string gpt
+# d-i partman-partitioning/default_label string gpt
+# d-i partman/choose_label string gpt
+# d-i partman/default_label string gpt
 
-# Counterintuitively, the setting below forces it TO BE an efi system
-d-i partman-efi/non_efi_system boolean true
+# # Counterintuitively, the setting below forces it TO BE an efi system
+# d-i partman-efi/non_efi_system boolean true
 
 # This recipe was taken from github.com/nuada/ubuntu-preseed (uefi-boot-root-swap)
 d-i partman-auto/choose_recipe select root-disk
@@ -196,13 +193,13 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     #     mountpoint{ /boot }                         \
     #     .                                           \
 
-# d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
-# d-i partman/confirm_write_new_label boolean true
-d-i partman/choose_partition        select  Finish partitioning and write changes to disk
-# d-i partman/confirm         boolean true
-d-i partman-partitioning/confirm_copy   boolean true
-d-i partman/confirm_new_label       boolean true
-d-i partman-auto/method string regular
+# # d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
+# # d-i partman/confirm_write_new_label boolean true
+# d-i partman/choose_partition        select  Finish partitioning and write changes to disk
+# # d-i partman/confirm         boolean true
+# d-i partman-partitioning/confirm_copy   boolean true
+# d-i partman/confirm_new_label       boolean true
+# d-i partman-auto/method string regular
 
 # originally fat_32 partition
 # originally partition 1
