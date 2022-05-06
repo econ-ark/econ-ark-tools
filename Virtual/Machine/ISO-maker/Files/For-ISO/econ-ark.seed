@@ -70,16 +70,25 @@ d-i clock-setup/ntp                                         boolean     true
 # From github.com/coreprocess/linux-unattended-installation/blob/master/ubuntu/20.04/custom/preseed.cfg
 # but changed to grep -f (below) from grep -vf (originally) to insist on
 # installation to USB device and tail -n1 to choose last usb device 
-# d-i partman/early_command string \
-#    USBDEV_LIST="$(mktemp)"; \
-#    list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
-#    BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | tail -1)"; \
-#    echo BOOTDEV="$BOOTDEV"  ;\
-#    echo "$BOOTDEV" > /tmp/BOOTDEV ;\
-#    CDDEV="$(debconf-get cdrom-detect/cdrom_device | sed 's/\(.*\)./\1/' | grep -f "$USBDEV_LIST")" ;\
-#    [[ ! -z "$CDDEV" ]] && umount "$CDDEV" && mount "$CDDEV" /cdrom || true
+d-i partman/early_command string \
+    debconf-set partman/installation_medium_mounted true ;\
+    CDDEV="$(mount | grep cdrom | cut -d' ' -fa | sed 's/\(.*\)./\1/')" ;\
+    USBDEV_LIST="$(mktemp)" ;\
+    list-devices usb-partition | grep -v "$CDDEV" | sed "s/\(.*\)./\1/" > "$USBDEV_LIST" ;\
+    BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | grep -v "$CDDEV" | tail -1)" ;\
+    echo BOOTDEV="$BOOTDEV"  ;\
+    echo "$BOOTDEV" > /tmp/BOOTDEV ;\
+    if [[ ! -z "$BOOTDEV" ]]; then \
+	debconf-set partman-auto/disk "$BOOTDEV" ;\
+	debconf-set grub-installer/bootdev "$BOOTDEV" ;\
+    fi
+				  
 
-#        echo debconf-set partman-auto/disk $BOOTDEV; \
+   # if [[ ! -z "$CDDEV" ]]; then \
+   #     umount "$CDDEV" ;\
+   #     mount "$CDDEV" /cdrom ;\
+   # fi ;\
+   
 #    echo debconf-set grub-installer/bootdev $BOOTDEV ;\
 
     #    debconf-set grub-installer/bootdev $BOOTDEV ;\
@@ -104,7 +113,7 @@ d-i clock-setup/ntp                                         boolean     true
 d-i partman-auto/method string regular
 d-i partman-auto/automatically_partition select Guided partitioning
 d-i partman-auto/init_automatically_partition select some_device
-d-i partman-auto/disk string /dev/sdc
+# d-i partman-auto/disk string /dev/sdc
 
 # d-i partman-auto/automatically_partition select "$BOOTDEV"
 
