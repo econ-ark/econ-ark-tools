@@ -289,7 +289,7 @@ d-i grub-installer/only_debian boolean true
 d-i grub-installer/with_other_os boolean true 
 
 ### Kernel options for boot in created machine
-# d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash
+d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash
 
 # Display manager
 d-i shared/default-x-display-manager                    select      lightdm
