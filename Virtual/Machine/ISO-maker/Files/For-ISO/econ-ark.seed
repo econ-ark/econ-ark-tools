@@ -70,14 +70,14 @@ d-i clock-setup/ntp                                         boolean     true
 # From github.com/coreprocess/linux-unattended-installation/blob/master/ubuntu/20.04/custom/preseed.cfg
 # but changed to grep -f (below) from grep -vf (originally) to insist on
 # installation to USB device and tail -n1 to choose last usb device 
-d-i partman/early_command string \
-    USBDEV_LIST="$(mktemp)"; \
-    list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
-    BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | tail -1)"; \
-    echo BOOTDEV="$BOOTDEV"  ;\
-    echo "$BOOTDEV" > /tmp/BOOTDEV ;\
-    CDDEV="$(debconf-get cdrom-detect/cdrom_device | sed 's/\(.*\)./\1/' | grep -f "$USBDEV_LIST")" ;\
-    [[ ! -z "$CDDEV" ]] && umount "$CDDEV" && mount "$CDDEV" /cdrom || true
+# d-i partman/early_command string \
+#    USBDEV_LIST="$(mktemp)"; \
+#    list-devices usb-partition | sed "s/\(.*\)./\1/" > "$USBDEV_LIST"; \
+#    BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | tail -1)"; \
+#    echo BOOTDEV="$BOOTDEV"  ;\
+#    echo "$BOOTDEV" > /tmp/BOOTDEV ;\
+#    CDDEV="$(debconf-get cdrom-detect/cdrom_device | sed 's/\(.*\)./\1/' | grep -f "$USBDEV_LIST")" ;\
+#    [[ ! -z "$CDDEV" ]] && umount "$CDDEV" && mount "$CDDEV" /cdrom || true
 
 #        echo debconf-set partman-auto/disk $BOOTDEV; \
 #    echo debconf-set grub-installer/bootdev $BOOTDEV ;\
@@ -103,7 +103,8 @@ d-i partman/early_command string \
 # d-i partman-md/confirm boolean true
 d-i partman-auto/method string regular
 d-i partman-auto/automatically_partition select Guided partitioning
-d-i partman-auto/init_automatically_partition select Guided - use entire disk
+d-i partman-auto/init_automatically_partition select some_device
+d-i partman-auto/disk string /dev/sdc
 
 # d-i partman-auto/automatically_partition select "$BOOTDEV"
 
@@ -111,10 +112,10 @@ d-i partman-auto/init_automatically_partition select Guided - use entire disk
 # d-i partman-partitioning/choose_label string gpt 
 # d-i partman-partitioning/default_label string gpt 
 
-d-i partman-partitioning/confirm_write_new_label boolean true
+# d-i partman-partitioning/confirm_write_new_label boolean true
 #d-i partman-partitioning/choose_partition select Guided partitioning
 d-i partman/confirm boolean true
-d-i partman/confirm_nooverwrite boolean true
+# d-i partman/confirm_nooverwrite boolean true
 
 # ###gpt
 # d-i partman-basicfilesystems/choose_label string gpt
