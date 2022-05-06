@@ -1,3 +1,3 @@
-add_libdata_to_main_config.__libata.force=1.0:disable_in_linux_command_line_disables_ATA_drive_1
+Remove_possibly_unnecessary_kernel_arguments
 
-About-This-Install-Hash-Update
+Second_grub_menu_item:_enable_internal_ATA_drive_(vmlinuz_kernel_option)
