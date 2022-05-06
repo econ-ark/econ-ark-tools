@@ -71,10 +71,9 @@ d-i clock-setup/ntp                                         boolean     true
 # but changed to grep -f (below) from grep -vf (originally) to insist on
 # installation to USB device and tail -n1 to choose last usb device 
 d-i partman/early_command string \
-    debconf-set partman/installation_medium_mounted true ;\
-    CDDEV="$(mount | grep cdrom | cut -d' ' -fa | sed 's/\(.*\)./\1/')" ;\
+    CDDEV="$(mount | grep cdrom | cut -d' ' -f1 | sed 's/\(.*\)./\1/')" ;\
     USBDEV_LIST="$(mktemp)" ;\
-    list-devices usb-partition | grep -v "$CDDEV" | sed "s/\(.*\)./\1/" > "$USBDEV_LIST" ;\
+    list-devices usb-partition | sed "s/\(.*\)./\1/" | grep -v "$CDDEV" > "$USBDEV_LIST" ;\
     BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | grep -v "$CDDEV" | tail -1)" ;\
     echo BOOTDEV="$BOOTDEV"  ;\
     echo "$BOOTDEV" > /tmp/BOOTDEV ;\
@@ -83,11 +82,13 @@ d-i partman/early_command string \
 	debconf-set grub-installer/bootdev "$BOOTDEV" ;\
     fi
 				  
-
+    
    # if [[ ! -z "$CDDEV" ]]; then \
    #     umount "$CDDEV" ;\
    #     mount "$CDDEV" /cdrom ;\
-   # fi ;\
+    # fi ;\
+    
+d-i partman/installation_media_seen false
    
 #    echo debconf-set grub-installer/bootdev $BOOTDEV ;\
 
