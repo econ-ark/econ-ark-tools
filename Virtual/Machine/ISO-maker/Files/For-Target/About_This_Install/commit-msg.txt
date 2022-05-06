@@ -1,3 +1,3 @@
-Set_-dev-sdd_by_hand
+Minimize_partman-auto
 
-debconf-set_partman-auto-select_disk_$BOOTDEV
+About-This-Install-Hash-Update
