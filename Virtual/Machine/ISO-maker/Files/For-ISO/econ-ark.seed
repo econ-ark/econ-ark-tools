@@ -28,14 +28,9 @@ d-i debian-installer/splash                                 boolean     false
 ### Localization
 d-i debian-installer/locale string en_US.UTF-8
 
-### Disable automatic (interactive) keymap detection.
-# d-i keyboard-configuration/xkb-keymap skip-config
-d-i console-setup/ask_detect boolean false
-
 ### Choose sources for software
 # Allow installing restricted packages
 d-i apt-setup/restricted boolean true
-
 d-i apt-setup/universe   boolean true     
 d-i apt-setup/extras     boolean true
 
@@ -79,59 +74,41 @@ d-i partman/early_command string \
     fi ;\
     debconf-set debconf/priority critical
     
-   # if [[ ! -z "$CDDEV" ]]; then \
-   #     umount "$CDDEV" ;\
-   #     mount "$CDDEV" /cdrom ;\
-    # fi ;\
-    
 ### Unmount active partitions, if any
 # Like, partition containing the installer
+# Does not seem to do anything
 d-i partman/unmount_active boolean true
+
+# Skip question about which disk to choose; disabled by priority=critical
 d-i partman/installation_medium_mounted seen true
    
-#    echo debconf-set grub-installer/bootdev $BOOTDEV ;\
-
-    #    debconf-set grub-installer/bootdev $BOOTDEV ;\
 #    echo debconf-set partman-auto/automatically_partition $BOOTDEV > /tmp/debconf-set- ;\
 #    debconf-set partman-auto/automatically_partition $BOOTDEV ;\
 
-#; \    
-#    while /bin/true; do sleep 0.01; rm -f /target/etc/grub.d/30_os-prober; done &
-
-    # # # 
 # Set up for logical volume management
 # d-i partman-auto-lvm/new_vg_name string xubuntu-vg
 
-# Guided - use entire disk
-# d-i partman-lvm/device_remove_lvm boolean true
-# d-i partman-lvm/confirm boolean true
-# d-i partman-md/device_remove_md boolean true
-# d-i partman-md/confirm boolean true
+# Format as regular (not lvm or raid) 
 d-i partman-auto/method string regular
-d-i partman-auto/automatically_partition select Guided partitioning
-d-i partman-auto/init_automatically_partition select some_device
-# d-i partman-auto/disk string /dev/sdc
 
-# d-i partman-auto/automatically_partition select "$BOOTDEV"
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-md/device_remove_md boolean true
+d-i partman-md/confirm boolean true
+
+# Guided - use entire disk
+d-i partman-auto/automatically_partition select Guided partitioning
+# some_device == Guided - use entire disk
+d-i partman-auto/init_automatically_partition select some_device
 
 # # Needed to make sure the partitioning scheme is usable with GPT systems
-# d-i partman-partitioning/choose_label string gpt 
-# d-i partman-partitioning/default_label string gpt 
+d-i partman-partitioning/choose_label string gpt 
+d-i partman-partitioning/default_label string gpt 
 
+# Automatically accept auto-partitioning choices, except last 
 d-i partman-partitioning/confirm_write_new_label boolean true
-#d-i partman-partitioning/choose_partition select Guided partitioning
 d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
-
-# ###gpt
-# d-i partman-basicfilesystems/choose_label string gpt
-# d-i partman-basicfilesystems/default_label string gpt
-# #d-i partman-basicfilesystems/no_swap boolean true
-
-# d-i partman-partitioning/choose_label string gpt
-# d-i partman-partitioning/default_label string gpt
-# d-i partman/choose_label string gpt
-# d-i partman/default_label string gpt
 
 # # Counterintuitively, the setting below forces it TO BE an efi system
 # d-i partman-efi/non_efi_system boolean true
@@ -165,76 +142,6 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     $primary{ }                          \
     method{ swap } format{ }             \
     .
-
-    # 1 1 1 free                                      \
-    # 	$bios_boot{ }                               \
-    # 	method{ biosgrub }                          \
-    # 	.			                    \
-    # 256 256 256 fat32                               \
-    # 	label{ ESP }				    \
-    # 	$primary{ }				    \
-    #     $iflabel{ gpt }                             \
-    #     $reusemethod{ }                             \
-    #     method{ efi } format{ }                     \
-    #     mountpoint{ /boot/efi }                     \
-    #     .                                           \
-    # 512 512 512 ext4                                \
-    #     $primary{ }				    \
-    #     $bootable{ }                                \
-    #     method{ format } format{ }                  \
-    #     use_filesystem{ } filesystem { ext4 }       \
-    #     mountpoint{ /boot }                         \
-    #     .                                           \
-    # 8192 32768 -1 ext4                              \
-    # 	label{ root }                               \
-    #     method{ format } format{ }                     \
-    #     use_filesystem{ } filesystem{ ext4 }        \
-    #     mountpoint{ / }                             \
-    #    .
-
-    # 512 512 512 ext4                                \
-    #     $primary{ }				    \
-    #     $bootable{ }                                \
-    #     method{ format } format{ }                  \
-    #     use_filesystem{ } filesystem { ext4 }       \
-    #     mountpoint{ /boot }                         \
-    #     .                                           \
-
-# # d-i partman-auto/disk string /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde
-# # d-i partman/confirm_write_new_label boolean true
-# d-i partman/choose_partition        select  Finish partitioning and write changes to disk
-# # d-i partman/confirm         boolean true
-# d-i partman-partitioning/confirm_copy   boolean true
-# d-i partman/confirm_new_label       boolean true
-# d-i partman-auto/method string regular
-
-# originally fat_32 partition
-# originally partition 1
-#	$gptonly{ }				    \
-	# $primary{ }				    \
-	# $reusemethod{ }				    \
-
-# originally partition 2
-    # 1024 1024 1024 hfs                              \
-    # 	$gptonly{ }				    \
-    #     $primary{ }                                 \
-    # 	$bootable{ }                                \
-    #     label{ hfsplus }                            \
-    #     method{ keep } format{ }                    \
-    #     use_filesystem{ } filesystem{ hfs }         \
-    #     mountpoint{ /boot/hfsplus }                 \
-    #     .                                           \
-
-# originally partition 4	
-    # 2048 4096 200% linux-swap                       \
-    # 	$gptonly{ }				    \
-    #     $lvmok{ }                                   \
-    #     in_vg { xubuntu-vg } lv_name{ swap_1 }       \
-    #     method{ swap } format{ }                    \
-    #     .  	                                    \
-
-# Should only assume /dev/sda on VirtualBox
-#d-i grub-installer/bootdev string /dev/sda
 
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
