@@ -13,12 +13,8 @@ d-i preseed/early_command string \
     debconf-set keyboard-configuration/layoutcode us ;\
     umount /media || true
     
-#    debconf-set partman/unmount_active /dev/sda ;\
-# d-i keyboard-configuration/early_command string \
-#     debconf-set keyboard-configuration/xkb-keymap skip-config
-
 # Extra firmware drivers for unusual cards
-# d-i hw-detect/load_firmware boolean true
+d-i hw-detect/load_firmware boolean true
     
 # Only ask critically important questions (at first)
 d-i debconf/priority select high
