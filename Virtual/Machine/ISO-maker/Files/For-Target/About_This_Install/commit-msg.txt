@@ -1,3 +1,3 @@
-Add_emacs_cut_and_paste_sync_with_xwindows_system_clipboard
+Add_emacs_cut_and_paste_sync_with_x
 
-Restore_console-setup-ask_detect=false
+About-This-Install-Hash-Update
