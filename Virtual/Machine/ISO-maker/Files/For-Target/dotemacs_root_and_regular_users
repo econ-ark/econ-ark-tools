@@ -26,7 +26,7 @@
   ;; (add-to-list 'package-archives '("org"          . "http://orgmode.org/elpa/")            t)
 
   ;; list the packages you want
-  (setq package-list '(use-package auctex auto-complete-auctex shell-here org csv-mode markdown-mode git magit elpy gnu-elpa-keyring-update bash-completion))
+  (setq package-list '(use-package auctex auto-complete-auctex shell-here org csv-mode markdown-mode git magit elpy gnu-elpa-keyring-update bash-completion xclip))
   ;; fetch the list of packages available
   (unless package-archive-contents
     (package-refresh-contents))
@@ -229,3 +229,10 @@
 	  (lambda (buf strg)
 	    (let ((win  (get-buffer-window buf 'visible)))
 	      (when win (delete-window win)))))
+
+(global-set-key "\C-w" 'clipboard-kill-region)
+(global-set-key "\M-w" 'clipboard-kill-ring-save)
+(global-set-key "\C-y" 'clipboard-yank)
+(require 'xclip)
+(xclip-mode 1)
+
