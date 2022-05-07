@@ -5,14 +5,22 @@
 
 d-i preseed/early_command string \
     debconf-set console-setup/ask_detect false ;\
+    debconf-set debian-installer/locale en_US.UTF-8 ;\
     debconf-set console-setup/layoutcode us ;\
     debconf-set countrychooser/shortlist US ;\
-    debconf-set debian-installer/locale en_US.UTF-8 ;\
     debconf-set netcfg/get_hostname xubuntark ;\
     debconf-set console-setup/modelcode skip-config ;\
     debconf-set keyboard-configuration/layoutcode us ;\
     umount /media || true
-    
+
+    # To skip keyboard configuration, preseed keymap with skip-config
+    # This will result in the kernel keymap remaining active
+    # (Requires keymap to have been specified in kernel, e.g.
+    # 
+d-i keyboard-configuration/xkb-keymap skip-config
+d-i console-setup/ask_detect boolean false
+d-i console-setup/layoutcode string us
+
 # Extra firmware drivers for unusual cards
 d-i hw-detect/load_firmware boolean true
     
