@@ -1,1 +1,3 @@
+Fix_test_for_sudoer_privileges
 
+Repair_problems_caused_by_new_git_sensitivity_to_user_ownership_of_repo
