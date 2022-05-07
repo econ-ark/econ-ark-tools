@@ -569,7 +569,7 @@ mkdir -p $iso_make/iso_new/boot/efi/EFI/BOOT/
 cp $iso_make/iso_new/EFI/BOOT/grubx64.efi $iso_make/iso_new/boot/efi/EFI/BOOT/grubx64.efi  
 cp $iso_make/iso_new/EFI/BOOT/BOOTx64.EFI $iso_make/iso_new/boot/efi/EFI/BOOT/BOOTx64.EFI
 
-chmod +w $iso_make/iso_new/README.diskdefines
+sudo chmod a+w $iso_make/iso_new/README.diskdefines
 rpl --quiet 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' $iso_make/iso_new/README.diskdefines
 sudo chmod u-w $iso_make/iso_new/README.diskdefines
 
