@@ -1,3 +1,3 @@
-Add_emacs_cut_and_paste_sync_with_xwindows_system_clipboard
+netcfg-early_command_debconf-set_debconf-priority_high
 
-Restore_console-setup-ask_detect=false
+Add_emacs_cut_and_paste_sync_with_x
