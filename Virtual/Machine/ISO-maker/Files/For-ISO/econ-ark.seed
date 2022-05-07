@@ -21,6 +21,9 @@ d-i keyboard-configuration/xkb-keymap skip-config
 d-i console-setup/ask_detect boolean false
 d-i console-setup/layoutcode string us
 
+d-i console-setup/early_command string \
+    debconf-set debconf/priority critical
+
 # Extra firmware drivers for unusual cards
 d-i hw-detect/load_firmware boolean true
     
