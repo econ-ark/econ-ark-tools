@@ -280,13 +280,13 @@ fi
 if grep -qs $iso_make/iso_org /proc/mounts ; then
     echo " image is already mounted"
     echo " unmounting before remounting (to make sure latest version is what is mounted)"
-    (umount $iso_make/iso_org )
+    (sudo umount $iso_make/iso_org )
 fi
 
 echo 'Mounting '$download_file' as '$iso_make/iso_org
-cp $iso_from/$download_file /tmp/$download_file
+sudo cp $iso_from/$download_file /tmp/$download_file
 echo mount -o loop /tmp/$download_file $iso_make/iso_org
-(mount -o loop /tmp/$download_file $iso_make/iso_org > /dev/null 2>&1)
+(sudo mount -o loop /tmp/$download_file $iso_make/iso_org > /dev/null 2>&1)
 
 # copy the iso contents to the working directory
 echo 'Copying the iso contents from iso_org to iso_new'
@@ -700,7 +700,7 @@ unset iso_done
 unset tmp
 unset seed_file
 
-umount /usr/local/share/iso_make/iso_org
+sudo umount /usr/local/share/iso_make/iso_org
 
 rm "$pathToScript/Size-To-Make-Is-$size"
 
