@@ -322,8 +322,9 @@ sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.V
 # because the system that installs everything derives instead from initrd
 # and it is NOT worth it to try to change initrd
 # So everything that goes on the target must come from somewhere outside of /
-# set late_command
 
+
+# set late_command
 # There are two versions of late_command: One that can be run to reconfigure a
 # machine that was set up in some other way than via the ISO installer,
 # versus via the ISO installer.  If the git_branch is "Make-ISO-Installer"
@@ -396,9 +397,6 @@ late_command+="mount --bind /dev /target/dev ;\
     rm    -f /target/var/local/Size-To-Make-Is-MAX ;\
     chroot /target touch /var/local/Size-To-Make-Is-$size "
 
-#     chroot /target update-grub ;\
-    #     chroot /target grub2-mkconfig ;\
-
 if [ "$git_branch" == "Make-ISO-Installer" ]; then
     late_command+=";\
      mkdir -p   /target/usr/share/lightdm/lightdm.conf.d /target/etc/systemd/system/getty@tty1.service.d ;\
@@ -416,12 +414,8 @@ fi
 
 # target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
     # target_dev=\${target_efi%?}  ;\
-    # chroot /target echo grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi > /target/var/local/grub-install-test.sh ;\
-    # chroot /target      grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi ;\
-    # chroot /target update-grub ;\
     # chroot /target cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
     # chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
-    #     swapon \$target_swap ;\
     # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
 # https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1867092
 
@@ -446,11 +440,6 @@ sudo chmod a+x $ForTarget/late_command.sh
 sudo chmod a+x $iso_make/iso_new/preseed/late_command_busybox.sh
 
 # Test whether anything has changed that requires a new push
-
-# echo "whoami=$(whoami)"
-# git_status="$(git status --untracked-files=normal --porcelain 2>/dev/null)"
-# echo "git=status=$git_status"
-# git status --untracked-files=normal --porcelain
 
 if [[ -z "$(git status --untracked-files=normal --porcelain 2>/dev/null)" ]]; then #
     echo '' ; echo 'Nothing has changed since last commit; continuing'
@@ -552,9 +541,9 @@ if [ "$version" == "base" ]; then
     sudo chmod u+w $iso_make/iso_new/boot/grub/grub.cfg 
     sudo /bin/sed -i 's|set gfxmode=auto|gfxmode=640x480|g' $iso_make/iso_new/boot/grub/grub.cfg
     sudo /bin/sed -i 's|gfxterm|console|g'                  $iso_make/iso_new/boot/grub/grub.cfg
-    # 20210215: Spent a couple of hours trying to diagnose why MacBookPro9,1 now will not boot
+    # 20210215: MacBookPro9,1 now will not boot with standard Autoinstall
     #    seems to give up when thunderbolt does not respond, rather than looking for drives on USB.
-    #    Google searches largely fruitless.  Gave up.
+    #    noapic kernel argument seems to fix it
     sudo /bin/sed -i 's|set timeout=30|set timeout=10\nmenuentry "Autoinstall Econ-ARK Xubuntu" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz libata.force=1.0:disable hostname=xubuntark netcfg/get_hostname=xubuntark   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical DEBCONF_DEBUG=5 nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Enable ATA1 (internal drive)" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz hostname=xubuntark netcfg/get_hostname=xubuntark   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical DEBCONF_DEBUG=5 nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Most Macs" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "MacBookPro9,1-Mid-2012 (noapic-still might not work)" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical noapic  ---\n	initrd	/install/initrd.gz\n}\nsubmenu "Boot debug options ..." {\nmenuentry "acpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    acpi=off        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "nolapic noapic irqpoll" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    noapic irqpoll       ---\n	initrd	/install/initrd.gz\n}\nmenuentry "noapic" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    noapic        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi=ht" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    acpi=ht        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi_osi=Linux" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    cpi_osi=Linux ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noacpi" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/ecopn-ark.seed auto=true priority=critical                    pci=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    pci=noirq        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "apci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    acpi=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pnpacpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    pnpacpi=off        ---\n	initrd	/install/initrd.gz\n}\n}|g' $iso_make/iso_new/boot/grub/grub.cfg
     
     # Delete original options
@@ -633,7 +622,6 @@ echo ''
 # ISONAME="XUB20ARK$size_Meta"
 # cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
 
-
 # mke="$cmd"
 # echo "$cmd"
 # eval "$cmd"
@@ -684,7 +672,6 @@ echo ""
 # echo "$cmd"        >> "/tmp/rclone-to-Google-Drive_Last-ISO-Made-$size.sh"
 # chmod a+x             "/tmp/rclone-to-Google-Drive_Last-ISO-Made-$size.sh"
 
-# uncomment the exit to perform cleanup of drive after run
 # unset vars
 unset username
 unset password
@@ -704,6 +691,7 @@ sudo umount /usr/local/share/iso_make/iso_org
 
 rm "$pathToScript/Size-To-Make-Is-$size"
 
+# uncomment the exit to perform cleanup of drive after run
 exit
 
 rm -rf $iso_make/iso_new
