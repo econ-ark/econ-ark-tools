@@ -17,12 +17,10 @@ if [ "$TERM" == "dumb" ]; then
     exit 1
 fi
 
-echo '' ; echo 'User must have sudoer privileges: Enter sudo pasword:'
-if [[ $(sudo -v &> /dev/null) ]]; then
-    echo 'sudo privileges activated '
-else
-    echo 'User does not have sudoer privileges; aborting'
-fi
+echo '' ; echo 'User must have sudoer privileges ...'
+sudoer=false
+sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
+[[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
 
 version="base" # or "full" for debugging (too-many-options) on the grub menu
 
