@@ -105,7 +105,7 @@ wget -O  /var/local/root/.config/rclone/rcloneconf.zip $online/root/.config/rclo
 sudo apt-get -y install firmware-b43-installer
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server expect rpl
+sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server expect rpl gnome-disk-utility
 
 # Packages present in "live" but not in "legacy" version of server
 # https://ubuntuforums.org/showthread.php?t=2443047
