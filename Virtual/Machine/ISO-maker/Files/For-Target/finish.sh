@@ -261,9 +261,8 @@ cd /usr/local/share/data/GitHub/econ-ark/HARK
 pytest 
 
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/notebooks
-# 20210904: Disabling pytest because Chinese Growth fails; see DemARK issue posted today
-pytest --nbval-lax --ignore=Chinese-Growth.ipynb *.ipynb
-
+# 20220508: Chinese-Growth is very slow
+pytest --nbval-lax --ignore=Chinese-Growth.ipynb --nbval-cell-timeout=1200 *.ipynb
 
 # Allow reading of MacOS HFS+ files
 sudo apt -y install hfsplus hfsutils hfsprogs
