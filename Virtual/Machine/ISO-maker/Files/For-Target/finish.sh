@@ -251,7 +251,7 @@ echo 'pytest '                                                                  
 
 echo 'This is your local, personal copy of DemARK, which you can modify.  '    >  DemARK-README.md
 echo 'To test whether everything works, in the root directory type:.  '       >>  DemARK-README.md
-echo 'cd notebooks ; pytest --nbval-lax *.ipynb  '                            >>  DemARK-README.md
+echo 'cd notebooks ; pytest --nbval-lax --ignore=Chinese-Growth.ipynb *.ipynb  '                            >>  DemARK-README.md
 
 echo 'This is your local, personal copy of REMARK, which you can modify.  '    >  REMARK-README.md
 
@@ -266,8 +266,7 @@ pytest
 
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/notebooks
 # 20210904: Disabling pytest because Chinese Growth fails; see DemARK issue posted today
-# pytest --nbval-lax *.ipynb
-
+pytest --nbval-lax --ignore=Chinese-Growth.ipynb *.ipynb
 
 
 # Allow reading of MacOS HFS+ files
