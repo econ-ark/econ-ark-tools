@@ -1,27 +1,36 @@
 # ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 
-# d-i partman/early_command string \
-#     [ "$(mount | grep /media)" ] && umount /media
+# There are two moments at which an early_command can be executed:
+# at the very beginning (via preseed/early_command), and at the
+# beginning of partitioning (viar partman/early_command).
 
+# With priority=critical, networking is attempted but skipped if it fails
+# With priority=high, networking will ask user to choose among interfaces
+# (wifi or wired, if both exist)
+# This is required for configuring wifi setup when needed
+
+# So, must start with 
+d-i debconf/priority select high
+
+# With priority=high, 
+# neither kernel parameters nor the preseeding below convinces the installer
+# to skip questions about the keyboard configuration
+
+# However, these and the kernel arguments would be operative under
+# priority critical; that is why they are preserved here despite
+# being ineffective (to preserve the painfully learned structure)
 d-i preseed/early_command string \
-    debconf-set debian-installer/locale en_US.UTF-8 ;\
     debconf-set console-setup/ask_detect false ;\
-    debconf-set netcfg/get_hostname xubuntark ;\
     debconf-set keyboard-configuration/layoutcode us ;\
     umount /media || true
 
-# For some reason, the settings below do not work    
-#    debconf-set console-setup/layoutcode us ;\
-#    debconf-set countrychooser/shortlist US ;\
-#    debconf-set console-setup/modelcode skip-config ;\
-    
+# debconf-set netcfg/get_hostname xubuntark ;\
+
 # Extra firmware drivers for unusual cards
 d-i hw-detect/load_firmware boolean true
 
-# Only ask critically important questions (at first)
-d-i debconf/priority select high
-
-# auto-install allows installer to skip preseeded questions altogether
+# auto-install allows installer to skip preseeded questions
+# (mostly -- or only -- in critical mode)
 d-i auto-install enable boolean true
 
 # Show install info rather than eye candy
@@ -39,8 +48,7 @@ d-i apt-setup/extras     boolean true
 ### Choose WPA security for WiFi
 d-i netcfg/wireless_security_type select wpa
 
-### Preconfigure hostname
-#d-i netcfg/get_domain string unassigned-domain
+### Preconfigure hostname for netcfg
 d-i netcfg/get_hostname string XUB20ARK
 d-i netcfg/hostname                                     string      {{hostname}}
 d-i netcfg/hostname seen                                true
@@ -62,7 +70,13 @@ d-i clock-setup/ntp                                         boolean     true
 
 # From github.com/coreprocess/linux-unattended-installation/blob/master/ubuntu/20.04/custom/preseed.cfg
 # but changed to grep -f (below) from grep -vf (originally) to insist on
-# installation to USB device and tail -n1 to choose last usb device 
+# installation to USB device and tail -n1 to choose last usb device
+
+# Purposes:
+# - use only usb devices as candidates for the boot device
+# - exclude a usb drive that is hosting the installer from list of available USB
+# - tell grub installer to install to boot disk
+# - priority critical allows skipping of confusing questions
 d-i partman/early_command string \
     CDDEV="$(mount | grep cdrom | cut -d' ' -f1 | sed 's/\(.*\)./\1/')" ;\
     USBDEV_LIST="$(mktemp)" ;\
@@ -78,21 +92,16 @@ d-i partman/early_command string \
     
 ### Unmount active partitions, if any
 # Like, partition containing the installer
-# Does not seem to do anything
+# Does not seem actually to have any effect (extensive discussions online)
 d-i partman/unmount_active boolean true
 
-# Skip question about which disk to choose; disabled by priority=critical
+# Skip question about which disk to choose; disabled anyway by priority=critical
 d-i partman/installation_medium_mounted seen true
    
-#    echo debconf-set partman-auto/automatically_partition $BOOTDEV > /tmp/debconf-set- ;\
-#    debconf-set partman-auto/automatically_partition $BOOTDEV ;\
-
-# Set up for logical volume management
-# d-i partman-auto-lvm/new_vg_name string xubuntu-vg
-
 # Format as regular (not lvm or raid) 
 d-i partman-auto/method string regular
 
+# Delete any lvm or raid setup on chosen device
 d-i partman-lvm/device_remove_lvm boolean true
 d-i partman-lvm/confirm boolean true
 d-i partman-md/device_remove_md boolean true
@@ -100,14 +109,16 @@ d-i partman-md/confirm boolean true
 
 # Guided - use entire disk
 d-i partman-auto/automatically_partition select Guided partitioning
-# some_device == Guided - use entire disk
+
+# some_device == Guided - use entire disk:
 d-i partman-auto/init_automatically_partition select some_device
 
 # # Needed to make sure the partitioning scheme is usable with GPT systems
 d-i partman-partitioning/choose_label string gpt 
 d-i partman-partitioning/default_label string gpt 
 
-# Automatically accept auto-partitioning choices, except last 
+# Automatically accept auto-partitioning choices, except last point
+# where user can look to make sure their main drive is not being wiped
 d-i partman-partitioning/confirm_write_new_label boolean true
 d-i partman/confirm boolean true
 d-i partman/confirm_nooverwrite boolean true
@@ -115,7 +126,7 @@ d-i partman/confirm_nooverwrite boolean true
 # # Counterintuitively, the setting below forces it TO BE an efi system
 # d-i partman-efi/non_efi_system boolean true
 
-# This recipe was taken from github.com/nuada/ubuntu-preseed (uefi-boot-root-swap)
+# This recipe was adapted from github.com/nuada/ubuntu-preseed (uefi-boot-root-swap)
 d-i partman-auto/choose_recipe select root-disk
 d-i partman-auto/expert_recipe string root-disk ::  \
     1 1 1 free                           \
@@ -133,7 +144,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     use_filesystem{ } filesystem{ ext3 } \
     mountpoint{ /boot }                  \
     .                                    \
-    1000 20000 -1 ext4                   \
+    32768 64536 -1 ext4                  \
     $primary{ }                          \
     $bootable{ }                         \
     method{ format } format{ }           \
@@ -147,14 +158,6 @@ d-i partman-auto/expert_recipe string root-disk ::  \
 
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
-#d-i grub-installer/bootdev string /dev/sda   # Default is to choose first available
-# d-i grub-installer/bootdev select manual   # make them select by hand
-# Makes it install to the MBR; necessary for vbox
-# d-i grub-installer/only_debian boolean true
-# find other potential os's
-#d-i grub-installer/with_other_os boolean true 
-#d-i grub-installer/no-uefi-secure-boot boolean true
-# d-i grub-efi-amd64 grub2/force_efi_extra_removable boolan true
 
 ## mirror settings
 d-i mirror/country string manual
@@ -185,20 +188,21 @@ d-i pkgsel/update-policy select unattended-upgrades
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
 # d-i grub-installer/bootdev string default   # Default is to choose first available
 # reset priority to critical to avoid user having to choose a disk for grub
-d-i grub-installer/early_command string \
-    debconf-set debconf/priority critical
+# d-i grub-installer/early_command string \
+#     debconf-set debconf/priority critical
 
 # Makes it install to the MBR; necessary for vbox
 d-i grub-installer/only_debian boolean true
-# find other potential os's
+# include other os's in the grub file if they exist
 d-i grub-installer/with_other_os boolean true 
 
 ### Kernel options for boot in created machine
+# net.ifnames=0 seems to be required to let the device keep its own name
+# even if the DHCP provider wants to give it another name
 d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash
 
 # Display manager
 d-i shared/default-x-display-manager                    select      lightdm
-
 
 # Finish
 # Preserve consoles which help debugging

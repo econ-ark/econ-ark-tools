@@ -249,12 +249,6 @@ download "$online/$rclocal_file"
 echo -n " downloading $seed_file: "
 download "$online/$seed_file"
 
-# # download kickstart file
-# [[ -f $iso_make/$ks_file ]] && rm $iso_make/$ks_file
-
-# echo -n " downloading $ks_file: "
-# download "$online/$ks_file"
-
 # install required packages
 echo " installing required packages"
 if [ $(program_is_installed "mkpasswd") -eq 0 ] || [ $(program_is_installed "mkisofs") -eq 0 ]; then
@@ -330,18 +324,18 @@ sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.V
 # versus via the ISO installer.  If the git_branch is "Make-ISO-Installer"
 # the extra components required for the installer are included"
 
-if [ "$git_branch" == "Make-ISO-Installer" ]; then
-    late_command="mount --bind /etc/resolv.conf /target/etc/resolv.conf ;\
-    mount --bind /dev /target/dev ;\
-    mount --bind /dev/pts /target/dev/pts ;\
-    mount --bind /proc /target/proc ;\
-    mount --bind /sys /target/sys ;\
-    mount --bind /run /target/run ;\
-    mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
-    "
-else
-    late_command=""
-fi
+# if [ "$git_branch" == "Make-ISO-Installer" ]; then
+#     late_command="mount --bind /etc/resolv.conf /target/etc/resolv.conf ;\
+    #     mount --bind /dev /target/dev ;\
+    #     mount --bind /dev/pts /target/dev/pts ;\
+    #     mount --bind /proc /target/proc ;\
+    #     mount --bind /sys /target/sys ;\
+    #     mount --bind /run /target/run ;\
+    #     mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
+    #     "
+# else
+#     late_command=""
+# fi
 
 # These are the commands needed to convert a vagrant machine to an Econ-ARK one  
 # late_command+="mount --bind /dev /target/dev ;\
@@ -366,12 +360,21 @@ fi
     #     chroot /target grub-install \$sd"
 
 # sleep 2h ;\
-    
-late_command+="mount --bind /dev /target/dev ;\
+
+#     late_command="mount --bind /etc/resolv.conf /target/etc/resolv.conf ;\
+    #     mount --bind /dev /target/dev ;\
+    #     mount --bind /dev/pts /target/dev/pts ;\
+    #     mount --bind /proc /target/proc ;\
+    #     mount --bind /sys /target/sys ;\
+    #     mount --bind /run /target/run ;\
+    #     mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
+
+late_command="mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
    mount --bind /proc /target/proc ;\
    mount --bind /sys /target/sys ;\
    mount --bind /run /target/run ;\
+   mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
    chroot /target apt -y update ;\
    chroot /target apt -y install git ;\
    chroot /target apt -y install grub-efi-amd64-bin ;\
@@ -397,8 +400,8 @@ late_command+="mount --bind /dev /target/dev ;\
     rm    -f /target/var/local/Size-To-Make-Is-MAX ;\
     chroot /target touch /var/local/Size-To-Make-Is-$size "
 
-if [ "$git_branch" == "Make-ISO-Installer" ]; then
-    late_command+=";\
+#if [ "$git_branch" == "Make-ISO-Installer" ]; then
+late_command+=";\
      mkdir -p   /target/usr/share/lightdm/lightdm.conf.d /target/etc/systemd/system/getty@tty1.service.d ;\
      cp /target/var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chmod 755 /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
@@ -410,13 +413,9 @@ if [ "$git_branch" == "Make-ISO-Installer" ]; then
      chroot /target echo grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi > /target/var/local/grub-install-test.sh ;\
      chroot /target      grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi ;\
      chroot /target update-grub"
-fi
+#fi
 
-# target_efi=\$(mount | grep '/target/boot/efi' | cut -d ' ' -f1) ;\
-    # target_dev=\${target_efi%?}  ;\
-    # chroot /target cp /boot/efi/EFI/ubuntu/shimx64.efi /root/shimx64.efi_bak ;\
-    # chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
-    # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
+# late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
 # https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1867092
 
 cd "$pathToScript"

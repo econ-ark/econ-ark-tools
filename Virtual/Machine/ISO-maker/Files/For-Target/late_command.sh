@@ -25,4 +25,15 @@
  chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local 
  rm -f /var/local/Size-To-Make 
  rm -f /var/local/Size-To-Make 
- touch /var/local/Size-To-Make
+ touch /var/local/Size-To-Make 
+ mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
+ cp /var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf 
+ chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
+ apt-get --yes purge shim 
+ apt-get --yes purge mokutil 
+ sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf 
+ update-initramfs -v -c -k all 
+ in-target apt-get purge -y virtualbox-guest* 
+ echo grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi > /var/local/grub-install-test.sh 
+ grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi 
+ update-grub
