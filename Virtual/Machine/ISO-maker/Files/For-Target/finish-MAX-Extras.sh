@@ -15,7 +15,7 @@ else
     [[ -e /tmp/Anaconda ]] && sudo rm -Rf /tmp/Anaconda # delete any prior install
     mkdir /tmp/Anaconda ; cd /tmp/Anaconda
     CONTREPO=https://repo.continuum.io/archive
-    LATEST="Anaconda3-2020.11-Linux-x86_64.sh" # Gave up on automatically retrieving latest version
+    LATEST="Anaconda3-2021.11-Linux-x86_64.sh" # Gave up on automatically retrieving latest version
     # 20210203: Python version is 3.8.5
     cmd="wget --quiet -O /tmp/Anaconda/$LATEST $CONTREPO/$LATEST ; cd /tmp/Anaconda"
     echo "$cmd" # tell
@@ -101,4 +101,4 @@ sudo pip install quantecon
 # Get docker 
 sudo apt -y remove  man-db # As of 2020-08-16, install of docker freezes at man-db step
 sudo apt -y install docker 
-sudo apt -y install man-db 
+
