@@ -50,7 +50,7 @@ mypass="kra-noce"
 # branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
 # branch_name="${branch_name#refs/heads/}"
 
-branch_name=master
+branch_name="$(<git_branch)"
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
 
 # Remove the linux automatically created directories like "Music" and "Pictures"

@@ -374,7 +374,7 @@ late_command="mount --bind /dev /target/dev ;\
    mount --bind /proc /target/proc ;\
    mount --bind /sys /target/sys ;\
    mount --bind /run /target/run ;\
-   mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
+   [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
    chroot /target apt -y update ;\
    chroot /target apt -y install git ;\
    chroot /target apt -y install grub-efi-amd64-bin ;\
