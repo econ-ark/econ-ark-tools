@@ -233,8 +233,9 @@ sudo chown econ-ark:econ-ark $arkHome
 
 cd "$arkHome"
 
-for repo in REMARK HARK DemARK econ-ark-tools; do
-    sudo -u econ-ark git clone https://github.com/econ-ark/$repo
+for repo in REMARK HARK DemARK; do
+    [[ -e "$repo" ]] && sudo rm -Rf "$repo" 
+    sudo -u econ-ark git clone --depth 1 https://github.com/econ-ark/$repo
     # Make it all owned by the econ-ark user -- including invisible files like .git
     # Install all requirements
     [[ -e $repo/requirements.txt ]] && sudo pip install -r $repo/requirements.txt
@@ -254,11 +255,6 @@ echo 'To test whether everything works, in the root directory type:.  '       >>
 echo 'cd notebooks ; pytest --nbval-lax --ignore=Chinese-Growth.ipynb *.ipynb  '                            >>  DemARK-README.md
 
 echo 'This is your local, personal copy of REMARK, which you can modify.  '    >  REMARK-README.md
-
-# Submodules are links to repos stored elsewhere -- pull a local copy in
-cd /usr/local/share/data/GitHub/econ-ark/REMARK
-git submodule update --init --recursive --remote
-git pull
 
 # Run the automated tests to make sure everything installed properly
 cd /usr/local/share/data/GitHub/econ-ark/HARK

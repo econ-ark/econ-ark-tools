@@ -381,7 +381,7 @@ late_command="mount --bind /dev /target/dev ;\
    chroot /target apt -y install grub-pc ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
-   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target git clone --depth 1 https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
+   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo -u econ-ark git clone --depth 1 https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
    chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
    [[ -e /target/var/local     ]] && rm -Rf /target/var/local ;\
    cp -R /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ;\
@@ -583,8 +583,6 @@ new_iso_name="$new_iso_name-$iso_date-$short_hash.iso"
 
 echo 'new_iso_name='$new_iso_name
 popd
-
-#sudo /bin/bash /home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/root/EFI/BOOT/rename-efi-entry.bash 
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 echo " creating the remastered iso"
