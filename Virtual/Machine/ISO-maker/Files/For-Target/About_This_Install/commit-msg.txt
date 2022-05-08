@@ -1,3 +1,3 @@
-Fix_start.sh_and_finish_to_get_branch_correctly
+add_elpy;_conda_install_econ-ark
 
 About-This-Install-Hash-Update
