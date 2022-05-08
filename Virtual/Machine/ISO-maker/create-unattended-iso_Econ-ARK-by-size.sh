@@ -17,13 +17,6 @@ if [ "$TERM" == "dumb" ]; then
     exit 1
 fi
 
-echo '' ; echo 'User must have sudoer privileges ...'
-sudoer=false
-sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
-[[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
-
-version="base" # or "full" for debugging (too-many-options) on the grub menu
-
 if [ "$#" -ne 1 ]; then
     echo "Wrong number of arguments:"
     echo "usage: ${0##*/} MIN|MAX"
@@ -34,6 +27,13 @@ else
 	exit 2
     fi
 fi
+
+echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
+sudoer=false
+sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
+[[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
+
+version="base" # or "full" for debugging (too-many-options) on the grub menu
 
 size="$1"
 
