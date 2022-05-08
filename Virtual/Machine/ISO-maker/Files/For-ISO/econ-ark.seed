@@ -17,8 +17,11 @@ d-i preseed/early_command string \
 # Extra firmware drivers for unusual cards
 d-i hw-detect/load_firmware boolean true
 
+d-i console-setup/early_command string \
+    debconf-set debconf/priority critical
+
 # Only ask critically important questions (at first)
-d-i debconf/priority select critical
+d-i debconf/priority select high
 
 d-i netcfg/early_command string \
     debconf-set debconf/priority high
