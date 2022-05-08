@@ -4,9 +4,10 @@
 # at the very beginning (via preseed/early_command), and at the
 # beginning of partitioning (viar partman/early_command).
 
-# With priority=critical, networking is attempted but skipped if it fails
+# With priority=critical, automatic configuration of networking is attempted
+# via DHCP on the first available interface but skipped if it fails
 # With priority=high, networking will ask user to choose among interfaces
-# (wifi or wired, if both exist)
+# (wifi or wired, if both exist) and if wifi to enter a password
 # This is required for configuring wifi setup when needed
 
 # So, must start with 
@@ -17,14 +18,12 @@ d-i debconf/priority select high
 # to skip questions about the keyboard configuration
 
 # However, these and the kernel arguments would be operative under
-# priority critical; that is why they are preserved here despite
-# being ineffective (to preserve the painfully learned structure)
+# priority critical; that is why they are preserved here:
+# to preserve the painfully learned structure, in case useful in future
 d-i preseed/early_command string \
     debconf-set console-setup/ask_detect false ;\
     debconf-set keyboard-configuration/layoutcode us ;\
     umount /media || true
-
-# debconf-set netcfg/get_hostname xubuntark ;\
 
 # Extra firmware drivers for unusual cards
 d-i hw-detect/load_firmware boolean true
