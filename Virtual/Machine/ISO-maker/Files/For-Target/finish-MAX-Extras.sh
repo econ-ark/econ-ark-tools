@@ -16,7 +16,7 @@ else
     mkdir /tmp/Anaconda ; cd /tmp/Anaconda
     CONTREPO=https://repo.continuum.io/archive
     LATEST="Anaconda3-2021.11-Linux-x86_64.sh" # Gave up on automatically retrieving latest version
-    # 20210203: Python version is 3.8.5
+    # 2021.11: Python version is 3.9
     cmd="wget --quiet -O /tmp/Anaconda/$LATEST $CONTREPO/$LATEST ; cd /tmp/Anaconda"
     echo "$cmd" # tell
     eval "$cmd" # do 
@@ -79,7 +79,15 @@ else
     # Get default packages for Econ-ARK machine
     sudo apt -y install cifs-utils nautilus-share
     # Extra packages for MAX
-    sudo apt -y install gv evince perl-tk texlive-full
+    sudo apt -y install gv evince perl-tk texlive-full ripgrep fd-find
+    sudo apt -y install  flatpak gnome-software-plugin-flatpak
+    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
+    sudo flatpak -y install flathub org.gnu.emacs
+
+    # Backup tools
+    sudo apt -y install deja-dup
+    sudo apt -y install timeshift
+    
     # Configure latexmkrc: https://mg.readthedocs.io/latexmk.html
     ltxmkrc=/home/econ-ark/.latekmkrc
     echo "'"'$dvi_previewer = start xdvi -watchfile 1.5'"';" > "$ltxmkrc"
