@@ -410,7 +410,6 @@ late_command+=";\
      sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
      chroot /target update-initramfs -v -c -k all ;\
      in-target apt-get purge -y virtualbox-guest* ;\
-     chroot /target echo grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi > /target/var/local/grub-install-test.sh ;\
      chroot /target      grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi ;\
      chroot /target update-grub"
 #fi

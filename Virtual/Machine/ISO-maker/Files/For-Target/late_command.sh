@@ -34,6 +34,5 @@
  sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf 
  update-initramfs -v -c -k all 
  in-target apt-get purge -y virtualbox-guest* 
- echo grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi > /var/local/grub-install-test.sh 
  grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi 
  update-grub
