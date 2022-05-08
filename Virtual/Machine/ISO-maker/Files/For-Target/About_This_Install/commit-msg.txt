@@ -1,3 +1,3 @@
-late_command.sh_needs_to__be_bash_not_sh
+Update_MacPro9,1_to_exclude_ATA1_and_add_nolapic
 
 About-This-Install-Hash-Update
