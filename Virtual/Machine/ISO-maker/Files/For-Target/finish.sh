@@ -191,7 +191,7 @@ if [[ "$size" == "MIN" ]]; then
     sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
     sudo pip install pytest
     sudo pip install nbval
-    sudo pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
+    sudo pip install jupyterlab # jupyter notebook is no longer maintained
 else
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
@@ -221,6 +221,8 @@ sudo apt -y install nodejs
 sudo pip install --upgrade econ-ark
 sudo pip install --upgrade nbreproduce
 
+# elpy is for syntax checking in emacs
+sudo pip install elpy
 
 # Install user-owned copies of useful repos
 # Download and extract HARK, REMARK, DemARK, econ-ark-tools from GitHub

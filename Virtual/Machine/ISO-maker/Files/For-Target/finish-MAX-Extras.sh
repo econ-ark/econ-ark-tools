@@ -56,7 +56,7 @@ else
     sudo find . -type f -iname ".sh"  -exec chmod a+x {} \;
     sudo find . -type f -iname "..sh" -exec chmod a+x {} \; # Gets csh, zsh, whatever
     popd
-
+    
     sudo conda install -c conda-forge mamba 
     sudo conda activate base 
 #    sudo mamba create --yes --name base_py38 python=3.8 anaconda
@@ -88,7 +88,7 @@ else
     sudo apt -y install /var/local/zoom_amd64.deb
 fi
 
-# sudo conda install --yes -c conda-forge econ-ark # pip install econ-ark
+    sudo pip uninstall --yes econ-ark ; sudo conda install --yes -c conda-forge econ-ark # pip install econ-ark
 
 source /etc/environment  # Get the new environment
 
