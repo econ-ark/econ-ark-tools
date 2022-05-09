@@ -15,8 +15,8 @@
  cp -R /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
  cd /var/local 
  [[ -e /etc/rc.local ]] && mv /etc/rc.local /etc/rc.local_orig 
- [[ -e /var/local/rc.local ]] && mv /var/local/rc.local /etc/rc.local 
- [[ -e /etc/default/grub ]] && [[ -e /var/local/grub ]] && mv /etc/default/grub /etc/default/grub_orig && mv /var/local/grub /etc/default/grub 
+ [[ -e /var/local/rc.local ]] && cp /var/local/rc.local /etc/rc.local 
+ [[ -e /etc/default/grub ]] && [[ -e /var/local/grub ]] && cp /etc/default/grub /etc/default/grub_orig && mv /var/local/grub /etc/default/grub 
  chmod 755 /etc/default/grub 
  update-grub 
  df -hT > /tmp/target-partition 
@@ -30,11 +30,14 @@
  mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
  cp /var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
+ apt -y install --reinstall grub-efi-amd64 
+ grub-install --verbose --force --efi-directory=/boot/efi/ --removable --target=x86_64-efi --no-uefi-secure-boot 
  apt-get --yes purge shim 
  apt-get --yes purge mokutil 
+ apt -y install grub-efi-amd64-bin 
+\ apt -y install --reinstall grub-pc 
  sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf 
  update-initramfs -v -c -k all 
  in-target apt-get purge -y virtualbox-guest* 
- grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi 
- cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi 
+ /bin/bash -c "[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi" 
  update-grub

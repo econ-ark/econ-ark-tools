@@ -391,8 +391,8 @@ late_command="mount --bind /dev /target/dev ;\
    cp -R /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ;\
    cd /target/var/local ;\
    [[ -e /target/etc/rc.local ]] && mv /target/etc/rc.local /target/etc/rc.local_orig ;\
-   [[ -e /target/var/local/rc.local ]] && mv /target/var/local/rc.local /target/etc/rc.local ;\
-   [[ -e /target/etc/default/grub ]] && [[ -e /target/var/local/grub ]] && mv /target/etc/default/grub /target/etc/default/grub_orig && mv /target/var/local/grub /target/etc/default/grub ;\
+   [[ -e /target/var/local/rc.local ]] && cp /target/var/local/rc.local /target/etc/rc.local ;\
+   [[ -e /target/etc/default/grub ]] && [[ -e /target/var/local/grub ]] && cp /target/etc/default/grub /target/etc/default/grub_orig && mv /target/var/local/grub /target/etc/default/grub ;\
    chmod 755 /target/etc/default/grub ;\
    chroot /target update-grub ;\
    chroot /target df -hT > /tmp/target-partition ;\
@@ -409,13 +409,16 @@ late_command+=";\
      mkdir -p   /target/usr/share/lightdm/lightdm.conf.d /target/etc/systemd/system/getty@tty1.service.d ;\
      cp /target/var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chmod 755 /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
+     chroot /target apt -y install --reinstall grub-efi-amd64 ;\
+     chroot /target grub-install --verbose --force --efi-directory=/boot/efi/ --removable --target=x86_64-efi --no-uefi-secure-boot ;\
      chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
+     chroot /target apt -y install grub-efi-amd64-bin ;\ 
+     chroot /target apt -y install --reinstall grub-pc ;\
      sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
      chroot /target update-initramfs -v -c -k all ;\
      in-target apt-get purge -y virtualbox-guest* ;\
-     chroot /target grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi ;\
-     chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
+     chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
      chroot /target update-grub"
 #fi
 
