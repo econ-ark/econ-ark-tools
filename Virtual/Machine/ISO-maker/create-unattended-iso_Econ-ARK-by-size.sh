@@ -191,6 +191,7 @@ while true; do
                 download_location="https://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/"
                 new_iso_base="ubuntu-20.04.1-legacy-server-amd64-unattended"
                 new_iso_name="$name-ubuntu-20.04.1-legacy-server-amd64-unattended"
+		new_firmware="cdimage.debian.org/cdimage/unofficial/non-free/firmware/bullseye/current"
                 break;;
         * ) echo " please answer [1], [2], [3], [4], [5]:";;
     esac
@@ -290,6 +291,8 @@ eval "$cmd"
 
 spinner $!
 
+# new_firmware="cdimage.debian.org/cdimage/unofficial/non-free/firmware/bullseye/current" ; iso_make="/usr/local/share/iso_make"
+pushd . ; cd $iso_make/iso_new; wget "https://$new_firmware/firmware.zip" ; unzip firmware.zip -d firmware; popd 
 # copy the seed file to the iso
 cmd="sudo cp -rT $pathToScript/$ForISO/$seed_file $iso_make/iso_new/preseed/$seed_file"
 echo "$cmd"
@@ -412,7 +415,7 @@ late_command+=";\
      chroot /target update-initramfs -v -c -k all ;\
      in-target apt-get purge -y virtualbox-guest* ;\
      chroot /target grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi ;\
-     chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\ 
+     chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi ;\
      chroot /target update-grub"
 #fi
 
