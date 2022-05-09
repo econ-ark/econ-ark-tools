@@ -411,8 +411,8 @@ late_command+=";\
      sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
      chroot /target update-initramfs -v -c -k all ;\
      in-target apt-get purge -y virtualbox-guest* ;\
-     chroot /target      grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi ;\
-     cp /boot/efi/EFI/ubuntu/grubx64.efi shimx64.efi ;\ 
+     chroot /target grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi ;\
+     chroot /target cp /boot/efi/EFI/ubuntu/grubx64.efi shimx64.efi ;\ 
      chroot /target update-grub"
 #fi
 

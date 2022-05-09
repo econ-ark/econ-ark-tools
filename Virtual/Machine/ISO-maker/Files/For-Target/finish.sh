@@ -262,7 +262,7 @@ pytest
 
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/notebooks
 # 20220508: Chinese-Growth is very slow
-pytest --nbval-lax --ignore=Chinese-Growth.ipynb --nbval-cell-timeout=1200 *.ipynb
+pytest --nbval-lax --ignore-glob='Chinese*.*' --nbval-cell-timeout=120 *.ipynb
 
 # Allow reading of MacOS HFS+ files
 sudo apt -y install hfsplus hfsutils hfsprogs
