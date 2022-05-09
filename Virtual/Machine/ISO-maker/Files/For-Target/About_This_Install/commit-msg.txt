@@ -1,3 +1,3 @@
-Download_nonfree_firmware_and_put_on_root_of_installer
+Try_to_fix_grub-install-efi_on_bios_machines_in_create_last_command
 
-Add_nonfree_firmware
+About-This-Install-Hash-Update
