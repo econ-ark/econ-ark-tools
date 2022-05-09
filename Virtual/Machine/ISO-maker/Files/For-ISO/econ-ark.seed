@@ -169,11 +169,15 @@ d-i mirror/udeb/components multiselect main, restricted, universe, multiverse
 d-i apt-setup/services-select                               multiselect security, updates
 d-i apt-setup/security_host                                 string      security.ubuntu.com
 d-i apt-setup/security_path                                 string      /ubuntu
-d-i apt-setup/non-free boolean true
-d-i apt-setup/contrib boolean true
-d-i apt-setup/multiverse boolean true
-d-i apt-setup/partner boolean true
+
+# These are for Debian not Ubuntu
+# d-i apt-setup/non-free boolean true
+#d-i apt-setup/contrib boolean true
+#d-i apt-setup/multiverse boolean true
 d-i apt-setup/restricted boolean true
+d-i apt-setup/universe boolean true
+d-i apt-setup/multiverse boolean true
+d-i apt-setup/backports boolean true
 
 # standard is recommended for all installs
 
