@@ -36,5 +36,5 @@
  update-initramfs -v -c -k all 
  in-target apt-get purge -y virtualbox-guest* 
  grub-install --verbose --force --efi-directory=/boot/efi/ --removable --no-uefi-secure-boot --target=x86_64-efi 
- cp /boot/efi/EFI/ubuntu/grubx64.efi shimx64.efi 
+ cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi 
 \ update-grub

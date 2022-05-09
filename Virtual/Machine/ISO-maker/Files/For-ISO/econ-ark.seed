@@ -164,10 +164,13 @@ d-i mirror/http/hostname string archive.ubuntu.com
 d-i mirror/http/directory string /ubuntu
 d-i mirror/http/proxy string
 
-### Configure apt 
-d-i apt-setup/services-select                               multiselect security
+### Configure apt
+d-i apt-setup/services-select                               multiselect security, updates
 d-i apt-setup/security_host                                 string      security.ubuntu.com
 d-i apt-setup/security_path                                 string      /ubuntu
+d-i apt-setup/non-free boolean true
+d-i apt-setup/contrib boolean true
+
 # standard is recommended for all installs
 
 # Install all server tools
