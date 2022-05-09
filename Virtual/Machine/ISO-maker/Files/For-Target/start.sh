@@ -134,7 +134,9 @@ done
 
 cat /var/local/dotemacs_root_and_regular_users /var/local/dotemacs_regular_users_only > /var/local/dotemacs
 
-# Link both of them to the downloaded template 
+# Link both of them to the downloaded template
+sudo rm /home/econ-ark/.emacs /root/.emacs
+
 sudo ln -s /var/local/dotemacs /home/econ-ark/.emacs
 sudo ln -s /var/local/dotemacs_root_and_regular_users /root/.emacs
 
