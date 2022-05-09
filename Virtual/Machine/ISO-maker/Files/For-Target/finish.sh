@@ -164,7 +164,9 @@ echo 'Fetching online image of this installer to '
 echo "/media/"
 
 [[ -e "/media/*.iso" ]] && sudo rm "/media/*.iso"
-sudo pip  install gdown # Google download
+
+
+# sudo pip  install gdown # Google download
 
 cd /var/local
 
@@ -203,6 +205,7 @@ else
     echo '' >> XUBUNTARK.md
 fi
 
+sudo pip install elpy
 cat /var/local/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
 
 # Configure jupyter notebook tools
