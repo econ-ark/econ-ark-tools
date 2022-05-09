@@ -1,3 +1,3 @@
-Update_MacPro9,1_to_exclude_ATA1_and_add_nolapic
+Disable_both_ATA1_and_ATA2_for_default
 
 About-This-Install-Hash-Update
