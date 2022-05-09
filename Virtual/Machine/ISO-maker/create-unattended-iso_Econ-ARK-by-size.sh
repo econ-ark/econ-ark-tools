@@ -413,7 +413,7 @@ late_command+=";\
      chroot /target grub-install --verbose --force --efi-directory=/boot/efi/ --removable --target=x86_64-efi --no-uefi-secure-boot ;\
      chroot /target apt-get --yes purge shim ;\
      chroot /target apt-get --yes purge mokutil ;\
-     chroot /target apt -y install grub-efi-amd64-bin ;\ 
+     chroot /target apt -y install grub-efi-amd64-bin ;\
      chroot /target apt -y install --reinstall grub-pc ;\
      sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
      chroot /target update-initramfs -v -c -k all ;\
