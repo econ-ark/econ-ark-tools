@@ -36,6 +36,7 @@
  apt-get --yes purge mokutil 
  apt -y install grub-efi-amd64-bin 
  apt -y install --reinstall grub-pc 
+ apt -y --fix-broken install 
  sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf 
  update-initramfs -v -c -k all 
  in-target apt-get purge -y virtualbox-guest* 

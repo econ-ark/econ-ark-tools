@@ -101,6 +101,7 @@ online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"
 # Broadcom modems are common and require firmware-b43-installer for some reason
 sudo apt-get -y install b43-fwcutter
 sudo apt-get -y install firmware-b43-installer
+sudo apt-get -y --fix-broken install
 
 # Get some basic immediately useful tools 
 sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server expect rpl gnome-disk-utility

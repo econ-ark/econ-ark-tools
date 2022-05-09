@@ -415,6 +415,7 @@ late_command+=";\
      chroot /target apt-get --yes purge mokutil ;\
      chroot /target apt -y install grub-efi-amd64-bin ;\
      chroot /target apt -y install --reinstall grub-pc ;\
+     chroot /target apt -y --fix-broken install ;\
      sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
      chroot /target update-initramfs -v -c -k all ;\
      in-target apt-get purge -y virtualbox-guest* ;\
