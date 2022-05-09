@@ -92,16 +92,14 @@ directory.
 EOF
 
 # This allows git branches during debugging 
-branch_name="$(<git_branch)$"
 [[ -e ./git_branch ]] && branch_name=$(<git_branch)
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
-
-
-# Get pasword-encrypted rclone key for Google drive 
-wget -O  /var/local/root/.config/rclone/rcloneconf.zip $online/root/.config/rclone/rcloneconf.zip
+# # Get pasword-encrypted rclone key for Google drive 
+# wget -O  /var/local/root/.config/rclone/rcloneconf.zip $online/root/.config/rclone/rcloneconf.zip
 
 # Broadcom modems are common and require firmware-b43-installer for some reason
+sudo apt-get -y install b43-fwcutter
 sudo apt-get -y install firmware-b43-installer
 
 # Get some basic immediately useful tools 
