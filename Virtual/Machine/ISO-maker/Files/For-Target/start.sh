@@ -366,3 +366,4 @@ if [[ "$installer" != "" ]]; then
 fi
     
 				 
+sudo rm -f /var/crash/grub-pc.0.crash

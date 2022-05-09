@@ -223,8 +223,8 @@ d-i finish-install/reboot_in_progress                       note
  # Eject virtual install ISO
 d-i cdrom-detect/eject                                      boolean     true
 # # Halt just suspends 
-# d-i debian-installer/exit/halt                              boolean     false
+d-i debian-installer/exit/halt                              boolean     false
 # # Without poweroff, reboot happens instead
-# d-i debian-installer/exit/poweroff                          boolean     false  
+d-i debian-installer/exit/poweroff                          boolean     false  
 
 # late_command is added by create-unattended-iso script
