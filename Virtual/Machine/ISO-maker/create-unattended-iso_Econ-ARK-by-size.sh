@@ -404,6 +404,8 @@ late_command="mount --bind /dev /target/dev ;\
     rm    -f /target/var/local/Size-To-Make-Is-MAX ;\
     chroot /target touch /var/local/Size-To-Make-Is-$size "
 
+#   chroot /target apt-cdrom add ;\
+
 #if [ "$git_branch" == "Make-ISO-Installer" ]; then
 late_command+=";\
      mkdir -p   /target/usr/share/lightdm/lightdm.conf.d /target/etc/systemd/system/getty@tty1.service.d ;\

@@ -170,6 +170,10 @@ d-i apt-setup/services-select                               multiselect security
 d-i apt-setup/security_host                                 string      security.ubuntu.com
 d-i apt-setup/security_path                                 string      /ubuntu
 
+# Nonfree firmware is on the installer disk; tell it to use that disk
+# d-i apt-setup/cdrom-set-first boolean false
+# d-i apt-cdrom/disable-cdrom-entries boolean false
+
 # These are for Debian not Ubuntu
 # d-i apt-setup/non-free boolean true
 #d-i apt-setup/contrib boolean true
