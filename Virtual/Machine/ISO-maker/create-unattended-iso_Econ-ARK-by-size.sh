@@ -372,6 +372,12 @@ sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.V
     #     mount --bind /run /target/run ;\
     #     mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
 
+# Remove all grub-related commands
+#   chroot /target apt -y install grub-efi-amd64-bin ;\
+#   chroot /target apt -y install grub-pc ;\
+#   chroot /target grub-install \$sd ;\
+#   chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local ;\
+
 late_command="mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
    mount --bind /proc /target/proc ;\
@@ -380,8 +386,6 @@ late_command="mount --bind /dev /target/dev ;\
    [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
    chroot /target apt -y update ;\
    chroot /target apt -y install git ;\
-   chroot /target apt -y install grub-efi-amd64-bin ;\
-   chroot /target apt -y install grub-pc ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
    [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo -u econ-ark git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
@@ -398,8 +402,6 @@ late_command="mount --bind /dev /target/dev ;\
    chroot /target df -hT > /tmp/target-partition ;\
    cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
    sd=\$(cat /tmp/target-dev) ;\
-   chroot /target grub-install \$sd ;\
-   chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local ;\
     rm    -f /target/var/local/Size-To-Make-Is-MIN ;\
     rm    -f /target/var/local/Size-To-Make-Is-MAX ;\
     chroot /target touch /var/local/Size-To-Make-Is-$size "

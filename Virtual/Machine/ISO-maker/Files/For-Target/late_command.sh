@@ -2,8 +2,6 @@
 
  apt -y update 
  apt -y install git 
- apt -y install grub-efi-amd64-bin 
- apt -y install grub-pc 
  mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 
  chmod -Rf a+rwx /usr/local/share/data 
  [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && sudo -u econ-ark git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
@@ -22,8 +20,6 @@
  df -hT > /tmp/target-partition 
  cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
  sd=$(cat /tmp/target-dev) 
- grub-install $sd 
- chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/finish-MAX-Extras.sh /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local 
  rm -f /var/local/Size-To-Make 
  rm -f /var/local/Size-To-Make 
  touch /var/local/Size-To-Make 

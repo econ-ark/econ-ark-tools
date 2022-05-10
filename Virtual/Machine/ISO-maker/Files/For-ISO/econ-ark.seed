@@ -25,6 +25,31 @@ d-i preseed/early_command string \
     debconf-set keyboard-configuration/layoutcode us ;\
     umount /media || true
 
+### Choose sources for software
+# Allow installing restricted packages
+d-i apt-setup/restricted boolean true
+d-i apt-setup/universe   boolean true     
+d-i apt-setup/extras     boolean true
+
+### Configure apt
+d-i apt-setup/services-select                               multiselect security, updates
+d-i apt-setup/security_host                                 string      security.ubuntu.com
+d-i apt-setup/security_path                                 string      /ubuntu
+
+# Nonfree firmware is on the installer disk; tell it to use that disk
+# d-i apt-setup/cdrom-set-first boolean false
+# d-i apt-cdrom/disable-cdrom-entries boolean false
+
+# These are for Debian not Ubuntu
+## d-i apt-setup/non-free boolean true
+#d-i apt-setup/contrib boolean true
+#d-i apt-setup/multiverse boolean true
+
+d-i apt-setup/restricted boolean true
+d-i apt-setup/universe boolean true
+d-i apt-setup/multiverse boolean true
+d-i apt-setup/backports boolean true
+
 # Extra firmware drivers for unusual cards
 d-i hw-detect/load_firmware boolean true
 
@@ -37,12 +62,6 @@ d-i debian-installer/splash                                 boolean     false
 
 ### Localization
 d-i debian-installer/locale string en_US.UTF-8
-
-### Choose sources for software
-# Allow installing restricted packages
-d-i apt-setup/restricted boolean true
-d-i apt-setup/universe   boolean true     
-d-i apt-setup/extras     boolean true
 
 ### Choose WPA security for WiFi
 d-i netcfg/wireless_security_type select wpa
@@ -164,24 +183,6 @@ d-i mirror/http/hostname string archive.ubuntu.com
 d-i mirror/http/directory string /ubuntu
 d-i mirror/http/proxy string
 d-i mirror/udeb/components multiselect main, restricted, universe, multiverse
-
-### Configure apt
-d-i apt-setup/services-select                               multiselect security, updates
-d-i apt-setup/security_host                                 string      security.ubuntu.com
-d-i apt-setup/security_path                                 string      /ubuntu
-
-# Nonfree firmware is on the installer disk; tell it to use that disk
-# d-i apt-setup/cdrom-set-first boolean false
-# d-i apt-cdrom/disable-cdrom-entries boolean false
-
-# These are for Debian not Ubuntu
-# d-i apt-setup/non-free boolean true
-#d-i apt-setup/contrib boolean true
-#d-i apt-setup/multiverse boolean true
-d-i apt-setup/restricted boolean true
-d-i apt-setup/universe boolean true
-d-i apt-setup/multiverse boolean true
-d-i apt-setup/backports boolean true
 
 # standard is recommended for all installs
 
