@@ -1,3 +1,3 @@
-Remove_all_attempts_to_finesse_grub_stuff
+expert_recipe:_-boot_partition_->_fat32;_delete_screensaver_and_power-manager
 
 About-This-Install-Hash-Update
