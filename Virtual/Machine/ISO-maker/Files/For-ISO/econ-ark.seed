@@ -156,12 +156,6 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     method{ efi } format{ }              \
     label{ EFI System Partition }	 \
     .                                    \
-    512 512 512 fat32                    \
-    $primary{ }                          \
-    method{ format } format{ }           \
-    use_filesystem{ } filesystem{ fat32 }\
-    mountpoint{ /boot }                  \
-    .                                    \
     32768 64536 -1 ext4                  \
     $primary{ }                          \
     $bootable{ }                         \
@@ -174,6 +168,12 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     method{ swap } format{ }             \
     .
 
+    # 512 512 512 fat32                    \
+    # $primary{ }                          \
+    # method{ format } format{ }           \
+    # use_filesystem{ } filesystem{ fat32 }\
+    # mountpoint{ /boot }                  \
+    # .                                    \
 # ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
 
