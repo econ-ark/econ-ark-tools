@@ -156,10 +156,10 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     method{ efi } format{ }              \
     label{ EFI System Partition }	 \
     .                                    \
-    512 512 512 ext3                     \
+    512 512 512 fat32                    \
     $primary{ }                          \
     method{ format } format{ }           \
-    use_filesystem{ } filesystem{ ext3 } \
+    use_filesystem{ } filesystem{ fat32 }\
     mountpoint{ /boot }                  \
     .                                    \
     32768 64536 -1 ext4                  \

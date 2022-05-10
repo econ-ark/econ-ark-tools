@@ -2,6 +2,8 @@
 
  apt -y update 
  apt -y install git 
+ apt -y install linux-headers-5.4.0-109-generic 
+ apt -y install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms 
  mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 
  chmod -Rf a+rwx /usr/local/share/data 
  [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && sudo -u econ-ark git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 

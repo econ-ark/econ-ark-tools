@@ -366,4 +366,6 @@ if [[ "$installer" != "" ]]; then
 fi
     
 				 
+sudo apt -y remove xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
+sudo apt -y remove xfce4-screensaver # Bug in screensa ver causes system to become unresponsive to mouse clicks and keyboard after a few mins
 sudo rm -f /var/crash/grub-pc.0.crash
