@@ -1,3 +1,3 @@
-swap_200%;_xset_s_off_-dpms;_lightdm_timeout=never
+Suspend_eject-halt-poweroff_to_debug_dd_of_iso_to_-target
 
-About-This-Install-Hash-Update
+Suspend_eject-halt-poweroff_to_debug_copying_ISO_to_-target
