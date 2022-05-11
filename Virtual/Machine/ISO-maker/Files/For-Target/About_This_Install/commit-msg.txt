@@ -1,3 +1,3 @@
-Omit_previous_ext3_partition_from_expert_recipe
+Shrink_excessive_swap_size
 
 About-This-Install-Hash-Update
