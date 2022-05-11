@@ -1,3 +1,3 @@
-eject_false_halt_true_poweroff_true
+debconf-set_debconf-priority_high_>>_late_command.sh_to_pause_before_reboot
 
-About-This-Install-Hash-Update
+add_debconf-set_debconf-priority_high_to_preseed_to_pause_before_restart
