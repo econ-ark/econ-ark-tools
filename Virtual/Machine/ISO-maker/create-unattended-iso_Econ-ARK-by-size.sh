@@ -426,7 +426,8 @@ late_command+=";\
      chroot /target update-initramfs -v -c -k all ;\
      in-target apt-get purge -y virtualbox-guest* ;\
      chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
-     chroot /target update-grub"
+     chroot /target update-grub ;\
+     debconf-set debconf/priority high"
 #fi
 
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing

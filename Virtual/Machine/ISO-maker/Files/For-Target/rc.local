@@ -73,6 +73,7 @@ else # Not the first boot, so we must have run start.sh
 	# Says permissions should be 664 (or maybe 666)
 	sudo chown econ-ark:econ-ark /home/econ-ark/.Xauthority
 	sudo chmod 664               /home/econ-ark/.Xauthority
+	xdg-open https://econ-ark.org
 	#    sudo chmod u+rw  /home/econ-ark/.Xauthority
     fi # End second-boot
     # Authorize econ-ark to use the display
