@@ -1,3 +1,3 @@
-Suspend_eject-halt-poweroff_to_debug_dd_of_iso_to_-target
+eject_false_halt_true_poweroff_true
 
-Suspend_eject-halt-poweroff_to_debug_copying_ISO_to_-target
+About-This-Install-Hash-Update
