@@ -164,7 +164,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     mountpoint{ / }                      \
     label{ root }                        \
     .                                    \
-    1024 8192 8192 linux-swap            \
+    1024 8192 200% linux-swap            \
     $primary{ }                          \
     method{ swap } format{ }             \
     .
