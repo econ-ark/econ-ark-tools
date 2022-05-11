@@ -156,14 +156,15 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     method{ efi } format{ }              \
     label{ EFI System Partition }	 \
     .                                    \
-    32768 64536 -1 ext4                  \
+    32768 65536 -1 ext4                  \
     $primary{ }                          \
     $bootable{ }                         \
     method{ format } format{ }           \
     use_filesystem{ } filesystem{ ext4 } \
     mountpoint{ / }                      \
+    label{ root }                        \
     .                                    \
-    65536 65536 65536 linux-swap         \
+    1024 8192 8192 linux-swap            \
     $primary{ }                          \
     method{ swap } format{ }             \
     .
