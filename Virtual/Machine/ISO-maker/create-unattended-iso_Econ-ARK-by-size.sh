@@ -378,6 +378,10 @@ sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.V
 #   chroot /target grub-install \$sd ;\
 #   chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local ;\
 
+short_hash="$(git show -s --format=%h)"
+short_hash_date="$(git show -s --format=%cd --date=format:%Y%m%d-%H%M)"
+
+
 late_command="mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
    mount --bind /proc /target/proc ;\
@@ -492,8 +496,6 @@ msg="$(git log -2 --pretty=%B | tr ' ' '_' | tr '/' '-')"
 dirExtra="Files/For-Target"
 ATI="About_This_Install"
 DIR="$pathToScript/$dirExtra"
-short_hash="$(git show -s --format=%h)"
-short_hash_date="$(git show -s --format=%cd --date=format:%Y%m%d-%H%M)"
 
 if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]]; then
     cd "$pathToScript/$dirExtra"
