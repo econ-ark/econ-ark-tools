@@ -1,3 +1,3 @@
-Need_to_define_short_hash_before_using_it
+Variables_in_late_command_are_tricky;_maybe_this_will_work
 
 About-This-Install-Hash-Update
