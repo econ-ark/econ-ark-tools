@@ -432,7 +432,7 @@ late_command+=";\
      chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
      chroot /target update-grub ;\
      chroot /target mkdir /installer ;\
-     dd if=/dev/sr0 of='/target/installer/xubark-"$short_hash-$short_hash_date".iso'"
+     dd if=/dev/sr0 of="'"/target/installer/xubark-'$short_hash_date-$short_hash"'"
 #fi
 #     echo xubark-$(cat /target/var/local/About_This_Install/short.git-hash) > /target/installer/hostname ;\
 #     hostname=$(cat /target/installer/hostname) ;\
