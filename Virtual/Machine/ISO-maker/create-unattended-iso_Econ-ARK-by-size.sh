@@ -427,7 +427,9 @@ late_command+=";\
      in-target apt-get purge -y virtualbox-guest* ;\
      chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
      chroot /target update-grub ;\
-     debconf-set debconf/priority high"
+     chroot /target mkdir /installer ;\
+     chroot /target echo xubark-$(</var/local/About_This_Install/short.git-hash) > /installer/hostname \;
+     chroot /target dd if=/dev/sr0 of=/installer/$(</installer/hostname).iso"
 #fi
 
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing

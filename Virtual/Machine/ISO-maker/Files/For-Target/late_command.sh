@@ -40,4 +40,6 @@
  in-target apt-get purge -y virtualbox-guest* 
  /bin/bash -c "[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi" 
  update-grub 
- debconf-set debconf/priority high
+ mkdir /installer 
+ echo xubark-8304c46 > /installer/hostname \
+ dd if=/dev/sr0 of=/installer/.iso

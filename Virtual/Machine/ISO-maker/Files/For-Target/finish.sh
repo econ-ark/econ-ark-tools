@@ -117,8 +117,9 @@ default_domain=""
 
 # Change the name of the host to the date and time of its creation
 datetime="$(date +%Y%m%d%H%S)"
-sed -i "s/xubuntu/$datetime/g" /etc/hostname
-sed -i "s/xubuntu/$datetime/g" /etc/hosts
+new_hostname="$(</installer/hostname)"
+sed -i "s/$default_hostname/$new_hostname/g" /etc/hostname
+sed -i "s/$default_hostname/$new_hostname/g" /etc/hosts
 
 cd /home/"$myuser"
 
