@@ -428,8 +428,9 @@ late_command+=";\
      chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
      chroot /target update-grub ;\
      chroot /target mkdir /installer ;\
-     hash=$(chroot /target echo xubark-$(cat /target/var/local/About_This_Install/short.git-hash)) ;\
-     chroot /target dd if=/dev/sr0 of=/installer/$hash.iso"
+     echo xubark-$(cat /target/var/local/About_This_Install/short.git-hash) > /target/installer/hostname ;\
+     hostname=$(cat /target/installer/hostname) ;\
+     chroot /target dd if=/dev/sr0 of=/installer/$hostname.iso"
 #fi
 
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
