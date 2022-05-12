@@ -24,7 +24,7 @@
  sd=$(cat /tmp/target-dev) 
  rm -f /var/local/Size-To-Make 
  rm -f /var/local/Size-To-Make 
- touch /var/local/Size-To-Make 
+ touch /var/local/Size-To-Make-Is-'MAX' 
  mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
  cp /var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 

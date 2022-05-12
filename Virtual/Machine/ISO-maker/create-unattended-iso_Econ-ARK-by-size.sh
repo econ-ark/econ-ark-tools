@@ -410,7 +410,7 @@ late_command="mount --bind /dev /target/dev ;\
    sd=\$(cat /tmp/target-dev) ;\
     rm    -f /target/var/local/Size-To-Make-Is-MIN ;\
     rm    -f /target/var/local/Size-To-Make-Is-MAX ;\
-    chroot /target touch /var/local/Size-To-Make-Is-$size "
+    chroot /target touch /var/local/Size-To-Make-Is-'$size' "
 
 #   chroot /target apt-cdrom add ;\
 
@@ -432,7 +432,7 @@ late_command+=";\
      chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
      chroot /target update-grub ;\
      chroot /target mkdir /installer ;\
-     dd if=/dev/sr0 of=/target/installer/xubark-$short_hash-$short_hash_date.iso"
+     dd if=/dev/sr0 of="'/target/installer/xubark-'$short_hash-$short_hash_date'.iso'
 #fi
 #     echo xubark-$(cat /target/var/local/About_This_Install/short.git-hash) > /target/installer/hostname ;\
 #     hostname=$(cat /target/installer/hostname) ;\
