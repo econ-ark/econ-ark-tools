@@ -41,4 +41,4 @@
  /bin/bash -c "[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi" 
  update-grub 
  mkdir /installer 
- dd if=/dev/sr0 of="/installer/xubark-20220512-2022-befbe70.iso"
+ dd if=/dev/sr0 of="/installer/xubark-20220512-2024-f9eaa12.iso"
