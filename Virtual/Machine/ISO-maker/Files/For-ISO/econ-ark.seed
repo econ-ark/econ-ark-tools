@@ -227,9 +227,9 @@ d-i finish-install/keep-consoles                            boolean     true
 # Avoid useless message about install being complete
 # d-i finish-install/reboot_in_progress                       note
  # Eject virtual install ISO
-d-i cdrom-detect/eject                                      boolean     false
+d-i cdrom-detect/eject                                      boolean     true
 # # # Halt just suspends 
-d-i debian-installer/exit/halt                              boolean     false
+d-i debian-installer/exit/halt                              boolean     true
 # # # Without poweroff, reboot happens instead
 d-i debian-installer/exit/poweroff                          boolean     false
 
