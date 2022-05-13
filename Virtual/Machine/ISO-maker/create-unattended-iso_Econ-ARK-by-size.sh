@@ -45,6 +45,9 @@ pathToScript=$(dirname `realpath "$0"`)
 short_hash="$(git rev-parse --short HEAD)"
 commit_date="$(git show -s --format=%cd --date=format:'%Y%m%d-%H%M')"
 msg="$(git log -1 --pretty=%B | tr ' ' '_' | tr '/' '-')"
+dirExtra="Files/For-Target"
+ATI="About_This_Install"
+DIR="$pathToScript/$dirExtra"
 
 # version="base" ; size=MAX ; pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker
 
