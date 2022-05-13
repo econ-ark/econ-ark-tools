@@ -43,7 +43,7 @@ pathToScript=$(dirname `realpath "$0"`)
 
 # Get the latest git commit hash and message
 short_hash="$(git rev-parse --short HEAD)"
-commit_date="$(git show -s --format=%cd --date=format:'%Y%m%d-h%H')"
+commit_date="$(git show -s --format=%cd --date=format:'%Y%m%d-%H%M')"
 msg="$(git log -1 --pretty=%B | tr ' ' '_' | tr '/' '-')"
 
 # version="base" ; size=MAX ; pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker
@@ -512,8 +512,9 @@ else # update it
 	# And that message is not auto-generated
 	if [[ "$msg" != "ISOmaker-Update" && "$msg" != "About-This-Install-Hash-Update" ]]; then
 	    # This is a commit hash we want to store for future retrieval
-	    sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
-	    sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
+	    sudo echo "$short_hash"  > "$DIR/$ATI/short.git-hash"
+	    sudo echo "$msg"         > "$DIR/$ATI/commit-msg.txt"
+            sudo echo "$commit_date" > "$DIR/$ATI/commit_date"
 	    about_this_install_changed='true'
 	fi
     fi
