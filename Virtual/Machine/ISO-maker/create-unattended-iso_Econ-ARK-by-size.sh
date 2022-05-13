@@ -41,6 +41,11 @@ echo "size_to_build=$size"
 
 pathToScript=$(dirname `realpath "$0"`)
 
+# Get the latest git commit hash and message
+short_hash="$(git rev-parse --short HEAD)"
+short_hash_date="$(git show -s --format=%cd --date=format:'%Y%m%d-%H%M')"
+msg="$(git log -1 --pretty=%B | tr ' ' '_' | tr '/' '-')"
+
 # version="base" ; size=MAX ; pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker
 
 # Keep track locally of what was the most recently built version
@@ -378,8 +383,6 @@ sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.V
 #   chroot /target grub-install \$sd ;\
 #   chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local ;\
 
-short_hash="$(git show -s --format=%h)"
-short_hash_date="$(git show -s --format=%cd --date=format:%Y%m%d-%H%M)"
 
 
 late_command="mount --bind /dev /target/dev ;\
@@ -489,15 +492,8 @@ if [[ "$late_command_changed" != 0 ]]; then
     read answer
 fi
 
-
-# Get the latest git commit hash and message
-short_hash="$(git rev-parse --short HEAD)"
-msg="$(git log -2 --pretty=%B | tr ' ' '_' | tr '/' '-')"
-dirExtra="Files/For-Target"
-ATI="About_This_Install"
-DIR="$pathToScript/$dirExtra"
-
-if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]]; then
+# if About-This-Install directory does not exist
+if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]]; then # create it
     cd "$pathToScript/$dirExtra"
     sudo chmod u+w "$DIR"
     sudo mkdir -p "$DIR/$ATI"
@@ -506,14 +502,18 @@ if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]]; then
     sudo touch "$DIR/$ATI/commit-msg.txt" ; sudo chmod a+rw "$DIR/$ATI/commit-msg.txt"
     sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
     sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
-else
+else # update it 
     msg_last="" # Empty message
+    about_this_install_changed=""
     # If not empty locally, get it 
     [[ -e "$DIR/$ATI/commit-msg.txt" ]] && msg_last="$(cat $DIR/$ATI/commit-msg.txt)" 
-    if [[ "$msg" != "$msg_last" ]] ; then
-	if [[ "$msg" != "ISOmaker-Update" && "$msg" != "ATI-Update" ]]; then
+    if [[ "$msg" != "$msg_last" ]] ; then # if there's a different message from last commit
+	# And that message is not auto-generated
+	if [[ "$msg" != "ISOmaker-Update" && "$msg" != "About-This-Install-Hash-Update" ]]; then
+	    # This is the commit hash we want to store for future retrieval
 	    sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
 	    sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
+	    about_this_install_changed='true'
 	fi
     fi
 fi
@@ -600,7 +600,6 @@ pushd . ; cd "$pathToScript"
 short_hash="$(cat $DIR/$ATI/short.git-hash)"
 short_hash_last="$(cat $DIR/$ATI/short.git-hash)"
 
-short_hash_date="$(git show -s --format=%cd --date=format:'%Y%m%d-%H%M')"
 iso_date=`date +"%Y%m%d-%H%M%S"`
 new_iso_name="$new_iso_name-$iso_date-$short_hash.iso"
 
