@@ -117,7 +117,12 @@ default_domain=""
 
 # Change the name of the host to the date and time of its creation
 datetime="$(date +%Y%m%d%H%S)"
-new_hostname="$(</installer/hostname)"
+
+msg="$(cat ./About_This_Install/commit-msg.txt)"
+short_hash="$(cat ./About_This_Install/short.git-hash)"
+commit_date="$(cat ./About_This_Install/commit_date)"
+
+new_hostname="$commit_date-$short_hash"
 sed -i "s/$default_hostname/$new_hostname/g" /etc/hostname
 sed -i "s/$default_hostname/$new_hostname/g" /etc/hosts
 

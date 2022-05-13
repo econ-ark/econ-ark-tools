@@ -43,7 +43,7 @@ pathToScript=$(dirname `realpath "$0"`)
 
 # Get the latest git commit hash and message
 short_hash="$(git rev-parse --short HEAD)"
-short_hash_date="$(git show -s --format=%cd --date=format:'%Y%m%d-%H%M')"
+commit_date="$(git show -s --format=%cd --date=format:'%Y%m%d-h%H')"
 msg="$(git log -1 --pretty=%B | tr ' ' '_' | tr '/' '-')"
 
 # version="base" ; size=MAX ; pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker
@@ -435,7 +435,7 @@ late_command+=";\
      chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
      chroot /target update-grub ;\
      chroot /target mkdir /installer ;\
-     dd if=/dev/sr0 of="'"/target/installer/xubark-'$short_hash_date-$short_hash.iso'"'
+     dd if=/dev/sr0 of=/target/installer/xubark.iso"
 #fi
 #     echo xubark-$(cat /target/var/local/About_This_Install/short.git-hash) > /target/installer/hostname ;\
 #     hostname=$(cat /target/installer/hostname) ;\
@@ -501,6 +501,7 @@ if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]]; then # create it
     sudo touch "$DIR/$ATI/short.git-hash" ; sudo chmod a+rw "$DIR/$ATI/short.git-hash"
     sudo touch "$DIR/$ATI/commit-msg.txt" ; sudo chmod a+rw "$DIR/$ATI/commit-msg.txt"
     sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
+    sudo echo "$commit_date" > "$DIR/$ATI/commit_date"
     sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
 else # update it 
     msg_last="" # Empty message
@@ -510,7 +511,7 @@ else # update it
     if [[ "$msg" != "$msg_last" ]] ; then # if there's a different message from last commit
 	# And that message is not auto-generated
 	if [[ "$msg" != "ISOmaker-Update" && "$msg" != "About-This-Install-Hash-Update" ]]; then
-	    # This is the commit hash we want to store for future retrieval
+	    # This is a commit hash we want to store for future retrieval
 	    sudo echo "$short_hash" > "$DIR/$ATI/short.git-hash"
 	    sudo echo "$msg"        > "$DIR/$ATI/commit-msg.txt"
 	    about_this_install_changed='true'
@@ -519,7 +520,7 @@ else # update it
 fi
 
 # If anything relevant has changed, require a fix and a push
-if [[ "$about_this_install_changed" != 0 ]] && [[ "$msg" != "About-This-Install-Hash-Update" ]] && [[ "$msg" != "ISOmaker-Update" ]] && [[ "$msg" != "$msg_last" ]]; then
+if [[ "$about_this_install_changed" != "" ]] && [[ "$msg" != "About-This-Install-Hash-Update" ]] && [[ "$msg" != "ISOmaker-Update" ]] && [[ "$msg" != "$msg_last" ]]; then
     echo "$ATI/ or $ATI.md has changed; the new version has been written"
     echo ''
     cmd="git diff --exit-code $pathToScript/$ForTarget/$ATI/"
@@ -535,7 +536,7 @@ if [[ "$about_this_install_changed" != 0 ]] && [[ "$msg" != "About-This-Install-
     read answer
 fi
 
-# include firstrun script
+# Add late_command to preseed
 echo "# setup firstrun script">> $iso_make/iso_new/preseed/$seed_file
 echo "d-i preseed/late_command                                    string      $late_command " >> $iso_make/iso_new/preseed/$seed_file
 
@@ -597,11 +598,10 @@ sudo chmod u-w $iso_make/iso_new/README.diskdefines
 # Get info about the commit 
 pushd . ; cd "$pathToScript"
 
-short_hash="$(cat $DIR/$ATI/short.git-hash)"
-short_hash_last="$(cat $DIR/$ATI/short.git-hash)"
+#short_hash="$(cat $DIR/$ATI/short.git-hash)"
+#iso_date=`date +"%Y%m%d-%H%M%S"`
 
-iso_date=`date +"%Y%m%d-%H%M%S"`
-new_iso_name="$new_iso_name-$iso_date-$short_hash.iso"
+new_iso_name="$new_iso_name-$commit_date-$short_hash.iso"
 
 echo 'new_iso_name='$new_iso_name
 popd

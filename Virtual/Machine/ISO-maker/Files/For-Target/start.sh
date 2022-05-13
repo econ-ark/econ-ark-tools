@@ -60,6 +60,7 @@ mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manag
 
 msg="$(cat ./About_This_Install/commit-msg.txt)"
 short_hash="$(cat ./About_This_Install/short.git-hash)"
+commit_date="$(cat ./About_This_Install/commit_date)"
 
 # Create the "About This Install" markdown file
 cat <<EOF > /var/local/About_This_Install.md
@@ -71,7 +72,7 @@ https://github.com/econ-ark/econ-ark-tools.git
 
 using scripts in commit $short_hash 
 with commit message "$msg"
-
+on date "$commit_date"
 
 Starting at the root of a cloned version of that repo,
 you should be able to reproduce the installer with:
