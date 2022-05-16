@@ -608,8 +608,9 @@ echo 'new_iso_name='$new_iso_name
 echo " creating the remastered iso"
 
 ISONAME="XUB20ARK$size"
-mke="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
+cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
 
+mkd="$cmd"
 echo "$mke"
 eval "$mke"
 
@@ -621,8 +622,8 @@ if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
 fi
 
 # Make a copy of the iso installer in the preseed directory
-echo "cp $new_iso_name $iso_make/iso_new/preseed"
-eval "cp $new_iso_name $iso_make/iso_new/preseed"
+echo "cp $iso_make/$new_iso_name $iso_make/iso_new/preseed"
+eval "cp $iso_make/$new_iso_name $iso_make/iso_new/preseed"
 
 new_iso_name="$new_iso_plus"
 echo 'new_iso_plus='"$new_iso_name"
