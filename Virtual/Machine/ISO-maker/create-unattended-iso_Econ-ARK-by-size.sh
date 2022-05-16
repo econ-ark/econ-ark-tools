@@ -606,6 +606,7 @@ pushd . ; cd "$pathToScript"
 #iso_date=`date +"%Y%m%d-%H%M%S"`
 
 new_iso_name="$new_iso_name-$commit_date-$short_hash.iso"
+new_iso_plus="$new_iso_name-$commit_date-$short_hash-plus.iso"
 
 echo 'new_iso_name='$new_iso_name
 popd
@@ -614,11 +615,11 @@ popd
 echo " creating the remastered iso"
 
 ISONAME="XUB20ARK$size"
-cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
+mke="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
 
 mke="$cmd"
-echo "$cmd"
-eval "$cmd"
+echo "$mke"
+eval "$mke"
 
 spinner $!
 
@@ -626,6 +627,12 @@ spinner $!
 if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
     isohybrid $iso_make/$new_iso_name
 fi
+
+cp "new_iso_name" "$iso_make/iso_new/preseed"
+new_iso_name=new_iso_plus
+echo 'new_iso_plus='$new_iso_name
+echo "$mke"
+eval "$mke"
 
 # Move it to the destination
 cmd="[[ -e $iso_done/$size/$new_iso_name ]] && rm $iso_done/$size/$new_iso_name"
