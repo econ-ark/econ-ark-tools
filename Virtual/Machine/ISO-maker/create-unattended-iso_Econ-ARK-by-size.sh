@@ -630,6 +630,11 @@ mke="$cmd"
 
 echo "$mke"
 eval "$mke"
+# make iso bootable (for dd'ing to USB stick)
+if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
+    isohybrid $iso_make/$new_iso_plus
+fi
+
 
 # Move it to the destination
 cmd="[[ -e $iso_done/$size/$new_iso_name ]] && rm $iso_done/$size/$new_iso_name"
