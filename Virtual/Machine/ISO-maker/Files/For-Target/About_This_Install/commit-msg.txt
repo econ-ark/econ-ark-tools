@@ -1,1 +1,1 @@
-Pause_after_late_command_before_rebooting
+Add_iso_itself_to_preseed
