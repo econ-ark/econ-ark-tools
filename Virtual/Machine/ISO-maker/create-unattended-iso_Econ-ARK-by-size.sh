@@ -625,7 +625,9 @@ fi
 echo "cp $iso_make/$new_iso_name $iso_make/iso_new/preseed"
 eval "cp $iso_make/$new_iso_name $iso_make/iso_new/preseed"
 
-new_iso_name="$new_iso_plus"
+cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_plus . > /dev/null 2>&1)"
+mke="$cmd"
+
 echo 'new_iso_plus='"$new_iso_name"
 echo "$mke"
 eval "$mke"
