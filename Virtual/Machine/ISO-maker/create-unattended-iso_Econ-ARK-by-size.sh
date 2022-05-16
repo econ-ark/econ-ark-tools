@@ -617,7 +617,6 @@ echo " creating the remastered iso"
 ISONAME="XUB20ARK$size"
 mke="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
 
-mke="$cmd"
 echo "$mke"
 eval "$mke"
 
