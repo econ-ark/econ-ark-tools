@@ -1,1 +1,1 @@
-Add_iso_itself_to_preseed
+Add_comment
