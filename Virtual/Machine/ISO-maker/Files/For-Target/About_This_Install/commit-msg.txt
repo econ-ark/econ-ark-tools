@@ -1,1 +1,1 @@
-Fix_copy_command
+new_iso_name->$new_iso_name
