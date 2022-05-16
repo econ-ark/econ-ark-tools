@@ -599,17 +599,10 @@ sudo chmod a+w $iso_make/iso_new/README.diskdefines
 rpl --quiet 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' $iso_make/iso_new/README.diskdefines
 sudo chmod u-w $iso_make/iso_new/README.diskdefines
 
-# Get info about the commit 
-pushd . ; cd "$pathToScript"
-
-#short_hash="$(cat $DIR/$ATI/short.git-hash)"
-#iso_date=`date +"%Y%m%d-%H%M%S"`
-
 new_iso_name="$new_iso_name-$commit_date-$short_hash.iso"
 new_iso_plus="$new_iso_name-$commit_date-$short_hash-plus.iso"
 
 echo 'new_iso_name='$new_iso_name
-popd
 
 [[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
 echo " creating the remastered iso"
@@ -628,9 +621,11 @@ if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
 fi
 
 # Make a copy of the iso installer in the preseed directory
-cp "$new_iso_name" "$iso_make/iso_new/preseed"
-new_iso_name=new_iso_plus
-echo 'new_iso_plus='$new_iso_name
+echo "cp $new_iso_name $iso_make/iso_new/preseed"
+eval "cp $new_iso_name $iso_make/iso_new/preseed"
+
+new_iso_name="$new_iso_plus"
+echo 'new_iso_plus='"$new_iso_name"
 echo "$mke"
 echo "$mke"
 
