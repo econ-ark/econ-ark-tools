@@ -628,6 +628,7 @@ if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
     isohybrid $iso_make/$new_iso_name
 fi
 
+# Make a copy of the iso installer in the preseed directory
 cp "new_iso_name" "$iso_make/iso_new/preseed"
 new_iso_name=new_iso_plus
 echo 'new_iso_plus='$new_iso_name
