@@ -628,7 +628,6 @@ eval "cp $iso_make/$new_iso_name $iso_make/iso_new/preseed"
 cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_plus . > /dev/null 2>&1)"
 mke="$cmd"
 
-echo 'new_iso_plus='"$new_iso_name"
 echo "$mke"
 eval "$mke"
 
@@ -637,13 +636,10 @@ cmd="[[ -e $iso_done/$size/$new_iso_name ]] && rm $iso_done/$size/$new_iso_name"
 echo "$cmd"
 eval "$cmd"
 cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name "
+cmd="mv $iso_make/$new_iso_plus $iso_done/$size/$new_iso_plus "
 echo "$cmd"
 eval "$cmd"
 echo ""
-echo "make-and-move one-liner:"
-echo '' 
-echo "pushd . ; $mke ; $cmd ; popd"
-echo ''
 
 # # Now make a version of the iso that has the original ISO in /var/local; meta!
 # cp -p $iso_done/$new_iso_name 
