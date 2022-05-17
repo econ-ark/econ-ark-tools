@@ -438,8 +438,8 @@ late_command+=";\
      chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
      chroot /target update-grub ;\
      chroot /target mkdir /installer ;\
-     chroot /target /bin/bash -c "'"[[ -d       /cdrom ]] && [[ $(ls -A       /cdrom) ]] && cp       /cdrom/preseed/XUB*.* /installer/"'" ;\
-     chroot /target /bin/bash -c "'"[[ -d /media/cdrom ]] && [[ $(ls -A /media/cdrom) ]] && cp /media/cdrom/preseed/XUB*.* /installer/"'" "
+     chroot /target /bin/bash -c "'"[[ -d       /cdrom ]] && [[ \$(ls -A       /cdrom) ]] && cp       /cdrom/preseed/XUB*.* /installer/"'" ;\
+     chroot /target /bin/bash -c "'"[[ -d /media/cdrom ]] && [[ \$(ls -A /media/cdrom) ]] && cp /media/cdrom/preseed/XUB*.* /installer/"'" "
 #fi
 #     echo xubark-$(cat /target/var/local/About_This_Install/short.git-hash) > /target/installer/hostname ;\
 #     hostname=$(cat /target/installer/hostname) ;\
