@@ -1,1 +1,1 @@
-escape_\$
+Remove_pause_before_reboot
