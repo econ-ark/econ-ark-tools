@@ -41,4 +41,5 @@
  /bin/bash -c "[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi" 
  update-grub 
  mkdir /installer 
- dd if=/dev/sr0 of=/installer/xubark.iso
+ /bin/bash -c "[[ -d /cdrom ]] && [[ "$(ls -A /cdrom)" ]] && cp /cdrom/preseed/XUB*.* /installer/" 
+ /bin/bash -c "[[ -d /media/cdrom ]] && [[ "$(ls -A /media/cdrom)" ]] && cp /media/cdrom/preseed/XUB*.* /installer/"
