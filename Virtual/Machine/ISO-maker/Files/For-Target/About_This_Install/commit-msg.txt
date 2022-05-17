@@ -1,1 +1,1 @@
-Remove_pause_before_reboot
+halt_false_allows_reboot
