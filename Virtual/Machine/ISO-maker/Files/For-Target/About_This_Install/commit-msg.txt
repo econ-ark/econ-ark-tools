@@ -1,1 +1,1 @@
-Make_plus_bootable
+Copy_XUB*_from_-cdrom-preseed_to_-installer
