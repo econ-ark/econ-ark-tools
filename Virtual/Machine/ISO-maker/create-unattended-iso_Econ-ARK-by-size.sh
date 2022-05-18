@@ -307,7 +307,7 @@ cat initrd.gz.orig firmware.cpio.gz > initrd.gz
 
 
 new_firmware="cdimage.debian.org/cdimage/unofficial/non-free/firmware/bullseye/current" ; iso_make="/usr/local/share/iso_make"
-pushd . ; cd $iso_make/iso_new; cmd="sudo wget https://$new_firmware/firmware.zip" ; echo "$cmd" ; eval "$cmd" ; sudo unzip firmware.zip -d firmware; sudo rm -f firmware.zip ; popd 
+pushd . ; cd $iso_make/iso_new; [[ ! -d firmware ]] && (cmd="sudo wget https://$new_firmware/firmware.zip" ; echo "$cmd" ; eval "$cmd" ; sudo unzip firmware.zip -d firmware; sudo rm -f firmware.zip) ; popd 
 # copy the seed file to the iso
 cmd="sudo cp -rT $pathToScript/$ForISO/$seed_file $iso_make/iso_new/preseed/$seed_file"
 echo "$cmd"
