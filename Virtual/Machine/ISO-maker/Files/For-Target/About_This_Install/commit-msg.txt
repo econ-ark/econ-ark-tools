@@ -1,1 +1,1 @@
-copy_firmware_to_-lib-firmware_in_early_command
+Fix_preseed_early_command_copy_firmware
