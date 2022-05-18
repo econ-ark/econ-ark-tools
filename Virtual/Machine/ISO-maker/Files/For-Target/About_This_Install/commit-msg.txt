@@ -1,1 +1,1 @@
-Put_firmware_in_iso_make;_fix_plus_name
+copy_firmware_to_iso_new
