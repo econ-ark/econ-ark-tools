@@ -26,7 +26,7 @@ d-i debconf/priority select high
 d-i preseed/early_command string \
     debconf-set console-setup/ask_detect false ;\
     debconf-set keyboard-configuration/layoutcode us ;\
-    cp -a /cdrom/firmware /lib/firmware ;\
+    cp -a /cdrom/firmware/* /lib/firmware ;\
     umount /media || true
 
 ### Choose sources for software
