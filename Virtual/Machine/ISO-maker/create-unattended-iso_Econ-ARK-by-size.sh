@@ -307,7 +307,7 @@ cat initrd.gz.orig firmware.cpio.gz > initrd.gz
 
 
 new_firmware="cdimage.debian.org/cdimage/unofficial/non-free/firmware/bullseye/current" ; iso_make="/usr/local/share/iso_make"
-pushd . ; cd $iso_make/iso_new; [[ ! -d firmware ]] && (cmd="sudo wget https://$new_firmware/firmware.zip" ; echo "$cmd" ; eval "$cmd" ; sudo unzip firmware.zip -d firmware; sudo rm -f firmware.zip) ; popd 
+pushd . ; cd $iso_make; [[ ! -d firmware ]] && (cmd="sudo wget https://$new_firmware/firmware.zip" ; echo "$cmd" ; eval "$cmd" ; mkdir -p firmware ; sudo unzip firmware.zip -d firmware; sudo rm -f firmware.zip) ; popd 
 # copy the seed file to the iso
 cmd="sudo cp -rT $pathToScript/$ForISO/$seed_file $iso_make/iso_new/preseed/$seed_file"
 echo "$cmd"
@@ -607,16 +607,16 @@ sudo chmod a+w $iso_make/iso_new/README.diskdefines
 rpl --quiet 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' $iso_make/iso_new/README.diskdefines
 sudo chmod u-w $iso_make/iso_new/README.diskdefines
 
-new_iso_name="$new_iso_name-$commit_date-$short_hash.iso"
-new_iso_plus="$new_iso_name-$commit_date-$short_hash-plus.iso"
+new_iso_name_full="$new_iso_name-$commit_date-$short_hash.iso"
+new_iso_plus_full="$new_iso_name-$commit_date-$short_hash-plus.iso"
 
-echo 'new_iso_name='$new_iso_name
+echo 'new_iso_name_full='$new_iso_name_full
 
-[[ -e "$iso_make/$new_iso_name" ]] && rm "$iso_make/$new_iso_name"
+[[ -e "$iso_make/$new_iso_name_full" ]] && rm "$iso_make/$new_iso_name_full"
 echo " creating the remastered iso"
 
 ISONAME="XUB20ARK$size"
-cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
+cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name_full . > /dev/null 2>&1)"
 
 mke="$cmd"
 echo "$mke"
@@ -626,38 +626,38 @@ spinner $!
 
 # make iso bootable (for dd'ing to USB stick)
 if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
-    isohybrid $iso_make/$new_iso_name
+    isohybrid $iso_make/$new_iso_name_full
 fi
 
 # Make a copy of the iso installer in the preseed directory
-echo "cp $iso_make/$new_iso_name $iso_make/iso_new/preseed"
-eval "cp $iso_make/$new_iso_name $iso_make/iso_new/preseed"
+echo "cp $iso_make/$new_iso_name_full $iso_make/iso_new/preseed"
+eval "cp $iso_make/$new_iso_name_full $iso_make/iso_new/preseed"
 
-cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_plus . > /dev/null 2>&1)"
+cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_plus_full . > /dev/null 2>&1)"
 mke="$cmd"
 
 echo "$mke"
 eval "$mke"
 # make iso bootable (for dd'ing to USB stick)
 if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
-    isohybrid $iso_make/$new_iso_plus
+    isohybrid $iso_make/$new_iso_plus_full
 fi
 
 
 # Move it to the destination
-cmd="[[ -e $iso_done/$size/$new_iso_name ]] && rm $iso_done/$size/$new_iso_name"
+cmd="[[ -e $iso_done/$size/$new_iso_name_full ]] && rm $iso_done/$size/$new_iso_name_full"
 echo "$cmd"
 eval "$cmd"
-cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name "
-cmd="mv $iso_make/$new_iso_plus $iso_done/$size/$new_iso_plus "
+cmd="mv $iso_make/$new_iso_name_full $iso_done/$size/$new_iso_name_full "
+cmd="mv $iso_make/$new_iso_plus_full $iso_done/$size/$new_iso_plus_full "
 echo "$cmd"
 eval "$cmd"
 echo ""
 
 # # Now make a version of the iso that has the original ISO in /var/local; meta!
-# cp -p $iso_done/$new_iso_name 
+# cp -p $iso_done/$new_iso_name_full 
 # ISONAME="XUB20ARK$size_Meta"
-# cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name . > /dev/null 2>&1)"
+# cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name_full . > /dev/null 2>&1)"
 
 # mke="$cmd"
 # echo "$cmd"
@@ -667,14 +667,14 @@ echo ""
 
 # # make iso bootable (for dd'ing to USB stick)
 # if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
-#     isohybrid $iso_make/$new_iso_name
+#     isohybrid $iso_make/$new_iso_name_full
 # fi
 
 # # Move it to the destination
-# cmd="[[ -e $iso_done/$size/$new_iso_name ]] && rm $iso_done/$size/$new_iso_name"
+# cmd="[[ -e $iso_done/$size/$new_iso_name_full ]] && rm $iso_done/$size/$new_iso_name_full"
 # echo "$cmd"
 # eval "$cmd"
-# cmd="mv $iso_make/$new_iso_name $iso_done/$size/$new_iso_name "
+# cmd="mv $iso_make/$new_iso_name_full $iso_done/$size/$new_iso_name_full "
 # echo "$cmd"
 # eval "$cmd"
 # echo ""
@@ -686,7 +686,7 @@ echo ""
 # print info to user
 echo " -----"
 echo " finished remastering your ubuntu iso file"
-echo " the new file is located at: $iso_done/$size/$new_iso_name"
+echo " the new file is located at: $iso_done/$size/$new_iso_name_full"
 echo " your username is: $username"
 echo " your password is: $password"
 echo " your hostname is: $hostname"
@@ -700,7 +700,7 @@ echo ""
 
 # 20220501: Gave up on rclone to Google because it requires a new token every [interval]
 
-# cmd="rclone --progress copy '"$iso_done/$size/$new_iso_name"'"
+# cmd="rclone --progress copy '"$iso_done/$size/$new_iso_name_full"'"
 # cmd+=" econ-ark-google-drive:econ-ark@jhuecon.org/Resources/Virtual/Machine/XUBUNTU-$size"
 # echo 'To copy to Google drive, execute the command below:'
 # echo ''
@@ -717,7 +717,8 @@ unset timezone
 unset pwhash
 unset download_file
 unset download_location
-unset new_iso_name
+unset new_iso_name_full
+unset new_iso_name_plus
 unset iso_from
 unset iso_make
 unset iso_done

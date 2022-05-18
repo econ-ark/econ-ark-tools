@@ -1,1 +1,1 @@
-Add_firmware_directory
+add_firmware
