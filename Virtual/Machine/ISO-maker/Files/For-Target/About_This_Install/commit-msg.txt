@@ -1,1 +1,1 @@
-copy_firmware_to_iso_new
+sudo_cp_firmware_to_iso_new
