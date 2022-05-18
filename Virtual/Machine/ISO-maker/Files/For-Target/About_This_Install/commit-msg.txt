@@ -1,1 +1,1 @@
-sudo_cp_firmware_to_iso_new
+copy_firmware_to_-lib-firmware_in_early_command
