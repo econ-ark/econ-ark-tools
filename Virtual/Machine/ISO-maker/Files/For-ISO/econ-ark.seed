@@ -1,5 +1,8 @@
 # ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 
+# Include nonfree drivers (so that network cards will work)
+base-config apt-setup/non-free boolean true
+
 # There are two moments at which an early_command can be executed:
 # at the very beginning (via preseed/early_command), and at the
 # beginning of partitioning (viar partman/early_command).
