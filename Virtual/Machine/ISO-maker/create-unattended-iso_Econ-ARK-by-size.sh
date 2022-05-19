@@ -300,10 +300,10 @@ eval "$cmd"
 spinner $!
 
 # wiki.debian.org/DebianInstaller/NetbootFirmware
-cd $iso_make/iso_new/install
-[ -f initrd.gz.orig ] || cp -p initrd.gz initrd.gz.orig
-[ -f firmware.cpio.gz ] || wget http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/stable/current/firmware.cpio.gz
-cat initrd.gz.orig firmware.cpio.gz > initrd.gz
+# cd $iso_make/iso_new/install
+# [ -f initrd.gz.orig ] || cp -p initrd.gz initrd.gz.orig
+# [ -f firmware.cpio.gz ] || wget http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/stable/current/firmware.cpio.gz
+# cat initrd.gz.orig firmware.cpio.gz > initrd.gz
 
 
 new_firmware="cdimage.debian.org/cdimage/unofficial/non-free/firmware/bullseye/current" ; iso_make="/usr/local/share/iso_make"
