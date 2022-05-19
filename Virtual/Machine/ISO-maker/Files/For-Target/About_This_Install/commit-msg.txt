@@ -1,1 +1,1 @@
-MacBookPro5-blacklist_b43
+Add_nolapic_to_MacbookPro_5
