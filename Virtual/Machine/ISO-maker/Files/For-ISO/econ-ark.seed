@@ -219,7 +219,8 @@ d-i grub-installer/only_debian boolean true
 ### Kernel options for boot in created machine
 # net.ifnames=0 seems to be required to let the device keep its own name
 # even if the DHCP provider wants to give it another name
-d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash nolapic nomodeset efi=noruntime
+#d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash nolapic nomodeset efi=noruntime
+d-i debian-installer/add-kernel-opts string verbose nosplash nolapic nomodeset efi=noruntime
 
 # Display manager
 d-i shared/default-x-display-manager                    select      lightdm
