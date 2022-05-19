@@ -1,1 +1,1 @@
-Comment_out_initrd_firmware_add;_include_broadcom-sta_in_-firmware
+priority_medium
