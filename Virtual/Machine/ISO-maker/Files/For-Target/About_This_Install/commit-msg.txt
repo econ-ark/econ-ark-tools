@@ -1,1 +1,1 @@
-priority_high
+Add_grub_menu_item_for_Mac_Mini_2018
