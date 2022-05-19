@@ -214,12 +214,12 @@ d-i pkgsel/update-policy select unattended-upgrades
 # Makes it install to the MBR; necessary for vbox
 d-i grub-installer/only_debian boolean true
 # include other os's in the grub file if they exist
-d-i grub-installer/with_other_os boolean true 
+# d-i grub-installer/with_other_os boolean true 
 
 ### Kernel options for boot in created machine
 # net.ifnames=0 seems to be required to let the device keep its own name
 # even if the DHCP provider wants to give it another name
-d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash
+d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash nolapic
 
 # Display manager
 d-i shared/default-x-display-manager                    select      lightdm
