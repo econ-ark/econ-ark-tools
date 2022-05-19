@@ -1,1 +1,1 @@
-Add_grub_menu_item_for_Mac_Mini_2018
+Add_nolapic_to_kernel_of_created_drive
