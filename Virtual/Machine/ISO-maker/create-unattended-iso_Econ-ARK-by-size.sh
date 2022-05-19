@@ -332,6 +332,11 @@ sudo echo ARKINSTALL                                      > $iso_make/iso_new/EF
 sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/EFI/BOOT/.VolumeIcon.icns
 sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.VolumeIcon.icns
 
+sudo cp $pathToScript/Disk/Labels/Econ-ARK.disk_label     $iso_make/iso_new/preseed/.disk_label
+sudo cp $pathToScript/Disk/Labels/Econ-ARK.disk_label_2x  $iso_make/iso_new/preseed/.disk_label_2x
+sudo echo Econ-ARK                                      > $iso_make/iso_new/preseed/.disk_label.contentDetails
+sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/preseed/.VolumeIcon.icns
+
 #      chroot /target update-grub ;\
 
 # Constraint: Nothing can be copied from the installer ISO to target
@@ -427,7 +432,7 @@ late_command="mount --bind /dev /target/dev ;\
    sd=\$(cat /tmp/target-dev) ;\
     rm    -f /target/var/local/Size-To-Make-Is-MIN ;\
     rm    -f /target/var/local/Size-To-Make-Is-MAX ;\
-    chroot /target touch /var/local/Size-To-Make-Is-'$size' "
+    chroot /target touch /var/local/Size-To-Make-Is-$size "
 
 #   chroot /target apt-cdrom add ;\
 
@@ -450,7 +455,11 @@ late_command+=";\
      chroot /target update-grub ;\
      chroot /target mkdir /installer ;\
      chroot /target /bin/bash -c "'"[[ -d       /cdrom ]] && [[ \$(ls -A       /cdrom) ]] && cp       /cdrom/preseed/XUB*.* /installer/"'" ;\
-     chroot /target /bin/bash -c "'"[[ -d /media/cdrom ]] && [[ \$(ls -A /media/cdrom) ]] && cp /media/cdrom/preseed/XUB*.* /installer/"'" "
+     chroot /target /bin/bash -c "'"[[ -d /media/cdrom ]] && [[ \$(ls -A /media/cdrom) ]] && cp /media/cdrom/preseed/XUB*.* /installer/"'" ;\
+     cp /cdrom/preseed/Econ-ARK.disk_label     /target/Econ-ARK.disk_label     ;\
+     cp /cdrom/preseed/Econ-ARK.disk_label_2x  /target/Econ-ARK.disk_label_2x  ;\ 
+     echo Econ-ARK                           > /target/.disk_label.contentDetails ;\
+     cp /cdrom/preseed/Econ-ARK.VolumeIcon.icns /target/.VolumeIcon.icns"
 #fi
 #     echo xubark-$(cat /target/var/local/About_This_Install/short.git-hash) > /target/installer/hostname ;\
 #     hostname=$(cat /target/installer/hostname) ;\

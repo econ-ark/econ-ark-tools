@@ -24,7 +24,7 @@
  sd=$(cat /tmp/target-dev) 
  rm -f /var/local/Size-To-Make 
  rm -f /var/local/Size-To-Make 
- touch /var/local/Size-To-Make-Is-'MAX' 
+ touch /var/local/Size-To-Make 
  mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
  cp /var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf 
  chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
@@ -42,4 +42,8 @@
  update-grub 
  mkdir /installer 
  /bin/bash -c "[[ -d /cdrom ]] && [[ \$(ls -A /cdrom) ]] && cp /cdrom/preseed/XUB*.* /installer/" 
- /bin/bash -c "[[ -d /media/cdrom ]] && [[ \$(ls -A /media/cdrom) ]] && cp /media/cdrom/preseed/XUB*.* /installer/"
+ /bin/bash -c "[[ -d /media/cdrom ]] && [[ \$(ls -A /media/cdrom) ]] && cp /media/cdrom/preseed/XUB*.* /installer/" 
+ cp /cdrom/preseed/Econ-ARK.disk_label /Econ-ARK.disk_label 
+ cp /cdrom/preseed/Econ-ARK.disk_label_2x /Econ-ARK.disk_label_2x 
+\ echo Econ-ARK > /.disk_label.contentDetails 
+ cp /cdrom/preseed/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns
