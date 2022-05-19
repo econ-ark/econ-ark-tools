@@ -1,1 +1,1 @@
-Add_nolapic_to_kernel_of_created_drive
+Remove_net.ifnames=0_from_created_kernel
