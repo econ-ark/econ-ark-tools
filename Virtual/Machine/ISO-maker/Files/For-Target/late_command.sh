@@ -45,5 +45,5 @@
  /bin/bash -c "[[ -d /media/cdrom ]] && [[ \$(ls -A /media/cdrom) ]] && cp /media/cdrom/preseed/XUB*.* /installer/" 
  cp /cdrom/preseed/Econ-ARK.disk_label /Econ-ARK.disk_label 
  cp /cdrom/preseed/Econ-ARK.disk_label_2x /Econ-ARK.disk_label_2x 
-\ echo Econ-ARK > /.disk_label.contentDetails 
+ echo Econ-ARK > /.disk_label.contentDetails 
  cp /cdrom/preseed/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns

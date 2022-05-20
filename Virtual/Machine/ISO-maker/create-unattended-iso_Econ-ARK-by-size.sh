@@ -457,7 +457,7 @@ late_command+=";\
      chroot /target /bin/bash -c "'"[[ -d       /cdrom ]] && [[ \$(ls -A       /cdrom) ]] && cp       /cdrom/preseed/XUB*.* /installer/"'" ;\
      chroot /target /bin/bash -c "'"[[ -d /media/cdrom ]] && [[ \$(ls -A /media/cdrom) ]] && cp /media/cdrom/preseed/XUB*.* /installer/"'" ;\
      cp /cdrom/preseed/Econ-ARK.disk_label     /target/Econ-ARK.disk_label     ;\
-     cp /cdrom/preseed/Econ-ARK.disk_label_2x  /target/Econ-ARK.disk_label_2x  ;\ 
+     cp /cdrom/preseed/Econ-ARK.disk_label_2x  /target/Econ-ARK.disk_label_2x  ;\
      echo Econ-ARK                           > /target/.disk_label.contentDetails ;\
      cp /cdrom/preseed/Econ-ARK.VolumeIcon.icns /target/.VolumeIcon.icns"
 #fi
