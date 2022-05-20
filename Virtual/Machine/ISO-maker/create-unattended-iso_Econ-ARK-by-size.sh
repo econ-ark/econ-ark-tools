@@ -301,9 +301,9 @@ spinner $!
 
 # wiki.debian.org/DebianInstaller/NetbootFirmware
 cd $iso_make/iso_new/install
-[ -f initrd.gz.orig ] || cp -p initrd.gz initrd.gz.orig
-[ -f firmware.cpio.gz ] || wget http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/stable/current/firmware.cpio.gz
-cat initrd.gz.orig firmware.cpio.gz > initrd.gz
+[ -f initrd.gz.orig ] || sudo cp -p initrd.gz initrd.gz.orig
+[ -f firmware.cpio.gz ] || sudo wget http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/stable/current/firmware.cpio.gz
+sudo cat initrd.gz.orig firmware.cpio.gz > initrd.gz
 
 
 new_firmware="cdimage.debian.org/cdimage/unofficial/non-free/firmware/bullseye/current" ; iso_make="/usr/local/share/iso_make"
@@ -448,8 +448,6 @@ late_command+=";\
      chroot /target apt -y install grub-efi-amd64-bin ;\
      chroot /target apt -y install --reinstall grub-pc ;\
      chroot /target apt -y --fix-broken install ;\
-     sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
-     chroot /target update-initramfs -v -c -k all ;\
      in-target apt-get purge -y virtualbox-guest* ;\
      chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
      chroot /target update-grub ;\
@@ -460,6 +458,10 @@ late_command+=";\
      cp /cdrom/preseed/Econ-ARK.disk_label_2x  /target/Econ-ARK.disk_label_2x  ;\
      echo Econ-ARK                           > /target/.disk_label.contentDetails ;\
      cp /cdrom/preseed/Econ-ARK.VolumeIcon.icns /target/.VolumeIcon.icns"
+
+#     sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
+#     chroot /target update-initramfs -v -c -k all ;\
+
 #fi
 #     echo xubark-$(cat /target/var/local/About_This_Install/short.git-hash) > /target/installer/hostname ;\
 #     hostname=$(cat /target/installer/hostname) ;\

@@ -35,8 +35,6 @@
  apt -y install grub-efi-amd64-bin 
  apt -y install --reinstall grub-pc 
  apt -y --fix-broken install 
- sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /etc/initramfs-tools/initramfs.conf 
- update-initramfs -v -c -k all 
  in-target apt-get purge -y virtualbox-guest* 
  /bin/bash -c "[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi" 
  update-grub 
