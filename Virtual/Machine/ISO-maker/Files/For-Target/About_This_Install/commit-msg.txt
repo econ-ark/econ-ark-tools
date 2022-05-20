@@ -1,1 +1,1 @@
-Meaningless_killer_typo
+Restore_firmware_to_initrd
