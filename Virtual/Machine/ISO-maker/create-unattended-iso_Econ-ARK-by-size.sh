@@ -301,9 +301,17 @@ spinner $!
 
 # wiki.debian.org/DebianInstaller/NetbootFirmware
 cd $iso_make/iso_new/install
-[ -f initrd.gz.orig ] || sudo cp -p initrd.gz initrd.gz.orig
+[ -f initrd.gz.orig ] || sudo mv initrd.gz initrd.gz.orig
+cd ../..
 [ -f firmware.cpio.gz ] || sudo wget http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/stable/current/firmware.cpio.gz
-sudo cat initrd.gz.orig firmware.cpio.gz > initrd.gz
+cd $iso_make/iso_new/install
+sudo chmod a+w .
+
+cmd="sudo cat initrd.gz.orig ../../firmware.cpio.gz > initrd.gz"
+echo "$cmd"
+eval "$cmd"
+sudo chown root:root initrd.gz
+sudo chmod a-w .
 
 
 new_firmware="cdimage.debian.org/cdimage/unofficial/non-free/firmware/bullseye/current" ; iso_make="/usr/local/share/iso_make"
@@ -630,6 +638,8 @@ echo 'new_iso_name_full='$new_iso_name_full
 [[ -e "$iso_make/$new_iso_name_full" ]] && rm "$iso_make/$new_iso_name_full"
 echo " creating the remastered iso"
 
+echo stopping
+read answer 
 ISONAME="XUB20ARK$size"
 cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name_full . > /dev/null 2>&1)"
 
