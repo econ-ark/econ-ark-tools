@@ -638,8 +638,6 @@ echo 'new_iso_name_full='$new_iso_name_full
 [[ -e "$iso_make/$new_iso_name_full" ]] && rm "$iso_make/$new_iso_name_full"
 echo " creating the remastered iso"
 
-echo stopping
-read answer 
 ISONAME="XUB20ARK$size"
 cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name_full . > /dev/null 2>&1)"
 
