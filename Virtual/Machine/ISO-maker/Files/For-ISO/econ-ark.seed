@@ -155,7 +155,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     $bios_boot{ }                        \
     method{ biosgrub }                   \
     .                                    \
-    200 200 200 fat32                    \
+    1024 1024 1024 fat32                    \
     $primary{ }                          \
     method{ efi } format{ }              \
     label{ EFI System Partition }	 \
