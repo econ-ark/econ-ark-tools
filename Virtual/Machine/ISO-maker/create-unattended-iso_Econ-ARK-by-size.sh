@@ -176,7 +176,7 @@ while true; do
     echo "  [4] Ubuntu $bion LTS Server amd64 - Bionic Beaver"
     echo "  [5] Ubuntu $foca LTS Server amd64 - Focal Fossa"
     echo
-    read -ep " please enter your preference: [1|2|3|4]: " -i "5" ubver
+    read -ep " please enter your preference: [1|2|3|4]: " -i "6" ubver
     case $ubver in
         [1]* )  download_file="ubuntu-$prec_vers-server-amd64.iso"           # filename of the iso to be downloaded
                 download_location="http://cdimage.ubuntu.com/releases/$prec/"     # location of the file to be downloaded
@@ -199,6 +199,12 @@ while true; do
                 download_location="https://cdimage.ubuntu.com/ubuntu-legacy-server/releases/20.04/release/"
                 new_iso_base="ubuntu-20.04.1-legacy-server-amd64-unattended"
                 new_iso_name="$name-ubuntu-20.04.1-legacy-server-amd64-unattended"
+		new_firmware="cdimage.debian.org/cdimage/unofficial/non-free/firmware/bullseye/current"
+                break;;
+        [6]* )  download_file="ubuntu-20.04.1-live-server-amd64.iso"
+                download_location="https://cdimage.ubuntu.com/ubuntu-live-server/releases/20.04/release/"
+                new_iso_base="ubuntu-20.04.1-live-server-amd64"
+                new_iso_name="$name-ubuntu-20.04.1-live-server-amd64"
 		new_firmware="cdimage.debian.org/cdimage/unofficial/non-free/firmware/bullseye/current"
                 break;;
         * ) echo " please answer [1], [2], [3], [4], [5]:";;
