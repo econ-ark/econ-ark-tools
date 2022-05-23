@@ -3,8 +3,7 @@
  apt -y update 
  apt -y install git 
  apt -y install linux-headers-5.4.0-109-generic 
- apt -y install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms 
- mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local 
+ mkdir -p /usr/local/share/data/GitHub/econ-ark 
  chmod -Rf a+rwx /usr/local/share/data 
  [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && sudo -u econ-ark git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
  git config --global --add safe.directory /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
@@ -41,7 +40,7 @@
  mkdir /installer 
  /bin/bash -c "[[ -d /cdrom ]] && [[ \$(ls -A /cdrom) ]] && cp /cdrom/preseed/XUB*.* /installer/" 
  /bin/bash -c "[[ -d /media/cdrom ]] && [[ \$(ls -A /media/cdrom) ]] && cp /media/cdrom/preseed/XUB*.* /installer/" 
- cp /cdrom/preseed/Econ-ARK.disk_label /Econ-ARK.disk_label 
- cp /cdrom/preseed/Econ-ARK.disk_label_2x /Econ-ARK.disk_label_2x 
- echo Econ-ARK > /.disk_label.contentDetails 
- cp /cdrom/preseed/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns
+ cp /var/local/Disk/Labels/Econ-ARK.disk_label /Econ-ARK.disk_label 
+ cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /Econ-ARK.disk_label_2x 
+ cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns 
+ echo Econ-ARK > /.disk_label.contentDetails
