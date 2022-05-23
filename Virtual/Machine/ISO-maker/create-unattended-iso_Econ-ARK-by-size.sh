@@ -305,19 +305,19 @@ eval "$cmd"
 
 spinner $!
 
-# wiki.debian.org/DebianInstaller/NetbootFirmware
-cd $iso_make/iso_new/install
-[ -f initrd.gz.orig ] || sudo mv initrd.gz initrd.gz.orig
-cd ../..
-[ -f firmware.cpio.gz ] || sudo wget http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/stable/current/firmware.cpio.gz
-cd $iso_make/iso_new/install
-sudo chmod a+w .
+# # wiki.debian.org/DebianInstaller/NetbootFirmware
+# cd $iso_make/iso_new/install
+# [ -f initrd.gz.orig ] || sudo mv initrd.gz initrd.gz.orig
+# cd ../..
+# [ -f firmware.cpio.gz ] || sudo wget http://cdimage.debian.org/cdimage/unofficial/non-free/firmware/stable/current/firmware.cpio.gz
+# cd $iso_make/iso_new/install
+# sudo chmod a+w .
 
-cmd="sudo cat initrd.gz.orig ../../firmware.cpio.gz > initrd.gz"
-echo "$cmd"
-eval "$cmd"
-sudo chown root:root initrd.gz
-sudo chmod a-w .
+# cmd="sudo cat initrd.gz.orig ../../firmware.cpio.gz > initrd.gz"
+# echo "$cmd"
+# eval "$cmd"
+# sudo chown root:root initrd.gz
+# sudo chmod a-w .
 
 
 new_firmware="cdimage.debian.org/cdimage/unofficial/non-free/firmware/bullseye/current" ; iso_make="/usr/local/share/iso_make"
@@ -441,10 +441,11 @@ late_command="mount --bind /dev /target/dev ;\
    chmod 755 /target/etc/default/grub ;\
    chroot /target update-grub ;\
    chroot /target df -hT > /tmp/target-partition ;\
-   cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
+   echo cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
+   cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
    sd=\$(cat /tmp/target-dev) ;\
     rm    -f /target/var/local/Size-To-Make-Is-* ;\
-    chroot /target touch /var/local/Size-To-Make-Is-"$size""
+    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size)"
 
 #   chroot /target apt -y install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms ;\
 
@@ -462,7 +463,7 @@ late_command+=";\
      chroot /target apt -y install grub-efi-amd64-bin ;\
      chroot /target apt -y install --reinstall grub-pc ;\
      chroot /target apt -y --fix-broken install ;\
-     in-target apt-get purge -y virtualbox-guest* ;\
+     chroot /target apt-get purge -y virtualbox-guest* ;\
      chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
      chroot /target update-grub ;\
      chroot /target mkdir /installer ;\
@@ -498,10 +499,17 @@ echo '#!/bin/bash' > $ForTarget/late_command.sh
 echo '' >> $ForTarget/late_command.sh
 echo '#!/bin/sh' > $iso_make/iso_new/preseed/late_command_busybox.sh
 echo '' >> $iso_make/iso_new/preseed/late_command_busybox.sh
-echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | grep -v late_command >> $iso_make/iso_new/preseed/late_command_busybox.sh
-echo "$late_command_curr_purged" | tr ';' \\n | sed 's|     ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command | grep -v 'bind' | sed 's|/target/|/|g' >> $ForTarget/late_command.sh
+# echo "pause after headers"
+# read answer
+echo "$late_command_curr_purged" | tr ';' \\n | sed 's|^ ||g' | grep -v late_command >> $iso_make/iso_new/preseed/late_command_busybox.sh
+echo "$late_command_curr_purged" | tr ';' \\n | sed 's|^ ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command | grep -v 'bind' | sed 's|/target/|/|g' >> $ForTarget/late_command.sh
 sudo chmod a+x $ForTarget/late_command.sh
 sudo chmod a+x $iso_make/iso_new/preseed/late_command_busybox.sh
+
+# echo "late_command="
+# echo "$late_command"
+# echo 'after late_commands' 
+# read answer
 
 # Test whether anything has changed that requires a new push
 
