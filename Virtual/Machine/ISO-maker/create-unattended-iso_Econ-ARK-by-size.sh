@@ -427,8 +427,7 @@ late_command="mount --bind /dev /target/dev ;\
    chroot /target apt -y update ;\
    chroot /target apt -y install git ;\
    chroot /target apt -y install linux-headers-$(uname -r) ;\
-   chroot /target apt -y install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms ;\
-   chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark /var/local  ;\
+   chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
    [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo -u econ-ark git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
    chroot /target git config --global --add safe.directory /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
@@ -447,6 +446,8 @@ late_command="mount --bind /dev /target/dev ;\
     rm    -f /target/var/local/Size-To-Make-Is-MIN ;\
     rm    -f /target/var/local/Size-To-Make-Is-MAX ;\
     chroot /target touch /var/local/Size-To-Make-Is-$size "
+
+#   chroot /target apt -y install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms ;\
 
 #   chroot /target apt-cdrom add ;\
 
@@ -468,10 +469,10 @@ late_command+=";\
      chroot /target mkdir /installer ;\
      chroot /target /bin/bash -c "'"[[ -d       /cdrom ]] && [[ \$(ls -A       /cdrom) ]] && cp       /cdrom/preseed/XUB*.* /installer/"'" ;\
      chroot /target /bin/bash -c "'"[[ -d /media/cdrom ]] && [[ \$(ls -A /media/cdrom) ]] && cp /media/cdrom/preseed/XUB*.* /installer/"'" ;\
-     cp /cdrom/preseed/Econ-ARK.disk_label     /target/Econ-ARK.disk_label     ;\
-     cp /cdrom/preseed/Econ-ARK.disk_label_2x  /target/Econ-ARK.disk_label_2x  ;\
-     echo Econ-ARK                           > /target/.disk_label.contentDetails ;\
-     cp /cdrom/preseed/Econ-ARK.VolumeIcon.icns /target/.VolumeIcon.icns"
+     chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label     /target/Econ-ARK.disk_label     ;\
+     chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x  /target/Econ-ARK.disk_label_2x  ;\
+     chroot /target cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /target/Econ-ARK.VolumeIcon.icns     ;\
+     echo Econ-ARK                           > /target/.disk_label.contentDetails"
 
 #     sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
 #     chroot /target update-initramfs -v -c -k all ;\
