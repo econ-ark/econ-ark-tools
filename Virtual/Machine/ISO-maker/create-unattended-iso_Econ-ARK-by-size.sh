@@ -445,7 +445,7 @@ late_command="mount --bind /dev /target/dev ;\
    sd=\$(cat /tmp/target-dev) ;\
     rm    -f /target/var/local/Size-To-Make-Is-MIN ;\
     rm    -f /target/var/local/Size-To-Make-Is-MAX ;\
-    chroot /target touch /var/local/Size-To-Make-Is-$size "
+    chroot /target touch /var/local/Size-To-Make-Is-\$size "
 
 #   chroot /target apt -y install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms ;\
 
