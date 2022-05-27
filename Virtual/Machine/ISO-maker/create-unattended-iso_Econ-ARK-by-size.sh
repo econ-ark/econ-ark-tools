@@ -463,7 +463,7 @@ late_command+=";\
      chroot /target apt -y install grub-efi-amd64-bin ;\
      chroot /target apt -y install --reinstall grub-pc ;\
      chroot /target apt -y --fix-broken install ;\
-     chroot /target apt-get purge -y virtualbox-guest* ;\
+     chroot /target apt -y purge virtualbox-guest* ;\
      chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
      chroot /target update-grub ;\
      chroot /target mkdir /installer ;\
