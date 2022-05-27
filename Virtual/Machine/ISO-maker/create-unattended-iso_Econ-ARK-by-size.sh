@@ -426,7 +426,6 @@ late_command="mount --bind /dev /target/dev ;\
    [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
    chroot /target apt -y update ;\
    chroot /target apt -y install git ;\
-   chroot /target apt -y install linux-headers-$(uname -r) ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
    [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo -u econ-ark git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
@@ -436,20 +435,19 @@ late_command="mount --bind /dev /target/dev ;\
    cp -R /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ;\
    cd /target/var/local ;\
    [[ -e /target/etc/rc.local ]] && mv /target/etc/rc.local /target/etc/rc.local_orig ;\
-   [[ -e /target/var/local/rc.local ]] && cp /target/var/local/rc.local /target/etc/rc.local ;\
-   [[ -e /target/etc/default/grub ]] && [[ -e /target/var/local/grub ]] && cp /target/etc/default/grub /target/etc/default/grub_orig && mv /target/var/local/grub /target/etc/default/grub ;\
-   chmod 755 /target/etc/default/grub ;\
-   chroot /target update-grub ;\
+   cp /target/var/local/rc.local /target/etc/rc.local ;\
    chroot /target df -hT > /tmp/target-partition ;\
-   echo cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
    cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
    sd=\$(cat /tmp/target-dev) ;\
-    rm    -f /target/var/local/Size-To-Make-Is-* ;\
-    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size)"
+   rm -f /target/var/local/Size-To-Make-Is-* ;\
+   chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size)"
 
 #   chroot /target apt -y install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms ;\
 
 #   chroot /target apt-cdrom add ;\
+#   [[ -e /target/etc/default/grub ]] && [[ -e /target/var/local/grub ]] && cp /target/etc/default/grub /target/etc/default/grub_orig && mv /target/var/local/grub /target/etc/default/grub ;\
+#   chmod 755 /target/etc/default/grub ;\
+#   chroot /target update-grub ;\
 
 #if [ "$git_branch" == "Make-ISO-Installer" ]; then
 late_command+=";\
@@ -457,12 +455,6 @@ late_command+=";\
      cp /target/var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chmod 755 /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chroot /target apt -y install --reinstall grub-efi-amd64 ;\
-     chroot /target grub-install --verbose --force --efi-directory=/boot/efi/ --removable --target=x86_64-efi --no-uefi-secure-boot ;\
-     chroot /target apt-get --yes purge shim ;\
-     chroot /target apt-get --yes purge mokutil ;\
-     chroot /target apt -y install grub-efi-amd64-bin ;\
-     chroot /target apt -y install --reinstall grub-pc ;\
-     chroot /target apt -y --fix-broken install ;\
      chroot /target apt -y purge virtualbox-guest* ;\
      chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
      chroot /target update-grub ;\
@@ -474,6 +466,12 @@ late_command+=";\
      chroot /target cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /target/Econ-ARK.VolumeIcon.icns     ;\
      echo Econ-ARK                           > /target/.disk_label.contentDetails"
 
+     # chroot /target apt-get --yes purge shim ;\
+     # chroot /target apt-get --yes purge mokutil ;\
+     # chroot /target apt -y install grub-efi-amd64-bin ;\
+     # chroot /target apt -y install --reinstall grub-pc ;\
+     # chroot /target apt -y --fix-broken install ;\
+#     chroot /target grub-install --verbose --force --efi-directory=/boot/efi/ --removable --target=x86_64-efi --no-uefi-secure-boot ;\
 #     sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
 #     chroot /target update-initramfs -v -c -k all ;\
 

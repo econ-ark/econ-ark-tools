@@ -42,6 +42,8 @@ export DEBCONF_DEBUG=.*
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
+sudo apt -y install tasksel
+sudo tasksel --task-packages standard
 # Make links in /var/local to files installed in other places
 # (to provide a transparent gude to all the places the system has been tweaked)
 
@@ -51,12 +53,17 @@ mkdir -p root/.config/rclone
 mkdir -p root/etc/systemd/system/getty@tty1.service.d  # /override.conf Allows autologin to console as econ-ark
 mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manager 
 
+
 # These items are created in econ-ark.seed; put them in /var/local so all system mods are findable there
 # The ! -e are there in case the script is being rerun after a first install
 [[ ! -e /var/local/rc.local                                     ]] && ln -s /etc/rc.local                                          /var/local/root/etc
 #[[ ! -e /var/local/root/etc/default    			        ]] && ln -s /etc/default/grub                                      /var/local/root/etc/default    
 [[ ! -e /var/local/root/etc/systemd/system/getty@tty1.service.d ]] && ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
 [[ ! -e /var/local/root/usr/share/lightdm                       ]] && ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm                      
+
+sudo tasksel install xubuntu-desktop
+sudo DEBIAN_FRONTEND=noninteractive apt install -y xfce4 xfce4-goodies
+sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg reconfigure lightdm
 
 msg="$(cat ./About_This_Install/commit-msg.txt)"
 short_hash="$(cat ./About_This_Install/short.git-hash)"

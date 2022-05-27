@@ -2,24 +2,19 @@
 
 apt -y update 
 apt -y install git 
-apt -y install linux-headers-5.4.0-109-generic 
 mkdir -p /usr/local/share/data/GitHub/econ-ark 
 chmod -Rf a+rwx /usr/local/share/data 
 [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && sudo -u econ-ark git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
 git config --global --add safe.directory /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
 /bin/bash -c "cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
-git checkout Make-Installer-ISO-WORKS 
+git checkout 
 git pull" 
 [[ -e /var/local ]] && rm -Rf /var/local 
 cp -R /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
 cd /var/local 
 [[ -e /etc/rc.local ]] && mv /etc/rc.local /etc/rc.local_orig 
-[[ -e /var/local/rc.local ]] && cp /var/local/rc.local /etc/rc.local 
-[[ -e /etc/default/grub ]] && [[ -e /var/local/grub ]] && cp /etc/default/grub /etc/default/grub_orig && mv /var/local/grub /etc/default/grub 
-chmod 755 /etc/default/grub 
-update-grub 
+cp /var/local/rc.local /etc/rc.local 
 df -hT > /tmp/target-partition 
-echo cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
 cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
 sd=$(cat /tmp/target-dev) 
 rm -f /var/local/Size-To-Make-Is-* 
@@ -28,13 +23,7 @@ mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.servic
 cp /var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf 
 chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
 apt -y install --reinstall grub-efi-amd64 
-grub-install --verbose --force --efi-directory=/boot/efi/ --removable --target=x86_64-efi --no-uefi-secure-boot 
-apt-get --yes purge shim 
-apt-get --yes purge mokutil 
-apt -y install grub-efi-amd64-bin 
-apt -y install --reinstall grub-pc 
-apt -y --fix-broken install 
-apt-get purge -y virtualbox-guest* 
+apt -y purge virtualbox-guest* 
 /bin/bash -c "[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi" 
 update-grub 
 mkdir /installer 

@@ -135,7 +135,7 @@ d-i partman-auto/automatically_partition select Guided partitioning
 # some_device == Guided - use entire disk:
 d-i partman-auto/init_automatically_partition select some_device
 
-# # Needed to make sure the partitioning scheme is usable with GPT systems
+# Needed to make sure the partitioning scheme is usable with GPT systems
 d-i partman-partitioning/choose_label string gpt 
 d-i partman-partitioning/default_label string gpt 
 
@@ -168,7 +168,7 @@ d-i partman-auto/expert_recipe string root-disk ::  \
     mountpoint{ / }                      \
     label{ root }                        \
     .                                    \
-    1024 8192 200% linux-swap            \
+    1024 8192 100% linux-swap            \
     $primary{ }                          \
     method{ swap } format{ }             \
     .
@@ -192,10 +192,10 @@ d-i mirror/udeb/components multiselect main, restricted, universe, multiverse
 # standard is recommended for all installs
 
 # Install all server tools
-tasksel tasksel/first multiselect server
+# tasksel tasksel/first multiselect server
 
 # Selects, but does not install, xfce
-tasksel tasksel/desktop                                     multiselect xfce 
+# tasksel tasksel/desktop                                     multiselect xfce 
 
 # Automatic update
 d-i pkgsel/updatedb                                         boolean     true
@@ -212,7 +212,7 @@ d-i pkgsel/update-policy select unattended-upgrades
 #     debconf-set debconf/priority critical
 
 # Makes it install to the MBR; necessary for vbox
-d-i grub-installer/only_debian boolean true
+# d-i grub-installer/only_debian boolean true
 # include other os's in the grub file if they exist
 # d-i grub-installer/with_other_os boolean true 
 
