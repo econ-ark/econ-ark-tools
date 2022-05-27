@@ -351,7 +351,6 @@ sudo cp $pathToScript/Disk/Labels/Econ-ARK.disk_label_2x  $iso_make/iso_new/pres
 sudo echo Econ-ARK                                      > $iso_make/iso_new/preseed/Econ-ARK.disk_label.contentDetails
 sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/preseed/Econ-ARK.VolumeIcon.icns
 
-#      chroot /target update-grub ;\
 
 # Constraint: Nothing can be copied from the installer ISO to target
 # because the system that installs everything derives instead from initrd
@@ -464,6 +463,7 @@ late_command+=";\
      chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label     /target/Econ-ARK.disk_label     ;\
      chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x  /target/Econ-ARK.disk_label_2x  ;\
      chroot /target cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /target/Econ-ARK.VolumeIcon.icns     ;\
+     chroot /target update-grub ;\
      echo Econ-ARK                           > /target/.disk_label.contentDetails"
 
      # chroot /target apt-get --yes purge shim ;\
