@@ -26,7 +26,7 @@
   ;; (add-to-list 'package-archives '("org"          . "http://orgmode.org/elpa/")            t)
 
   ;; list the packages you want
-  (setq package-list '(use-package auctex auto-complete-auctex shell-here org csv-mode markdown-mode git magit elpy gnu-elpa-keyring-update bash-completion xclip))
+  (setq package-list '(use-package auctex auto-complete-auctex shell-here org markdown-mode git magit elpy gnu-elpa-keyring-update bash-completion xclip))
   ;; fetch the list of packages available
   (unless package-archive-contents
     (package-refresh-contents))

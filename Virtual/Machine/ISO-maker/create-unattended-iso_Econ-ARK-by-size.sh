@@ -175,6 +175,7 @@ while true; do
     echo "  [3] Ubuntu $xenn LTS Server amd64 - Xenial Xerus"
     echo "  [4] Ubuntu $bion LTS Server amd64 - Bionic Beaver"
     echo "  [5] Ubuntu $foca LTS Server amd64 - Focal Fossa"
+    echo "  [6] Ubuntu $foca T2Mac Live amd64 - Focal Fossa"
     echo
     read -ep " please enter your preference: [1|2|3|4]: " -i "6" ubver
     case $ubver in
