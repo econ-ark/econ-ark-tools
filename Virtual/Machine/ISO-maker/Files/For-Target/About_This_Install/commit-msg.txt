@@ -1,1 +1,1 @@
-Lessons_learned_-_make_t2_mbpro_and_mini_versions
+Version_using_mbpro_live_T2_from_linuxT2
