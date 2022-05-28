@@ -191,8 +191,8 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     [[ "$(which conda)" != "" ]] && echo 'To install conda packages: "sudo mamba install [package-name]"' # Conda is installed only on XUBUNTARKMAX
     echo 'To install pip   packages: "sudo pip   install [package-name]"' # pip is installed by root user -- probably a mistake but ...
     echo ''
-    echo 'If scaling is too large, run "sudo /var/local/xfce-hidpi-scaling-command-shrink-me.sh"'
-    echo 'If scaling is too small, run "sudo /var/local/xfce-hidpi-scaling-command-grow-me.sh"'
+    echo 'If scaling is too large, run "bash -u /var/local/xfce-hidpi-scaling-command-shrink-me.sh"'
+    echo 'If scaling is too small, run "bash -u /var/local/xfce-hidpi-scaling-command-grow-me.sh"'
     echo ''
     #    echo "To upgrade HARK, 'sudo pip install --upgrade econ-ark' "
 fi
