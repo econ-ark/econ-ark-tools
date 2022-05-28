@@ -32,4 +32,5 @@ mkdir /installer
 cp /var/local/Disk/Labels/Econ-ARK.disk_label /Econ-ARK.disk_label 
 cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /Econ-ARK.disk_label_2x 
 cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns 
+update-grub 
 echo Econ-ARK > /.disk_label.contentDetails
