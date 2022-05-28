@@ -25,7 +25,11 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 sudo systemctl stop    cups-browsed.service 
 sudo systemctl disable cups-browsed.service
 
-sudo apt -y install software-properties-common # Manage software like dbus 
+# Manage software like dbus 
+sudo apt -y install software-properties-common
+
+# Allow controlling settings
+sudo apt -y install xfce4-settings
 
 # Meld is a good file/folder diff tool
 sudo apt -y install meld
@@ -65,6 +69,7 @@ done
 
 # Play nice with Macs (in hopes of being able to monitor it)
 sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
+sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errors when apps are launched
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
