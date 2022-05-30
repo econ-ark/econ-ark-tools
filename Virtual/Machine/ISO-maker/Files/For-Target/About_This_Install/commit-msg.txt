@@ -1,1 +1,1 @@
-Version_using_mbpro_live_T2_from_linuxT2
+Switch_back_to_regular_(not_t2mac)_install
