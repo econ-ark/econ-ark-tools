@@ -109,12 +109,18 @@ send "$mypass\r"
 expect "Would you like to enter a view-only password (y/n)?"
 send "y\r"
 expect "Password:"
-send "$mypass\r"
+send "$mypass-watch\r"
 expect "Verify:"
-send "$mypass\r"
+send "$mypass-watch\r"
 expect eof
 exit
 EOF
+
+cd .vnc
+echo "!/bin/sh" > xstartup
+echo "xrdp $HOME/.Xresources" >> xstartup
+echo "startxfce4 & " >> xstartup
+sudo chmod a+x xstartup
 
 # set defaults
 default_hostname="$(hostname)"
