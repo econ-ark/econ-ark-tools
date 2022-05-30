@@ -428,7 +428,7 @@ late_command="mount --bind /dev /target/dev ;\
    chroot /target apt -y install git ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
-   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo -u econ-ark git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools  ;\
+   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; sudo chmod -Rf -a+rw econ-ark-tools ;\
    chroot /target git config --global --add safe.directory /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
    chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
    [[ -e /target/var/local     ]] && rm -Rf /target/var/local ;\
