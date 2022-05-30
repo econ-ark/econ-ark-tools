@@ -5,10 +5,10 @@ base-config apt-setup/non-free boolean true
 
 # There are two moments at which an early_command can be executed:
 # at the very beginning (via preseed/early_command), and at the
-# beginning of partitioning (viar partman/early_command).
+# beginning of partitioning (via partman/early_command).
 
 # With priority=critical, automatic configuration of networking is attempted
-# via DHCP on the first available interface but skipped if it fails
+# via DHCP on the first available interface but skipped if it fails.
 # With priority=high, networking will ask user to choose among interfaces
 # (wifi or wired, if both exist) and if wifi to enter a password
 # This is required for configuring wifi setup when needed
@@ -16,13 +16,13 @@ base-config apt-setup/non-free boolean true
 # So, must start with 
 d-i debconf/priority select high
 
-# With priority=high, 
+# With priority=high 
 # neither kernel parameters nor the preseeding below convinces the installer
 # to skip questions about the keyboard configuration
 
-# However, these and the kernel arguments would be operative under
+# However, these and the kernel arguments would work under
 # priority critical; that is why they are preserved here:
-# to preserve the painfully learned structure, in case useful in future
+# to memorialize the painfully learned structure, in case useful in future
 d-i preseed/early_command string \
     debconf-set console-setup/ask_detect false ;\
     debconf-set keyboard-configuration/layoutcode us ;\

@@ -1,0 +1,77 @@
+apt:
+  primary:
+  - arches:
+    - default
+    uri: http://archive.ubuntu.com/ubuntu
+debconf-selections: |
+  base-config apt-setup/restricted boolean true
+  base-config apt-setup/universe boolean true
+  base-config apt-setup/backports boolean true
+  base-config apt-setup/main boolean true
+  base-config apt-setup/multiverse boolean true
+identity:
+  hostname: string      xubark
+  realname: string      econ-ark
+  username: string      econ-ark
+locale: en_US.UTF-8
+version: 1
+#   4:   Directive: base-config apt-setup/restricted boolean true
+#   5:         And: base-config apt-setup/universe boolean true
+#   6:         And: base-config apt-setup/backports boolean true
+#   7:         And: base-config apt-setup/main boolean true
+#   8:         And: base-config apt-setup/multiverse boolean true
+#        Mapped to: debconf-selections: |
+#                     base-config apt-setup/restricted boolean true
+#                     base-config apt-setup/universe boolean true
+#                     base-config apt-setup/backports boolean true
+#                     base-config apt-setup/main boolean true
+#                     base-config apt-setup/multiverse boolean true
+#  43: Unsupported: d-i apt-setup/services-select                               multiselect security, updates
+#  44: Unsupported: d-i apt-setup/security_host                                 string      security.ubuntu.com
+#  45: Unsupported: d-i apt-setup/security_path                                 string      /ubuntu
+#  72:   Directive: d-i debian-installer/locale string en_US.UTF-8
+#        Mapped to: locale: en_US.UTF-8
+#  79:   Directive: d-i netcfg/hostname                                     string      xubark
+#        Mapped to: identity:
+#                     hostname: string      xubark
+#  87: Unsupported: d-i passwd/make-user                                        boolean     true
+#  88:   Directive: d-i passwd/user-fullname                                    string      econ-ark
+#        Mapped to: identity:
+#                     realname: string      econ-ark
+#  89:   Directive: d-i passwd/username                                         string      econ-ark
+#        Mapped to: identity:
+#                     username: string      econ-ark
+#  90: Unsupported: d-i passwd/root-password       password 'kra-noce'
+#  91: Unsupported: d-i passwd/root-password-again password 'kra-noce'
+#  92: Unsupported: d-i passwd/user-password       password 'kra-noce'
+#  93: Unsupported: d-i passwd/user-password password-again 'kra-noce'
+# 196:   Directive: d-i mirror/http/hostname string archive.ubuntu.com
+# 197:         And: d-i mirror/http/directory string /ubuntu
+#        Mapped to: apt:
+#                     primary:
+#                     - arches:
+#                       - default
+#                       uri: http://archive.ubuntu.com/ubuntu
+# 199: Unsupported: d-i mirror/udeb/components multiselect main, restricted, universe, multiverse
+# 210: Unsupported: d-i pkgsel/updatedb                                         boolean     true
+# 211: Unsupported: d-i pkgsel/upgrade seen true
+# 212: Unsupported: d-i pkgsel/upgrade                                          select      safe-upgrade
+# 213: Unsupported: d-i pkgsel/upgrade seen true
+# 214: Unsupported: d-i pkgsel/update-policy select unattended-upgrades
+# 232: Unsupported: d-i debian-installer/add-kernel-opts string verbose nosplash nolapic nomodeset efi=noruntime
+# 235: Unsupported: d-i shared/default-x-display-manager                    select      lightdm
+# 239: Unsupported: d-i finish-install/keep-consoles                            boolean     true
+# 244: Unsupported: d-i cdrom-detect/eject                                      boolean     true
+# 246: Unsupported: d-i debian-installer/exit/halt                              boolean     false
+# 248: Unsupported: d-i debian-installer/exit/poweroff                          boolean     false
+
+# econ-ark-seed.add
+users:
+  - default
+  - name: econ-ark
+    passwd: 'kra-noce'
+    shell: /bin/bash
+    lock-passwd: true
+    ssh_pwauth: True
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    groups: users, admin
