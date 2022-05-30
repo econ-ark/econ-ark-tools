@@ -57,15 +57,15 @@ else
     sudo find . -type f -iname "..sh" -exec chmod a+x {} \; # Gets csh, zsh, whatever
     popd
     
-    sudo conda install -c conda-forge mamba 
+    sudo conda install --yes -c conda-forge mamba 
     sudo conda activate base 
 #    sudo mamba create --yes --name base_py38 python=3.8 anaconda
 #    sudo conda activate base_py38
-#    sudo conda install -c conda-forge mamba
+#    sudo conda install --yes -c conda-forge mamba
     # As of 20210202 py39 is not ready yet
 #    sudo conda create --yes --name base_py39 python=3.9 anaconda
 #    sudo conda activate base_py39
-#    sudo conda install -c conda-forge mamba
+#    sudo conda install --yes -c conda-forge mamba
     sudo mamba update anaconda
     
     # Add some final common tools
