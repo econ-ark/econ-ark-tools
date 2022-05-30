@@ -36,9 +36,9 @@ if id "ubuntu" &>/dev/null; then # Probably created by multipass
     perl -pi -e "s/ubuntu/$myuser/g;" /etc/sudoers.d/90-cloud-init-users
 else
     sudo adduser --disabled-password --gecos "" "$myuser"
-    sudo chpasswd <<<"$myuser:$mypass"
 fi
 
+sudo chpasswd <<<"$myuser:$mypass"
 
 sudo usermod -aG sudo econ-ark
 sudo usermod -aG cdrom econ-ark
