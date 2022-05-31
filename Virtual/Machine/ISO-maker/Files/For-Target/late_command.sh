@@ -19,7 +19,7 @@ df -hT > /tmp/target-partition
 cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
 sd=$(cat /tmp/target-dev) 
 rm -f /var/local/Size-To-Make-Is-* 
-touch /var/local/Size-To-Make-Is-$(echo MAX)
+touch /var/local/Size-To-Make-Is-$(echo MIN)
 mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
 cp /var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf 
 chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
