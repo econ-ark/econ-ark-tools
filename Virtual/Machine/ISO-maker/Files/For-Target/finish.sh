@@ -100,7 +100,7 @@ sudo mkdir -p /home/$myuser/.vnc
 # https://askubuntu.com/questions/328240/assign-vnc-password-using-script
 
 prog=/usr/bin/vncpasswd
-/usr/bin/expect <<EOF
+sudo -u "$myuser" /usr/bin/expect <<EOF
 spawn "$prog"
 expect "Password:"
 send "$mypass\r"
@@ -109,9 +109,9 @@ send "$mypass\r"
 expect "Would you like to enter a view-only password (y/n)?"
 send "y\r"
 expect "Password:"
-send "$mypass-watch\r"
+send "$myuser-watch\r"
 expect "Verify:"
-send "$mypass-watch\r"
+send "$myuser-watch\r"
 expect eof
 exit
 EOF
