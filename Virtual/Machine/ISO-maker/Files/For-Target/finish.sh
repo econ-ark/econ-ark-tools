@@ -95,7 +95,7 @@ sudo apt -y install tigervnc-scraping-server
 
 # If a previous version exists, delete it
 [[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  
-sudo mkdir -p /home/$myuser/.vnc
+sudo -u $myuser mkdir -p /home/$myuser/.vnc
 
 # https://askubuntu.com/questions/328240/assign-vnc-password-using-script
 
@@ -116,7 +116,7 @@ expect eof
 exit
 EOF
 
-cd .vnc
+cd /home/$myuser/.vnc
 echo "!/bin/sh" > xstartup
 echo "xrdp $HOME/.Xresources" >> xstartup
 echo "startxfce4 & " >> xstartup
