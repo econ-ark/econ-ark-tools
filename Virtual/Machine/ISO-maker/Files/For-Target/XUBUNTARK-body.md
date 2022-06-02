@@ -21,11 +21,11 @@ Several tools for communicating with the machine are installed
 1. The `avahi` networking software is also installed
    * This makes it easy to start an ssh shell from a Mac on the network
 
-The ISO installer file that creates this machine is in the /media directory.
+The ISO installer file that creates this machine is in the /var/local directory.
 To install to another drive/USB-stick:
-   1. "Burn" the ISO image to an installer location 
-   1. Boot your computer from the "burned" installer
-   1. Choose the new medium on which you want to install XUBUNTARK
+   1. "Burn" the ISO image to an installer location (like, USB stick)
+   1. Boot your computer from the "burned" installer medium
+   1. Choose the device on which you want to install XUBUNTARK
 
 For a bit more information, see the file `/var/local/About_This_Install.md`
 

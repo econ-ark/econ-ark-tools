@@ -189,15 +189,16 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
 fi
 
 # All subsequent logins
-if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]] && [[ -e /home/econ-ark/.second_user_login ]]; then
+if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]] && [[ -e /home/econ-ark/.second_user_login ]] && [[ ! -e /home/econ-ark/.first_interactive_shell]] ; then
     vHARK="$(python -c 'import HARK ; print(HARK.__version__)')"
     echo "XUBUNTARK, HARK version $vHARK, https://econ-ark.org"
     
     [[ "$(which conda)" != "" ]] && echo 'To install conda packages: "sudo mamba install [package-name]"' # Conda is installed only on XUBUNTARKMAX
     echo 'To install pip   packages: "sudo pip   install [package-name]"' # pip is installed by root user -- probably a mistake but ...
+    echo "To upgrade HARK, 'sudo pip install --upgrade econ-ark' "
     echo ''
     echo 'Scaling too large: "bash -u /var/local/xfce-scaling-shrink-me.sh"'
     echo 'Scaling too small: "bash -u /var/local/xfce-scaling-grow-me.sh"'
     echo ''
-    #    echo "To upgrade HARK, 'sudo pip install --upgrade econ-ark' "
+    touch /home/econ-ark/.first_interactive_shell
 fi

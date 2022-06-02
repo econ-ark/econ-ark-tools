@@ -188,8 +188,6 @@ echo "/media/"
 
 cd /var/local
 
-cd /media
-
 # Install Chrome browser 
 wget --quiet -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt install /var/local/google-chrome-stable_current_amd64.deb
@@ -326,5 +324,5 @@ sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs
 # Restore printer services (disabled earlier because sometimes cause hang of boot)
 sudo systemctl enable cups-browsed.service 
 
-sudo kill "$(pgrep tail)"
+tail_monitor="$(pgrep tail)" && [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
 reboot

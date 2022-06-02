@@ -80,3 +80,5 @@ fi
 sudo rm -f /var/crash/*blue* # Bluetooth crashes frequently and uselessly
 sudo systemctl restart avahi-daemon
 
+[[ -e /home/econ-ark/.first_interactive_shell ]] && sudo rm /home/econ-ark/.first_interactive_shell
+
