@@ -425,7 +425,7 @@ late_command="mount --bind /dev /target/dev ;\
    mount --bind /run /target/run ;\
    [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
    chroot /target apt -y update ;\
-   chroot /target apt -y install git ;\
+   chroot /target apt -y install git xfce4 xfce4-goodies ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
    [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; sudo chmod -Rf -a+rw econ-ark-tools ;\
