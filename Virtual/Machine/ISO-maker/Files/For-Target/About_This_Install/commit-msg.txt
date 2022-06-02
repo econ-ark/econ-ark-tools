@@ -1,1 +1,1 @@
-Turn_xfwm4_compositor_off_(because_slow)
+Move_xfce_configs_to_bash_aliases_add_so_they_will_be_run_on_first_user_log
