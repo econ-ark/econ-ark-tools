@@ -53,6 +53,11 @@ sudo tasksel --task-packages standard
 # Make links in /var/local to files installed in other places
 # (to provide a transparent gude to all the places the system has been tweaked)
 
+if [ ! -e /usr/bin/xfce4-about ]; then # xfce and xubuntu not yet installed
+    tasksel install xubuntu-desktop
+    apt -y install xfce4-goodies
+fi    
+    
 cd /var/local
 mkdir -p root/etc/default
 # mkdir -p root/.config/rclone
@@ -68,7 +73,7 @@ mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manag
 [[ ! -e /var/local/root/usr/share/lightdm                       ]] && ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm                      
 
 # already done: # sudo DEBIAN_FRONTEND=noninteractive apt install -y xfce4 xfce4-goodies
-sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg reconfigure lightdm
+# sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg reconfigure lightdm
 
 msg="$(cat ./About_This_Install/commit-msg.txt)"
 short_hash="$(cat ./About_This_Install/short.git-hash)"

@@ -197,6 +197,8 @@ d-i mirror/udeb/components multiselect main, restricted, universe, multiverse
 # Selects, but does not install, xfce
 # tasksel tasksel/desktop                                     multiselect xfce 
 
+tasksel tasksel/first multiselect xubuntu-desktop xfce4-goodies
+
 # Automatic update
 d-i pkgsel/updatedb                                         boolean     true
 d-i pkgsel/upgrade seen true

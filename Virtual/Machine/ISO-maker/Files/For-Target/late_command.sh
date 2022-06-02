@@ -1,7 +1,7 @@
 #!/bin/bash
 
 apt -y update 
-apt -y install git xfce4 xfce4-goodies 
+apt -y install git 
 mkdir -p /usr/local/share/data/GitHub/econ-ark 
 chmod -Rf a+rwx /usr/local/share/data 
 [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && sudo git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
