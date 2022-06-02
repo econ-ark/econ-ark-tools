@@ -1,1 +1,1 @@
-Move_xfce_config_to_bash_aliases
+Remove_dpkg_reconfigure_lightdm_because_not_running_yet
