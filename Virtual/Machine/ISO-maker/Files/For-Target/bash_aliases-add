@@ -189,7 +189,7 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
 fi
 
 # All subsequent logins
-if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]] && [[ -e /home/econ-ark/.second_user_login ]] && [[ ! -e /home/econ-ark/.first_interactive_shell]] ; then
+if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]] && [[ -e /home/econ-ark/.second_user_login ]] && [[ ! -e /home/econ-ark/.first_interactive_shell ]]; then
     vHARK="$(python -c 'import HARK ; print(HARK.__version__)')"
     echo "XUBUNTARK, HARK version $vHARK, https://econ-ark.org"
     
