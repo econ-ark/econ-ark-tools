@@ -34,10 +34,10 @@ fi
 
 sudo chpasswd <<<"$myuser:$mypass"
 
-sudo usermod -aG sudo econ-ark
-sudo usermod -aG cdrom econ-ark
-sudo usermod -aG adm econ-ark
-sudo usermod -aG plugdev econ-ark
+sudo usermod -aG sudo $myuser
+sudo usermod -aG cdrom $myuser
+sudo usermod -aG adm $myuser
+sudo usermod -aG plugdev $myuser
 
 # Suspend hibernation (so that a swapfile instead of partition can be used)
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
@@ -55,7 +55,7 @@ sudo tasksel --task-packages standard
 
 cd /var/local
 mkdir -p root/etc/default
-mkdir -p root/.config/rclone
+# mkdir -p root/.config/rclone
 mkdir -p root/etc/systemd/system/getty@tty1.service.d  # /override.conf Allows autologin to console as econ-ark
 mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manager 
 
@@ -67,7 +67,7 @@ mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manag
 [[ ! -e /var/local/root/etc/systemd/system/getty@tty1.service.d ]] && ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
 [[ ! -e /var/local/root/usr/share/lightdm                       ]] && ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm                      
 
-# sudo DEBIAN_FRONTEND=noninteractive apt install -y xfce4 xfce4-goodies
+# already done: # sudo DEBIAN_FRONTEND=noninteractive apt install -y xfce4 xfce4-goodies
 sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg reconfigure lightdm
 
 msg="$(cat ./About_This_Install/commit-msg.txt)"
@@ -141,19 +141,16 @@ for dotemacspart in dotemacs_regular_users_only dotemacs_root_and_regular_users;
     sudo wget --tries=0 -O /var/local/$dotemacspart $online/$dotemacspart
 done
 
-[[ -e /home/econ-ark/.emacs ]] && sudo rm -f /home/econ-ark/.emacs
+[[ -e /home/$myuser/.emacs ]] && sudo rm -f /home/$myuser/.emacs
 [[ -e          /root/.emacs ]] && sudo rm -f          /root/.emacs
 
 cat /var/local/dotemacs_root_and_regular_users /var/local/dotemacs_regular_users_only > /var/local/dotemacs
 
-# Link both of them to the downloaded template
-sudo rm /home/econ-ark/.emacs /root/.emacs
-
-sudo ln -s /var/local/dotemacs /home/econ-ark/.emacs
+sudo ln -s /var/local/dotemacs /home/$myuser/.emacs
 sudo ln -s /var/local/dotemacs_root_and_regular_users /root/.emacs
 
 # Make it clear in /var/local, where its content is used
-sudo ln -s /home/econ-ark/.emacs /var/local/dotemacs-home 
+sudo ln -s /home/$myuser/.emacs /var/local/dotemacs-home 
 sudo ln -s /root/.emacs          /var/local/dotemacs-root
 
 # Permissions 
@@ -166,21 +163,21 @@ chown "$myuser:$myuser" /home/$myuser/.emacs  # no sudo
 [[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && chown "$myuser:$myuser" /home/$myuser/.emacs.d
 [[ -e /root/.emacs.d ]] && sudo rm -Rf /root/.emacs.d
 
-sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa
-sudo -i -u econ-ark mkdir -p /home/econ-ark/.emacs.d/elpa/gnupg
-sudo chown econ-ark:econ-ark /home/econ-ark/.emacs
-sudo chown econ-ark:econ-ark -Rf /home/econ-ark/.emacs.d
+sudo -i -u $myuser mkdir -p /home/$myuser/.emacs.d/elpa
+sudo -i -u $myuser mkdir -p /home/$myuser/.emacs.d/elpa/gnupg
+sudo chown $myuser:$myuser /home/$myuser/.emacs
+sudo chown $myuser:$myuser -Rf /home/$myuser/.emacs.d
 chmod a+rw /home/$myuser/.emacs.d 
 
-echo 'keyserver hkp://keys.gnupg.net' > /home/econ-ark/.emacs.d/elpa/gnupg/gpg.conf
-sudo -i -u  econ-ark gpg --list-keys 
-sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --list-keys
-sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --list-keys
-sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
-sudo -i -u  econ-ark gpg --homedir /home/econ-ark/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
+echo 'keyserver hkp://keys.gnupg.net' > /home/$myuser/.emacs.d/elpa/gnupg/gpg.conf
+sudo -i -u  $myuser gpg --list-keys 
+sudo -i -u  $myuser gpg --homedir /home/$myuser/.emacs.d/elpa       --list-keys
+sudo -i -u  $myuser gpg --homedir /home/$myuser/.emacs.d/elpa/gnupg --list-keys
+sudo -i -u  $myuser gpg --homedir /home/$myuser/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
+sudo -i -u  $myuser gpg --homedir /home/$myuser/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 
 # Do emacs first-time setup (including downloading packages)
-sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  
+sudo -i -u  $myuser emacs -batch -l     /home/$myuser/.emacs  
 
 # Don't install the packages twice - instead, link root to the existing install
 [[ -e /root/.emacs.d ]] && sudo rm -Rf /root/.emacs.d
@@ -189,17 +186,17 @@ ln -s /home/$myuser/.emacs.d /root/.emacs.d
 # Finished with emacs
 
 # Allow user to control networking 
-sudo adduser econ-ark netdev
+sudo adduser $myuser netdev
 
 # .bash_aliases is run by all interactive scripts
 wget --tries=0 -O /var/local/bash_aliases-add $online/bash_aliases-add
 
 # add this stuff to any existing ~/.bash_aliases
-if ! grep -q econ-ark /home/econ-ark/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
-    sudo echo "# econ-ark additions to bash_aliases start here" >> /home/econ-ark/.bash_aliases
-    sudo cat /var/local/bash_aliases-add >> /home/econ-ark/.bash_aliases
-    sudo chmod a+x /home/econ-ark/.bash_aliases
-    sudo chown econ-ark:econ-ark /home/econ-ark/.bash_aliases
+if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
+    sudo echo "# econ-ark additions to bash_aliases start here" >> /home/$myuser/.bash_aliases
+    sudo cat /var/local/bash_aliases-add >> /home/$myuser/.bash_aliases
+    sudo chmod a+x /home/$myuser/.bash_aliases
+    sudo chown $myuser:$myuser /home/$myuser/.bash_aliases
     sudo cat /var/local/bash_aliases-add >> /root/.bash_aliases
     sudo chmod a+x /root/.bash_aliases
 fi
@@ -224,7 +221,7 @@ sudo apt-get -y autoremove
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
     
-    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser econ-ark vboxsf
+    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser $myuser vboxsf
     # Get a bugfix release of lightdm to avoid a crash on VM's
     # https://launchpad.net/ubuntu/+source/lightdm-gtk-greeter
     # Bug #1890394 "Lightdm-gtk-greeter coredump during boot"
@@ -236,28 +233,28 @@ fi
 # Once again -- doubtless only one of the methods is needed, but debugging which would take too long
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm     # no sudo
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4       # no sudo
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm   # no sudo
+# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm   # no sudo
 
 sudo apt-get -y install x11-xserver-utils # Installs xrandr, among other utilities
 
 # Allow autologin (as far as unix is concerned)
 sudo groupadd --system autologin
-sudo adduser  econ-ark autologin
-sudo gpasswd -a econ-ark autologin
+sudo adduser  $myuser autologin
+sudo gpasswd -a $myuser autologin
 
 # Group for autologin for PAM 
 sudo groupadd --system nopasswdlogin
-sudo adduser  econ-ark nopasswdlogin
-sudo gpasswd -a econ-ark nopasswdlogin
+sudo adduser  $myuser nopasswdlogin
+sudo gpasswd -a $myuser nopasswdlogin
 
 # Allow autologin
-if ! grep -q econ-ark /etc/pam.d/lightdm-autologin; then # We have not yet added the lines that makes PAM permit autologin
+if ! grep -q $myuser /etc/pam.d/lightdm-autologin; then # We have not yet added the lines that makes PAM permit autologin
     sudo sed -i '1 a\
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
 fi
 
 # Not sure this is necessary
-if ! grep -q econ-ark /etc/pam.d/lightdm          ; then # We have not yet added the line that makes PAM permit autologin
+if ! grep -q $myuser /etc/pam.d/lightdm          ; then # We have not yet added the line that makes PAM permit autologin
     sudo sed -i '1 a\
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
 #    sudo sed -i '1 a\
@@ -289,12 +286,12 @@ fi
 # fi
 
 # # Start the keyring on boot
-# echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ssh) ; export SSH_AUTH_SOCK' >> /home/econ-ark/.xinitrc 
+# echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ssh) ; export SSH_AUTH_SOCK' >> /home/$myuser/.xinitrc 
 
-# echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/econ-ark/.bash_profile
+# echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/$myuser/.bash_profile
 
 # For some reason the pattern for the url this image doesn't fit the pattern of other downloads
-wget -O  /var/local/Econ-ARK.VolumeIcon.icns           https://github.com/econ-ark/econ-ark-tools/raw/master/Virtual/Machine/ISO-maker/Disk/Icons/Econ-ARK.VolumeIcon.icns
+wget -O  /var/local/Econ-ARK.VolumeIcon.icns           https://github.com/econ-ark/econ-ark-tools/raw/$branch/Virtual/Machine/ISO-maker/Disk/Icons/Econ-ARK.VolumeIcon.icns
 
 # Desktop backdrop 
 wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
@@ -317,7 +314,7 @@ sudo mv       /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              /us
 # Make home for the local source
 sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
 sudo mkdir -p /var/local/root/etc/lightdm.conf.d
-sudo mkdir -p /var/local/root/home/econ-ark
+sudo mkdir -p /var/local/root/home/$myuser
 
 # Put in both /var/local and in target 
 wget --tries=0 -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
@@ -327,12 +324,12 @@ wget --tries=0 -O  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf         
 wget --tries=0 -O                 /etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
 
 # One of many ways to try to prevent screen lock
-wget --tries=0 -O  /var/local/root/home/econ-ark/.xscreensaver                                  $online/xscreensaver
-wget --tries=0 -O                 /home/econ-ark/.xscreensaver                                  $online/xscreensaver
+wget --tries=0 -O  /var/local/root/home/$myuser/.xscreensaver                                  $online/xscreensaver
+wget --tries=0 -O                 /home/$myuser/.xscreensaver                                  $online/xscreensaver
 
-chown $myuser:$myuser /home/econ-ark/.dmrc
-wget --tries=0 -O  /home/econ-ark/.xscreensaver                                   $online/xscreensaver
-chown $myuser:$myuser /home/econ-ark/.xscreensaver                      # session-name xubuntu
+chown $myuser:$myuser /home/$myuser/.dmrc
+wget --tries=0 -O  /home/$myuser/.xscreensaver                                   $online/xscreensaver
+chown $myuser:$myuser /home/$myuser/.xscreensaver                      # session-name xubuntu
 
 # Create directory designating things to autostart 
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart

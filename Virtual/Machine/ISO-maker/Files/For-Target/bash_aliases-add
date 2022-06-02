@@ -84,10 +84,6 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
     # #    xfconf-query --channel xfce4-desktop --property "$monitorPath/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
     # #    xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style" --set 4 # Scaling
 
-    # Default xfwm4 compositor is extremely slow; disabling it speeds everything up a lot
-    xfwm4compositorstatus="$(xfconf-query --channel xfwm4 --property /general/use_compositing --list)"
-    xfwm4compositorstatusExists="$?"
-    [[ "$xfwm4compositorstatusExists" == "0" ]] && xfconf-query --channel xfwm4 --property /general/use_compositing --type bool -s false
     # Set background to black (rgba1 property, if it exists)
     black="--type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0" 
 
@@ -108,12 +104,17 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
     xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)" # Not sure whether it's running now or not
     xfce4powermanagerexistsCode="$?" # If zero, it is running -- so quit it (because it causes crash error if reboot happens while running)
     [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
-
+    
     # Properties can be set even if it is not running     
     xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac --set 9999 # a lot of minutes pre-blank!
     xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false &>/dev/null 
     xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled                  --set false &>/dev/null 
 
+    # Default xfwm4 compositor is extremely slow; disabling it speeds everything up a lot
+    xfwm4compositorstatus="$(xfconf-query --channel xfwm4 --property /general/use_compositing --list)"
+    xfwm4compositorstatusExists="$?"
+    [[ "$xfwm4compositorstatusExists" == "0" ]] && xfconf-query --channel xfwm4 --property /general/use_compositing --type 'bool' --set false
+    
     # Screensaver is a THIRD way to lock the screen
     LockScreenExists="$(xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false &>/dev/null)"
     lockEnabled="$?" # If it does not exist, create it 
