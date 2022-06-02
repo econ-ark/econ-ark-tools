@@ -54,6 +54,7 @@ mypass="kra-noce"
 # branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
 # branch_name="${branch_name#refs/heads/}"
 
+cd /var/local
 branch_name="$(<git_branch)"
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
 
@@ -225,7 +226,11 @@ fi
 sudo pip install elpy
 cat /var/local/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
 
+# 20220602: For some reason jinja2 version obained by pip install is out of date
+sudo pip install jinja2
+
 # Configure jupyter notebook tools
+
 sudo pip install jupyter_contrib_nbextensions
 sudo jupyter contrib nbextension install
 sudo jupyter nbextension enable codefolding/main
@@ -321,4 +326,5 @@ sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs
 # Restore printer services (disabled earlier because sometimes cause hang of boot)
 sudo systemctl enable cups-browsed.service 
 
+sudo kill "$(pgrep tail)"
 reboot
