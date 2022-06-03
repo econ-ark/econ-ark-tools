@@ -64,7 +64,7 @@ mkdir -p root/etc/default
 mkdir -p root/etc/systemd/system/getty@tty1.service.d  # /override.conf Allows autologin to console as econ-ark
 mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manager 
 
-[[ -e root/etc/sshd_config ]] && sudo cp root/etc/sshd_conf /etc/sshd_config
+[[ -e root/etc/sshd_config ]] && sudo cp root/etc/sshd_config /etc/sshd_config
 # These items are created in econ-ark.seed; put them in /var/local so all system mods are findable there
 # The ! -e are there in case the script is being rerun after a first install
 [[ ! -e /var/local/rc.local                                     ]] && ln -s /etc/rc.local                                          /var/local/root/etc
