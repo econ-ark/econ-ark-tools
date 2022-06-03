@@ -4,12 +4,9 @@ apt -y update
 apt -y install git 
 mkdir -p /usr/local/share/data/GitHub/econ-ark 
 chmod -Rf a+rwx /usr/local/share/data 
-[[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && sudo git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
+[[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && sudo git clone --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
 sudo chmod -Rf -a+rw econ-ark-tools 
 git config --global --add safe.directory /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
-/bin/bash -c "cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
-git checkout Make-Installer-ISO-WORKS 
-git pull" 
 [[ -e /var/local ]] && rm -Rf /var/local 
 cp -R /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
 cd /var/local 

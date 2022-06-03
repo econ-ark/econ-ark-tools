@@ -428,9 +428,8 @@ late_command="mount --bind /dev /target/dev ;\
    chroot /target apt -y install git ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
-   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; sudo chmod -Rf -a+rw econ-ark-tools ;\
+   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone --branch $git_branch https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; sudo chmod -Rf -a+rw econ-ark-tools ;\
    chroot /target git config --global --add safe.directory /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
-   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
    [[ -e /target/var/local     ]] && rm -Rf /target/var/local ;\
    cp -R /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ;\
    cd /target/var/local ;\
@@ -442,6 +441,7 @@ late_command="mount --bind /dev /target/dev ;\
    rm -f /target/var/local/Size-To-Make-Is-* ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size)"
 
+#   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
 #   chroot /target apt -y install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms ;\
 
 #   chroot /target apt-cdrom add ;\
