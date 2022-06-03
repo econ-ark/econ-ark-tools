@@ -13,10 +13,10 @@ if [ ! -f $FLAG ]; then # first boot
     # create an empty 'signal' file so the if will fail after the first boot
     touch "$FLAG"
 
-    # Allows redoing everything on reboot via "rm -f /var/log/firstboot.log"
+    # Tee up redoing everything on reboot via "rm -f /var/log/firstboot.log" by deleting signals
     [[ -e /var/local/finished_software_install ]] && rm -f /var/local/finished_software_install
-    [[ -e /home/econ-ark/.first_user_login ]] && rm -f /home/econ-ark/.first_user_login*
-    [[ -e /home/econ-ark/.second_user_login ]] && rm -f /home/econ-ark/.second_user_login*
+    [[ -e /home/econ-ark/.first_user_login ]]     && rm -f /home/econ-ark/.first_user_login*
+    [[ -e /home/econ-ark/.second_user_login ]]    && rm -f /home/econ-ark/.second_user_login*
     
     reboot
 else # Not the first boot, so we must have run start.sh
@@ -24,8 +24,10 @@ else # Not the first boot, so we must have run start.sh
     if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
 	# Change the hostname to the point of origin of this machine
 	DATE="$(stat -c %z /proc)"
+	# Pick which size is being made; MAX is default
 	size="MAX"
-	[[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
+	[[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN" # reset if MIN chosen
+	# Include date/time stamp as hostname
 	hostdate="xubark-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
 	hostname "$hostdate"
 	echo "$hostdate" > /etc/hostname
@@ -44,9 +46,11 @@ else # Not the first boot, so we must have run start.sh
 	xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)"
 	xfce4powermanagerexistsCode="$?"
 	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
-
+	
+	# Permit xwindows
 	[[ -e /home/econ-ark/.Xauthority ]] && rm -f /home/econ-ark/.Xauthority
 	[[ -e          /root/.Xauthority ]] && rm -f          /root/.Xauthority
+	
 	# Create new empty file
 	touch /home/econ-ark/.Xauthority
 
@@ -70,15 +74,15 @@ else # Not the first boot, so we must have run start.sh
 	sudo chown econ-ark:econ-ark /home/econ-ark/.Xauthority
 	sudo chmod 664               /home/econ-ark/.Xauthority
 	xdg-open https://econ-ark.org
-	#    sudo chmod u+rw  /home/econ-ark/.Xauthority
+
     fi # End second-boot
-    # Authorize econ-ark to use the display
-    # Remove any old .Xauthority
 fi
 
 # Run these at the beginning of EVERY boot from the very first one
 sudo rm -f /var/crash/*blue* # Bluetooth crashes frequently and uselessly
 sudo systemctl restart avahi-daemon
 
+# .first_interactive_shell is deleted after first interactive shell is executed
+# permits special messages only at startup
 [[ -e /home/econ-ark/.first_interactive_shell ]] && sudo rm /home/econ-ark/.first_interactive_shell
 

@@ -77,12 +77,14 @@ mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manag
 # scraping server means that you're not allowing vnc client to spawn new x sessions
 sudo apt -y install tigervnc-scraping-server
 
+# Allow interactive commands to be preseeded
+sudo apt -y install expect
+
 # If a previous version exists, delete it
 [[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  
 sudo -u $myuser mkdir -p /home/$myuser/.vnc
 
 # https://askubuntu.com/questions/328240/assign-vnc-password-using-script
-
 prog=/usr/bin/vncpasswd
 sudo -u "$myuser" /usr/bin/expect <<EOF
 spawn "$prog"
@@ -161,7 +163,7 @@ sudo apt-get -y install firmware-b43-installer
 sudo apt-get -y --fix-broken install
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server expect rpl gnome-disk-utility
+sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server rpl gnome-disk-utility
 
 # Packages present in "live" but not in "legacy" version of server
 # https://ubuntuforums.org/showthread.php?t=2443047
