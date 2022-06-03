@@ -72,6 +72,45 @@ mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manag
 [[ ! -e /var/local/root/etc/systemd/system/getty@tty1.service.d ]] && ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
 [[ ! -e /var/local/root/usr/share/lightdm                       ]] && ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm                      
 
+
+# Allow vnc (will only start up after reading ~/.bash_aliases)
+# scraping server means that you're not allowing vnc client to spawn new x sessions
+sudo apt -y install tigervnc-scraping-server
+
+# If a previous version exists, delete it
+[[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  
+sudo -u $myuser mkdir -p /home/$myuser/.vnc
+
+# https://askubuntu.com/questions/328240/assign-vnc-password-using-script
+
+prog=/usr/bin/vncpasswd
+sudo -u "$myuser" /usr/bin/expect <<EOF
+spawn "$prog"
+expect "Password:"
+send "$mypass\r"
+expect "Verify:"
+send "$mypass\r"
+expect "Would you like to enter a view-only password (y/n)?"
+send "y\r"
+expect "Password:"
+send "$myuser-watch\r"
+expect "Verify:"
+send "$myuser-watch\r"
+expect eof
+exit
+EOF
+
+cd /home/$myuser/.vnc
+echo "!/bin/sh" > xstartup
+echo "xrdp $HOME/.Xresources" >> xstartup
+echo "startxfce4 & " >> xstartup
+sudo chmod a+x xstartup
+
+pgrep x0vncserver > /dev/null # Silence it
+# "$?" -eq 1 implies that no such process exists, in which case it should be started
+[[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/$USER/.vnc/passwd &> /dev/null &)
+
+
 # already done: # sudo DEBIAN_FRONTEND=noninteractive apt install -y xfce4 xfce4-goodies
 # sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg reconfigure lightdm
 
