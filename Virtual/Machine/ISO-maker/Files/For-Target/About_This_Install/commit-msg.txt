@@ -1,1 +1,1 @@
-Start_vncserver_in_start.sh_after_installed
+Install_expect_before_using_it
