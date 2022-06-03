@@ -108,6 +108,7 @@ echo "!/bin/sh" > xstartup
 echo "xrdp $HOME/.Xresources" >> xstartup
 echo "startxfce4 & " >> xstartup
 sudo chmod a+x xstartup
+sudo chown $myuser:$myuser xstartup
 
 pgrep x0vncserver > /dev/null # Silence it
 # "$?" -eq 1 implies that no such process exists, in which case it should be started
