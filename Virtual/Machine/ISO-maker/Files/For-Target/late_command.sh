@@ -21,11 +21,8 @@ touch /var/local/Size-To-Make-Is-$(echo MIN)
 cp /var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf 
 chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
 apt -y purge virtualbox-guest* 
-/bin/bash -c "[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi" 
 update-grub 
 mkdir /installer 
-/bin/bash -c "[[ -d /cdrom ]] && [[ \$(ls -A /cdrom) ]] && cp /cdrom/preseed/XUB*.* /installer/" 
-/bin/bash -c "[[ -d /media/cdrom ]] && [[ \$(ls -A /media/cdrom) ]] && cp /media/cdrom/preseed/XUB*.* /installer/" 
 cp /var/local/Disk/Labels/Econ-ARK.disk_label /Econ-ARK.disk_label 
 cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /Econ-ARK.disk_label_2x 
 cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns 
