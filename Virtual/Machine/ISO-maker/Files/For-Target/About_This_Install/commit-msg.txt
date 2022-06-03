@@ -1,1 +1,1 @@
-Pause_in_start_after_launching_vnc
+Fix_command_to_launch_x0vncserver_during_start.sh
