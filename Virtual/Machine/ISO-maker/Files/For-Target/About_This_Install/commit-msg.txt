@@ -1,1 +1,1 @@
-Fix_command_to_launch_x0vncserver_during_start.sh
+Remove_more_bash_-c_from_late_command_so_log_works
