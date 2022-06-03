@@ -70,7 +70,7 @@ mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manag
 [[ ! -e /var/local/rc.local                                     ]] && ln -s /etc/rc.local                                          /var/local/root/etc
 #[[ ! -e /var/local/root/etc/default    			        ]] && ln -s /etc/default/grub                                      /var/local/root/etc/default    
 [[ ! -e /var/local/root/etc/systemd/system/getty@tty1.service.d ]] && ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
-# If for some reason the handmade lightdm.conf.d is not available, link to default one
+# /usr/share/lightdm/lightdm.conf.d is standard location for lightdm config; if /var/local doesn't have it, use default
 [[ ! -e /var/local/root/usr/share/lightdm                       ]] && ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm                      
 
 
