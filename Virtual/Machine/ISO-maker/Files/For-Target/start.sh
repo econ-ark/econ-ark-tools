@@ -26,9 +26,9 @@ myuser="econ-ark"  # Don't sudo because it needs to be an environment variable
 mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
 
 # stackoverflow.com/questions check-whether-a-user-exists
-if ! id "ubuntu" &>/dev/null; then # Probably created by multipass
+if ! id "ubuntu" &>/dev/null; then # Probably created by seed
     sudo adduser --disabled-password --gecos "" "ubuntu"
-else
+else # Probably created by multipass
     sudo adduser --disabled-password --gecos "" "$myuser"
 fi
 
@@ -53,11 +53,46 @@ sudo tasksel --task-packages standard
 # Make links in /var/local to files installed in other places
 # (to provide a transparent gude to all the places the system has been tweaked)
 
-if [ ! -e /usr/bin/xfce4-about ]; then # xfce and xubuntu not yet installed
-    tasksel install xubuntu-desktop
+if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu installed
+    # Do the stuff necessary for configuring x
+    
+    # On some systems, xfce4-power-manager causes a crash if you don't quit it before reboot 
+    xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)"
+    xfce4powermanagerexistsCode="$?"
+    [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
+
+    # Permit xwindows
+    [[ -e /home/$myuser/.Xauthority ]] && rm -f /home/$myuser/.Xauthority
+    [[ -e          /root/.Xauthority ]] && rm -f          /root/.Xauthority
+
+    # Create new empty file
+    touch /home/$myuser/.Xauthority
+
+    DATE="$(stat -c %z /proc)"
+    size="MAX"
+    [[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
+    hostdate="xubark-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
+    sudo hostname "$hostdate"
+    sudo echo "$hostdate" > /etc/hostname
+    # Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
+    magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
+    sudo xauth -f /root/.Xauthority add $hostdate/unix:0 . "$magic"
+    # Merge so that either the old or the new hostname should work
+    sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
+    sudo cp /root/.Xauthority /home/$myuser/.Xauthority
+    # Give them the required permissions
+    sudo chmod a-rwx /root/.Xauthority
+    sudo chmod u+rw  /root/.Xauthority
+    # askubuntu.com/questions/253376/lightdm-failed-during-authentication
+    # Says permissions should be 664 (or maybe 666)
+    sudo chown $myuser:$myuser /home/$myuser/.Xauthority
+    sudo chmod 664               /home/$myuser/.Xauthority
+    
+    
+    sudo tasksel --task-packages xubuntu-desktop
     apt -y install xfce4-goodies
 fi    
-    
+
 cd /var/local
 mkdir -p root/etc/default
 # mkdir -p root/.config/rclone
@@ -112,12 +147,13 @@ sudo chown $myuser:$myuser xstartup
 
 pgrep x0vncserver > /dev/null # Silence it
 # "$?" -eq 1 implies that no such process exists, in which case it should be started
-[[ $? -eq 1 ]] && sudo -u "$myuser" /bin/bash -c "(x0vncserver -display :0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &)"
+[[ $? -eq 1 ]] && sudo -u "$myuser" /bin/bash -c "'(x0vncserver -display :0 -PasswordFile=/home/"$myuser"/.vnc/passwd &> /dev/null &)'"
 
 sleep 3600
 
 # already done: # sudo DEBIAN_FRONTEND=noninteractive apt install -y xfce4 xfce4-goodies
 # sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg reconfigure lightdm
+cd /var/local
 
 msg="$(cat ./About_This_Install/commit-msg.txt)"
 short_hash="$(cat ./About_This_Install/short.git-hash)"
@@ -306,8 +342,8 @@ fi
 if ! grep -q $myuser /etc/pam.d/lightdm          ; then # We have not yet added the line that makes PAM permit autologin
     sudo sed -i '1 a\
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
-#    sudo sed -i '1 a\
-#auth    include         system-login # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
+    #    sudo sed -i '1 a\
+	#auth    include         system-login # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
 fi
 
 # Keyring autologin caused some problems that were hard to fix
@@ -316,22 +352,22 @@ fi
 # # wiki.archlinux.org/index.php/GNOME/Keyring
 # if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
 #     sudo sed -i '1 a\
-# auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
+    # auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
 # fi
 
 # if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
 #     sudo sed -i '1 a\
-# auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
+    # auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
 # fi
 
 # if ! grep -q gnome /etc/pam.d/common-session           ; then # automatically log into the keyring too
 #     sudo sed -i '1 a\
-# session optional pam_gnome_keyring.so autostart # Added by Econ-ARK ' /etc/pam.d/common-session
+    # session optional pam_gnome_keyring.so autostart # Added by Econ-ARK ' /etc/pam.d/common-session
 # fi
 
 # if ! grep -q gnome /etc/pam.d/passwd           ; then # automatically log into the keyring too
 #     sudo sed -i '1 a\
-# password optional pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/passwd
+    # password optional pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/passwd
 # fi
 
 # # Start the keyring on boot
@@ -424,8 +460,8 @@ installer=$(mount | grep XUB20ARK | cut -d ' ' -f1)
 if [[ "$installer" != "" ]]; then
     dd if="$installer" of=/var/local/XUB20ARK.iso
 fi
-    
-				 
+
+
 sudo apt -y remove xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
 sudo apt -y remove xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
 sudo apt -y remove at-spi2-core      # Accessibility tools cause lightdm greeter error; remove 
