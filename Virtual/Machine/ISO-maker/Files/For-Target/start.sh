@@ -88,7 +88,6 @@ if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu installed
     sudo chown $myuser:$myuser /home/$myuser/.Xauthority
     sudo chmod 664               /home/$myuser/.Xauthority
     
-    
     sudo tasksel --task-packages xubuntu-desktop
     apt -y install xfce4-goodies
 fi    
@@ -148,8 +147,6 @@ sudo chown $myuser:$myuser xstartup
 pgrep x0vncserver > /dev/null # Silence it
 # "$?" -eq 1 implies that no such process exists, in which case it should be started
 [[ $? -eq 1 ]] && sudo -u "$myuser" /bin/bash -c "'(x0vncserver -display :0 -PasswordFile=/home/"$myuser"/.vnc/passwd &> /dev/null &)'"
-
-sleep 3600
 
 # already done: # sudo DEBIAN_FRONTEND=noninteractive apt install -y xfce4 xfce4-goodies
 # sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg reconfigure lightdm
@@ -222,9 +219,9 @@ sudo apt -y install gpg # Required to set up security for emacs package download
 
 sudo apt -y install emacs
 
-for dotemacspart in dotemacs_regular_users_only dotemacs_root_and_regular_users; do
-    sudo wget --tries=0 -O /var/local/$dotemacspart $online/$dotemacspart
-done
+# for dotemacspart in dotemacs_regular_users_only dotemacs_root_and_regular_users; do
+#     sudo wget --tries=0 -O /var/local/$dotemacspart $online/$dotemacspart
+# done
 
 [[ -e /home/$myuser/.emacs ]] && sudo rm -f /home/$myuser/.emacs
 [[ -e          /root/.emacs ]] && sudo rm -f          /root/.emacs
@@ -273,9 +270,6 @@ ln -s /home/$myuser/.emacs.d /root/.emacs.d
 # Allow user to control networking 
 sudo adduser $myuser netdev
 
-# .bash_aliases is run by all interactive scripts
-wget --tries=0 -O /var/local/bash_aliases-add $online/bash_aliases-add
-
 # add this stuff to any existing ~/.bash_aliases
 if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
     sudo echo "# econ-ark additions to bash_aliases start here" >> /home/$myuser/.bash_aliases
@@ -310,7 +304,7 @@ if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ 
     # Get a bugfix release of lightdm to avoid a crash on VM's
     # https://launchpad.net/ubuntu/+source/lightdm-gtk-greeter
     # Bug #1890394 "Lightdm-gtk-greeter coredump during boot"
-    wget --tries=0 -O /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb $online/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
+#    wget --tries=0 -O /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb $online/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
     dpkg -i /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
 fi
 
@@ -376,10 +370,10 @@ fi
 # echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/$myuser/.bash_profile
 
 # For some reason the pattern for the url this image doesn't fit the pattern of other downloads
-wget -O  /var/local/Econ-ARK.VolumeIcon.icns           https://github.com/econ-ark/econ-ark-tools/raw/$branch/Virtual/Machine/ISO-maker/Disk/Icons/Econ-ARK.VolumeIcon.icns
+# wget -O  /var/local/Econ-ARK.VolumeIcon.icns           https://github.com/econ-ark/econ-ark-tools/raw/$branch/Virtual/Machine/ISO-maker/Disk/Icons/Econ-ARK.VolumeIcon.icns
 
 # Desktop backdrop 
-wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
+#wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
 cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
 
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
@@ -402,8 +396,9 @@ sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/$myuser
 
 # Put in both /var/local and in target 
-wget --tries=0 -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+# wget --tries=0 -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 ## System default for lightdm is  /usr/share/lightdm/lightdm.conf.d/
+cp /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
 wget --tries=0 -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 
 wget --tries=0 -O  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
@@ -466,3 +461,5 @@ sudo apt -y remove xfce4-power-manager # Bug in power manager causes system to b
 sudo apt -y remove xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
 sudo apt -y remove at-spi2-core      # Accessibility tools cause lightdm greeter error; remove 
 sudo rm -f /var/crash/grub-pc.0.crash
+
+sleep 3600

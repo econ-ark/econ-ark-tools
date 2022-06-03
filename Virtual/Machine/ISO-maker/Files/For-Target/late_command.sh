@@ -1,6 +1,8 @@
 #!/bin/bash
 
-apt -y update 
+set -x 
+set -v 
+\ apt -y update 
 apt -y install git 
 mkdir -p /usr/local/share/data/GitHub/econ-ark 
 chmod -Rf a+rwx /usr/local/share/data 

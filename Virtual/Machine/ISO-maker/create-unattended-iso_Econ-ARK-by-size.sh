@@ -424,6 +424,8 @@ late_command="mount --bind /dev /target/dev ;\
    mount --bind /sys /target/sys ;\
    mount --bind /run /target/run ;\
    [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
+   chroot /target set -x ;\
+   chroot /target set -v ;\ 
    chroot /target apt -y update ;\
    chroot /target apt -y install git ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
