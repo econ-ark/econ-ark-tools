@@ -112,7 +112,7 @@ sudo chown $myuser:$myuser xstartup
 
 pgrep x0vncserver > /dev/null # Silence it
 # "$?" -eq 1 implies that no such process exists, in which case it should be started
-[[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/$USER/.vnc/passwd &> /dev/null &)
+[[ $? -eq 1 ]] && sudo -u "$myuser" /bin/bash -c "(x0vncserver -display :0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &)"
 
 sleep 3600
 
