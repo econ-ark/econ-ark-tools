@@ -1,1 +1,1 @@
-Move_xfce_install_to_tasksel_in_econ-ark.seed,_then_test_whether_installed_in_start.sh_and_install_if_not
+Start_vncserver_in_start.sh_after_installed
