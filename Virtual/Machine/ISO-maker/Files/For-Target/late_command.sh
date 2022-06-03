@@ -20,10 +20,9 @@ cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep 
 sd=$(cat /tmp/target-dev) 
 rm -f /var/local/Size-To-Make-Is-* 
 touch /var/local/Size-To-Make-Is-$(echo MIN)
-mkdir -p /usr/share/lightdm/lightdm.conf.d /etc/systemd/system/getty@tty1.service.d 
+# mkdir -p /etc/systemd/system/getty@tty1.service.d 
 cp /var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf 
 chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf 
-apt -y install --reinstall grub-efi-amd64 
 apt -y purge virtualbox-guest* 
 /bin/bash -c "[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi" 
 update-grub 
@@ -33,5 +32,4 @@ mkdir /installer
 cp /var/local/Disk/Labels/Econ-ARK.disk_label /Econ-ARK.disk_label 
 cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /Econ-ARK.disk_label_2x 
 cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns 
-update-grub 
 echo Econ-ARK > /.disk_label.contentDetails

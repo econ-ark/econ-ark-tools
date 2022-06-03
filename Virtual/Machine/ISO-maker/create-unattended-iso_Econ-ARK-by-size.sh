@@ -451,10 +451,9 @@ late_command="mount --bind /dev /target/dev ;\
 
 #if [ "$git_branch" == "Make-ISO-Installer" ]; then
 late_command+=";\
-     mkdir -p   /target/usr/share/lightdm/lightdm.conf.d /target/etc/systemd/system/getty@tty1.service.d ;\
+#     mkdir -p /target/etc/systemd/system/getty@tty1.service.d ;\
      cp /target/var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
      chmod 755 /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
-     chroot /target apt -y install --reinstall grub-efi-amd64 ;\
      chroot /target apt -y purge virtualbox-guest* ;\
      chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
      chroot /target update-grub ;\
@@ -464,9 +463,11 @@ late_command+=";\
      chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label     /target/Econ-ARK.disk_label     ;\
      chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x  /target/Econ-ARK.disk_label_2x  ;\
      chroot /target cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /target/Econ-ARK.VolumeIcon.icns     ;\
-     chroot /target update-grub ;\
      echo Econ-ARK                           > /target/.disk_label.contentDetails"
 
+#     chroot /target update-grub ;\
+#     chroot /target apt -y install --reinstall grub-efi-amd64 ;\
+#     mkdir -p   /target/usr/share/lightdm/lightdm.conf.d /target/etc/systemd/system/getty@tty1.service.d ;\
      # chroot /target apt-get --yes purge shim ;\
      # chroot /target apt-get --yes purge mokutil ;\
      # chroot /target apt -y install grub-efi-amd64-bin ;\
