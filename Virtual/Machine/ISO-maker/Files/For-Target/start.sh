@@ -49,10 +49,11 @@ export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
 sudo apt -y install tasksel
-sudo tasksel --task-packages standard
+sudo tasksel install standard
 # Make links in /var/local to files installed in other places
 # (to provide a transparent gude to all the places the system has been tweaked)
 
+sleep 3600
 if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu installed
     # Do the stuff necessary for configuring x
     
