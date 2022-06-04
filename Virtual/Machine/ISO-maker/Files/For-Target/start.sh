@@ -83,13 +83,13 @@ if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu installed
     sudo cp /root/.Xauthority /home/$myuser/.Xauthority
     # Give them the required permissions
     sudo chmod a-rwx /root/.Xauthority
-    sudo chmod u+rw  /root/.Xauthority
+#    sudo chmod u+rw /root/.Xauthority
     # askubuntu.com/questions/253376/lightdm-failed-during-authentication
     # Says permissions should be 664 (or maybe 666)
     sudo chown $myuser:$myuser /home/$myuser/.Xauthority
     sudo chmod 664               /home/$myuser/.Xauthority
     
-    sudo tasksel --task-packages xubuntu-desktop
+#    sudo tasksel xubuntu-desktop
     apt -y install xfce4-goodies
 fi    
 
