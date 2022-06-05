@@ -1,5 +1,7 @@
 #!/bin/bash
 myuser=$USER
+mypass="kra-noce"
+
 # scraping server means that you're not allowing vnc client to spawn new x sessions
 sudo apt -y install tigervnc-scraping-server
 
@@ -35,9 +37,4 @@ echo 'xrdp $HOME/.Xresources' >> xstartup
 echo "startxfce4 & " >> xstartup
 sudo chmod a+x xstartup
 sudo chown $myuser:$myuser xstartup
-
-# If x0vncserver not running 
-pgrep x0vncserver > /dev/null # Silence it
-# "$?" -eq 1 implies that no such process exists, in which case it should be started
-[[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/"$myuser"/.vnc/passwd &> /dev/null &)
 
