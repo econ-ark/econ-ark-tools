@@ -459,6 +459,7 @@ late_command+=";\
      chroot /target cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /target/Econ-ARK.VolumeIcon.icns     ;\
      echo Econ-ARK                           > /target/.disk_label.contentDetails"
 
+#     mkdir -p   /target/usr/share/lightdm/lightdm.conf.d /target/etc/systemd/system/getty@tty1.service.d ;\
 #     sudo cp /target/var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
 #     chmod 755 /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
 #     chroot /target apt -y purge virtualbox-guest* ;\
@@ -470,7 +471,6 @@ late_command+=";\
 
 #     chroot /target update-grub ;\
 #     chroot /target apt -y install --reinstall grub-efi-amd64 ;\
-#     mkdir -p   /target/usr/share/lightdm/lightdm.conf.d /target/etc/systemd/system/getty@tty1.service.d ;\
      # chroot /target apt-get --yes purge shim ;\
      # chroot /target apt-get --yes purge mokutil ;\
      # chroot /target apt -y install grub-efi-amd64-bin ;\
