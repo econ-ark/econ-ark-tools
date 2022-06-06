@@ -53,7 +53,6 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 # Make links in /var/local to files installed in other places
 # (to provide a transparent gude to all the places the system has been tweaked)
 
-sleep 9600
 if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu installed
     # Do the stuff necessary for configuring x
     
@@ -114,7 +113,7 @@ sudo -u $myuser sudo /var/local/setup-tigervnc-scraping-server.sh
 # If x0vncserver not running 
 pgrep x0vncserver > /dev/null # Silence it
 # "$?" -eq 1 implies that no such process exists, in which case it should be started
-[[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/"$myuser"/.vnc/passwd &> /dev/null &)
+[[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/"$myuser"/.vnc/passwd &> /dev/null & ; xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log)
 
 # already done: # sudo DEBIAN_FRONTEND=noninteractive apt install -y xfce4 xfce4-goodies
 # sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg reconfigure lightdm

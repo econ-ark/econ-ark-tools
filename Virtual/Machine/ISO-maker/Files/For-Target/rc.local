@@ -8,7 +8,8 @@ FLAG="/var/log/firstboot.log"
 if [ ! -f $FLAG ]; then # first boot 
     # Do stuff that should be done before autologin of first user
     # Stuff in finish.sh can't be done until the start stuff is done and reboot happens
-    set -x ; set -v ; /var/local/start.sh  |& tee /var/local/start.log |& tee /var/local/start-and-finish.log        
+    set -x ; set -v ; cmd="/var/local/start.sh  |& tee /var/local/start.log |& tee /var/local/start-and-finish.log"
+    eval "$cmd"
 
     # create an empty 'signal' file so the if will fail after the first boot
     touch "$FLAG"
