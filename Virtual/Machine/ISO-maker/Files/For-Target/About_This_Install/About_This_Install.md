@@ -14,6 +14,6 @@ is in `commit-msg.txt` and the commit date is in `commit_date`
 
 A copy of the installer that created this machine is in 
 
-`/installer/xubark.iso`
+`/var/local/installers`
 
 

@@ -24,9 +24,11 @@ export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "
 # If not already running, launch the vncserver
 # Makes it easier to connect to the VM - if it is on a network you can reach
 
+cmd=""
 pgrep x0vncserver > /dev/null # Silence it
 # "$?" -eq 1 implies that no such process exists, in which case it should be started
-[[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/$USER/.vnc/passwd &> /dev/null &)
+[[ $? -eq 1 ]] && cmd="xfce4-terminal --minimize --command='x0vncserver -display :0.0 -PasswordFile=/home/$USER/.vnc/passwd'"
+eval "$cmd"
 
 
 if [[ "$(which conda)" != "" ]]; then
