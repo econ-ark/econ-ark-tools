@@ -48,7 +48,7 @@ export DEBCONF_DEBUG=.*
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
-# Install gh github command line tools 
+# sudo apt -y install tasksel
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 sudo apt -y install gh
@@ -58,7 +58,9 @@ sudo apt -y install gh
 # Make links in /var/local to files installed in other places
 # (to provide a transparent gude to all the places the system has been tweaked)
 
-if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu installed
+if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu is installed
+    # blueman generates distracting and useless error messages
+    sudo apt -y remove blueman
     # Do the stuff necessary for configuring x
     
     # On some systems, xfce4-power-manager causes a crash if you don't quit it before reboot 
@@ -81,6 +83,7 @@ if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu installed
     sudo echo "$hostdate" > /etc/hostname
     # Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
     magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
+    sudo touch /root/.Xauthority # in case it doesn't exist
     sudo xauth -f /root/.Xauthority add $hostdate/unix:0 . "$magic"
     # Merge so that either the old or the new hostname should work
     sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
@@ -116,7 +119,7 @@ sudo -u $myuser sudo /var/local/setup-tigervnc-scraping-server.sh
 
 
 # If x0vncserver not running 
-pgrep x0vncserver >/dev/null
+pgrep x0vncserver > /dev/null # Silence it
 # "$?" -eq 1 implies that no such process exists, in which case it should be started
 if [[ $? -eq 1 ]]; then
     sudo -u $myuser xfce4-terminal --display :0 --minimize --execute x0vncserver -display :0.0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &
@@ -375,17 +378,18 @@ sudo mkdir -p /var/local/root/home/$myuser
 # wget --tries=0 -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 ## System default for lightdm is  /usr/share/lightdm/lightdm.conf.d/
 cp /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
-wget --tries=0 -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+#wget --tries=0 -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 
-wget --tries=0 -O  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
-wget --tries=0 -O                 /etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
+#wget --tries=0 -O  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
+#wget --tries=0 -O                 /etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
 
 # One of many ways to try to prevent screen lock
-wget --tries=0 -O  /var/local/root/home/$myuser/.xscreensaver                                  $online/xscreensaver
-wget --tries=0 -O                 /home/$myuser/.xscreensaver                                  $online/xscreensaver
+#wget --tries=0 -O  /var/local/root/home/$myuser/.xscreensaver                                  $online/xscreensaver
+#wget --tries=0 -O                 /home/$myuser/.xscreensaver                                  $online/xscreensaver
 
 chown $myuser:$myuser /home/$myuser/.dmrc
-wget --tries=0 -O  /home/$myuser/.xscreensaver                                   $online/xscreensaver
+# wget --tries=0 -O  /home/$myuser/.xscreensaver                                   $online/xscreensaver
+cp /var/local/xscreensaver /home/$myuser/.xscreensaver
 chown $myuser:$myuser /home/$myuser/.xscreensaver                      # session-name xubuntu
 
 # Create directory designating things to autostart 
@@ -419,10 +423,10 @@ sudo apt -y remove mdadm
 
 sudo mkdir /tmp/iso ; sudo mount -t iso9660 /dev/sr0 /tmp/iso
 
-# If mount succeeeded, make an ISO of the installation medium
+# Make an ISO of the installation medium
 
 blkid /dev/sr0
-if [[ "$?" == 0 ]]; then # there is something there
+if [[ "$?" == 0 ]]; then # mount of installer ISO succeeded
     # get its label
     LBL=$(blkid /dev/sr0 | cut -f2 -d':' | cut -f2 -d'=' | cut -f1 -d' ')
     if [[ "$LBL" != "" ]]; then # It has a label
@@ -431,11 +435,11 @@ if [[ "$?" == 0 ]]; then # there is something there
 	dd if=/dev/sr0 of=/var/local/installers/CDROM.iso bs=2048 count=425426 status=progress
 fi
 
-# installer=$(mount | grep XUB | cut -d ' ' -f1)
 
 # if [[ "$installer" != "" ]]; then
 #     dd if="$installer" of=/var/local/XUBARK.iso
 # fi
+
 
 
 sudo apt -y remove xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins

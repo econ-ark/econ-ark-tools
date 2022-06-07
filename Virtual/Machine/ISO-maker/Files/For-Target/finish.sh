@@ -80,8 +80,8 @@ cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
 # Get misc other stuff 
 #refindFile="refind-install-MacOS"
-wget -O   /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
-wget -O   /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
+#wget -O   /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
+#wget -O   /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
 # wget -O   /var/local/$refindFile.sh                $online/Files/For-Target/$refindFile.sh
 # wget -O   /var/local/$refindFile-README.md         $online/Files/For-Target/$refindFile-README.md
 # chmod +x  /var/local/$refindFile.sh
@@ -154,9 +154,9 @@ chown $myuser:$myuser "$bashadd"
 
 # # The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
 # mkdir -p /EFI/BOOT/
-# cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
-# cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
-# echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
+cp /var/local/Disk/Labels/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
+cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
+echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 
 cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
