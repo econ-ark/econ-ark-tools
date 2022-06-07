@@ -75,7 +75,7 @@ else
     # Make sure commands are executable by regular users
 
     sudo tasksel install xubuntu-desktop
-    sudo mamba install --yes -c conda-forge gh  # GitHub command line tools
+#    sudo mamba install --yes -c conda-forge gh  # GitHub command line tools - moved to start.sh
     
     # Get default packages for Econ-ARK machine
     sudo apt -y install cifs-utils nautilus-share
