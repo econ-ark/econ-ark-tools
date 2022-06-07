@@ -48,7 +48,7 @@ export DEBCONF_DEBUG=.*
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
-# sudo apt -y install tasksel
+# Install gh github command line tools 
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
 sudo apt -y install gh
@@ -90,13 +90,13 @@ if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu is installed
     sudo cp /root/.Xauthority /home/$myuser/.Xauthority
     # Give them the required permissions
     sudo chmod a-rwx /root/.Xauthority
-#    sudo chmod u+rw /root/.Xauthority
+    #    sudo chmod u+rw /root/.Xauthority
     # askubuntu.com/questions/253376/lightdm-failed-during-authentication
     # Says permissions should be 664 (or maybe 666)
     sudo chown $myuser:$myuser /home/$myuser/.Xauthority
     sudo chmod 664               /home/$myuser/.Xauthority
     
-#    sudo tasksel xubuntu-desktop
+    #    sudo tasksel xubuntu-desktop
     apt -y install xfce4-goodies
 fi    
 
@@ -119,7 +119,7 @@ sudo -u $myuser sudo /var/local/setup-tigervnc-scraping-server.sh
 
 
 # If x0vncserver not running 
-pgrep x0vncserver > /dev/null # Silence it
+pgrep x0vncserver >/dev/null
 # "$?" -eq 1 implies that no such process exists, in which case it should be started
 if [[ $? -eq 1 ]]; then
     sudo -u $myuser xfce4-terminal --display :0 --minimize --execute x0vncserver -display :0.0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &
@@ -283,7 +283,7 @@ if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ 
     # Get a bugfix release of lightdm to avoid a crash on VM's
     # https://launchpad.net/ubuntu/+source/lightdm-gtk-greeter
     # Bug #1890394 "Lightdm-gtk-greeter coredump during boot"
-#    wget --tries=0 -O /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb $online/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
+    #    wget --tries=0 -O /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb $online/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
     dpkg -i /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
 fi
 
@@ -426,13 +426,14 @@ sudo mkdir /tmp/iso ; sudo mount -t iso9660 /dev/sr0 /tmp/iso
 # Make an ISO of the installation medium
 
 blkid /dev/sr0
-if [[ "$?" == 0 ]]; then # mount of installer ISO succeeded
+if [[ "$?" == 0 ]]; then # there is something there
     # get its label
     LBL=$(blkid /dev/sr0 | cut -f2 -d':' | cut -f2 -d'=' | cut -f1 -d' ')
     if [[ "$LBL" != "" ]]; then # It has a label
 	dd if=/dev/sr0 of=/var/local/installers/$LBL.iso bs=2048 count=425426 status=progress
     else
 	dd if=/dev/sr0 of=/var/local/installers/CDROM.iso bs=2048 count=425426 status=progress
+    fi
 fi
 
 
