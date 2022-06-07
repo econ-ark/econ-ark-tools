@@ -111,9 +111,13 @@ sudo -u $myuser sudo /var/local/setup-tigervnc-scraping-server.sh
 
 
 # If x0vncserver not running 
-pgrep x0vncserver > /dev/null # Silence it
+pgrep x0vncserver >/dev/null
 # "$?" -eq 1 implies that no such process exists, in which case it should be started
-[[ $? -eq 1 ]] && (x0vncserver -display :0 -PasswordFile=/home/"$myuser"/.vnc/passwd &> /dev/null & ; xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log)
+if [[ $? -eq 1 ]]; then
+    sudo -u $myuser xfce4-terminal --display :0 --minimize --execute x0vncserver -display :0.0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &
+    sleep 2
+    xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log
+fi
 
 # already done: # sudo DEBIAN_FRONTEND=noninteractive apt install -y xfce4 xfce4-goodies
 # sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg reconfigure lightdm
@@ -410,18 +414,23 @@ sudo apt -y remove mdadm
 
 sudo mkdir /tmp/iso ; sudo mount -t iso9660 /dev/sr0 /tmp/iso
 
-# Make an ISO of the installation medium
+# If mount succeeeded, make an ISO of the installation medium
 
-if [[ "$?" == 0 ]]; then # mount of installer ISO succeeded
-    dd if=/dev/sr0 of=/var/local/XUBUNTARK.iso bs=2048 count=425426 status=progress
-    umount /dev/sr0
+blkid /dev/sr0
+if [[ "$?" == 0 ]]; then # there is something there
+    # get its label
+    LBL=$(blkid /dev/sr0 | cut -f2 -d':' | cut -f2 -d'=' | cut -f1 -d' ')
+    if [[ "$LBL" != "" ]]; then # It has a label
+	dd if=/dev/sr0 of=/var/local/installers/$LBL.iso bs=2048 count=425426 status=progress
+    else
+	dd if=/dev/sr0 of=/var/local/installers/CDROM.iso bs=2048 count=425426 status=progress
 fi
 
-installer=$(mount | grep XUB20ARK | cut -d ' ' -f1)
+# installer=$(mount | grep XUB | cut -d ' ' -f1)
 
-if [[ "$installer" != "" ]]; then
-    dd if="$installer" of=/var/local/XUB20ARK.iso
-fi
+# if [[ "$installer" != "" ]]; then
+#     dd if="$installer" of=/var/local/XUBARK.iso
+# fi
 
 
 sudo apt -y remove xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
@@ -429,4 +438,4 @@ sudo apt -y remove xfce4-screensaver # Bug in screensaver causes system to becom
 sudo apt -y remove at-spi2-core      # Accessibility tools cause lightdm greeter error; remove 
 sudo rm -f /var/crash/grub-pc.0.crash
 
-sleep 3600
+# sleep 3600
