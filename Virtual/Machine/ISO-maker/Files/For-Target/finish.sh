@@ -25,8 +25,8 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 sudo systemctl stop    cups-browsed.service 
 sudo systemctl disable cups-browsed.service
 
-# Manage software like dbus 
-sudo apt -y install software-properties-common
+# Manage software like dbus - seems to freeze finish.sh logging, so disabled
+# sudo apt -y install software-properties-common
 
 # Allow controlling settings
 sudo apt -y install xfce4-settings
