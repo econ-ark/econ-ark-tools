@@ -18,7 +18,7 @@ df -hT > /tmp/target-partition
 cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
 sd=$(cat /tmp/target-dev) 
 rm -f /var/local/Size-To-Make-Is-* 
-touch /var/local/Size-To-Make-Is-$(echo MIN)
+touch /var/local/Size-To-Make-Is-$(echo MAX)
 # mkdir -p /etc/systemd/system/getty@tty1.service.d 
 cp /var/local/Disk/Labels/Econ-ARK.disk_label /Econ-ARK.disk_label 
 cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /Econ-ARK.disk_label_2x 
