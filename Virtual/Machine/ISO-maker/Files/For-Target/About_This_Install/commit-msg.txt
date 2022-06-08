@@ -1,1 +1,1 @@
-Fix_xrdp_and_startxfec4_for_econ-ark_user
+MIN_worked_(except_that_vncpasswd_must_be_reset);_try_MAX
