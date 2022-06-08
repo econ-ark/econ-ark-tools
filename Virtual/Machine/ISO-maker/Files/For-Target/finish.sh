@@ -326,4 +326,5 @@ sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs
 sudo systemctl enable cups-browsed.service 
 
 tail_monitor="$(pgrep tail)" && [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
+
 reboot

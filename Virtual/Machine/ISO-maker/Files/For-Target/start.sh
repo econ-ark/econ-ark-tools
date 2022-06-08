@@ -192,10 +192,11 @@ if [[ ! -e /home/$myuser/.ssh ]]; then
     sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh/id_rsa
 fi    
 
+# Prepare for emacs install
+sudo apt -y install xsel xclip # Allow interchange of clipboard with system
 sudo apt -y install gpg # Required to set up security for emacs package downloading 
 
 # Install emacs before the gui because it crashes when run in batch mode on gtk
-
 sudo apt -y install emacs
 
 # for dotemacspart in dotemacs_regular_users_only dotemacs_root_and_regular_users; do

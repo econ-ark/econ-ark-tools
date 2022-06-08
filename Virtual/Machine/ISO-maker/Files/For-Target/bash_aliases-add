@@ -5,7 +5,7 @@
 [[ -e /etc/environment ]] && source /etc/environment
 
 # Disable power management (prevent screen blank)
-xset s off -dpms
+if [[ "$DISPLAY" == "" ]] && xset s off -dpms
 
 # Allow cut-and-paste between emacs and shell
 if [[ "$(which autocutsel)" != "" ]]; then
