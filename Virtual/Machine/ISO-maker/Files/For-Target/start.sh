@@ -124,7 +124,7 @@ pgrep x0vncserver >/dev/null
 if [[ $? -eq 1 ]]; then
     sudo -u $myuser xfce4-terminal --display :0 --minimize --execute x0vncserver -display :0.0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &
     sleep 2
-    xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log
+    sudo -u $myuser xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log &
 fi
 
 # already done: # sudo DEBIAN_FRONTEND=noninteractive apt install -y xfce4 xfce4-goodies
