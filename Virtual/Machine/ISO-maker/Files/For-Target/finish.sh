@@ -120,7 +120,8 @@ EOF
 cd /home/$myuser/.vnc
 echo "!/bin/sh" > xstartup
 echo "xrdp $HOME/.Xresources" >> xstartup
-echo "startxfce4 & " >> xstartup
+echo "# startxfce4 & " >> xstartup
+echo "# startxfce4 commented out because it should already have been started at boot " >> xstartup
 sudo chmod a+x xstartup
 
 # set defaults
