@@ -83,8 +83,8 @@ if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu is installed
     sudo echo "$hostdate" > /etc/hostname
     # Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
     magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
-    sudo touch /root/.Xauthority # in case it doesn't exist
-    sudo xauth -f /root/.Xauthority add $hostdate/unix:0 . "$magic"
+    [[ ! -e sudo touch /root/.Xauthority ]] && sudo touch /root/.Xauthority  
+    sudo xauth -vf /root/.Xauthority add $hostdate/unix:0 . "$magic"
     # Merge so that either the old or the new hostname should work
     sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
     sudo cp /root/.Xauthority /home/$myuser/.Xauthority
