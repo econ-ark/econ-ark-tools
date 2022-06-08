@@ -5,7 +5,7 @@
 [[ -e /etc/environment ]] && source /etc/environment
 
 # Disable power management (prevent screen blank)
-if [[ "$DISPLAY" == "" ]] && xset s off -dpms
+[[ "$DISPLAY" == "" ]] && xset s off -dpms
 
 # Allow cut-and-paste between emacs and shell
 if [[ "$(which autocutsel)" != "" ]]; then
@@ -44,9 +44,6 @@ if [[ "$(which conda)" != "" ]]; then
             export PATH="/usr/local/anaconda3/bin:$PATH"
 	fi
     fi
-    unset __conda_setup
-    # <<< conda initialize <<<
-
 fi
 
 # Root user shares the useful stuff above 
