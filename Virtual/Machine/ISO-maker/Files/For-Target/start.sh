@@ -81,20 +81,7 @@ if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu is installed
     hostdate="xubark-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
     sudo hostname "$hostdate"
     sudo echo "$hostdate" > /etc/hostname
-    # Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
-    magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
-    [[ ! -e sudo touch /root/.Xauthority ]] && sudo touch /root/.Xauthority  
-    sudo xauth -vf /root/.Xauthority add $hostdate/unix:0 . "$magic"
-    # Merge so that either the old or the new hostname should work
-    sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
-    sudo cp /root/.Xauthority /home/$myuser/.Xauthority
-    # Give them the required permissions
-    sudo chmod a-rwx /root/.Xauthority
-    #    sudo chmod u+rw /root/.Xauthority
-    # askubuntu.com/questions/253376/lightdm-failed-during-authentication
-    # Says permissions should be 664 (or maybe 666)
-    sudo chown $myuser:$myuser /home/$myuser/.Xauthority
-    sudo chmod 664               /home/$myuser/.Xauthority
+    /var/local/Xauthority-generate.sh "$hostdate" "$myuser"
     
     #    sudo tasksel xubuntu-desktop
     apt -y install xfce4-goodies
