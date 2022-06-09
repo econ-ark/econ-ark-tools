@@ -296,6 +296,8 @@ DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.*
 
 sudo apt-get -y install x11-xserver-utils # Installs xrandr, among other utilities
 
+/var/local/add-users.sh
+
 # Allow autologin (as far as unix is concerned)
 sudo groupadd --system autologin
 sudo adduser  $myuser autologin
