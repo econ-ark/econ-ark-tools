@@ -5,7 +5,7 @@ myuser=$2
 
 # Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
 magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
-[[ ! -e sudo touch /root/.Xauthority ]] && sudo touch /root/.Xauthority  
+[[ ! -e /root/.Xauthority ]] && sudo touch /root/.Xauthority  
 sudo xauth -vf /root/.Xauthority add $hostdate/unix:0 . "$magic"
 # Merge so that either the old or the new hostname should work
 sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
