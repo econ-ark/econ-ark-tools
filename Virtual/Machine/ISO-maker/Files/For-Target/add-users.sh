@@ -1,6 +1,6 @@
 #!/bin/bash
 
-grouplist="adm,admin,dialout,cdrom,floppy,audio,dip,video,plugdev,netdev,lxd,sudo,lightdm"
+grouplist="adm,admin,dialout,cdrom,floppy,audio,dip,video,plugdev,netdev,lxd,sudo"
 
 # stackoverflow.com/questions check-whether-a-user-exists
 if ! id "ubuntu" &>/dev/null; then # Probably created by seed
