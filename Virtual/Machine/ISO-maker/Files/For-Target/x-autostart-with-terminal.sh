@@ -21,3 +21,4 @@ Terminal=false
 Hidden=false
 EOF
 
+chmod a+x /home/$myuser/.config/autostart/xfce4-terminal.desktop
