@@ -68,10 +68,3 @@ version: 1
 # econ-ark-seed.add
 users:
   - default
-  - name: econ-ark
-    passwd: 'kra-noce'
-    shell: /bin/bash
-    lock-passwd: true
-    ssh_pwauth: True
-    sudo: ALL=(ALL) NOPASSWD:ALL
-    groups: users, admin
