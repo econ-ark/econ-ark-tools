@@ -12,6 +12,7 @@ sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
 sudo cp /root/.Xauthority /home/$myuser/.Xauthority
 # Give them the required permissions
 sudo chmod a-rwx /root/.Xauthority
+sudo cp /root/.Xauthority /home/$myuser/.Xauthority
 #    sudo chmod u+rw /root/.Xauthority
 # askubuntu.com/questions/253376/lightdm-failed-during-authentication
 # Says permissions should be 664 (or maybe 666)
