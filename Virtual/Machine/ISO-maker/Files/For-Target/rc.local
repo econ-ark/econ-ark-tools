@@ -54,19 +54,6 @@ else # Not the first boot, so we must have run start.sh
 	xfce4powermanagerexistsCode="$?"
 	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
 	
-	# Permit xwindows
-	[[ -e /home/econ-ark/.Xauthority ]] && rm -f /home/econ-ark/.Xauthority
-	[[ -e          /root/.Xauthority ]] && rm -f          /root/.Xauthority
-	
-	# Create new empty file
-	touch /home/econ-ark/.Xauthority
-
-	DATE="$(stat -c %z /proc)"
-	size="MAX"
-	[[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
-	hostdate="xubark-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
-	sudo hostname "$hostdate"
-	sudo echo "$hostdate" > /etc/hostname
 	# Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
 	magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
 	sudo xauth -f /root/.Xauthority add $hostdate/unix:0 . "$magic"

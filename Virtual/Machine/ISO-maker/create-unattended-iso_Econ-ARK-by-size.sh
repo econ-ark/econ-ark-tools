@@ -441,7 +441,8 @@ late_command="mount --bind /dev /target/dev ;\
    cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
    sd=\$(cat /tmp/target-dev) ;\
    rm -f /target/var/local/Size-To-Make-Is-* ;\
-   chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size)"
+   chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
+   chroot /target echo \$(echo $size > /var/local/About_This_Install/machine-size.txt)"
 
 #   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
 #   chroot /target apt -y install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms ;\
