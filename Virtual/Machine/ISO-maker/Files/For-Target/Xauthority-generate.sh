@@ -3,6 +3,7 @@
 HOST=$1
 myuser=$2
 
+[[ ! -e /var/run/lightdm/root/:0 ]] && echo 'To set .Xauthority you must be running lightdm:' && echo '' && echo 'sudo service lightdm start' && echo '' && echo 'Start it and try again ' && echo '' && exit
 # Get the MIT-MAGIC-COOKIE from the running instance, add the new HOST,
 magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
 [[ ! -e /root/.Xauthority ]] && sudo touch /root/.Xauthority  
