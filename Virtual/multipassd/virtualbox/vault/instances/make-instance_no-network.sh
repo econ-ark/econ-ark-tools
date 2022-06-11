@@ -23,7 +23,7 @@ echo "$keep_trying"
 echo "$keep_trying" | pbcopy
 
 echo "echo '' ; echo Run ; echo '' ; echo "multipass shell $instance" ; echo '' ; echo ' (should be on clipboard) in another window to connect before install finishes' ; echo ''" > /tmp/multipass_launch.sh
-cmd="multipass launch -vvvv --cpus 4 --disk 64G --mem 16G --name $instance --cloud-init ./$instance.txt --network en0 --timeout $longtime 20.04" 
+cmd="multipass launch -vvvv --cpus 4 --disk 64G --mem 16G --name $instance --cloud-init ./$instance.txt --timeout $longtime 20.04" 
 echo '' >>/tmp/multipass_launch.sh
 echo "echo 'now running' ; echo ''" >>/tmp/multipass_launch.sh
 echo "echo "$cmd >> /tmp/multipass_launch.sh

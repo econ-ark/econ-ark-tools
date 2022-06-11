@@ -1,0 +1,56 @@
+#cloud-config
+apt:
+  primary:
+    - arches:
+        - default
+      uri: "http://archive.ubuntu.com/ubuntu"
+debconf-selections: "base-config apt-setup/restricted boolean true\nbase-config apt-setup/universe boolean true\nbase-config apt-setup/backports boolean true\nbase-config apt-setup/main boolean true\nbase-config apt-setup/multiverse boolean true\n"
+identity:
+  hostname: string      xubark
+  realname: string      econ-ark
+  username: string      econ-ark
+locale: en_US.UTF-8
+version: 1
+packages:
+  - git
+runcmd:
+  - sudo set -x
+  - sudo set -v 
+  - sudo chmod a+rwx -Rf /usr/local/share/data/GitHub/econ-ark
+  - sudo git clone --branch Make-ISO-Installer-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+  - sudo git config --global --add safe.directory             /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+  - sudo chmod -Rf a+rwx                                      /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+  - cd                                                        /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+  - sudo /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/late_command.sh 2>&1 | tee /tmp/late_command.log
+  - sudo cp /tmp/late_command.log /var/local
+  - sudo echo 'late_command finished' >> /tmp/late_command.log
+  - sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm
+  - sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4
+  - sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xubuntu-desktop
+  - sudo apt -y install xfce4-goodies xorg dbus-x11 x11-xserver-utils xrdp
+  - sudo chmod a+w /etc/X11/default-display-manager
+  - sudo echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
+  - sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
+  - sudo echo set shared/default-x-display-manager lightdm | sudo debconf-communicate
+  - sudo useradd --create-home --password "$(perl -e 'print crypt($ARGV[0],"econ-ark")' "kra-noce")" --shell /bin/bash --groups adm,sudo,admin,dialout,cdrom,floppy,audio,dip,video,plugdev,netdev,lxd econ-ark econ-ark
+  - sudo useradd --create-home --password "$(perl -e 'print crypt($ARGV[0],"econ-ark")' "kra-noce")" --shell /bin/bash --groups adm,sudo,admin,dialout,cdrom,floppy,audio,dip,video,plugdev,netdev,lxd econ-ark econ-ark-xrdp
+  - sudo usermod -aG nopasswdlogin econ-ark
+  - sudo mkdir -p   /usr/share/lightdm/lightdm.conf.d
+  - sudo mkdir -p   /etc/systemd/system/getty@tty1.service.d
+  - sudo cp /var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /etc/systemd/system/getty@tty1.service.d/override.conf
+  - sudo chmod 755 /etc/systemd/system/getty@tty1.service.d/override.conf
+  - sudo cp /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
+  - sudo /var/local/setup-tigervnc-scraping-server.sh  # install and set password
+  - sudo service xrdp stop # automatically starts and occupies :0
+  - sudo -u econ-ark-xrdp /bin/bash -c "(DBUS_SESSION_BUS_ADDRESS=$(dbus-launch --sh-syntax) ; export DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS)" # Start dbus and make its info an environment variable
+  - sudo echo xfce4-session > /home/econ-ark-xfce/.xsession
+  - sudo chmod a+x /home/econ-ark-xfce/.xsession
+  - sudo chown a+x econ-ark-xfce /home/econ-ark-xfce/.xsession
+  - sudo chmod u+w /etc/xrdp/xrdp.ini
+  - sudo echo "\n[xrdp0]\nname=xubuntark\lib=libvnc.so\username=econ-ark-xrdp\npassword=ask\ip=127.0.0.1\port=5912\n" >> /etc/xrdp/xrdp.ini
+  - sudo service xrdp start
+#  - sudo service lightdm start
+#  - sudo startxfce4 
+#  - sleep 20 # Give xfce4 time to start up before starting vnc server 
+#  - sudo x0vncserver -display :0 -PasswordFile=/root/.vnc/passwd &
+  - sudo /etc/rc.local

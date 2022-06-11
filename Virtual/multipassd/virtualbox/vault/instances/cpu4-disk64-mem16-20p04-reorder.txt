@@ -20,8 +20,9 @@ runcmd:
   - sudo set -x
   - sudo set -v
   - echo ''
-  - cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
   - echo ' '
+  - sudo mkdir -p /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/
+  - sudo git clone https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/
   - echo '# late_command:'
   - echo '0. update; git; clone econ-ark-tools; copy to /var/local; install rc.local; mark Size-To-Make; disk labels'
   - echo ''

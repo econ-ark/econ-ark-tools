@@ -51,6 +51,7 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 # Install gh github command line tools 
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+sudo apt update
 sudo apt -y install gh
 
 # sudo apt -y install tasksel
@@ -69,40 +70,40 @@ if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu is installed
     [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
 
     # Permit xwindows
-    [[ -e /home/$myuser/.Xauthority ]] && rm -f /home/$myuser/.Xauthority
-    [[ -e          /root/.Xauthority ]] && rm -f          /root/.Xauthority
+#    [[ -e /home/$myuser/.Xauthority ]] && rm -f /home/$myuser/.Xauthority
+#    [[ -e          /root/.Xauthority ]] && rm -f          /root/.Xauthority
 
-    # Create new empty file
-    touch /home/$myuser/.Xauthority
+#    # Create new empty file
+#    touch /home/$myuser/.Xauthority
 
-    DATE="$(stat -c %z /proc)"
-    size="MAX"
-    [[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
-    hostdate="xubark-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
-    sudo hostname "$hostdate"
-    sudo echo "$hostdate" > /etc/hostname
-    /var/local/Xauthority-generate.sh "$hostdate" "$myuser"
+    # DATE="$(stat -c %z /proc)"
+    # size="MAX"
+    # [[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN"
+    # hostdate="xubark-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
+    # sudo hostname "$hostdate"
+    # sudo echo "$hostdate" > /etc/hostname
+#    /var/local/Xauthority-generate.sh "$hostdate" "$myuser"
     
     #    sudo tasksel xubuntu-desktop
-    apt -y install xfce4-goodies
+#    apt -y install xfce4-goodies
 fi    
 
 cd /var/local
 mkdir -p root/etc/default
 # mkdir -p root/.config/rclone
-mkdir -p root/etc/systemd/system/getty@tty1.service.d  # /override.conf Allows autologin to console as econ-ark
-mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manager 
+#mkdir -p root/etc/systemd/system/getty@tty1.service.d  # /override.conf Allows autologin to console as econ-ark
+#mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manager 
 
 [[ -e root/etc/sshd_config ]] && sudo cp root/etc/sshd_config /etc/sshd_config
 # These items are created in econ-ark.seed; put them in /var/local so all system mods are findable there
 # The ! -e are there in case the script is being rerun after a first install
-[[ ! -e /var/local/rc.local                                     ]] && ln -s /etc/rc.local                                          /var/local/root/etc
+#[[ ! -e /var/local/rc.local                                     ]] && ln -s /etc/rc.local                                          /var/local/root/etc
 #[[ ! -e /var/local/root/etc/default    			        ]] && ln -s /etc/default/grub                                      /var/local/root/etc/default    
-[[ ! -e /var/local/root/etc/systemd/system/getty@tty1.service.d ]] && ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
+#[[ ! -e /var/local/root/etc/systemd/system/getty@tty1.service.d ]] && ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
 # /usr/share/lightdm/lightdm.conf.d is standard location for lightdm config; if /var/local doesn't have it, use default
-[[ ! -e /var/local/root/usr/share/lightdm                       ]] && ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm                      
+#[[ ! -e /var/local/root/usr/share/lightdm                       ]] && ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm                      
 
-sudo -u $myuser sudo /var/local/setup-tigervnc-scraping-server.sh
+#sudo -u $myuser sudo /var/local/setup-tigervnc-scraping-server.sh
 
 
 # If x0vncserver not running 
