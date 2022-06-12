@@ -13,6 +13,7 @@ locale: en_US.UTF-8
 version: 1
 packages:
   - git
+  - emacs
 runcmd:
   - sudo set -x
   - sudo set -v 
