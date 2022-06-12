@@ -17,7 +17,7 @@ runcmd:
   - sudo set -x
   - sudo set -v 
   - sudo chmod a+rwx -Rf /usr/local/share/data/GitHub/econ-ark
-  - sudo git clone --branch Make-ISO-Installer-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+  - sudo git clone --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
   - sudo git config --global --add safe.directory             /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
   - sudo chmod -Rf a+rwx                                      /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
   - cd                                                        /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
