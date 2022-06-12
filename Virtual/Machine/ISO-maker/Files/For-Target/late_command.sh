@@ -10,7 +10,7 @@ chmod -Rf a+rwx /usr/local/share/data
 sudo chmod -Rf a+rw econ-ark-tools 
 git config --global --add safe.directory /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
 [[ -e /var/local ]] && rm -Rf /var/local 
-cp -R /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
+[[ ! -e /var/local ]] && ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
 cd /var/local 
 [[ -e /etc/rc.local ]] && mv /etc/rc.local /etc/rc.local_orig 
 cp /var/local/rc.local /etc/rc.local 
