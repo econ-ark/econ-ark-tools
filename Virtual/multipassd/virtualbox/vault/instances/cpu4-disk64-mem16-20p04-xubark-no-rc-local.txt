@@ -43,9 +43,9 @@ runcmd:
   - sudo /var/local/setup-tigervnc-scraping-server.sh  # install and set password
   - sudo service xrdp stop # automatically starts and occupies :0
   - sudo -u econ-ark-xrdp /bin/bash -c "(DBUS_SESSION_BUS_ADDRESS=$(dbus-launch --sh-syntax) ; export DBUS_SESSION_BUS_ADDRESS=$DBUS_SESSION_BUS_ADDRESS)" # Start dbus and make its info an environment variable
-  - sudo echo xfce4-session > /home/econ-ark-xfce/.xsession
-  - sudo chmod a+x /home/econ-ark-xfce/.xsession
-  - sudo chown a+x econ-ark-xfce /home/econ-ark-xfce/.xsession
+  - sudo echo xfce4-session > /home/econ-ark-xrdp/.xsession
+  - sudo chmod a+x /home/econ-ark-xrdp/.xsession
+  - sudo chown a+x econ-ark-xrdp /home/econ-ark-xrdp/.xsession
   - sudo chmod u+w /etc/xrdp/xrdp.ini
   - sudo echo "\n[xrdp0]\nname=xubuntark\lib=libvnc.so\username=econ-ark-xrdp\npassword=ask\ip=127.0.0.1\port=5912\n" >> /etc/xrdp/xrdp.ini
   - sudo service xrdp start
@@ -53,4 +53,4 @@ runcmd:
 #  - sudo startxfce4 
 #  - sleep 20 # Give xfce4 time to start up before starting vnc server 
 #  - sudo x0vncserver -display :0 -PasswordFile=/root/.vnc/passwd &
-  - sudo /etc/rc.local
+#  - sudo /etc/rc.local
