@@ -31,7 +31,7 @@ exit
 EOF
 
 # Enable xrdp server on startup
-cd /home/$myuser/.vnc
+[[ "$USER" == "root" ]] && cd /root/.vnc || cd /home/$myuser/.vnc
 echo '#!/bin/sh' > xstartup
 echo '[[ ! -e $HOME/.Xresources ]] && touch $HOME/.Xresources' >> xstartup
 echo 'xrdp $HOME/.Xresources' >> xstartup
