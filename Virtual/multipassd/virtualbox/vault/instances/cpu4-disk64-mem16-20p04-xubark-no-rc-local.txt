@@ -42,7 +42,7 @@ runcmd:
   - sudo cp /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
   - sudo /var/local/setup-tigervnc-scraping-server.sh  # install and set password
   - sudo service xrdp stop # automatically starts and occupies :0
-  - sudo -u econ-ark-xrdp /bin/bash -c echo '"'$(dbus-launch --sh-syntax)'"
+  - sudo -u econ-ark-xrdp /bin/bash -c echo '"'$(dbus-launch --sh-syntax)'"'
   - sudo echo xfce4-session > /home/econ-ark-xrdp/.xsession
   - sudo chmod a+x /home/econ-ark-xrdp/.xsession
   - sudo chown econ-ark-xrdp:econ-ark /home/econ-ark-xrdp/.xsession

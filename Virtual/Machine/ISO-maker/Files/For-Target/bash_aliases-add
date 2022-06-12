@@ -27,7 +27,7 @@ export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "
 cmd=""
 pgrep x0vncserver > /dev/null # Silence it
 # "$?" -eq 1 implies that no such process exists, in which case it should be started
-[[ $? -eq 1 ]] && cmd="xfce4-terminal --minimize --command='x0vncserver -display :0.0 -PasswordFile=/home/$USER/.vnc/passwd'"
+[[ $? -eq 1 ]] && cmd="xfce4-terminal --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd'"
 eval "$cmd"
 
 
