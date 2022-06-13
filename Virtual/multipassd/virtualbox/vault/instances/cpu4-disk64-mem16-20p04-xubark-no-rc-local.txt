@@ -49,6 +49,8 @@ runcmd:
   - sudo chmod u+w /etc/xrdp/xrdp.ini
   - sudo echo "\n[xrdp0]\nname=xubuntark\lib=libvnc.so\username=econ-ark-xrdp\npassword=ask\ip=127.0.0.1\port=5912\n" >> /etc/xrdp/xrdp.ini
   - sudo service xrdp start
+  - sudo mv /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu_orig.conf 
+  - sudo cp /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
 #  - sudo service lightdm start
 #  - sudo startxfce4 
 #  - sleep 20 # Give xfce4 time to start up before starting vnc server 

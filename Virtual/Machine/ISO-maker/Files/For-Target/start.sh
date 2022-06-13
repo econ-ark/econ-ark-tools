@@ -25,19 +25,19 @@ download()
 myuser="econ-ark"  # Don't sudo because it needs to be an environment variable
 mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
 
-# stackoverflow.com/questions check-whether-a-user-exists
-if ! id "ubuntu" &>/dev/null; then # Probably created by seed
-    sudo adduser --disabled-password --gecos "" "ubuntu"
-else # Probably created by multipass
-    sudo adduser --disabled-password --gecos "" "$myuser"
-fi
+# # stackoverflow.com/questions check-whether-a-user-exists
+# if ! id "ubuntu" &>/dev/null; then # Probably created by seed
+#     sudo adduser --disabled-password --gecos "" "ubuntu"
+# else # Probably created by multipass
+#     sudo adduser --disabled-password --gecos "" "$myuser"
+# fi
 
-sudo chpasswd <<<"$myuser:$mypass"
+# sudo chpasswd <<<"$myuser:$mypass"
 
-sudo usermod -aG sudo $myuser
-sudo usermod -aG cdrom $myuser
-sudo usermod -aG adm $myuser
-sudo usermod -aG plugdev $myuser
+# sudo usermod -aG sudo $myuser
+# sudo usermod -aG cdrom $myuser
+# sudo usermod -aG adm $myuser
+# sudo usermod -aG plugdev $myuser
 
 # Suspend hibernation (so that a swapfile instead of partition can be used)
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
@@ -65,9 +65,9 @@ if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu is installed
     # Do the stuff necessary for configuring x
     
     # On some systems, xfce4-power-manager causes a crash if you don't quit it before reboot 
-    xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)"
-    xfce4powermanagerexistsCode="$?"
-    [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
+#    xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)"
+#    xfce4powermanagerexistsCode="$?"
+#    [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
 
     # Permit xwindows
 #    [[ -e /home/$myuser/.Xauthority ]] && rm -f /home/$myuser/.Xauthority
@@ -110,7 +110,7 @@ mkdir -p root/etc/default
 pgrep x0vncserver >/dev/null
 # "$?" -eq 1 implies that no such process exists, in which case it should be started
 if [[ $? -eq 1 ]]; then
-    sudo -u $myuser xfce4-terminal --display :0 --minimize --execute x0vncserver -display :0.0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &
+    sudo -u $myuser xfce4-terminal --display :0 --minimize --execute x0vncserver -geometry 1024x768 -display :0.0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &
     sleep 2
     sudo -u $myuser xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log &
 fi
@@ -240,7 +240,6 @@ sudo adduser $myuser netdev
 
 # add this stuff to any existing ~/.bash_aliases
 if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
-    sudo echo "# econ-ark additions to bash_aliases start here" >> /home/$myuser/.bash_aliases
     sudo cat /var/local/bash_aliases-add >> /home/$myuser/.bash_aliases
     sudo chmod a+x /home/$myuser/.bash_aliases
     sudo chown $myuser:$myuser /home/$myuser/.bash_aliases
@@ -248,14 +247,14 @@ if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK ad
     sudo chmod a+x /root/.bash_aliases
 fi
 
-# One of several ways to try to make sure lightdm is the display manager
-sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
+# # One of several ways to try to make sure lightdm is the display manager
+# sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
 # Install xubuntu-desktop 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version # no sudo 
 
-# Another way to try to make sure lightdm is the display manager
-echo "set shared/default-x-display-manager lightdm" | DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* debconf-communicate  # no sudo 
+# # Another way to try to make sure lightdm is the display manager
+# echo "set shared/default-x-display-manager lightdm" | DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* debconf-communicate  # no sudo 
 
 # Yet another -- delete the alternatives 
 sudo apt-get -y purge ubuntu-gnome-desktop
@@ -268,23 +267,23 @@ sudo apt-get -y autoremove
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
     
-    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser $myuser vboxsf
+    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser $myuser --no-password vboxsf
     # Get a bugfix release of lightdm to avoid a crash on VM's
     # https://launchpad.net/ubuntu/+source/lightdm-gtk-greeter
     # Bug #1890394 "Lightdm-gtk-greeter coredump during boot"
     #    wget --tries=0 -O /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb $online/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
-    dpkg -i /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
+#    dpkg -i /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
 fi
 
 
-# Once again -- doubtless only one of the methods is needed, but debugging which would take too long
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm     # no sudo
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4       # no sudo
-# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm   # no sudo
+# # Once again -- doubtless only one of the methods is needed, but debugging which would take too long
+# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm     # no sudo
+# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4       # no sudo
+# # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm   # no sudo
 
-sudo apt-get -y install x11-xserver-utils # Installs xrandr, among other utilities
+# sudo apt-get -y install x11-xserver-utils # Installs xrandr, among other utilities
 
-/var/local/add-users.sh
+# /var/local/add-users.sh
 
 # Allow autologin (as far as unix is concerned)
 sudo groupadd --system autologin
@@ -314,28 +313,31 @@ fi
 # They appeared to be because further config of some kind was needed
 # # Autologin to the keyring too
 # # wiki.archlinux.org/index.php/GNOME/Keyring
-# if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
-#     sudo sed -i '1 a\
-    # auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
-# fi
+if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
+    cp /etc/pam.d/login /etc/pam.d/login_orig
+    sudo sed -i '1 a\
+    auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
+fi
 
 # if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
 #     sudo sed -i '1 a\
     # auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
 # fi
 
-# if ! grep -q gnome /etc/pam.d/common-session           ; then # automatically log into the keyring too
-#     sudo sed -i '1 a\
-    # session optional pam_gnome_keyring.so autostart # Added by Econ-ARK ' /etc/pam.d/common-session
-# fi
+if ! grep -q gnome /etc/pam.d/common-session           ; then # automatically log into the keyring too
+    cp /etc/pam.d/common-session /etc/pam.d/common-session_orig
+    sudo sed -i '1 a\
+    session optional pam_gnome_keyring.so autostart # Added by Econ-ARK ' /etc/pam.d/common-session
+fi
 
-# if ! grep -q gnome /etc/pam.d/passwd           ; then # automatically log into the keyring too
-#     sudo sed -i '1 a\
-    # password optional pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/passwd
-# fi
+if ! grep -q gnome /etc/pam.d/passwd           ; then # automatically log into the keyring too
+    cp /etc/pam.d/passwd /etc/pam.d/passwd_orig
+    sudo sed -i '1 a\
+    password optional pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/passwd
+fi
 
 # # Start the keyring on boot
-# echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ssh) ; export SSH_AUTH_SOCK' >> /home/$myuser/.xinitrc 
+echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ssh) ; export SSH_AUTH_SOCK' >> /home/$myuser/.xinitrc ; sudo chown $myuser:$myuser /home/$myuser/.xinitrc ; sudo chmod a+x /home/$myuser/.xinitrc 
 
 # echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/$myuser/.bash_profile
 
@@ -371,7 +373,7 @@ sudo mkdir -p /var/local/root/home/$myuser
 cp /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
 #wget --tries=0 -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 
-cp /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
+# -> runcmd # cp /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
 #wget --tries=0 -O  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
 #wget --tries=0 -O                 /etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
 
@@ -379,7 +381,7 @@ cp /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
 #wget --tries=0 -O  /var/local/root/home/$myuser/.xscreensaver                                  $online/xscreensaver
 #wget --tries=0 -O                 /home/$myuser/.xscreensaver                                  $online/xscreensaver
 
-chown $myuser:$myuser /home/$myuser/.dmrc
+#?? chown $myuser:$myuser /home/$myuser/.dmrc
 # wget --tries=0 -O  /home/$myuser/.xscreensaver                                   $online/xscreensaver
 cp /var/local/xscreensaver /home/$myuser/.xscreensaver
 chown $myuser:$myuser /home/$myuser/.xscreensaver                      # session-name xubuntu
