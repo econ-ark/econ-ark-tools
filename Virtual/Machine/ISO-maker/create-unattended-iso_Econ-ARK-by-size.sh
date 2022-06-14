@@ -417,6 +417,8 @@ sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/pr
 #   chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local ;\
 
 
+#   chroot /target apt -y update ;\
+#   [[ -e /target/var/local     ]] && rm -Rf /target/var/local ;\
 
 late_command="mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
@@ -426,14 +428,13 @@ late_command="mount --bind /dev /target/dev ;\
    [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
    chroot /target set -x ;\
    chroot /target set -v ;\
-   chroot /target apt -y update ;\
-   chroot /target apt -y install git ;\
+   chroot /target [[ '"'\$(which git)'"' ]] && apt -y reinstall git || apt -y install git ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
    chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
-   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone --branch $git_branch https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; sudo chmod -Rf a+rw econ-ark-tools ;\
+   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; sudo chmod -Rf a+rw econ-ark-tools/*.[0-z]* ;\
    chroot /target git config --global --add safe.directory /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
-   [[ -e /target/var/local     ]] && rm -Rf /target/var/local ;\
-   cp -R /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ;\
+   sudo chmod -Rf /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/*.[0-z]* ;\
+   [[ ! -e /var/local ]] && cp -r /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ;\
    cd /target/var/local ;\
    [[ -e /target/etc/rc.local ]] && mv /target/etc/rc.local /target/etc/rc.local_orig ;\
    cp /target/var/local/rc.local /target/etc/rc.local ;\
