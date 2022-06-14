@@ -2,7 +2,7 @@
 
 set -x 
 set -v 
-[[ '\$(which git)' ]] && apt -y reinstall git || apt -y install git 
+[[ $(which git) ]] && apt -y reinstall git || apt -y install git 
 mkdir -p /usr/local/share/data/GitHub/econ-ark 
 chmod -Rf a+rwx /usr/local/share/data 
 [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
