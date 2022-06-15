@@ -95,8 +95,10 @@ if [[ ! -e /home/$myuser/.ssh ]]; then
     sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh/id_rsa
 fi    
 
-cd /var/local
-[[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_orig && cp root/etc/ssh/sshd_config /etc/ssh/sshd_config
+# Enable public key authentication
+d /var/local
+[[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_orig
+cp root/etc/ssh/sshd_config /etc/ssh/sshd_config
 
 
 # Prepare for emacs install
@@ -204,8 +206,9 @@ sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
 sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/$myuser
 
-cp /usr/share/lightdm/lightdm.conf          /usr/share/lightdm/lightdm.conf_orig
-cp /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
+[[ -e /usr/share/lightdm/lightdm.conf ]] && cp /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_orig
+cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
+
 cp /var/local/xscreensaver /home/$myuser/.xscreensaver
 chown $myuser:$myuser /home/$myuser/.xscreensaver                      # session-name xubuntu
 
