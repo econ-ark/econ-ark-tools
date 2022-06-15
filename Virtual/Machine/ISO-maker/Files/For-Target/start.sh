@@ -50,7 +50,7 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 
 # Install lightdm, xubuntu, and friends
 sudo apt -y install lightdm xfce4 xubuntu-desktop^  # The caret gets a slimmed down version
-sudo apt -y install xfce4-goodies xorg x11-server-utils xrdp
+sudo apt -y install xfce4-goodies xorg x11-xserver-utils xrdp
 
 
 if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu is installed
