@@ -96,7 +96,7 @@ if [[ ! -e /home/$myuser/.ssh ]]; then
 fi    
 
 cd /var/local
-[[ -e root/etc/sshd_config ]] && sudo cp /etc/sshd_conf /etc/sshd_conf_orig && cp root/etc/sshd_config /etc/sshd_config
+[[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_conf /etc/ssh/sshd_conf_orig && cp root/etc/ssh/sshd_config /etc/ssh/sshd_config
 
 
 # Prepare for emacs install
