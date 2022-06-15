@@ -76,7 +76,6 @@ EOF
 [[ -e ./git_branch ]] && branch_name=$(<git_branch)
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
-
 # Broadcom modems are common and require firmware-b43-installer for some reason
 sudo apt-get -y install b43-fwcutter
 sudo apt-get -y install firmware-b43-installer
@@ -119,8 +118,10 @@ if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK ad
     sudo chmod a+x /root/.bash_aliases
 fi
 
+# Choose lightdm as display manager
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
+# Purge unneeded stuff
 sudo apt-get -y purge ubuntu-gnome-desktop
 sudo apt-get -y purge gnome-shell
 sudo apt-get -y purge --auto-remove ubuntu-gnome-desktop
@@ -131,15 +132,14 @@ sudo apt-get -y autoremove
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
     sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser $myuser --no-password vboxsf
-    
 fi
 
-# Allow autologin (as far as unix is concerned)
+# Create autologin group (as far as unix is concerned)
 sudo groupadd --system autologin
 sudo adduser  $myuser autologin
 sudo gpasswd -a $myuser autologin
 
-# Allows autologin for PAM security system
+# Allow autologin for PAM security system
 sudo groupadd --system nopasswdlogin
 sudo adduser  $myuser nopasswdlogin
 sudo gpasswd -a $myuser nopasswdlogin
@@ -165,11 +165,6 @@ if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into th
     auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
 fi
 
-# if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
-#     sudo sed -i '1 a\
-    # auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
-# fi
-
 if ! grep -q gnome /etc/pam.d/common-session           ; then 
     cp /etc/pam.d/common-session /etc/pam.d/common-session_orig
     sudo sed -i '1 a\
@@ -186,7 +181,6 @@ fi
 echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ssh) ; export SSH_AUTH_SOCK' >> /home/$myuser/.xinitrc ; sudo chown $myuser:$myuser /home/$myuser/.xinitrc ; sudo chmod a+x /home/$myuser/.xinitrc 
 
 # echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/$myuser/.bash_profile
-# wget -O  /var/local/Econ-ARK.VolumeIcon.icns           https://github.com/econ-ark/econ-ark-tools/raw/$branch/Virtual/Machine/ISO-maker/Disk/Icons/Econ-ARK.VolumeIcon.icns
 
 # Desktop backdrop 
 cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
@@ -194,7 +188,6 @@ cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrop
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
 # So just replace the default image with the one we want 
 sudo rm -f                                                       /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
-
 sudo ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
 
 # Document, in /var/local, where its content is used
@@ -202,21 +195,15 @@ sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ
 
 # Move but preserve the original versions
 sudo mv       /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf              /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_orig
-# Do not start ubuntu at all
+## Do not start ubuntu at all
 [[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && sudo mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_orig   
 
-# Make home for the local source
+# Make place to store/record stuff that will be installed
 sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
 sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/$myuser
 
-# Put in both /var/local and in target 
-# wget --tries=0 -O  /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
-## System default for lightdm is  /usr/share/lightdm/lightdm.conf.d/
-cp /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu_orig.conf 
-cp /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
-
-cp /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm_orig.conf
+cp /usr/share/lightdm/lightdm.conf          /usr/share/lightdm/lightdm.conf_orig
 cp /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
 cp /var/local/xscreensaver /home/$myuser/.xscreensaver
 chown $myuser:$myuser /home/$myuser/.xscreensaver                      # session-name xubuntu
@@ -242,19 +229,23 @@ EOF
 
 chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 
+# Allow interactive commands to be preseeded
+sudo apt -y install expect
+
 # Scraping server allows outside user to watch display X:0
 # scraping server means that you're not allowing vnc client to spawn new x sessions
 sudo apt -y install tigervnc-scraping-server
 
-# Allow interactive commands to be preseeded
-sudo apt -y install expect
-
+## Execute as user to create files with correct ownership/permissions
 sudo -u $myuser /var/local/setup-tigervnc-scraping-server.sh
 
-# If x0vncserver not running 
+# Start the GUI
+service lightdm start 
+
+# If x0vncserver not running, run it
 pgrep x0vncserver >/dev/null
-# "$?" -eq 1 implies that no such process exists, in which case it should be started
-if [[ $? -eq 1 ]]; then
+if [[ $? -eq 1 ]]; then # no such process exists
+    # start it
     sudo -u $myuser xfce4-terminal --display :0 --minimize --execute x0vncserver -display :0.0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &
     sleep 2
     sudo -u $myuser xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log 2>/dev/null &
