@@ -427,13 +427,15 @@ late_command="mount --bind /dev /target/dev ;\
    mount --bind /sys /target/sys ;\
    mount --bind /run /target/run ;\
    [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
+   # Get latest versions of everything ;\
+   chroot /target apt -y update ;\
    # Debugging: ;\
    chroot /target set -x ;\
    chroot /target set -v ;\
    # Make sure git is installed and up to date ;\
    chroot /target [[ \$(which git) ]] && apt -y reinstall git || apt -y install git ;\
-   chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
-   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/ ;\
+   chroot /target mkdir -p /target/usr/local/share/data/GitHub/econ-ark  ;\
+   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /target//usr/local/share/data/GitHub/econ-ark/ ;\
    cd /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
    chmod -Rf a+rwx * ./.*[0-z]* ;\
    [[ ! -e /target/var/local ]] && ln -s /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ;\
@@ -444,7 +446,9 @@ late_command="mount --bind /dev /target/dev ;\
    sd=\$(cat /tmp/target-dev) ;\
    rm -f /target/var/local/Size-To-Make-Is-* ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
-   chroot /target echo \$(echo $size > /var/local/About_This_Install/machine-size.txt)"
+   chroot /target echo \$(echo $size > /var/local/About_This_Install/machine-size.txt) ;\
+   chroot /target /bin/bash start.sh 
+"
 
 #   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
 #   chroot /target apt -y install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms ;\

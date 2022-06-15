@@ -48,6 +48,10 @@ export DEBCONF_DEBUG=.*
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
+# Install lightdm, xubuntu, and friends
+sudo apt -y install lightdm xfce4 xubuntu-desktop^  # The caret gets a slimmed down version
+sudo apt -y install xfce4-goodies xorg x11-server-utils xrdp
+
 # Install gh github command line tools 
 curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
@@ -103,7 +107,7 @@ mkdir -p root/etc/default
 # /usr/share/lightdm/lightdm.conf.d is standard location for lightdm config; if /var/local doesn't have it, use default
 #[[ ! -e /var/local/root/usr/share/lightdm                       ]] && ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm                      
 
-#sudo -u $myuser sudo /var/local/setup-tigervnc-scraping-server.sh
+sudo -u $myuser sudo /var/local/setup-tigervnc-scraping-server.sh
 
 
 # If x0vncserver not running 
@@ -166,7 +170,7 @@ sudo apt-get -y install firmware-b43-installer
 sudo apt-get -y --fix-broken install
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion curl git net-tools network-manager openssh-server rpl gnome-disk-utility
+sudo apt-get -y install bash-completion net-tools network-manager openssh-server rpl gnome-disk-utility
 
 # Packages present in "live" but not in "legacy" version of server
 # https://ubuntuforums.org/showthread.php?t=2443047
@@ -184,56 +188,7 @@ fi
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
 sudo apt -y install gpg # Required to set up security for emacs package downloading 
 
-# Install emacs before the gui because it crashes when run in batch mode on gtk
-sudo apt -y install emacs
-
-# for dotemacspart in dotemacs_regular_users_only dotemacs_root_and_regular_users; do
-#     sudo wget --tries=0 -O /var/local/$dotemacspart $online/$dotemacspart
-# done
-
-[[ -e /home/$myuser/.emacs ]] && sudo rm -f /home/$myuser/.emacs
-[[ -e          /root/.emacs ]] && sudo rm -f          /root/.emacs
-
-cat /var/local/dotemacs_root_and_regular_users /var/local/dotemacs_regular_users_only > /var/local/dotemacs
-
-sudo ln -s /var/local/dotemacs /home/$myuser/.emacs
-sudo ln -s /var/local/dotemacs_root_and_regular_users /root/.emacs
-
-# Make it clear in /var/local, where its content is used
-sudo ln -s /home/$myuser/.emacs /var/local/dotemacs-home 
-sudo ln -s /root/.emacs          /var/local/dotemacs-root
-
-# Permissions 
-chown "root:root" /root/.emacs                # no sudo
-chmod a+rwx /home/$myuser/.emacs              # no sudo
-chown "$myuser:$myuser" /home/$myuser/.emacs  # no sudo
-
-# Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
-
-[[ ! -e /home/$myuser/.emacs.d ]] && sudo mkdir /home/$myuser/.emacs.d && chown "$myuser:$myuser" /home/$myuser/.emacs.d
-[[ -e /root/.emacs.d ]] && sudo rm -Rf /root/.emacs.d
-
-sudo -i -u $myuser mkdir -p /home/$myuser/.emacs.d/elpa
-sudo -i -u $myuser mkdir -p /home/$myuser/.emacs.d/elpa/gnupg
-sudo chown $myuser:$myuser /home/$myuser/.emacs
-sudo chown $myuser:$myuser -Rf /home/$myuser/.emacs.d
-chmod a+rw /home/$myuser/.emacs.d 
-
-echo 'keyserver hkp://keys.gnupg.net' > /home/$myuser/.emacs.d/elpa/gnupg/gpg.conf
-sudo -i -u  $myuser gpg --list-keys 
-sudo -i -u  $myuser gpg --homedir /home/$myuser/.emacs.d/elpa       --list-keys
-sudo -i -u  $myuser gpg --homedir /home/$myuser/.emacs.d/elpa/gnupg --list-keys
-sudo -i -u  $myuser gpg --homedir /home/$myuser/.emacs.d/elpa       --receive-keys 066DAFCB81E42C40
-sudo -i -u  $myuser gpg --homedir /home/$myuser/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
-
-# Do emacs first-time setup (including downloading packages)
-sudo -i -u  $myuser emacs -batch -l     /home/$myuser/.emacs  
-
-# Don't install the packages twice - instead, link root to the existing install
-[[ -e /root/.emacs.d ]] && sudo rm -Rf /root/.emacs.d
-ln -s /home/$myuser/.emacs.d /root/.emacs.d
-
-# Finished with emacs
+./install-emacs.sh $myuser
 
 # Allow user to control networking 
 sudo adduser $myuser netdev
@@ -251,7 +206,7 @@ fi
 # sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
 # Install xubuntu-desktop 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version # no sudo 
+#DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version # no sudo 
 
 # # Another way to try to make sure lightdm is the display manager
 # echo "set shared/default-x-display-manager lightdm" | DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* debconf-communicate  # no sudo 
@@ -272,7 +227,8 @@ if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ 
     # https://launchpad.net/ubuntu/+source/lightdm-gtk-greeter
     # Bug #1890394 "Lightdm-gtk-greeter coredump during boot"
     #    wget --tries=0 -O /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb $online/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
-#    dpkg -i /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
+    #    dpkg -i /var/local/lightdm-gtk-greeter_2.0.6-0ubuntu1_amd64.deb
+    
 fi
 
 
@@ -283,7 +239,8 @@ fi
 
 # sudo apt-get -y install x11-xserver-utils # Installs xrandr, among other utilities
 
-# /var/local/add-users.sh
+# Create econ-ark and econ-ark-xrdp users
+/var/local/add-users.sh
 
 # Allow autologin (as far as unix is concerned)
 sudo groupadd --system autologin
@@ -417,29 +374,15 @@ sudo apt -y remove mdadm
 
 sudo mkdir /tmp/iso ; sudo mount -t iso9660 /dev/sr0 /tmp/iso
 
-# Make an ISO of the installation medium
-
-blkid /dev/sr0
-if [[ "$?" == 0 ]]; then # there is something there
-    # get its label
-    LBL=$(blkid /dev/sr0 | cut -f2 -d':' | cut -f2 -d'=' | cut -f1 -d' ')
-    if [[ "$LBL" != "" ]]; then # It has a label
-	dd if=/dev/sr0 of=/var/local/installers/$LBL.iso bs=2048 count=425426 status=progress
-    else
-	dd if=/dev/sr0 of=/var/local/installers/CDROM.iso bs=2048 count=425426 status=progress
-    fi
-fi
-
 
 # if [[ "$installer" != "" ]]; then
 #     dd if="$installer" of=/var/local/XUBARK.iso
 # fi
 
 
-
 sudo apt -y remove xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
 sudo apt -y remove xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
-sudo apt -y remove at-spi2-core      # Accessibility tools cause lightdm greeter error; remove 
+#sudo apt -y remove at-spi2-core      # Accessibility tools cause lightdm greeter error; remove 
 sudo rm -f /var/crash/grub-pc.0.crash
 
 # sleep 3600
