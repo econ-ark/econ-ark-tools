@@ -16,14 +16,13 @@ packages:
   - emacs
 runcmd:
   - sudo set -x
-  - sudo set -v 
-#   - sudo git clone --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /var/local
-#   - sudo git config --global --add safe.directory     /var/local/
-#   - sudo chmod -Rf a+rwx                          -Rf /usr/local/share/data/GitHub/*.[0-z]*
-#   - cd                                                /var/local
-#   - sudo /var/local/Virtual/Machine/ISO-maker/Files/For-Target/late_command.sh 2>&1 | tee /tmp/late_command.log
-#   - sudo cp /tmp/late_command.log /var/local
-#   - sudo echo 'late_command finished' >> /tmp/late_command.log
+  - sudo set -v
+  - sudo mkdir -p /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+  - sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/
+  - sudo ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local
+  - sudo /var/local/late_command.sh 2>&1 | tee /var/local/late_command.log
+#  - sudo cp /tmp/late_command.log /var/local
+#  - sudo echo 'late_command finished' >> /tmp/late_command.log
 #   - sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm
 #   - sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xfce4
 #   - sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install xubuntu-desktop
