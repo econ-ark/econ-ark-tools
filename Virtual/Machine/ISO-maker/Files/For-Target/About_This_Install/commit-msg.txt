@@ -1,1 +1,1 @@
-rmdir_->_rm_-Rf
+Apparently_[[_not_allowed_in_cloud-init
