@@ -34,13 +34,6 @@ sudo apt -y install xfce4-goodies xorg x11-xserver-utils xrdp
 
 # GitHub command line tools
 ./install-gh-cli-tools.sh
-# #mkdir -p root/etc/default
-# #mkdir -p root/etc/systemd/system/getty@tty1.service.d  # /override.conf Allows autologin to console as econ-ark
-# #mkdir -p root/usr/share/lightdm/lightdm.conf.d         # Configure display manager 
-# #[[ ! -e /var/local/rc.local                                     ]] && ln -s /etc/rc.local                                          /var/local/root/etc
-# #[[ ! -e /var/local/root/etc/default    			        ]] && ln -s /etc/default/grub                                      /var/local/root/etc/default    
-# #[[ ! -e /var/local/root/etc/systemd/system/getty@tty1.service.d ]] && ln -s /etc/systemd/system/getty@tty1.service.d/override.conf /var/local/root/etc/systemd/system/getty@tty1.service.d
-# #[[ ! -e /var/local/root/usr/share/lightdm                       ]] && ln -s /usr/share/lightdm/lightdm.conf.d                      /var/local/root/usr/share/lightdm                      
 
 # Populate About_This_Install directory with info specific to this run of the installer
 cd /var/local
@@ -128,7 +121,6 @@ fi
 
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
-# #DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -qy install xubuntu-desktop^  # The caret gets a slimmed down version # no sudo 
 sudo apt-get -y purge ubuntu-gnome-desktop
 sudo apt-get -y purge gnome-shell
 sudo apt-get -y purge --auto-remove ubuntu-gnome-desktop
@@ -197,7 +189,6 @@ echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ss
 # wget -O  /var/local/Econ-ARK.VolumeIcon.icns           https://github.com/econ-ark/econ-ark-tools/raw/$branch/Virtual/Machine/ISO-maker/Disk/Icons/Econ-ARK.VolumeIcon.icns
 
 # Desktop backdrop 
-# #wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg
 cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
 
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
@@ -224,14 +215,9 @@ sudo mkdir -p /var/local/root/home/$myuser
 ## System default for lightdm is  /usr/share/lightdm/lightdm.conf.d/
 cp /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu_orig.conf 
 cp /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
-# #wget --tries=0 -O                 /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf             $online/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 
 cp /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm_orig.conf
 cp /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
-# #wget --tries=0 -O  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
-# #wget --tries=0 -O                 /etc/lightdm/lightdm-gtk-greeter.conf                         $online/root/etc/lightdm/lightdm-gtk-greeter.conf
-# #wget --tries=0 -O  /var/local/root/home/$myuser/.xscreensaver                                  $online/xscreensaver
-# #wget --tries=0 -O                 /home/$myuser/.xscreensaver                                  $online/xscreensaver
 cp /var/local/xscreensaver /home/$myuser/.xscreensaver
 chown $myuser:$myuser /home/$myuser/.xscreensaver                      # session-name xubuntu
 
