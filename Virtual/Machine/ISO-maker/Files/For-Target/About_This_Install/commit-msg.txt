@@ -1,1 +1,1 @@
-Remove_comment_from_late_command
+Only_delete_-var-local_if_it_is_not_a_link
