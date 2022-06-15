@@ -52,16 +52,6 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 sudo apt -y install lightdm xfce4 xubuntu-desktop^  # The caret gets a slimmed down version
 sudo apt -y install xfce4-goodies xorg x11-server-utils xrdp
 
-# Install gh github command line tools 
-curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-sudo apt update
-sudo apt -y install gh
-
-# sudo apt -y install tasksel
-# sudo tasksel install standard
-# Make links in /var/local to files installed in other places
-# (to provide a transparent gude to all the places the system has been tweaked)
 
 if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu is installed
     # blueman generates distracting and useless error messages
@@ -92,6 +82,18 @@ if [ -e /usr/bin/xfce4-about ]; then # xfce/xubuntu is installed
 #    apt -y install xfce4-goodies
 fi    
 
+
+
+# Install gh github command line tools 
+curl -fsSL https://cli.github.com/packages/githubcli-archive-keyring.gpg | sudo dd of=/usr/share/keyrings/githubcli-archive-keyring.gpg
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null
+sudo apt update
+sudo apt -y install gh
+
+# sudo apt -y install tasksel
+# sudo tasksel install standard
+# Make links in /var/local to files installed in other places
+# (to provide a transparent gude to all the places the system has been tweaked)
 cd /var/local
 mkdir -p root/etc/default
 # mkdir -p root/.config/rclone
