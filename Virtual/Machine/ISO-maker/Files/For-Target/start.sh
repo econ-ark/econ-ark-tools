@@ -190,7 +190,7 @@ cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrop
 
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
 # So just replace the default image with the one we want 
-sudo rm -f                                                       /usr/share/xfce4/backdrops/xubuntu-wallpaper.png
+sudo mv /usr/share/xfce4/backdrops/xubuntu-wallpaper.png         /usr/share/xfce4/backdrops/xubuntu-wallpaper.png_$commit_date
 sudo ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
 
 # Document, in /var/local, where its content is used
@@ -207,7 +207,7 @@ sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
 sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/$myuser
 
-[[ -e /usr/share/lightdm/lightdm.conf ]] && cp /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$commit_date
+[[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$commit_date
 cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
 
 cp /var/local/xscreensaver /home/$myuser/.xscreensaver
@@ -217,7 +217,7 @@ chown $myuser:$myuser /home/$myuser/.xscreensaver                      # session
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 chown $myuser:$myuser /home/$myuser/.config/autostart
 
-# Autostart a terminal
+## Autostart a terminal
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
 [Desktop Entry]
 Encoding=UTF-8
@@ -244,17 +244,20 @@ sudo apt -y install tigervnc-scraping-server
 ## Execute as user to create files with correct ownership/permissions
 sudo -u $myuser /var/local/setup-tigervnc-scraping-server.sh
 
+sudo apt -y remove xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
+sudo apt -y remove xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
+
 # Start the GUI
 service lightdm start 
 
-# If x0vncserver not running, run it
-pgrep x0vncserver >/dev/null
-if [[ $? -eq 1 ]]; then # no such process exists
-    # start it
-    sudo -u $myuser xfce4-terminal --display :0 --minimize --execute x0vncserver -display :0.0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &
-    sleep 2
-    sudo -u $myuser xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log 2>/dev/null &
-fi
+# # If x0vncserver not running, run it
+# pgrep x0vncserver >/dev/null
+# if [[ $? -eq 1 ]]; then # no such process exists
+#     # start it
+#     sudo -u $myuser xfce4-terminal --display :0 --minimize --execute x0vncserver -display :0.0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &
+#     sleep 2
+#     sudo -u $myuser xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log 2>/dev/null &
+# fi
 
 # Anacron massively delays the first boot; this disbles it
 sudo touch /etc/cron.hourly/jobs.deny       
@@ -270,10 +273,6 @@ sudo apt -y remove mdadm
 #     dd if="$installer" of=/var/local/XUBARK.iso
 # fi
 
-
-sudo apt -y remove xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
-sudo apt -y remove xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
 #sudo apt -y remove at-spi2-core      # Accessibility tools cause lightdm greeter error; remove 
 sudo rm -f /var/crash/grub-pc.0.crash
 
-# sleep 3600
