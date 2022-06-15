@@ -336,6 +336,12 @@ EOF
 chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 
 # Scraping server allows outside user to watch display X:0
+# scraping server means that you're not allowing vnc client to spawn new x sessions
+sudo apt -y install tigervnc-scraping-server
+
+# Allow interactive commands to be preseeded
+sudo apt -y install expect
+
 sudo -u $myuser /var/local/setup-tigervnc-scraping-server.sh
 
 # If x0vncserver not running 
