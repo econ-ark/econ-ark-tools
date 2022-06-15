@@ -21,7 +21,6 @@ sd=$(cat /tmp/target-dev)
 touch /var/local/Size-To-Make-Is-$(echo MIN) 
 echo $(echo MIN > /var/local/About_This_Install/machine-size.txt) 
 /bin/bash start.sh 
-# mkdir -p /etc/systemd/system/getty@tty1.service.d 
 cp /var/local/Disk/Labels/Econ-ARK.disk_label /Econ-ARK.disk_label 
 cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /Econ-ARK.disk_label_2x 
 cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns 
