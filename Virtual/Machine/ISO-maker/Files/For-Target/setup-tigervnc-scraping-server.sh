@@ -34,7 +34,6 @@ EOF
 [[ "$USER" == "root" ]] && cd /root/.vnc || cd /home/$myuser/.vnc
 echo '#!/bin/sh' > xstartup
 echo '[[ ! -e $HOME/.Xresources ]] && touch $HOME/.Xresources' >> xstartup
-echo 'xrdp $HOME/.Xresources' >> xstartup
 echo "startxfce4 & " >> xstartup
 sudo chmod a+x xstartup
 sudo chown $myuser:$myuser xstartup
