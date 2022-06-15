@@ -430,12 +430,11 @@ late_command="mount --bind /dev /target/dev ;\
    chroot /target set -v ;\
    chroot /target [[ \$(which git) ]] && apt -y reinstall git || apt -y install git ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
-   chroot /target chmod -Rf a+rwx /usr/local/share/data ;\
-   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; sudo chmod -Rf a+rw econ-ark-tools/*.[0-z]* ;\
+   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/ ;\
+   chroot /target chmod -Rf a+rwx /usr/local/share/data/* /usr/local/share/data/.*[0-z]* ;\
+   (cd /target/usr/local/share/data/GitHub/econ-ark/ ; sudo chmod -Rf a+rw econ-ark-tools/* econ-ark-tools/*.[0-z]*) ;\
    chroot /target git config --global --add safe.directory /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
-   sudo chmod -Rf /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/*.[0-z]* ;\
-   [[ ! -e /var/local ]] && cp -r /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ;\
-   cd /target/var/local ;\
+   [[ ! -e /target/var/local ]] && ln -s /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ;\
    [[ -e /target/etc/rc.local ]] && mv /target/etc/rc.local /target/etc/rc.local_orig ;\
    cp /target/var/local/rc.local /target/etc/rc.local ;\
    chroot /target df -hT > /tmp/target-partition ;\
