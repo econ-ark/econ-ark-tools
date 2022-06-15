@@ -8,8 +8,10 @@ mkdir -p /usr/local/share/data/GitHub/econ-ark
 [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target 
 cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
 chmod -Rf a+rwx * ./.*[0-z]* 
-rm -Rf /var/local 
-\ ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
+if ( ! -l /var/local )
+then rm -Rf /var/local 
+ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
+fi 
 touch /etc/rc.local 
 mv /etc/rc.local /etc/rc.local_orig 
 cp /var/local/rc.local /etc/rc.local 
