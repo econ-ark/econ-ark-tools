@@ -97,7 +97,7 @@ fi
 
 # Enable public key authentication
 d /var/local
-[[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_orig
+[[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_$commit_date
 cp root/etc/ssh/sshd_config /etc/ssh/sshd_config
 
 
@@ -154,7 +154,7 @@ fi
 
 # Not sure this is necessary
 if ! grep -q $myuser /etc/pam.d/lightdm          ; then
-    cp /etc/pam.d/lightdm-greeter /etc/pam.d/lightdm-greeter_orig
+    cp /etc/pam.d/lightdm-greeter /etc/pam.d/lightdm-greeter_$commit_date
     sudo sed -i '1 a\
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
 fi
@@ -162,19 +162,19 @@ fi
 # Autologin to the keyring too
 # wiki.archlinux.org/index.php/GNOME/Keyring
 if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
-    cp /etc/pam.d/login /etc/pam.d/login_orig
+    cp /etc/pam.d/login /etc/pam.d/login_$commit_date
     sudo sed -i '1 a\
     auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
 fi
 
 if ! grep -q gnome /etc/pam.d/common-session           ; then 
-    cp /etc/pam.d/common-session /etc/pam.d/common-session_orig
+    cp /etc/pam.d/common-session /etc/pam.d/common-session_$commit_date
     sudo sed -i '1 a\
     session optional pam_gnome_keyring.so autostart # Added by Econ-ARK ' /etc/pam.d/common-session
 fi
 
 if ! grep -q gnome /etc/pam.d/passwd           ; then # automatically log into the keyring too
-    cp /etc/pam.d/passwd /etc/pam.d/passwd_orig
+    cp /etc/pam.d/passwd /etc/pam.d/passwd_$commit_date
     sudo sed -i '1 a\
     password optional pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/passwd
 fi
@@ -182,8 +182,8 @@ fi
 # Start the keyring on boot
 if ! grep -s SSH_AUTH_SOCK /home/$myuser/.xinitrc >/dev/null; then
     echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ssh) ; export SSH_AUTH_SOCK' >> /home/$myuser/.xinitrc ; sudo chown $myuser:$myuser /home/$myuser/.xinitrc ; sudo chmod a+x /home/$myuser/.xinitrc
-  # echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/$myuser/.bash_profile
-done
+    # echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/$myuser/.bash_profile
+fi
 
 # Desktop backdrop 
 cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
@@ -197,17 +197,17 @@ sudo ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce
 sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ-ARK-Logo-1536x768-target.jpg
 
 # Move but preserve the original versions
-sudo mv           /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_orig
+sudo mv           /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$commit_date
 cp /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
 ## Do not start ubuntu at all
-[[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && sudo mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_orig   
+[[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && sudo mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_$commit_date   
 
 # Make place to store/record stuff that will be installed
 sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
 sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/$myuser
 
-[[ -e /usr/share/lightdm/lightdm.conf ]] && cp /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_orig
+[[ -e /usr/share/lightdm/lightdm.conf ]] && cp /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$commit_date
 cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
 
 cp /var/local/xscreensaver /home/$myuser/.xscreensaver
