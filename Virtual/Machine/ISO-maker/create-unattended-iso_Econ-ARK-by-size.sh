@@ -436,14 +436,19 @@ late_command="mount --bind /dev /target/dev ;\
    chroot /target [[ \$(which git) ]] && apt -y reinstall git || apt -y install git ;\
    chroot /target mkdir -p /target/usr/local/share/data/GitHub/econ-ark  ;\
    [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /target//usr/local/share/data/GitHub/econ-ark/ ;\
+   # Give repo permissions to be interacted with by users other than root 
    cd /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
    chmod -Rf a+rwx * ./.*[0-z]* ;\
+   # Hook /var/local into the for-target part of the tools
    [[ ! -e /target/var/local ]] && ln -s /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ;\
+   # Now install rc.local to control boot (after making backup of orig)
    [[ -e /target/etc/rc.local ]] && mv /target/etc/rc.local /target/etc/rc.local_orig ;\
    cp /target/var/local/rc.local /target/etc/rc.local ;\
+   # Figure out the target partition for installation
    chroot /target df -hT > /tmp/target-partition ;\
    cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
    sd=\$(cat /tmp/target-dev) ;\
+   # Indicate which kind of build it is
    rm -f /target/var/local/Size-To-Make-Is-* ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
    chroot /target echo \$(echo $size > /var/local/About_This_Install/machine-size.txt) ;\
