@@ -19,7 +19,6 @@ runcmd:
   - sudo set -v
   - sudo mkdir -p /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
   - sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
-  - [[ -e /var/local ]] && mv /var/local /var/local_orig 
+  - if [[ -e /var/local ]]; then mv /var/local /var/local_orig ; fi
   - sudo ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local
   - sudo /var/local/late_command.sh 2>&1 | tee /var/local/late_command.log
-   
