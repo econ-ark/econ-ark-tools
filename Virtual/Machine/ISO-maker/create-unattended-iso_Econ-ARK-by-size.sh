@@ -435,7 +435,7 @@ late_command="mount --bind /dev /target/dev ;\
    [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target ;\
    cd /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
    chmod -Rf a+rwx * ./.*[0-z]* ;\
-   if ( ! -l /var/local ); then rm -Rf /var/local ; ln -s /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ; fi ;\
+   if [[ ! -L /var/local ]]; then rm -Rf /var/local ; ln -s /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ; fi ;\
    touch /target/etc/rc.local ;\
    mv /target/etc/rc.local /target/etc/rc.local_orig ;\
    cp /target/var/local/rc.local /target/etc/rc.local ;\
@@ -445,7 +445,7 @@ late_command="mount --bind /dev /target/dev ;\
    rm -f /target/var/local/Size-To-Make-Is-* ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
    chroot /target echo \$(echo $size > /var/local/About_This_Install/machine-size.txt) ;\
-   chroot /target /bin/bash start.sh 
+   chroot /target /bin/bash start.sh
 "
 
 #   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
