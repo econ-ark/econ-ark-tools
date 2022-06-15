@@ -30,10 +30,10 @@ expect eof
 exit
 EOF
 
-# Enable xrdp server on startup
+# Enable xfce4 startup on vnc
 [[ "$USER" == "root" ]] && cd /root/.vnc || cd /home/$myuser/.vnc
 echo '#!/bin/sh' > xstartup
-echo '[[ ! -e $HOME/.Xresources ]] && touch $HOME/.Xresources' >> xstartup
+echo '[[ ! -e .Xresources ]] && touch .Xresources' >> xstartup
 echo "startxfce4 & " >> xstartup
 sudo chmod a+x xstartup
 sudo chown $myuser:$myuser xstartup
