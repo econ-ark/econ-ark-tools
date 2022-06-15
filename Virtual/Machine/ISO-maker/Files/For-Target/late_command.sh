@@ -1,14 +1,14 @@
 #!/bin/bash
 
+# Debugging: 
 set -x 
 set -v 
+# Make sure git is installed and up to date 
 [[ $(which git) ]] && apt -y reinstall git || apt -y install git 
 mkdir -p /usr/local/share/data/GitHub/econ-ark 
 [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/ 
-chmod -Rf a+rwx /usr/local/share/data/GitHub /usr/local/share/data/.*[0-z]* 
-(cd /usr/local/share/data/GitHub/econ-ark/ 
-sudo chmod -Rf a+rw econ-ark-tools/* econ-ark-tools/*.[0-z]*) 
-git config --global --add safe.directory /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
+cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
+chmod -Rf a+rwx * ./.*[0-z]* 
 [[ ! -e /var/local ]] && ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
 [[ -e /etc/rc.local ]] && mv /etc/rc.local /etc/rc.local_orig 
 cp /var/local/rc.local /etc/rc.local 

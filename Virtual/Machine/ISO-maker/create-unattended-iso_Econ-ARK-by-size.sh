@@ -420,20 +420,22 @@ sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/pr
 #   chroot /target apt -y update ;\
 #   [[ -e /target/var/local     ]] && rm -Rf /target/var/local ;\
 
+set -o noglob
 late_command="mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
    mount --bind /proc /target/proc ;\
    mount --bind /sys /target/sys ;\
    mount --bind /run /target/run ;\
    [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
+   # Debugging: ;\
    chroot /target set -x ;\
    chroot /target set -v ;\
+   # Make sure git is installed and up to date ;\
    chroot /target [[ \$(which git) ]] && apt -y reinstall git || apt -y install git ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
    [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target sudo git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/ ;\
-   chroot /target chmod -Rf a+rwx /usr/local/share/data/* /usr/local/share/data/.*[0-z]* ;\
-   (cd /target/usr/local/share/data/GitHub/econ-ark/ ; sudo chmod -Rf a+rw econ-ark-tools/* econ-ark-tools/*.[0-z]*) ;\
-   chroot /target git config --global --add safe.directory /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
+   cd /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
+   chmod -Rf a+rwx * ./.*[0-z]* ;\
    [[ ! -e /target/var/local ]] && ln -s /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /target/var/local ;\
    [[ -e /target/etc/rc.local ]] && mv /target/etc/rc.local /target/etc/rc.local_orig ;\
    cp /target/var/local/rc.local /target/etc/rc.local ;\
