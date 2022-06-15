@@ -443,7 +443,6 @@ late_command="mount --bind /dev /target/dev ;\
    chroot /target df -hT > /tmp/target-partition ;\
    cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
    sd=\$(cat /tmp/target-dev) ;\
-   # Indicate which kind of build it is
    rm -f /target/var/local/Size-To-Make-Is-* ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
    chroot /target echo \$(echo $size > /var/local/About_This_Install/machine-size.txt) ;\

@@ -16,7 +16,7 @@ cp /var/local/rc.local /etc/rc.local
 df -hT > /tmp/target-partition 
 cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
 sd=$(cat /tmp/target-dev) 
-# Indicate which kind of build it is rm -f /var/local/Size-To-Make-Is-* 
+rm -f /var/local/Size-To-Make-Is-* 
 touch /var/local/Size-To-Make-Is-$(echo MIN) 
 echo $(echo MIN > /var/local/About_This_Install/machine-size.txt) 
 /bin/bash start.sh 
