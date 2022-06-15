@@ -1,1 +1,1 @@
-Update_empty-start_cloud_init_config
+rmdir_->_rm_-Rf
