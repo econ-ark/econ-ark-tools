@@ -27,7 +27,8 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 
 # Install lightdm, xubuntu, and friends
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUT=.* apt-get -y install lightdm
-sudo apt -y xfce4 xubuntu-desktop^  # The caret gets a slimmed down version
+sudo apt -y install xfce4
+sudo apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
 sudo apt -y install xfce4-goodies xorg x11-xserver-utils xrdp
 
 # Create econ-ark and econ-ark-xrdp users
@@ -97,9 +98,9 @@ if [[ ! -e /home/$myuser/.ssh ]]; then
 fi    
 
 # Enable public key authentication
-d /var/local
+cd /var/local
 [[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_$commit_date
-cp root/etc/ssh/sshd_config /etc/ssh/sshd_config
+sudo cp root/etc/ssh/sshd_config /etc/ssh/sshd_config
 
 
 # Prepare for emacs install
@@ -155,7 +156,7 @@ fi
 
 # Not sure this is necessary
 if ! grep -q $myuser /etc/pam.d/lightdm          ; then
-    cp /etc/pam.d/lightdm-greeter /etc/pam.d/lightdm-greeter_$commit_date
+    sudo cp /etc/pam.d/lightdm-greeter /etc/pam.d/lightdm-greeter_$commit_date
     sudo sed -i '1 a\
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
 fi
@@ -163,19 +164,19 @@ fi
 # Autologin to the keyring too
 # wiki.archlinux.org/index.php/GNOME/Keyring
 if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
-    cp /etc/pam.d/login /etc/pam.d/login_$commit_date
+    sudo cp /etc/pam.d/login /etc/pam.d/login_$commit_date
     sudo sed -i '1 a\
     auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
 fi
 
 if ! grep -q gnome /etc/pam.d/common-session           ; then 
-    cp /etc/pam.d/common-session /etc/pam.d/common-session_$commit_date
+    sudo cp /etc/pam.d/common-session /etc/pam.d/common-session_$commit_date
     sudo sed -i '1 a\
     session optional pam_gnome_keyring.so autostart # Added by Econ-ARK ' /etc/pam.d/common-session
 fi
 
 if ! grep -q gnome /etc/pam.d/passwd           ; then # automatically log into the keyring too
-    cp /etc/pam.d/passwd /etc/pam.d/passwd_$commit_date
+    sudo cp /etc/pam.d/passwd /etc/pam.d/passwd_$commit_date
     sudo sed -i '1 a\
     password optional pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/passwd
 fi
@@ -187,7 +188,7 @@ if ! grep -s SSH_AUTH_SOCK /home/$myuser/.xinitrc >/dev/null; then
 fi
 
 # Desktop backdrop 
-cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
+sudo cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
 
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
 # So just replace the default image with the one we want 
@@ -198,8 +199,8 @@ sudo ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce
 sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ-ARK-Logo-1536x768-target.jpg
 
 # Move but preserve the original versions
-sudo mv           /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$commit_date
-cp /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
+sudo mv                /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$commit_date
+sudo cp /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
 ## Do not start ubuntu at all
 [[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && sudo mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_$commit_date   
 
@@ -209,9 +210,9 @@ sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/$myuser
 
 [[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$commit_date
-cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
+sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
 
-cp /var/local/xscreensaver /home/$myuser/.xscreensaver
+sudo cp /var/local/xscreensaver /home/$myuser/.xscreensaver
 chown $myuser:$myuser /home/$myuser/.xscreensaver                      # session-name xubuntu
 
 # Create directory designating things to autostart 
