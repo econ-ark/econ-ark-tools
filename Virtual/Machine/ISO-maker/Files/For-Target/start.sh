@@ -1,5 +1,5 @@
 #!/bin/bash
-oo# This gets run by late_command during creation of the VM
+# This gets run by late_command during creation of the VM
 # It installs the xubuntu-desktop server and other core tools
 # The reboot at the end kicks off the running of the finish.sh script
 # The GUI is available after the

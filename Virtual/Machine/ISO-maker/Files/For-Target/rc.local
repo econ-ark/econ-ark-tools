@@ -20,8 +20,6 @@ if [ ! -f $FLAG ]; then # first boot, or user has signaled to rerun start and fi
     # create an empty 'signal' file so the if will fail after the first boot
     touch "$FLAG"
 
-    sleep 3600
-
     # if xfce is running, shut it down (allows replacing .Xauthority) 
     [[ "$(ps -e | grep -E -i xfce)" != "" ]] && xfce-session-logout
 
@@ -35,9 +33,9 @@ else # Not the first boot, so we must have run start.sh
 	size="MAX"
 	[[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN" # reset if MIN chosen
 	# Include date/time stamp as hostname
-	hostdate="xubark-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
-	hostname "$hostdate"
-	echo "$hostdate" > /etc/hostname
+	# hostdate="xubark-$(printf %s `date -d"$DATE" +%Y%m%d%H%M`)"
+	# hostname "$hostdate"
+	# echo "$hostdate" > /etc/hostname
 	
 	# Allow remaining stuff to be done in the background 
 	(set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log  ) & 
@@ -49,26 +47,26 @@ else # Not the first boot, so we must have run start.sh
 	# (They were disabled in start.sh because they take forever and delay the first boot inordinately)
 	sudo rm /etc/cron.hourly/jobs.deny
 
-        # On some systems, xfce4-power-manager causes a crash if you don't quit it before reboot 
-	xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)"
-	xfce4powermanagerexistsCode="$?"
-	[[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
+        # # On some systems, xfce4-power-manager causes a crash if you don't quit it before reboot 
+	# xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)"
+	# xfce4powermanagerexistsCode="$?"
+	# [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
 	
-	# Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
-	magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
-	sudo xauth -f /root/.Xauthority add $hostdate/unix:0 . "$magic"
-	# Merge so that either the old or the new hostname should work
-	sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
-	sudo cp /root/.Xauthority /home/econ-ark/.Xauthority
-	# Give them the required permissions
-	sudo chmod a-rwx /root/.Xauthority
-	sudo chmod u+rw  /root/.Xauthority
-	# askubuntu.com/questions/253376/lightdm-failed-during-authentication
-	# Says permissions should be 664 (or maybe 666)
-	sudo chown econ-ark:econ-ark /home/econ-ark/.Xauthority
-	sudo chmod 664               /home/econ-ark/.Xauthority
-	xdg-settings set default-web-browser google-chrome.desktop
-	xdg-open https://econ-ark.org
+	# # Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
+	# magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
+	# sudo xauth -f /root/.Xauthority add $hostdate/unix:0 . "$magic"
+	# # Merge so that either the old or the new hostname should work
+	# sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
+	# sudo cp /root/.Xauthority /home/econ-ark/.Xauthority
+	# # Give them the required permissions
+	# sudo chmod a-rwx /root/.Xauthority
+	# sudo chmod u+rw  /root/.Xauthority
+	# # askubuntu.com/questions/253376/lightdm-failed-during-authentication
+	# # Says permissions should be 664 (or maybe 666)
+	# sudo chown econ-ark:econ-ark /home/econ-ark/.Xauthority
+	# sudo chmod 664               /home/econ-ark/.Xauthority
+	# xdg-settings set default-web-browser google-chrome.desktop
+	# xdg-open https://econ-ark.org
 
     fi # End second-boot
 fi
