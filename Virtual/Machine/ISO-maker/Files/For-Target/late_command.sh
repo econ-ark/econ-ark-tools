@@ -10,7 +10,7 @@ cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
 chmod -Rf a+rwx * ./.*[0-z]* 
 if [[ -d /var/local ]]
 then rm -Rf /var/local 
-done 
+fi 
 if [[ ! -L /var/local ]]
 then rm -Rf /var/local 
 ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
