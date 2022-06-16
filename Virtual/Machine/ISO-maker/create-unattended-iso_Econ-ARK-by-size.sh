@@ -429,11 +429,11 @@ late_command="mount --bind /dev /target/dev ;\
    [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
    chroot /target apt -y update ;\
    chroot /target apt -y reinstall git ;\
-   chroot /target mkdir -p /target/usr/local/share/data/GitHub/econ-ark  ;\
-   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
-   chmod -Rf a+rwx /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/* /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/.*[0-z]* ;\
-   [[ -d /target/var/local ]] && then rm -Rf /target/var/local ;\
-   if [[ ! -L /target/var/local ]]; then chroot /target rm -Rf /target/var/local ; chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ; fi ;\
+   chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
+   [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
+   chmod -R a+rwx /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/* /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/.*[0-z]* ;\
+   [[ -d /target/var/local ]] && rm -Rf /target/var/local ;\
+   if [[ ! -L /target/var/local ]]; then chroot /target rm -Rf /var/local ; chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ; fi ;\
    touch /target/etc/rc.local ;\
    mv /target/etc/rc.local /target/etc/rc.local_orig ;\
    cp /target/var/local/rc.local /target/etc/rc.local ;\

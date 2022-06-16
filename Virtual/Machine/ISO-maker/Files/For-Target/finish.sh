@@ -21,9 +21,9 @@ export DEBCONF_DEBUG=.*
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
-# The cups service sometimes gets stuck; stop it before that happens
-sudo systemctl stop    cups-browsed.service 
-sudo systemctl disable cups-browsed.service
+# # # The cups service sometimes gets stuck; stop it before that happens
+# # sudo systemctl stop    cups-browsed.service 
+# # sudo systemctl disable cups-browsed.service
 
 # Manage software like dbus - seems to freeze finish.sh logging, so disabled
 # sudo apt -y install software-properties-common
