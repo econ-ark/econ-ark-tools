@@ -8,6 +8,9 @@ mkdir -p /usr/local/share/data/GitHub/econ-ark
 [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target 
 cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
 chmod -Rf a+rwx * ./.*[0-z]* 
+if [[ -d /var/local ]]
+then rm -Rf /var/local 
+done 
 if [[ ! -L /var/local ]]
 then rm -Rf /var/local 
 ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
@@ -21,7 +24,7 @@ sd=$(cat /tmp/target-dev)
 rm -f /var/local/Size-To-Make-Is-* 
 touch /var/local/Size-To-Make-Is-$(echo MIN) 
 echo $(echo MIN > /var/local/About_This_Install/machine-size.txt) 
-/bin/bash start.sh 
+/bin/bash /var/local/start.sh 
 cp /var/local/Disk/Labels/Econ-ARK.disk_label /Econ-ARK.disk_label 
 cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /Econ-ARK.disk_label_2x 
 cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns 
