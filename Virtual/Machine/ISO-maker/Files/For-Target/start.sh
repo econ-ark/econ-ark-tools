@@ -1,5 +1,5 @@
 #!/bin/bash
-# This gets run by late_command during creation of the VM
+oo# This gets run by late_command during creation of the VM
 # It installs the xubuntu-desktop server and other core tools
 # The reboot at the end kicks off the running of the finish.sh script
 # The GUI is available after the
@@ -26,7 +26,8 @@ export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
 # Install lightdm, xubuntu, and friends
-sudo apt -y install lightdm xfce4 xubuntu-desktop^  # The caret gets a slimmed down version
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUT=.* apt-get -y install lightdm
+sudo apt -y xfce4 xubuntu-desktop^  # The caret gets a slimmed down version
 sudo apt -y install xfce4-goodies xorg x11-xserver-utils xrdp
 
 # Create econ-ark and econ-ark-xrdp users
