@@ -1,1 +1,1 @@
-Fix_link_test_in_late_command
+delete_-var-local_if_it_is_a_directory
