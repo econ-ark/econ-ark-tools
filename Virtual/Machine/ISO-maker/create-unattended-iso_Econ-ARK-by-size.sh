@@ -436,13 +436,13 @@ late_command="mount --bind /dev /target/dev ;\
    if [[ ! -L /target/var/local ]]; then chroot /target rm -Rf /var/local ; chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ; fi ;\
    touch /target/etc/rc.local ;\
    mv /target/etc/rc.local /target/etc/rc.local_orig ;\
-   cp /target/var/local/rc.local /target/etc/rc.local ;\
+   chroot /target cp /var/local/rc.local /etc/rc.local ;\
    chroot /target df -hT > /tmp/target-partition ;\
    cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
    sd=\$(cat /tmp/target-dev) ;\
-   rm -f /target/var/local/Size-To-Make-Is-* ;\
+   chroot /target rm -f /var/local/Size-To-Make-Is-* ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
-   chroot /target echo \$(echo $size > /var/local/About_This_Install/machine-size.txt) 
+   chroot /target echo \$(echo $size > /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) 
 "
 
 #   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
@@ -456,10 +456,10 @@ late_command="mount --bind /dev /target/dev ;\
 #if [ "$git_branch" == "Make-ISO-Installer" ]; then
 #     mkdir -p /target/etc/systemd/system/getty@tty1.service.d ;\
 late_command+=";\
-     chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label     /target/Econ-ARK.disk_label     ;\
-     chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x  /target/Econ-ARK.disk_label_2x  ;\
-     chroot /target cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /target/Econ-ARK.VolumeIcon.icns     ;\
-     echo Econ-ARK                           > /target/.disk_label.contentDetails;\
+     chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label     /Econ-ARK.disk_label     ;\
+     chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x  /Econ-ARK.disk_label_2x  ;\
+     chroot /target cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns     ;\
+     chroot echo Econ-ARK > /target/.disk_label.contentDetails;\
      chroot /target /bin/bash /var/local/start.sh"
 #  ;\
 #     reboot"

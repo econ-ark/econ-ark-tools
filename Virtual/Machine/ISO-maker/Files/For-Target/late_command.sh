@@ -18,9 +18,9 @@ cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep 
 sd=$(cat /tmp/target-dev) 
 rm -f /var/local/Size-To-Make-Is-* 
 touch /var/local/Size-To-Make-Is-$(echo MIN) 
-echo $(echo MIN > /var/local/About_This_Install/machine-size.txt) 
+echo $(echo MIN > /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) 
 cp /var/local/Disk/Labels/Econ-ARK.disk_label /Econ-ARK.disk_label 
 cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /Econ-ARK.disk_label_2x 
 cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns 
-echo Econ-ARK > /.disk_label.contentDetails
+chroot echo Econ-ARK > /.disk_label.contentDetails
 /bin/bash /var/local/start.sh
