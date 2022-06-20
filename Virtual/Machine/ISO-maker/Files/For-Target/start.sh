@@ -26,7 +26,7 @@ export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
 # Install lightdm, xubuntu, and friends
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUT=.* apt-get -y install lightdm
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -y install lightdm
 sudo apt -y install xfce4
 sudo apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
 sudo apt -y install xfce4-goodies xorg x11-xserver-utils xrdp
