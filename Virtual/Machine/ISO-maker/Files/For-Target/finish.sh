@@ -2,17 +2,17 @@
 # start.sh installs GUI then reboots;
 # finish automatically starts with newly-installed GUI
 
-# define download function
-# courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
-download()
-{
-    local url=$1
-    #    echo -n "    "
-    wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
-        sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
-    #    echo -ne "\b\b\b\b"
-    #    echo " DONE"
-}
+# # define download function
+# # courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
+# download()
+# {
+#     local url=$1
+#     #    echo -n "    "
+#     wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
+#         sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
+#     #    echo -ne "\b\b\b\b"
+#     #    echo " DONE"
+# }
 
 # Set up bash verbose debugging
 set -x ; set -v
@@ -74,7 +74,9 @@ sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errors when
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
-wget --quiet -O  /etc/avahi/ $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
+# # wget --quiet -O  /etc/avahi/ $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
+
+cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
 # Enable ssh over avahi
 cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
@@ -317,7 +319,8 @@ sudo apt-get upgrade
 sudo apt-get install unattended-upgrades
 
 sudo mkdir -p /etc/apt/apt.conf.d/20auto-upgrades
-sudo wget -O  /etc/apt/apt.conf.d/20auto-upgrades $online/Files/For-Target/root/etc/apt/apt.conf.d/20auto-upgrades
+# # sudo wget -O  /etc/apt/apt.conf.d/20auto-upgrades $online/Files/For-Target/root/etc/apt/apt.conf.d/20auto-upgrades
+sudo cp /var/local/root/etc/apt/apt.conf.d/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades 
 
 # Batch compile emacs so it will get all its packages
 sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  
