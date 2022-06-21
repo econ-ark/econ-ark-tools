@@ -20,10 +20,10 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 # Presence of 'verbose' triggers bash debugging mode
 [[ -e /var/local/verbose ]] && set -x ; set -v 
 
-# Use Debian Installer in noninteractive mode to prevent questions 
-export DEBCONF_DEBUG=.*
-export DEBIAN_FRONTEND=noninteractive
-export DEBCONF_NONINTERACTIVE_SEEN=true
+# # Use Debian Installer in noninteractive mode to prevent questions 
+# export DEBCONF_DEBUG=.*
+# export DEBIAN_FRONTEND=noninteractive
+# export DEBCONF_NONINTERACTIVE_SEEN=true
 
 # Install lightdm, xubuntu, and friends
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -y install lightdm
@@ -31,12 +31,8 @@ sudo apt -y install xfce4
 sudo apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
 sudo apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
 
-
 # Create econ-ark and econ-ark-xrdp users
 /var/local/add-users.sh
-
-# GitHub command line tools
-./install-gh-cli-tools.sh
 
 # Populate About_This_Install directory with info specific to this run of the installer
 cd /var/local
@@ -84,11 +80,10 @@ sudo apt-get -y install b43-fwcutter
 sudo apt-get -y install firmware-b43-installer
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion net-tools network-manager openssh-server rpl gnome-disk-utility
+sudo apt-get -y install bash-completion net-tools network-manager openssh-server rpl gnome-disk-utility curl
 
-# Packages present in "live" but not in "legacy" version of server
-# https://ubuntuforums.org/showthread.php?t=2443047
-sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1 
+# GitHub command line tools
+./install-gh-cli-tools.sh
 
 # Create a public key for security purposes
 if [[ ! -e /home/$myuser/.ssh ]]; then

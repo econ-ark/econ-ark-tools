@@ -40,12 +40,17 @@ service lightdm start
 #     sudo -u $myuser xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log 2>/dev/null &
 # fi
 
+# Packages present in "live" but not in "legacy" version of server
+# https://ubuntuforums.org/showthread.php?t=2443047
+sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1 
+
 # Meld is a good file/folder diff tool
 sudo apt -y install meld
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel ca-certificates
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel ca-certificates curl
 
+/var/local/
 # Make a home for econ-ark in /usr/local/share/data and link to it from home directory
 mkdir -p /home/econ-ark/GitHub
 mkdir -p          /root/GitHub
