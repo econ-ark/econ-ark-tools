@@ -1,7 +1,7 @@
 #!/bin/bash
 
-touch /etc/rc.local 
-[[ -e /etc/rc.local ]] && mv /etc/rc.local /etc/rc.local_orig 
+[[ ! -e /etc/rc.local ]] && touch /etc/rc.local 
+mv /etc/rc.local /etc/rc.local_orig 
 cp /var/local/rc.local /etc/rc.local 
 df -hT > /tmp/target-partition 
 cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
