@@ -1,1 +1,1 @@
-Start_lightdm_on_first_"real"_boot
+Remove_-x_and_-v_from_start.log_at_end_of_late_command
