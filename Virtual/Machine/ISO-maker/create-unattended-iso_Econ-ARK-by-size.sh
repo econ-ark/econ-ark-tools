@@ -434,16 +434,18 @@ late_command="mount --bind /dev /target/dev ;\
    chmod -R a+rwx /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/* /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/.*[0-z]* ;\
    [[ -d /target/var/local ]] && rm -Rf /target/var/local ;\
    if [[ ! -L /target/var/local ]]; then chroot /target rm -Rf /var/local ; chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ; fi ;\
-   touch /target/etc/rc.local ;\
-   mv /target/etc/rc.local /target/etc/rc.local_orig ;\
-   chroot /target cp /var/local/rc.local /etc/rc.local ;\
-   chroot /target df -hT > /tmp/target-partition ;\
-   cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
-   sd=\$(cat /tmp/target-dev) ;\
    chroot /target rm -f /var/local/Size-To-Make-Is-* ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
-   chroot /target echo \$(echo $size > /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) 
-"
+   chroot /target echo \$(echo $size > /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) ;\
+   chroot /target /bin/bash /var/local/late_command_finish.sh"
+
+ #   touch /target/etc/rc.local ;\
+ #   mv /target/etc/rc.local /target/etc/rc.local_orig ;\
+ #   chroot /target cp /var/local/rc.local /etc/rc.local ;\
+ #   chroot /target df -hT > /tmp/target-partition ;\
+ #   cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
+ #   sd=\$(cat /tmp/target-dev) ;\
+ # "
 
 #   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
 #   chroot /target apt -y install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms ;\
@@ -455,12 +457,12 @@ late_command="mount --bind /dev /target/dev ;\
 
 #if [ "$git_branch" == "Make-ISO-Installer" ]; then
 #     mkdir -p /target/etc/systemd/system/getty@tty1.service.d ;\
-late_command+=";\
-     chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label     /Econ-ARK.disk_label     ;\
-     chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x  /Econ-ARK.disk_label_2x  ;\
-     chroot /target cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns     ;\
-     chroot /target echo Econ-ARK > /target/.disk_label.contentDetails;\
-     chroot /target /var/local/start.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/start.log"
+# late_command+=";\
+#      chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label     /Econ-ARK.disk_label     ;\
+#      chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x  /Econ-ARK.disk_label_2x  ;\
+#      chroot /target cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns;\
+#      chroot /target echo Econ-ARK > /target/.disk_label.contentDetails                         ;\
+#      chroot /target /var/local/start.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/start.log"
 #  ;\
 #     reboot"
 
