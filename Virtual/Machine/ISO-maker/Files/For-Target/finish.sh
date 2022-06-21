@@ -28,8 +28,17 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 # Manage software like dbus - seems to freeze finish.sh logging, so disabled
 # sudo apt -y install software-properties-common
 
-# Allow controlling settings
-sudo apt -y install xfce4-settings
+# Start the GUI
+service lightdm start 
+
+# # If x0vncserver not running, run it
+# pgrep x0vncserver >/dev/null
+# if [[ $? -eq 1 ]]; then # no such process exists
+#     # start it
+#     sudo -u $myuser xfce4-terminal --display :0 --minimize --execute x0vncserver -display :0.0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &
+#     sleep 2
+#     sudo -u $myuser xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log 2>/dev/null &
+# fi
 
 # Meld is a good file/folder diff tool
 sudo apt -y install meld

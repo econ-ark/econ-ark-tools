@@ -29,7 +29,8 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -y install lightdm
 sudo apt -y install xfce4
 sudo apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
-sudo apt -y install xfce4-goodies xorg x11-xserver-utils xrdp
+sudo apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
+
 
 # Create econ-ark and econ-ark-xrdp users
 /var/local/add-users.sh
@@ -249,18 +250,6 @@ sudo -u $myuser /var/local/setup-tigervnc-scraping-server.sh
 sudo apt -y remove xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
 sudo apt -y remove xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
 
-# Start the GUI
-service lightdm start 
-
-# # If x0vncserver not running, run it
-# pgrep x0vncserver >/dev/null
-# if [[ $? -eq 1 ]]; then # no such process exists
-#     # start it
-#     sudo -u $myuser xfce4-terminal --display :0 --minimize --execute x0vncserver -display :0.0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &
-#     sleep 2
-#     sudo -u $myuser xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log 2>/dev/null &
-# fi
-
 # Anacron massively delays the first boot; this disbles it
 sudo touch /etc/cron.hourly/jobs.deny       
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
@@ -277,4 +266,3 @@ sudo apt -y remove mdadm
 
 #sudo apt -y remove at-spi2-core      # Accessibility tools cause lightdm greeter error; remove 
 sudo rm -f /var/crash/grub-pc.0.crash
-
