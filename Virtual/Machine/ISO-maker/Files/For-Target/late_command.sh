@@ -13,4 +13,5 @@ fi
 rm -f /var/local/Size-To-Make-Is-* 
 touch /var/local/Size-To-Make-Is-$(echo MIN) 
 echo $(echo MIN > /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) 
-/bin/bash /var/local/late_command_finish.sh
+/bin/bash /var/local/late_command_finish.sh 
+/var/local/start.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/start.log
