@@ -1,1 +1,1 @@
-seed:_Stop_just_before_reboot
+Start_lightdm_on_first_"real"_boot
