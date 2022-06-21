@@ -1,1 +1,1 @@
-Comment_out_start.sh_from_late_command_finish
+Add_curl_to_"immediately_useful_tools"_in_start.sh;_move_install-gh-cli-tools_to_after_curl
