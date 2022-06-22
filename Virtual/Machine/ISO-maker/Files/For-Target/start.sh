@@ -30,17 +30,19 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 [[ -e /var/local/verbose ]] && set -x ; set -v 
 
 # # # # Use Debian Installer in noninteractive mode to prevent questions 
-# # export DEBCONF_DEBUG=.*
-# # export DEBIAN_FRONTEND=noninteractive
+export DEBCONF_DEBUG=.*
+export DEBIAN_FRONTEND=noninteractive
 # # export DEBCONF_NONINTERACTIVE_SEEN=true
 
 # Install lightdm, xubuntu, and friends
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -y install lightdm
-sudo apt-get -y install lightdm
+
+sudo apt -y install lightdm
 sudo apt -y install xfce4
 sudo apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
 sudo apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
-
+sudo echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
+sudo echo "set shared/default-x-display-manager lightdm" | debconf-communicate
 # Create econ-ark and econ-ark-xrdp users
 /var/local/add-users.sh
 
