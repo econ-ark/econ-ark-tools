@@ -1,1 +1,1 @@
-Add_logging_to_late_command_finish
+Remove_|tee_from_start_in_late_command;_add_export_to_start.sh
