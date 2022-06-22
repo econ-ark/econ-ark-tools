@@ -30,11 +30,12 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 [[ -e /var/local/verbose ]] && set -x ; set -v 
 
 # # Use Debian Installer in noninteractive mode to prevent questions 
-# export DEBCONF_DEBUG=.*
-# export DEBIAN_FRONTEND=noninteractive
-# export DEBCONF_NONINTERACTIVE_SEEN=true
+export DEBCONF_DEBUG=.*
+export DEBIAN_FRONTEND=noninteractive
+export DEBCONF_NONINTERACTIVE_SEEN=true
 
 # Install lightdm, xubuntu, and friends
+# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -y install lightdm
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -y install lightdm
 sudo apt -y install xfce4
 sudo apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
