@@ -6,6 +6,15 @@
 #    service lightdm start
 # command completes
 
+# Export stdout and stderr to a log file
+cd /var/local
+exec   > >(tee -ia start.log)
+exec  2> >(tee -ia start.log >& 2)
+exec 19> start.log
+export BASH_XTRACEFD="19"
+set -x
+set -v
+
 # Remove /var/local/finished-software-install to reinstall stuff installed here
 [[ -e /var/local/finished-software-install ]] && rm -f /var/local/finished-software-install
 # To redo the whole installation sequence (without having to redownload anything):
@@ -131,7 +140,7 @@ sudo apt-get -y autoremove
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
-    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser $myuser --no-password vboxsf
+    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser $myuser vboxsf
 fi
 
 # Create autologin group (as far as unix is concerned)
