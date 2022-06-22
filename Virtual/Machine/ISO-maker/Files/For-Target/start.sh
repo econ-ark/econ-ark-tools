@@ -90,7 +90,13 @@ sudo apt-get -y install b43-fwcutter
 sudo apt-get -y install firmware-b43-installer
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion net-tools network-manager openssh-server rpl gnome-disk-utility curl
+sudo apt-get -y install bash-completion net-tools network-manager rpl gnome-disk-utility curl
+
+# If our sshd_conf is different from one in /etc/sshd_config ...
+diff /var/local/root/etc/ssh/sshd_config /etc/sshd_config > /dev/null
+# ... then it's because this is the first time we're running the script
+# ... so install the openssh-server
+[[ "$?" != 0 ]] && sudo apt -y install openssh-server
 
 # GitHub command line tools
 ./install-gh-cli-tools.sh
