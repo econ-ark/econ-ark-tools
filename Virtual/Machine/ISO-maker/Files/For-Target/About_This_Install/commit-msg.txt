@@ -1,1 +1,1 @@
-Restore_DEBCONF;_add_--no-install-recommends_to_xfce
+Move_xubuntu-desktop_install_to_finish.sh
