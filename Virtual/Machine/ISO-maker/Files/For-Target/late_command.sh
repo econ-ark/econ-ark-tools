@@ -14,5 +14,10 @@ rm -f /var/local/Size-To-Make-Is-*
 touch /var/local/Size-To-Make-Is-$(echo MIN) 
 echo $(echo MIN > /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) 
 /bin/bash /var/local/late_command_finish.sh > /var/local/late_command_finish.log 
-apt -y purge gnome-shell gnome-settings-daemon at-spi2-core libgdm1 gdm3 gnome-session-bin 
+sudo apt -y purge gnome-shell 
+sudo apt -y purge gnome-settings-daemon 
+sudo apt -y purge at-spi2-core 
+sudo apt -y purge libgdm1 
+sudo apt -y purge gnome-session-bin 
+sudo /var/local/check-dependencies.sh gdm3 
 /var/local/start.sh
