@@ -1,1 +1,1 @@
-Move_purges_to_right_before_xfce4_install
+Restore_DEBCONF;_add_--no-install-recommends_to_xfce
