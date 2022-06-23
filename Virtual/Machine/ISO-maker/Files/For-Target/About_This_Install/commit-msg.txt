@@ -1,1 +1,1 @@
-Set_priority_critical_before_installing_lightdm
+Turn_off_reset_of_priority_at_lightdm_install
