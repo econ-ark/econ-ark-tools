@@ -1,1 +1,1 @@
-Add_xfce4_to_autoinstall
+Move_xfce4_install_stuff_to_after_lightdm_config

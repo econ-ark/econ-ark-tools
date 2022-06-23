@@ -1,6 +1,7 @@
 #!/bin/bash
 
 apt -y update 
+apt -y purge gnome-shell gnome-settings-daemon at-spi2-core libgdm1 gdm3 
 apt -y reinstall git 
 mkdir -p /usr/local/share/data/GitHub/econ-ark 
 [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
