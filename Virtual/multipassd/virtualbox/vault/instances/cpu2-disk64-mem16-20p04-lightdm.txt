@@ -16,6 +16,7 @@ packages:
   - emacs
   - lightdm
   - lighttdm-gtk-greeter
+  - xfce4
 runcmd:
   - sudo set -x
   - sudo set -v
