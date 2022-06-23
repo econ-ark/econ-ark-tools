@@ -1,1 +1,1 @@
-Remove_debconf-communicate
+In_cloud-init,_lightdm_and_greeter
