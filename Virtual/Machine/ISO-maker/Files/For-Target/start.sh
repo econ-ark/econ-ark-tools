@@ -127,6 +127,13 @@ sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 chown $myuser:$myuser /home/$myuser/.config/autostart
 
+sudo apt -y purge gnome-shell
+sudo apt -y purge gnome-settings-daemon
+sudo apt -y purge at-spi2-core
+sudo apt -y purge libgdm1
+sudo apt -y purge gnome-session-bin
+sudo /var/local/check-dependencies.sh gdm3
+
 apt -y install xfce4
 apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
 apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings

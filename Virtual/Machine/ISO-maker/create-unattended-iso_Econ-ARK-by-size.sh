@@ -438,12 +438,6 @@ late_command="mount --bind /dev /target/dev ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
    chroot /target echo \$(echo $size > /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) ;\
    chroot /target /bin/bash /var/local/late_command_finish.sh > /target/var/local/late_command_finish.log ;\
-   chroot /target sudo apt -y purge gnome-shell ;\
-   chroot /target sudo apt -y purge gnome-settings-daemon ;\
-   chroot /target sudo apt -y purge at-spi2-core ;\
-   chroot /target sudo apt -y purge libgdm1 ;\
-   chroot /target sudo apt -y purge gnome-session-bin ;\
-   chroot /target sudo /var/local/check-dependencies.sh gdm3 ;\
    chroot /target /var/local/start.sh "
 #  ;\
 
