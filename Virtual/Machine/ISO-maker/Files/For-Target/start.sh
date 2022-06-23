@@ -81,13 +81,13 @@ fi
 # Choose lightdm as display manager
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
-# Purge unneeded stuff
-sudo apt-get -y purge ubuntu-gnome-desktop
-sudo apt-get -y purge gnome-shell
-sudo apt-get -y purge --auto-remove ubuntu-gnome-desktop
-sudo apt-get -y purge gdm3     # Get rid of gnome 
-sudo apt-get -y purge numlockx
-sudo apt-get -y autoremove
+# # # Purge unneeded stuff
+# # sudo apt-get -y purge ubuntu-gnome-desktop
+# # sudo apt-get -y purge gnome-shell
+# # sudo apt-get -y purge --auto-remove ubuntu-gnome-desktop
+# # sudo apt-get -y purge gdm3     # Get rid of gnome 
+# # sudo apt-get -y purge numlockx
+# # sudo apt-get -y autoremove
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
