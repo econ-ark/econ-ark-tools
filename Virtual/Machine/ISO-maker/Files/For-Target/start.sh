@@ -38,12 +38,12 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -y install lightdm
 apt -y remove gdm3
 apt -y purge gdm3
+echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
 apt -y install lightdm
 apt -y install xfce4
 apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
 apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
-echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
-echo "set shared/default-x-display-manager lightdm" | debconf-communicate
+#echo "set shared/default-x-display-manager lightdm" | debconf-communicate
 # Create econ-ark and econ-ark-xrdp users
 /var/local/add-users.sh
 # Use correct git branches during debugging 
