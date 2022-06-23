@@ -30,7 +30,7 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 [[ -e /var/local/verbose ]] && set -x ; set -v 
 
 # # # # Use Debian Installer in noninteractive mode to prevent questions 
-export DEBCONF_DEBUG=5
+# # export DEBCONF_DEBUG=5
 # # export DEBIAN_FRONTEND=noninteractive
 # # export DEBCONF_NONINTERACTIVE_SEEN=true
 
@@ -40,10 +40,6 @@ export DEBCONF_DEBUG=5
 # apt -y purge gdm3
 # echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
 # DEBCONF_FRONTEND=noninteractive apt -y install lightdm
-apt -y install xfce4
-apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
-apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
-#echo "set shared/default-x-display-manager lightdm" | debconf-communicate
 # Create econ-ark and econ-ark-xrdp users
 /var/local/add-users.sh
 # Use correct git branches during debugging 
@@ -119,11 +115,31 @@ auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by 
 fi
 
 
+# Make place to store/record stuff that will be installed
+sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
+sudo mkdir -p /var/local/root/etc/lightdm.conf.d
+sudo mkdir -p /var/local/root/home/$myuser
+
+[[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$commit_date
+sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
+
+# Create directory designating things to autostart 
+sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
+chown $myuser:$myuser /home/$myuser/.config/autostart
+
+apt -y install xfce4
+apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
+apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
+#echo "set shared/default-x-display-manager lightdm" | debconf-communicate
+# Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
+# So just replace the default image with the one we want 
+
+
 # Desktop backdrop 
 sudo cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
 
-# Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
-# So just replace the default image with the one we want 
+chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
+
 sudo mv /usr/share/xfce4/backdrops/xubuntu-wallpaper.png         /usr/share/xfce4/backdrops/xubuntu-wallpaper.png_$commit_date
 sudo ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
 
@@ -136,20 +152,8 @@ sudo cp /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/sh
 ## Do not start ubuntu at all
 [[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && sudo mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_$commit_date   
 
-# Make place to store/record stuff that will be installed
-sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
-sudo mkdir -p /var/local/root/etc/lightdm.conf.d
-sudo mkdir -p /var/local/root/home/$myuser
-
-[[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$commit_date
-sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
-
 sudo cp /var/local/xscreensaver /home/$myuser/.xscreensaver
 chown $myuser:$myuser /home/$myuser/.xscreensaver                      # session-name xubuntu
-
-# Create directory designating things to autostart 
-sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
-chown $myuser:$myuser /home/$myuser/.config/autostart
 
 ## Autostart a terminal
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
@@ -165,8 +169,6 @@ StartupNotify=false
 Terminal=false
 Hidden=false
 EOF
-
-chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 
 # Allow interactive commands to be preseeded
 sudo apt -y install expect
