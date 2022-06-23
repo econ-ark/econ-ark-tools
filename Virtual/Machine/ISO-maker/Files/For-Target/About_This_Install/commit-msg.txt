@@ -1,1 +1,1 @@
-Purge_gdm3_dependencies_before_installing_xfce4
+Move_purge_of_gdm3-related_to_end_of_late_command
