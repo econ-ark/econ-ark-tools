@@ -1,1 +1,1 @@
-Turn_off_reset_of_priority_at_lightdm_install
+Add_xfce4_to_autoinstall
