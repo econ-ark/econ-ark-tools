@@ -1,1 +1,1 @@
-Do_not_purge_gdm3_and_friends
+Purge_gdm3_before_installing_lightdm
