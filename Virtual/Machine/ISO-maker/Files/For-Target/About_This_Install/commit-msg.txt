@@ -1,1 +1,1 @@
-Move_xfce4_install_stuff_to_after_lightdm_config
+Purge_gdm3_dependencies_before_installing_xfce4
