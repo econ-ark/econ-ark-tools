@@ -1,1 +1,1 @@
-In_cloud-init,_lightdm_and_greeter
+Set_priority_critical_before_installing_lightdm
