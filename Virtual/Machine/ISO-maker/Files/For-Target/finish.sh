@@ -17,6 +17,49 @@
 # Set up bash verbose debugging
 set -x ; set -v
 
+
+# Populate About_This_Install directory with info specific to this run of the installer
+cd /var/local
+
+commit_msg="$(cat ./About_This_Install/commit-msg.txt)"
+short_hash="$(cat ./About_This_Install/short.git-hash)"
+commit_date="$(cat ./About_This_Install/commit_date)"
+
+# Create the "About This Install" markdown file
+cat <<EOF > /var/local/About_This_Install.md
+# Detailed Info About This Installation
+
+This machine (virtual or real) was built using 
+
+https://github.com/econ-ark/econ-ark-tools.git
+
+using scripts in commit $short_hash 
+with commit message "$commit_msg"
+on date "$commit_date"
+
+Starting at the root of a cloned version of that repo,
+you should be able to reproduce the installer with:
+
+    git checkout $short_hash
+    cd Virtual/Machine/ISO-maker ; ./create-unattended-iso_Econ-ARK-by-size.sh [ MIN | MAX ]
+
+or, if you want to make and post both MAX and MIN ISO's to Google Drive:
+
+    ./make-and-send-both.sh
+
+A copy of the ISO installer that generated this machine should be in the
+
+    /installers
+
+directory.
+
+EOF
+
+
+# mdadm is for managing RAID systems but can cause backup problems; disable
+sudo apt -y remove mdadm
+
+
 export DEBCONF_DEBUG=.*
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
@@ -48,6 +91,31 @@ cd /var/local
 [[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_$commit_date
 sudo cp root/etc/ssh/sshd_config /etc/ssh/sshd_config
 
+# Autologin to the keyring too
+# wiki.archlinux.org/index.php/GNOME/Keyring
+if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
+    sudo cp /etc/pam.d/login /etc/pam.d/login_$commit_date
+    sudo sed -i '1 a\
+    auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
+fi
+
+if ! grep -q gnome /etc/pam.d/common-session           ; then 
+    sudo cp /etc/pam.d/common-session /etc/pam.d/common-session_$commit_date
+    sudo sed -i '1 a\
+    session optional pam_gnome_keyring.so autostart # Added by Econ-ARK ' /etc/pam.d/common-session
+fi
+
+if ! grep -q gnome /etc/pam.d/passwd           ; then # automatically log into the keyring too
+    sudo cp /etc/pam.d/passwd /etc/pam.d/passwd_$commit_date
+    sudo sed -i '1 a\
+    password optional pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/passwd
+fi
+
+# Start the keyring on boot
+if ! grep -s SSH_AUTH_SOCK /home/$myuser/.xinitrc >/dev/null; then
+    echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ssh) ; export SSH_AUTH_SOCK' >> /home/$myuser/.xinitrc ; sudo chown $myuser:$myuser /home/$myuser/.xinitrc ; sudo chmod a+x /home/$myuser/.xinitrc
+    # echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/$myuser/.bash_profile
+fi
 
 # Start the GUI
 service lightdm start 
@@ -69,7 +137,7 @@ sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1
 sudo apt -y install meld
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel ca-certificates curl
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel ca-certificates gnome-disk-utility 
 
 /var/local/
 # Make a home for econ-ark in /usr/local/share/data and link to it from home directory

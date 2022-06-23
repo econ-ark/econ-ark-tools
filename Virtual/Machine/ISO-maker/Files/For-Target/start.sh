@@ -45,44 +45,6 @@ sudo echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
 sudo echo "set shared/default-x-display-manager lightdm" | debconf-communicate
 # Create econ-ark and econ-ark-xrdp users
 /var/local/add-users.sh
-
-# Populate About_This_Install directory with info specific to this run of the installer
-cd /var/local
-
-commit_msg="$(cat ./About_This_Install/commit-msg.txt)"
-short_hash="$(cat ./About_This_Install/short.git-hash)"
-commit_date="$(cat ./About_This_Install/commit_date)"
-
-# Create the "About This Install" markdown file
-cat <<EOF > /var/local/About_This_Install.md
-# Detailed Info About This Installation
-
-This machine (virtual or real) was built using 
-
-https://github.com/econ-ark/econ-ark-tools.git
-
-using scripts in commit $short_hash 
-with commit message "$commit_msg"
-on date "$commit_date"
-
-Starting at the root of a cloned version of that repo,
-you should be able to reproduce the installer with:
-
-    git checkout $short_hash
-    cd Virtual/Machine/ISO-maker ; ./create-unattended-iso_Econ-ARK-by-size.sh [ MIN | MAX ]
-
-or, if you want to make and post both MAX and MIN ISO's to Google Drive:
-
-    ./make-and-send-both.sh
-
-A copy of the ISO installer that generated this machine should be in the
-
-    /installers
-
-directory.
-
-EOF
-
 # Use correct git branches during debugging 
 [[ -e ./git_branch ]] && branch_name=$(<git_branch)
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
@@ -92,7 +54,7 @@ sudo apt-get -y install b43-fwcutter
 sudo apt-get -y install firmware-b43-installer
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion net-tools network-manager rpl gnome-disk-utility curl
+sudo apt-get -y install bash-completion net-tools network-manager rpl curl
 
 # GitHub command line tools
 ./install-gh-cli-tools.sh
@@ -155,31 +117,6 @@ if ! grep -q $myuser /etc/pam.d/lightdm          ; then
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
 fi
 
-# Autologin to the keyring too
-# wiki.archlinux.org/index.php/GNOME/Keyring
-if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
-    sudo cp /etc/pam.d/login /etc/pam.d/login_$commit_date
-    sudo sed -i '1 a\
-    auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
-fi
-
-if ! grep -q gnome /etc/pam.d/common-session           ; then 
-    sudo cp /etc/pam.d/common-session /etc/pam.d/common-session_$commit_date
-    sudo sed -i '1 a\
-    session optional pam_gnome_keyring.so autostart # Added by Econ-ARK ' /etc/pam.d/common-session
-fi
-
-if ! grep -q gnome /etc/pam.d/passwd           ; then # automatically log into the keyring too
-    sudo cp /etc/pam.d/passwd /etc/pam.d/passwd_$commit_date
-    sudo sed -i '1 a\
-    password optional pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/passwd
-fi
-
-# Start the keyring on boot
-if ! grep -s SSH_AUTH_SOCK /home/$myuser/.xinitrc >/dev/null; then
-    echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ssh) ; export SSH_AUTH_SOCK' >> /home/$myuser/.xinitrc ; sudo chown $myuser:$myuser /home/$myuser/.xinitrc ; sudo chmod a+x /home/$myuser/.xinitrc
-    # echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/$myuser/.bash_profile
-fi
 
 # Desktop backdrop 
 sudo cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
@@ -247,9 +184,6 @@ sudo apt -y remove xfce4-screensaver # Bug in screensaver causes system to becom
 sudo touch /etc/cron.hourly/jobs.deny       
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
 sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local 
-
-# mdadm is for managing RAID systems but can cause backup problems; disable
-sudo apt -y remove mdadm
 
 # sudo mkdir /tmp/iso ; sudo mount -t iso9660 /dev/sr0 /tmp/iso
 
