@@ -225,7 +225,7 @@ d-i pkgsel/update-policy select unattended-upgrades
 d-i debian-installer/add-kernel-opts string verbose nosplash nolapic nomodeset efi=noruntime
 
 # Display manager
-d-i debconf/priority select critical  # prevents dm question from being asked
+# d-i debconf/priority select critical  # prevents dm question from being asked
 ## Answer the question the installer would want to ask
 d-i shared/default-x-display-manager                    select      lightdm
 d-i pkgsel/include string lightdm lightdm-gtk-greeter
