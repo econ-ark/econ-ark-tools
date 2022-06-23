@@ -10,7 +10,7 @@ if [ "$TERM" == "dumb" ]; then
     echo 'But $TERM='"$TERM"' probably because running in emacs shell'
     echo ''
     echo 'In emacs:'
-    echo '    M-x "'"term"'" willl launch a smart terminal'
+    echo '    M-x "'"term"'" will launch a smart terminal'
     echo '    C-x o will switch to the terminal buffer'
     echo '    C-c o will switch back out of the terminal buffer'
     echo ''

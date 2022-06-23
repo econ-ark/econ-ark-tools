@@ -30,16 +30,16 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 [[ -e /var/local/verbose ]] && set -x ; set -v 
 
 # # # # Use Debian Installer in noninteractive mode to prevent questions 
-# # export DEBCONF_DEBUG=.*
+export DEBCONF_DEBUG=5
 # # export DEBIAN_FRONTEND=noninteractive
 # # export DEBCONF_NONINTERACTIVE_SEEN=true
 
-# Install lightdm, xubuntu, and friends
-# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -y install lightdm
-apt -y remove gdm3
-apt -y purge gdm3
-echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
-apt -y install lightdm
+# # Install lightdm, xubuntu, and friends
+# # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -y install lightdm
+# apt -y remove gdm3
+# apt -y purge gdm3
+# echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
+# DEBCONF_FRONTEND=noninteractive apt -y install lightdm
 apt -y install xfce4
 apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
 apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
@@ -79,8 +79,8 @@ if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK ad
     sudo chmod a+x /root/.bash_aliases
 fi
 
-# Choose lightdm as display manager
-sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
+# # Choose lightdm as display manager
+# sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
 
 # # # Purge unneeded stuff
 # # sudo apt-get -y purge ubuntu-gnome-desktop

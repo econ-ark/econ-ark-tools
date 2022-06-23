@@ -225,6 +225,7 @@ d-i pkgsel/update-policy select unattended-upgrades
 d-i debian-installer/add-kernel-opts string verbose nosplash nolapic nomodeset efi=noruntime
 
 # Display manager
+d-i pkgsel/include string lightdm lightdm-gtk-greeter 
 d-i shared/default-x-display-manager                    select      lightdm
 
 # Finish
