@@ -1,1 +1,1 @@
-Purge_gdm3_things_one_by_one_and_check_if_any_are_remaining_before_start.sh
+Move_purges_to_right_before_xfce4_install
