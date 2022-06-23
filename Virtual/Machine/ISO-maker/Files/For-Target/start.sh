@@ -135,32 +135,6 @@ sudo apt -y purge gnome-session-bin
 sudo /var/local/check-dependencies.sh gdm3
 
 apt -y install --no-install-recommends xfce4
-apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
-apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
-#echo "set shared/default-x-display-manager lightdm" | debconf-communicate
-# Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
-# So just replace the default image with the one we want 
-
-
-# Desktop backdrop 
-sudo cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
-
-chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
-
-sudo mv /usr/share/xfce4/backdrops/xubuntu-wallpaper.png         /usr/share/xfce4/backdrops/xubuntu-wallpaper.png_$commit_date
-sudo ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
-
-# Document, in /var/local, where its content is used
-sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ-ARK-Logo-1536x768-target.jpg
-
-# Move but preserve the original versions
-sudo mv                /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$commit_date
-sudo cp /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
-## Do not start ubuntu at all
-[[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && sudo mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_$commit_date   
-
-sudo cp /var/local/xscreensaver /home/$myuser/.xscreensaver
-chown $myuser:$myuser /home/$myuser/.xscreensaver                      # session-name xubuntu
 
 ## Autostart a terminal
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
@@ -177,6 +151,9 @@ Terminal=false
 Hidden=false
 EOF
 
+chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
+
+
 # Allow interactive commands to be preseeded
 sudo apt -y install expect
 
@@ -186,9 +163,6 @@ sudo apt -y install tigervnc-scraping-server
 
 ## Execute as user to create files with correct ownership/permissions
 sudo -u $myuser /var/local/setup-tigervnc-scraping-server.sh
-
-sudo apt -y remove xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
-sudo apt -y remove xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
 
 # Anacron massively delays the first boot; this disbles it
 sudo touch /etc/cron.hourly/jobs.deny       
