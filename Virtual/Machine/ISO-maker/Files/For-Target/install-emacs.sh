@@ -50,4 +50,5 @@ sudo -i -u  $myuser emacs -batch -l     /home/$myuser/.emacs
 [[ -e /root/.emacs.d ]] && sudo rm -Rf /root/.emacs.d
 ln -s /home/$myuser/.emacs.d /root/.emacs.d
 
+sudo apt -y purge gnome-session-bin 
 # Finished with emacs

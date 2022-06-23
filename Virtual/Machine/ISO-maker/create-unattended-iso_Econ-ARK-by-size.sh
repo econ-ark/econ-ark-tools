@@ -428,7 +428,6 @@ late_command="mount --bind /dev /target/dev ;\
    mount --bind /run /target/run ;\
    [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
    chroot /target apt -y update ;\
-   chroot /target apt -y purge gnome-shell gnome-settings-daemon at-spi2-core libgdm1 gdm3 ;\
    chroot /target apt -y reinstall git ;\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
    [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
@@ -439,6 +438,7 @@ late_command="mount --bind /dev /target/dev ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
    chroot /target echo \$(echo $size > /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) ;\
    chroot /target /bin/bash /var/local/late_command_finish.sh > /target/var/local/late_command_finish.log ;\
+   chroot /target apt -y purge gnome-shell gnome-settings-daemon at-spi2-core libgdm1 gdm3 gnome-session-bin ;\
    chroot /target /var/local/start.sh "
 #  ;\
 
