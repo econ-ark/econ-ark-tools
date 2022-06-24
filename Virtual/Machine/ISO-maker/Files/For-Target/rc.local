@@ -2,14 +2,15 @@
 # rc.local is run as root on every boot, before any user login
 # https://askubuntu.com/questions/156771/run-a-script-only-at-the-very-first-boot
 
-set -x ; set -v
+# Conditionally trigger debugging output
+[[ -e /var/local/verbose ]] && set -x && set -v
 
 FLAG="/var/log/firstboot.log"
 if [ ! -f $FLAG ]; then # machine's first-ever boot
     # (or, signal to rerun as though first boot by deleting firstboot.log)
     
     # if previous runs have signaled completion of other steps, remove those signals
-    # Tee up redoing everything on reboot via "rm -f /var/log/firstboot.log" by deleting signals
+    # To rerun everything on reboot, "rm -f /var/log/firstboot.log"
     [[ -e /var/local/finished_software_install ]] && rm -f /var/local/finished_software_install
     [[ -e /home/econ-ark/.first_user_login ]]     && rm -f /home/econ-ark/.first_user_login*
     [[ -e /home/econ-ark/.second_user_login ]]    && rm -f /home/econ-ark/.second_user_login*
