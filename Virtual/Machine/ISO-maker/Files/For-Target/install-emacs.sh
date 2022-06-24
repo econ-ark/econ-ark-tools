@@ -23,8 +23,8 @@ sudo apt -y install emacs
 
 cat /var/local/dotemacs_root_and_regular_users /var/local/dotemacs_regular_users_only > /var/local/dotemacs
 
-sudo ln -s /var/local/dotemacs /home/$myuser/.emacs
-sudo ln -s /var/local/dotemacs_root_and_regular_users /root/.emacs
+[[ ! -e /home/$myuser/.emacs ]] && sudo ln -s /var/local/dotemacs /home/$myuser/.emacs
+[[ ! -e          root/.emacs ]] && sudo ln -s /var/local/dotemacs_root_and_regular_users /root/.emacs
 
 # Make it clear in /var/local, where its content is used
 [[ ! -e /var/local/dotemacs-home ]] && sudo ln -s /home/$myuser/.emacs /var/local/dotemacs-home
