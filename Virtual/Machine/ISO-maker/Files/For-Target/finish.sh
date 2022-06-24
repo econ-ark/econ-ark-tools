@@ -203,7 +203,7 @@ done
 
 # Play nice with Macs (in hopes of being able to monitor it)
 sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
-sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errors when apps are launched
+#sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errors when apps are launched
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/

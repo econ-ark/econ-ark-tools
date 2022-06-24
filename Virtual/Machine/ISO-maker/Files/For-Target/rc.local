@@ -18,7 +18,7 @@ if [ ! -f $FLAG ]; then # machine's first-ever boot
     touch "$FLAG"
 
     # if xfce is running, shut it down (allows replacing .Xauthority) 
-    [[ "$(ps -e | grep -E -i xfce)" != "" ]] && xfce-session-logout
+    [[ "$(ps -e | grep -E -i xfce4-session)" != "" ]] && xfce4-session-logout
 
     reboot
 else # Not the first boot, so we must already have run start.sh
@@ -31,7 +31,7 @@ else # Not the first boot, so we must already have run start.sh
 	# [[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN" # reset if MIN chosen
 	
 	# # Allow remaining stuff to be done in the background 
-	# (set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log  ) & 
+	(set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log  ) & 
 	
 	# create an empty 'signal' file so the "if" will fail after the first boot
 	touch "$FLAG2"

@@ -134,7 +134,7 @@ sudo apt -y purge libgdm1
 sudo apt -y purge gnome-session-bin
 sudo /var/local/check-dependencies.sh gdm3
 
-apt -y install --no-install-recommends xfce4
+apt -y install --no-install-recommends xfce4 xfce4-terminal xfce4-session
 
 ## Autostart a terminal
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
