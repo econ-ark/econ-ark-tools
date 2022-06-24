@@ -9,7 +9,7 @@
 #     local url=$1
 #     #    echo -n "    "
 #     wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
-#         sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
+    #         sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
 #     #    echo -ne "\b\b\b\b"
 #     #    echo " DONE"
 # }
@@ -20,17 +20,18 @@ set -x ; set -v
 apt -y install xubuntu-desktop   # Get required but not recommended stuff
 apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
 
-sudo mv /usr/share/xfce4/backdrops/xubuntu-wallpaper.png         /usr/share/xfce4/backdrops/xubuntu-wallpaper.png_$commit_date
+build_date="$(date +%Y%m%d%H%S)" 
+sudo mv /usr/share/xfce4/backdrops/xubuntu-wallpaper.png         /usr/share/xfce4/backdrops/xubuntu-wallpaper.png_$build_date
 sudo ln -s /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
 
 # Document, in /var/local, where its content is used
 sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png      /var/local/Econ-ARK-Logo-1536x768-target.jpg
 
 # Move but preserve the original versions
-sudo mv                /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$commit_date
+sudo mv                /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$build_date
 sudo cp /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf 
 ## Do not start ubuntu at all
-[[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && sudo mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_$commit_date   
+[[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && sudo mv       /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf               /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_$build_date   
 
 sudo cp /var/local/xscreensaver /home/$myuser/.xscreensaver
 chown $myuser:$myuser /home/$myuser/.xscreensaver                      # session-name xubuntu
@@ -89,7 +90,6 @@ EOF
 # mdadm is for managing RAID systems but can cause backup problems; disable
 sudo apt -y remove mdadm
 
-
 export DEBCONF_DEBUG=.*
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
@@ -118,25 +118,25 @@ fi
 
 # Enable public key authentication
 cd /var/local
-[[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_$commit_date
+[[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_$build_date
 sudo cp root/etc/ssh/sshd_config /etc/ssh/sshd_config
 
 # Autologin to the keyring too
 # wiki.archlinux.org/index.php/GNOME/Keyring
 if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
-    sudo cp /etc/pam.d/login /etc/pam.d/login_$commit_date
+    sudo cp /etc/pam.d/login /etc/pam.d/login_$build_date
     sudo sed -i '1 a\
     auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
 fi
 
 if ! grep -q gnome /etc/pam.d/common-session           ; then 
-    sudo cp /etc/pam.d/common-session /etc/pam.d/common-session_$commit_date
+    sudo cp /etc/pam.d/common-session /etc/pam.d/common-session_$build_date
     sudo sed -i '1 a\
     session optional pam_gnome_keyring.so autostart # Added by Econ-ARK ' /etc/pam.d/common-session
 fi
 
 if ! grep -q gnome /etc/pam.d/passwd           ; then # automatically log into the keyring too
-    sudo cp /etc/pam.d/passwd /etc/pam.d/passwd_$commit_date
+    sudo cp /etc/pam.d/passwd /etc/pam.d/passwd_$build_date
     sudo sed -i '1 a\
     password optional pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/passwd
 fi
@@ -147,8 +147,8 @@ if ! grep -s SSH_AUTH_SOCK /home/$myuser/.xinitrc >/dev/null; then
     # echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/$myuser/.bash_profile
 fi
 
-# Start the GUI
-service lightdm start 
+# Start the GUI if not already running
+[[ "$pgrep lightdm" != '' ]] && service lightdm start 
 
 # # If x0vncserver not running, run it
 # pgrep x0vncserver >/dev/null
@@ -222,7 +222,7 @@ cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 # chmod +x  /var/local/$refindFile.sh
 # chmod a+r /var/local/$refindFile-README.md
 #wget --quiet -O /var/local/zoom_amd64.deb $online/Files/ForTarget/zoom_amd64.deb 
-wget --quiet -O /var/local/zoom_amd64.deb https://zoom.us/client/latest/zoom_amd64.deb
+#wget --quiet -O /var/local/zoom_amd64.deb https://zoom.us/client/latest/zoom_amd64.deb
 
 
 # Allow vnc (will only start up after reading ~/.bash_aliases)
@@ -290,9 +290,11 @@ chown $myuser:$myuser "$bashadd"
 
 # # The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
 # mkdir -p /EFI/BOOT/
-cp /var/local/Disk/Labels/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
-cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
-echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
+if [[ -e /EFI/BOOT ]]; then
+    cp /var/local/Disk/Labels/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
+    cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
+    echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
+fi
 
 cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
