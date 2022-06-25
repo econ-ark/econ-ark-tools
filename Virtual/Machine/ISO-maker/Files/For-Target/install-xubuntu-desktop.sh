@@ -1,0 +1,32 @@
+#!/bin/bash
+
+echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
+sudoer=false
+sudo -v &> /dev/null && echo '... sudo privileges are available.' && sudoer=true
+[[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
+
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install xubuntu-desktop   # Get required but not recommended stuff
+apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
+
+build_date="$(date +%Y%m%d%H%S)" 
+sudo mv /usr/share/xfce4/backdrops/xubuntu-wallpaper.png         /usr/share/xfce4/backdrops/xubuntu-wallpaper.png_$build_date
+sudo ln -s /var/local/root/usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.png /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
+
+# Document, in /var/local, where its content is used
+sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png /var/local/root/usr/share/xfce4/backdrops
+
+# Move but preserve the original
+sudo mv                /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$build_date
+ln -s   /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+## Do not start ubuntu at all
+[[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && sudo mv     /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_$build_date   
+
+sudo apt -y remove xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
+sudo apt -y remove xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
+
+#echo "set shared/default-x-display-manager lightdm" | debconf-communicate
+# Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
+# So just replace the default image with the one we want 
+
+# # Desktop backdrop 
+# sudo cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
