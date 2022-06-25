@@ -58,7 +58,7 @@ sudo apt-get -y install bash-completion net-tools network-manager rpl curl
 
 # Prepare for emacs install
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
-sudo apt -y install gpg # Required to set up security for emacs package downloading 
+sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading 
 
 ./install-emacs.sh $myuser
 
@@ -134,7 +134,7 @@ sudo apt -y purge libgdm1
 sudo apt -y purge gnome-session-bin
 sudo /var/local/check-dependencies.sh gdm3
 
-apt -y install --no-install-recommends xfce4 xfce4-terminal xfce4-session
+apt -y install --no-install-recommends xfce4 xfce4-terminal xfce4-session xubuntu-desktop
 
 ## Autostart a terminal
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop

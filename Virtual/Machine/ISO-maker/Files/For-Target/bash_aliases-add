@@ -4,6 +4,8 @@
 # Get paths that everybody should have 
 [[ -e /etc/environment ]] && source /etc/environment
 
+eval "$(ssh-agent)"  # add SSH_AUTH_SOCK to keyring
+
 # Disable power management (prevent screen blank)
 [[ "$DISPLAY" != "" ]] && xset s off -dpms
 
@@ -75,7 +77,7 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
     monitor=""  
     while [[ "$monitor" == "" ]] ; do #
 	echo 'Waiting for monitor to come up ...'
-	monitor="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev 2&>1)"
+	monitor="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev 2>/dev/null)"
 	sleep 1
     done
 

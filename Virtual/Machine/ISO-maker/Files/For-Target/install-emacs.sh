@@ -16,7 +16,7 @@ myuser=$1
 sudo apt -y install emacs
 
 # Needs gpg for security to connect and download packages
-[[ -z "$(which gpg)" ]] && sudo apt -y install gpg
+[[ -z "$(which gpg)" ]] && sudo apt -y install gpg gnutls-bin
 
 [[ -e /home/$myuser/.emacs ]] && sudo rm -f /home/$myuser/.emacs
 [[ -e         /root/.emacs ]] && sudo rm -f         /root/.emacs

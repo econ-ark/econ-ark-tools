@@ -14,8 +14,8 @@
 #     #    echo " DONE"
 # }
 
-# Set up bash verbose debugging
-set -x ; set -v
+# Start verbose bash logging if signaled by presence of file
+[[ -e /var/local/verbose ]] && set -x && set -v
 
 # Populate About_This_Install directory with info specific to this run of the installer
 cd /var/local
