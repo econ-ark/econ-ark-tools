@@ -11,10 +11,10 @@ apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
 build_date="$(date +%Y%m%d%H%S)" 
 
 backdrops=usr/share/xfce4/backdrops
-xubuntu-wallpaper.png
+
 if [[ ! -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
-sudo mv /$backdrops/xubuntu-wallpaper.png         /$backdrops/xubuntu-wallpaper.png_$build_date
-sudo ln -s /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/xubuntu-wallpaper.png 
+    sudo mv /$backdrops/xubuntu-wallpaper.png         /$backdrops/xubuntu-wallpaper.png_$build_date
+    sudo ln -s /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/xubuntu-wallpaper.png 
 fi
 
 # Document, in /var/local, where its content is used
