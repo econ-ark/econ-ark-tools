@@ -9,13 +9,16 @@ DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 
 apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
 
 build_date="$(date +%Y%m%d%H%S)" 
-sudo mv /usr/share/xfce4/backdrops/xubuntu-wallpaper.png         /usr/share/xfce4/backdrops/xubuntu-wallpaper.png_$build_date
-sudo ln -s /var/local/root/usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.png /usr/share/xfce4/backdrops/xubuntu-wallpaper.png 
+
+backdrops=usr/share/xfce4/backdrops
+xubuntu-wallpaper.png
+if [[ ! -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
+sudo mv /$backdrops/xubuntu-wallpaper.png         /$backdrops/xubuntu-wallpaper.png_$build_date
+sudo ln -s /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/xubuntu-wallpaper.png 
+fi
 
 # Document, in /var/local, where its content is used
-sudo ln -s /usr/share/xfce4/backdrops/xubuntu-wallpaper.png /var/local/root/usr/share/xfce4/backdrops
-
-# Move but preserve the original
+## Move but preserve the original
 sudo mv                /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$build_date
 ln -s   /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 ## Do not start ubuntu at all
@@ -29,4 +32,4 @@ sudo apt -y remove xfce4-screensaver # Bug in screensaver causes system to becom
 # So just replace the default image with the one we want 
 
 # # Desktop backdrop 
-# sudo cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /usr/share/xfce4/backdrops
+# sudo cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /$backdrops
