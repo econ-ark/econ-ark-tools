@@ -11,8 +11,7 @@
 
 # Export stdout and stderr to a log file
 cd /var/local
-exec   > >(tee -ia start.log)
-exec  2> >(tee -ia start.log >& 2)
+exec  2>&1 >(tee -ia start.log)
 exec 19> start.log
 export BASH_XTRACEFD="19"
 
