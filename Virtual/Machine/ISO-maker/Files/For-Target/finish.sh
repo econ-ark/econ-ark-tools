@@ -20,7 +20,7 @@
 # Populate About_This_Install directory with info specific to this run of the installer
 cd /var/local
 
-./install-xubuntu-desktop.sh  # plus some utilities and backdrop
+# ./install-xubuntu-desktop.sh  # plus some utilities and backdrop
 
 commit_msg="$(cat ./About_This_Install/commit-msg.txt)"
 short_hash="$(cat ./About_This_Install/short.git-hash)"

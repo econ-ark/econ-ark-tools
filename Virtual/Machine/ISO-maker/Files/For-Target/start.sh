@@ -6,14 +6,18 @@
 #    service lightdm start
 # command completes
 
+# To redo the whole installation sequence (without having to redownload anything):
+# sudo bash -c '(rm -f /var/local/finished-software-install ; rm -f /var/log/firstboot.log ; rm -f /var/log/secondboot.log ; rm -f /home/econ-ark/.firstboot ; rm -f /home/econ-ark/.secondboot)' >/dev/null
+
 # Export stdout and stderr to a log file
 cd /var/local
 exec   > >(tee -ia start.log)
 exec  2> >(tee -ia start.log >& 2)
 exec 19> start.log
 export BASH_XTRACEFD="19"
-set -x
-set -v
+
+# Presence of 'verbose' triggers bash debugging mode
+[[ -e /var/local/verbose ]] && set -x && set -v 
 
 # Remove /var/local/finished-software-install to reinstall stuff installed here
 [[ -e /var/local/finished-software-install ]] && rm -f /var/local/finished-software-install
@@ -26,8 +30,6 @@ mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
 
 # Suspend hibernation (so that a swapfile instead of partition can be used)
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
-# Presence of 'verbose' triggers bash debugging mode
-[[ -e /var/local/verbose ]] && set -x ; set -v 
 
 # # # # Use Debian Installer in noninteractive mode to prevent questions 
 export DEBCONF_DEBUG=5
@@ -134,7 +136,9 @@ sudo apt -y purge libgdm1
 sudo apt -y purge gnome-session-bin
 sudo /var/local/check-dependencies.sh gdm3
 
-apt -y install --no-install-recommends xfce4 xfce4-terminal xfce4-session xubuntu-desktop
+apt -y install --no-install-recommends xfce4 xfce4-terminal xfce4-session
+
+/var/local/install-xubuntu-desktop.sh
 
 ## Autostart a terminal
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop

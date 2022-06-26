@@ -57,7 +57,7 @@ fi
 # Interactive login first happens after that boot, and launches this script
 # So .first_user_login and .second_user_login here are on second and third boots
 
-# If we've got a graphical display but the software hasn't finished installing
+# If this is the first login with the GUI
 if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
     [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox) "  && [[ "$vbox" != "" ]] && xset r off # Repeated keys does not work well on VirtualBox
 
@@ -73,70 +73,9 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
     # Copy-and-pasted from code that definitely works for the second boot
     # For some reason, it does not seem always to "stick" when done here, so repeated for second login
 
-    # Wait for monitor to be available
     monitor=""  
     while [[ "$monitor" == "" ]] ; do #
 	echo 'Waiting for monitor to come up ...'
-	monitor="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev 2>/dev/null)"
-	sleep 1
-    done
-
-#    [[ "$monitor" == "default" ]] && monitor=""
-    monitorPath="/backdrop/screen0/monitor$monitor/workspace0" # Get the property name of the monitor
-
-    # #    xfconf-query --channel xfce4-desktop --property "$monitorPath/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-    # #    xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style" --set 4 # Scaling
-
-    # Set background to black (rgba1 property, if it exists)
-    black="--type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0" 
-
-    # For some bizarre reason, can't use "$black" shell variable in the command, so spell it out
-#    xfconf-query --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 &> /dev/null
-#    if [[ $? != 0 ]]; then # the rgb property did not exist - so create it 
-#	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
-#    fi
-
-    # Turn off ALL the possible ways the screen might get locked -- user can undo this later
-    # xfce4-session property /shutdown/LockScreen is one of (far too many) ways to lock the screen
-    xfconf-query --channel xfce4-session --property /shutdown/LockScreen &> /dev/null # Querying its value gives an error if it does not exist
-    shutdownLockscreenCode="$?" # If it does NOT exist, the code will be NOT be zero
-    # If it DOES exist set it to zero
-    [[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false 
-
-    # Power manager is another way to lock 
-    xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)" # Not sure whether it's running now or not
-    xfce4powermanagerexistsCode="$?" # If zero, it is running -- so quit it (because it causes crash error if reboot happens while running)
-    [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
-    
-    # Properties can be set even if it is not running     
-    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/blank-on-ac --set 9999 # a lot of minutes pre-blank!
-    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/lock-screen-suspend-hibernate --set false &>/dev/null 
-    xfconf-query --channel xfce4-power-manager --property /xfce4-power-manager/dpms-enabled                  --set false &>/dev/null 
-
-    # Default xfwm4 compositor is extremely slow; disabling it speeds everything up a lot
-    xfwm4compositorstatus="$(xfconf-query --channel xfwm4 --property /general/use_compositing --list)"
-    xfwm4compositorstatusExists="$?"
-    [[ "$xfwm4compositorstatusExists" == "0" ]] && xfconf-query --channel xfwm4 --property /general/use_compositing --type 'bool' --set false
-    
-    # Screensaver is a THIRD way to lock the screen
-    LockScreenExists="$(xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false &>/dev/null)"
-    lockEnabled="$?" # If it does not exist, create it 
-    [[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
-
-    # Monitor installations occurring via the start.sh and finish.sh installation scripts
-    xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  &  # Watch
-
-    echo ''
-    echo 'WARNING: Machine will reboot whenever software install completes'
-    echo ''
-fi
-
-# Run this if first user login setup has finished and software install has finished but second interactive login has not occurred yet
-if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]] && [[ ! -e /home/econ-ark/.second_user_login ]]; then
-    touch /home/econ-ark/.second_user_login
-    # In case monitor config did not stick, redo it 
-    monitor=""  
-    while [[ "$monitor" == "" ]] ; do # 
     	monitor="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
     	sleep 1
     done
@@ -145,14 +84,14 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     xfconf-query --channel xfce4-desktop --property "$monitorPath/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
     xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style" --set 4 # Scaling
 
-    # Set background to black (rgba1 property, if it exists)
-    black="--type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0" 
+    # # Set background to black (rgba1 property, if it exists)
+    # black="--type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0" 
 
-    # For some bizarre reason, can't use "$black" shell variable in the command, so spell it out
-    xfconf-query --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 &> /dev/null
-    if [[ $? != 0 ]]; then # the rgb property did not exist - so create it 
-    	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
-    fi
+    # # For some bizarre reason, can't use "$black" shell variable in the command, so spell it out
+    # xfconf-query --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 &> /dev/null
+    # if [[ $? != 0 ]]; then # the rgb property did not exist - so create it 
+    # 	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+    # fi
 
     # Turn off ALL the possible ways the screen might get locked -- user can undo this later
     # xfce4-session property /shutdown/LockScreen is one of (far too many) ways to lock the screen
@@ -175,7 +114,30 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
     LockScreenExists="$(xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false &>/dev/null)"
     lockEnabled="$?" # If it does not exist, create it 
     [[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
-    emacs -batch -l     /home/econ-ark/.emacs  # Run in batch mode to setup everything
+    
+    shutdownLockscreenCode="$?" # If it does NOT exist, the code will be NOT be zero
+    # If it DOES exist set it to zero
+    [[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false 
+
+    # Default xfwm4 compositor is extremely slow; disabling it speeds everything up a lot
+    xfwm4compositorstatus="$(xfconf-query --channel xfwm4 --property /general/use_compositing --list)"
+    xfwm4compositorstatusExists="$?"
+    [[ "$xfwm4compositorstatusExists" == "0" ]] && xfconf-query --channel xfwm4 --property /general/use_compositing --type 'bool' --set false
+    
+    # Monitor installations occurring via the start.sh and finish.sh installation scripts
+    xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  &  # Watch
+
+    echo ''
+    echo 'WARNING: Machine will reboot whenever software install completes'
+    echo ''
+fi
+
+# Run this if first user login setup has finished and software install has finished but second interactive login has not occurred yet
+if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]] && [[ ! -e /home/econ-ark/.second_user_login ]]; then
+    touch /home/econ-ark/.second_user_login
+
+    # view "About This Machine"
+
     emacs --name "Emacs Editor" --geometry 80x28-100+0 /var/local/XUBUNTARK.md &> /dev/null  &
 
     touch /home/econ-ark/.second_user_login_finished
