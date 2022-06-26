@@ -18,12 +18,13 @@ if [ ! -f $FLAG ]; then # machine's first-ever boot
     # create an empty 'signal' file so the "if" will fail after the first boot
     touch "$FLAG"
 
-    sudo /var/local/start-with-log.sh
+    sudo /bin/bash /etc/rc.local
+    # sudo /var/local/start-with-log.sh
 
-    # if xfce is running, shut it down (allows replacing .Xauthority) 
-    [[ "$(ps -e | grep -E -i xfce4-session)" != "" ]] && xfce4-session-logout
+    # # if xfce is running, shut it down (allows replacing .Xauthority) 
+    # [[ "$(ps -e | grep -E -i xfce4-session)" != "" ]] && xfce4-session-logout
 
-    sudo reboot
+    # sudo reboot
 else # Not the first boot, so we must already have run start.sh
     FLAG2="/var/log/secondboot.log" 
     if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet

@@ -1,5 +1,6 @@
 #!/bin/bash
 
+[[ -e /var/local/verbose ]] && set -x && set -v 
 [[ ! -e /etc/rc.local ]] && touch /etc/rc.local 
 mv /etc/rc.local /etc/rc.local_orig 
 cp /var/local/rc.local /etc/rc.local 

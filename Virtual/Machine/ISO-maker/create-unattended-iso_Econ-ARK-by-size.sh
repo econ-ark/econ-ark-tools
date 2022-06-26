@@ -437,9 +437,13 @@ late_command="mount --bind /dev /target/dev ;\
    chroot /target rm -f /var/local/Size-To-Make-Is-* ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
    chroot /target echo \$(echo $size > /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) ;\
-   chroot /target /bin/bash -c '/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log' ;\
+   chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" ;\
    chroot /target /var/local/start-with-log.sh "
+
+
+#"'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'"
 #  ;\
+#   chroot /target /bin/bash -c '/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log' ;\
 
  #   touch /target/etc/rc.local ;\
  #   mv /target/etc/rc.local /target/etc/rc.local_orig ;\
@@ -511,8 +515,10 @@ echo '#!/bin/sh' > $iso_make/iso_new/preseed/late_command_busybox.sh
 echo '' >> $iso_make/iso_new/preseed/late_command_busybox.sh
 # echo "pause after headers"
 # read answer
-echo "$late_command_curr_purged" | tr ';' \\n | sed 's|^ ||g' | grep -v late_command >> $iso_make/iso_new/preseed/late_command_busybox.sh
-echo "$late_command_curr_purged" | tr ';' \\n | sed 's|^ ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command | grep -v 'bind' | sed 's|/target/|/|g' >> $ForTarget/late_command.sh
+echo "$late_command_curr_purged" | tr ';' \\n | sed 's|^ ||g'  >> $iso_make/iso_new/preseed/late_command_busybox.sh
+echo "$late_command_curr_purged" | tr ';' \\n | sed 's|^ ||g' | sed 's|chroot /target ||g' | grep -v 'bind' | sed 's|/target/|/|g' >> $ForTarget/late_command.sh
+#echo "$late_command_curr_purged" | tr ';' \\n | sed 's|^ ||g' | grep -v late_command >> $iso_make/iso_new/preseed/late_command_busybox.sh
+#echo "$late_command_curr_purged" | tr ';' \\n | sed 's|^ ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command | grep -v 'bind' | sed 's|/target/|/|g' >> $ForTarget/late_command.sh
 sudo chmod a+x $ForTarget/late_command.sh
 sudo chmod a+x $iso_make/iso_new/preseed/late_command_busybox.sh
 
