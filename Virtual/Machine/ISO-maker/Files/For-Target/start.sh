@@ -70,6 +70,8 @@ sudo apt-get -y install firmware-b43-installer
 # Get some basic immediately useful tools 
 sudo apt-get -y install bash-completion net-tools network-manager rpl curl
 
+# Now install own stuff
+cd /var/local
 # GitHub command line tools
 ./install-gh-cli-tools.sh
 
