@@ -9,12 +9,12 @@ build_date="$(</var/local/build_date.txt)"
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
 apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
 
-# backdrops=usr/share/xfce4/backdrops
+backdrops=usr/share/xfce4/backdrops
 
-# if [[ ! -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
-#     sudo mv /$backdrops/xubuntu-wallpaper.png         "/$backdrops/xubuntu-wallpaper.png_$build_date"
-#     sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/xubuntu-wallpaper.png 
-# fi
+if [[ ! -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
+    sudo mv /$backdrops/xubuntu-wallpaper.png         "/$backdrops/xubuntu-wallpaper.png_$build_date"
+    sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/xubuntu-wallpaper.png 
+fi
 
 # Document, in /var/local, where its content is used
 ## Move but preserve the original
