@@ -1,1 +1,1 @@
-Update_gitignore,_explicitly_install_problem_linux_pkgs
+Move_xubuntu-core_install_to_preseed_or_cloud-init
