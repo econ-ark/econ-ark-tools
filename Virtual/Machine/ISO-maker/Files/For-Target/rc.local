@@ -65,6 +65,8 @@ else # Not the first boot, so we must already have run start.sh
 	# xdg-settings set default-web-browser google-chrome.desktop
 	# xdg-open https://econ-ark.org
 
+    reboot
+
     fi # End second-boot
 fi
 
