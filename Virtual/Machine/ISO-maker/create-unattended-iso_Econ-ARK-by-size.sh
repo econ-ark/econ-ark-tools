@@ -438,7 +438,7 @@ late_command="mount --bind /dev /target/dev ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
    chroot /target echo \$(echo $size > /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) ;\
    chroot /target /bin/bash /var/local/late_command_finish.sh > /var/local/late_command_finish.log ;\
-   chroot /target /var/local/start.sh "
+   chroot /target /var/local/start-with-log.sh "
 #  ;\
 
  #   touch /target/etc/rc.local ;\

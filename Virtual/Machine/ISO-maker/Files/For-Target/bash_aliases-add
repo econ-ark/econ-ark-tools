@@ -125,7 +125,7 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
     [[ "$xfwm4compositorstatusExists" == "0" ]] && xfconf-query --channel xfwm4 --property /general/use_compositing --type 'bool' --set false
     
     # Monitor installations occurring via the start.sh and finish.sh installation scripts
-    xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail -F /var/local/start-and-finish.log'"  &  # Watch
+    xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail --follow /var/local/start-and-finish.log'"  &  # Watch
 
     echo ''
     echo 'WARNING: Machine will reboot whenever software install completes'

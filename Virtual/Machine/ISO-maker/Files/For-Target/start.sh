@@ -9,17 +9,30 @@
 # To redo the whole installation sequence (without having to redownload anything):
 # sudo bash -c '(rm -f /var/local/finished-software-install ; rm -f /var/log/firstboot.log ; rm -f /var/log/secondboot.log ; rm -f /home/econ-ark/.firstboot ; rm -f /home/econ-ark/.secondboot)' >/dev/null
 
-# Export stdout and stderr to a log file
-cd /var/local
-exec  2>&1 >(tee -ia start.log)
-exec 19> start.log
-export BASH_XTRACEFD="19"
 
-build_date="$(date +%Y%m%d%H%S)"
-echo "$build_date" > /var/local/build_date.txt
+# # Export stdout and stderr to a log file;
+# # should be invoked after turning off buffering: set stdbuf -i0 -o0 -e0 /var/local/start.sh
+# cd /var/local
+# # stdbuf -i0 -o0 -e0 exec   > >(tee -ia start.log)
+# # stdbuf -i0 -o0 -e0 exec  2> >(tee -ia start.log >&2)
+# # exec 19> start.log
+# # export BASH_XTRACEFD="19"
+
+# set -x
+# set -v
+
+# echo 'before bad command'
+# junk .
+
+# echo 'before good command'
+# ls | head -1
+# exit
 
 # Presence of 'verbose' triggers bash debugging mode
 [[ -e /var/local/verbose ]] && set -x && set -v 
+
+build_date="$(date +%Y%m%d%H%S)"
+echo "$build_date" > /var/local/build_date.txt
 
 # Remove /var/local/finished-software-install to reinstall stuff installed here
 [[ -e /var/local/finished-software-install ]] && rm -f /var/local/finished-software-install
