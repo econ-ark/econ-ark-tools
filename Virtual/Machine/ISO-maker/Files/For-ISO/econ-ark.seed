@@ -235,7 +235,7 @@ d-i pkgsel/include string lightdm lightdm-gtk-greeter xfce4
 d-i finish-install/keep-consoles                            boolean     true   
 ## Comment all remaining lines to allow debugging by choosing to drop to shell at last moment before reboot
 # Avoid useless message about install being complete
-#d-i finish-install/reboot_in_progress                       note
+d-i finish-install/reboot_in_progress                       note
  # Eject virtual install ISO
 d-i cdrom-detect/eject                                      boolean     true
 # # # Halt just suspends 
