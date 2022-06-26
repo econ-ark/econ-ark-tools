@@ -18,63 +18,62 @@ if [ ! -f $FLAG ]; then # machine's first-ever boot
     # create an empty 'signal' file so the "if" will fail after the first boot
     touch "$FLAG"
 
-    exit
-    # sudo /bin/bash /etc/rc.local
-    # sudo /var/local/start-with-log.sh
-
-    # # if xfce is running, shut it down (allows replacing .Xauthority) 
-    # [[ "$(ps -e | grep -E -i xfce4-session)" != "" ]] && xfce4-session-logout
-
-    # sudo reboot
-else # Not the first boot, so we must already have run start.sh
-    FLAG2="/var/log/secondboot.log" 
-    if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
-	# Change the hostname to the point of origin of this machine
-	# DATE="$(stat -c %z /proc)"
-	# # Pick which size is being made; MAX is default
-	# size="MAX"
-	# [[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN" # reset if MIN chosen
-	
-	# # Allow remaining stuff to be done in the background 
-	(set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log  ) & 
-	
-	# create an empty 'signal' file so the "if" will fail after the first boot
-	touch "$FLAG2"
-
-	# Restore cron jobs so they will run in background on next boot
-	# (They were disabled in start.sh because they take forever and delay the first boot inordinately)
-	[[ -e /etc/cron.hourly/jobs.deny ]] && sudo rm /etc/cron.hourly/jobs.deny
-
-        # # On some systems, xfce4-power-manager causes a crash if you don't quit it before reboot 
-	# xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)"
-	# xfce4powermanagerexistsCode="$?"
-	# [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
-	
-	# # Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
-	# magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
-	# sudo xauth -f /root/.Xauthority add $hostdate/unix:0 . "$magic"
-	# # Merge so that either the old or the new hostname should work
-	# sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
-	# sudo cp /root/.Xauthority /home/econ-ark/.Xauthority
-	# # Give them the required permissions
-	# sudo chmod a-rwx /root/.Xauthority
-	# sudo chmod u+rw  /root/.Xauthority
-	# # askubuntu.com/questions/253376/lightdm-failed-during-authentication
-	# # Says permissions should be 664 (or maybe 666)
-	# sudo chown econ-ark:econ-ark /home/econ-ark/.Xauthority
-	# sudo chmod 664               /home/econ-ark/.Xauthority
-	# xdg-settings set default-web-browser google-chrome.desktop
-	# xdg-open https://econ-ark.org
-
-	waitsecs=20
-	echo ''; echo 'waiting '$waitsecs' seconds before reboot'
-
-	sleep 20
-
-	sudo reboot
-
-    fi # End second-boot
 fi
+# sudo /bin/bash /etc/rc.local
+# sudo /var/local/start-with-log.sh
+
+# # if xfce is running, shut it down (allows replacing .Xauthority) 
+# [[ "$(ps -e | grep -E -i xfce4-session)" != "" ]] && xfce4-session-logout
+
+# sudo reboot
+FLAG2="/var/log/secondboot.log" 
+
+if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
+    # Change the hostname to the point of origin of this machine
+    # DATE="$(stat -c %z /proc)"
+    # # Pick which size is being made; MAX is default
+    # size="MAX"
+    # [[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN" # reset if MIN chosen
+    
+    # # Allow remaining stuff to be done in the background 
+    (set -x ; set -v ; /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log  ) & 
+    
+    # create an empty 'signal' file so the "if" will fail after the first boot
+    touch "$FLAG2"
+
+    # Restore cron jobs so they will run in background on next boot
+    # (They were disabled in start.sh because they take forever and delay the first boot inordinately)
+    [[ -e /etc/cron.hourly/jobs.deny ]] && sudo rm /etc/cron.hourly/jobs.deny
+
+    # # On some systems, xfce4-power-manager causes a crash if you don't quit it before reboot 
+    # xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)"
+    # xfce4powermanagerexistsCode="$?"
+    # [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
+    
+    # # Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
+    # magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
+    # sudo xauth -f /root/.Xauthority add $hostdate/unix:0 . "$magic"
+    # # Merge so that either the old or the new hostname should work
+    # sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
+    # sudo cp /root/.Xauthority /home/econ-ark/.Xauthority
+    # # Give them the required permissions
+    # sudo chmod a-rwx /root/.Xauthority
+    # sudo chmod u+rw  /root/.Xauthority
+    # # askubuntu.com/questions/253376/lightdm-failed-during-authentication
+    # # Says permissions should be 664 (or maybe 666)
+    # sudo chown econ-ark:econ-ark /home/econ-ark/.Xauthority
+    # sudo chmod 664               /home/econ-ark/.Xauthority
+    # xdg-settings set default-web-browser google-chrome.desktop
+    # xdg-open https://econ-ark.org
+
+    waitsecs=20
+    echo ''; echo 'waiting '$waitsecs' seconds before reboot'
+
+    sleep 20
+
+    sudo reboot
+
+fi # End second-boot
 
 # Run these at the beginning of EVERY boot from the very first one
 sudo rm -f /var/crash/*blue* # Bluetooth crashes frequently and uselessly

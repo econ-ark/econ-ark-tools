@@ -75,7 +75,7 @@ EOF
 diff /var/local/root/etc/ssh/sshd_config /etc/sshd_config > /dev/null
 # ... then it's because this is the first time we're running the script
 # ... so install the openssh-server
-[[ "$?" != 0 ]] && sudo apt -y install openssh-server
+#[[ "$?" != 0 ]] && sudo apt -y install openssh-server
 
 
 # Create a public key for security purposes
