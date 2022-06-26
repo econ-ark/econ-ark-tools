@@ -2,13 +2,12 @@
 
 echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
 sudoer=false
-sudo -v &> /dev/null && echo '... sudo privileges are available.' && sudoer=true
+sudo -v &> /dev/null && echo '... and sudo privileges are available.' && sudoer=true
 [[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
 
+build_date="$(</var/local/build_date.txt)"
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
 apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
-
-build_date="$(date +%Y%m%d%H%S)" 
 
 backdrops=usr/share/xfce4/backdrops
 

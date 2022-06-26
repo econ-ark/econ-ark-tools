@@ -15,6 +15,9 @@ exec  2>&1 >(tee -ia start.log)
 exec 19> start.log
 export BASH_XTRACEFD="19"
 
+build_date="$(date +%Y%m%d%H%S)"
+echo "$build_date" > /var/local/build_date.txt
+
 # Presence of 'verbose' triggers bash debugging mode
 [[ -e /var/local/verbose ]] && set -x && set -v 
 
@@ -121,7 +124,8 @@ sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
 sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/$myuser
 
-[[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$commit_date
+build_date=
+[[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
 sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
 
 # Create directory designating things to autostart 
