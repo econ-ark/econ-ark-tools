@@ -18,7 +18,8 @@ if [ ! -f $FLAG ]; then # machine's first-ever boot
     # create an empty 'signal' file so the "if" will fail after the first boot
     touch "$FLAG"
 
-    sudo /bin/bash /etc/rc.local
+    exit
+    # sudo /bin/bash /etc/rc.local
     # sudo /var/local/start-with-log.sh
 
     # # if xfce is running, shut it down (allows replacing .Xauthority) 
@@ -65,7 +66,12 @@ else # Not the first boot, so we must already have run start.sh
 	# xdg-settings set default-web-browser google-chrome.desktop
 	# xdg-open https://econ-ark.org
 
-    reboot
+	waitsecs=20
+	echo ''; echo 'waiting '$waitsecs' seconds before reboot'
+
+	sleep 20
+
+	sudo reboot
 
     fi # End second-boot
 fi

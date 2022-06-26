@@ -13,7 +13,7 @@ sudo -v &> /dev/null && echo '... sudo privileges are available.' && sudoer=true
 myuser=$1
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 
-sudo apt -y install emacs
+sudo apt -y install --no-install-recommends emacs
 
 # Needs gpg for security to connect and download packages
 [[ -z "$(which gpg)" ]] && sudo apt -y install gpg gnutls-bin

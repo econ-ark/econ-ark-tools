@@ -1,1 +1,1 @@
-move_installer-xubuntu_from_start_to_finish
+Update_gitignore,_explicitly_install_problem_linux_pkgs
