@@ -12,7 +12,7 @@ DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends alsa-base
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends xrdp
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends xubuntu-core   # Get required but not recommended stuff
-apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
 
 backdrops=usr/share/xfce4/backdrops
 
