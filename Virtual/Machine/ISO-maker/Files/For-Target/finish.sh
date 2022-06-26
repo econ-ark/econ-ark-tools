@@ -57,8 +57,8 @@ directory.
 EOF
 
 
-# mdadm is for managing RAID systems but can cause backup problems; disable
-sudo apt -y remove mdadm
+# # mdadm is for managing RAID systems but can cause backup problems; disable
+# sudo apt -y remove mdadm
 
 # export DEBCONF_DEBUG=.*
 # export DEBIAN_FRONTEND=noninteractive
@@ -176,10 +176,10 @@ sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-sca
 #sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errors when apps are launched
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
-mkdir -p /etc/avahi/
+# mkdir -p /etc/avahi/
 # # wget --quiet -O  /etc/avahi/ $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
 
-cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
+# cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
 # Enable ssh over avahi
 cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
