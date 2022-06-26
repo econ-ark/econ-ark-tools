@@ -156,7 +156,7 @@ sudo /var/local/check-dependencies.sh gdm3
 
 apt -y install --no-install-recommends xfce4 xfce4-terminal xfce4-session
 
-/var/local/install-xubuntu-desktop.sh
+# /var/local/install-xubuntu-desktop.sh
 
 ## Autostart a terminal
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
