@@ -60,9 +60,9 @@ EOF
 # mdadm is for managing RAID systems but can cause backup problems; disable
 sudo apt -y remove mdadm
 
-export DEBCONF_DEBUG=.*
-export DEBIAN_FRONTEND=noninteractive
-export DEBCONF_NONINTERACTIVE_SEEN=true
+# export DEBCONF_DEBUG=.*
+# export DEBIAN_FRONTEND=noninteractive
+# export DEBCONF_NONINTERACTIVE_SEEN=true
 
 # # # The cups service sometimes gets stuck; stop it before that happens
 # # sudo systemctl stop    cups-browsed.service 
@@ -298,7 +298,7 @@ cd /var/local
 
 # Install Chrome browser 
 wget --quiet -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt install /var/local/google-chrome-stable_current_amd64.deb
+sudo apt -y install /var/local/google-chrome-stable_current_amd64.deb
 sudo -u econ-ark xdg-settings set default-web-browser google-chrome.desktop
 xdg-settings set default-web-browser google-chrome.desktop
 
