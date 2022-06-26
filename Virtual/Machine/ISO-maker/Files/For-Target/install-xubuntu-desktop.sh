@@ -6,7 +6,12 @@ sudo -v &> /dev/null && echo '... and sudo privileges are available.' && sudoer=
 [[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
 
 build_date="$(</var/local/build_date.txt)"
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends linux-sound-base
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends printer-driver-pnm2ppa
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends ssl-cert
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends alsa-base
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends xrdp
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 apt -y install --no-install-recommends xubuntu-core   # Get required but not recommended stuff
 apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
 
 backdrops=usr/share/xfce4/backdrops
