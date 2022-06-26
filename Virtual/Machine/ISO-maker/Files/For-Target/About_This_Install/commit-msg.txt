@@ -1,1 +1,1 @@
-Restore_start.sh_to_end_of_late_command_finish
+move_installer-xubuntu_from_start_to_finish
