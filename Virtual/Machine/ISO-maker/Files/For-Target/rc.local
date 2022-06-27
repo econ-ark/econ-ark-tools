@@ -14,6 +14,7 @@ if [ ! -f $FLAG ]; then # machine's first-ever boot
     [[ -e /var/local/finished_software_install ]] && rm -f /var/local/finished_software_install
     [[ -e /home/econ-ark/.first_user_login ]]     && rm -f /home/econ-ark/.first_user_login*
     [[ -e /home/econ-ark/.second_user_login ]]    && rm -f /home/econ-ark/.second_user_login*
+    [[ -e /var/log/secondboot.log ]]    && rm -f /var/log/secondboot.log
     
     # create an empty 'signal' file so the "if" will fail after the first boot
     touch "$FLAG"
