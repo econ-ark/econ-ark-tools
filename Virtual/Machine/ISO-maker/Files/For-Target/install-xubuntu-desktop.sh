@@ -15,6 +15,8 @@ build_date="$(</var/local/build_date.txt)"
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xubuntu-desktop   # Get required but not recommended stuff
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends apt -y install xfce4-goodies xorg x11-xserver-utils xrdp xfce4-settings
 
+apt -y install tasksel 
+DEBIAN_FRONTEND=noninteractive sudo tasksel install xubuntu-core
 backdrops=usr/share/xfce4/backdrops
 
 if [[ ! -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config

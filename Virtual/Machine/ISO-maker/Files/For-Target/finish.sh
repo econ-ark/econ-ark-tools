@@ -18,6 +18,9 @@
 [[ -e /var/local/verbose ]] && set -x && set -v
 
 # Populate About_This_Install directory with info specific to this run of the installer
+myuser="econ-ark"
+mypass="kra-noce"
+
 cd /var/local
 
 ./install-xubuntu-desktop.sh  # plus some utilities and backdrop
@@ -67,11 +70,11 @@ EOF
 # Manage software like dbus - seems to freeze finish.sh logging, so disabled
 # sudo apt -y install software-properties-common
 
-/var/local/install-ssh.sh econ-ark
-/var/local/config-keyring.sh econ-ark
+/var/local/install-ssh.sh "$myuser"
+/var/local/config-keyring.sh "$myuser"
 
 # Start the GUI if not already running
-[[ "$pgrep lightdm" != '' ]] && service lightdm start 
+[[ "$(pgrep lightdm)" == '' ]] && service lightdm start 
 
 # Packages present in "live" but not in "legacy" version of server
 # https://ubuntuforums.org/showthread.php?t=2443047
@@ -83,20 +86,17 @@ sudo apt -y install meld
 # More useful default tools 
 sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel ca-certificates gnome-disk-utility 
 
-/var/local/
+
 # Make a home for econ-ark in /usr/local/share/data and link to it from home directory
-mkdir -p /home/econ-ark/GitHub
+mkdir -p /home/$myuser/GitHub
 mkdir -p          /root/GitHub
 
-# Get to econ-ark via ~/econ-ark whether you are root or econ-ark
-ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
-ln -s /usr/local/share/data/GitHub/econ-ark          /root/GitHub/econ-ark
-chown -Rf econ-ark:econ-ark /home/econ-ark/GitHub/econ-ark
-chown -Rf econ-ark:econ-ark /home/econ-ark/GitHub/econ-ark/.?*
-chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
-
-myuser="econ-ark"
-mypass="kra-noce"
+# Get to $myuser via ~/econ-ark whether you are root or econ-ark
+ln -s /usr/local/share/data/GitHub/$myuser /home/$myuser/GitHub/econ-ark
+ln -s /usr/local/share/data/GitHub/$myuser          /root/GitHub/econ-ark
+chown -Rf $myuser:$myuser /home/$myuser/GitHub/$myuser
+chown -Rf $myuser:$myuser /home/$myuser/GitHub/$myuser/.?*
+chown -Rf $myuser:$myuser /usr/local/share/data/GitHub/$myuser # Make it be owned by $myuser user 
 
 # branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
 # branch_name="${branch_name#refs/heads/}"
@@ -243,7 +243,7 @@ cd /var/local
 # Install Chrome browser 
 wget --quiet -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt -y install /var/local/google-chrome-stable_current_amd64.deb
-sudo -u econ-ark xdg-settings set default-web-browser google-chrome.desktop
+sudo -u $myuser xdg-settings set default-web-browser google-chrome.desktop
 xdg-settings set default-web-browser google-chrome.desktop
 
 # Make sure that everything in the home user's path is owned by home user 
@@ -342,4 +342,4 @@ sudo systemctl enable cups-browsed.service
 
 tail_monitor="$(pgrep tail)" && [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
 
-reboot
+sudo reboot
