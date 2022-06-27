@@ -44,10 +44,6 @@ you should be able to reproduce the installer with:
     git checkout $short_hash
     cd Virtual/Machine/ISO-maker ; ./create-unattended-iso_Econ-ARK-by-size.sh [ MIN | MAX ]
 
-or, if you want to make and post both MAX and MIN ISO's to Google Drive:
-
-    ./make-and-send-both.sh
-
 A copy of the ISO installer that generated this machine should be in the
 
     /installers
@@ -71,63 +67,11 @@ EOF
 # Manage software like dbus - seems to freeze finish.sh logging, so disabled
 # sudo apt -y install software-properties-common
 
-# If our sshd_conf is different from one in /etc/sshd_config ...
-diff /var/local/root/etc/ssh/sshd_config /etc/sshd_config > /dev/null
-# ... then it's because this is the first time we're running the script
-# ... so install the openssh-server
-#[[ "$?" != 0 ]] && sudo apt -y install openssh-server
-
-
-# Create a public key for security purposes
-if [[ ! -e /home/$myuser/.ssh ]]; then
-    mkdir -p /home/$myuser/.ssh
-    chown $myuser:$myuser /home/$myuser/.ssh
-    chmod 700 /home/$myuser/.ssh
-    sudo -u $myuser ssh-keygen -t rsa -b 4096 -q -N "" -C $myuser@XUBUNTU -f /home/$myuser/.ssh/id_rsa
-fi    
-
-# Enable public key authentication
-cd /var/local
-[[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_$build_date
-sudo cp root/etc/ssh/sshd_config /etc/ssh/sshd_config
-
-# Autologin to the keyring too
-# wiki.archlinux.org/index.php/GNOME/Keyring
-if ! grep -q gnome /etc/pam.d/login           ; then # automatically log into the keyring too
-    sudo cp /etc/pam.d/login /etc/pam.d/login_$build_date
-    sudo sed -i '1 a\
-    auth    optional      pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/login
-fi
-
-if ! grep -q gnome /etc/pam.d/common-session           ; then 
-    sudo cp /etc/pam.d/common-session /etc/pam.d/common-session_$build_date
-    sudo sed -i '1 a\
-    session optional pam_gnome_keyring.so autostart # Added by Econ-ARK ' /etc/pam.d/common-session
-fi
-
-if ! grep -q gnome /etc/pam.d/passwd           ; then # automatically log into the keyring too
-    sudo cp /etc/pam.d/passwd /etc/pam.d/passwd_$build_date
-    sudo sed -i '1 a\
-    password optional pam_gnome_keyring.so # Added by Econ-ARK ' /etc/pam.d/passwd
-fi
-
-# Start the keyring on boot
-if ! grep -s SSH_AUTH_SOCK /home/$myuser/.xinitrc >/dev/null; then
-    echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ssh) ; export SSH_AUTH_SOCK' >> /home/$myuser/.xinitrc ; sudo chown $myuser:$myuser /home/$myuser/.xinitrc ; sudo chmod a+x /home/$myuser/.xinitrc
-    # echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/$myuser/.bash_profile
-fi
+/var/local/install-ssh.sh econ-ark
+/var/local/config-keyring.sh econ-ark
 
 # Start the GUI if not already running
 [[ "$pgrep lightdm" != '' ]] && service lightdm start 
-
-# # If x0vncserver not running, run it
-# pgrep x0vncserver >/dev/null
-# if [[ $? -eq 1 ]]; then # no such process exists
-#     # start it
-#     sudo -u $myuser xfce4-terminal --display :0 --minimize --execute x0vncserver -display :0.0 -PasswordFile=/home/$myuser/.vnc/passwd &> /dev/null &
-#     sleep 2
-#     sudo -u $myuser xfce4-terminal --display :0 --execute tail --follow /var/local/start-and-finish.log 2>/dev/null &
-# fi
 
 # Packages present in "live" but not in "legacy" version of server
 # https://ubuntuforums.org/showthread.php?t=2443047
