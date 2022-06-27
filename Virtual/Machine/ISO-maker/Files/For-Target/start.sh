@@ -154,7 +154,7 @@ sudo apt -y purge libgdm1
 sudo apt -y purge gnome-session-bin
 sudo /var/local/check-dependencies.sh gdm3
 
-apt -y install --no-install-recommends xfce4 xfce4-terminal xfce4-session
+apt -y install --no-install-recommends xfce4-terminal 
 
 # /var/local/install-xubuntu-desktop.sh
 
@@ -199,3 +199,5 @@ sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local
 
 #sudo apt -y remove at-spi2-core      # Accessibility tools cause lightdm greeter error; remove 
 sudo rm -f /var/crash/grub-pc.0.crash
+
+sudo reboot

@@ -196,7 +196,7 @@ d-i mirror/udeb/components multiselect main, restricted, universe, multiverse
 
 # Selects, but does not install, xfce
 # tasksel tasksel/desktop                                     multiselect xfce 
-tasksel tasksel/first multiselect xubuntu-core
+tasksel tasksel/first multiselect xubuntu-desktop
 d-i pkgsel/include/install-recommends boolean false
 d-i pkgsel/include string openssh-server
 

@@ -37,7 +37,7 @@ if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
     # [[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN" # reset if MIN chosen
     
     # # Allow remaining stuff to be done in the background 
-    /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log 
+    (/var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log &)
     
     # Create an empty 'signal' file so the "if" will fail after the first boot
     touch "$FLAG2"
@@ -66,13 +66,6 @@ if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
     # sudo chmod 664               /home/econ-ark/.Xauthority
     # xdg-settings set default-web-browser google-chrome.desktop
     # xdg-open https://econ-ark.org
-
-    waitsecs=20
-    echo ''; echo 'waiting '$waitsecs' seconds before reboot'
-
-    sleep 20
-
-    sudo reboot
 
 fi # End second-boot
 
