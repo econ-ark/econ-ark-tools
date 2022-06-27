@@ -37,8 +37,16 @@ if [[ -e /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && [[ -s /usr/share
     touch /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
 fi
 
-sudo apt -y remove xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
-sudo apt -y remove xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
+sudo apt -y --autoremove purge xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
+sudo apt -y --autoremove purge xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
+
+# Choose lightdm as display manager
+# Without noninteractive mode allows installation without asking interactive questions
+sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager
+
+DEBCONF_DEBUG=.*
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure lightdm
+echo set shared/default-x-display-manager lightdm | debconf-communicate
 
 #echo "set shared/default-x-display-manager lightdm" | debconf-communicate
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to

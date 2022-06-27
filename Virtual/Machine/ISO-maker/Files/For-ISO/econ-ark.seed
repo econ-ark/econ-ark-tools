@@ -191,14 +191,16 @@ d-i mirror/udeb/components multiselect main, restricted, universe, multiverse
 
 # standard is recommended for all installs
 
-# Install all server tools
-# tasksel tasksel/first multiselect server
+# Install things that should be present before late_command
+# These correspond to the preamble in cloud-init config files
 
-# Selects, but does not install, xfce
-# tasksel tasksel/desktop                                     multiselect xfce 
-tasksel tasksel/first multiselect xubuntu-desktop
+## First, default to not installing recommended stuff
 d-i pkgsel/include/install-recommends boolean false
-d-i pkgsel/include string openssh-server
+
+# Answer the question the installer would want to ask
+d-i shared/default-x-display-manager                    select      lightdm
+
+d-i pkgsel/include string openssh-server lightdm lightdm-gtk-greeter
 
 # Automatic update
 d-i pkgsel/updatedb                                         boolean     true
@@ -224,12 +226,6 @@ d-i pkgsel/update-policy select unattended-upgrades
 # even if the DHCP provider wants to give it another name
 #d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash nolapic nomodeset efi=noruntime
 d-i debian-installer/add-kernel-opts string verbose nosplash nolapic nomodeset efi=noruntime
-
-# Display manager
-# d-i debconf/priority select critical  # prevents dm question from being asked
-## Answer the question the installer would want to ask
-d-i shared/default-x-display-manager                    select      lightdm
-d-i pkgsel/include string lightdm lightdm-gtk-greeter
 
 # Finish
 # Preserve consoles which help debugging

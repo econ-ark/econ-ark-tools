@@ -13,7 +13,7 @@ sudo -v &> /dev/null && echo '... sudo privileges are available.' && sudoer=true
 myuser=$1
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 
-sudo apt -y install --no-install-recommends emacs
+sudo apt -y install emacs
 
 # Needs gpg for security to connect and download packages
 [[ -z "$(which gpg)" ]] && sudo apt -y install gpg gnutls-bin
@@ -32,7 +32,7 @@ cat /var/local/dotemacs_root_and_regular_users /var/local/dotemacs_regular_users
 
 # Permissions 
 sudo chown "root:root" /root/.emacs           
-chmod a+rwx /home/$myuser/.emacs              # no sudo to prevent root 
+chmod a+rx /home/$myuser/.emacs              # no sudo to prevent root 
 chown "$myuser:$myuser" /home/$myuser/.emacs  # no sudo
 
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
@@ -59,5 +59,5 @@ ln -s /home/$myuser/.emacs.d /root/.emacs.d
 
 emacs -batch -l     /home/econ-ark/.emacs  # Run in batch mode to setup everything
 
-sudo apt -y purge gnome-session-bin 
+#sudo apt -y purge gnome-session-bin 
 # Finished with emacs

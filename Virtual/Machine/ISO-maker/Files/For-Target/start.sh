@@ -83,6 +83,7 @@ sudo apt -y purge gnome-settings-daemon
 sudo apt -y purge at-spi2-core
 sudo apt -y purge libgdm1
 sudo apt -y purge gnome-session-bin
+sudo apt -y autoremove
 sudo /var/local/check-dependencies.sh gdm3
 
 ## apt -y install --no-install-recommends xfce4-terminal 
@@ -98,9 +99,6 @@ sudo apt -y install gpg gnutls-bin # Required to set up security for emacs packa
 
 ./install-emacs.sh $myuser
 
-# Allow user to control networking 
-sudo adduser $myuser netdev
-
 # add this stuff to any existing ~/.bash_aliases
 if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
     sudo cat /var/local/bash_aliases-add >> /home/$myuser/.bash_aliases # add them
@@ -110,14 +108,6 @@ if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK ad
     sudo cat /var/local/bash_aliases-add >> /root/.bash_aliases 
     sudo chmod a+x /root/.bash_aliases
 fi
-
-# Choose lightdm as display manager
-sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager
-
-# Without noninteractive mode allows installation without asking interactive questions
-DEBCONF_DEBUG=.*
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure lightdm
-echo set shared/default-x-display-manager lightdm | debconf-communicate
 
 # # # Purge unneeded stuff
 # # sudo apt-get -y purge ubuntu-gnome-desktop
@@ -133,11 +123,12 @@ if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ 
 fi
 
 # Create autologin group (as far as unix is concerned)
+## This may (as here) need to be after install of xubuntu-desktop (or maybe not)
 sudo groupadd --system autologin
 sudo adduser  $myuser autologin
 sudo gpasswd -a $myuser autologin
 
-# Allow autologin for PAM security system
+## Allow autologin for PAM security system
 sudo groupadd --system nopasswdlogin
 sudo adduser  $myuser nopasswdlogin
 sudo gpasswd -a $myuser nopasswdlogin
@@ -186,12 +177,11 @@ EOF
 
 chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
 
-
 # Allow interactive commands to be preseeded
 sudo apt -y install expect
 
 # Scraping server allows outside user to watch display X:0
-# scraping server means that you're not allowing vnc client to spawn new x sessions
+# "scraping" means that you're not allowing vnc client to spawn new x sessions
 sudo apt -y install tigervnc-scraping-server
 
 ## Execute as user to create files with correct ownership/permissions
