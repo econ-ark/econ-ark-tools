@@ -1,1 +1,1 @@
-Move_xubuntu-core_install_to_preseed_or_cloud-init
+Remove_xfce4_desktop_everywhere_-_leaving_only_xubuntu
