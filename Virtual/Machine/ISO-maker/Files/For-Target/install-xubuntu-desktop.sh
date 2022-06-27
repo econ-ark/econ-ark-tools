@@ -12,11 +12,11 @@ build_date="$(</var/local/build_date.txt)"
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends ssl-cert
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends alsa-base
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xrdp
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y --no-install-recommends install xubuntu-core
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y --no-install-recommends install xrdp 
+# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y --no-install-recommends install xubuntu-desktop
+# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y --no-install-recommends install xrdp 
 
-apt -y install tasksel 
-DEBIAN_FRONTEND=noninteractive sudo tasksel install xubuntu-core
+# apt -y install tasksel 
+# DEBIAN_FRONTEND=noninteractive sudo tasksel install xubuntu-desktop
 backdrops=usr/share/xfce4/backdrops
 
 if [[ ! -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
