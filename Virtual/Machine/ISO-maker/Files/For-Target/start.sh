@@ -31,6 +31,8 @@
 # Presence of 'verbose' triggers bash debugging mode
 [[ -e /var/local/verbose ]] && set -x && set -v 
 
+# Record date and time at which install script is running
+# Used to mark date of original versions of files replaced
 build_date="$(date +%Y%m%d%H%S)"
 echo "$build_date" > /var/local/build_date.txt
 
@@ -47,7 +49,7 @@ mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 
 # # # # Use Debian Installer in noninteractive mode to prevent questions 
-export DEBCONF_DEBUG=5
+export DEBCONF_DEBUG='.*'
 export DEBIAN_FRONTEND=noninteractive
 export DEBCONF_NONINTERACTIVE_SEEN=true
 
@@ -60,7 +62,7 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 # Create econ-ark and econ-ark-xrdp users
 /var/local/add-users.sh
 # Use correct git branches during debugging 
-[[ -e ./git_branch ]] && branch_name=$(<git_branch)
+[[ -e /var/local/git_branch ]] && branch_name="$(</var/local/git_branch)"
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
 # Get some basic immediately useful tools 
@@ -71,6 +73,21 @@ cd /var/local
 
 # GitHub command line tools
 ./install-gh-cli-tools.sh
+
+# Removing all traces of gdm3 helps prevent the question of
+# whether to use lightdm or gdm3
+
+## Purge all packages that depend on gdm3
+sudo apt -y purge gnome-shell
+sudo apt -y purge gnome-settings-daemon
+sudo apt -y purge at-spi2-core
+sudo apt -y purge libgdm1
+sudo apt -y purge gnome-session-bin
+sudo /var/local/check-dependencies.sh gdm3
+
+## apt -y install --no-install-recommends xfce4-terminal 
+
+/var/local/install-xubuntu-desktop.sh
 
 # Includes the whisker menu
 sudo apt -y install xfce4-goodies 
@@ -151,21 +168,6 @@ sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /
 # Create directory designating things to autostart 
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 chown $myuser:$myuser /home/$myuser/.config/autostart
-
-# Removing all traces of gdm3 helps prevent the question of
-# whether to use lightdm or gdm3
-
-## Purge all packages that depend on gdm3
-sudo apt -y purge gnome-shell
-sudo apt -y purge gnome-settings-daemon
-sudo apt -y purge at-spi2-core
-sudo apt -y purge libgdm1
-sudo apt -y purge gnome-session-bin
-sudo /var/local/check-dependencies.sh gdm3
-
-## apt -y install --no-install-recommends xfce4-terminal 
-
-/var/local/install-xubuntu-desktop.sh
 
 ## Autostart a terminal
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
