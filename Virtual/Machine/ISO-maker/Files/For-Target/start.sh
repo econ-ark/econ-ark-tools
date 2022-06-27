@@ -63,21 +63,21 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 [[ -e ./git_branch ]] && branch_name=$(<git_branch)
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
-# Broadcom modems are common and require firmware-b43-installer for some reason
-sudo apt-get -y install b43-fwcutter
-sudo apt-get -y install firmware-b43-installer
-
 # Get some basic immediately useful tools 
 sudo apt-get -y install bash-completion net-tools network-manager rpl curl
 
 # Now install own stuff
 cd /var/local
+
 # GitHub command line tools
 ./install-gh-cli-tools.sh
 
+# Includes the whisker menu
+sudo apt -y install xfce4-goodies 
+
 # Prepare for emacs install
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
-sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading 
+sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
 
 ./install-emacs.sh $myuser
 
@@ -96,6 +96,8 @@ fi
 
 # Choose lightdm as display manager
 sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager
+
+# Without noninteractive mode allows installation without asking interactive questions
 DEBCONF_DEBUG=.*
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure lightdm
 echo set shared/default-x-display-manager lightdm | debconf-communicate
@@ -136,13 +138,13 @@ if ! grep -q $myuser /etc/pam.d/lightdm          ; then
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
 fi
 
-
 # Make place to store/record stuff that will be installed
 sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
 sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/$myuser
 
-build_date=
+build_date="$(<build_date.txt)"
+# Store original lightdm.conf, and substitute ours
 [[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
 sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
 
@@ -150,6 +152,10 @@ sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 chown $myuser:$myuser /home/$myuser/.config/autostart
 
+# Removing all traces of gdm3 helps prevent the question of
+# whether to use lightdm or gdm3
+
+## Purge all packages that depend on gdm3
 sudo apt -y purge gnome-shell
 sudo apt -y purge gnome-settings-daemon
 sudo apt -y purge at-spi2-core
@@ -157,9 +163,9 @@ sudo apt -y purge libgdm1
 sudo apt -y purge gnome-session-bin
 sudo /var/local/check-dependencies.sh gdm3
 
-apt -y install --no-install-recommends xfce4-terminal 
+## apt -y install --no-install-recommends xfce4-terminal 
 
-# /var/local/install-xubuntu-desktop.sh
+/var/local/install-xubuntu-desktop.sh
 
 ## Autostart a terminal
 cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
@@ -203,4 +209,4 @@ sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local
 #sudo apt -y remove at-spi2-core      # Accessibility tools cause lightdm greeter error; remove 
 sudo rm -f /var/crash/grub-pc.0.crash
 
-sudo reboot
+# When run by late_command, the machine will reboot after finishing start.sh

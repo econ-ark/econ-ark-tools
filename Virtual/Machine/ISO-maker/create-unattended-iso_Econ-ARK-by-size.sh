@@ -421,25 +421,38 @@ sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/pr
 #   [[ -e /target/var/local     ]] && rm -Rf /target/var/local ;\
 
 set -o noglob
+# Connect the busybox installer's bindings to the target machine
 late_command="mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
    mount --bind /proc /target/proc ;\
    mount --bind /sys /target/sys ;\
    mount --bind /run /target/run ;\
-   [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
+   [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars "
+
+# Update apps and (re)install git
+late_command+=";\
    chroot /target apt -y update ;\
-   chroot /target apt -y reinstall git ;\
+   chroot /target apt -y reinstall git "
+
+# Make place for, and retrieve, econ-ark-tools
+late_command+=";\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
    [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
-   chmod -R a+rwx /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/* /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/.*[0-z]* ;\
+   chmod -R a+rwx /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/* /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/.*[0-z]* "
+
+# If there's a directory there already, delete it,
+# then link /var/local to the collection of downloaded files for the target
+late_command+=";\
    [[ -d /target/var/local ]] && rm -Rf /target/var/local ;\
    if [[ ! -L /target/var/local ]]; then chroot /target rm -Rf /var/local ; chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ; fi ;\
    chroot /target rm -f /var/local/Size-To-Make-Is-* ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
-   chroot /target echo \$(echo $size > /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) ;\
+   chroot /target echo \$(echo $size > /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) "
+
+# Remaining stuff is shared with cloud-init, performed in late_command_finish
+late_command+=";\
    chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" ;\
    chroot /target /var/local/start-with-log.sh "
-
 
 #"'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'"
 #  ;\

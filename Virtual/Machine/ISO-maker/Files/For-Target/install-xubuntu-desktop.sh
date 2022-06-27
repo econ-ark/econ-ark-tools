@@ -15,8 +15,9 @@ build_date="$(</var/local/build_date.txt)"
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y --no-install-recommends install xubuntu-desktop
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y --no-install-recommends install xrdp 
 
-# apt -y install tasksel 
-# DEBIAN_FRONTEND=noninteractive sudo tasksel install xubuntu-desktop
+sudo apt -y install tasksel 
+DEBIAN_FRONTEND=noninteractive sudo tasksel install --no-install-recommends xubuntu-desktop
+
 backdrops=usr/share/xfce4/backdrops
 
 if [[ ! -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
