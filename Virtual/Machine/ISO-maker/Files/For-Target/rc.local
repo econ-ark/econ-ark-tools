@@ -39,7 +39,7 @@ if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
     # # Allow remaining stuff to be done in the background 
     /var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log 
     
-    # create an empty 'signal' file so the "if" will fail after the first boot
+    # Create an empty 'signal' file so the "if" will fail after the first boot
     touch "$FLAG2"
 
     # Restore cron jobs so they will run in background on next boot
