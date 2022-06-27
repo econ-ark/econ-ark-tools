@@ -1,4 +1,5 @@
 #!/bin/bash
+# For explanations, see create-unattended-iso script
 
 apt -y update 
 apt -y reinstall git 
