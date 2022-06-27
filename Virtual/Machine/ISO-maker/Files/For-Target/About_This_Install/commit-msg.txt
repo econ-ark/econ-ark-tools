@@ -1,1 +1,1 @@
-Remove_xfce4_desktop_everywhere_-_leaving_only_xubuntu
+Reboot_at_end_of_start
