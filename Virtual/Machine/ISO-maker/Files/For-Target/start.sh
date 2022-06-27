@@ -94,8 +94,11 @@ if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK ad
     sudo chmod a+x /root/.bash_aliases
 fi
 
-# # Choose lightdm as display manager
-# sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager 
+# Choose lightdm as display manager
+sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager
+DEBCONF_DEBUG=.*
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure lightdm
+echo set shared/default-x-display-manager lightdm | debconf-communicate
 
 # # # Purge unneeded stuff
 # # sudo apt-get -y purge ubuntu-gnome-desktop
