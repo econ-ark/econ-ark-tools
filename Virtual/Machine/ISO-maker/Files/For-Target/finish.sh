@@ -71,7 +71,7 @@ EOF
 # sudo apt -y install software-properties-common
 
 /var/local/install-ssh.sh "$myuser"    |& tee /var/local/install-ssh.log
-/var/local/config-keyring.sh "$myuser" |& tee /var/local/config-keyring.log
+#/var/local/config-keyring.sh "$myuser" |& tee /var/local/config-keyring.log
 
 # Start the GUI if not already running
 [[ "$(pgrep lightdm)" == '' ]] && service lightdm start 
