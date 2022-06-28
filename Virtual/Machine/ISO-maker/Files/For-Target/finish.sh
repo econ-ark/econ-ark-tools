@@ -71,7 +71,7 @@ EOF
 # sudo apt -y install software-properties-common
 
 /var/local/install-ssh.sh "$myuser"    |& tee /var/local/install-ssh.log
-/var/local/config-keyring.sh "$myuser" |& tee /var/local/config-keyring.sh 
+/var/local/config-keyring.sh "$myuser" |& tee /var/local/config-keyring.log
 
 # Start the GUI if not already running
 [[ "$(pgrep lightdm)" == '' ]] && service lightdm start 
@@ -84,7 +84,7 @@ sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1
 sudo apt -y install meld
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel ca-certificates gnome-disk-utility 
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility 
 
 
 # Make a home for econ-ark in /usr/local/share/data and link to it from home directory

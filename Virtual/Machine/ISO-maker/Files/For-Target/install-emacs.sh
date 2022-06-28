@@ -60,6 +60,7 @@ sudo -i -u  $myuser emacs -batch -l     /home/$myuser/.emacs
 ln -s /home/$myuser/.emacs.d /root/.emacs.d
 
 # As of 20220628 there is a problem with a default certificate; comment out that certificate:
+sudo apt -y install ca-certificates 
 sudo sed -i 's|mozilla/DST_Root_CA_X3.crt|!mozilla/DST_Root_CA_X3.crt|g' /etc/ca-certificates.conf
 emacs -batch -l     /home/econ-ark/.emacs  # Run in batch mode to setup everything
 
