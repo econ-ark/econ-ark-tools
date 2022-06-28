@@ -79,7 +79,7 @@ cd /var/local
 
 ## apt -y install --no-install-recommends xfce4-terminal 
 
-/var/local/install-xubuntu-desktop.sh
+/var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log
 
 # Includes the whisker menu
 sudo apt -y install xfce4-goodies 
