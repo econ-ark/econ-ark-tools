@@ -6,6 +6,8 @@ if [[ "$#" -ne 1 ]]; then
 fi
 
 myuser="$1"
+[[ -e /var/local/verbose ]] && set -x && set -v 
+
 build_date="$(</var/local/build_date.txt)"
 
 # Autologin to the keyring too

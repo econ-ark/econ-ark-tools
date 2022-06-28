@@ -1,3 +1,4 @@
 #!/bin/bash
 
-sudo /var/local/start.sh 2>&1 | sudo tee start.log
+/var/local/start.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/start.log
+

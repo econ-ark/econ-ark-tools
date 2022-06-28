@@ -70,8 +70,8 @@ EOF
 # Manage software like dbus - seems to freeze finish.sh logging, so disabled
 # sudo apt -y install software-properties-common
 
-/var/local/install-ssh.sh "$myuser"
-/var/local/config-keyring.sh "$myuser"
+/var/local/install-ssh.sh "$myuser"    |& tee /var/local/install-ssh.log
+/var/local/config-keyring.sh "$myuser" |& tee /var/local/config-keyring.sh 
 
 # Start the GUI if not already running
 [[ "$(pgrep lightdm)" == '' ]] && service lightdm start 
