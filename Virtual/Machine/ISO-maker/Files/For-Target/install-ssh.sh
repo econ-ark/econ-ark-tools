@@ -7,7 +7,7 @@ fi
 
 myuser="$1"
 
-[[ - /var/local/verbose ]] && set -x && set -v 
+[[ -e /var/local/verbose ]] && set -x && set -v 
 # If our sshd_conf is different from one in /etc/sshd_config ...
 # diff /var/local/root/etc/ssh/sshd_config /etc/sshd_config > /dev/null
 # ... then it's because this is the first time we're running the script
