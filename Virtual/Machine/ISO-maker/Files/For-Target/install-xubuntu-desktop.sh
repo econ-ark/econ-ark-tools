@@ -21,19 +21,21 @@ sudo apt -y purge gnome-settings-daemon
 sudo apt -y purge at-spi2-core
 sudo apt -y purge libgdm1
 sudo apt -y purge gnome-session-bin
+sudo apt -y purge lightdm
 sudo apt -y autoremove
 sudo /var/local/check-dependencies.sh gdm3
-
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xubuntu-desktop
-
-# Choose lightdm as display manager
-# Without noninteractive mode allows installation without asking interactive questions
-sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager
 
 export DEBCONF_DEBUG=.* 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true apt -y install lightdm
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure lightdm
 echo set shared/default-x-display-manager lightdm | debconf-communicate
+
+cat /etc/X11/default-display-manager
+
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xubuntu-desktop
+
+# Choose lightdm as display manager
+# Without noninteractive mode allows installation without asking interactive questions
 
 backdrops=usr/share/xfce4/backdrops
 
