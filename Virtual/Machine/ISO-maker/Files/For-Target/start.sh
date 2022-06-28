@@ -48,6 +48,9 @@ mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
 # Suspend hibernation (so that a swapfile instead of partition can be used)
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 
+# Get some basic immediately useful tools 
+sudo apt-get -y install bash-completion net-tools network-manager rpl curl
+
 # # # # Use Debian Installer in noninteractive mode to prevent questions 
 export DEBCONF_DEBUG='.*'
 export DEBIAN_FRONTEND=noninteractive
@@ -65,8 +68,6 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 [[ -e /var/local/git_branch ]] && branch_name="$(</var/local/git_branch)"
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
-# Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion net-tools network-manager rpl curl
 
 # Now install own stuff
 cd /var/local
