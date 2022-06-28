@@ -15,8 +15,25 @@ build_date="$(</var/local/build_date.txt)"
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y --no-install-recommends install xubuntu-desktop
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y --no-install-recommends install xrdp 
 
-sudo apt -y install tasksel 
-DEBIAN_FRONTEND=noninteractive sudo tasksel install --no-install-recommends xubuntu-desktop
+## Purge all packages that depend on gdm3
+sudo apt -y purge gnome-shell
+sudo apt -y purge gnome-settings-daemon
+sudo apt -y purge at-spi2-core
+sudo apt -y purge libgdm1
+sudo apt -y purge gnome-session-bin
+sudo apt -y autoremove
+sudo /var/local/check-dependencies.sh gdm3
+
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xubuntu-desktop
+
+# Choose lightdm as display manager
+# Without noninteractive mode allows installation without asking interactive questions
+sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager
+
+export DEBCONF_DEBUG=.* 
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true apt -y install lightdm
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure lightdm
+echo set shared/default-x-display-manager lightdm | debconf-communicate
 
 backdrops=usr/share/xfce4/backdrops
 
@@ -39,14 +56,6 @@ fi
 
 sudo apt -y --autoremove purge xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
 sudo apt -y --autoremove purge xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
-
-# Choose lightdm as display manager
-# Without noninteractive mode allows installation without asking interactive questions
-sudo echo /usr/sbin/lightdm > /etc/X11/default-display-manager
-
-DEBCONF_DEBUG=.*
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure lightdm
-echo set shared/default-x-display-manager lightdm | debconf-communicate
 
 #echo "set shared/default-x-display-manager lightdm" | debconf-communicate
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
