@@ -5,6 +5,7 @@ if [[ "$#" -ne 1 ]]; then
     exit
 fi
 
+myuser="$1"
 
 # If our sshd_conf is different from one in /etc/sshd_config ...
 # diff /var/local/root/etc/ssh/sshd_config /etc/sshd_config > /dev/null
