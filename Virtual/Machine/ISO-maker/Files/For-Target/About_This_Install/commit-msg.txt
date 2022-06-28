@@ -1,1 +1,1 @@
-Purge_then_reinstall_lightdm_just_before_xubuntu-desktop
+Do_not_install_lightdm_explicitly
