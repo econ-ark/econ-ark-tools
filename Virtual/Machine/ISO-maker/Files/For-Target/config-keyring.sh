@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 if [[ "$#" -ne 1 ]]; then
     echo 'usage: install-emacs.sh [username]'
@@ -36,3 +36,4 @@ if ! grep -s SSH_AUTH_SOCK /home/$myuser/.xinitrc >/dev/null; then
     # echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/$myuser/.bash_profile
 fi
 
+exit 0
