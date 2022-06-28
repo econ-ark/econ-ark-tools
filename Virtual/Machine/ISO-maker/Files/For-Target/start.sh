@@ -138,14 +138,21 @@ auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by 
 fi
 
 # Make place to store/record stuff that will be installed
-sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
+#sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
 sudo mkdir -p /var/local/root/etc/lightdm.conf.d
+sudo mkdir -p /etc/lightdm/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/$myuser
 
 build_date="$(<build_date.txt)"
 # Store original lightdm.conf, and substitute ours
-[[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
-sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
+# [[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
+# sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
+
+[[ -e /etc/lightdm/lightdm.conf ]] && mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf_$build_date
+sudo                            cp  /var/local/root/etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf
+
+[[ -e /etc/lightdm/lightdm.conf ]] && mv /etc/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf_$build_date
+sudo                            cp  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
 
 # Create directory designating things to autostart 
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
