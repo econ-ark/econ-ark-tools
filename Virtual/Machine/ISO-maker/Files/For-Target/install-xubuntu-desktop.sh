@@ -32,8 +32,8 @@ DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 
 
 export DEBCONF_DEBUG=.* 
 #DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true apt -y install lightdm
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure lightdm
-echo set shared/default-x-display-manager lightdm | debconf-communicate
+# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure lightdm
+# echo set shared/default-x-display-manager lightdm | debconf-communicate
 
 cat /etc/X11/default-display-manager
 
