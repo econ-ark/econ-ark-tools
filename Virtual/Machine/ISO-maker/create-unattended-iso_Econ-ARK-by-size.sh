@@ -375,7 +375,7 @@ sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/pr
     #     mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
     #     "
 # else
-#     late_command=""
+#     ate_command=""
 # fi
 
 # These are the commands needed to convert a vagrant machine to an Econ-ARK one  
@@ -452,7 +452,8 @@ late_command+=";\
 # Remaining stuff is shared with cloud-init, performed in late_command_finish
 late_command+=";\
    chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" ;\
-   chroot /target /var/local/start-with-log.sh "
+   chroot /target /var/local/start-with-log.sh ;\
+   reboot"
 
 #"'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'"
 #  ;\
