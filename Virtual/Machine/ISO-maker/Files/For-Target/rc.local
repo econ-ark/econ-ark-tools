@@ -5,6 +5,8 @@
 # Conditionally trigger debugging output
 [[ -e /var/local/verbose ]] && set -x && set -v
 
+exec > /var/local/rc-local.out 2>&1; set -x
+
 FLAG="/var/log/firstboot.log"
 if [ ! -f $FLAG ]; then # machine's first-ever boot
     # (or, signal to rerun as though first boot by deleting firstboot.log)
