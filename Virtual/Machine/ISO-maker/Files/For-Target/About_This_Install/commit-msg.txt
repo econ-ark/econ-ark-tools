@@ -1,1 +1,1 @@
-Remove_reboot_from_late_command;_will_occur_anyway_with_DI_install,_and_explicitly_part_of_cloud-init_config
+Repair_Econ-ARK_desktop
