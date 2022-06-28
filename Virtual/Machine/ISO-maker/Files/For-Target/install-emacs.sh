@@ -59,6 +59,8 @@ sudo -i -u  $myuser emacs -batch -l     /home/$myuser/.emacs
 [[ -e /root/.emacs.d ]] && sudo rm -Rf /root/.emacs.d
 ln -s /home/$myuser/.emacs.d /root/.emacs.d
 
+# As of 20220628 there is a problem with a default certificate; comment out that certificate:
+sudo sed -i 's|mozilla/DST_Root_CA_X3.crt|!mozilla/DST_Root_CA_X3.crt|g'
 emacs -batch -l     /home/econ-ark/.emacs  # Run in batch mode to setup everything
 
 #sudo apt -y purge gnome-session-bin 
