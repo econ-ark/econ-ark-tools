@@ -112,7 +112,7 @@ for d in ./*/; do
 done
 
 # Play nice with Macs (in hopes of being able to monitor it)
-sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
+# sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
 #sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errors when apps are launched
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
@@ -121,7 +121,7 @@ sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-sca
 
 # cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
 # Enable ssh over avahi
-cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
+# cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
 # Get misc other stuff 
 #refindFile="refind-install-MacOS"

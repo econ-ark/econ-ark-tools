@@ -73,7 +73,7 @@ fi # End second-boot
 
 # Run these at the beginning of EVERY boot from the very first one
 sudo rm -f /var/crash/*blue* # Bluetooth crashes frequently and uselessly
-sudo systemctl restart avahi-daemon
+#sudo systemctl restart avahi-daemon
 
 # .first_interactive_shell is deleted after first interactive shell is executed
 # permits special messages only at startup
