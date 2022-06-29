@@ -70,9 +70,6 @@ EOF
 # Manage software like dbus - seems to freeze finish.sh logging, so disabled
 # sudo apt -y install software-properties-common
 
-/var/local/install-ssh.sh "$myuser"    |& tee /var/local/install-ssh.log
-#/var/local/config-keyring.sh "$myuser" |& tee /var/local/config-keyring.log
-
 # Start the GUI if not already running
 [[ "$(pgrep lightdm)" == '' ]] && service lightdm start 
 
@@ -345,5 +342,9 @@ sudo apt -y install meld
 
 
 tail_monitor="$(pgrep tail)" && [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
+
+#/var/local/install-ssh.sh "$myuser"    |& tee /var/local/install-ssh.log
+#/var/local/config-keyring.sh "$myuser" |& tee /var/local/config-keyring.log
+
 
 sudo reboot
