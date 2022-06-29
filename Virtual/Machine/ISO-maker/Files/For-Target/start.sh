@@ -64,6 +64,9 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 # DEBCONF_FRONTEND=noninteractive apt -y install lightdm
 # Create econ-ark and econ-ark-xrdp users
 /var/local/add-users.sh
+
+sudo reboot
+
 # Use correct git branches during debugging 
 [[ -e /var/local/git_branch ]] && branch_name="$(</var/local/git_branch)"
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
