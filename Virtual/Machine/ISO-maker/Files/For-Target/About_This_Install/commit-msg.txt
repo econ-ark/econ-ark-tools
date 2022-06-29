@@ -1,1 +1,1 @@
-Pause_1_hour_at_beginning_of_finish.sh
+reboot_after_add-users
