@@ -3,9 +3,9 @@
 # https://askubuntu.com/questions/156771/run-a-script-only-at-the-very-first-boot
 
 # Conditionally trigger debugging output
-[[ -e /var/local/verbose ]] && set -x && set -v
+# [[ -e /var/local/verbose ]] && set -x && set -v
 
-exec > /var/local/rc-local.out 2>&1; set -x
+# exec > /var/local/rc-local.out 2>&1; set -x
 
 FLAG="/var/log/firstboot.log"
 if [ ! -f $FLAG ]; then # machine's first-ever boot

@@ -33,5 +33,8 @@ build_date="$(</var/local/build_date.txt)"
 # Enable public key authentication
 cd /var/local
 [[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_$build_date
+
+sudo systemctl stop ssh
 sudo cp root/etc/ssh/sshd_config /etc/ssh/sshd_config
+sudo systemctl start ssh
 
