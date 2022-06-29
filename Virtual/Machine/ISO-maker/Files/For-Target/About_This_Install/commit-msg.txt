@@ -1,1 +1,1 @@
-Works_as_ISO_for_VirtualBox_if_video_memory_is_set_to_128m
+Remove_output_from_rc.local
