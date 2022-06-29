@@ -276,6 +276,9 @@ fi
 sudo pip install elpy
 cat /var/local/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
 
+# Now that elpy has been installed, rerun the emacs setup to connect to it
+emacs -batch -l     /home/econ-ark/.emacs  # Run in batch mode to setup everything
+
 # 20220602: For some reason jinja2 version obained by pip install is out of date
 sudo pip install jinja2
 
