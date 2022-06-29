@@ -65,7 +65,7 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 # Create econ-ark and econ-ark-xrdp users
 /var/local/add-users.sh
 
-sudo reboot
+exit
 
 # Use correct git branches during debugging 
 [[ -e /var/local/git_branch ]] && branch_name="$(</var/local/git_branch)"
