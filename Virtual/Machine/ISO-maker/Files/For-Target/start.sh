@@ -65,12 +65,9 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 # Create econ-ark and econ-ark-xrdp users
 /var/local/add-users.sh
 
-exit
-
 # Use correct git branches during debugging 
 [[ -e /var/local/git_branch ]] && branch_name="$(</var/local/git_branch)"
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
-
 
 # Now install own stuff
 cd /var/local
@@ -147,15 +144,18 @@ sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /etc/lightdm/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/$myuser
 
-build_date="$(<build_date.txt)"
+build_date="$(</var/local/build_date.txt)"
 # Store original lightdm.conf, and substitute ours
 # [[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
 # sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
 
-[[ -e /etc/lightdm/lightdm.conf ]] && mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf_$build_date
-sudo                            cp  /var/local/root/etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf
+exit
 
-[[ -e /etc/lightdm/lightdm.conf ]] && mv /etc/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf_$build_date
+[[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
+[[ -e /etc/lightdm/lightdm.conf ]]       && mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf_$build_date
+sudo         cp  /var/local/root/etc/lightdm/lightdm.conf                /etc/lightdm/lightdm.conf
+sudo         cp  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf    /etc/lightdm/lightdm-gtk-greeter.conf
+
 sudo                            cp  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
 
 # Create directory designating things to autostart 
