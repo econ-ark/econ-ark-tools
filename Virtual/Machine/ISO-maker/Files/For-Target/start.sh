@@ -190,3 +190,5 @@ sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local
 sudo rm -f /var/crash/grub-pc.0.crash
 
 # When run by late_command, the machine will reboot after finishing start.sh
+
+sleep 3600 
