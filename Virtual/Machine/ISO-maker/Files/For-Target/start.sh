@@ -156,8 +156,6 @@ exit
 sudo         cp  /var/local/root/etc/lightdm/lightdm.conf                /etc/lightdm/lightdm.conf
 sudo         cp  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf    /etc/lightdm/lightdm-gtk-greeter.conf
 
-sudo                            cp  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf /etc/lightdm/lightdm-gtk-greeter.conf
-
 # Create directory designating things to autostart 
 sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
 chown $myuser:$myuser /home/$myuser/.config/autostart
