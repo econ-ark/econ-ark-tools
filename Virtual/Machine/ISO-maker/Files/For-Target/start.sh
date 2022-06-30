@@ -49,7 +49,7 @@ mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion net-tools network-manager rpl curl
+sudo apt-get -y install bash-completion net-tools network-manager curl
 
 # # # # Use Debian Installer in noninteractive mode to prevent questions 
 export DEBCONF_DEBUG='.*'
