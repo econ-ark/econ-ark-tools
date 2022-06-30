@@ -86,8 +86,6 @@ cd /var/local
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
 sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
 
-./install-emacs.sh $myuser
-
 # add this stuff to any existing ~/.bash_aliases
 if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
     sudo cat /var/local/bash_aliases-add >> /home/$myuser/.bash_aliases # add them

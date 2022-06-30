@@ -5,7 +5,7 @@
 [[ -e /etc/environment ]] && source /etc/environment
 
 # Disable power management (prevent screen blank)
-[[ "$DISPLAY" != "" ]] && xset s off -dpms
+[[ "$DISPLAY" != "" ]] && xset s off
 
 # Allow cut-and-paste between emacs and shell
 if [[ "$(which autocutsel)" != "" ]]; then
@@ -63,6 +63,9 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
     pkill xfce4-screensaver # Prevent screensaver from activating while software installing
     # Configure backdrop - can't be done in start.sh or finish.sh because dbus not running until GUI is up
     # Wait until monitor is up (xrandr finds an active monitor) then get the name of the active monitor
+
+    # Install emacs in gui session so it can connect
+    /var/local/install-emacs.sh $myuser
 
     # delete .second_user_login which might be present if this is a reinstall
     [[ -e /home/econ-ark/.second_user_login ]] && rm -f /home/econ-ark/.second_user_login 
