@@ -1,1 +1,1 @@
-Restore_finish_sleep;_end_rc.local_with_exit_0
+Remove_tasksel_for_xubuntu-desktop_in_finish-MAx-extras

@@ -80,7 +80,7 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
 
     # If running on virtualbox, xrandr --listactivemonitors returns 'default' but should return 0
     # If running on virtualbox, xset r off helps fix repeated keys problem
-    [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox) "  && [[ "$vbox" != "" ]] ) && xset r off && monitor=0 
+    [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox) "  && [[ "$vbox" != "" ]] && xset r off && monitor=0 
 
     monitorPath="/backdrop/screen0/monitor$monitor/workspace0" # Get the property name of the monitor
     xfconf-query --channel xfce4-desktop --property "$monitorPath/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.png
