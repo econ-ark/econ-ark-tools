@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Presence of 'verbose' triggers bash debugging mode
+[[ -e /var/local/verbose ]] && set -x && set -v
+
 grouplist="adm,dialout,cdrom,floppy,audio,dip,video,plugdev,lxd,sudo"
 
 # stackoverflow.com/questions check-whether-a-user-exists

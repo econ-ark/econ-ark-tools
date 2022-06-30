@@ -29,7 +29,9 @@
 # exit
 
 # Presence of 'verbose' triggers bash debugging mode
-[[ -e /var/local/verbose ]] && set -x && set -v 
+[[ -e /var/local/verbose ]] && set -x && set -v
+
+sudo apt -y install emacs
 
 # Record date and time at which install script is running
 # Used to mark date of original versions of files replaced
@@ -63,17 +65,14 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 # echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
 # DEBCONF_FRONTEND=noninteractive apt -y install lightdm
 # Create econ-ark and econ-ark-xrdp users
-/var/local/add-users.sh
+/var/local/add-users.sh |& tee /var/local/add-users.log
 
 # Use correct git branches during debugging 
 [[ -e /var/local/git_branch ]] && branch_name="$(</var/local/git_branch)"
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
+# online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
 # Now install own stuff
 cd /var/local
-
-# GitHub command line tools
-./install-gh-cli-tools.sh
 
 # Removing all traces of gdm3 helps prevent the question of
 # whether to use lightdm or gdm3
@@ -81,10 +80,6 @@ cd /var/local
 ## apt -y install --no-install-recommends xfce4-terminal 
 
 /var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log
-
-# Prepare for emacs install
-sudo apt -y install xsel xclip # Allow interchange of clipboard with system
-sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
 
 # add this stuff to any existing ~/.bash_aliases
 if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
@@ -146,7 +141,7 @@ build_date="$(</var/local/build_date.txt)"
 
 [[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
 [[ -e /etc/lightdm/lightdm.conf ]]       && mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf_$build_date
-sudo         cp  /var/local/root/etc/lightdm/lightdm.conf                /etc/lightdm/lightdm.conf
+#sudo         cp  /var/local/root/etc/lightdm/lightdm.conf                /etc/lightdm/lightdm.conf
 sudo         cp  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf    /etc/lightdm/lightdm-gtk-greeter.conf
 
 # Create directory designating things to autostart 

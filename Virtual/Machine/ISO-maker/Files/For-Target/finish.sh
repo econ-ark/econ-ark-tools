@@ -23,6 +23,16 @@ sleep 3600
 myuser="econ-ark"
 mypass="kra-noce"
 
+# GitHub command line tools
+./install-gh-cli-tools.sh
+
+
+# Prepare for emacs install
+sudo apt -y install xsel xclip # Allow interchange of clipboard with system
+sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
+
+/var/local/install-emacs.sh $myuser
+
 cd /var/local
 
 # ./install-xubuntu-desktop.sh  # plus some utilities and backdrop
