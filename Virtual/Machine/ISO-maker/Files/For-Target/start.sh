@@ -149,8 +149,6 @@ build_date="$(</var/local/build_date.txt)"
 # [[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
 # sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
 
-exit
-
 [[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
 [[ -e /etc/lightdm/lightdm.conf ]]       && mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf_$build_date
 sudo         cp  /var/local/root/etc/lightdm/lightdm.conf                /etc/lightdm/lightdm.conf
