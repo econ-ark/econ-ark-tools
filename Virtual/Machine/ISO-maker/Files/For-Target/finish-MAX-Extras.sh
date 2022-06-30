@@ -74,7 +74,7 @@ else
     sudo mamba install --yes -c conda-forge jupyter_contrib_nbextensions
     # Make sure commands are executable by regular users
 
-    sudo tasksel install xubuntu-desktop
+#    sudo tasksel install xubuntu-desktop
 #    sudo mamba install --yes -c conda-forge gh  # GitHub command line tools - moved to start.sh
     
     # Get default packages for Econ-ARK machine

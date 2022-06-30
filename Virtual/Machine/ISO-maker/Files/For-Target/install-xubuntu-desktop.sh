@@ -48,7 +48,7 @@ backdrops=usr/share/xfce4/backdrops
 if [[ -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
     sudo mv /$backdrops/xubuntu-wallpaper.png         "/$backdrops/xubuntu-wallpaper.png_$build_date"
     sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/xubuntu-wallpaper.png 
-    sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/Econ-ARK-Logo-1536x768.jpg
+    sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.*   /$backdrops
 fi
 
 # Document, in /var/local, where its content is used
