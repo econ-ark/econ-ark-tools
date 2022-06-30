@@ -209,7 +209,7 @@ d-i pkgsel/upgrade                                          select      safe-upg
 d-i pkgsel/upgrade seen true
 d-i pkgsel/update-policy select unattended-upgrades
 
-tasksel tasksel/first multiselect xubuntu-desktop
+#tasksel tasksel/first multiselect xubuntu-desktop
 ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
 # d-i grub-installer/bootdev string default   # Default is to choose first available
