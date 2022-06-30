@@ -17,7 +17,7 @@
 # Start verbose bash logging if signaled by presence of file
 [[ -e /var/local/verbose ]] && set -x && set -v
 
-sleep 3600
+# sleep 3600
 
 # Populate About_This_Install directory with info specific to this run of the installer
 myuser="econ-ark"
