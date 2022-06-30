@@ -79,3 +79,4 @@ sudo rm -f /var/crash/*blue* # Bluetooth crashes frequently and uselessly
 # permits special messages only at startup
 [[ -e /home/econ-ark/.first_interactive_shell ]] && sudo rm /home/econ-ark/.first_interactive_shell
 
+exit 0
