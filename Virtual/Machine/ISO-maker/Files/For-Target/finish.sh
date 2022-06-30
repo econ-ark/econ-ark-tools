@@ -82,6 +82,9 @@ sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1
 # More useful default tools 
 sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager 
 
+# Let root and myuser control networks
+sudo adduser  $myuser netdev
+sudo adduser  root    netdev
 
 # Make a home for econ-ark in /usr/local/share/data and link to it from home directory
 mkdir -p /home/$myuser/GitHub
