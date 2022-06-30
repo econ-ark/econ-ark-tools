@@ -29,7 +29,7 @@ else
     sudo apt -y purge lightdm
     sudo apt -y autoremove
     sudo /var/local/check-dependencies.sh gdm3
-    DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xubuntu-desktop
+    DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xubuntu-desktop xfce4-goodies
 fi
 
 

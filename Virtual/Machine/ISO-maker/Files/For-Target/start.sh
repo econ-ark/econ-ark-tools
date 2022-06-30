@@ -82,9 +82,6 @@ cd /var/local
 
 /var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log
 
-# Includes the whisker menu
-sudo apt -y install xfce4-goodies 
-
 # Prepare for emacs install
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
 sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
