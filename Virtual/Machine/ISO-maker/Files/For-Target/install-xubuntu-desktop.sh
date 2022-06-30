@@ -45,22 +45,23 @@ cat /etc/X11/default-display-manager
 
 backdrops=usr/share/xfce4/backdrops
 
-if [[ ! -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
+if [[ -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
     sudo mv /$backdrops/xubuntu-wallpaper.png         "/$backdrops/xubuntu-wallpaper.png_$build_date"
     sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/xubuntu-wallpaper.png 
+    sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/Econ-ARK-Logo-1536x768.jpg
 fi
 
 # Document, in /var/local, where its content is used
 ## Move but preserve the original
 
 sudo mv                /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$build_date
-ln -s   /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+cp      /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
 
 ## Do not start ubuntu at all
 if [[ -e    /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && [[ -s /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]]; then
     sudo mv /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_$build_date
-    touch   /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
 fi
+touch   /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf
 
 sudo apt -y --autoremove purge xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
 sudo apt -y --autoremove purge xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
