@@ -1,1 +1,1 @@
-Install_xubuntu-desktop_via_econ-ark.seed
+Add_xfce4-goodies_to_noninteractive
