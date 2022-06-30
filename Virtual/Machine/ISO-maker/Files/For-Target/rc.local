@@ -39,7 +39,7 @@ if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
     # [[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN" # reset if MIN chosen
     
     # # Allow remaining stuff to be done in the background 
-    (/var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log &)
+    (/var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log ) &
     
     # Create an empty 'signal' file so the "if" will fail after the first boot
     touch "$FLAG2"
