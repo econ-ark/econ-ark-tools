@@ -15,22 +15,28 @@ build_date="$(</var/local/build_date.txt)"
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y --no-install-recommends install xubuntu-desktop
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y --no-install-recommends install xrdp 
 
-## Purge all packages that depend on gdm3
-sudo apt -y purge gnome-shell
-sudo apt -y purge gnome-settings-daemon
-sudo apt -y purge at-spi2-core
-sudo apt -y purge libgdm1
-sudo apt -y purge gnome-session-bin
-sudo apt -y purge lightdm
-sudo apt -y autoremove
-sudo /var/local/check-dependencies.sh gdm3
 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xubuntu-desktop
+if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
+    echo 'Running in VirtualBox ; econ-ark.seed should have already installed xubuntu-desktop'
+    #    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser $myuser vboxsf
+else
+    ## Purge all packages that depend on gdm3
+    sudo apt -y purge gnome-shell
+    sudo apt -y purge gnome-settings-daemon
+    sudo apt -y purge at-spi2-core
+    sudo apt -y purge libgdm1
+    sudo apt -y purge gnome-session-bin
+    sudo apt -y purge lightdm
+    sudo apt -y autoremove
+    sudo /var/local/check-dependencies.sh gdm3
+    DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xubuntu-desktop
+fi
+
 
 # Choose lightdm as display manager
 # Without noninteractive mode allows installation without asking interactive questions
 
-export DEBCONF_DEBUG=.* 
+# export DEBCONF_DEBUG=.* 
 #DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true apt -y install lightdm
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure lightdm
 # echo set shared/default-x-display-manager lightdm | debconf-communicate
