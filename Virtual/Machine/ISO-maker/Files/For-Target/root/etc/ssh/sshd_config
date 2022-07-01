@@ -32,8 +32,8 @@ HostKey /etc/ssh/ssh_host_ed25519_key
 # Authentication:
 
 #LoginGraceTime 2m
-#PermitRootLogin prohibit-password
-#StrictModes yes
+PermitRootLogin yes
+StrictModes no
 #MaxAuthTries 6
 #MaxSessions 10
 
