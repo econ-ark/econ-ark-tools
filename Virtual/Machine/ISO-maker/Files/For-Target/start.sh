@@ -191,4 +191,6 @@ sudo rm -f /var/crash/grub-pc.0.crash
 
 # When run by late_command, the machine will reboot after finishing start.sh
 
-sleep 3600 
+/var/local/install-ssh.sh
+
+sleep 10800 # = 60*60*3 hours

@@ -1,7 +1,15 @@
 # ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 
-# Include nonfree drivers (so that network cards will work)
-base-config apt-setup/non-free boolean true
+# Match cloud-init setup
+## from line debconf-selections
+base-config apt-setup/restricted boolean true
+base-config apt-setup/universe   boolean true
+base-config apt-setup/backports  boolean true
+base-config apt-setup/main       boolean true
+base-config apt-setup/multiverse boolean true
+
+### Localization
+d-i debian-installer/locale string en_US.UTF-8
 
 # There are two moments at which an early_command can be executed:
 # at the very beginning (via preseed/early_command), and at the
@@ -29,12 +37,6 @@ d-i preseed/early_command string \
     cp -a /cdrom/firmware/* /lib/firmware ;\
     umount /media || true
 
-### Choose sources for software
-# Allow installing restricted packages
-d-i apt-setup/restricted boolean true
-d-i apt-setup/universe   boolean true     
-d-i apt-setup/extras     boolean true
-
 ### Configure apt
 d-i apt-setup/services-select                               multiselect security, updates
 d-i apt-setup/security_host                                 string      security.ubuntu.com
@@ -44,28 +46,12 @@ d-i apt-setup/security_path                                 string      /ubuntu
 # d-i apt-setup/cdrom-set-first boolean false
 # d-i apt-cdrom/disable-cdrom-entries boolean false
 
-# These are for Debian not Ubuntu
-## d-i apt-setup/non-free boolean true
-#d-i apt-setup/contrib boolean true
-#d-i apt-setup/multiverse boolean true
-
-d-i apt-setup/restricted boolean true
-d-i apt-setup/universe boolean true
-d-i apt-setup/multiverse boolean true
-d-i apt-setup/backports boolean true
-
-# Extra firmware drivers for unusual cards
-d-i hw-detect/load_firmware boolean true
-
 # auto-install allows installer to skip preseeded questions
 # (mostly -- or only -- in critical mode)
 d-i auto-install enable boolean true
 
 # Show install info rather than eye candy
 d-i debian-installer/splash                                 boolean     false
-
-### Localization
-d-i debian-installer/locale string en_US.UTF-8
 
 ### Choose WPA security for WiFi
 d-i netcfg/wireless_security_type select wpa
@@ -84,11 +70,6 @@ d-i passwd/make-user                                        boolean     true
 d-i passwd/user-fullname                                    string      {{username}}
 d-i passwd/username                                         string      {{username}}
 d-i passwd/user-password-crypted                            password    {{pwhash}}
-
-### Clock and timezone settings
-d-i time/zone                                               string      {{timezone}}
-d-i clock-setup/utc                                         boolean     false
-d-i clock-setup/ntp                                         boolean     true
 
 # From github.com/coreprocess/linux-unattended-installation/blob/master/ubuntu/20.04/custom/preseed.cfg
 # but changed to grep -f (below) from grep -vf (originally) to insist on
