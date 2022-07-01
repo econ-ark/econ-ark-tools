@@ -34,6 +34,8 @@ build_date="$(</var/local/build_date.txt)"
 cd /var/local
 [[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_$build_date
 
+sudo apt -y install sshfs
+
 sudo systemctl stop ssh
 sudo cp root/etc/ssh/sshd_config /etc/ssh/sshd_config
 sudo systemctl start ssh

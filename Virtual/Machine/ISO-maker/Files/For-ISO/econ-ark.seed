@@ -71,6 +71,11 @@ d-i passwd/user-fullname                                    string      {{userna
 d-i passwd/username                                         string      {{username}}
 d-i passwd/user-password-crypted                            password    {{pwhash}}
 
+### Clock and timezone settings
+d-i time/zone                                               string      {{timezone}}
+d-i clock-setup/utc                                         boolean     false
+d-i clock-setup/ntp                                         boolean     true
+
 # From github.com/coreprocess/linux-unattended-installation/blob/master/ubuntu/20.04/custom/preseed.cfg
 # but changed to grep -f (below) from grep -vf (originally) to insist on
 # installation to USB device and tail -n1 to choose last usb device
