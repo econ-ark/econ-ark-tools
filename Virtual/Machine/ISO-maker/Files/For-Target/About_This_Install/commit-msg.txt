@@ -1,1 +1,1 @@
-Restore_start.sh_contents
+Do_not_exit_from_start
