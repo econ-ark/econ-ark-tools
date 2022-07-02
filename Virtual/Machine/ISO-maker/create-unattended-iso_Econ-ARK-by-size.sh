@@ -452,8 +452,9 @@ late_command+=";\
 
 # Remaining stuff is shared with cloud-init, performed in late_command_finish
 late_command+=";\
-   chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" ;\
-   chroot /target /bin/bash -c "'"/var/local/start-with-log.sh"'" "
+   chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" "
+#;\
+#   chroot /target /bin/bash -c "'"/var/local/start-with-log.sh"'" "
 
 #   chroot /target /var/local/start-with-log.sh ;\
 #"'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'"
@@ -686,8 +687,8 @@ echo 'new_iso_name_full='$new_iso_name_full
 [[ -e "$iso_make/$new_iso_name_full" ]] && rm "$iso_make/$new_iso_name_full"
 echo " creating the remastered iso"
 
-cp $iso_make/iso_new/preseed/econ-ark.seed $iso_make/iso_new/preseed/econ-ark.seed_orig
-(cat $iso_make/iso_new/preseed/econ-ark.seed_orig | grep -v late_command) > $iso_make/iso_new/preseed/econ-ark.seed
+# cp $iso_make/iso_new/preseed/econ-ark.seed $iso_make/iso_new/preseed/econ-ark.seed_orig
+# (cat $iso_make/iso_new/preseed/econ-ark.seed_orig | grep -v late_command) > $iso_make/iso_new/preseed/econ-ark.seed
 ISONAME="XUB20ARK$size"
 cmd="cd $iso_make/iso_new ; (mkisofs --allow-leading-dots -D -r -V $ISONAME -cache-inodes -J -l -b isolinux/isolinux.bin -c isolinux/boot.cat -no-emul-boot -boot-load-size 4 -boot-info-table -o $iso_make/$new_iso_name_full . > /dev/null 2>&1)"
 

@@ -81,6 +81,13 @@ cd /var/local
 
 /var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log
 
+exit
+
+# rc.local is empty by default
+[[ ! -e /etc/rc.local ]] && touch /etc/rc.local 
+mv /etc/rc.local /etc/rc.local_orig 
+cp /var/local/rc.local /etc/rc.local
+
 # add this stuff to any existing ~/.bash_aliases
 if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
     sudo cat /var/local/bash_aliases-add >> /home/$myuser/.bash_aliases # add them

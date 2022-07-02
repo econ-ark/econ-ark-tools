@@ -3,11 +3,6 @@
 # Verbose output if file exists
 [[ -e /var/local/verbose ]] && set -x && set -v
 
-# rc.local is empty by default
-[[ ! -e /etc/rc.local ]] && touch /etc/rc.local 
-mv /etc/rc.local /etc/rc.local_orig 
-cp /var/local/rc.local /etc/rc.local
-
 # Figure out what the target device is 
 df -hT > /tmp/target-partition 
 cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
