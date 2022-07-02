@@ -38,17 +38,17 @@ d-i preseed/early_command string \
     cp -a /cdrom/firmware/* /lib/firmware ;\
     umount /media || true
 
-### Configure apt
-d-i apt-setup/services-select                               multiselect security, updates
-d-i apt-setup/security_host                                 string      security.ubuntu.com
-d-i apt-setup/security_path                                 string      /ubuntu
+# # ### Configure apt
+# # d-i apt-setup/services-select                               multiselect security, updates
+# # d-i apt-setup/security_host                                 string      security.ubuntu.com
+# # d-i apt-setup/security_path                                 string      /ubuntu
 
 # Nonfree firmware is on the installer disk; tell it to use that disk
 # d-i apt-setup/cdrom-set-first boolean false
 # d-i apt-cdrom/disable-cdrom-entries boolean false
 
-# Extra firmware drivers for unusual cards
-d-i hw-detect/load_firmware boolean true
+# # # Extra firmware drivers for unusual cards
+# # d-i hw-detect/load_firmware boolean true
 
 # auto-install allows installer to skip preseeded questions
 # (mostly -- or only -- in critical mode)
@@ -193,7 +193,7 @@ d-i pkgsel/include/install-recommends boolean false
 # Answer the question the installer would want to ask
 d-i shared/default-x-display-manager                    select      lightdm
 
-d-i pkgsel/include string openssh-server lightdm lightdm-gtk-greeter
+# # d-i pkgsel/include string openssh-server lightdm lightdm-gtk-greeter
 
 # Automatic update
 d-i pkgsel/updatedb                                         boolean     true
