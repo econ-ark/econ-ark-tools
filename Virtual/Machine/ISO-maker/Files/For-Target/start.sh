@@ -37,8 +37,6 @@ sudo apt -y install lightdm
 
 /var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log
 
-exit
-
 # Record date and time at which install script is running
 # Used to mark date of original versions of files replaced
 build_date="$(date +%Y%m%d%H%S)"

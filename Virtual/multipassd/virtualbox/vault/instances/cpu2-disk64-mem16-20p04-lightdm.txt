@@ -14,9 +14,6 @@ version: 1
 packages:
   - git
   - emacs
-  - lightdm
-  - lighttdm-gtk-greeter
-  - xfce4
 runcmd:
   - sudo set -x
   - sudo set -v
@@ -24,6 +21,6 @@ runcmd:
   - sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
   - sudo mv /var/local /var/local_orig 
   - sudo ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local
-  - sudo /var/local/late_command.sh 2>&1 | tee /var/local/late_command.log
-  - sudo /var/local/start.sh
+  - sudo /var/local/late_command.sh |& tee /var/local/late_command.log
+  - sudo /var/local/start-with-log.sh
   
