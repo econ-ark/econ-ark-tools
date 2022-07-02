@@ -32,6 +32,9 @@
 [[ -e /var/local/verbose ]] && set -x && set -v
 
 sudo apt -y install emacs
+/var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log
+
+exit
 
 # Record date and time at which install script is running
 # Used to mark date of original versions of files replaced
