@@ -32,6 +32,9 @@
 [[ -e /var/local/verbose ]] && set -x && set -v
 
 sudo apt -y install emacs
+
+sudo apt -y install lightdm
+
 /var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log
 
 exit

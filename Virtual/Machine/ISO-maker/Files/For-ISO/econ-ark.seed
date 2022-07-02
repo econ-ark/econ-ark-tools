@@ -187,20 +187,20 @@ d-i mirror/udeb/components multiselect main, restricted, universe, multiverse
 # Install things that should be present before late_command
 # These correspond to the preamble in cloud-init config files
 
-## First, default to not installing recommended stuff
-d-i pkgsel/include/install-recommends boolean false
+# # ## First, default to not installing recommended stuff
+# # d-i pkgsel/include/install-recommends boolean false
 
-# Answer the question the installer would want to ask
-d-i shared/default-x-display-manager                    select      lightdm
+# # # Answer the question the installer would want to ask
+# # d-i shared/default-x-display-manager                    select      lightdm
 
 # # d-i pkgsel/include string openssh-server lightdm lightdm-gtk-greeter
 
 # Automatic update
-d-i pkgsel/updatedb                                         boolean     true
-d-i pkgsel/upgrade seen true
-d-i pkgsel/upgrade                                          select      safe-upgrade
-d-i pkgsel/upgrade seen true
-# d-i pkgsel/update-policy select unattended-upgrades
+# # d-i pkgsel/updatedb                                         boolean     true
+# # d-i pkgsel/upgrade seen true
+# # d-i pkgsel/upgrade                                          select      safe-upgrade
+# # d-i pkgsel/upgrade seen true
+# # # d-i pkgsel/update-policy select unattended-upgrades
 
 #tasksel tasksel/first multiselect xubuntu-desktop
 ### Grub

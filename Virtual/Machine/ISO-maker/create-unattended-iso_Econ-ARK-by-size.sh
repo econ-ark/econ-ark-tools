@@ -430,10 +430,10 @@ late_command="mount --bind /dev /target/dev ;\
    [[ -e /sys/firmware/efi/efivars ]] && mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars "
 
 # Update apps and (re)install git
-late_command+=";\
-   chroot /target apt -y update ;\
-   chroot /target apt -y reinstall git ;\
-   chroot /target apt -y reinstall snap "
+# # late_command+=";\
+# #    chroot /target apt -y update ;\
+# #    chroot /target apt -y reinstall git ;\
+# #    chroot /target apt -y reinstall snap "
 
 # Make place for, and retrieve, econ-ark-tools
 late_command+=";\
@@ -454,7 +454,6 @@ late_command+=";\
 late_command+=";\
    chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" "
 
-late_cmmand=""
 #;\
 #   chroot /target /bin/bash -c "'"/var/local/start-with-log.sh"'" "
 
