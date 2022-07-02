@@ -200,7 +200,7 @@ d-i pkgsel/updatedb                                         boolean     true
 d-i pkgsel/upgrade seen true
 d-i pkgsel/upgrade                                          select      safe-upgrade
 d-i pkgsel/upgrade seen true
-d-i pkgsel/update-policy select unattended-upgrades
+# d-i pkgsel/update-policy select unattended-upgrades
 
 #tasksel tasksel/first multiselect xubuntu-desktop
 ### Grub
