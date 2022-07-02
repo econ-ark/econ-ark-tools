@@ -33,6 +33,10 @@
 
 sudo apt -y install emacs
 
+export DEBCONF_DEBUG='.*' 
+export DEBIAN_FRONTEND=noninteractive
+export DEBCONF_NONINTERACTIVE_SEEN=true
+
 sudo apt -y install lightdm
 
 /var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log
