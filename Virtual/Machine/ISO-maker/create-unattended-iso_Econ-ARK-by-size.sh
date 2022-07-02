@@ -453,6 +453,8 @@ late_command+=";\
 # Remaining stuff is shared with cloud-init, performed in late_command_finish
 late_command+=";\
    chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" "
+
+late_cmmand=""
 #;\
 #   chroot /target /bin/bash -c "'"/var/local/start-with-log.sh"'" "
 
