@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [[ "$#" -ne 1 ]]; then
-    echo 'usage: install-emacs.sh [username]'
+    echo 'usage: install-ssh.sh [username]'
     exit
 fi
 

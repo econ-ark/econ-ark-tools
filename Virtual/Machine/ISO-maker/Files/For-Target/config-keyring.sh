@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 if [[ "$#" -ne 1 ]]; then
-    echo 'usage: install-emacs.sh [username]'
+    echo 'usage: config-keyring.sh [username]'
     exit
 fi
 
