@@ -1,1 +1,1 @@
-Install_xubuntark-desktop_at_beginning_of_start.sh
+Disable_unattended_upgrades
