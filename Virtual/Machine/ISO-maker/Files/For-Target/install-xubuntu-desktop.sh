@@ -21,6 +21,8 @@ if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ 
     #    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser $myuser vboxsf
 fi
 
+# Removing all traces of gdm3 helps prevent the question of
+# whether to use lightdm or gdm3
 ## Purge all packages that depend on gdm3
 sudo apt -y purge gnome-shell
 sudo apt -y purge gnome-settings-daemon
@@ -29,17 +31,13 @@ sudo apt -y purge libgdm1
 sudo apt -y purge gnome-session-bin
 sudo apt -y purge lightdm
 sudo apt -y autoremove
+
+# Print everything that requires gdm3
 sudo /var/local/check-dependencies.sh gdm3
+
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xubuntu-desktop xfce4-goodies
 
-
-# Choose lightdm as display manager
-# Without noninteractive mode allows installation without asking interactive questions
-
-# export DEBCONF_DEBUG=.* 
-#DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true apt -y install lightdm
-# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true dpkg-reconfigure lightdm
-# echo set shared/default-x-display-manager lightdm | debconf-communicate
+# Verify that lightdm is window manager
 
 cat /etc/X11/default-display-manager
 

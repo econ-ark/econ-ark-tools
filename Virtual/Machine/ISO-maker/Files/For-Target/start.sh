@@ -33,14 +33,6 @@
 
 sudo apt -y install emacs
 
-export DEBCONF_DEBUG='.*' 
-export DEBIAN_FRONTEND=noninteractive
-export DEBCONF_NONINTERACTIVE_SEEN=true
-
-sudo apt -y install lightdm
-
-/var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log
-
 # Record date and time at which install script is running
 # Used to mark date of original versions of files replaced
 build_date="$(date +%Y%m%d%H%S)"
@@ -61,18 +53,7 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 # Get some basic immediately useful tools 
 sudo apt-get -y install bash-completion curl
 
-# # # # Use Debian Installer in noninteractive mode to prevent questions 
-export DEBCONF_DEBUG='.*'
-export DEBIAN_FRONTEND=noninteractive
-export DEBCONF_NONINTERACTIVE_SEEN=true
-
-# # Install lightdm, xubuntu, and friends
-# # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt-get -y install lightdm
-# apt -y remove gdm3
-# apt -y purge gdm3
-# echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
-# DEBCONF_FRONTEND=noninteractive apt -y install lightdm
-# Create econ-ark and econ-ark-xrdp users
+# Users with appropriate groups
 /var/local/add-users.sh |& tee /var/local/add-users.log
 
 # Use correct git branches during debugging 
@@ -82,14 +63,7 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 # Now install own stuff
 cd /var/local
 
-# Removing all traces of gdm3 helps prevent the question of
-# whether to use lightdm or gdm3
-
-## apt -y install --no-install-recommends xfce4-terminal 
-
 /var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log
-
-exit
 
 # rc.local is empty by default
 [[ ! -e /etc/rc.local ]] && touch /etc/rc.local 
