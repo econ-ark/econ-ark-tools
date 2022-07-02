@@ -1,1 +1,1 @@
-Do_not_exit_from_start
+Stop_start_right_before_install-xubuntu-desktop
