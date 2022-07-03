@@ -15,7 +15,7 @@
 # }
 
 # Start verbose bash logging if signaled by presence of file
-sleep 3600
+#sleep 3600
 [[ -e /var/local/verbose ]] && set -x && set -v
 
 
