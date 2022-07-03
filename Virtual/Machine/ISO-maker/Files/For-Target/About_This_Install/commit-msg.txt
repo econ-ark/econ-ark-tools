@@ -1,1 +1,1 @@
-Restore_sleep_before_xubuntark-desktop
+DEBCONF_PRIORITY=critical
