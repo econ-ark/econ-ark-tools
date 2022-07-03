@@ -35,11 +35,17 @@ sudo apt -y autoremove
 # Print everything that requires gdm3
 sudo /var/local/check-dependencies.sh gdm3
 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xubuntu-desktop xfce4-goodies
+# Preconfigure lightdm
+
+echo "set shared/default-x-display-manager lightdm" | debconf communicate
+echo "get shared/default-x-display-manager        " | debconf communicate
+
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install lightdm lightdm-gtk-greeter
+DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install xubuntu-desktop xfce4-goodies
 
 # Verify that lightdm is window manager
 
-cat /etc/X11/default-display-manager
+echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
 
 backdrops=usr/share/xfce4/backdrops
 
