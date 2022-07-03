@@ -63,6 +63,7 @@ sudo apt-get -y install bash-completion curl
 # Now install own stuff
 cd /var/local
 
+sleep 3600
 sudo bash -c '/var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log'
 
 # rc.local is empty by default
