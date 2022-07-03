@@ -39,9 +39,14 @@ sudo /var/local/check-dependencies.sh gdm3
 apt -y install debconf debconf-utils
 echo "set shared/default-x-display-manager lightdm" | debconf-communicate
 echo "get shared/default-x-display-manager        " | debconf-communicate
+echo "debconf debconf/priority select critical" |sudo debconf-set-selections -v 
+echo "lightdm shared/default-x-display-manager select lightdm" |sudo debconf-set-selections -v 
+echo "gdm3 shared/default-x-display-manager select lightdm" |sudo debconf-set-selections -v
 
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install lightdm lightdm-gtk-greeter
-DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install xubuntu-desktop xfce4-goodies
+export DEBCONF_PRIORITY=critical
+
+DEBCONF_PRIORITY=critical DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install lightdm lightdm-gtk-greeter
+DEBCONF_PRIORITY=CRITICAL DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install xubuntu-desktop xfce4-goodies
 
 # Verify that lightdm is window manager
 
