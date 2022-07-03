@@ -1,1 +1,1 @@
-DEBCONF_PRIORITY=critical
+Try_again_to_make_lightdm_install_noninteractive:_-bin-bash_for_everything
