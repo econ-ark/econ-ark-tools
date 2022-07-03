@@ -1,1 +1,1 @@
-Stop_start_right_before_install-xubuntu-desktop
+Install_lightdm_and_lightdm-gtk-greeter_before_xubuntu-desktop
