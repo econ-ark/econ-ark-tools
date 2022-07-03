@@ -1,1 +1,1 @@
-Try_again_to_make_lightdm_install_noninteractive:_-bin-bash_for_everything
+Remove_pause_from_finish.sh
