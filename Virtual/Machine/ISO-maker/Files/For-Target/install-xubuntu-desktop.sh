@@ -37,8 +37,8 @@ sudo /var/local/check-dependencies.sh gdm3
 
 # Preconfigure lightdm
 
-echo "set shared/default-x-display-manager lightdm" | debconf communicate
-echo "get shared/default-x-display-manager        " | debconf communicate
+echo "set shared/default-x-display-manager lightdm" | debconf-communicate
+echo "get shared/default-x-display-manager        " | debconf-communicate
 
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install lightdm lightdm-gtk-greeter
 DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install xubuntu-desktop xfce4-goodies
