@@ -36,7 +36,7 @@ sudo apt -y autoremove
 sudo /var/local/check-dependencies.sh gdm3
 
 # Preconfigure lightdm
-
+apt -y install debconf debconf-utils
 echo "set shared/default-x-display-manager lightdm" | debconf-communicate
 echo "get shared/default-x-display-manager        " | debconf-communicate
 

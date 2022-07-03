@@ -63,8 +63,7 @@ sudo apt-get -y install bash-completion curl
 # Now install own stuff
 cd /var/local
 
-exit
-/var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log
+sudo bash -c '/var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log'
 
 # rc.local is empty by default
 [[ ! -e /etc/rc.local ]] && touch /etc/rc.local 
@@ -181,6 +180,6 @@ sudo rm -f /var/crash/grub-pc.0.crash
 
 # When run by late_command, the machine will reboot after finishing start.sh
 
-/var/local/install-ssh.sh
+/var/local/install-ssh.sh $myuser
 
-sleep 10800 # = 60*60*3 hours
+# sleep 10800 # = 60*60*3 hours
