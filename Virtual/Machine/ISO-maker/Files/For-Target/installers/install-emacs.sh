@@ -29,14 +29,14 @@ localhome=var/local/root/home
 cp /$localhome/user_only_for_root/dotemacs_root_and_regular_users /$localhome/user_only_for_regular/dotemacs_regular_users_only > /$localhome/$myuser/dotemacs
 
 [[ ! -e /home/$myuser/.emacs ]] && sudo ln -s /$localhome/$myuser/dotemacs /home/$myuser/.emacs
-[[ ! -e          root/.emacs ]] && sudo ln -s /$localhome/user_only_for_root/dotemacs_root /root/.emacs
+[[ ! -e          root/.emacs ]] && sudo ln -s /$localhome/user_only_for_root/dotemacs_root_and_regular_users /root/.emacs
 
 # Make it clear in /var/local, where its content is used
 [[ ! -e /$localhome/$myuser/dotemacs-home ]]            && sudo ln -s /home/$myuser/.emacs /$localhome/$myuser/dotemacs-home
 [[ ! -e /$localhome/user_only_for_root/dotemacs-root ]] && sudo ln -s /root/.emacs         /$localhome/user_only_for_root/dotemacs-root
 
 # Permissions 
-sudo chown "root:root" /root/.emacs           
+# sudo chown "root:root" /root/.emacs           
 chmod a+rx /home/$myuser/.emacs              # no sudo to prevent root 
 chown "$myuser:$myuser" /home/$myuser/.emacs  # no sudo
 
