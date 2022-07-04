@@ -21,8 +21,8 @@ sudo apt -y reinstall emacs # Might have already been installed
 [[ -z "$(which gpg)" ]] && sudo apt -y install gpg gnutls-bin
 
 ## Create .emacs files
-[[ -e /home/$myuser/.emacs ]] && sudo rm -f /home/$myuser/.emacs
-[[ -e         /root/.emacs ]] && sudo rm -f         /root/.emacs
+[[ -L /home/$myuser/.emacs ]] && sudo rm -f /home/$myuser/.emacs
+[[ -L         /root/.emacs ]] && sudo rm -f         /root/.emacs
 
 localhome=var/local/root/home
 ## Merge dotemacs conent for both root and regular users with content for regular
