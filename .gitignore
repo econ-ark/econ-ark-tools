@@ -173,4 +173,10 @@ Temporary Items
 # Files specific to installer
 finished-software-install
 build_date.txt
-dotemacs*
+
+# Ignore files created by install-emacs.sh
+dotemacs
+dotemacs-home
+dotemacs-root
+
+
