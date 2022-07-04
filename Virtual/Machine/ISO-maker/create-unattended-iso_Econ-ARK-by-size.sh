@@ -59,6 +59,7 @@ touch "$pathToScript/Size-To-Make-Is-$size"
 # Names/paths of local and remote files
 ForTarget="Files/For-Target"
 ForISO="Files/For-ISO"
+
 # Allow for branches to test alternative builds
 git_branch="$(git symbolic-ref HEAD 2>/dev/null)" ; git_branch=${git_branch##refs/heads/}
 echo $git_branch > $ForTarget/git_branch # store the name of the current branch

@@ -1,5 +1,5 @@
 #!/bin/bash
-# For explanations, see econ-ark-tools/Virtual/Machine/ISO-maker/create-unattended-iso script
+# For explanations, see https://github.com/econ-ark/econ-ark/tools, in Virtual/Machine/ISO-maker/create-unattended-iso script
 
 apt -y update 
 apt -y reinstall git 
