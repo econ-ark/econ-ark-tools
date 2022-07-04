@@ -83,10 +83,9 @@ mkdir -p "$iso_make"
 mkdir -p "$iso_make/iso_org"
 mkdir -p "$iso_make/iso_new"
 mkdir -p "$iso_done/$size"
-#rm -f "$iso_make/$ks_file" # Make sure new version is downloaded
 rm -f "$iso_make/preseed/$seed_file" # Make sure new version is downloaded
 
-currentuser="$( whoami)"
+currentuser="$(whoami)"
 
 # define spinner function for slow tasks
 # courtesy of http://fitnr.com/showing-a-bash-spinner.html
@@ -137,14 +136,14 @@ function program_is_installed {
 # print a pretty header
 echo
 echo " +---------------------------------------------------+"
-echo " |            UNATTENDED UBUNTU ISO MAKER            |"
+echo " |          UNATTENDED (X)UBUNTU ISO MAKER           |"
 echo " +---------------------------------------------------+"
 echo
 
 #check that we are in ubuntu 16.04+ or higher
 
 case "$(lsb_release -rs)" in
-    16*|18*|20*) vge1604="yes" ;;
+    16*|18*|20|22*) vge1604="yes" ;;
     *) vge1604="" ;;
 esac
 
@@ -321,7 +320,6 @@ spinner $!
 # sudo chown root:root initrd.gz
 # sudo chmod a-w .
 
-
 new_firmware="cdimage.debian.org/cdimage/unofficial/non-free/firmware/bullseye/current" ; iso_make="/usr/local/share/iso_make"
 pushd . ; cd $iso_make; [[ ! -d firmware ]] && (cmd="sudo wget https://$new_firmware/firmware.zip" ; echo "$cmd" ; eval "$cmd" ; mkdir -p firmware ; sudo unzip firmware.zip -d firmware; sudo rm -f firmware.zip) ; popd
 
@@ -353,7 +351,6 @@ sudo cp $pathToScript/Disk/Labels/Econ-ARK.disk_label_2x  $iso_make/iso_new/pres
 sudo echo Econ-ARK                                      > $iso_make/iso_new/preseed/Econ-ARK.disk_label.contentDetails
 sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/preseed/Econ-ARK.VolumeIcon.icns
 
-
 # Constraint: Nothing can be copied from the installer ISO to target
 # because the system that installs everything derives instead from initrd
 # and it is NOT worth it to try to change initrd
@@ -361,68 +358,11 @@ sudo cp $pathToScript/Disk/Icons/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/pr
 
 
 # set late_command
-# There are two versions of late_command: One that can be run to reconfigure a
-# machine that was set up in some other way than via the ISO installer,
-# versus via the ISO installer.  If the git_branch is "Make-ISO-Installer"
-# the extra components required for the installer are included"
 
-# if [ "$git_branch" == "Make-ISO-Installer" ]; then
-#     late_command="mount --bind /etc/resolv.conf /target/etc/resolv.conf ;\
-    #     mount --bind /dev /target/dev ;\
-    #     mount --bind /dev/pts /target/dev/pts ;\
-    #     mount --bind /proc /target/proc ;\
-    #     mount --bind /sys /target/sys ;\
-    #     mount --bind /run /target/run ;\
-    #     mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
-    #     "
-# else
-#     ate_command=""
-# fi
+set -o noglob  # Needed for proper variable evaluation in late_command
 
-# These are the commands needed to convert a vagrant machine to an Econ-ARK one  
-# late_command+="mount --bind /dev /target/dev ;\
-    #     mount --bind /dev/pts /target/dev/pts ;\
-    #     mount --bind /proc /target/proc ;\
-    #     mount --bind /sys /target/sys ;\
-    #     mount --bind /run /target/run ;\
-    #     chroot /target wget -O /var/local/late_command.sh $online/$ForTarget/late_command.sh ;\
-    #     chroot /target wget -O  /var/local/econ-ark.seed          $online/$ForISO/$seed_file ;\
-    #     chroot /target wget -O  /var/local/start.sh               $online/$ForTarget/$startFile ;\
-    #     chroot /target wget -O  /etc/rc.local                     $online/$ForTarget/$rclocal_file ;\
-    #     chroot /target wget -O  /var/local/finish.sh              $online/$ForTarget/$finishFile ;\
-    #     chroot /target wget -O  /var/local/$finishMAX             $online/$ForTarget/$finishMAX ;\
-    #     chroot /target wget -O  /var/local/grub-menu.sh           $online/$ForTarget/grub-menu.sh ;\
-    #     chroot /target wget -O  /var/local/XUBUNTARK-body.md      $online/$ForTarget/XUBUNTARK-body.md ;\
-    #     chroot /target wget -O  /etc/default/grub                 $online/$ForTarget/grub ;\
-    #     chroot /target wget -O  /var/local/git_branch             $online/$ForTarget/git_branch ;\
-    #     chroot /target chmod 755 /etc/default/grub ;\
-    #     chroot /target df -hT > /tmp/target-partition ;\
-    #     cat /tmp/target-partition | grep /$ | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
-    #     sd=\$(cat /tmp/target-dev) ;\
-    #     chroot /target grub-install \$sd"
-
-# sleep 2h ;\
-
-#     late_command="mount --bind /etc/resolv.conf /target/etc/resolv.conf ;\
-    #     mount --bind /dev /target/dev ;\
-    #     mount --bind /dev/pts /target/dev/pts ;\
-    #     mount --bind /proc /target/proc ;\
-    #     mount --bind /sys /target/sys ;\
-    #     mount --bind /run /target/run ;\
-    #     mount --bind /sys/firmware/efi/efivars /target/sys/firmware/efi/efivars ;\
-
-# Remove all grub-related commands
-#   chroot /target apt -y install grub-efi-amd64-bin ;\
-#   chroot /target apt -y install grub-pc ;\
-#   chroot /target grub-install \$sd ;\
-#   chroot /target chmod a+x /var/local/start.sh /var/local/finish.sh /var/local/$finishMAX /var/local/grub-menu.sh /var/local/late_command.sh /etc/rc.local ;\
-
-
-#   chroot /target apt -y update ;\
-#   [[ -e /target/var/local     ]] && rm -Rf /target/var/local ;\
-
-set -o noglob
 # Connect the busybox installer's bindings to the target machine
+# (allows internet from chroot)
 late_command="mount --bind /dev /target/dev ;\
    mount --bind /dev/pts /target/dev/pts ;\
    mount --bind /proc /target/proc ;\
@@ -434,8 +374,6 @@ late_command="mount --bind /dev /target/dev ;\
 late_command+=";\
    chroot /target apt -y update ;\
    chroot /target apt -y reinstall git "
-#;\
-#   chroot /target apt -y reinstall snap "
 
 # Make place for, and retrieve, econ-ark-tools
 late_command+=";\
@@ -452,76 +390,24 @@ late_command+=";\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
    chroot /target echo \$(echo $size > /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) "
 
-# Remaining stuff is shared with cloud-init, performed in late_command_finish
+# late_command_finish is also used in cloud-init
 late_command+=";\
-   chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" ;\
-   chroot /target /bin/bash -c "'"/var/local/loggers/start-with-log.sh"'" "
+   chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" "
 
-
-#   chroot /target /var/local/loggers/start-with-log.sh ;\
-#"'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'"
-#  ;\
-#   chroot /target /bin/bash -c '/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log' ;\
-
- #   touch /target/etc/rc.local ;\
- #   mv /target/etc/rc.local /target/etc/rc.local_orig ;\
- #   chroot /target cp /var/local/rc.local /etc/rc.local ;\
- #   chroot /target df -hT > /tmp/target-partition ;\
- #   cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev ;\
- #   sd=\$(cat /tmp/target-dev) ;\
- # "
-
-#   chroot /target /bin/bash -c "'"cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ; git checkout '$git_branch' ; git pull"'" ;\
-#   chroot /target apt -y install broadcom-sta-common broadcom-sta-source broadcom-sta-dkms ;\
-
-#   chroot /target apt-cdrom add ;\
-#   [[ -e /target/etc/default/grub ]] && [[ -e /target/var/local/grub ]] && cp /target/etc/default/grub /target/etc/default/grub_orig && mv /target/var/local/grub /target/etc/default/grub ;\
-#   chmod 755 /target/etc/default/grub ;\
-#   chroot /target update-grub ;\
-
-#if [ "$git_branch" == "Make-ISO-Installer" ]; then
-#     mkdir -p /target/etc/systemd/system/getty@tty1.service.d ;\
-# late_command+=";\
-#      chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label     /Econ-ARK.disk_label     ;\
-#      chroot /target cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x  /Econ-ARK.disk_label_2x  ;\
-#      chroot /target cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns;\
-#      chroot /target echo Econ-ARK > /target/.disk_label.contentDetails                         ;\
-#     reboot"
-
-#     mkdir -p   /target/usr/share/lightdm/lightdm.conf.d /target/etc/systemd/system/getty@tty1.service.d ;\
-#     sudo cp /target/var/local/root/etc/systemd/system/getty@tty1.service.d/override.conf /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
-#     chmod 755 /target/etc/systemd/system/getty@tty1.service.d/override.conf ;\
-#     chroot /target apt -y purge virtualbox-guest* ;\
-#     chroot /target mkdir /installer ;\
-#     chroot /target update-grub ;\
-#     chroot /target /bin/bash -c "'"[[ -e /boot/efi/EFI/ubuntu/grubx64.efi ]] && cp /boot/efi/EFI/ubuntu/grubx64.efi /boot/efi/EFI/ubuntu/shimx64.efi"'" ;\
-#     chroot /target /bin/bash -c "'"[[ -d       /cdrom ]] && [[ \$(ls -A       /cdrom) ]] && cp       /cdrom/preseed/XUB*.* /installer/"'" ;\
-#     chroot /target /bin/bash -c "'"[[ -d /media/cdrom ]] && [[ \$(ls -A /media/cdrom) ]] && cp /media/cdrom/preseed/XUB*.* /installer/"'" ;\
-
-#     chroot /target update-grub ;\
-#     chroot /target apt -y install --reinstall grub-efi-amd64 ;\
-     # chroot /target apt-get --yes purge shim ;\
-     # chroot /target apt-get --yes purge mokutil ;\
-     # chroot /target apt -y install grub-efi-amd64-bin ;\
-     # chroot /target apt -y install --reinstall grub-pc ;\
-     # chroot /target apt -y --fix-broken install ;\
-#     chroot /target grub-install --verbose --force --efi-directory=/boot/efi/ --removable --target=x86_64-efi --no-uefi-secure-boot ;\
-#     sed -i 's/COMPRESS=lz4/COMPRESS=gzip/g' /target/etc/initramfs-tools/initramfs.conf ;\
-#     chroot /target update-initramfs -v -c -k all ;\
-
-#fi
-#     echo xubark-$(cat /target/var/local/About_This_Install/short.git-hash) > /target/installer/hostname ;\
-#     hostname=$(cat /target/installer/hostname) ;\
+# Run the start script and log the results
+late_command+=";\
+   chroot /target /bin/bash -c "'"/var/local/loggers/start-with-log.sh"'" " 
 
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
 # https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1867092
 
 cd "$pathToScript"
+
 # If it exists, get the last late_command
 late_command_last=""
 [[ -e $ForTarget/late_command.sh ]] && late_command_last="$(< $ForTarget/late_command.sh)" #; echo "$late_command_last"
 
-# Don't treat "Size-To-Make-Is" choice as meaningful for a change to late_command
+# Don't treat "Size-To-Make-Is" choice as meaningful for (below) detecting a change to late_command
 late_command_curr_purged="$(echo $late_command      | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_curr_purged"
 late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-MAX/Size-To-Make/g' | sed -e 's/Size-To-Make-Is-MIN/Size-To-Make/g')" #; echo "$late_command_last_purged"
 
@@ -532,48 +418,41 @@ echo '# For explanations, see econ-ark-tools/Virtual/Machine/ISO-maker/create-un
 echo '' >> $ForTarget/late_command.sh
 echo '#!/bin/sh' > $iso_make/iso_new/preseed/late_command_busybox.sh
 echo '' >> $iso_make/iso_new/preseed/late_command_busybox.sh
-# echo "pause after headers"
-# read answer
+
 echo "$late_command_curr_purged" | tr ';' \\n | sed 's|^ ||g'  >> $iso_make/iso_new/preseed/late_command_busybox.sh
 echo "$late_command_curr_purged" | tr ';' \\n | sed 's|^ ||g' | sed 's|chroot /target ||g' | grep -v 'bind' | sed 's|/target/|/|g' >> $ForTarget/late_command.sh
-#echo "$late_command_curr_purged" | tr ';' \\n | sed 's|^ ||g' | grep -v late_command >> $iso_make/iso_new/preseed/late_command_busybox.sh
-#echo "$late_command_curr_purged" | tr ';' \\n | sed 's|^ ||g' | sed 's|chroot /target ||g' | grep -v $ForTarget/late_command | grep -v 'bind' | sed 's|/target/|/|g' >> $ForTarget/late_command.sh
+
+# Make the late_command scripts executable
 sudo chmod a+x $ForTarget/late_command.sh
 sudo chmod a+x $iso_make/iso_new/preseed/late_command_busybox.sh
 
-# echo "late_command="
-# echo "$late_command"
-# echo 'after late_commands' 
-# read answer
-
 # Test whether anything has changed that requires a new push
-
-if [[ -z "$(git status --untracked-files=normal --porcelain 2>/dev/null)" ]]; then #
+if [[ -z "$(git status --untracked-files=normal --porcelain 2>/dev/null)" ]]; then # -z is zero (empty)
     echo '' ; echo 'Nothing has changed since last commit; continuing'
 else
     echo '' ; echo 'You have uncommited changes; please commit them with a commit message and rerun the script'
     exit 1
 fi
 
-cmd="git diff --exit-code $pathToScript/$ForTarget/late_command.sh"
-echo "$cmd"
-eval "$cmd"
-late_command_changed="$?"
-echo "late_command_changed=$late_command_changed"
+# cmd="git diff --exit-code $pathToScript/$ForTarget/late_command.sh"
+# echo "$cmd"
+# eval "$cmd"
+# late_command_changed="$?"
+# echo "late_command_changed=$late_command_changed"
 
-if [[ "$late_command_changed" != 0 ]]; then
-    echo ''
-    echo "$ForTarget/late_command has changed."
-    echo '' ; echo 'The diff output is: ' ; echo ''
-    git diff --exit-code $pathToScript/$ForTarget/late_command.sh
-    echo ''
-    echo 'Please git add, commit, push then hit return:'
-    cmd="cd `pwd` ; git add $ForTarget ; git add $ForTarget/late_command.sh ; git commit -m ISOmaker-Update ; git push"
-    echo "$cmd"
-    echo "$cmd" | xclip -i
-    echo "(should be on xclip clipboard - paste in xfce4-terminal via shift-ctrl-v)"
-    read answer
-fi
+# if [[ "$late_command_changed" != 0 ]]; then
+#     echo ''
+#     echo "$ForTarget/late_command has changed."
+#     echo '' ; echo 'The diff output is: ' ; echo ''
+#     git diff --exit-code $pathToScript/$ForTarget/late_command.sh
+#     echo ''
+#     echo 'Please git add, commit, push then hit return:'
+#     cmd="cd `pwd` ; git add $ForTarget ; git add $ForTarget/late_command.sh ; git commit -m ISOmaker-Update ; git push"
+#     echo "$cmd"
+#     echo "$cmd" | xclip -i
+#     echo "(should be on xclip clipboard - paste in xfce4-terminal via shift-ctrl-v)"
+#     read answer
+# fi
 
 # if About-This-Install directory does not exist
 if [[ ! -e "$pathToScript/$dirExtra/$ATI" ]]; then # create it
