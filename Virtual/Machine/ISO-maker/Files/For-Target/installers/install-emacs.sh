@@ -26,13 +26,13 @@ sudo apt -y reinstall emacs # Might have already been installed
 
 localhome=var/local/root/home
 ## Merge dotemacs conent for both root and regular users with content for regular
-cp /$localhome/user_only_for_root/dotemacs_root_and_regular_users /$localhome/user_only_for_regular/dotemacs_regular_users_only > /$localhome/$myuser/dotemacs
+cp /$localhome/user_only_for_root/dotemacs_root_and_regular_users /$localhome/user_only_for_regular/dotemacs_regular_users_only > /$localhome/$myuser/dotemacs_root_and_regular_users
 
 [[ ! -e /home/$myuser/.emacs ]] && sudo ln -s /$localhome/$myuser/dotemacs /home/$myuser/.emacs
-[[ ! -e          root/.emacs ]] && sudo ln -s /$localhome/user_only_for_root/dotemacs_root_and_regular_users /root/.emacs
+[[ ! -e         /root/.emacs ]] && sudo ln -s /$localhome/user_only_for_root/dotemacs_root_and_regular_users /root/.emacs
 
-# Make it clear in /var/local, where its content is used
-[[ ! -e /$localhome/$myuser/dotemacs-home ]]            && sudo ln -s /home/$myuser/.emacs /$localhome/$myuser/dotemacs-home
+# Make it clear in /var/local/root/home, where its content is used
+[[ ! -e /$localhome/$myuser/dotemacs-home ]]            && sudo ln -s /home/$myuser/.emacs /$localhome/$myuser/dotemacs_root_and_regular_users
 [[ ! -e /$localhome/user_only_for_root/dotemacs-root ]] && sudo ln -s /root/.emacs         /$localhome/user_only_for_root/dotemacs-root
 
 # Permissions 
