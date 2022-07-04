@@ -29,8 +29,8 @@ localhome=var/local/root/home
 # ## Merge dotemacs conent for both root and regular users with content for regular
 # cat /$localhome/user_only_for_root/dotemacs_root_and_regular_users /$localhome/user_only_for_regular/dotemacs_regular_users_only > /$localhome/$myuser/dotemacs_root_and_regular_users
 
-[[ ! -e /home/$myuser/.emacs ]] && sudo ln -s /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs
-[[ ! -e         /root/.emacs ]] && sudo ln -s /$localhome/user_only_for_root/dotemacs_root_and_regular_users /root/.emacs
+[[ ! -e /home/$myuser/.emacs ]] && sudo cp /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs
+[[ ! -e         /root/.emacs ]] && sudo cp /$localhome/user_only_for_root/dotemacs_root_and_regular_users /root/.emacs
 
 # # Make it clear in /var/local/root/home, where its content is used
 # [[ ! -e /$localhome/$myuser/dotemacs_root_and_regular_users ]]            && sudo ln -s /home/$myuser/.emacs /$localhome/$myuser/dotemacs_root_and_regular_users
