@@ -72,7 +72,7 @@ cp /var/local/root/etc/rc.local /etc/rc.local
 
 # add this stuff to any existing ~/.bash_aliases
 if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
-    sudo cp /var/local/root/home/user_regular/bash_aliases >> /home/$myuser/.bash_aliases # add them
+    sudo cat /var/local/root/home/user_regular/bash_aliases >> /home/$myuser/.bash_aliases # add them
     sudo chmod a+x /home/$myuser/.bash_aliases # ensure correct permissions
     sudo chown $myuser:$myuser /home/$myuser/.bash_aliases # ensure correct ownership
     # Same bash shell for root user
