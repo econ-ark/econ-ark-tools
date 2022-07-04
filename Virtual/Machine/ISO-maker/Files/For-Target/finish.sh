@@ -24,18 +24,18 @@ myuser="econ-ark"
 mypass="kra-noce"
 
 # GitHub command line tools
-./install-gh-cli-tools.sh
+/var/local/installers/install-gh-cli-tools.sh
 
 
 # Prepare for emacs install
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
 sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
 
-/var/local/install-emacs.sh $myuser
+/var/local/installers/install-emacs.sh $myuser
 
 cd /var/local
 
-# ./install-xubuntu-desktop.sh  # plus some utilities and backdrop
+# /var/local/installers/install-xubuntu-desktop.sh  # plus some utilities and backdrop
 
 commit_msg="$(cat ./About_This_Install/commit-msg.txt)"
 short_hash="$(cat ./About_This_Install/short.git-hash)"
@@ -90,7 +90,7 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1 
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager 
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager snap
 
 # Let root and myuser control networks
 sudo adduser  $myuser netdev
@@ -358,8 +358,8 @@ sudo apt -y install meld
 
 tail_monitor="$(pgrep tail)" && [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
 
-#/var/local/install-ssh.sh "$myuser"    |& tee /var/local/install-ssh.log
-#/var/local/config/config/config-keyring.sh "$myuser" |& tee /var/local/config-keyring.log
+#/var/local/installers/install-ssh.sh "$myuser"    |& tee /var/local/installers/install-ssh.log
+#/var/local/config/config/config-keyring.sh "$myuser" |& tee /var/local/config/config-keyring.log
 
 
 sudo reboot

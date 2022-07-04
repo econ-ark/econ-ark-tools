@@ -63,7 +63,7 @@ sudo apt-get -y install bash-completion curl
 # Now install own stuff
 cd /var/local
 
-sudo bash -c '/var/local/install-xubuntu-desktop.sh |& tee /var/local/install-xubuntu-desktop.log'
+sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local/installers/install-xubuntu-desktop.log'
 
 # rc.local is empty by default
 [[ ! -e /etc/rc.local ]] && touch /etc/rc.local 
@@ -162,7 +162,7 @@ sudo apt -y install expect
 sudo apt -y install tigervnc-scraping-server
 
 ## Execute as user to create files with correct ownership/permissions
-sudo -u $myuser /var/local/install-tigervnc-scraping-server.sh
+sudo -u $myuser /var/local/installers/install-tigervnc-scraping-server.sh
 
 # Anacron massively delays the first boot; this disbles it
 sudo touch /etc/cron.hourly/jobs.deny       
@@ -180,6 +180,6 @@ sudo rm -f /var/crash/grub-pc.0.crash
 
 # When run by late_command, the machine will reboot after finishing start.sh
 
-/var/local/install-ssh.sh $myuser
+/var/local/installers/install-ssh.sh $myuser
 
 # sleep 10800 # = 60*60*3 hours
