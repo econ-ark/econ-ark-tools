@@ -29,8 +29,8 @@ cp /var/local/root/home/user_only_root/dotemacs_root /var/local/home/user_only_r
 [[ ! -e          root/.emacs ]] && sudo ln -s /var/local/root/home/user_only_for_root/dotemacs_root /root/.emacs
 
 # Make it clear in /var/local, where its content is used
-[[ ! -e /var/local/home/$myuser/dotemacs-home ]]            && sudo ln -s /home/$myuser/.emacs /var/local/root/home/$myuser/dotemacs-home
-[[ ! -e /var/local/home/user_only_for_root/dotemacs-root ]] && sudo ln -s /root/.emacs         /var/local/root/home/user_only_for_root/dotemacs-root
+[[ ! -e /var/local/root/home/$myuser/dotemacs-home ]]            && sudo ln -s /home/$myuser/.emacs /var/local/root/home/$myuser/dotemacs-home
+[[ ! -e /var/local/root/home/user_only_for_root/dotemacs-root ]] && sudo ln -s /root/.emacs         /var/local/root/home/user_only_for_root/dotemacs-root
 
 # Permissions 
 sudo chown "root:root" /root/.emacs           
