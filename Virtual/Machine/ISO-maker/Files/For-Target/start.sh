@@ -75,6 +75,9 @@ if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK ad
     sudo cat /var/local/root/home/user_regular/bash_aliases >> /home/$myuser/.bash_aliases # add them
     sudo chmod a+x /home/$myuser/.bash_aliases # ensure correct permissions
     sudo chown $myuser:$myuser /home/$myuser/.bash_aliases # ensure correct ownership
+fi
+
+if ! grep -q /root/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
     # Same bash shell for root user
     sudo cat /var/local/root/home/user_root/bash_aliases   >> /root/.bash_aliases 
     sudo chmod a+x /root/.bash_aliases
