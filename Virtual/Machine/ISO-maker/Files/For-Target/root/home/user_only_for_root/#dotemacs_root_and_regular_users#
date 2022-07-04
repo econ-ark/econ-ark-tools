@@ -1,0 +1,259 @@
+g;;; # -*- mode: emacs-lisp ;-*- ;;; Forces editing in emacs-mode
+;;; Version for XUBUNTARK
+
+;;; Bootstrap for first use of emacs -- see https://debbugs.gu.org/cgi/bugreport.cgi?bug=31397
+
+(require 'package)
+(require 'dbus)
+(require 'cl-lib)
+
+(setq package-check-signature nil)
+(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
+
+(package-initialize)
+(menu-bar-mode -1) ;;; GTK throws worrisome but innocuous errors when there's a menu bar
+
+(unless (package-installed-p 'use-package)
+  (package-refresh-contents)
+  (package-install 'use-package))
+
+(package-initialize)
+(setq package-check-signature nil) ;;; Google "metaredux.com" dealing with expired elpa gpg keys
+
+(prefer-coding-system 'utf-8)
+(setq default-buffer-file-coding-system 'utf-8-unix)
+
+(when (>= emacs-major-version 24) ;; version 24 introduced the package manager 
+  (require 'package)
+  (add-to-list 'package-archives '("elpa"         . "https://elpa.gnu.org/packages/")           t)
+  (add-to-list 'package-archives '("melpa"        . "https://melpa.org/packages/")          t)
+  ;; (add-to-list 'package-archives '("marmalade"    . "http://marmalade-repo.org/packages/") t)
+  ;; (add-to-list 'package-archives '("org"          . "http://orgmode.org/elpa/")            t)
+
+  ;; list the packages you want
+  (setq package-list '(use-package auctex auto-complete-auctex shell-here org markdown-mode git magit elpy gnu-elpa-keyring-update bash-completion xclip))
+  ;; fetch the list of packages available
+  (unless package-archive-contents
+    (package-refresh-contents))
+
+  ;; install the missing packages
+  (dolist (package package-list)
+    (unless (package-installed-p package)
+      (package-install package)))
+
+  (when (< emacs-major-version 27)  ;; https:iqss.github.io/IQSS.emacs/init.html
+    (package-initialize))
+  (use-package elpy
+    :ensure t
+    :init    
+    (elpy-enable))
+  ;; https://github.com/ieure/shell-here
+  ;; Open a shell buffer in (or relative to) default-directory, e.g. whatever directory the current buffer is in.
+  (require 'shell-here)
+  (define-key (current-global-map) "\C-c!" 'shell-here)
+  ) ;; end when (>= emacs-major-version 24)
+
+
+(defun indent-buffer ()
+  "Indent the currently visited buffer."
+  (interactive)
+  (indent-region (point-min) (point-max)))
+
+(defun indent-region-or-buffer ()
+  "Indent a region if selected, otherwise the whole buffer."
+  (interactive)
+  (save-excursion
+    (if (region-active-p)
+	(progn
+	  (indent-region (region-beginning) (region-end))
+	  (message "Indented selected region."))
+      (progn
+	(indent-buffer)
+	(message "Indented buffer.")))))
+
+(global-set-key (kbd "C-M-\\") 'indent-region-or-buffer) ;; on Mac, ESC-C-\
+
+;;; 2017-05-30: Display full file path in frame title, only works in Xterm (not Terminal.app)
+
+(setq-default frame-title-format "%b (%f)")
+
+;;; Suppress some annoying and useless error messages
+(when (string= system-type "darwin")
+  (setq dired-use-ls-dired nil)) ;;; Inhibit annoying error message if running on MacOS
+(setq inhibit-startup-message t) ;;; Inhibit annoying startup message
+(require 'dired-x)
+
+;;; Match words across line breaks
+;;; https://emacs.stackexchange.com/questions/10582/search-for-string-ignoring-new-lines
+
+(setq isearch-lax-whitespace t)
+(setq isearch-regexp-lax-whitespace t)
+(setq search-whitespace-regexp "[ \t\r\n]+")
+
+(setq delete-by-moving-to-trash t)  ;; can be slow for large deletes 
+(setq dired-recursive-deletes t)
+
+;;; Make sure the parens bounce back to show you where start and end points are
+'(show-paren-mode t)
+
+;; Copy full path of filename selected in dired onto the clipboard
+;; From http://stackoverflow.com/questions/18812938/copy-full-file-path-into-copy-paste-clipboard
+;; from http://stackoverflow.com/questions/2416655/file-path-to-clipboard-in-emacs
+
+(defun clip-file ()
+  "Put the current file name on the clipboard"
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+		      (file-name-directory default-directory)
+		    (buffer-file-name))))
+    (when filename
+      (x-select-text filename))))
+
+(defun put-file-name-on-clipboard ()
+  "Put the current file name on the clipboard"
+  (interactive)
+  (let ((filename (if (equal major-mode 'dired-mode)
+		      default-directory
+		    (buffer-file-name))))
+    (when filename
+      (with-temp-buffer
+	(insert filename)
+	(clipboard-kill-region (point-min) (point-max)))
+      (message filename))))
+
+(define-key (current-global-map) "\C-\M-b"       'put-file-name-on-clipboard) ;; Ctrl-ESC-b
+
+;;; From http://www.emacswiki.org/emacs/UnfillParagraph
+;;; Stefan Monnier <foo at acm.org>. It is the opposite of fill-paragraph
+(defun unfill-paragraph (&optional region)
+  "Takes a multi-line paragraph and makes it into a single line of text."
+  (interactive (progn (barf-if-buffer-read-only) '(t)))
+  (let ((fill-column (point-max)))
+    (fill-paragraph nil region)))
+
+;; Handy key definition
+(define-key global-map "\M-Q" 'unfill-paragraph)
+
+;; File extensions that trigger markdown-mode
+(autoload 'markdown-mode "markdown-mode"
+  "Major mode for editing Markdown files" t)
+(add-to-list 'auto-mode-alist '("\\.text\\'"     . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.markdown\\'" . markdown-mode))
+(add-to-list 'auto-mode-alist '("\\.md\\'"       . markdown-mode))
+
+(autoload 'gfm-mode "markdown-mode"
+  "Major mode for editing GitHub Flavored Markdown files" t)
+(add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
+
+;; Make sure auctex is loaded whenever emacs gets launched, so that customizations below can be done
+(load "auctex.el" nil t t)
+
+;; from realpython.com/emacs-the-best-python-editor                 
+(when (require 'flycheck nil t)
+  (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
+  (add-hook 'elpy-mode-hook 'flycheck-mode))
+
+;; instructions https://elpy.readthedocs.io/en/latest/ide.html#interpreter-setup
+(setq python-shell-interpreter "python"
+      python-shell-interpreter-args "-i")
+(setq python-shell-interpreter "jupyter"
+      python-shell-interpreter-args "console --simple-prompt"
+      python-shell-prompt-detect-failure-warning nil)
+;; (add-to-list 'python-shell-completion-native-disabled-interpreters
+;;              "jupyter")
+(setq python-shell-interpreter "ipython"
+      python-shell-interpreter-args "-i --simple-prompt")
+(setq python-fill-docstring-style 'django)
+
+;; When in X windows graphical mode, sync between emacs kill ring and system clipboard
+;; (defun copy-from-ubuntu (text &optional push)
+;;   (interactive)
+;;   (if (display-graphic-p)
+;;       (    (if (region-active-p)
+;; 	       (progn
+;; 		 (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
+;; 		 (message "Yanked region to clipboard!")
+;; 		 (deactivate-mark))
+;; 	     (message "No region active; can't yank to clipboard!"
+;; 		      )
+
+;; 	   (progn
+;; 	     (message "Yanked region to x-clipboard!")
+;; 	     (call-interactively 'clipboard-kill-ring-save)
+;; 	     )
+;; 	   ;; CUA OS copypaste even in ncurses mode
+;; 	   (progn
+;; 	     (setq x-select-enable-clipboard t)
+;; 	     (defun xsel-cut-function (text &optional push)
+;; 	       (with-temp-buffer
+;; 		 (insert text)
+;; 		 (call-process-region (point-min) (point-max) "xsel" nil 0 nil "--clipboard" "--input")))
+;; 	     (defun xsel-paste-function()
+
+;; 	       (let ((xsel-output (shell-command-to-string "xsel --clipboard --output")))
+;; 		 (unless (string= (car kill-ring) xsel-output)
+;; 		   xsel-output )))
+;; 	     (setq interprogram-cut-function 'xsel-cut-function)
+;; 	     (setq interprogram-paste-function 'xsel-paste-function)
+;; 	     )
+;; 	   )
+
+;;     )
+
+;;   (setq interprogram-cut-function 'copy-from-ubuntu)
+;;   )
+
+;; (defun paste-to-ubuntu ()
+;;   (interactive)
+;;   (if (display-graphic-p)
+;;       (progn
+;; 	(clipboard-yank)
+;; 	(message "graphics active")
+;; 	)
+;;     (insert (shell-command-to-string "xsel -o -b"))
+;;     )
+;; )
+
+;; (setq x-select-enable-clipboard t)
+;; (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
+
+(setq message-kill-buffer-on-exit t)
+
+(global-set-key (kbd "\C-x^") 'overwrite-mode)  ;; typing replaces characters rather than inserting them
+
+(setq case-fold-search t) ;; case-insensitive searching: typing Dog and dog will both find doG and dOg
+(setq sort-fold-case t)   ;; Set default to ignore case when sorting  
+
+;; The default linux theme is appalling -- replace
+(load-theme 'tango-dark)
+
+;; Prevent incremental searches from jumping back to top after last found instance
+(setq isearch-wrap-function '(lambda nil)) 
+
+;; hide compile log when it exists
+
+(add-hook 'compilation-finish-functions
+	  (lambda (buf strg)
+	    (let ((win  (get-buffer-window buf 'visible)))
+	      (when win (delete-window win)))))
+
+(global-set-key "\C-w" 'clipboard-kill-region)
+(global-set-key "\M-w" 'clipboard-kill-ring-save)
+(global-set-key "\C-y" 'clipboard-yank)
+(require 'xclip)
+(xclip-mode 1)
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages
+   (quote
+    (ztree xclip use-package shell-here sane-term markdown-mode magit gnu-elpa-keyring-update git elpy csv-mode bash-completion auto-complete-auctex auctex))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
