@@ -15,22 +15,24 @@ myuser=$1
 
 [[ -e /var/local/verbose ]] && set -x && set -v
 
-sudo apt -y install emacs
+sudo apt -y reinstall emacs # Might have already been installed
 
-# Needs gpg for security to connect and download packages
+## Needs gpg for security to connect and download packages
 [[ -z "$(which gpg)" ]] && sudo apt -y install gpg gnutls-bin
 
+## Create .emacs files
 [[ -e /home/$myuser/.emacs ]] && sudo rm -f /home/$myuser/.emacs
 [[ -e         /root/.emacs ]] && sudo rm -f         /root/.emacs
 
-cp /var/local/root/home/user_only_root/dotemacs_root /var/local/home/user_only_regular/dotemacs_regular_users_only > /var/local/home/$myuser/dotemacs
+localhome=var/local/root/home
+cp /$localhome/user_only_root/dotemacs_root /$localhome/user_only_regular/dotemacs_regular_users_only > /$localhome/$myuser/dotemacs
 
-[[ ! -e /home/$myuser/.emacs ]] && sudo ln -s /var/local/root/home/$myuser/dotemacs /home/$myuser/.emacs
-[[ ! -e          root/.emacs ]] && sudo ln -s /var/local/root/home/user_only_for_root/dotemacs_root /root/.emacs
+[[ ! -e /home/$myuser/.emacs ]] && sudo ln -s /$localhome/$myuser/dotemacs /home/$myuser/.emacs
+[[ ! -e          root/.emacs ]] && sudo ln -s /$localhome/user_only_for_root/dotemacs_root /root/.emacs
 
 # Make it clear in /var/local, where its content is used
-[[ ! -e /var/local/root/home/$myuser/dotemacs-home ]]            && sudo ln -s /home/$myuser/.emacs /var/local/root/home/$myuser/dotemacs-home
-[[ ! -e /var/local/root/home/user_only_for_root/dotemacs-root ]] && sudo ln -s /root/.emacs         /var/local/root/home/user_only_for_root/dotemacs-root
+[[ ! -e /$localhome/$myuser/dotemacs-home ]]            && sudo ln -s /home/$myuser/.emacs /$localhome/$myuser/dotemacs-home
+[[ ! -e /$localhome/user_only_for_root/dotemacs-root ]] && sudo ln -s /root/.emacs         /$localhome/user_only_for_root/dotemacs-root
 
 # Permissions 
 sudo chown "root:root" /root/.emacs           
