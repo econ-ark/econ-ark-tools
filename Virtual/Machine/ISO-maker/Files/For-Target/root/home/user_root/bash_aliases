@@ -1,0 +1,5 @@
+# ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
+# Econ-ARK customizations for interactive shells
+
+source /var/local/home/user_regular/bash_aliases-add
+
