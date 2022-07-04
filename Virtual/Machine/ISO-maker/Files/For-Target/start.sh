@@ -54,7 +54,7 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 sudo apt-get -y install bash-completion curl
 
 # Users with appropriate groups
-/var/local/add-users.sh |& tee /var/local/add-users.log
+/var/local/installers/add-users.sh |& tee /var/local/installers/add-users.log
 
 # Use correct git branches during debugging 
 [[ -e /var/local/git_branch ]] && branch_name="$(</var/local/git_branch)"
@@ -162,7 +162,7 @@ sudo apt -y install expect
 sudo apt -y install tigervnc-scraping-server
 
 ## Execute as user to create files with correct ownership/permissions
-sudo -u $myuser /var/local/setup-tigervnc-scraping-server.sh
+sudo -u $myuser /var/local/install-tigervnc-scraping-server.sh
 
 # Anacron massively delays the first boot; this disbles it
 sudo touch /etc/cron.hourly/jobs.deny       

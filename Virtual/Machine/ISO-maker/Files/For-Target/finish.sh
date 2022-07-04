@@ -359,7 +359,7 @@ sudo apt -y install meld
 tail_monitor="$(pgrep tail)" && [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
 
 #/var/local/install-ssh.sh "$myuser"    |& tee /var/local/install-ssh.log
-#/var/local/config-keyring.sh "$myuser" |& tee /var/local/config-keyring.log
+#/var/local/config/config/config-keyring.sh "$myuser" |& tee /var/local/config-keyring.log
 
 
 sudo reboot

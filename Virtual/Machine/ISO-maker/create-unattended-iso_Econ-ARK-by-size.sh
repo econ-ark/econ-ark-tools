@@ -452,11 +452,11 @@ late_command+=";\
 
 # Remaining stuff is shared with cloud-init, performed in late_command_finish
 late_command+=";\
-   chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" #;\
-   chroot /target /bin/bash -c "'"/var/local/start-with-log.sh"'" "
+   chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" ;\
+   chroot /target /bin/bash -c "'"/var/local/loggers/start-with-log.sh"'" "
 
 
-#   chroot /target /var/local/start-with-log.sh ;\
+#   chroot /target /var/local/loggers/start-with-log.sh ;\
 #"'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'"
 #  ;\
 #   chroot /target /bin/bash -c '/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log' ;\
@@ -526,7 +526,7 @@ late_command_last_purged="$(echo $late_command_last | sed -e 's/Size-To-Make-Is-
 # Create a human-readable and bash executable version of late_command
 # Running late_command.sh should convert existing machine to XUBARK
 echo '#!/bin/bash' > $ForTarget/late_command.sh
-echo '# For explanations, see create-unattended-iso script' >> $ForTarget/late_command.sh
+echo '# For explanations, see econ-ark-tools/Virtual/Machine/ISO-maker/create-unattended-iso script' >> $ForTarget/late_command.sh
 echo '' >> $ForTarget/late_command.sh
 echo '#!/bin/sh' > $iso_make/iso_new/preseed/late_command_busybox.sh
 echo '' >> $iso_make/iso_new/preseed/late_command_busybox.sh
