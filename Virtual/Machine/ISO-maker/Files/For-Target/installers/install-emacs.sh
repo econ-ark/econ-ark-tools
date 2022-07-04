@@ -26,7 +26,7 @@ sudo apt -y reinstall emacs # Might have already been installed
 
 localhome=var/local/root/home
 ## Merge dotemacs conent for both root and regular users with content for regular
-cp /$localhome/user_only_root/dotemacs_root_and_regular_users /$localhome/user_only_regular/dotemacs_regular_users_only > /$localhome/$myuser/dotemacs
+cp /$localhome/user_only_root/dotemacs_root_and_regular_users /$localhome/user_only_for_regular/dotemacs_regular_users_only > /$localhome/$myuser/dotemacs
 
 [[ ! -e /home/$myuser/.emacs ]] && sudo ln -s /$localhome/$myuser/dotemacs /home/$myuser/.emacs
 [[ ! -e          root/.emacs ]] && sudo ln -s /$localhome/user_only_for_root/dotemacs_root /root/.emacs
