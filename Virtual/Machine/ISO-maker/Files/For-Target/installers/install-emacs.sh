@@ -23,14 +23,14 @@ sudo apt -y install emacs
 [[ -e /home/$myuser/.emacs ]] && sudo rm -f /home/$myuser/.emacs
 [[ -e         /root/.emacs ]] && sudo rm -f         /root/.emacs
 
-cat /var/local/dotemacs_root_and_regular_users /var/local/dotemacs_regular_users_only > /var/local/dotemacs
+cp /var/local/root/home/user_only_root/dotemacs_root /var/local/home/user_only_regular/dotemacs_regular_users_only > /var/local/home/$myuser/dotemacs
 
-[[ ! -e /home/$myuser/.emacs ]] && sudo ln -s /var/local/dotemacs /home/$myuser/.emacs
-[[ ! -e          root/.emacs ]] && sudo ln -s /var/local/dotemacs_root_and_regular_users /root/.emacs
+[[ ! -e /home/$myuser/.emacs ]] && sudo ln -s /var/local/root/home/$myuser/dotemacs /home/$myuser/.emacs
+[[ ! -e          root/.emacs ]] && sudo ln -s /var/local/root/home/user_only_for_root/dotemacs_root /root/.emacs
 
 # Make it clear in /var/local, where its content is used
-[[ ! -e /var/local/dotemacs-home ]] && sudo ln -s /home/$myuser/.emacs /var/local/dotemacs-home
-[[ ! -e /var/local/dotemacs-root ]] && sudo ln -s /root/.emacs         /var/local/dotemacs-root
+[[ ! -e /var/local/home/$myuser/dotemacs-home ]]            && sudo ln -s /home/$myuser/.emacs /var/local/root/home/$myuser/dotemacs-home
+[[ ! -e /var/local/home/user_only_for_root/dotemacs-root ]] && sudo ln -s /root/.emacs         /var/local/root/home/user_only_for_root/dotemacs-root
 
 # Permissions 
 sudo chown "root:root" /root/.emacs           

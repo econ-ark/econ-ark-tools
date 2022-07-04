@@ -87,9 +87,11 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
 
     [[ "$monitor" == "default" ]] && monitor=0 # Monitor=default seems to be a fake device - should be 0 instead
 
-    monitorPath="/backdrop/screen0/monitor$monitor/workspace0" # Get the property name of the monitor
-    xfconf-query --channel xfce4-desktop --property "$monitorPath/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.png
-    xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style" --set 4 # Scaling
+    monitorPath="/backdrop/screen0/monitor$monitor" # Get the property name of the monitor
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/image-path"             --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.png
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/workspace0/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.png
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style"            --set 4 # Scaling
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/workspace0/image-style" --set 4 # Scaling
 
     # # Set background to black (rgba1 property, if it exists)
     # black="--type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0" 
@@ -98,6 +100,11 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
     xfconf-query              --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 &> /dev/null
     if [[ $? != 0 ]]; then # the rgb property did not exist - so create it 
     	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+    fi
+
+    xfconf-query              --channel xfce4-desktop --property "$monitorPath/workspace0/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 &> /dev/null
+    if [[ $? != 0 ]]; then # the rgb property did not exist - so create it 
+    	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/workspace0/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
     fi
 
     # Turn off ALL the possible ways the screen might get locked -- user can undo this later
