@@ -209,7 +209,6 @@ cd /home/"$myuser"
 
 bashadd=/home/"$myuser"/.bash_aliases
 [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-orig"
-touch "$bashadd"
 
 ln -s /var/local/root/home/user_regular/bash_aliases "$bashadd"
 
