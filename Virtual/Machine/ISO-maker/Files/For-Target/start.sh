@@ -93,7 +93,7 @@ fi
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
-    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser $myuser vboxsf
+    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 xserver-xorg-video-dummy && sudo adduser $myuser vboxsf
 fi
 
 # Create autologin group (as far as unix is concerned)

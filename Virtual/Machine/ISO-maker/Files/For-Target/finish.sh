@@ -111,7 +111,7 @@ chown -Rf $myuser:$myuser /usr/local/share/data/GitHub/$myuser # Make it be owne
 # branch_name="${branch_name#refs/heads/}"
 
 cd /var/local
-branch_name="$(<git_branch)"
+branch_name="$(</var/local/git_branch)"
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
 
 # Remove the linux automatically created directories like "Music" and "Pictures"

@@ -18,3 +18,4 @@ echo Econ-ARK > /.disk_label.contentDetails
 # e.g., Broadcom modems are common and require firmware-b43-installer
 sudo apt-get -y install b43-fwcutter	       
 sudo apt-get -y install firmware-b43-installer
+
