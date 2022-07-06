@@ -88,8 +88,8 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
     [[ "$monitor" == "default" ]] && monitor=0 # Monitor=default seems to be a fake device - should be 0 instead
 
     monitorPath="/backdrop/screen0/monitor$monitor" # Get the property name of the monitor
-    xfconf-query --channel xfce4-desktop --property "$monitorPath/image-path"             --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.png
-    xfconf-query --channel xfce4-desktop --property "$monitorPath/workspace0/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.png
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/image-path"             --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+    xfconf-query --channel xfce4-desktop --property "$monitorPath/workspace0/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
     xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style"            --set 4 # Scaling
     xfconf-query --channel xfce4-desktop --property "$monitorPath/workspace0/image-style" --set 4 # Scaling
 
