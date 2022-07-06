@@ -360,11 +360,12 @@ sudo systemctl enable cups-browsed.service
 # Meld is a good file/folder diff tool
 sudo apt -y install meld
 
-
-tail_monitor="$(pgrep tail)" && [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
-
-#/var/local/installers/install-ssh.sh "$myuser"    |& tee /var/local/installers/install-ssh.log
+/var/local/installers/install-ssh.sh "$myuser"    |& tee /var/local/installers/install-ssh.log
 #/var/local/config/config/config-keyring.sh "$myuser" |& tee /var/local/config/config-keyring.log
 
+sudo apt -y upgrade
+
+# Kill tail monitor if somehow it is still running
+tail_monitor="$(pgrep tail)" && [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
 
 sudo reboot
