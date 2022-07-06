@@ -77,6 +77,7 @@ d-i passwd/make-user                                        boolean     true
 d-i passwd/user-fullname                                    string      {{username}}
 d-i passwd/username                                         string      {{username}}
 d-i passwd/user-password-crypted                            password    {{pwhash}}
+d-i passwd/user-uid                                         string      1001 
 
 ### Clock and timezone settings
 d-i time/zone                                               string      {{timezone}}
