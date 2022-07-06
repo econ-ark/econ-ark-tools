@@ -1,1 +1,1 @@
-Upgrade_everything_as_last_step_of_finish.sh
+Fix_desktop_by_using_jpg_for_both
