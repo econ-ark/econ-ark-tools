@@ -194,8 +194,14 @@ short_hash="$(cat ./About_This_Install/short.git-hash)"
 commit_date="$(cat ./About_This_Install/commit_date)"
 
 new_hostname="$commit_date-$short_hash"
-sed -i "s/$default_hostname/$new_hostname/g" /etc/hostname
-sed -i "s/$default_hostname/$new_hostname/g" /etc/hosts
+
+if [[ -s /etc/hostname ]]; then # not yet defined
+    echo "$new_hostname" > /etc/hostname
+    echo "$new_hostname" > /etc/hosts
+else
+    sed -i "s/$default_hostname/$new_hostname/g" /etc/hostname
+    sed -i "s/$default_hostname/$new_hostname/g" /etc/hosts
+fi
 
 cd /home/"$myuser"
 
