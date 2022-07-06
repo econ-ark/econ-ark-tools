@@ -187,7 +187,7 @@ default_hostname="$(hostname)"
 default_domain=""
 
 # Change the name of the host to the date and time of its creation
-datetime="$(date +%Y%m%d%H%S)"
+datetime="$(date +%Y%m%d)"
 
 msg="$(cat ./About_This_Install/commit-msg.txt)"
 short_hash="$(cat ./About_This_Install/short.git-hash)"
