@@ -211,7 +211,7 @@ bashadd=/home/"$myuser"/.bash_aliases
 [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-orig"
 touch "$bashadd"
 
-cat /var/local/bash_aliases-add >> "$bashadd"
+ln -s /var/local/root/home/user_regular/bash_aliases "$bashadd"
 
 # Make ~/.bash_aliases be owned by "$myuser" instead of root
 chmod a+x "$bashadd"
