@@ -13,7 +13,7 @@ sudo -v &> /dev/null && echo '... sudo privileges are available.' && sudoer=true
 myuser=$1
 # Install emacs before the gui because it crashes when run in batch mode on gtk
 
-[[ -e /var/local/verbose ]] && set -x && set -v
+[[ -e /var/local/status/verbose ]] && set -x && set -v
 
 sudo apt -y reinstall emacs # Might have already been installed
 

@@ -16,7 +16,7 @@
 
 # Start verbose bash logging if signaled by presence of file
 #sleep 3600
-[[ -e /var/local/verbose ]] && set -x && set -v
+[[ -e /var/local/status/verbose ]] && set -x && set -v
 
 
 # Populate About_This_Install directory with info specific to this run of the installer
@@ -111,7 +111,7 @@ chown -Rf $myuser:$myuser /usr/local/share/data/GitHub/$myuser # Make it be owne
 # branch_name="${branch_name#refs/heads/}"
 
 cd /var/local
-branch_name="$(</var/local/git_branch)"
+branch_name="$(</var/local/status/git_branch)"
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
 
 # Remove the linux automatically created directories like "Music" and "Pictures"
@@ -135,17 +135,6 @@ done
 # cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
 # Enable ssh over avahi
 # cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
-
-# Get misc other stuff 
-#refindFile="refind-install-MacOS"
-#wget -O   /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
-#wget -O   /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
-# wget -O   /var/local/$refindFile.sh                $online/Files/For-Target/$refindFile.sh
-# wget -O   /var/local/$refindFile-README.md         $online/Files/For-Target/$refindFile-README.md
-# chmod +x  /var/local/$refindFile.sh
-# chmod a+r /var/local/$refindFile-README.md
-#wget --quiet -O /var/local/zoom_amd64.deb $online/Files/ForTarget/zoom_amd64.deb 
-#wget --quiet -O /var/local/zoom_amd64.deb https://zoom.us/client/latest/zoom_amd64.deb
 
 
 # Allow vnc (will only start up after reading ~/.bash_aliases)
@@ -255,8 +244,8 @@ echo "/media/"
 cd /var/local
 
 # Install Chrome browser 
-wget --quiet -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt -y install /var/local/google-chrome-stable_current_amd64.deb
+wget --quiet -O /var/local/status/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt -y install /var/local/status/google-chrome-stable_current_amd64.deb
 sudo -u $myuser xdg-settings set default-web-browser google-chrome.desktop
 xdg-settings set default-web-browser google-chrome.desktop
 
@@ -287,9 +276,11 @@ else
     echo '' >> XUBUNTARK.md
 fi
 
-sudo pip install elpy
-cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/About_This_Install/XUBUNTARK.md
+cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
 
+mv /var/local/XUBUNTARK.md /var/local/About_This_Install
+
+sudo pip install elpy
 # Now that elpy has been installed, rerun the emacs setup to connect to it
 emacs -batch -l     /home/econ-ark/.emacs  # Run in batch mode to setup everything
 
@@ -324,24 +315,6 @@ sudo apt -y install hfsplus hfsutils hfsprogs
 
 # # Prepare partition for reFind boot manager in MacOS
 # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
-
-# echo "hfsplusLabels=$hfsplusLabels"
-# if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS+ exists...
-#     cmd="mkfs.hfsplus -s -v 'refind-HFS' $hfsplusLabels"  # ... so FORMAT it as hfsplus
-#     echo "cmd=$cmd"
-#     eval "$cmd"
-#     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS  # Mount the new partition in /tmp/refind-HFS
-#     sudo cp /var/local/refind-install-MacOS.sh    /tmp/refind-HFS      # Put refind script on the partition
-#     sudo chmod a+x                                /tmp/refind-HFS/*.sh # make it executable
-#     sudo cp /var/local/Econ-ARK.VolumeIcon.icns   /tmp/refind-HFS/.VolumeIcon.icns # Should endow the HFS+ volume with the Econ-ARK logo
-#     echo  "$online/Disk/Icons/.VolumeIcon.icns" > /tmp/refind-HFS/.VolumeIcon_icns.source
-#     #    sudo wget --quiet -O  /tmp/refind-HFS/.VolumeIcon.icns "$online/Disk/Icons/os_refit.icns" 
-#     #    echo  "$online/Disk/Icons/os_refit.icns" >   /tmp/refind-HFS/.VolumeIcon_icns.source
-#     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
-#     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
-#     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
-#     # sudo refind-install --usedefault "$ESP"
-# fi
 
 sudo apt-get update
 sudo apt-get upgrade

@@ -3,7 +3,7 @@
 # https://askubuntu.com/questions/156771/run-a-script-only-at-the-very-first-boot
 
 # Conditionally trigger debugging output
-# [[ -e /var/local/verbose ]] && set -x && set -v
+# [[ -e /var/local/status/verbose ]] && set -x && set -v
 
 # exec > /var/local/rc-local.out 2>&1; set -x
 
@@ -23,7 +23,7 @@ if [ ! -f $FLAG ]; then # machine's first-ever boot
 
 fi
 # sudo /bin/bash /etc/rc.local
-# sudo /var/local/start-with-log.sh
+# sudo /var/local/loggers/start-with-log.sh
 
 # # if xfce is running, shut it down (allows replacing .Xauthority) 
 # [[ "$(ps -e | grep -E -i xfce4-session)" != "" ]] && xfce4-session-logout
@@ -36,10 +36,10 @@ if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
     # DATE="$(stat -c %z /proc)"
     # # Pick which size is being made; MAX is default
     # size="MAX"
-    # [[ -e /var/local/Size-To-Make-Is-MIN ]] && size="MIN" # reset if MIN chosen
+    # [[ -e /var/local/status/Size-To-Make-Is-MIN ]] && size="MIN" # reset if MIN chosen
     
     # # Allow remaining stuff to be done in the background 
-    (/var/local/finish.sh |& tee -a /var/local/start-and-finish.log |& tee /var/local/finish.log ) &
+    (/var/local/finish.sh |& tee -a /var/local/status/start-and-finish.log |& tee /var/local/status/finish.log ) &
     
     # Create an empty 'signal' file so the "if" will fail after the first boot
     touch "$FLAG2"

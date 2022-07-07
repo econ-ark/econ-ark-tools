@@ -5,7 +5,7 @@ sudoer=false
 sudo -v &> /dev/null && echo '... and sudo privileges are available.' && sudoer=true
 [[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
 
-[[ -e /var/local/verbose ]] && set -x && set -v 
+[[ -e /var/local/status/verbose ]] && set -x && set -v 
 build_date="$(</var/local/build_date.txt)"
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends linux-sound-base
 # DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends printer-driver-pnm2ppa

@@ -6,9 +6,9 @@ if [[ "$#" -ne 1 ]]; then
 fi
 
 myuser="$1"
-[[ -e /var/local/verbose ]] && set -x && set -v 
+[[ -e /var/local/status/verbose ]] && set -x && set -v 
 
-build_date="$(</var/local/build_date.txt)"
+build_date="$(</var/local/status/build_date.txt)"
 
 # Autologin to the keyring too
 # wiki.archlinux.org/index.php/GNOME/Keyring

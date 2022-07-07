@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Verbose output if file exists
-[[ -e /var/local/verbose ]] && set -x && set -v
+[[ -e /var/local/status/verbose ]] && set -x && set -v
 
 # Figure out what the target device is 
 df -hT > /tmp/target-partition 

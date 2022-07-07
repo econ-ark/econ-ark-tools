@@ -7,7 +7,7 @@
 # command completes
 
 # To redo the whole installation sequence (without having to redownload anything):
-# sudo bash -c '(rm -f /var/local/finished-software-install ; rm -f /var/log/firstboot.log ; rm -f /var/log/secondboot.log ; rm -f /home/econ-ark/.firstboot ; rm -f /home/econ-ark/.secondboot)' >/dev/null
+# sudo bash -c '(rm -f /var/local/status/finished-software-install ; rm -f /var/log/firstboot.log ; rm -f /var/log/secondboot.log ; rm -f /home/econ-ark/.firstboot ; rm -f /home/econ-ark/.secondboot)' >/dev/null
 
 
 # # Export stdout and stderr to a log file;
@@ -29,19 +29,19 @@
 # exit
 
 # Presence of 'verbose' triggers bash debugging mode
-[[ -e /var/local/verbose ]] && set -x && set -v
+[[ -e /var/local/status/verbose ]] && set -x && set -v
 
 sudo apt -y install emacs
 
 # Record date and time at which install script is running
 # Used to mark date of original versions of files replaced
 build_date="$(date +%Y%m%d%H%S)"
-echo "$build_date" > /var/local/build_date.txt
+echo "$build_date" > /var/local/status/build_date.txt
 
 # Remove /var/local/finished-software-install to reinstall stuff installed here
-[[ -e /var/local/finished-software-install ]] && rm -f /var/local/finished-software-install
+[[ -e /var/local/status/finished-software-install ]] && rm -f /var/local/status/finished-software-install
 # To redo the whole installation sequence (without having to redownload anything):
-# sudo bash -c '(rm -f /var/local/finished-software-install ; rm -f /var/log/firstboot.log ; rm -f /var/log/secondboot.log ; rm -f /home/econ-ark/.firstboot ; rm -f /home/econ-ark/.secondboot)' >/dev/null
+# sudo bash -c '(rm -f /var/local/status/finished-software-install ; rm -f /var/log/firstboot.log ; rm -f /var/log/secondboot.log ; rm -f /home/econ-ark/.firstboot ; rm -f /home/econ-ark/.secondboot)' >/dev/null
 
 # Resources
 myuser="econ-ark"  # Don't sudo because it needs to be an environment variable
@@ -57,7 +57,7 @@ sudo apt-get -y install bash-completion curl
 /var/local/installers/add-users.sh |& tee /var/local/installers/add-users.log
 
 # Use correct git branches during debugging 
-[[ -e /var/local/git_branch ]] && branch_name="$(</var/local/git_branch)"
+[[ -e /var/local/status/git_branch ]] && branch_name="$(</var/local/status/git_branch)"
 # online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
 # Now install own stuff

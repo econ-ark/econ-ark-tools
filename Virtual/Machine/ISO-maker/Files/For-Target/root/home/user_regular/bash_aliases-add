@@ -139,7 +139,7 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
     [[ "$xfwm4compositorstatusExists" == "0" ]] && xfconf-query --channel xfwm4 --property /general/use_compositing --type 'bool' --set false
     
     # Monitor installations occurring via the start.sh and finish.sh installation scripts
-    xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail --follow /var/local/start-and-finish.log'"  &  # Watch
+    xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail --follow /var/local/status/start-and-finish.log'"  &  # Watch
 
     echo ''
     echo 'WARNING: Machine will reboot whenever software install completes'
@@ -147,12 +147,12 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.first_user_login ]]; then
 fi
 
 # Run this if first user login setup has finished and software install has finished but second interactive login has not occurred yet
-if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]] && [[ ! -e /home/econ-ark/.second_user_login ]]; then
+if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/status/finished-software-install ]] && [[ ! -e /home/econ-ark/.second_user_login ]]; then
     touch /home/econ-ark/.second_user_login
 
     # view "About This Machine"
 
-    emacs --name "Emacs Editor" --geometry 80x28-100+0 /var/local/XUBUNTARK.md &> /dev/null  &
+    emacs --name "Emacs Editor" --geometry 80x28-100+0 /var/local/About_This_Install/XUBUNTARK.md &> /dev/null  &
 
     touch /home/econ-ark/.second_user_login_finished
 
@@ -168,7 +168,7 @@ if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e 
 fi
 
 # All subsequent logins
-if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/finished-software-install ]] && [[ -e /home/econ-ark/.second_user_login ]] && [[ ! -e /home/econ-ark/.first_interactive_shell ]]; then
+if [[ -e /home/econ-ark/.first_user_login ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/status/finished-software-install ]] && [[ -e /home/econ-ark/.second_user_login ]] && [[ ! -e /home/econ-ark/.first_interactive_shell ]]; then
     vHARK="$(python -c 'import HARK ; print(HARK.__version__)')"
     echo "XUBUNTARK, HARK version $vHARK, https://econ-ark.org"
     

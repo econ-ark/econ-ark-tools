@@ -384,9 +384,10 @@ late_command+=";\
 # If there's a directory there already (sometimes linux creates an empty one), delete it,
 # then link /var/local to the collection of downloaded files for the target
 late_command+=";\
-   chroot /target rm -Rf /var/local chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ;\
-   chroot /target rm -f /var/local/Size-To-Make-Is-* ;\
-   chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
+   chroot /target rm -Rf /var/local ;\
+   chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ;\
+   chroot /target rm -f /var/local/status/Size-To-Make-Is-* ;\
+   chroot /target touch /var/local/status/Size-To-Make-Is-\$(echo $size) ;\
    chroot /target echo \$(echo $size > /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) "
 
 #   if [[ ! -L /target/var/local ]]; then chroot /target rm -Rf /var/local ; chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ; fi ;\
@@ -394,7 +395,7 @@ late_command+=";\
 
 # late_command_finish contains setup stuff also used in cloud-init
 late_command+=";\
-   chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" "
+   chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/status/late_command_finish.log"'" "
 
 # Run the start script and log the results
 late_command+=";\
