@@ -49,7 +49,7 @@ sudo chown $myuser:$myuser /home/$myuser/.emacs
 sudo chown $myuser:$myuser -Rf /home/$myuser/.emacs.d
 chmod a+rw /home/$myuser/.emacs.d 
 
-echo 'keyserver hkp://keys.gnupg.net' > /home/$myuser/.emacs.d/elpa/gnupg/gpg.conf
+echo 'keyserver hkps://keyserver.ubuntu.com:443' > /home/$myuser/.emacs.d/elpa/gnupg/gpg.conf
 sudo -i -u  $myuser gpg --list-keys 
 sudo -i -u  $myuser gpg --homedir /home/$myuser/.emacs.d/elpa/gnupg --list-keys
 sudo -i -u  $myuser gpg --homedir /home/$myuser/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
@@ -64,7 +64,9 @@ ln -s /home/$myuser/.emacs.d /root/.emacs.d
 # As of 20220628 there is a problem with a default certificate; comment out that certificate:
 sudo apt -y install ca-certificates 
 sudo sed -i 's|mozilla/DST_Root_CA_X3.crt|!mozilla/DST_Root_CA_X3.crt|g' /etc/ca-certificates.conf
-emacs -batch -l     /home/econ-ark/.emacs  # Run in batch mode to setup everything
+
+# Do emacs first-time setup (including downloading packages)
+sudo -i -u  $myuser emacs -batch --eval"(setq debug-on-error t)" -l     /home/$myuser/.emacs  
 
 #sudo apt -y purge gnome-session-bin 
 # Finished with emacs
