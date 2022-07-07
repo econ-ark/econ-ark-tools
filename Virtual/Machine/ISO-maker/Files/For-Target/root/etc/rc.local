@@ -7,16 +7,16 @@
 
 # exec > /var/local/rc-local.out 2>&1; set -x
 
-FLAG="/var/log/firstboot.log"
+FLAG="/var/local/status/boot_first.flag"
 if [ ! -f $FLAG ]; then # machine's first-ever boot
-    # (or, signal to rerun as though first boot by deleting firstboot.log)
+    # (or, signal to rerun as though first boot by deleting ~/.boot_first)
     
     # if previous runs have signaled completion of other steps, remove those signals
-    # To rerun everything on reboot, "rm -f /var/log/firstboot.log"
-    [[ -e /var/local/finished_software_install ]] && rm -f /var/local/finished_software_install
-    [[ -e /home/econ-ark/.first_user_login ]]     && rm -f /home/econ-ark/.first_user_login*
-    [[ -e /home/econ-ark/.second_user_login ]]    && rm -f /home/econ-ark/.second_user_login*
-    [[ -e /var/log/secondboot.log ]]    && rm -f /var/log/secondboot.log
+    # To rerun everything on reboot, "rm -f /var/local/status/boot_first.flag"
+    [[ -e /var/local/status/finished_software_install ]] && rm -f /var/local/status/finished_software_install
+    [[ -e /home/econ-ark/.first_gui_login ]]      && rm -f /home/econ-ark/.first_gui_login*
+    [[ -e /home/econ-ark/.gui_user_login_second.flag ]]    && rm -f /home/econ-ark/.gui_user_login_second.flag*
+    [[ -e /var/local/status/boot_second.flag ]]      && rm -f /var/local/status/boot_second.flag
     
     # create an empty 'signal' file so the "if" will fail after the first boot
     touch "$FLAG"
@@ -29,7 +29,7 @@ fi
 # [[ "$(ps -e | grep -E -i xfce4-session)" != "" ]] && xfce4-session-logout
 
 # sudo reboot
-FLAG2="/var/log/secondboot.log" 
+FLAG2="/var/local/status/boot_second.flag" 
 
 if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
     # Change the hostname to the point of origin of this machine

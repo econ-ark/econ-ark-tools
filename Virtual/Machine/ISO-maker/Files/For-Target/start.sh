@@ -7,7 +7,7 @@
 # command completes
 
 # To redo the whole installation sequence (without having to redownload anything):
-# sudo bash -c '(rm -f /var/local/status/finished-software-install ; rm -f /var/log/firstboot.log ; rm -f /var/log/secondboot.log ; rm -f /home/econ-ark/.firstboot ; rm -f /home/econ-ark/.secondboot)' >/dev/null
+# sudo bash -c '(rm -f /var/local/status/finished-software-install.flag ; rm -f /var/local/status/boot_first.flag ; rm -f /var/local/status/boot_second.flag ; rm -f /home/econ-ark/.gui_user_login_first.flag; rm -f /home/econ-ark/.gui_user_login_second.flag)' >/dev/null
 
 
 # # Export stdout and stderr to a log file;
@@ -38,10 +38,10 @@ sudo apt -y install emacs
 build_date="$(date +%Y%m%d%H%S)"
 echo "$build_date" > /var/local/status/build_date.txt
 
-# Remove /var/local/finished-software-install to reinstall stuff installed here
-[[ -e /var/local/status/finished-software-install ]] && rm -f /var/local/status/finished-software-install
+# Remove /var/local/status/finished-software-install.flag to reinstall stuff installed here
+[[ -e /var/local/status/finished-software-install.flag ]] && rm -f /var/local/status/finished-software-install.flag
 # To redo the whole installation sequence (without having to redownload anything):
-# sudo bash -c '(rm -f /var/local/status/finished-software-install ; rm -f /var/log/firstboot.log ; rm -f /var/log/secondboot.log ; rm -f /home/econ-ark/.firstboot ; rm -f /home/econ-ark/.secondboot)' >/dev/null
+# sudo bash -c '(rm -f /var/local/status/finished-software-install.flag ; rm -f /var/local/status/boot_first.flag ; rm -f /var/local/status/boot_second.flag ; rm -f /home/econ-ark/.gui_user_login_first.flag; rm -f /home/econ-ark/.gui_user_login_second.flag)' >/dev/null
 
 # Resources
 myuser="econ-ark"  # Don't sudo because it needs to be an environment variable
@@ -54,7 +54,7 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 sudo apt-get -y install bash-completion curl
 
 # Users with appropriate groups
-/var/local/installers/add-users.sh |& tee /var/local/installers/add-users.log
+/var/local/installers/add-users.sh |& tee /var/local/status/add-users.log
 
 # Use correct git branches during debugging 
 [[ -e /var/local/status/git_branch ]] && branch_name="$(</var/local/status/git_branch)"
@@ -63,7 +63,7 @@ sudo apt-get -y install bash-completion curl
 # Now install own stuff
 cd /var/local
 
-sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local/installers/install-xubuntu-desktop.log'
+sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local/status/install-xubuntu-desktop.log'
 
 # rc.local is empty by default
 [[ ! -e /etc/rc.local ]] && touch /etc/rc.local 

@@ -31,7 +31,7 @@ mypass="kra-noce"
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
 sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
 
-/var/local/installers/install-emacs.sh $myuser |& tee /var/local/installers/install-emacs.log
+/var/local/installers/install-emacs.sh $myuser |& tee /var/local/status/install-emacs.log
 
 cd /var/local
 
@@ -256,7 +256,7 @@ chown -Rf $myuser:$myuser /home/$myuser/
 sudo apt -y update && sudo apt -y upgrade
 
 # Signal that we've finished software install
-touch /var/local/status/finished-software-install 
+touch /var/local/status/finished-software-install.flag 
 
 
 if [[ "$size" == "MIN" ]]; then
@@ -333,7 +333,7 @@ sudo systemctl enable cups-browsed.service
 # Meld is a good file/folder diff tool
 sudo apt -y install meld
 
-/var/local/installers/install-ssh.sh "$myuser"    |& tee /var/local/installers/install-ssh.log
+/var/local/installers/install-ssh.sh "$myuser"    |& tee /var/local/status/install-ssh.log
 #/var/local/config/config/config-keyring.sh "$myuser" |& tee /var/local/config/config-keyring.log
 
 sudo apt -y upgrade
