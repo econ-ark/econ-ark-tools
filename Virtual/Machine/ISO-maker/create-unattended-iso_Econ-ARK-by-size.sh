@@ -381,16 +381,18 @@ late_command+=";\
    [[ ! -e /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && chroot /target git clone --depth 1 --branch $git_branch https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ;\
    chmod -R a+rwx /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/* /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/.*[0-z]* "
 
-# If there's a directory there already, delete it,
+# If there's a directory there already (sometimes linux creates an empty one), delete it,
 # then link /var/local to the collection of downloaded files for the target
 late_command+=";\
-   [[ -d /target/var/local ]] && rm -Rf /target/var/local ;\
-   if [[ ! -L /target/var/local ]]; then chroot /target rm -Rf /var/local ; chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ; fi ;\
+   chroot /target rm -Rf /var/local chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ;\
    chroot /target rm -f /var/local/Size-To-Make-Is-* ;\
    chroot /target touch /var/local/Size-To-Make-Is-\$(echo $size) ;\
    chroot /target echo \$(echo $size > /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) "
 
-# late_command_finish is also used in cloud-init
+#   if [[ ! -L /target/var/local ]]; then chroot /target rm -Rf /var/local ; chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ; fi ;\
+#   [[ -d /target/var/local ]] && rm -Rf /target/var/local ;\
+
+# late_command_finish contains setup stuff also used in cloud-init
 late_command+=";\
    chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/late_command_finish.log"'" "
 
