@@ -9,8 +9,8 @@ if [ ! -z "$(multipass list | cut -d' ' -f1 | grep $instance$)" ]; then # at lea
         echo '' ; echo An instance named $instance already exists
         echo '' ; echo Delete it by: ; echo ''
         cmd="multipass stop $instance ; multipass delete $instance ; multipass purge"
-        [[ "$(uname -s)" == "Darwin" && echo "$cmd" | pbcopy
-        [[ "$(uname -s)" == "darwin" && echo "$cmd" | pbcopy
+        [[ "$(uname -s)" == "Darwin" ]] && echo "$cmd" | pbcopy
+        [[ "$(uname -s)" == "darwin" ]] && echo "$cmd" | pbcopy
         echo "$cmd"
         echo '' ; echo '(on the clipboard), then run again'; echo ''
         exit 1
