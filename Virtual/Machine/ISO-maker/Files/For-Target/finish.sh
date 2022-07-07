@@ -37,9 +37,9 @@ cd /var/local
 
 # /var/local/installers/install-xubuntu-desktop.sh  # plus some utilities and backdrop
 
-commit_msg="$(cat ./About_This_Install/commit-msg.txt)"
-short_hash="$(cat ./About_This_Install/short.git-hash)"
-commit_date="$(cat ./About_This_Install/commit_date)"
+commit_msg="$(cat /var/local/About_This_Install/commit-msg.txt)"
+short_hash="$(cat /var/local/About_This_Install/short.git-hash)"
+commit_date="$(cat /var/local/About_This_Install/commit_date)"
 
 # Create the "About This Install" markdown file
 cat <<EOF > /var/local/About_This_Install.md
@@ -178,9 +178,9 @@ default_domain=""
 # Change the name of the host to the date and time of its creation
 datetime="$(/var/local/status/build_date.txt)"
 
-msg="$(cat ./About_This_Install/commit-msg.txt)"
-short_hash="$(cat ./About_This_Install/short.git-hash)"
-commit_date="$(cat ./About_This_Install/commit_date)"
+msg="$(cat /var/local/About_This_Install/commit-msg.txt)"
+short_hash="$(cat /var/local/About_This_Install/short.git-hash)"
+commit_date="$(cat /var/local/About_This_Install/commit_date)"
 
 new_hostname="$commit_date-$short_hash"
 
