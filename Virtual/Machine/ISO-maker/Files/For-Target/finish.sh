@@ -31,7 +31,7 @@ mypass="kra-noce"
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
 sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
 
-/var/local/installers/install-emacs.sh $myuser
+/var/local/installers/install-emacs.sh $myuser |& tee /var/local/installers/status/install-emacs.log
 
 cd /var/local
 
@@ -90,7 +90,7 @@ export DEBCONF_NONINTERACTIVE_SEEN=true
 sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1 
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager snap evince
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager snap evince nodejs
 
 # Let root and myuser control networks
 sudo adduser  $myuser netdev
@@ -256,7 +256,7 @@ chown -Rf $myuser:$myuser /home/$myuser/
 sudo apt -y update && sudo apt -y upgrade
 
 # Signal that we've finished software install
-touch /var/local/finished-software-install 
+touch /var/local/status/finished-software-install 
 
 
 if [[ "$size" == "MIN" ]]; then
