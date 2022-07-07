@@ -288,7 +288,7 @@ else
 fi
 
 sudo pip install elpy
-cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
+cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/About_This_Install/XUBUNTARK.md
 
 # Now that elpy has been installed, rerun the emacs setup to connect to it
 emacs -batch -l     /home/econ-ark/.emacs  # Run in batch mode to setup everything
