@@ -172,11 +172,11 @@ echo "# startxfce4 commented out because it should already have been started at 
 sudo chmod a+x xstartup
 
 # set defaults
-default_hostname="$(hostname)"
+default_hostname="$(</etc/hostname)"
 default_domain=""
 
 # Change the name of the host to the date and time of its creation
-datetime="$(date +%Y%m%d)"
+datetime="$(/var/local/status/build_date.txt)"
 
 msg="$(cat ./About_This_Install/commit-msg.txt)"
 short_hash="$(cat ./About_This_Install/short.git-hash)"
@@ -184,7 +184,7 @@ commit_date="$(cat ./About_This_Install/commit_date)"
 
 new_hostname="$commit_date-$short_hash"
 
-if [[ -s /etc/hostname ]]; then # not yet defined
+if [[ "$default_hostname" == "-" ]]; then # not yet defined
     echo "$new_hostname" > /etc/hostname
     echo "$new_hostname" > /etc/hosts
 else
