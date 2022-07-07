@@ -66,7 +66,7 @@ sudo apt -y install ca-certificates
 sudo sed -i 's|mozilla/DST_Root_CA_X3.crt|!mozilla/DST_Root_CA_X3.crt|g' /etc/ca-certificates.conf
 
 # Do emacs first-time setup (including downloading packages)
-sudo -i -u  $myuser emacs -batch --eval"(setq debug-on-error t)" -l     /home/$myuser/.emacs  
+sudo -i -u  $myuser emacs -batch --eval "(setq debug-on-error t)" -l     /home/$myuser/.emacs  
 
 #sudo apt -y purge gnome-session-bin 
 # Finished with emacs

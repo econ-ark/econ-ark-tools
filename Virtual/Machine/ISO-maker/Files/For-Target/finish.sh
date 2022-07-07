@@ -31,7 +31,7 @@ mypass="kra-noce"
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
 sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
 
-/var/local/installers/install-emacs.sh $myuser |& tee /var/local/installers/status/install-emacs.log
+/var/local/installers/install-emacs.sh $myuser |& tee /var/local/installers/install-emacs.log
 
 cd /var/local
 
