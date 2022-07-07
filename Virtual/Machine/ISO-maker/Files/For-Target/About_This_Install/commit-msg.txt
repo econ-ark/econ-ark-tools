@@ -1,1 +1,1 @@
-Fix_desktop_by_using_jpg_for_both
+Change_UID_of_econ-ark_user_to_1001_(allowing_for_common_ID_across_cloud-init_and_ISO)
