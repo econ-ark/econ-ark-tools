@@ -4,11 +4,19 @@ cd /Users/Shared/multipassd-virtualbox-vault-instances
 
 instance="$1"
 
-if [ ! -z "$(multipass list | cut -d' ' -f1 | grep $instance$)" ]; then # at least partial match
-    if [ $(multipass list | cut -d' ' -f1 | grep "$instance$") == "$instance" ]; then # exact match
-        echo '' ; echo An instance named $instance already exists
+instance=xub-20p04-MIN
+cpus=2
+disk="64G"
+mem="16G"
+network="en0"
+
+instance_specs="$instance""-cpus$cpus""disk$disk""mem$mem"
+
+if [ ! -z "$(multipass list | cut -d' ' -f1 | grep $instance)" ]; then # at least partial match
+    if [ $(multipass list | cut -d' ' -f1 | grep "$instance") == "$instance_specs" ]; then # exact match
+        echo '' ; echo An instance named $instance_specs already exists
         echo '' ; echo Delete it by: ; echo ''
-        cmd="multipass stop $instance ; multipass delete $instance ; multipass purge"
+        cmd="multipass stop $instance_specs ; multipass delete $instance_specs ; multipass purge"
         [[ "$(uname -s)" == "Darwin" ]] && echo "$cmd" | pbcopy
         [[ "$(uname -s)" == "darwin" ]] && echo "$cmd" | pbcopy
         echo "$cmd"
@@ -16,13 +24,6 @@ if [ ! -z "$(multipass list | cut -d' ' -f1 | grep $instance$)" ]; then # at lea
         exit 1
     fi
 fi
-
-cpus=2
-disk="64G"
-mem="16G"
-network="en0"
-
-instance_specs="$instance""-cpus$cpus""disk$disk""mem$mem"
 
 longtime="$(bc <<< 60*60*2)" # 2 hours in seconds
 # Try to execute null command ":" on remote
