@@ -215,7 +215,7 @@ fi
 
 cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
-[[ -e ./Size-To-Make-Is-MIN ]] && size="MIN"
+[[ -e /var/local/status/Size-To-Make-Is-MIN ]] && size="MIN"
 
 isoSize="$size"
 welcome="# Welcome to the Econ-ARK Machine XUBUNTARK-$size, build "
