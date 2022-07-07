@@ -146,9 +146,6 @@
   "Major mode for editing GitHub Flavored Markdown files" t)
 (add-to-list 'auto-mode-alist '("README\\.md\\'" . gfm-mode))
 
-;; Make sure auctex is loaded whenever emacs gets launched, so that customizations below can be done
-(load "auctex.el" nil t t)
-
 ;; from realpython.com/emacs-the-best-python-editor                 
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
