@@ -21,9 +21,7 @@ sudo apt -y reinstall emacs # Might have already been installed
 [[ -z "$(which gpg)" ]] && sudo apt -y install gpg gnutls-bin
 
 ## Create .emacs files
-[[ -L /home/$myuser/.emacs ]] && sudo rm -f /home/$myuser/.emacs
-[[ -L         /root/.emacs ]] && sudo rm -f         /root/.emacs
-#[[ -e /$localhome/$myuser/dotemacs-home ]] && rm -f /$localhome/$myuser/dotemacs-home
+sudo rm -f /home/$myuser/.emacs /root/.emacs
     
 localhome=var/local/root/home
 # ## Merge dotemacs conent for both root and regular users with content for regular
@@ -37,9 +35,9 @@ localhome=var/local/root/home
 # [[ ! -e /$localhome/user_only_for_root/dotemacs-root ]] && sudo ln -s /root/.emacs         /$localhome/user_only_for_root/dotemacs-root
 
 # Permissions 
-# sudo chown "root:root" /root/.emacs           
-chmod a+rx /home/$myuser/.emacs              # no sudo to prevent root 
-chown "$myuser:$myuser" /home/$myuser/.emacs  # no sudo
+sudo chown "root:root" /root/.emacs           
+chown "$myuser:$myuser" /home/$myuser/.emacs # no sudo
+chmod a+rx /home/$myuser/.emacs              
 
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 
