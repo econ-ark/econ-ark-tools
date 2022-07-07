@@ -62,7 +62,7 @@ ForISO="Files/For-ISO"
 
 # Allow for branches to test alternative builds
 git_branch="$(git symbolic-ref HEAD 2>/dev/null)" ; git_branch=${git_branch##refs/heads/}
-echo $git_branch > $ForTarget/git_branch # store the name of the current branch
+echo $git_branch > $ForTarget/status/git_branch # store the name of the current branch
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/$git_branch/Virtual/Machine/ISO-maker"
 startFile="start.sh"
 finishFile="finish.sh"
