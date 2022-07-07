@@ -9,7 +9,8 @@ if [ ! -z "$(multipass list | cut -d' ' -f1 | grep $instance$)" ]; then # at lea
         echo '' ; echo An instance named $instance already exists
         echo '' ; echo Delete it by: ; echo ''
         cmd="multipass stop $instance ; multipass delete $instance ; multipass purge"
-        echo "$cmd" | pbcopy
+        [[ "$(uname -s)" == "Darwin" && echo "$cmd" | pbcopy
+        [[ "$(uname -s)" == "darwin" && echo "$cmd" | pbcopy
         echo "$cmd"
         echo '' ; echo '(on the clipboard), then run again'; echo ''
         exit 1
@@ -29,6 +30,7 @@ keep_trying="fails=1;until [[ \$fails == 0 ]]; do echo '.. waiting for up status
 echo "$keep_trying"
 
 [[ "$(uname -s)" == "darwin" ]] && echo "$keep_trying" | pbcopy
+[[ "$(uname -s)" == "Darwin" ]] && echo "$keep_trying" | pbcopy
 
 echo "echo '' ; echo Run ; echo '' ; echo "multipass shell $instance_specs" ; echo '' ; echo ' (should be on clipboard) in another window to connect before install finishes' ; echo ''" > /tmp/multipass_launch.sh
 cmd="multipass launch -vvvv --cpus "$cpus" --disk "$disk" --mem "$mem" --name $instance_specs --cloud-init ./$instance.txt --network $network  20.04" 
