@@ -120,7 +120,6 @@ sudo mkdir -p /var/local/root/home/$myuser
 
 build_date="$(</var/local/build_date.txt)"
 # Store original lightdm.conf, and substitute ours
-
 [[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
 [[ -e /etc/lightdm/lightdm.conf ]]       && mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf_$build_date
 sudo         cp  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf    /etc/lightdm/lightdm-gtk-greeter.conf
@@ -151,7 +150,6 @@ sudo apt -y install expect
 
 # Scraping server allows outside user to watch display X:0
 # "scraping" means that you're not allowing vnc client to spawn new x sessions
-sudo apt -y install tigervnc-scraping-server
 
 ## Execute as user to create files with correct ownership/permissions
 sudo -u $myuser /var/local/installers/install-tigervnc-scraping-server.sh
