@@ -31,7 +31,7 @@
 # Presence of 'verbose' triggers bash debugging mode
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
-sudo apt -y install emacs
+sudo apt -y install emacs  # useful for debugging
 
 # Record date and time at which install script is running
 # Used to mark date of original versions of files replaced
@@ -54,7 +54,7 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 sudo apt-get -y install bash-completion curl
 
 # Users with appropriate groups
-/var/local/installers/add-users.sh |& tee /var/local/status/add-users.log
+/var/local/config/add-users.sh |& tee /var/local/status/add-users.log
 
 # Use correct git branches during debugging 
 [[ -e /var/local/status/git_branch ]] && branch_name="$(</var/local/status/git_branch)"
@@ -65,7 +65,8 @@ cd /var/local
 
 sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local/status/install-xubuntu-desktop.log'
 
-# rc.local is empty by default
+# /etc/rc.local is run by root at every boot
+# it is empty by default
 [[ ! -e /etc/rc.local ]] && touch /etc/rc.local 
 mv /etc/rc.local /etc/rc.local_orig 
 cp /var/local/root/etc/rc.local /etc/rc.local
@@ -82,14 +83,6 @@ if ! grep -q root /root/.bash_aliases &>/dev/null; then # Econ-ARK additions are
     sudo ln -s /var/local/root/home/user_root/bash_aliases /root/.bash_aliases 
     sudo chmod a+x /root/.bash_aliases
 fi
-
-# # # Purge unneeded stuff
-# # sudo apt-get -y purge ubuntu-gnome-desktop
-# # sudo apt-get -y purge gnome-shell
-# # sudo apt-get -y purge --auto-remove ubuntu-gnome-desktop
-# # sudo apt-get -y purge gdm3     # Get rid of gnome 
-# # sudo apt-get -y purge numlockx
-# # sudo apt-get -y autoremove
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
 if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
@@ -121,19 +114,15 @@ auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by 
 fi
 
 # Make place to store/record stuff that will be installed
-#sudo mkdir -p /var/local/root/usr/share/lightdm/lightdm.conf.d/
 sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /etc/lightdm/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/$myuser
 
 build_date="$(</var/local/build_date.txt)"
 # Store original lightdm.conf, and substitute ours
-# [[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
-# sudo                            cp    /var/local/root/etc/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf
 
 [[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
 [[ -e /etc/lightdm/lightdm.conf ]]       && mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf_$build_date
-#sudo         cp  /var/local/root/etc/lightdm/lightdm.conf                /etc/lightdm/lightdm.conf
 sudo         cp  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf    /etc/lightdm/lightdm-gtk-greeter.conf
 
 # Create directory designating things to autostart 
@@ -172,17 +161,19 @@ sudo touch /etc/cron.hourly/jobs.deny
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
 sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local 
 
+# Include installer 
 # sudo mkdir /tmp/iso ; sudo mount -t iso9660 /dev/sr0 /tmp/iso
 
 # if [[ "$installer" != "" ]]; then
 #     dd if="$installer" of=/var/local/XUBARK.iso
 # fi
 
-#sudo apt -y remove at-spi2-core      # Accessibility tools cause lightdm greeter error; remove 
+#sudo apt -y remove at-spi2-core      # Accessibility tools cause lightdm greeter error; remove
+# Crashes often occur when installing grub, but have no subsequent consequence
 sudo rm -f /var/crash/grub-pc.0.crash
 
-# When run by late_command, the machine will reboot after finishing start.sh
-
+# enable connection by ssh
 /var/local/installers/install-ssh.sh $myuser
 
-# sleep 10800 # = 60*60*3 hours
+# When run by late_command, the machine will reboot after finishing start.sh
+# rc.local will then notice that 'finish.sh' has not been run, and will run it

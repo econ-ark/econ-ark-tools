@@ -15,7 +15,7 @@ myuser=$1
 
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
-sudo apt -y reinstall emacs # Might have already been installed
+sudo apt -y reinstall emacs # Might have already been installed; update if so
 
 ## Needs gpg for security to connect and download packages
 [[ -z "$(which gpg)" ]] && sudo apt -y install gpg gnutls-bin
