@@ -7,61 +7,44 @@ sudo -v &> /dev/null && echo '... and sudo privileges are available.' && sudoer=
 
 [[ -e /var/local/status/verbose ]] && set -x && set -v 
 build_date="$(</var/local/build_date.txt)"
-# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends linux-sound-base
-# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends printer-driver-pnm2ppa
-# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends ssl-cert
-# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends alsa-base
-# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xrdp
-# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y --no-install-recommends install xubuntu-desktop
-# DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y --no-install-recommends install xrdp 
-
-
-if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
-    echo 'Running in VirtualBox ; econ-ark.seed should have already installed xubuntu-desktop'
-    #    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 && sudo adduser $myuser vboxsf
-fi
 
 # Removing all traces of gdm3 helps prevent the question of
 # whether to use lightdm or gdm3
 ## Purge all packages that depend on gdm3
-sudo apt -y purge gnome-shell
-sudo apt -y purge gnome-settings-daemon
-sudo apt -y purge at-spi2-core
-sudo apt -y purge libgdm1
-sudo apt -y purge gnome-session-bin
-sudo apt -y purge lightdm
+sudo apt -y purge gnome-shell gnome-settings-daemon at-spi2-core libgdm1 gnome-session-bin lightdm
 sudo apt -y autoremove
 
-# Print everything that requires gdm3
+# Print everything that still requires gdm3
+# (should be empty)
 sudo /var/local/check-dependencies.sh gdm3
 
 # Preconfigure lightdm
-apt -y install debconf debconf-utils
+sudo apt -y install debconf debconf-utils
 echo "set shared/default-x-display-manager lightdm" | debconf-communicate
 echo "get shared/default-x-display-manager        " | debconf-communicate
 echo "debconf debconf/priority select critical" |sudo debconf-set-selections -v 
 echo "lightdm shared/default-x-display-manager select lightdm" |sudo debconf-set-selections -v 
 echo "gdm3 shared/default-x-display-manager select lightdm" |sudo debconf-set-selections -v
 
-export DEBCONF_PRIORITY=critical
-
+# Prevent installer from stopping to ask which dm (lightdm or gdk3)
 DEBCONF_PRIORITY=critical DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install lightdm lightdm-gtk-greeter
-DEBCONF_PRIORITY=CRITICAL DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install xubuntu-desktop xfce4-goodies
+DEBCONF_PRIORITY=CRITICAL DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install --no-install-recommends xubuntu-desktop xfce4-goodies
 
-# Verify that lightdm is window manager
-
+# Enforce that lightdm is window manager
 echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
 
 backdrops=usr/share/xfce4/backdrops
 
 if [[ -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
+# Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
+# So just replace the default image with the one we want 
     sudo mv /$backdrops/xubuntu-wallpaper.png         "/$backdrops/xubuntu-wallpaper.png_$build_date"
-#    sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/xubuntu-wallpaper.png 
+    sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/xubuntu-wallpaper.png 
     sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.*   /$backdrops
 fi
 
 # Document, in /var/local, where its content is used
-## Move but preserve the original
+## preserve the original
 
 sudo mv                /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$build_date
 cp      /var/local/root/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
@@ -71,12 +54,7 @@ if [[ -e    /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && [[ -s /usr/sh
     sudo mv /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_$build_date
 fi
 
+## Power manager or screensaver can shut down the machine during install
 sudo apt -y --autoremove purge xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
 sudo apt -y --autoremove purge xfce4-screensaver # Bug in screensaver causes system to become unresponsive to mouse clicks and keyboard after a few mins
 
-#echo "set shared/default-x-display-manager lightdm" | debconf-communicate
-# Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
-# So just replace the default image with the one we want 
-
-# # Desktop backdrop 
-# sudo cp            /var/local/Econ-ARK-Logo-1536x768.jpg    /$backdrops

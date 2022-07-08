@@ -2,7 +2,6 @@
 
 sudo apt -y --autoremove purge xfce4-goodies xubuntu-desktop lightdm-gtk-greeter lightdm
 
-
 # Removing all traces of gdm3 helps prevent the question of
 # whether to use lightdm or gdm3
 ## Purge all packages that depend on gdm3

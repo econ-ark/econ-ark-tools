@@ -82,8 +82,6 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.gui_user_login_first.flag ]
     done
 
     # If running on virtualbox, xrandr --listactivemonitors returns 'default' but should return 0
-    # If running on virtualbox, xset r off helps fix repeated keys problem
-    [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox) "  && [[ "$vbox" != "" ]] && xset r off
 
     [[ "$monitor" == "default" ]] && monitor=0 # Monitor=default seems to be a fake device - should be 0 instead
 
