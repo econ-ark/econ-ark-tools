@@ -33,7 +33,8 @@ sudo apt -y install texlive-base
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
 sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
 
-/var/local/installers/install-emacs.sh $myuser |& tee /var/local/status/install-emacs.log
+sudo apt -y reinstall emacs # Might have already been installed; update if so
+sudo /var/local/installers/install-emacs.sh $myuser |& tee /var/local/status/install-emacs.log
 
 commit_msg="$(cat /var/local/About_This_Install/commit-msg.txt)"
 short_hash="$(cat /var/local/About_This_Install/short.git-hash)"
