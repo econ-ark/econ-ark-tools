@@ -1,41 +1,16 @@
 #!/bin/bash
 # This gets run by late_command during creation of the VM
 # It installs the xubuntu-desktop server and other core tools
-# The reboot at the end kicks off the running of the finish.sh script
-# The GUI is available after the
-#    service lightdm start
-# command completes
 
 # To redo the whole installation sequence (without having to redownload anything):
 # sudo bash -c '(rm -f /var/local/status/finished-software-install.flag ; rm -f /var/local/status/boot_first.flag ; rm -f /var/local/status/boot_second.flag ; rm -f /home/econ-ark/.gui_user_login_first.flag; rm -f /home/econ-ark/.gui_user_login_second.flag)' >/dev/null
 
-
-# # Export stdout and stderr to a log file;
-# # should be invoked after turning off buffering: set stdbuf -i0 -o0 -e0 /var/local/start.sh
-# cd /var/local
-# # stdbuf -i0 -o0 -e0 exec   > >(tee -ia start.log)
-# # stdbuf -i0 -o0 -e0 exec  2> >(tee -ia start.log >&2)
-# # exec 19> start.log
-# # export BASH_XTRACEFD="19"
-
-# set -x
-# set -v
-
-# echo 'before bad command'
-# junk .
-
-# echo 'before good command'
-# ls | head -1
-# exit
-
 # Presence of 'verbose' triggers bash debugging mode
-[[ -e /var/local/status/verbose ]] && set -x && set -v
-
-sudo apt -y install emacs  # useful for debugging
+[[ -e /var/local/status/verbose ]] && sudo apt -y install emacs && set -x && set -v
 
 # Record date and time at which install script is running
 # Used to mark date of original versions of files replaced
-build_date="$(date +%Y%m%d%H%S)"
+build_date="$(date +%Y%m%d)"
 echo "$build_date" > /var/local/status/build_date.txt
 
 # Remove /var/local/status/finished-software-install.flag to reinstall stuff installed here
@@ -67,11 +42,12 @@ sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local
 
 # /etc/rc.local is run by root at every boot
 # it is empty by default
+# Our version sequences the rest of the installation 
 [[ ! -e /etc/rc.local ]] && touch /etc/rc.local 
 mv /etc/rc.local /etc/rc.local_orig 
 cp /var/local/root/etc/rc.local /etc/rc.local
 
-# add this stuff to any existing ~/.bash_aliases
+# .bash_aliases contains the stuff that is executed at the first and second boots of gui users
 if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
     sudo ln -s /var/local/root/home/user_regular/bash_aliases /home/$myuser/.bash_aliases # add them
     sudo chmod a+x /home/$myuser/.bash_aliases # ensure correct permissions
@@ -89,29 +65,8 @@ if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ 
     sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 xserver-xorg-video-dummy && sudo adduser $myuser vboxsf
 fi
 
-# Create autologin group (as far as unix is concerned)
-## This may (as here) need to be after install of xubuntu-desktop (or maybe not)
-sudo groupadd --system autologin
-sudo adduser  $myuser autologin
-sudo gpasswd -a $myuser autologin
-
-## Allow autologin for PAM security system
-sudo groupadd --system nopasswdlogin
-sudo adduser  $myuser nopasswdlogin
-sudo gpasswd -a $myuser nopasswdlogin
-
-# Allow autologin
-if ! grep -q $myuser /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin
-    sudo sed -i '1 a\
-auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
-fi
-
-# Not sure this is necessary
-if ! grep -q $myuser /etc/pam.d/lightdm          ; then
-    sudo cp /etc/pam.d/lightdm-greeter /etc/pam.d/lightdm-greeter_$commit_date
-    sudo sed -i '1 a\
-auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
-fi
+# Allow autologin for linux and for lightdm
+sudo /var/local/config/allow-autologin.sh $myuser
 
 # Make place to store/record stuff that will be installed
 sudo mkdir -p /var/local/root/etc/lightdm.conf.d
@@ -175,7 +130,9 @@ sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local
 sudo rm -f /var/crash/grub-pc.0.crash
 
 # enable connection by ssh
-/var/local/installers/install-ssh.sh $myuser
+sudo apt -y install openssh-server
+sudo -u econ-ark touch /var/local/status/install-ssh.log # make it readable 
+sudo /var/local/installers/install-ssh.sh $myuser |& tee -a /var/local/status/install-ssh.log
 
 # When run by late_command, the machine will reboot after finishing start.sh
 # rc.local will then notice that 'finish.sh' has not been run, and will run it

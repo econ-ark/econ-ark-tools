@@ -330,7 +330,8 @@ sudo systemctl enable cups-browsed.service
 # Meld is a good file/folder diff tool
 sudo apt -y install meld
 
-/var/local/installers/install-ssh.sh "$myuser"    |& tee /var/local/status/install-ssh.log
+# ssh was installed in start.sh
+#/var/local/installers/install-ssh.sh "$myuser"    |& tee /var/local/status/install-ssh.log
 #/var/local/config/config/config-keyring.sh "$myuser" |& tee /var/local/config/config-keyring.log
 
 sudo apt -y upgrade

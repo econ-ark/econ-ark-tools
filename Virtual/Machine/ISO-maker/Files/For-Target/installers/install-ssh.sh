@@ -14,8 +14,6 @@ myuser="$1"
 # ... so install the openssh-server
 #[[ "$?" != 0 ]] && sudo apt -y install openssh-server
 
-sudo apt -y install openssh-server
-
 # Create a public key for security purposes
 if [[ ! -e /home/$myuser/.ssh ]]; then
     mkdir -p /home/$myuser/.ssh

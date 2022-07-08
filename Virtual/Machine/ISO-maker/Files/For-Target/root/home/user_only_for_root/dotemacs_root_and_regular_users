@@ -33,7 +33,7 @@
   ;; (add-to-list 'package-archives '("org"          . "http://orgmode.org/elpa/")            t)
 
   ;; list of packages we want
-  (setq package-list '(use-package shell-here org markdown-mode git magit elpy gnu-elpa-keyring-update bash-completion xclip))
+  (setq package-list '(shell-here org markdown-mode git magit elpy gnu-elpa-keyring-update bash-completion xclip))
   ;; fetch the list of packages available
   (unless package-archive-contents
     (package-refresh-contents))
