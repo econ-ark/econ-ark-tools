@@ -34,14 +34,16 @@ DEBCONF_PRIORITY=CRITICAL DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_
 echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
 
 backdrops=usr/share/xfce4/backdrops
+backgrounds=usr/share/backgrounds/xfce4
 
 if [[ -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
 # Absurdly difficult to change the default wallpaper no matter what kind of machine you have installed to
 # So just replace the default image with the one we want 
     sudo mv /$backdrops/xubuntu-wallpaper.png         "/$backdrops/xubuntu-wallpaper.png_$build_date"
     sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/xubuntu-wallpaper.png 
-    sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.*   /$backdrops
 fi
+sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.*   /$backdrops
+sudo cp  /var/local/root/$backdrops/Econ-ARK-Logo-1536x768.*   /$backgrounds
 
 # Document, in /var/local, where its content is used
 ## preserve the original

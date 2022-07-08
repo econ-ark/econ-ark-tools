@@ -7,11 +7,18 @@
 (require 'package)
 (require 'dbus)
 (require 'cl-lib)
+(require 'bind-key)
 
-(setq package-check-signature nil)
+(setq package-check-signature nil) ;; signature checking fails too often
 
 (package-initialize)
 (menu-bar-mode -1) ;;; GTK throws worrisome but innocuous errors when there's a menu bar
+
+;; Bootstrap 'use-package'
+;; Google 'use-package-wont-start' emacs.stackexchange
+(eval-when-compile
+  (require 'use-package))
+(setq use-package-always-ensure t)
 
 ;; If a package in the list is not installed, then (1) download new archives; (2) install it
 (unless (package-installed-p 'use-package)

@@ -2,31 +2,16 @@
 # start.sh installs GUI then reboots;
 # finish automatically starts with newly-installed GUI
 
-# # define download function
-# # courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
-# download()
-# {
-#     local url=$1
-#     #    echo -n "    "
-#     wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
-    #         sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
-#     #    echo -ne "\b\b\b\b"
-#     #    echo " DONE"
-# }
-
-# Start verbose bash logging if signaled by presence of file
-#sleep 3600
+# Conditionally enable verbose output 
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
-
-# Populate About_This_Install directory with info specific to this run of the installer
 myuser="econ-ark"
 mypass="kra-noce"
 
 # GitHub command line tools
 /var/local/installers/install-gh-cli-tools.sh
 
-# LaTeX - minimal
+# LaTeX - minimal (required for auctex install on emacs)
 sudo apt -y install texlive-base
 
 # Prepare for emacs install
@@ -36,11 +21,12 @@ sudo apt -y install gpg gnutls-bin # Required to set up security for emacs packa
 sudo apt -y reinstall emacs # Might have already been installed; update if so
 sudo /var/local/installers/install-emacs.sh $myuser |& tee /var/local/status/install-emacs.log
 
+# Populate About_This_Install directory with info specific to this run of the installer
 commit_msg="$(cat /var/local/About_This_Install/commit-msg.txt)"
 short_hash="$(cat /var/local/About_This_Install/short.git-hash)"
 commit_date="$(cat /var/local/About_This_Install/commit_date)"
 
-# Create the "About This Install" markdown file
+## Create the "About This Install" markdown file
 cat <<EOF > /var/local/About_This_Install.md
 # Detailed Info About This Installation
 
@@ -66,19 +52,8 @@ directory.
 
 EOF
 
-# # mdadm is for managing RAID systems but can cause backup problems; disable
+## mdadm is for managing RAID systems but can cause backup problems; disable
 # sudo apt -y remove mdadm
-
-# export DEBCONF_DEBUG=.*
-# export DEBIAN_FRONTEND=noninteractive
-# export DEBCONF_NONINTERACTIVE_SEEN=true
-
-# # # The cups service sometimes gets stuck; stop it before that happens
-# # sudo systemctl stop    cups-browsed.service 
-# # sudo systemctl disable cups-browsed.service
-
-# Manage software like dbus - seems to freeze finish.sh logging, so disabled
-# sudo apt -y install software-properties-common
 
 # Start the GUI if not already running
 [[ "$(pgrep lightdm)" == '' ]] && service lightdm start 
@@ -96,17 +71,14 @@ sudo adduser  root    netdev
 
 # Make a home for econ-ark in /usr/local/share/data and link to it from home directory
 mkdir -p /home/$myuser/GitHub
-mkdir -p          /root/GitHub
+mkdir -p         /root/GitHub
 
-# Get to $myuser via ~/econ-ark whether you are root or econ-ark
+# Get to systemwide GitHub via ~/GitHub whether you are root or econ-ark
 ln -s /usr/local/share/data/GitHub/$myuser /home/$myuser/GitHub/econ-ark
-ln -s /usr/local/share/data/GitHub/$myuser          /root/GitHub/econ-ark
+ln -s /usr/local/share/data/GitHub/$myuser         /root/GitHub/econ-ark
 chown -Rf $myuser:$myuser /home/$myuser/GitHub/$myuser
 chown -Rf $myuser:$myuser /home/$myuser/GitHub/$myuser/.?*
 chown -Rf $myuser:$myuser /usr/local/share/data/GitHub/$myuser # Make it be owned by $myuser user 
-
-# branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
-# branch_name="${branch_name#refs/heads/}"
 
 cd /var/local
 branch_name="$(</var/local/status/git_branch)"
@@ -134,58 +106,17 @@ done
 # Enable ssh over avahi
 # cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
-
-# Allow vnc (will only start up after reading ~/.bash_aliases)
-# scraping server means that you're not allowing vnc client to spawn new x sessions
-sudo apt -y install tigervnc-scraping-server
-
-# If a previous version exists, delete it
-[[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  
-sudo -u $myuser mkdir -p /home/$myuser/.vnc
-
-# https://askubuntu.com/questions/328240/assign-vnc-password-using-script
-
-prog=/usr/bin/vncpasswd
-sudo -u "$myuser" /usr/bin/expect <<EOF
-spawn "$prog"
-expect "Password:"
-send "$mypass\r"
-expect "Verify:"
-send "$mypass\r"
-expect "Would you like to enter a view-only password (y/n)?"
-send "y\r"
-expect "Password:"
-send "$myuser-watch\r"
-expect "Verify:"
-send "$myuser-watch\r"
-expect eof
-exit
-EOF
-
-cd /home/$myuser/.vnc
-echo "!/bin/sh" > xstartup
-echo "xrdp $HOME/.Xresources" >> xstartup
-echo "# startxfce4 & " >> xstartup
-echo "# startxfce4 commented out because it should already have been started at boot " >> xstartup
-sudo chmod a+x xstartup
-
-# set defaults
+# Change the name of the host to the date and time of its creation
 default_hostname="$(</etc/hostname)"
 default_domain=""
 
-# Change the name of the host to the date and time of its creation
 datetime="$(/var/local/status/build_date.txt)"
-
-msg="$(cat /var/local/About_This_Install/commit-msg.txt)"
-short_hash="$(cat /var/local/About_This_Install/short.git-hash)"
-commit_date="$(cat /var/local/About_This_Install/commit_date)"
-
 new_hostname="$commit_date-$short_hash"
 
 if [[ "$default_hostname" == "-" ]]; then # not yet defined
     echo "$new_hostname" > /etc/hostname
     echo "$new_hostname" > /etc/hosts
-else
+else # replace the default
     sed -i "s/$default_hostname/$new_hostname/g" /etc/hostname
     sed -i "s/$default_hostname/$new_hostname/g" /etc/hosts
 fi
@@ -195,16 +126,14 @@ cd /home/"$myuser"
 # Add stuff to bash login script
 
 bashadd=/home/"$myuser"/.bash_aliases
-[[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-orig"
-
+[[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd_$datetime"
 ln -s /var/local/root/home/user_regular/bash_aliases "$bashadd"
 
 # Make ~/.bash_aliases be owned by "$myuser" instead of root
 chmod a+x "$bashadd"
 chown $myuser:$myuser "$bashadd" 
 
-# # The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
-# mkdir -p /EFI/BOOT/
+## The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
 if [[ -e /EFI/BOOT ]]; then
     cp /var/local/Disk/Labels/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
     cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
@@ -236,9 +165,6 @@ echo "/media/"
 
 [[ -e "/media/*.iso" ]] && sudo rm "/media/*.iso"
 
-
-# sudo pip  install gdown # Google download
-
 cd /var/local
 
 # Install Chrome browser 
@@ -256,7 +182,7 @@ sudo apt -y update && sudo apt -y upgrade
 # Signal that we've finished software install
 touch /var/local/status/finished-software-install.flag 
 
-
+# Install either minimal or maximal system
 if [[ "$size" == "MIN" ]]; then
     sudo apt -y install python3-pip python-pytest python-is-python3
     sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10

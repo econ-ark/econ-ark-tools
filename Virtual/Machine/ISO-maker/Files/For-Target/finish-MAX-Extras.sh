@@ -4,8 +4,8 @@
 # machine, you should be able to upgrade it to this one by running
 # ./finish-MAX-Extras.sh
 
-set -x # Debug
-set -v # Debug
+# Presence of 'verbose' triggers bash debugging mode
+[[ -e /var/local/status/verbose ]] && set -x && set -v
 
 if [[ "$(which conda)" == "/usr/local/anaconda3/bin/conda" ]] ; then # It's already installed
     sudo conda update --yes --all conda    # It's installed, so just update it
@@ -25,7 +25,7 @@ else
     echo "$cmd"
     eval "$cmd"
 
-    # Add to default enviroment path so that everyone can find it
+    # Add anaconda to default enviroment path so that everyone can find it
     addToPath='export PATH=/usr/local/anaconda3/bin:$PATH'
     echo "$addToPath"
     eval "$addToPath"

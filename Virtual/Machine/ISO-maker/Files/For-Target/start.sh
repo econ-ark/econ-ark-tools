@@ -109,9 +109,9 @@ sudo apt -y install expect
 
 ## Execute as user to create files with correct ownership/permissions
 
-# Installation of package needs to be done here because 
+# Installation of package needs to be done here
+# (permissions require password in subscripts)
 sudo apt -y install tigervnc-scraping-server
-
 sudo /var/local/installers/install-tigervnc-scraping-server.sh $myuser
 
 # Anacron massively delays the first boot; this disbles it
