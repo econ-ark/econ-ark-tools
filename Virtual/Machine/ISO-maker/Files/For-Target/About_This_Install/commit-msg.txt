@@ -1,1 +1,1 @@
-Fix_demand_for_econ-ark_sudo_password_by_putting_reinstall_in_finish.sh
+Conditional_verbose_debug_mode
