@@ -45,7 +45,7 @@ of instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/
 
 # MIN or MAX
 
-### [XUBUNTARK-MIN](https://drive.google.com/drive/folders/1iPyEwhhrUv1XQfRV7uSjmy5k7_TXsKmM?usp=sharing)
+### [XUBUNTARK-MIN](https://drive.google.com/drive/folders/1WVs4TpsMrB8erCIykymzMYmYtxvTjtwk)
 
 Installs python3, jupyter lab, Econ-ARK, and not much else. The total size
 of the software is about 6 GB, and a minimal so even if you have a fairly small USB
