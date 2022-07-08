@@ -152,7 +152,11 @@ sudo apt -y install expect
 # "scraping" means that you're not allowing vnc client to spawn new x sessions
 
 ## Execute as user to create files with correct ownership/permissions
-sudo -u $myuser /var/local/installers/install-tigervnc-scraping-server.sh
+
+# Installation of package needs to be done here because 
+sudo apt -y install tigervnc-scraping-server
+
+sudo /var/local/installers/install-tigervnc-scraping-server.sh $myuser
 
 # Anacron massively delays the first boot; this disbles it
 sudo touch /etc/cron.hourly/jobs.deny       

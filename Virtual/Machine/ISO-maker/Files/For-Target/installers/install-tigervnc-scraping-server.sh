@@ -1,8 +1,6 @@
 #!/bin/bash
 
-sudo apt -y install tigervnc-scraping-server
-
-myuser=$USER
+myuser=$1
 mypass="kra-noce"
 
 # If a previous version exists, delete it
