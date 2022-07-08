@@ -4,30 +4,6 @@
 
 ;;; Bootstrap for first use of emacs -- see https://debbugs.gu.org/cgi/bugreport.cgi?bug=31397
 
-(require 'package)
-(require 'dbus)
-(require 'cl-lib)
-(require 'bind-key)
-
-(setq package-check-signature nil) ;; signature checking fails too often
-
-(package-initialize)
-(menu-bar-mode -1) ;;; GTK throws worrisome but innocuous errors when there's a menu bar
-
-;; Bootstrap 'use-package'
-;; Google 'use-package-wont-start' emacs.stackexchange
-(eval-when-compile
-  (require 'use-package))
-(setq use-package-always-ensure t)
-
-;; If a package in the list is not installed, then (1) download new archives; (2) install it
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(package-initialize)
-(setq package-check-signature nil) ;;; Google "metaredux.com" dealing with expired elpa gpg keys
-
 (prefer-coding-system 'utf-8)
 (setq default-buffer-file-coding-system 'utf-8-unix)
 
@@ -39,9 +15,15 @@
   ;; (add-to-list 'package-archives '("marmalade"    . "http://marmalade-repo.org/packages/") t)
   ;; (add-to-list 'package-archives '("org"          . "http://orgmode.org/elpa/")            t)
 
+  (when (< emacs-major-version 27)  ;; https:iqss.github.io/IQSS.emacs/init.html
+    (package-initialize))
+  (package-initialize)
+
   ;; list of packages we want
-  (setq package-list '(shell-here org markdown-mode git magit elpy gnu-elpa-keyring-update bash-completion xclip))
+  (setq package-list '(use-package shell-here org markdown-mode git magit elpy gnu-elpa-keyring-update bash-completion xclip dbus cl-lib))
   ;; fetch the list of packages available
+  (setq package-check-signature nil) ;; signature checking fails too often
+  
   (unless package-archive-contents
     (package-refresh-contents))
 
@@ -50,8 +32,6 @@
     (unless (package-installed-p package)
       (package-install package)))
 
-  (when (< emacs-major-version 27)  ;; https:iqss.github.io/IQSS.emacs/init.html
-    (package-initialize))
   (use-package elpy
     :ensure t
     :init    
@@ -62,6 +42,9 @@
   (define-key (current-global-map) "\C-c!" 'shell-here) ;; Ctrl-C then !
   ) ;; end when (>= emacs-major-version 24)
 
+(menu-bar-mode -1) ;;; GTK throws worrisome but innocuous errors when there's a menu bar
+
+(setq package-check-signature nil) ;;; Google "metaredux.com" dealing with expired elpa gpg keys
 
 (defun indent-buffer ()
   "Indent the currently visited buffer."
@@ -94,7 +77,6 @@
 
 ;;; Match words across line breaks
 ;;; https://emacs.stackexchange.com/questions/10582/search-for-string-ignoring-new-lines
-
 (setq isearch-lax-whitespace t)
 (setq isearch-regexp-lax-whitespace t)
 (setq search-whitespace-regexp "[ \t\r\n]+")
@@ -171,57 +153,6 @@
       python-shell-interpreter-args "-i --simple-prompt")
 (setq python-fill-docstring-style 'django)
 
-;; When in X windows graphical mode, sync between emacs kill ring and system clipboard
-;; (defun copy-from-ubuntu (text &optional push)
-;;   (interactive)
-;;   (if (display-graphic-p)
-;;       (    (if (region-active-p)
-;; 	       (progn
-;; 		 (shell-command-on-region (region-beginning) (region-end) "xsel -i -b")
-;; 		 (message "Yanked region to clipboard!")
-;; 		 (deactivate-mark))
-;; 	     (message "No region active; can't yank to clipboard!"
-;; 		      )
-
-;; 	   (progn
-;; 	     (message "Yanked region to x-clipboard!")
-;; 	     (call-interactively 'clipboard-kill-ring-save)
-;; 	     )
-;; 	   ;; CUA OS copypaste even in ncurses mode
-;; 	   (progn
-;; 	     (setq x-select-enable-clipboard t)
-;; 	     (defun xsel-cut-function (text &optional push)
-;; 	       (with-temp-buffer
-;; 		 (insert text)
-;; 		 (call-process-region (point-min) (point-max) "xsel" nil 0 nil "--clipboard" "--input")))
-;; 	     (defun xsel-paste-function()
-
-;; 	       (let ((xsel-output (shell-command-to-string "xsel --clipboard --output")))
-;; 		 (unless (string= (car kill-ring) xsel-output)
-;; 		   xsel-output )))
-;; 	     (setq interprogram-cut-function 'xsel-cut-function)
-;; 	     (setq interprogram-paste-function 'xsel-paste-function)
-;; 	     )
-;; 	   )
-
-;;     )
-
-;;   (setq interprogram-cut-function 'copy-from-ubuntu)
-;;   )
-
-;; (defun paste-to-ubuntu ()
-;;   (interactive)
-;;   (if (display-graphic-p)
-;;       (progn
-;; 	(clipboard-yank)
-;; 	(message "graphics active")
-;; 	)
-;;     (insert (shell-command-to-string "xsel -o -b"))
-;;     )
-;; )
-
-;; (setq x-select-enable-clipboard t)
-;; (setq interprogram-paste-function 'x-cut-buffer-or-selection-value)
 
 (setq message-kill-buffer-on-exit t)
 
