@@ -1,1 +1,1 @@
-Restore_allow-autologin_from_installer_script_b-c_permissions
+MAX_version_after_MIN_works
