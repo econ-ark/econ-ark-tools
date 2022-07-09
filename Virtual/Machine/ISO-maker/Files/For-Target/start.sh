@@ -161,7 +161,7 @@ sudo rm -f /var/crash/grub-pc.0.crash
 
 # enable connection by ssh
 sudo apt -y install openssh-server
-sudo -u econ-ark touch /var/local/status/install-ssh.log # make it readable 
+sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable 
 sudo /var/local/installers/install-ssh.sh $myuser |& tee -a /var/local/status/install-ssh.log
 
 # When run by late_command, the machine will reboot after finishing start.sh
