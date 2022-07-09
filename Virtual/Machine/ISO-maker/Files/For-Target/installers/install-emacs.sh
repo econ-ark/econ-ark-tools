@@ -13,25 +13,41 @@ sudo -v &> /dev/null && echo '... sudo privileges are available.' && sudoer=true
 ## Needs gpg for security to connect and download packages
 [[ -z "$(which gpg)" ]] && sudo apt -y install gpg gnutls-bin
 
+shared=/usr/local/share/emacs
+user_root=user/root
+
+mkdir -p "$shared/root"
+mkdir -p "$user_root"
+
+install_time="$(date +%Y%m%d%H%M)"
 # Create .emacs stuff
-## Preserve any existing original config
-[[ -e /root/.emacs   ]] && mv /root/.emacs   /root/.emacs_$(date +%Y%m%d%H%M)
-[[ -e /root/.emacs.d ]] && mv /root/.emacs.d /root/.emacs.d_$(date +%Y%m%d%H%M)
+## Preserve any existing original config for root user
+shared_root=$shared/$user_root
+[[ -e /root/.emacs   ]]        && mv /root/.emacs         /root/.emacs_orig_$install_time
+[[ -e $shared_root/.emacs.d ]] && mv $shared/.emacs.d $shared/.emacs.d_orig_$install_time
+
+ln -s $shared_root/.emacs.d /root/.emacs.d
 
 localhome=var/local/root/home
-sudo cp /$localhome/user_root/dotemacs-root-user        /root/.emacs
-sudo chmod a+rx /root/.emacs
 
-# Set up gpg security before emacs itself 
-mkdir -p /root/.emacs.d/elpa/gnupg
+# copy so user can change it; make link so user knows origin
+cp    /$localhome/user_root/dotemacs-root-user /root/.emacs
+ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs
+
+# Set up gpg security before emacs itself
+# avoids error messages
+mkdir -p $shared/.emacs.d/elpa/gnupg
 
 echo 'keyserver hkps://keyserver.ubuntu.com:443' > /root/.emacs.d/elpa/gnupg/gpg.conf
-sudo gpg --list-keys 
-sudo gpg --homedir /root/.emacs.d/elpa/gnupg --list-keys
-sudo gpg --homedir /root/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
+# sudo gpg --list-keys 
+sudo gpg --homedir $shared/.emacs.d/elpa/gnupg --list-keys
+sudo gpg --homedir $shared/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 
 # make .emacs.d directory accessible to all users, so anybody can add packages
-chmod -Rf a+rwx /root/.emacs.d 
+chmod -Rf a+rwx $shared/.emacs.d 
+
+# finally ready to install it
+sudo apt -y install emacs 
 
 # As of 20220628 there is a problem with a default certificate; comment out that certificate:
 sudo apt -y install ca-certificates 
