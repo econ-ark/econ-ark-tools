@@ -9,7 +9,7 @@ chmod -R a+rwx /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/* /usr/local
 rm -Rf /var/local 
 ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
 rm -f /var/local/status/Size-To-Make-Is-* 
-touch /var/local/status/Size-To-Make-Is-$(echo MAX) 
-echo $(echo MAX > /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) 
+touch /var/local/status/Size-To-Make-Is-$(echo MIN) 
+echo $(echo MIN > /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) 
 /bin/bash -c "/var/local/late_command_finish.sh |& tee /var/local/status/late_command_finish.log" 
 /bin/bash -c "/var/local/loggers/start-with-log.sh"
