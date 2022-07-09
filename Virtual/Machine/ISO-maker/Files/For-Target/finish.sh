@@ -111,7 +111,10 @@ default_hostname="$(</etc/hostname)"
 default_domain=""
 
 datetime="$(/var/local/status/build_date.txt)"
-new_hostname="$commit_date-$short_hash"
+new_hostname="xubark-$commit_date"
+
+# In verbose mode, hostname is long date + commit hash for econ-ark-tools repo
+[[ -e /var/local/status/verbose ]] && new_hostname="$commit_date-$short_hash"
 
 if [[ "$default_hostname" == "-" ]]; then # not yet defined
     echo "$new_hostname" > /etc/hostname

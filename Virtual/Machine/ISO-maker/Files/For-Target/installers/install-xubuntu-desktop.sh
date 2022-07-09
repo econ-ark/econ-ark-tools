@@ -6,7 +6,7 @@ sudo -v &> /dev/null && echo '... and sudo privileges are available.' && sudoer=
 [[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
 
 [[ -e /var/local/status/verbose ]] && set -x && set -v 
-build_date="$(</var/local/build_date.txt)"
+build_date="$(</var/local/status/build_date.txt)"
 
 # Removing all traces of gdm3 helps prevent the question of
 # whether to use lightdm or gdm3

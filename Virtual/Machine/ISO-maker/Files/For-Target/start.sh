@@ -11,6 +11,8 @@
 # Record date and time at which install script is running
 # Used to mark date of original versions of files replaced
 build_date="$(date +%Y%m%d)"
+[[ -e /var/local/status/verbose ]] && build_date="$(date +%Y%m%d%H%M)"
+
 echo "$build_date" > /var/local/status/build_date.txt
 
 # Remove /var/local/status/finished-software-install.flag to reinstall stuff installed here
@@ -101,7 +103,7 @@ sudo mkdir -p /var/local/root/etc/lightdm.conf.d
 sudo mkdir -p /etc/lightdm/lightdm.conf.d
 sudo mkdir -p /var/local/root/home/$myuser
 
-build_date="$(</var/local/build_date.txt)"
+build_date="$(</var/local/status/build_date.txt)"
 # Store original lightdm.conf, and substitute ours
 [[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
 [[ -e /etc/lightdm/lightdm.conf ]]       && mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf_$build_date
