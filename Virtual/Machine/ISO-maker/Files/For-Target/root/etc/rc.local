@@ -3,7 +3,11 @@
 # https://askubuntu.com/questions/156771/run-a-script-only-at-the-very-first-boot
 
 # Conditionally trigger debugging output
-[[ -e /var/local/status/verbose ]] && set -x && set -v
+if [[ -e /var/local/status/verbose ]]; then
+    set -x && set -v
+    exec > >(tee -i rc.local.log)
+    exec 2>&1
+fi
 
 BOOT_FIRST_FLAG="/var/local/status/boot_first.flag"
 

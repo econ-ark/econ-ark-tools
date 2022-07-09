@@ -264,7 +264,8 @@ sudo apt -y install meld
 sudo apt -y upgrade
 
 # Kill tail monitor if it is running
-tail_monitor="$(pgrep tail | grep -v pgrep)" && [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
+tail_monitor="$(pgrep tail | grep -v pgrep)"
+[[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
 
 # Signal that we've finished software install
 touch /var/local/status/finished-software-install.flag 
