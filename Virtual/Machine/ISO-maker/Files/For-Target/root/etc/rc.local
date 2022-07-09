@@ -6,13 +6,14 @@
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
 BOOT_FIRST_FLAG="/var/local/status/boot_first.flag"
+
 if [ ! -f $BOOT_FIRST_FLAG ]; then # machine's first-ever boot
-    # (or, signal to rerun as-if first boot by deleting ~/.boot_first)
+    # (or, signal detected to rerun as-if first boot by deleting ~/.boot_first)
     
     # if previous runs have signaled completion of other steps, remove those signals
     # To rerun everything on reboot, "rm -f /var/local/status/boot_first.flag"
     [[ -e /var/local/status/finished-software-install.flag ]] && rm -f /var/local/status/finished-software-install.flag
-    [[ -e /home/econ-ark/.first_gui_login ]]      && rm -f /home/econ-ark/.first_gui_login*
+    [[ -e /home/econ-ark/.gui_user_login_first.flag  ]]    && rm -f /home/econ-ark/.gui_user_login_first.flag*
     [[ -e /home/econ-ark/.gui_user_login_second.flag ]]    && rm -f /home/econ-ark/.gui_user_login_second.flag*
     [[ -e /var/local/status/boot_second.flag ]]      && rm -f /var/local/status/boot_second.flag
     # create an empty 'signal' file so the "if" will fail after the first boot
@@ -21,16 +22,16 @@ fi
 
 BOOT_SECOND_FLAG="/var/local/status/boot_second.flag" 
 
-if [ ! -f "$BOOT_SECOND_FLAG" ]; then       # Haven't done the second boot stuff yet
+if [ ! -f "$BOOT_SECOND_FLAG" ] || [ ! -f /var/local/status/finished-software-install.flag ]; then
+    # Haven't finished installation yet
     (/var/local/finish.sh |& tee -a /var/local/status/start-and-finish.log |& tee /var/local/status/finish.log ) &
     
-    # Create an empty 'signal' file so the "if" will fail after the first boot
-    touch "$BOOT_SECOND_FLAG"
-
     # Restore cron jobs so they will run in background on next boot
     # (They were disabled in start.sh because they take forever and delay the first boot inordinately)
     [[ -e /etc/cron.hourly/jobs.deny ]] && sudo rm /etc/cron.hourly/jobs.deny
-
+    
+    # Create an empty 'signal' flag file 
+    touch "$BOOT_SECOND_FLAG"
 fi # End second-boot setups
 
 # Run these at the beginning of EVERY boot from the very first one
@@ -38,7 +39,7 @@ sudo rm -f /var/crash/*blue* # Bluetooth crashes frequently and uselessly
 sudo systemctl restart avahi-daemon
 
 # .first_interactive_shell.flag is deleted after first interactive shell is executed
-# permits special messages only at startup
+# permits special messages only at startup of machine
 [[ -e /home/econ-ark/.first_interactive_shell.flag ]] && sudo rm /home/econ-ark/.first_interactive_shell.flag
 
 exit 0
