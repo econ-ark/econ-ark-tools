@@ -21,7 +21,7 @@ install_time="$(date +%Y%m%d%H%M)"
 [[ -e /home/$myuser/.emacs ]] && mv /home/$myuser/.emacs /home/$myuser/.emacs_orig_$install_time
 rm -f /home/$myuser/.emacs
 cp /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs
-ln -s /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs_econ-ark_$(</var/local/About_This_Install/commit_hash)
+ln -s /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs_econ-ark_$(</var/local/About_This_Install/commit_date)
 
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 [[ -e /home/$myuser/.emacs.d ]] && mv /home/$myuser/.emacs.d_$install_time
