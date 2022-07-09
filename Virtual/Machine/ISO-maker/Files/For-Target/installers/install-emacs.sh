@@ -27,27 +27,17 @@ mkdir -p /root/.emacs.d/elpa/gnupg
 
 echo 'keyserver hkps://keyserver.ubuntu.com:443' > /root/.emacs.d/elpa/gnupg/gpg.conf
 sudo gpg --list-keys 
-sudo gpg --homedir /home/$myuser/.emacs.d/elpa/gnupg --list-keys
-sudo gpg --homedir /home/$myuser/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
+sudo gpg --homedir /root/.emacs.d/elpa/gnupg --list-keys
+sudo gpg --homedir /root/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 
 # make .emacs.d directory accessible to all users, so anybody can add packages
 chmod -Rf a+rwx /root/.emacs.d 
-
-# Now ready to install
-
-# Do emacs first-time setup (including downloading packages)
-emacs -batch -l     /home/$myuser/.emacs  
-
-# Don't install the packages twice - instead, link root to the existing install
-[[ -e /root/.emacs.d ]] && sudo rm -Rf /root/.emacs.d
-ln -s /home/$myuser/.emacs.d /root/.emacs.d
 
 # As of 20220628 there is a problem with a default certificate; comment out that certificate:
 sudo apt -y install ca-certificates 
 sudo sed -i 's|mozilla/DST_Root_CA_X3.crt|!mozilla/DST_Root_CA_X3.crt|g' /etc/ca-certificates.conf
 
 # Do emacs first-time setup (including downloading packages)
-sudo -i -u  $myuser emacs -batch --eval "(setq debug-on-error t)" -l     /home/$myuser/.emacs  
+emacs -batch --eval "(setq debug-on-error t)" -l     /root/.emacs  
 
-#sudo apt -y purge gnome-session-bin 
 # Finished with emacs
