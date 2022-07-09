@@ -8,6 +8,29 @@
 myuser="econ-ark"
 mypass="kra-noce"
 
+# Get info about install
+commit_msg="$(cat /var/local/About_This_Install/commit-msg.txt)"
+short_hash="$(cat /var/local/About_This_Install/short.git-hash)"
+commit_date="$(cat /var/local/About_This_Install/commit_date)"
+
+# Change the name of the host to the date and time of its creation
+default_hostname="$(</etc/hostname)"
+default_domain=""
+
+datetime="$(/var/local/status/build_date.txt)"
+new_hostname="xubark-$commit_date"
+
+# In verbose mode, hostname is long date + commit hash for econ-ark-tools repo
+[[ -e /var/local/status/verbose ]] && new_hostname="$commit_date-$short_hash" && echo "$new_hostname" > /var/local/status/date_commit
+
+if [[ "$default_hostname" == "-" ]]; then # not yet defined
+    echo "$new_hostname" > /etc/hostname
+    echo "$new_hostname" > /etc/hosts
+else # replace the default
+    sed -i "s/$default_hostname/$new_hostname/g" /etc/hostname
+    sed -i "s/$default_hostname/$new_hostname/g" /etc/hosts
+fi
+
 # GitHub command line tools
 /var/local/installers/install-gh-cli-tools.sh
 
@@ -23,9 +46,6 @@ sudo /var/local/installers/install-emacs.sh |& tee /var/local/status/install-ema
 sudo /var/local/config/emacs.sh $myuser
 
 # Populate About_This_Install directory with info specific to this run of the installer
-commit_msg="$(cat /var/local/About_This_Install/commit-msg.txt)"
-short_hash="$(cat /var/local/About_This_Install/short.git-hash)"
-commit_date="$(cat /var/local/About_This_Install/commit_date)"
 
 ## Create the "About This Install" markdown file
 cat <<EOF > /var/local/About_This_Install.md
@@ -106,24 +126,6 @@ done
 # cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
 # Enable ssh over avahi
 # cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
-
-# Change the name of the host to the date and time of its creation
-default_hostname="$(</etc/hostname)"
-default_domain=""
-
-datetime="$(/var/local/status/build_date.txt)"
-new_hostname="xubark-$commit_date"
-
-# In verbose mode, hostname is long date + commit hash for econ-ark-tools repo
-[[ -e /var/local/status/verbose ]] && new_hostname="$commit_date-$short_hash"
-
-if [[ "$default_hostname" == "-" ]]; then # not yet defined
-    echo "$new_hostname" > /etc/hostname
-    echo "$new_hostname" > /etc/hosts
-else # replace the default
-    sed -i "s/$default_hostname/$new_hostname/g" /etc/hostname
-    sed -i "s/$default_hostname/$new_hostname/g" /etc/hosts
-fi
 
 cd /home/"$myuser"
 

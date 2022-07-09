@@ -17,6 +17,7 @@ myhome=/home/$myuser
 localhome=var/local/root/home # templates
 
 install_time="$(date +%Y%m%d%H%M)"
+econ_ark="$(/var/local/status/date_commit)"
 ## Create .emacs files
 [[ -e /home/$myuser/.emacs ]] && mv /home/$myuser/.emacs /home/$myuser/.emacs_orig_$install_time
 rm -f /home/$myuser/.emacs
