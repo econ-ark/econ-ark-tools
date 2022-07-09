@@ -17,12 +17,12 @@ myhome=/home/$myuser
 localhome=var/local/root/home # templates
 
 install_time="$(date +%Y%m%d%H%M)"
-econ_ark="$(/var/local/status/date_commit)"
+date_commit="$(/var/local/status/date_commit)"
 ## Create .emacs files
 [[ -e /home/$myuser/.emacs ]] && mv /home/$myuser/.emacs /home/$myuser/.emacs_orig_$install_time
 rm -f /home/$myuser/.emacs
 cp /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs
-ln -s /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs_econ-ark_$(</var/local/About_This_Install/commit_date)
+ln -s /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs_econ-ark_date_commit
 
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 [[ -e /home/$myuser/.emacs.d ]] && mv /home/$myuser/.emacs.d_$install_time
