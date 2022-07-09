@@ -1,5 +1,15 @@
 #!/bin/bash
 
+# Wait for the monitor to be active before configuring it 
+monitor=""  
+while [[ "$monitor" == "" ]] ; do 
+    echo 'Waiting for monitor to come up ...'
+    cmd="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
+    echo "$cmd"
+    monitor="$cmd"
+    sleep 1
+done
+
 # If running on virtualbox, xrandr --listactivemonitors returns 'default' but should return 0
 [[ "$monitor" == "default" ]] && monitor=0 
 

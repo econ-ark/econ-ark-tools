@@ -34,7 +34,7 @@ export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "
 
 pgrep x0vncserver > /dev/null # Silently get the process ID of running vncserver (if any)
 pgrep_process_exists="$?" # 1 if the previous command did NOT find any matching process
-if [[ "$process_exists" -eq 1 ]] && [[ "$DISPLAY" != "" ]]; then # start vnc server
+if [[ "$pgrep_process_exists" -eq 1 ]] && [[ "$DISPLAY" != "" ]]; then # start vnc server
     cmd="xfce4-terminal --title=x0vncserver-about --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd' --execute xset -r"
     echo "$cmd" # show
     eval "$cmd" # do
@@ -70,15 +70,6 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/$USER/.gui_user_login_first.flag ]]; 
     # delete .gui_user_login_second.flag which might be present if this is a reinstall
     [[ -e /home/$USER/.gui_user_login_second.flag ]] && rm -f /home/$USER/.gui_user_login_second.flag 
 
-    # Wait for the monitor to be active before configuring it 
-    monitor=""  
-    while [[ "$monitor" == "" ]] ; do 
-	echo 'Waiting for monitor to come up ...'
-	cmd="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
-	echo "$cmd"
-    	monitor="$cmd"
-    	sleep 1
-    done
 
     # Screensavers interfere with finishing the installation
     /var/local/tools/turn-off-screensavers.sh
