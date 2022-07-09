@@ -44,7 +44,7 @@ sudo gpg --homedir $shared/.emacs.d/elpa/gnupg --list-keys
 sudo gpg --homedir $shared/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 
 # make .emacs.d directory accessible to all users, so anybody can add packages
-chmod -Rf a+rwx $shared/.emacs.d 
+sudo chmod -Rf a+rwx $shared/.emacs.d 
 
 # finally ready to install it
 sudo apt -y install emacs 
