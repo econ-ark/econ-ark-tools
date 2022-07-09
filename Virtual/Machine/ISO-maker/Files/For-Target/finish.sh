@@ -182,9 +182,6 @@ chown -Rf $myuser:$myuser /home/$myuser/
 # bring system up to date
 sudo apt -y update && sudo apt -y upgrade
 
-# Signal that we've finished software install
-touch /var/local/status/finished-software-install.flag 
-
 # Install either minimal or maximal system
 if [[ "$size" == "MIN" ]]; then
     sudo apt -y install python3-pip python-pytest python-is-python3
@@ -267,6 +264,9 @@ sudo apt -y install meld
 sudo apt -y upgrade
 
 # Kill tail monitor if it is running
-tail_monitor="$(pgrep tail)" && [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
+tail_monitor="$(pgrep tail | grep -v pgrep)" && [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
+
+# Signal that we've finished software install
+touch /var/local/status/finished-software-install.flag 
 
 sudo reboot
