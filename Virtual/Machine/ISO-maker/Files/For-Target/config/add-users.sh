@@ -6,7 +6,7 @@
 grouplist="adm,dialout,cdrom,floppy,audio,dip,video,plugdev,lxd,sudo"
 
 # stackoverflow.com/questions check-whether-a-user-exists
-if ! id "ubuntu" &>/dev/null; then # Probably created by seed
+if ! id "ubuntu" &>/dev/null; then # Probably created by debian installer preseed
     echo 'Creating user ubuntu.'
     sudo useradd --create-home --password "$(perl -e 'print crypt($ARGV[0],"econ-ark")' "kra-noce")" --shell /bin/bash --groups "$grouplist" ubuntu
 else # Probably created by multipass
