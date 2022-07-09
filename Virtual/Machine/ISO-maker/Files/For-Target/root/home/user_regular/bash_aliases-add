@@ -24,11 +24,12 @@ export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "
 # Makes it easier to connect to the VM - if it is on a network you can reach
 
 cmd=""
-pgrep x0vncserver > /dev/null # Silence it
+pgrep x0vncserver > /dev/null # Don't complain in text if error
 #  "$?" -eq 1 implies that no such process exists, in which case it should be started
-[[ "$?" -eq 1 ]] && [[ "$DISPLAY" != "" ]] && cmd="xfce4-terminal --title=x0vncserver-about --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd'"
-eval "$cmd"
-
+if [[ "$?" -eq 1 ]] && [[ "$DISPLAY" != "" ]]; then # start vnc server
+     cmd="xfce4-terminal --title=x0vncserver-about --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd' --execute xset -r"
+     eval "$cmd"
+fi
 
 if [[ "$(which conda)" != "" ]]; then
     # >>> conda initialize >>>
@@ -53,7 +54,8 @@ fi
 # Stuff to be executed only the first time a user logs into an interactive GUI shell
 # On first boot, /etc/rc.local will run start.sh and then reboot without interactive login
 # Interactive login first happens after that boot, and launches this script
-# So .gui_user_login_first.flag and .gui_user_login_second.flag here are on second and third boots
+# So .gui_user_login_first.flag and .gui_user_login_second.flag here
+# are on second and third boots
 
 # If this is the first login with the GUI
 if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.gui_user_login_first.flag ]]; then
@@ -70,19 +72,18 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.gui_user_login_first.flag ]
     # delete .gui_user_login_second.flag which might be present if this is a reinstall
     [[ -e /home/econ-ark/.gui_user_login_second.flag ]] && rm -f /home/econ-ark/.gui_user_login_second.flag 
 
-    # Disable screen locking on the first boot
     # Copy-and-pasted from code that definitely works for the second boot
     # For some reason, it does not seem always to "stick" when done here, so repeated for second login
-
     monitor=""  
     while [[ "$monitor" == "" ]] ; do #
 	echo 'Waiting for monitor to come up ...'
-    	monitor="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
+	cmd="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
+	echo "$cmd"
+    	monitor="$($cmd)"
     	sleep 1
     done
 
     # If running on virtualbox, xrandr --listactivemonitors returns 'default' but should return 0
-
     [[ "$monitor" == "default" ]] && monitor=0 # Monitor=default seems to be a fake device - should be 0 instead
 
     monitorPath="/backdrop/screen0/monitor$monitor" # Get the property name of the monitor
@@ -91,13 +92,13 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.gui_user_login_first.flag ]
     xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style"            --set 4 # Scaling
     xfconf-query --channel xfce4-desktop --property "$monitorPath/workspace0/image-style" --set 4 # Scaling
 
-    # # Set background to black (rgba1 property, if it exists)
+    # # Set background to black (rgba1 property of the monitor and workspace)
     # black="--type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0" 
-
-    # For some bizarre reason, can't use "$black" shell variable in the command, so spell it out
-    xfconf-query              --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 &> /dev/null
+    # For some bizarre reason, can't use "$black" shell variable defined above
+    # in the command, so spell it out:
+    xfconf-query              --channel xfce4-desktop --property "$monitorPath/rgba1"            --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 &> /dev/null
     if [[ $? != 0 ]]; then # the rgb property did not exist - so create it 
-    	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
+    	xfconf-query --create --channel xfce4-desktop --property "$monitorPath/rgba1"            --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0
     fi
 
     xfconf-query              --channel xfce4-desktop --property "$monitorPath/workspace0/rgba1" --type double --set 0.0 --type double --set 0.0 --type double --set 0.0 --type double --set 1.0 &> /dev/null
@@ -108,13 +109,13 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.gui_user_login_first.flag ]
     # Turn off ALL the possible ways the screen might get locked -- user can undo this later
     # xfce4-session property /shutdown/LockScreen is one of (far too many) ways to lock the screen
     xfconf-query --channel xfce4-session --property /shutdown/LockScreen &> /dev/null # Querying its value gives an error if it does not exist
-    shutdownLockscreenCode="$?" # If it does NOT exist, the code will be NOT be zero
-    # If it DOES exist set it to zero
+    shutdownLockscreenCode="$?" # get exit code from last command; If it does NOT exist, the code will be NOT be zero
+    # If lock screen DOES exist set it to false
     [[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false 
 
     # Power manager is another way to lock 
     xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)" # Not sure whether it's running now or not
-    xfce4powermanagerexistsCode="$?" # If zero, it is running -- so quit it (because it causes crash error if reboot happens while running)
+    xfce4powermanagerexistsCode="$?" # If exit code is zero, it is running -- so quit it (because it causes crash error if reboot happens while running)
     [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
 
     # Properties can be set even if it is not running     
@@ -126,9 +127,10 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/econ-ark/.gui_user_login_first.flag ]
     LockScreenExists="$(xfconf-query --channel xfce4-screensaver --property /lock/enabled --set false &>/dev/null)"
     lockEnabled="$?" # If it does not exist, create it 
     [[ "$lockEnabled" != "0" ]] && xfconf-query --create --channel xfce4-screensaver --property /lock/enabled --type 'bool' --set false
-    
+
+    # Yet another thing that prevents auto reboot:
     shutdownLockscreenCode="$?" # If it does NOT exist, the code will be NOT be zero
-    # If it DOES exist set it to zero
+    # If it DOES exist set it to false
     [[ "$shutdownLockscreenCode" == "0" ]] && xfconf-query --channel xfce4-session --property /shutdown/LockScreen --set false 
 
     # Default xfwm4 compositor is extremely slow; disabling it speeds everything up a lot
@@ -164,7 +166,7 @@ if [[ -e /home/econ-ark/.gui_user_login_first.flag ]] && [[ "$DISPLAY" != "" ]] 
 fi
 
 # All subsequent logins
-if [[ -e /home/econ-ark/.gui_user_login_first.flag ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/status/finished-software-install.flag ]] && [[ -e /home/econ-ark/.gui_user_login_second.flag ]] && [[ ! -e /home/econ-ark/.first_interactive_shell ]]; then
+if [[ -e /home/econ-ark/.gui_user_login_first.flag ]] && [[ "$DISPLAY" != "" ]] && [[ -e /var/local/status/finished-software-install.flag ]] && [[ -e /home/econ-ark/.gui_user_login_second.flag ]] && [[ ! -e /home/econ-ark/.first_interactive_shell.flag ]]; then
     vHARK="$(python -c 'import HARK ; print(HARK.__version__)')"
     echo "XUBUNTARK, HARK version $vHARK, https://econ-ark.org"
     
@@ -175,5 +177,5 @@ if [[ -e /home/econ-ark/.gui_user_login_first.flag ]] && [[ "$DISPLAY" != "" ]] 
     echo 'Scaling too large: "bash -u /var/local/tools/xfce-scaling-shrink-me.sh"'
     echo 'Scaling too small: "bash -u /var/local/tools/xfce-scaling-grow-me.sh"'
     echo ''
-    touch /home/econ-ark/.first_interactive_shell
+    touch /home/econ-ark/.first_interactive_shell.flag
 fi

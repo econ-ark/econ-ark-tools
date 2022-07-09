@@ -3,80 +3,42 @@
 # https://askubuntu.com/questions/156771/run-a-script-only-at-the-very-first-boot
 
 # Conditionally trigger debugging output
-# [[ -e /var/local/status/verbose ]] && set -x && set -v
+[[ -e /var/local/status/verbose ]] && set -x && set -v
 
-# exec > /var/local/rc-local.out 2>&1; set -x
-
-FLAG="/var/local/status/boot_first.flag"
-if [ ! -f $FLAG ]; then # machine's first-ever boot
-    # (or, signal to rerun as though first boot by deleting ~/.boot_first)
+BOOT_FIRST_FLAG="/var/local/status/boot_first.flag"
+if [ ! -f $BOOT_FIRST_FLAG ]; then # machine's first-ever boot
+    # (or, signal to rerun as-if first boot by deleting ~/.boot_first)
     
     # if previous runs have signaled completion of other steps, remove those signals
     # To rerun everything on reboot, "rm -f /var/local/status/boot_first.flag"
-    [[ -e /var/local/status/finished_software_install ]] && rm -f /var/local/status/finished_software_install
+    [[ -e /var/local/status/finished-software-install.flag ]] && rm -f /var/local/status/finished-software-install.flag
     [[ -e /home/econ-ark/.first_gui_login ]]      && rm -f /home/econ-ark/.first_gui_login*
     [[ -e /home/econ-ark/.gui_user_login_second.flag ]]    && rm -f /home/econ-ark/.gui_user_login_second.flag*
     [[ -e /var/local/status/boot_second.flag ]]      && rm -f /var/local/status/boot_second.flag
-    
     # create an empty 'signal' file so the "if" will fail after the first boot
-    touch "$FLAG"
-
+    touch "$BOOT_FIRST_FLAG"
 fi
-# sudo /bin/bash /etc/rc.local
-# sudo /var/local/loggers/start-with-log.sh
 
-# # if xfce is running, shut it down (allows replacing .Xauthority) 
-# [[ "$(ps -e | grep -E -i xfce4-session)" != "" ]] && xfce4-session-logout
+BOOT_SECOND_FLAG="/var/local/status/boot_second.flag" 
 
-# sudo reboot
-FLAG2="/var/local/status/boot_second.flag" 
-
-if [ ! -f "$FLAG2" ]; then       # Haven't done the second boot stuff yet
-    # Change the hostname to the point of origin of this machine
-    # DATE="$(stat -c %z /proc)"
-    # # Pick which size is being made; MAX is default
-    # size="MAX"
-    # [[ -e /var/local/status/Size-To-Make-Is-MIN ]] && size="MIN" # reset if MIN chosen
-    
-    # # Allow remaining stuff to be done in the background 
+if [ ! -f "$BOOT_SECOND_FLAG" ]; then       # Haven't done the second boot stuff yet
     (/var/local/finish.sh |& tee -a /var/local/status/start-and-finish.log |& tee /var/local/status/finish.log ) &
     
     # Create an empty 'signal' file so the "if" will fail after the first boot
-    touch "$FLAG2"
+    touch "$BOOT_SECOND_FLAG"
 
     # Restore cron jobs so they will run in background on next boot
     # (They were disabled in start.sh because they take forever and delay the first boot inordinately)
     [[ -e /etc/cron.hourly/jobs.deny ]] && sudo rm /etc/cron.hourly/jobs.deny
 
-    # # On some systems, xfce4-power-manager causes a crash if you don't quit it before reboot 
-    # xfce4powermanagerexists="$(xfconf-query --channel xfce4-power-manager --list &>/dev/null)"
-    # xfce4powermanagerexistsCode="$?"
-    # [[ "xfce4powermanagerexistsCode" == "0" ]] && xfce4-power-manager --quit
-    
-    # # Get the MIT-MAGIC-COOKIE from the running instance, add the new hostname,
-    # magic="$(sudo xauth -f /var/run/lightdm/root/:0 list | awk '{print $NF}')"
-    # sudo xauth -f /root/.Xauthority add $hostdate/unix:0 . "$magic"
-    # # Merge so that either the old or the new hostname should work
-    # sudo xauth -v merge /var/run/lightdm/root/:0 /root/.Xauthority
-    # sudo cp /root/.Xauthority /home/econ-ark/.Xauthority
-    # # Give them the required permissions
-    # sudo chmod a-rwx /root/.Xauthority
-    # sudo chmod u+rw  /root/.Xauthority
-    # # askubuntu.com/questions/253376/lightdm-failed-during-authentication
-    # # Says permissions should be 664 (or maybe 666)
-    # sudo chown econ-ark:econ-ark /home/econ-ark/.Xauthority
-    # sudo chmod 664               /home/econ-ark/.Xauthority
-    # xdg-settings set default-web-browser google-chrome.desktop
-    # xdg-open https://econ-ark.org
-
-fi # End second-boot
+fi # End second-boot setups
 
 # Run these at the beginning of EVERY boot from the very first one
 sudo rm -f /var/crash/*blue* # Bluetooth crashes frequently and uselessly
-#sudo systemctl restart avahi-daemon
+sudo systemctl restart avahi-daemon
 
-# .first_interactive_shell is deleted after first interactive shell is executed
+# .first_interactive_shell.flag is deleted after first interactive shell is executed
 # permits special messages only at startup
-[[ -e /home/econ-ark/.first_interactive_shell ]] && sudo rm /home/econ-ark/.first_interactive_shell
+[[ -e /home/econ-ark/.first_interactive_shell.flag ]] && sudo rm /home/econ-ark/.first_interactive_shell.flag
 
 exit 0

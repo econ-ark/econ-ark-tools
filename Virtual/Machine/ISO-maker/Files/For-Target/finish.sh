@@ -263,7 +263,7 @@ sudo apt -y install meld
 
 sudo apt -y upgrade
 
-# Kill tail monitor if somehow it is still running
+# Kill tail monitor if it is running
 tail_monitor="$(pgrep tail)" && [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
 
 sudo reboot

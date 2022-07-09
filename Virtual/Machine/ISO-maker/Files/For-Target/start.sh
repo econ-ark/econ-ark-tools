@@ -164,3 +164,5 @@ sudo /var/local/installers/install-ssh.sh $myuser |& tee -a /var/local/status/in
 
 # When run by late_command, the machine will reboot after finishing start.sh
 # rc.local will then notice that 'finish.sh' has not been run, and will run it
+
+sleep 3600
