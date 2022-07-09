@@ -11,7 +11,7 @@ fi
 
 BOOT_FIRST_FLAG="/var/local/status/boot_first.flag"
 
-if [ ! -f $BOOT_FIRST_FLAG ]; then # machine's first-ever boot
+if [ ! -e $BOOT_FIRST_FLAG ]; then # machine's first-ever boot
     # (or, signal detected to rerun as-if first boot by deleting ~/.boot_first)
     
     # if previous runs have signaled completion of other steps, remove those signals
@@ -26,7 +26,7 @@ fi
 
 BOOT_SECOND_FLAG="/var/local/status/boot_second.flag" 
 
-if [ ! -f "$BOOT_SECOND_FLAG" ] || [ ! -f /var/local/status/finished-software-install.flag ]; then
+if [ ! -e "$BOOT_SECOND_FLAG" ] || [ ! -f /var/local/status/finished-software-install.flag ]; then
     # Haven't finished installation yet
     (/var/local/finish.sh |& tee -a /var/local/status/start-and-finish.log |& tee /var/local/status/finish.log ) &
     

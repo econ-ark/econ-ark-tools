@@ -7,8 +7,8 @@ fi
 
 if [[ -e /var/local/status/verbose ]]; then
     echo 'verbose debugging mode was turned on; turning off'
-    rm /var/local/status/verbose
+    rm -Rf /var/local/status/verbose
 else
     echo 'verbose debugging mode was turned off; turning on'
-    touch /var/local/status/verbose
+    mkdir -p /var/local/status/verbose
 fi

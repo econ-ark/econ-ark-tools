@@ -4,11 +4,13 @@
 # Get paths that everybody should have 
 [[ -e /etc/environment ]] && source /etc/environment
 
-if [[ -e /var/local/status/verbose ]]; then
+set x && set v # Turn off debugging if it's on
+# To turn on debugging of bash_aliases, touch /var/local/status/verbose/bash_aliases
+if [[ -e /var/local/status/verbose/bash_aliases ]]; then
     set -x && set -v
     datetime="$(date +%Y%m%d%H%M)"
     [[ -e /var/local/status/bash_aliases.log ]] && mv /var/local/status/bash_aliases_$datetime.log
-    exec > >(tee -i /var/local/status/bash_aliases.log)
+    exec > >(tee -i /var/local/status/verbose/bash_aliases.log)
     exec 2>&1
 fi
 
@@ -111,6 +113,10 @@ if [[ "$DISPLAY" != "" ]] &&
 
     # firefox 'https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing' &
     touch /home/$USER/.gui_user_login_second.flag
+    
+    # If it was on, turn off debugging/verbosity now that everything is done 
+    [[ -e /var/local/status/verbose ]] && mv [[ /var/local/status/verbose_logs_$datetime
+    set v && set x
 fi
 
 # All subsequent GUI logins
