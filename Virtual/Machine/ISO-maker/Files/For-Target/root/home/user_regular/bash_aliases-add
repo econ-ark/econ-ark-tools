@@ -4,7 +4,13 @@
 # Get paths that everybody should have 
 [[ -e /etc/environment ]] && source /etc/environment
 
-[[ -e /var/local/status/verbose ]] && set -x && set -v
+if [[ -e /var/local/status/verbose ]]; then
+    set -x && set -v
+    datetime="$(date +%Y%m%d%H%M)"
+    [[ -e /var/local/status/bash_aliases.log ]] && mv /var/local/status/bash_aliases_$datetime.log
+    exec > >(tee -i /var/local/status/bash_aliases.log)
+    exec 2>&1
+fi
 
 [[ ! -t 0 ]] && return # it is not an interactive shell; Google "test interactive shell"
 

@@ -5,7 +5,7 @@
 # Conditionally trigger debugging output
 if [[ -e /var/local/status/verbose ]]; then
     set -x && set -v
-    exec > >(tee -i rc.local.log)
+    exec > >(tee -i /var/local/status/rc.local.log)
     exec 2>&1
 fi
 
