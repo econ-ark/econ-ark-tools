@@ -15,22 +15,25 @@ sudo -v &> /dev/null && echo '... sudo privileges are available.' && sudoer=true
 
 # Create .emacs stuff
 ## Preserve any existing original config
-[[ -e /root/.emacs   ]] && mv /root/.emacs   /root/.emacs_orig
-[[ -e /root/.emacs.d ]] && mv /root/.emacs.d /root/.emacs.d_orig
+[[ -e /root/.emacs   ]] && mv /root/.emacs   /root/.emacs_$(date +%Y%m%d%H%M)
+[[ -e /root/.emacs.d ]] && mv /root/.emacs.d /root/.emacs.d_$(date +%Y%m%d%H%M)
 
 localhome=var/local/root/home
 sudo cp /$localhome/user_root/dotemacs-root-user        /root/.emacs
+sudo chmod a+rx /root/.emacs
 
-# Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
-chmod a+rwx /root/.emacs.d 
-
-# Set up gpg security
+# Set up gpg security before emacs itself 
 mkdir -p /root/.emacs.d/elpa/gnupg
 
 echo 'keyserver hkps://keyserver.ubuntu.com:443' > /root/.emacs.d/elpa/gnupg/gpg.conf
 sudo gpg --list-keys 
 sudo gpg --homedir /home/$myuser/.emacs.d/elpa/gnupg --list-keys
 sudo gpg --homedir /home/$myuser/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
+
+# make .emacs.d directory accessible to all users, so anybody can add packages
+chmod -Rf a+rwx /root/.emacs.d 
+
+# Now ready to install
 
 # Do emacs first-time setup (including downloading packages)
 emacs -batch -l     /home/$myuser/.emacs  
