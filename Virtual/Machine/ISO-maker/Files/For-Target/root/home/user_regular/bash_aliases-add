@@ -9,11 +9,12 @@
 set x && set v # Turn off debugging if it's on
 # To turn on debugging of bash_aliases, mkdir -p /var/local/status/verbose/bash_aliases
 if [[ -e /var/local/status/verbose/bash_aliases ]]; then # turn it on for bash_aliases
-    set -x && set -v
-    datetime="$(date +%Y%m%d%H%M)"
-    [[ -e /var/local/status/bash_aliases.log ]] && mv /var/local/status/bash_aliases_$datetime.log
+    datetime="$(date +%Y%m%d%H%M%S)"
+    [[ -e /var/local/status/bash_aliases.log ]] && mv /var/local/status/bash_aliases.log /var/local/status/bash_aliases_$datetime.log
     exec > >(tee -i /var/local/status/verbose/bash_aliases.log)
     exec 2>&1
+    echo '# ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode'
+    set -x && set -v
 fi
 
 if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
@@ -115,7 +116,7 @@ if [[ "$DISPLAY" != "" ]] &&
     touch /home/$USER/.gui_user_login_second.flag
     
     # If it was on, turn off debugging/verbosity now that everything is done 
-    [[ -e /var/local/status/verbose ]] && mv [[ /var/local/status/verbose_logs_$datetime
+    [[ -e /var/local/status/verbose ]] && mv /var/local/status/verbose /var/local/status/verbose_logs_$datetime
     set v && set x
 fi
 
