@@ -32,7 +32,7 @@ localhome=var/local/root/home
 
 # copy so user can change it; make link so user knows origin
 cp    /$localhome/user_root/dotemacs-root-user /root/.emacs
-ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs
+ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs_orig
 
 # Set up gpg security before emacs itself
 # avoids error messages
