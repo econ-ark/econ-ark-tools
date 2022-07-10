@@ -30,7 +30,7 @@ ln -s /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs_econ-
 # Don't install packages separately for each user - instead, link root to the existing install
 mkdir $myhome/.emacs.d
 
-[[ -e /$shared/.emacs.d/elpa ]] && ln -s /shared/.emacs.d/elpa /home/$myuser/.emacs.d/elpa
+[[ -e /$shared/.emacs.d/elpa ]] && ln -s /$shared/.emacs.d/elpa /home/$myuser/.emacs.d/elpa
 
 # Do emacs first-time setup
 emacs -batch --eval "(setq debug-on-error t)" -l     /home/$myuser/.emacs  
