@@ -39,7 +39,9 @@ ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs
 mkdir -p $shared/.emacs.d/elpa/gnupg
 
 echo 'keyserver hkps://keyserver.ubuntu.com:443' > /root/.emacs.d/elpa/gnupg/gpg.conf
-# sudo gpg --list-keys 
+sudo gpg --list-keys  # creates the ~/.gnupg directory if it does not exist
+[[ -e $shared/.gnupg ]] && rm -Rf $shared/.gnupg
+sudo ln -s /root/.gnupg $shared/.gnupg
 sudo gpg --homedir $shared/.emacs.d/elpa/gnupg --list-keys
 sudo gpg --homedir $shared/.emacs.d/elpa/gnupg --receive-keys 066DAFCB81E42C40
 

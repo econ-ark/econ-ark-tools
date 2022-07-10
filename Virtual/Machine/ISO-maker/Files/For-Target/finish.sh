@@ -17,7 +17,7 @@ commit_date="$(cat /var/local/About_This_Install/commit_date)"
 default_hostname="$(</etc/hostname)"
 default_domain=""
 
-datetime="$(/var/local/status/build_date.txt)"
+datetime="$(</var/local/status/build_date.txt)"
 new_hostname="xubark-$commit_date"
 
 # In verbose mode, hostname is long date + commit hash for econ-ark-tools repo
@@ -247,8 +247,8 @@ sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install unattended-upgrades
 
-sudo mkdir -p /etc/apt/apt.conf.d/20auto-upgrades
-# # sudo wget -O  /etc/apt/apt.conf.d/20auto-upgrades $online/Files/For-Target/root/etc/apt/apt.conf.d/20auto-upgrades
+sudo mkdir -p /etc/apt/apt.conf.d
+[[ -e /etc/apt/apt.conf.d/20auto-upgrades ]] && sudo mv /etc/apt/apt.conf.d/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades_orig
 sudo cp /var/local/root/etc/apt/apt.conf.d/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades 
 
 # Batch compile emacs so it will get all its packages
@@ -273,4 +273,5 @@ tail_monitor="$(pgrep tail | grep -v pgrep)"
 # Signal that we've finished software install
 touch /var/local/status/finished-software-install.flag 
 
+sudo chmod -Rf a+rw /var/local/status
 sudo reboot

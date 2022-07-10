@@ -11,4 +11,6 @@ if [[ -e /var/local/status/verbose ]]; then
 else
     echo 'verbose debugging mode was turned off; turning on'
     mkdir -p /var/local/status/verbose
+    chmod -Rf a+rwx /var/local/status/verbose
+    touch /var/local/status/verbose/.gitkeep
 fi

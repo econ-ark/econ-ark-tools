@@ -7,7 +7,7 @@
 [[ ! -t 0 ]] && return # it is not an interactive shell; Google "test interactive shell"
 
 set x && set v # Turn off debugging if it's on
-# To turn on debugging of bash_aliases, touch /var/local/status/verbose/bash_aliases
+# To turn on debugging of bash_aliases, mkdir -p /var/local/status/verbose/bash_aliases
 if [[ -e /var/local/status/verbose/bash_aliases ]]; then # turn it on for bash_aliases
     set -x && set -v
     datetime="$(date +%Y%m%d%H%M)"
