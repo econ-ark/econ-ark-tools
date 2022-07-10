@@ -32,8 +32,8 @@ ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs_econ-ark_githash_$(<
 # Set up gpg security before emacs itself
 # avoids error messages
 
-sudo gpg -vv --auto-key-retrieve --keyserver hkps://keyserver.ubuntu.com --list-keys
-sudo gpg -vv --auto-key-retrieve --keyserver hkps://keyserver.ubuntu.com --receive-keys 066DAFCB81E42C40
+sudo gpg -vv --keyserver hkps://keyserver.ubuntu.com --list-keys
+sudo gpg -vv --keyserver hkps://keyserver.ubuntu.com --receive-keys 066DAFCB81E42C40
 sudo ln -s /root/.gnupg $shared/.gnupg
 
 # finally ready to install it
