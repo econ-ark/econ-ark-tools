@@ -26,8 +26,6 @@ shared_root=$shared/$user_root
 [[ -e /root/.emacs   ]]        && mv /root/.emacs         /root/.emacs_orig_$install_time
 [[ -e $shared_root/.emacs.d ]] && mv $shared/.emacs.d $shared/.emacs.d_orig_$install_time
 
-ln -s $shared_root/.emacs.d /root/.emacs.d
-
 localhome=var/local/root/home
 
 # copy so user can change it; make link so user knows origin
