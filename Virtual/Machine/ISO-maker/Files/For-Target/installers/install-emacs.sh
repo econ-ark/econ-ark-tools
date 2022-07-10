@@ -16,21 +16,18 @@ sudo -v &> /dev/null && echo '... sudo privileges are available.' && sudoer=true
 shared=/usr/local/share/emacs
 user_root=user/root
 
-sudo mkdir -p "$shared/root"
-sudo mkdir -p "$user_root"
-
 install_time="$(date +%Y%m%d%H%M)"
 # Create .emacs stuff
 ## Preserve any existing original config for root user
 shared_root=$shared/$user_root
 [[ -e /root/.emacs   ]]        && mv /root/.emacs         /root/.emacs_orig_$install_time
-[[ -e $shared_root/.emacs.d ]] && mv $shared/.emacs.d $shared/.emacs.d_orig_$install_time
+# [[ -e $shared_root/.emacs.d ]] && mv $shared/.emacs.d $shared/.emacs.d_orig_$install_time
 
 localhome=var/local/root/home
 
 # copy so user can change it; make link so user knows origin
 cp    /$localhome/user_root/dotemacs-root-user /root/.emacs
-ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs_econ-ark_$(</var/local/About_This_Install/short.git-hash)
+ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs_econ-ark_githash_$(</var/local/About_This_Install/short.git-hash)
 
 # Set up gpg security before emacs itself
 # avoids error messages
@@ -50,6 +47,9 @@ sudo sed -i 's|mozilla/DST_Root_CA_X3.crt|!mozilla/DST_Root_CA_X3.crt|g' /etc/ca
 emacs -batch --eval "(setq debug-on-error t)" -l     /root/.emacs  
 
 # make .emacs.d directory accessible to all users, so anybody can add packages
+mkdir -p $shared/.emacs.d
 sudo chmod -Rf a+rwx $shared/.emacs.d 
+sudo chmod -Rf a+rwx $shared/.emacs.d 
+sudo chmod -Rf a+rwx /root/.emacs.d/elpa
 
 # Finished with emacs
