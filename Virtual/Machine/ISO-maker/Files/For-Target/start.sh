@@ -11,9 +11,10 @@
 # Record date and time at which install script is running
 # Used to mark date of original versions of files replaced
 build_date="$(date +%Y%m%d)"
-[[ -e /var/local/status/verbose ]] && build_date="$(date +%Y%m%d%H%M)"
+build_time="$(date +%Y%m%d)"
 
 echo "$build_date" > /var/local/status/build_date.txt
+echo "$build_time" > /var/local/status/build_time.txt
 
 # Remove /var/local/status/finished-software-install.flag to reinstall stuff installed here
 [[ -e /var/local/status/finished-software-install.flag ]] && rm -f /var/local/status/finished-software-install.flag

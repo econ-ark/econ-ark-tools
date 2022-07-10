@@ -5,7 +5,7 @@
 
 # Figure out what the target device is 
 df -hT > /tmp/target-partition 
-cat /tmp/target-partition | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
+cat /tmp/target-partition | grep -v vfat | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
 sd=$(cat /tmp/target-dev)
 
 # On Macs, this should allow nice icons when disk is viewed
