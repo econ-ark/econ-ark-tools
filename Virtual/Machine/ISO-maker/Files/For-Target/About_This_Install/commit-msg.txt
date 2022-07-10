@@ -1,1 +1,1 @@
-Version_to_run_on_both_VB_and_mp
+Revamp_install-emacs_and_config-emacs-user
