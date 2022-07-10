@@ -30,23 +30,14 @@ localhome=var/local/root/home
 
 # copy so user can change it; make link so user knows origin
 cp    /$localhome/user_root/dotemacs-root-user /root/.emacs
-ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs_econ-ark_$(</var/local/status/date_time)
+ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs_econ-ark_$(</var/local/About_This_Install/short.git-hash)
 
 # Set up gpg security before emacs itself
 # avoids error messages
-sudo mkdir -p $shared/.emacs.d/elpa/gnupg
 
-if [[ ! -e /usr/share/gnupg/gpg.conf ]]; then # global gpg conf not set up
-    # So add it
-    sudo mkdir -p /usr/share/gnupg
-    echo 'keyserver hkps://keyserver.ubuntu.com:443' | sudo tee /root/.emacs.d/elpa/gnupg/gpg.conf
-fi
-
-sudo gpg $shared/.emacs.d/elpa/gnupg --list-keys  # creates the ~/.gnupg directory if it does not exist
-[[ -e $shared/.gnupg ]] && rm -Rf $shared/.gnupg
-sudo ln -s /root/.gnupg $shared/.gnupg
 sudo gpg --keyserver hkps://keyserver.ubuntu.com --list-keys
 sudo gpg --keyserver hkps://keyserver.ubuntu.com --receive-keys 066DAFCB81E42C40
+sudo ln -s /root/.gnupg $shared/.gnupg
 
 # finally ready to install it
 sudo apt -y install emacs 
