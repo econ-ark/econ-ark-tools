@@ -82,7 +82,6 @@ sudo groupadd --system nopasswdlogin
 sudo adduser  $myuser nopasswdlogin
 sudo gpasswd -a $myuser nopasswdlogin
 
-
 # Eliminate useless but confusing error message
 # https://kb.vander.host/operating-systems/couldnt-open-etc-securetty-no-such-file-or-directory
 sudo cp /usr/share/doc-util/linux-examples/securetty /etc/securetty
@@ -142,7 +141,9 @@ sudo apt -y install expect
 # Installation of package needs to be done here
 # (permissions require password in subscripts)
 sudo apt -y install tigervnc-scraping-server
-sudo /var/local/installers/install-tigervnc-scraping-server.sh $myuser
+
+# Needs to be installed for a user but with sudo permissions
+sudo -u $myuser /var/local/installers/install-tigervnc-scraping-server.sh $myuser
 
 # Anacron massively delays the first boot; this disbles it
 sudo touch /etc/cron.hourly/jobs.deny       

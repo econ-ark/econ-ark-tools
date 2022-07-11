@@ -25,7 +25,6 @@ EOF
 # $USER will be root if the script is run with sudo (as in start.sh)
 if [[ "$USER" == "root" ]]; then
     cd /root/.vnc
-    ln -s /root/.vnc /home/$myuser/.vnc
 else
     cd /home/$myuser/.vnc
 fi
