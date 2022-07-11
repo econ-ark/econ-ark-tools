@@ -40,9 +40,11 @@ pgrep x0vncserver > /dev/null # Silently get the process ID of running vncserver
 pgrep_process_exists="$?" # 1 if the previous command did NOT find any matching process
 if [[ "$pgrep_process_exists" -eq 1 ]] && [[ "$DISPLAY" != "" ]]; then # start vnc server
     cmd="xfce4-terminal --title=x0vncserver-about --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd'"
+    echo "$cmd" # do
     eval "$cmd" # do
-    cmd2="xfce4-terminal -display :0.0 -PasswordFile=$HOME/.vnc/passwd' --execute touch /var/local/status/verbose/bash_aliases && source /var/local/home/root/user_regular/bash_aliases-add && rm /var/local/status/verbose/bash_aliases"
-    eval "$cmd2"
+#    cmd2="xfce4-terminal -display :0.0 -PasswordFile=$HOME/.vnc/passwd' --execute touch /var/local/status/verbose/bash_aliases && source /var/local/home/root/user_regular/bash_aliases-add && rm /var/local/status/verbose/bash_aliases"
+#    echo "$cmd2"
+#    eval "$cmd2"
 fi
 
 # Root user shares the useful stuff above, but not the stuff below this "if":
