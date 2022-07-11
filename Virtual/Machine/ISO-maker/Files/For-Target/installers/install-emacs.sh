@@ -1,4 +1,4 @@
-
+#!/bin/bash
 # Installs emacs for root user and creates systemwide resources
 
 echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
