@@ -6,10 +6,11 @@
 
 [[ ! -t 0 ]] && return # it is not an interactive shell; Google "test interactive shell"
 
+datetime="$(date +%Y%m%d%H%M%S)"
+
 set x && set v # Turn off debugging if it's on
 # To turn on debugging of bash_aliases, mkdir -p /var/local/status/verbose/bash_aliases
 if [[ -e /var/local/status/verbose/bash_aliases ]]; then # turn it on for bash_aliases
-    datetime="$(date +%Y%m%d%H%M%S)"
     [[ -e /var/local/status/bash_aliases.log ]] && mv /var/local/status/bash_aliases.log /var/local/status/bash_aliases_$datetime.log
     exec > >(tee -i /var/local/status/verbose/bash_aliases.log)
     exec 2>&1
@@ -38,8 +39,10 @@ export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "
 pgrep x0vncserver > /dev/null # Silently get the process ID of running vncserver (if any)
 pgrep_process_exists="$?" # 1 if the previous command did NOT find any matching process
 if [[ "$pgrep_process_exists" -eq 1 ]] && [[ "$DISPLAY" != "" ]]; then # start vnc server
-    cmd="xfce4-terminal --title=x0vncserver-about --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd' --execute xset -r"
+    cmd="xfce4-terminal --title=x0vncserver-about --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd'"
     eval "$cmd" # do
+    cmd2="xfce4-terminal -display :0.0 -PasswordFile=$HOME/.vnc/passwd' --execute touch /var/local/status/verbose/bash_aliases && source /var/local/home/root/user_regular/bash_aliases-add && rm /var/local/status/verbose/bash_aliases"
+    eval "$cmd2"
 fi
 
 # Root user shares the useful stuff above, but not the stuff below this "if":
