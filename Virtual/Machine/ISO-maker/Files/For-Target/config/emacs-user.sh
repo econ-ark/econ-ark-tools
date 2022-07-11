@@ -36,7 +36,7 @@ mkdir $myhome/.emacs.d
 emacs -batch --eval "(setq debug-on-error t)" -l     /home/$myuser/.emacs  
 
 echo ';# -*- mode: emacs-lisp ;-*- ;;; Forces editing in emacs-mode' > /home/$myuser/.emacs_aliases
-echo ';; This file is loaded after .emacs; put any customizations here' >> home/$myuser/.emacs_aliases
+echo ';; This file is loaded after .emacs; put your customizations here' >> home/$myuser/.emacs_aliases
 
 # Finished with default emacs configuration
 
