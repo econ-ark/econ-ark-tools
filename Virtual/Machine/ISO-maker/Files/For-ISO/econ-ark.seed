@@ -50,11 +50,11 @@ d-i preseed/early_command string \
 # Nonfree firmware is on the installer disk because it is useful for 
 # connecting to network adapters (required before downloads of
 # nonfree packages could happen over the net)   
-# d-i apt-setup/cdrom-set-first boolean false
-# d-i apt-cdrom/disable-cdrom-entries boolean false
+d-i apt-setup/cdrom-set-first boolean false
+d-i apt-cdrom/disable-cdrom-entries boolean false
 
 ## Extra firmware drivers for unusual cards
-# d-i hw-detect/load_firmware boolean true
+d-i hw-detect/load_firmware boolean true
 
 # Show install info rather than eye candy
 d-i debian-installer/splash                                 boolean     false
