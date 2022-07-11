@@ -1,20 +1,22 @@
 # ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 # Econ-ARK customizations for interactive shells
 
+# Turn off bash debugging if it's on
+set x && set v 
+
 # Get paths that everybody should have 
 [[ -e /etc/environment ]] && source /etc/environment
 
 [[ ! -t 0 ]] && return # it is not an interactive shell; Google "test interactive shell"
 
 datetime="$(date +%Y%m%d%H%M%S)"
+verb_dir=/var/local/status/verbose/ # Directory with flags for verbosity
 
-set x && set v # Turn off debugging if it's on
-# To turn on debugging of bash_aliases, mkdir -p /var/local/status/verbose/bash_aliases
-if [[ -e /var/local/status/verbose/bash_aliases ]]; then # turn it on for bash_aliases
-    [[ -e /var/local/status/bash_aliases.log ]] && mv /var/local/status/bash_aliases.log /var/local/status/bash_aliases_$datetime.log
-    exec > >(tee -i /var/local/status/verbose/bash_aliases.log)
+# To turn on debugging of bash_aliases, touch $verbdir/bash_aliases
+if [[ -e $verbdir/bash_aliases ]]; then # turn it on for bash_aliases
+    [[ -e $verbdir/bash_aliases.log ]] && mv $verbdir/bash_aliases.log $verbdir/bash_aliases_$datetime.log
+    exec > >(tee -i $verbdir/bash_aliases.log)
     exec 2>&1
-    echo '# ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode'
     set -x && set -v
 fi
 
@@ -42,9 +44,6 @@ if [[ "$pgrep_process_exists" -eq 1 ]] && [[ "$DISPLAY" != "" ]]; then # start v
     cmd="xfce4-terminal --title=x0vncserver-about --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd'"
     echo "$cmd" # show
     eval "$cmd" # do
-#    cmd2="xfce4-terminal -display :0.0 -PasswordFile=$HOME/.vnc/passwd' --execute touch /var/local/status/verbose/bash_aliases && source /var/local/home/root/user_regular/bash_aliases-add && rm /var/local/status/verbose/bash_aliases"
-#    echo "$cmd2"
-#    eval "$cmd2"
 fi
 
 # Root user shares the useful stuff above, but not the stuff below this "if":
@@ -110,7 +109,7 @@ if [[ "$DISPLAY" != "" ]] &&
     touch /home/$USER/.gui_user_login_second.flag
     
     # If it was on, turn off debugging/verbosity now that everything is done 
-    [[ -e /var/local/status/verbose ]] && mv /var/local/status/verbose /var/local/status/verbose_logs_$datetime
+    [[ -e $verbdir ]] && mv $verbdir $verbdir-logs_$datetime
     set v && set x
 fi
 
