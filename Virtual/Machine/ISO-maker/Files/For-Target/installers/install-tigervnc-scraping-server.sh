@@ -3,10 +3,6 @@
 myuser=$1
 mypass="kra-noce"
 
-# If a previous version exists, delete it
-[[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  
-mkdir -p /home/$myuser/.vnc
-
 # https://askubuntu.com/questions/328240/assign-vnc-password-using-script
 prog=/usr/bin/vncpasswd
 /usr/bin/expect <<EOF
@@ -26,7 +22,14 @@ exit
 EOF
 
 # Enable xfce4 startup on vnc
-[[ "$USER" == "root" ]] && cd /root/.vnc || cd /home/$myuser/.vnc
+# $USER will be root if the script is run with sudo (as in start.sh)
+if [[ "$USER" == "root" ]]; then
+    cd /root/.vnc
+    ln -s /root/.vnc /home/$myuser/.vnc
+else
+    cd /home/$myuser/.vnc
+fi
+
 echo '#!/bin/sh' > xstartup
 echo '[[ ! -e .Xresources ]] && touch .Xresources' >> xstartup
 echo "startxfce4 & " >> xstartup
