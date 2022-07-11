@@ -12,8 +12,8 @@
 # This is required for configuring wifi setup when needed
 
 # So, must start with 
-#d-i debconf/priority select high
-d-i debconf/priority select critical
+d-i debconf/priority select high
+#d-i debconf/priority select critical
 
 # With priority=high 
 # neither kernel parameters nor the preseeding below convinces the installer
