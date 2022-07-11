@@ -30,8 +30,10 @@ if [[ "$USER" == "root" ]]; then
 fi
 
 if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
+    /var/local/config/xwindows.sh
+    
     xset s off # Disable power management (prevent screen blank)
-    xset r off # On my setups, repeat keys is unreliable
+    xset r off # On many setups, repeat keys is unreliable
     
     # Allow cut-and-paste between emacs and shell in xwindows
     if [[ "$(which autocutsel)" != "" ]]; then
@@ -58,7 +60,8 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
     if [[ ! -e /home/$USER/.gui_user_login_first.flag ]]; then
 
 	# Configurations for this user's settings for xwindows
-	/var/local/tools/config/xwindows.sh
+
+	/var/local/tools/config/set-default-display-geometry.sh
 	
 	# Screensavers interfere with finishing the installation
 	/var/local/tools/turn-off-screensavers.sh
