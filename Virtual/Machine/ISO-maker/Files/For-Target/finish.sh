@@ -35,7 +35,7 @@ fi
 /var/local/installers/install-gh-cli-tools.sh
 
 # LaTeX - minimal (required for auctex install on emacs)
-sudo apt -y install texlive-base
+sudo apt -y install texlive-latex-base
 
 # Prepare for emacs install
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
