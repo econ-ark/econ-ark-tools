@@ -6,7 +6,7 @@ while [[ "$monitor" == "" ]] ; do
     echo 'Waiting for monitor to come up ...'
     cmd="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
     echo "$cmd"
-    monitor="$cmd"
+    monitor="$cmd" > /dev/null
     sleep 1
 done
 
