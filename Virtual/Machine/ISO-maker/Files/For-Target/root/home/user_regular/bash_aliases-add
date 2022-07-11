@@ -67,10 +67,11 @@ if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/$USER/.gui_user_login_first.flag ]]; 
     [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox) "  && [[ "$vbox" != "" ]] && xset r off
     
     pkill xfce4-screensaver # Prevent screensaver from activating while software installing
-    
-    # Run emacs once to let it configure itself for GUI
-    cmd="xfce4-terminal --minimize --execute='emacs -nw /var/local/root/home/user_regular/dotemacs-regular-users'"
-    eval "$cmd"
+
+# This did not work because no way to autoclose after it activates (and batch mode does not load packages)
+#     # Run emacs once to let it configure itself for GUI
+#     cmd='xfce4-terminal --minimize --execute="'"emacs -nw /var/local/root/home/user_regular/dotemacs-regular-users"'"'
+# Sm    eval "$cmd"
 
     # Configure backdrop - can't be done in start.sh or finish.sh because dbus not running until GUI is up
     # Wait until monitor is up (xrandr finds an active monitor) then get the name of the active monitor

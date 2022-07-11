@@ -31,3 +31,11 @@ For a bit more information, see the file `/var/local/About_This_Install.md`
 
 For detailed information about how the machine was constructed and configured, see [econ-ark-tools](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual#most-powerful)
 
+
+
+
+
+;; The following suppresses some meaningless error messages
+;; Local Variables:
+;; byte-compile-variables: (not-free-vars)
+;; End:
