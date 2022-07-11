@@ -60,13 +60,13 @@ d-i debian-installer/splash                                 boolean     false
 ### Localization
 d-i debian-installer/locale string en_US.UTF-8
 
-### Choose WPA security for WiFi
-d-i netcfg/wireless_security_type select wpa
+# ### Choose WPA security for WiFi
+# d-i netcfg/wireless_security_type select wpa
 
-### Preconfigure hostname for netcfg
-d-i netcfg/get_hostname string XUB20ARK
-d-i netcfg/hostname                                     string      {{hostname}}
-d-i netcfg/hostname seen                                true
+# ### Preconfigure hostname for netcfg
+# d-i netcfg/get_hostname string XUB20ARK-ISO
+# d-i netcfg/hostname                                     string      {{hostname}}
+# d-i netcfg/hostname seen                                true
 
 ### user account setup
 # DO NOT uncomment root-password lines: That disables sudo for main user
