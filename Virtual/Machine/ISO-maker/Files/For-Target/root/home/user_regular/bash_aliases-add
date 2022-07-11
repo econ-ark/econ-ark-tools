@@ -1,15 +1,9 @@
 # ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
 # Econ-ARK customizations for interactive shells
 
-# Turn off bash debugging if it's on
-set x && set v 
-
 # Get paths that everybody should have 
 [[ -e /etc/environment ]] && source /etc/environment
 
-[[ ! -t 0 ]] && return # it is not an interactive shell; Google "test interactive shell"
-
-datetime="$(date +%Y%m%d%H%M%S)"
 verb_dir=/var/local/status/verbose/ # Directory with flags for verbosity
 
 # To turn on debugging of bash_aliases, touch $verbdir/bash_aliases
@@ -20,14 +14,9 @@ if [[ -e $verbdir/bash_aliases ]]; then # turn it on for bash_aliases
     set -x && set -v
 fi
 
-if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
-    xset s off # Disable power management (prevent screen blank)
-    
-    # Allow cut-and-paste between emacs and shell in xwindows
-    if [[ "$(which autocutsel)" != "" ]]; then
-	autocutsel -fork -selection PRIMARY
-    fi
-fi
+[[ ! -t 0 ]] && return # it is not an interactive shell; Google "test interactive shell"
+
+datetime="$(date +%Y%m%d%H%M%S)"
 
 # Modify prompt to keep track of git branches
 parse_git_branch() {
@@ -35,99 +24,102 @@ parse_git_branch() {
 }
 export PS1="\u@\h:\W\$(parse_git_branch)\[\033[00m\] $ "
 
-# If it is not already running, launch the vncserver
-# Makes it easier to connect to the VM - if it is on a network you can reach
-
-pgrep x0vncserver > /dev/null # Silently get the process ID of running vncserver (if any)
-pgrep_process_exists="$?" # 1 if the previous command did NOT find any matching process
-if [[ "$pgrep_process_exists" -eq 1 ]] && [[ "$DISPLAY" != "" ]]; then # start vnc server
-    cmd="xfce4-terminal --title=x0vncserver-about --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd'"
-    echo "$cmd" # show
-    eval "$cmd" # do
-fi
-
 # Root user shares the useful stuff above, but not the stuff below this "if":
 if [[ "$USER" == "root" ]]; then
     return # End of stuff that root user should do
 fi
 
-# Remainder to be executed the first time a user logs into an interactive GUI shell
-
-# Prior to first boot of Econ-ARK machine, start.sh script is run and machine reboots
-# Interactive login first happens after that boot, and launches this script
-# So .gui_user_login_first.flag and .gui_user_login_second.flag here
-# are on second and third boots
-
-# If this is the first login with the GUI
-if [[ "$DISPLAY" != "" ]] && [[ ! -e /home/$USER/.gui_user_login_first.flag ]]; then
-
-    # Configurations for this user's settings for xwindows
-    /var/local/tools/config/xwindows.sh
+if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
+    xset s off # Disable power management (prevent screen blank)
+    xset r off # On my setups, repeat keys is unreliable
     
-    # Screensavers interfere with finishing the installation
-    /var/local/tools/turn-off-screensavers.sh
+    # Allow cut-and-paste between emacs and shell in xwindows
+    if [[ "$(which autocutsel)" != "" ]]; then
+	autocutsel -fork -selection PRIMARY
+    fi
 
-    # Configure backdrop - can't be done in start.sh or finish.sh because dbus not running until GUI is up
-    # Wait until monitor is up (xrandr finds an active monitor) then get the name of the active monitor
+    # If it is not already running, launch the vncserver
+    # Makes it easier to connect to the VM - if it is on a network you can reach
 
-    # Set up Econ-ARK backdrop
-    /var/local/config/backdrop.sh
+    pgrep x0vncserver > /dev/null # Silently get the process ID of running vncserver (if any)
+    pgrep_process_exists="$?" # 1 if the previous command did NOT find any matching process
+    if [[ "$pgrep_process_exists" -eq 1 ]] && [[ "$DISPLAY" != "" ]]; then # start vnc server
+	cmd="xfce4-terminal --title=x0vncserver-about --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd'"
+	echo "$cmd" # show
+	eval "$cmd" # do
+    fi
 
-    # pop up a window containing a live scrolling update of steps
-    # occurring via the start.sh and finish.sh installation scripts
-    xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail --follow /var/local/status/start-and-finish.log'"  &
+    # Prior to first boot of Econ-ARK machine, start.sh script is run and machine reboots
+    # Interactive login first happens after that boot, and launches this script
+    # So .gui_user_login_first.flag and .gui_user_login_second.flag here
+    # are on second and third boots
 
-    echo ''
-    echo 'WARNING: Machine should reboot whenever software install completes'
-    echo ''
-    
-    touch /home/$USER/.gui_user_login_first.flag  # Signal that first GUI boot user login has succeeded
+    # If this is the first login with the GUI
+    if [[ ! -e /home/$USER/.gui_user_login_first.flag ]]; then
+
+	# Configurations for this user's settings for xwindows
+	/var/local/tools/config/xwindows.sh
+	
+	# Screensavers interfere with finishing the installation
+	/var/local/tools/turn-off-screensavers.sh
+
+	# Configure backdrop - can't be done in start.sh or finish.sh because dbus not running until GUI is up
+	# Wait until monitor is up (xrandr finds an active monitor) then get the name of the active monitor
+
+	# Set up Econ-ARK backdrop
+	/var/local/config/backdrop.sh
+
+	# pop up a window containing a live scrolling update of steps
+	# occurring via the start.sh and finish.sh installation scripts
+	xfce4-terminal --geometry 132x24+0-0 --command "bash -c 'tail --follow /var/local/status/start-and-finish.log'"  &
+
+	echo ''
+	echo 'WARNING: Machine should reboot whenever software install completes'
+	echo ''
+	
+	touch /home/$USER/.gui_user_login_first.flag  # Signal that first GUI boot user login has succeeded
+    fi
+
+    # Stuff to run if first gui user login setup has finished and software install has finished
+    if     [[   -e /home/$USER/.gui_user_login_first.flag  ]] &&
+	       [[ ! -e /home/$USER/.gui_user_login_second.flag ]] &&
+	       [[ -e /var/local/status/finished-software-install.flag ]]; then
+
+	# view "About This Machine"
+	## temporarily suppress any warning or error messages
+	echo '(setq warning-minimum-level :emergency)' >> /home/$USER/.emacs_aliases
+	emacs --name "Emacs Editor" --geometry 80x28-100+0 /var/local/About_This_Install/XUBUNTARK.md &> /dev/null  &
+	sleep 2 # give emacs plenty of time to process before deleting 
+	sed -i '$setq warning' /home/$USER/.emacs_aliases # Remove the temporary suppression 
+
+	# echo ''
+	# echo 'Now download the installer ISO to the Desktop of this machine'
+	# echo '(So you can recreate the machine in its pristine form later)'
+	# echo ''
+	# echo ''
+	# echo 'Hit return to launch firefox at the appropriate link:'
+	# read answer
+
+	# firefox 'https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing' &
+	touch /home/$USER/.gui_user_login_second.flag
+    fi
+
+    # All subsequent GUI logins
+    if  [[ -e /home/$USER/.gui_user_login_first.flag ]] &&
+	    [[ -e /home/$USER/.gui_user_login_second.flag ]]	&&
+	    [[ -e /var/local/status/finished-software-install.flag ]] &&
+	    [[ ! -e /home/$USER/.first_interactive_shell.flag ]]; then
+	vHARK="$(python -c 'import HARK ; print(HARK.__version__)')"
+	echo "XUBUNTARK, HARK version $vHARK, https://econ-ark.org"
+	
+	[[ "$(which conda)" != "" ]] && echo 'To install conda packages: "sudo mamba install [package-name]"' # Conda is installed only on XUBUNTARKMAX
+	echo 'To install pip   packages: "sudo pip   install [package-name]"' # pip is installed by root user -- probably a mistake but ...
+	echo "To upgrade HARK, 'sudo pip install --upgrade econ-ark' "
+	echo ''
+	echo 'Scaling too large: "bash -u /var/local/tools/xfce-scaling-shrink-me.sh"'
+	echo 'Scaling too small: "bash -u /var/local/tools/xfce-scaling-grow-me.sh"'
+	echo ''
+	touch /home/econ-ark/.first_interactive_shell.flag
+    fi
 fi
 
-# Stuff to run if first gui user login setup has finished and software install has finished
-if [[ "$DISPLAY" != "" ]] &&
-       [[   -e /home/$USER/.gui_user_login_first.flag  ]] &&
-       [[ ! -e /home/$USER/.gui_user_login_second.flag ]] &&
-       [[ -e /var/local/status/finished-software-install.flag ]]; then
-
-    # view "About This Machine"
-    ## temporarily suppress any warning or error messages
-    echo '(setq warning-minimum-level :emergency)' >> /home/$USER/.emacs_aliases
-    emacs --name "Emacs Editor" --geometry 80x28-100+0 /var/local/About_This_Install/XUBUNTARK.md &> /dev/null  &
-    sleep 2 # give emacs plenty of time to process before deleting 
-    sed -i '$setq warning' /home/$USER/.emacs_aliases # Remove the temporary suppression 
-
-    # echo ''
-    # echo 'Now download the installer ISO to the Desktop of this machine'
-    # echo '(So you can recreate the machine in its pristine form later)'
-    # echo ''
-    # echo ''
-    # echo 'Hit return to launch firefox at the appropriate link:'
-    # read answer
-
-    # firefox 'https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing' &
-    touch /home/$USER/.gui_user_login_second.flag
-    
-    # If it was on, turn off debugging/verbosity now that everything is done 
-    [[ -e $verbdir ]] && mv $verbdir $verbdir-logs_$datetime
-    set v && set x
-fi
-
-# All subsequent GUI logins
-if [[ "$DISPLAY" != "" ]] &&
-       [[ -e /home/$USER/.gui_user_login_first.flag ]] &&
-       [[ -e /home/$USER/.gui_user_login_second.flag ]]	&&
-       [[ -e /var/local/status/finished-software-install.flag ]] &&
-       [[ ! -e /home/$USER/.first_interactive_shell.flag ]]; then
-    vHARK="$(python -c 'import HARK ; print(HARK.__version__)')"
-    echo "XUBUNTARK, HARK version $vHARK, https://econ-ark.org"
-    
-    [[ "$(which conda)" != "" ]] && echo 'To install conda packages: "sudo mamba install [package-name]"' # Conda is installed only on XUBUNTARKMAX
-    echo 'To install pip   packages: "sudo pip   install [package-name]"' # pip is installed by root user -- probably a mistake but ...
-    echo "To upgrade HARK, 'sudo pip install --upgrade econ-ark' "
-    echo ''
-    echo 'Scaling too large: "bash -u /var/local/tools/xfce-scaling-shrink-me.sh"'
-    echo 'Scaling too small: "bash -u /var/local/tools/xfce-scaling-grow-me.sh"'
-    echo ''
-    touch /home/econ-ark/.first_interactive_shell.flag
-fi
