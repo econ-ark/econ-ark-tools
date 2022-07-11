@@ -1,1 +1,1 @@
-preseed_priority_high_to_prevent_autoselect_of_wrong_wifi
+See_if_d-i_hw-detect_helps_Mac_find_drivers
