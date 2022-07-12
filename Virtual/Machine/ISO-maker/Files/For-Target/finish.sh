@@ -103,12 +103,9 @@ for user in $vncuser $rdpuser root; do
     mkdir -p /home/$user/GitHub
 
     # Get to systemwide GitHub via ~/GitHub whether you are root or econ-ark
-    ln -s /usr/local/share/data/GitHub/$vncuser /home/$vncuser/GitHub/econ-ark
-    ln -s /usr/local/share/data/GitHub/$vncuser         /root/GitHub/econ-ark
+    [[ ! -e /home/$user/GitHub/econ-ark ]] && ln -s /usr/local/share/data/GitHub/econ-ark /home/$user/GitHub/econ-ark
 
-    chown -Rf $user:$user /home/$user/GitHub/$user
-    chown -Rf $user:$user /home/$user/GitHub/$user/.?*
-    chown -Rf $user:$user /usr/local/share/data/GitHub/$user # Make it be owned by $user user 
+    chown -Rf $user:$user /home/$user/GitHub/econ-ark
 
     [[ "$user" == "root" ]] && user_dir="" || user_dir="/home/$user"
 
