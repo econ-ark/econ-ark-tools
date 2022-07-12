@@ -45,6 +45,10 @@ sudo apt -y install gpg gnutls-bin # Required to set up security for emacs packa
 sudo apt -y reinstall emacs # Might have already been installed; update if so
 sudo /var/local/installers/install-emacs.sh |& tee /var/local/status/install-emacs.log
 
+# Install Chrome browser 
+wget --quiet -O /var/local/status/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt -y install /var/local/status/google-chrome-stable_current_amd64.deb
+
 # Populate About_This_Install directory with info specific to this run of the installer
 
 ## Create the "About This Install" markdown file
@@ -85,6 +89,8 @@ sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1
 
 # More useful default tools 
 sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs timeshift
+
+sudo pip install elpy
 
 for user in $vncuser $rdpuser root; do
     sudo /var/local/config/emacs-user.sh $vncuser
@@ -128,6 +134,7 @@ for user in $vncuser $rdpuser root; do
     mkdir -p /etc/avahi/
 
     cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
+    
     # Enable ssh over avahi
     cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
@@ -142,6 +149,16 @@ for user in $vncuser $rdpuser root; do
     # Make ~/.bash_aliases be owned by "$vncuser" instead of root
     chmod a+x "$bashadd"
     chown $user:$user "$bashadd" 
+    cd /var/local
+
+    sudo -u $user xdg-settings set default-web-browser google-chrome.desktop
+    xdg-settings set default-web-browser google-chrome.desktop
+
+    # Make sure that everything in the home user's path is owned by home user 
+    chown -Rf $user:$user /home/$user/
+
+    # Now that elpy has been installed, rerun the emacs setup to connect to it
+    emacs -batch -l     $user_dir/.emacs  # Run in batch mode to setup everything
 done
 
 ## The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
@@ -176,17 +193,6 @@ echo "/media/"
 
 [[ -e "/media/*.iso" ]] && sudo rm "/media/*.iso"
 
-cd /var/local
-
-# Install Chrome browser 
-wget --quiet -O /var/local/status/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt -y install /var/local/status/google-chrome-stable_current_amd64.deb
-sudo -u $user xdg-settings set default-web-browser google-chrome.desktop
-xdg-settings set default-web-browser google-chrome.desktop
-
-# Make sure that everything in the home user's path is owned by home user 
-chown -Rf $user:$user /home/$user/
-
 # bring system up to date
 sudo apt -y update && sudo apt -y upgrade
 
@@ -211,10 +217,6 @@ fi
 cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
 
 mv /var/local/XUBUNTARK.md /var/local/About_This_Install
-
-sudo pip install elpy
-# Now that elpy has been installed, rerun the emacs setup to connect to it
-emacs -batch -l     /home/econ-ark/.emacs  # Run in batch mode to setup everything
 
 # 20220602: For some reason jinja2 version obained by pip install is out of date
 sudo pip install jinja2
