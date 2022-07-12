@@ -44,8 +44,6 @@ sudo apt -y install gpg gnutls-bin # Required to set up security for emacs packa
 
 sudo apt -y reinstall emacs # Might have already been installed; update if so
 sudo /var/local/installers/install-emacs.sh |& tee /var/local/status/install-emacs.log
-sudo /var/local/config/emacs-user.sh $vncuser
-sudo /var/local/config/emacs-user.sh $rdpuser
 
 # Populate About_This_Install directory with info specific to this run of the installer
 
@@ -89,7 +87,10 @@ sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1
 sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs timeshift
 
 for user in $vncuser $rdpuser root; do
-    # Let root and vncuser control networks
+    sudo /var/local/config/emacs-user.sh $vncuser
+    sudo /var/local/config/emacs-user.sh $rdpuser
+
+    # Let users control networks
     sudo adduser  $user netdev
 
     # Make a home for econ-ark in /usr/local/share/data and link to it from home directory
