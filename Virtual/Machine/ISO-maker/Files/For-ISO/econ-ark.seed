@@ -97,7 +97,7 @@ d-i clock-setup/ntp                                         boolean     true
 ## - exclude the usb drive hosting the installer from list of available USB
 ## - tell grub installer to install to boot disk
 ## - priority critical allows skipping of confusing questions
-dd-i partman/early_command string \
+d-i partman/early_command string \
     CDDEV="$(mount | grep cdrom | cut -d' ' -f1 | sed 's/\(.*\)./\1/')" ;\
     USBDEV_LIST="$(mktemp)" ;\
     list-devices usb-partition | sed "s/\(.*\)./\1/" | grep -v "$CDDEV" > "$USBDEV_LIST" ;\
