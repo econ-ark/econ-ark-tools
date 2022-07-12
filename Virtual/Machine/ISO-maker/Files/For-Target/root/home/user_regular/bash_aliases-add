@@ -47,7 +47,7 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
     pgrep_process_exists="$?" # 1 if the previous command did NOT find any matching process
     if [[ "$pgrep_process_exists" -eq 1 ]] && [[ "$DISPLAY" != "" ]]; then # start vnc server
 	cmd="xfce4-terminal --title=x0vncserver-about --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd'"
-	echo "$cmd" # show
+#	echo "$cmd" # show
 	eval "$cmd" # do
     fi
 

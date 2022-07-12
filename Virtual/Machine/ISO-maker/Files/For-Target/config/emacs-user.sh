@@ -1,6 +1,9 @@
 #!/bin/bash
 # Assumes emacs has already been installed by ./install-emacs.sh
 
+# Presence of 'verbose' triggers bash debugging mode
+[[ -e /var/local/status/verbose ]] && set -x && set -v 
+
 if [[ "$#" -ne 1 ]]; then
     echo 'usage: config-emacs.sh [username]'
     exit
@@ -22,6 +25,8 @@ date_commit="$(</var/local/status/date_commit)"
 [[ -e /home/$myuser/.emacs ]] && mv /home/$myuser/.emacs /home/$myuser/.emacs_orig_$install_time
 
 cp /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs
+chown $myuser:$myuser /home/$myuser/.emacs
+
 ln -s /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs_econ-ark_$date_commit
 
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
@@ -29,6 +34,7 @@ ln -s /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs_econ-
 
 # Don't install packages separately for each user - instead, link root to the existing install
 mkdir $myhome/.emacs.d
+chmod -Rf u+rw $myhome/.emacs.d
 
 [[ -e /$shared/.emacs.d/elpa ]] && ln -s /$shared/.emacs.d/elpa /home/$myuser/.emacs.d/elpa
 
