@@ -102,7 +102,8 @@ for user in $vncuser $rdpuser root; do
     # Get to systemwide GitHub via ~/GitHub whether you are root or econ-ark
     [[ ! -e /home/$user/GitHub ]] && ln -s /usr/local/share/data/GitHub /home/$user/GitHub
 
-    chown -Rf $user:econ-ark /home/$user/GitHub
+    # Everything should be accessible to members of the econ-ark group
+    chown -Rf $user:econ-ark /home/$user
 
     [[ "$user" == "root" ]] && user_dir="" || user_dir="/home/$user"
 
