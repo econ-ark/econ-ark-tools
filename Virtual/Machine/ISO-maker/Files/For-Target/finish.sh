@@ -99,13 +99,10 @@ for user in $vncuser $rdpuser root; do
     # Let users control networks
     sudo adduser  $user netdev
 
-    # Make a home for econ-ark in /usr/local/share/data and link to it from home directory
-    mkdir -p /home/$user/GitHub
-
     # Get to systemwide GitHub via ~/GitHub whether you are root or econ-ark
-    [[ ! -e /home/$user/GitHub/econ-ark ]] && ln -s /usr/local/share/data/GitHub/econ-ark /home/$user/GitHub/econ-ark
+    [[ ! -e /home/$user/GitHub ]] && ln -s /usr/local/share/data/GitHub /home/$user/GitHub
 
-    chown -Rf $user:$user /home/$user/GitHub/econ-ark
+    chown -Rf $user:econ-ark /home/$user/GitHub
 
     [[ "$user" == "root" ]] && user_dir="" || user_dir="/home/$user"
 
@@ -140,7 +137,7 @@ for user in $vncuser $rdpuser root; do
     # Add stuff to bash login script
 
     bashadd=$user_dir/.bash_aliases
-    [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd_$datetime"
+    [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-$datetime"
     ln -s /var/local/root/home/user_regular/bash_aliases "$bashadd"
 
     # Make ~/.bash_aliases be owned by "$vncuser" instead of root
