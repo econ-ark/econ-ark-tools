@@ -33,13 +33,13 @@ ln -s /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs_econ-
 [[ -e /home/$myuser/.emacs.d ]] && mv /home/$myuser/.emacs.d_$install_time
 
 # Don't install packages separately for each user - instead, link root to the existing install
-mkdir $myhome/.emacs.d
+[[ ! -e $myhome/.emacs.d ]] && mkdir $myhome/.emacs.d
 chmod -Rf u+rw $myhome/.emacs.d
 
 [[ -e /$shared/.emacs.d/elpa ]] && ln -s /$shared/.emacs.d/elpa /home/$myuser/.emacs.d/elpa
 
 echo ';# -*- mode: emacs-lisp ;-*- ;;; Forces editing in emacs-mode' > /home/$myuser/.emacs_aliases
-echo ';; This file is loaded after .emacs; put your customizations here' >> home/$myuser/.emacs_aliases
+echo ';; This file is loaded after .emacs; put your customizations here' >> /home/$myuser/.emacs_aliases
 
 # Do emacs first-time setup
 emacs -batch --eval "(setq debug-on-error t)" -l     /home/$myuser/.emacs  
