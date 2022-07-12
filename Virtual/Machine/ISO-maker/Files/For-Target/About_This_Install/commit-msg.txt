@@ -1,1 +1,1 @@
-econ-ark.seed_apt-setup-cdrom-set-first_true_should_make_it_look_at_cdrom_for_firmware
+Do_not_preselect_wpa_wireless
