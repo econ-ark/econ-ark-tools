@@ -52,17 +52,17 @@ mv /etc/rc.local /etc/rc.local_orig
 cp /var/local/root/etc/rc.local /etc/rc.local
 
 # .bash_aliases contains the stuff that is executed at the first and second boots of gui users
-for user in vncuser rdpuser; do
+if ! grep -q root /root/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
+    # Same bash shell for root user
+    sudo ln -s /var/local/root/home/user_root/bash_aliases /root/.bash_aliases 
+    sudo chmod a+x /root/.bash_aliases
+fi
+
+for user in $vncuser $rdpuser; do
     if ! grep -q $user /home/$user/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
 	sudo ln -s /var/local/root/home/user_regular/bash_aliases /home/$user/.bash_aliases # add them
 	sudo chmod a+x /home/$user/.bash_aliases # ensure correct permissions
 	sudo chown $user:$user /home/$user/.bash_aliases # ensure correct ownership
-    fi
-
-    if ! grep -q root /root/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
-	# Same bash shell for root user
-	sudo ln -s /var/local/root/home/user_root/bash_aliases /root/.bash_aliases 
-	sudo chmod a+x /root/.bash_aliases
     fi
 
     # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
@@ -91,7 +91,6 @@ Hidden=false
 EOF
 
     chown $user:$user /home/$user/.config/autostart/xfce4-terminal.desktop
-    
 done
 
 # Allow autologin for linux and for lightdm
@@ -170,6 +169,7 @@ sudo rm -f /var/crash/grub-pc.0.crash
 sudo apt -y install openssh-server
 sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable 
 sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
+sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
 
 # When run by late_command, the machine will reboot after finishing start.sh
 # rc.local will then notice that 'finish.sh' has not been run, and will run it
