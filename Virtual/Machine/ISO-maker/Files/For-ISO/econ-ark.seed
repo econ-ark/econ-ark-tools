@@ -61,7 +61,7 @@ d-i hw-detect/load_firmware boolean true
 d-i debian-installer/splash                                 boolean     false
 
 ## Choose WPA security for WiFi
-#d-i netcfg/wireless_security_type select wpa
+d-i netcfg/wireless_security_type select wpa
 
 # Preconfigure hostname for netcfg
 d-i netcfg/get_hostname string XUBARK-ISO
