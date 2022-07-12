@@ -13,6 +13,7 @@ build_date="$(</var/local/status/build_date.txt)"
 ## Purge all packages that depend on gdm3
 sudo apt -y purge gnome-shell gnome-settings-daemon at-spi2-core libgdm1 gnome-session-bin lightdm
 sudo apt -y autoremove
+sudo apt -y --no-install-recommends at-spi2-core # gtk gives useless errors without this
 
 # Print everything that still requires gdm3
 # (should be empty)

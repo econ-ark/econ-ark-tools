@@ -116,7 +116,7 @@ for user in $vncuser $rdpuser root; do
     cd /home/$user
 
     for d in ./*/; do
-	if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]] && [[ ! "$d" == "./GitHub/" ]] ; then
+	if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]] && [[ ! "$d" == "./GitHub/" ]] && [[ ! "$d" == "./thinclient_drives" ]]; then
 	    rm -Rf "$d"
 	fi
     done
