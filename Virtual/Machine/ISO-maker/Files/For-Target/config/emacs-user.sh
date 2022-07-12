@@ -27,7 +27,7 @@ date_commit="$(</var/local/status/date_commit)"
 cp /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs
 chown $myuser:$myuser /home/$myuser/.emacs
 
-ln -s /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs_econ-ark_$date_commit
+[[ ! -e /home/$myuser/.emacs_econ-ark_$date_commit ]] && /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs_econ-ark_$date_commit
 
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 [[ -e /home/$myuser/.emacs.d ]] && mv /home/$myuser/.emacs.d_$install_time
