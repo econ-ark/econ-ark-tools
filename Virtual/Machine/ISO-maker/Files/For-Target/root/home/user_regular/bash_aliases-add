@@ -31,7 +31,6 @@ fi
 
 if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
     /var/local/config/xwindows.sh
-    /var/local/config/backdrop.sh
     
     xset s off # Disable power management (prevent screen blank)
     xset r off # On many setups, repeat keys is unreliable
@@ -57,9 +56,8 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
     # So .gui_user_login_first.flag and .gui_user_login_second.flag here
     # are on second and third boots
 
-    # If this is the first login with the GUI
+    # If this is this user's first login with the GUI
     if [[ ! -e /home/$USER/.gui_user_login_first.flag ]]; then
-
 	# Configurations for this user's settings for xwindows
 
 	/var/local/tools/config/set-default-display-geometry.sh
