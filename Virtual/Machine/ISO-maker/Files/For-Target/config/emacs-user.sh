@@ -35,6 +35,7 @@ chown $myuser:$myuser /home/$myuser/.emacs
 # Don't install packages separately for each user - instead, link root to the existing install
 [[ ! -e $myhome/.emacs.d ]] && mkdir $myhome/.emacs.d
 chmod -Rf u+rw $myhome/.emacs.d
+chown -Rf      $myuser:econ-ark $myhome/.emacs.d
 
 [[ -e /$shared/.emacs.d/elpa ]] && [[ ! -e /home/$myuser/.emacs.d/elpa ]] && ln -s /$shared/.emacs.d/elpa /home/$myuser/.emacs.d/elpa
 
