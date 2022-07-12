@@ -22,7 +22,8 @@ echo "$build_time" > /var/local/status/build_time.txt
 # sudo bash -c '(rm -f /var/local/status/finished-software-install.flag ; rm -f /var/local/status/boot_first.flag ; rm -f /var/local/status/boot_second.flag ; rm -f /home/econ-ark/.gui_user_login_first.flag; rm -f /home/econ-ark/.gui_user_login_second.flag)' >/dev/null
 
 # Resources
-myuser="econ-ark"  # Don't sudo because it needs to be an environment variable
+vncuser="econ-ark"  # Don't sudo because it needs to be an environment variable
+rdpuser="econ-ark-xrdp"  
 mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
 
 # Suspend hibernation (so that a swapfile instead of partition can be used)
@@ -51,70 +52,31 @@ mv /etc/rc.local /etc/rc.local_orig
 cp /var/local/root/etc/rc.local /etc/rc.local
 
 # .bash_aliases contains the stuff that is executed at the first and second boots of gui users
-if ! grep -q $myuser /home/$myuser/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
-    sudo ln -s /var/local/root/home/user_regular/bash_aliases /home/$myuser/.bash_aliases # add them
-    sudo chmod a+x /home/$myuser/.bash_aliases # ensure correct permissions
-    sudo chown $myuser:$myuser /home/$myuser/.bash_aliases # ensure correct ownership
-fi
+for user in vncuser rdpuser; do
+    if ! grep -q $user /home/$user/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
+	sudo ln -s /var/local/root/home/user_regular/bash_aliases /home/$user/.bash_aliases # add them
+	sudo chmod a+x /home/$user/.bash_aliases # ensure correct permissions
+	sudo chown $user:$user /home/$user/.bash_aliases # ensure correct ownership
+    fi
 
-if ! grep -q root /root/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
-    # Same bash shell for root user
-    sudo ln -s /var/local/root/home/user_root/bash_aliases /root/.bash_aliases 
-    sudo chmod a+x /root/.bash_aliases
-fi
+    if ! grep -q root /root/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
+	# Same bash shell for root user
+	sudo ln -s /var/local/root/home/user_root/bash_aliases /root/.bash_aliases 
+	sudo chmod a+x /root/.bash_aliases
+    fi
 
-# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
-if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
-    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 xserver-xorg-video-dummy
-    sudo adduser $myuser vboxsf
-fi
+    # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
+    if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
+	sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 xserver-xorg-video-dummy
+	sudo adduser $user vboxsf
+    fi
+    
+    # Create directory designating things to autostart 
+    sudo -u $user mkdir -p   /home/$user/.config/autostart
+    chown $user:$user /home/$user/.config/autostart
 
-# Allow autologin for linux and for lightdm
-# sudo /var/local/config/allow-autologin.sh $myuser
-# Create autologin group (as far as unix is concerned)
-## This may (as here) need to be after install of xubuntu-desktop (or maybe not)
-sudo groupadd --system autologin
-sudo adduser  $myuser autologin
-sudo gpasswd -a $myuser autologin
-
-## Allow autologin for PAM security system
-sudo groupadd --system nopasswdlogin
-sudo adduser  $myuser nopasswdlogin
-sudo gpasswd -a $myuser nopasswdlogin
-
-# Eliminate useless but confusing error message
-# https://kb.vander.host/operating-systems/couldnt-open-etc-securetty-no-such-file-or-directory
-sudo cp /usr/share/doc-util/linux-examples/securetty /etc/securetty
-
-# Allow autologin
-if ! grep -q $myuser /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin
-    sudo sed -i '1 a\
-auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
-fi
-
-# Not sure this is necessary
-if ! grep -q $myuser /etc/pam.d/lightdm          ; then
-    sudo sed -i '1 a\
-auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
-fi
-
-# Make place to store/record stuff that will be installed
-sudo mkdir -p /var/local/root/etc/lightdm.conf.d
-sudo mkdir -p /etc/lightdm/lightdm.conf.d
-sudo mkdir -p /var/local/root/home/$myuser
-
-build_date="$(</var/local/status/build_date.txt)"
-# Store original lightdm.conf, and substitute ours
-[[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
-[[ -e /etc/lightdm/lightdm.conf ]]       && mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf_$build_date
-sudo         cp  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf    /etc/lightdm/lightdm-gtk-greeter.conf
-
-# Create directory designating things to autostart 
-sudo -u $myuser mkdir -p   /home/$myuser/.config/autostart
-chown $myuser:$myuser /home/$myuser/.config/autostart
-
-## Autostart a terminal
-cat <<EOF > /home/$myuser/.config/autostart/xfce4-terminal.desktop
+    ## Autostart a terminal
+    cat <<EOF > /home/$user/.config/autostart/xfce4-terminal.desktop
 [Desktop Entry]
 Encoding=UTF-8
 Type=Application
@@ -128,7 +90,50 @@ Terminal=false
 Hidden=false
 EOF
 
-chown $myuser:$myuser /home/$myuser/.config/autostart/xfce4-terminal.desktop
+    chown $user:$user /home/$user/.config/autostart/xfce4-terminal.desktop
+    
+done
+
+# Allow autologin for linux and for lightdm
+# sudo /var/local/config/allow-autologin.sh $vncuser
+# Create autologin group (as far as unix is concerned)
+## This may (as here) need to be after install of xubuntu-desktop (or maybe not)
+sudo groupadd --system autologin
+sudo adduser  $vncuser autologin
+sudo gpasswd -a $vncuser autologin
+
+## Allow autologin for PAM security system
+sudo groupadd --system nopasswdlogin
+sudo adduser  $vncuser nopasswdlogin
+sudo gpasswd -a $vncuser nopasswdlogin
+
+# Eliminate useless but confusing error message
+# https://kb.vander.host/operating-systems/couldnt-open-etc-securetty-no-such-file-or-directory
+sudo cp /usr/share/doc-util/linux-examples/securetty /etc/securetty
+
+# Allow autologin
+if ! grep -q $vncuser /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin
+    sudo sed -i '1 a\
+auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
+fi
+
+# Not sure this is necessary
+if ! grep -q $vncuser /etc/pam.d/lightdm          ; then
+    sudo sed -i '1 a\
+auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
+fi
+
+# Make place to store/record stuff that will be installed
+sudo mkdir -p /var/local/root/etc/lightdm.conf.d
+sudo mkdir -p /etc/lightdm/lightdm.conf.d
+sudo mkdir -p /var/local/root/home/$vncuser
+
+build_date="$(</var/local/status/build_date.txt)"
+# Store original lightdm.conf, and substitute ours
+[[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
+[[ -e /etc/lightdm/lightdm.conf ]]       && mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf_$build_date
+sudo         cp  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf    /etc/lightdm/lightdm-gtk-greeter.conf
+
 
 # Allow interactive commands to be preseeded
 sudo apt -y install expect
@@ -143,7 +148,7 @@ sudo apt -y install expect
 sudo apt -y install tigervnc-scraping-server
 
 # Needs to be installed for a user but with sudo permissions
-sudo -u $myuser /var/local/installers/install-tigervnc-scraping-server.sh $myuser
+sudo -u $vncuser /var/local/installers/install-tigervnc-scraping-server.sh $vncuser
 
 # Anacron massively delays the first boot; this disbles it
 sudo touch /etc/cron.hourly/jobs.deny       
@@ -164,7 +169,7 @@ sudo rm -f /var/crash/grub-pc.0.crash
 # enable connection by ssh
 sudo apt -y install openssh-server
 sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable 
-sudo /var/local/installers/install-ssh.sh $myuser |& tee -a /var/local/status/install-ssh.log
+sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
 
 # When run by late_command, the machine will reboot after finishing start.sh
 # rc.local will then notice that 'finish.sh' has not been run, and will run it

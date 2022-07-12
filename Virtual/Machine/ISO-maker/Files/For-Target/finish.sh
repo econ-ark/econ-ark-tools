@@ -84,7 +84,7 @@ EOF
 sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1 
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs timeshift
 
 # Let root and myuser control networks
 sudo adduser  $myuser netdev
@@ -116,16 +116,15 @@ for d in ./*/; do
 done
 
 # Play nice with Macs (in hopes of being able to monitor it)
-# sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
 #sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errors when apps are launched
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
-# mkdir -p /etc/avahi/
-# # wget --quiet -O  /etc/avahi/ $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
+mkdir -p /etc/avahi/
 
-# cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
+cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
 # Enable ssh over avahi
-# cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
+cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
 cd /home/"$myuser"
 

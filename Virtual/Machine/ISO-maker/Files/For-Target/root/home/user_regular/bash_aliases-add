@@ -31,6 +31,7 @@ fi
 
 if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
     /var/local/config/xwindows.sh
+    /var/local/config/backdrop.sh
     
     xset s off # Disable power management (prevent screen blank)
     xset r off # On many setups, repeat keys is unreliable
