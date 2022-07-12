@@ -5,7 +5,8 @@
 # Conditionally enable verbose output 
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
-myuser="econ-ark"
+vncuser="econ-ark"
+rdpuser="econ-ark-xrdp"
 mypass="kra-noce"
 
 # Get info about install
@@ -43,7 +44,8 @@ sudo apt -y install gpg gnutls-bin # Required to set up security for emacs packa
 
 sudo apt -y reinstall emacs # Might have already been installed; update if so
 sudo /var/local/installers/install-emacs.sh |& tee /var/local/status/install-emacs.log
-sudo /var/local/config/emacs-user.sh $myuser
+sudo /var/local/config/emacs-user.sh $vncuser
+sudo /var/local/config/emacs-user.sh $rdpuser
 
 # Populate About_This_Install directory with info specific to this run of the installer
 
@@ -86,57 +88,60 @@ sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1
 # More useful default tools 
 sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs timeshift
 
-# Let root and myuser control networks
-sudo adduser  $myuser netdev
-sudo adduser  root    netdev
+for user in $vncuser $rdpuser root; do
+    # Let root and vncuser control networks
+    sudo adduser  $user netdev
 
-# Make a home for econ-ark in /usr/local/share/data and link to it from home directory
-mkdir -p /home/$myuser/GitHub
-mkdir -p         /root/GitHub
+    # Make a home for econ-ark in /usr/local/share/data and link to it from home directory
+    mkdir -p /home/$user/GitHub
 
-# Get to systemwide GitHub via ~/GitHub whether you are root or econ-ark
-ln -s /usr/local/share/data/GitHub/$myuser /home/$myuser/GitHub/econ-ark
-ln -s /usr/local/share/data/GitHub/$myuser         /root/GitHub/econ-ark
-chown -Rf $myuser:$myuser /home/$myuser/GitHub/$myuser
-chown -Rf $myuser:$myuser /home/$myuser/GitHub/$myuser/.?*
-chown -Rf $myuser:$myuser /usr/local/share/data/GitHub/$myuser # Make it be owned by $myuser user 
+    # Get to systemwide GitHub via ~/GitHub whether you are root or econ-ark
+    ln -s /usr/local/share/data/GitHub/$vncuser /home/$vncuser/GitHub/econ-ark
+    ln -s /usr/local/share/data/GitHub/$vncuser         /root/GitHub/econ-ark
 
-cd /var/local
-branch_name="$(</var/local/status/git_branch)"
-online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
+    chown -Rf $user:$user /home/$user/GitHub/$user
+    chown -Rf $user:$user /home/$user/GitHub/$user/.?*
+    chown -Rf $user:$user /usr/local/share/data/GitHub/$user # Make it be owned by $user user 
 
-# Remove the linux automatically created directories like "Music" and "Pictures"
-# Leave only required directories Downloads and Desktop
-cd /home/$myuser
+    [[ "$user" == "root" ]] && user_dir="" || user_dir="/home/$user"
 
-for d in ./*/; do
-    if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]] && [[ ! "$d" == "./GitHub/" ]] ; then
-	rm -Rf "$d"
-    fi
+    cd /var/local
+    branch_name="$(</var/local/status/git_branch)"
+    online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
+
+    # Remove the linux automatically created directories like "Music" and "Pictures"
+    # Leave only required directories Downloads and Desktop
+    cd /home/$user
+
+    for d in ./*/; do
+	if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]] && [[ ! "$d" == "./GitHub/" ]] ; then
+	    rm -Rf "$d"
+	fi
+    done
+
+    # Play nice with Macs (in hopes of being able to monitor it)
+    sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
+    #sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errors when apps are launched
+
+    # Start avahi so machine can be found on local network -- happens automatically in ubuntu
+    mkdir -p /etc/avahi/
+
+    cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
+    # Enable ssh over avahi
+    cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
+
+    cd $user_dir
+
+    # Add stuff to bash login script
+
+    bashadd=$user_dir/.bash_aliases
+    [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd_$datetime"
+    ln -s /var/local/root/home/user_regular/bash_aliases "$bashadd"
+
+    # Make ~/.bash_aliases be owned by "$vncuser" instead of root
+    chmod a+x "$bashadd"
+    chown $user:$user "$bashadd" 
 done
-
-# Play nice with Macs (in hopes of being able to monitor it)
-sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
-#sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errors when apps are launched
-
-# Start avahi so machine can be found on local network -- happens automatically in ubuntu
-mkdir -p /etc/avahi/
-
-cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
-# Enable ssh over avahi
-cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
-
-cd /home/"$myuser"
-
-# Add stuff to bash login script
-
-bashadd=/home/"$myuser"/.bash_aliases
-[[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd_$datetime"
-ln -s /var/local/root/home/user_regular/bash_aliases "$bashadd"
-
-# Make ~/.bash_aliases be owned by "$myuser" instead of root
-chmod a+x "$bashadd"
-chown $myuser:$myuser "$bashadd" 
 
 ## The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
 if [[ -e /EFI/BOOT ]]; then
@@ -175,11 +180,11 @@ cd /var/local
 # Install Chrome browser 
 wget --quiet -O /var/local/status/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt -y install /var/local/status/google-chrome-stable_current_amd64.deb
-sudo -u $myuser xdg-settings set default-web-browser google-chrome.desktop
+sudo -u $user xdg-settings set default-web-browser google-chrome.desktop
 xdg-settings set default-web-browser google-chrome.desktop
 
 # Make sure that everything in the home user's path is owned by home user 
-chown -Rf $myuser:$myuser /home/$myuser/
+chown -Rf $user:$user /home/$user/
 
 # bring system up to date
 sudo apt -y update && sudo apt -y upgrade
@@ -250,9 +255,6 @@ sudo mkdir -p /etc/apt/apt.conf.d
 [[ -e /etc/apt/apt.conf.d/20auto-upgrades ]] && sudo mv /etc/apt/apt.conf.d/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades_orig
 sudo cp /var/local/root/etc/apt/apt.conf.d/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades 
 
-# Batch compile emacs so it will get all its packages
-sudo -i -u  econ-ark emacs -batch -l     /home/econ-ark/.emacs  
-
 # Restore printer services (disabled earlier because sometimes cause hang of boot)
 sudo systemctl enable cups-browsed.service 
 
@@ -260,8 +262,8 @@ sudo systemctl enable cups-browsed.service
 sudo apt -y install meld
 
 # ssh was installed in start.sh
-#/var/local/installers/install-ssh.sh "$myuser"    |& tee /var/local/status/install-ssh.log
-#/var/local/config/config/config-keyring.sh "$myuser" |& tee /var/local/config/config-keyring.log
+#/var/local/installers/install-ssh.sh "$user"    |& tee /var/local/status/install-ssh.log
+#/var/local/config/config/config-keyring.sh "$user" |& tee /var/local/config/config-keyring.log
 
 sudo apt -y upgrade
 
