@@ -36,7 +36,7 @@ chown $myuser:$myuser /home/$myuser/.emacs
 [[ ! -e $myhome/.emacs.d ]] && mkdir $myhome/.emacs.d
 chmod -Rf u+rw $myhome/.emacs.d
 
-[[ -e /$shared/.emacs.d/elpa ]] && ln -s /$shared/.emacs.d/elpa /home/$myuser/.emacs.d/elpa
+[[ -e /$shared/.emacs.d/elpa ]] && [[ ! -e /home/$myuser/.emacs.d/elpa ]] && ln -s /$shared/.emacs.d/elpa /home/$myuser/.emacs.d/elpa
 
 echo ';# -*- mode: emacs-lisp ;-*- ;;; Forces editing in emacs-mode' > /home/$myuser/.emacs_aliases
 echo ';; This file is loaded after .emacs; put your customizations here' >> /home/$myuser/.emacs_aliases
