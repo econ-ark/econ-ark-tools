@@ -59,7 +59,6 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
     # If this is this user's first login with the GUI
     if [[ ! -e /home/$USER/.gui_user_login_first.flag ]]; then
 	# Configurations for this user's settings for xwindows
-
 	/var/local/tools/config/set-default-display-geometry.sh
 	
 	# Screensavers interfere with finishing the installation
