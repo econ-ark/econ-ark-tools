@@ -20,7 +20,7 @@ install_time="$(date +%Y%m%d%H%M)"
 date_commit="$(</var/local/status/date_commit)"
 ## Create .emacs files
 [[ -e /home/$myuser/.emacs ]] && mv /home/$myuser/.emacs /home/$myuser/.emacs_orig_$install_time
-rm -f /home/$myuser/.emacs
+
 cp /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs
 ln -s /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs_econ-ark_$date_commit
 
@@ -32,11 +32,11 @@ mkdir $myhome/.emacs.d
 
 [[ -e /$shared/.emacs.d/elpa ]] && ln -s /$shared/.emacs.d/elpa /home/$myuser/.emacs.d/elpa
 
-# Do emacs first-time setup
-emacs -batch --eval "(setq debug-on-error t)" -l     /home/$myuser/.emacs  
-
 echo ';# -*- mode: emacs-lisp ;-*- ;;; Forces editing in emacs-mode' > /home/$myuser/.emacs_aliases
 echo ';; This file is loaded after .emacs; put your customizations here' >> home/$myuser/.emacs_aliases
+
+# Do emacs first-time setup
+emacs -batch --eval "(setq debug-on-error t)" -l     /home/$myuser/.emacs  
 
 # Finished with default emacs configuration
 
