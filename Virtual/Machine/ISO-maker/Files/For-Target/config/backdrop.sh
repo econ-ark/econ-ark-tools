@@ -15,9 +15,9 @@ done
 
 monitorPath="/backdrop/screen0/monitor$monitor" # Get the property name of the monitor
 # Set backdrop for both the monitor and the workspace
-xfconf-query --channel xfce4-desktop --property "$monitorPath/image-path"             --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
+#xfconf-query --channel xfce4-desktop --property "$monitorPath/image-path"             --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
 xfconf-query --channel xfce4-desktop --property "$monitorPath/workspace0/last-image"  --set /usr/share/xfce4/backdrops/Econ-ARK-Logo-1536x768.jpg
-xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style"            --set 4 # Scaling
+#xfconf-query --channel xfce4-desktop --property "$monitorPath/image-style"            --set 4 # Scaling
 xfconf-query --channel xfce4-desktop --property "$monitorPath/workspace0/image-style" --set 4 # Scaling
 
 # Set background to black (rgba1 property of the monitor and workspace)
