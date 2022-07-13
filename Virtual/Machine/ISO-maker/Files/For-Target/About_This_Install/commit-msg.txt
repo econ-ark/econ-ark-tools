@@ -1,1 +1,1 @@
-If_gpg_fails,_add_error_message_to_XUBUNTARK_body.md
+On_some_VMs_it_is_necessary_to_stop_and_restart_lightdm
