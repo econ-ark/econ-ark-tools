@@ -92,6 +92,8 @@ sudo apt -y install build-essential module-assistant parted gparted xsel xclip c
 
 sudo pip install elpy
 
+sleep 3600
+
 for user in $vncuser $rdpuser root; do
 
     user_dir=/home/$user && [[ "$user" == "root" ]] && user_dir=/root
