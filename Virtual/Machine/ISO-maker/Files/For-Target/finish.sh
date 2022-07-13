@@ -95,8 +95,6 @@ cd /var/local
 branch_name="$(</var/local/status/git_branch)"
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
 
-# sleep 3600
-
 for user in $vncuser $rdpuser root; do
 
     user_dir=/home/$user && [[ "$user" == "root" ]] && user_dir=/root
