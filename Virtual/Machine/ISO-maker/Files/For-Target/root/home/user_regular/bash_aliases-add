@@ -91,7 +91,7 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
 	echo '(setq warning-minimum-level :emergency)' >> /home/$USER/.emacs_aliases
 	emacs --name "Emacs Editor" --geometry 80x28-100+0 /var/local/About_This_Install/XUBUNTARK.md &> /dev/null  &
 	sleep 2 # give emacs plenty of time to process before deleting 
-	sed -i '$setq warning' /home/$USER/.emacs_aliases # Remove the temporary suppression 
+	sed -i "$ d" /home/$USER/.emacs_aliases # Remove the temporary suppression 
 
 	# echo ''
 	# echo 'Now download the installer ISO to the Desktop of this machine'
