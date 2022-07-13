@@ -95,9 +95,7 @@ cd /var/local
 branch_name="$(</var/local/status/git_branch)"
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
 
-sudo pip install elpy
-
-sleep 3600
+# sleep 3600
 
 for user in $vncuser $rdpuser root; do
 
@@ -143,8 +141,6 @@ for user in $vncuser $rdpuser root; do
     # Make sure that everything in the home user's path is owned by home user 
     chown -Rf $user:$user $user_dir
 
-    # Now that elpy has been installed, rerun the emacs setup to connect to it
-    emacs -batch -l     $user_dir/.emacs  # Run in batch mode to setup everything
 done
 
 # Play nice with Macs (in hopes of being able to monitor it)
@@ -213,6 +209,12 @@ else
     echo '' >> XUBUNTARK.md
 fi
 
+# elpy is for syntax checking in emacs
+sudo pip install elpy
+
+# Now that elpy has been installed, rerun the emacs setup to connect to it
+emacs -batch -l     /root/.emacs  # Run in batch mode to setup everything
+
 cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
 
 mv /var/local/XUBUNTARK.md /var/local/About_This_Install
@@ -236,9 +238,6 @@ sudo apt -y install nodejs
 # Install systemwide copy of econ-ark 
 sudo pip install --upgrade econ-ark
 sudo pip install --upgrade nbreproduce
-
-# elpy is for syntax checking in emacs
-sudo pip install elpy
 
 # Install user-owned copies of useful repos
 # Download and extract HARK, REMARK, DemARK, econ-ark-tools from GitHub
