@@ -103,11 +103,12 @@ for user in $vncuser $rdpuser root; do
     # Configure emacs
     sudo -u $user /var/local/config/emacs-user.sh $user
 
-    # Let users control networks
+    # Let user control networks
     sudo adduser  $user netdev
 
     # Get to systemwide GitHub via ~/GitHub whoever you are
     [[ ! -e $user_dir/GitHub ]] && ln -s /usr/local/share/data/GitHub $user_dir/GitHub
+    [[ ! -e $user_dir/installer ]] && [[ -e /installer ]] && ln -s /installer $user_dir/installer
 
     # Everything should be accessible to members of the econ-ark group
     [[ "$user" != "root" ]] && chown -Rf $user:econ-ark $user_dir
@@ -115,7 +116,6 @@ for user in $vncuser $rdpuser root; do
     # Remove the linux automatically created directories like "Music" and "Pictures"
     # Leave only required directories Downloads and Desktop
     cd $user_dir
-
     for d in ./*/; do
 	if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]] && [[ ! "$d" == "./GitHub/" ]] && [[ ! "$d" == "./thinclient_drives" ]]; then
 	    rm -Rf "$d"
