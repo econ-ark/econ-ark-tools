@@ -1,1 +1,1 @@
-Trying_to_debug_why_-var-local_subdirs_disappear
+Test_whether_finish.sh_still_deletes_directories_in_-var-local
