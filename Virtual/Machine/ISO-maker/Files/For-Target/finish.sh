@@ -96,18 +96,16 @@ for user in $vncuser $rdpuser root; do
 
     user_dir=/home/$user && [[ "$user" == "root" ]] && user_dir=/root
     
-    sudo /var/local/config/emacs-user.sh $user
+    sudo -u $user /var/local/config/emacs-user.sh $user
 
     # Let users control networks
     sudo adduser  $user netdev
 
     # Get to systemwide GitHub via ~/GitHub whether you are root or econ-ark
-    [[ ! -e /home/$user/GitHub ]] && ln -s /usr/local/share/data/GitHub /home/$user/GitHub
+    [[ ! -e $user_dir/GitHub ]] && ln -s /usr/local/share/data/GitHub $user_dir/GitHub
 
     # Everything should be accessible to members of the econ-ark group
-    chown -Rf $user:econ-ark /home/$user
-
-    [[ "$user" == "root" ]] && user_dir="" || user_dir="/home/$user"
+    chown -Rf $user:econ-ark $user_dir
 
     cd /var/local
     branch_name="$(</var/local/status/git_branch)"
@@ -149,10 +147,9 @@ for user in $vncuser $rdpuser root; do
     cd /var/local
 
     sudo -u $user xdg-settings set default-web-browser google-chrome.desktop
-    xdg-settings set default-web-browser google-chrome.desktop
 
     # Make sure that everything in the home user's path is owned by home user 
-    chown -Rf $user:$user /home/$user/
+    chown -Rf $user:$user $user_dir
 
     # Now that elpy has been installed, rerun the emacs setup to connect to it
     emacs -batch -l     $user_dir/.emacs  # Run in batch mode to setup everything
