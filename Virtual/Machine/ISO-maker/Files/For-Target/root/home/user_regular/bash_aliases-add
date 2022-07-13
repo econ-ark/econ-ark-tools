@@ -1,5 +1,9 @@
 # ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
+# This gets excuted at the end of ~/.bashrc
+# It is where a user could add customizations of the startup process
 # Econ-ARK customizations for interactive shells
+
+launch_vnc_server=true
 
 # Get paths that everybody should have 
 [[ -e /etc/environment ]] && source /etc/environment
@@ -46,9 +50,10 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
     pgrep x0vncserver > /dev/null # Silently get the process ID of running vncserver (if any)
     pgrep_process_exists="$?" # 1 if the previous command did NOT find any matching process
     if [[ "$pgrep_process_exists" -eq 1 ]] && [[ "$DISPLAY" != "" ]]; then # start vnc server
-	cmd="xfce4-terminal --title=x0vncserver-about --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd'"
-#	echo "$cmd" # show
-	eval "$cmd" # do
+	if [[ "$start_vnc_server" == "true" ]]; then
+	    cmd="xfce4-terminal --title=x0vncserver-about --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd'"
+	    eval "$cmd" # do
+	fi
     fi
 
     # Prior to first boot of Econ-ARK machine, start.sh script is run and machine reboots

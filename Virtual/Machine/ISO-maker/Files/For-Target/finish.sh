@@ -5,6 +5,10 @@
 # Conditionally enable verbose output 
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
+sudo service lightdm stop
+sudo service lightdm start
+
+
 vncuser="econ-ark"
 rdpuser="econ-ark-xrdp"
 mypass="kra-noce"

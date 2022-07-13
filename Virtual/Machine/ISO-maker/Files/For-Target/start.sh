@@ -161,14 +161,14 @@ sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local
 #     dd if="$installer" of=/var/local/XUBARK.iso
 # fi
 
-#sudo apt -y remove at-spi2-core      # Accessibility tools cause lightdm greeter error; remove
+sudo apt -y install at-spi2-core      # If not insalled lots of lightdm errors
 # Crashes often occur when installing grub, but have no subsequent consequence
 sudo rm -f /var/crash/grub-pc.0.crash
 
-# enable connection by ssh
-sudo apt -y install openssh-server
-sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable 
-sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
+# # enable connection by ssh
+# sudo apt -y install openssh-server
+# sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable 
+# sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
 sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
 
 # When run by late_command, the machine will reboot after finishing start.sh
