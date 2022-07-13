@@ -87,7 +87,7 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
 	       [[ -e /var/local/status/finished-software-install.flag ]]; then
 
 	# view "About This Machine"
-	## temporarily suppress any warning or error messages
+	## temporarily suppress any wrnmsg or errmsg
 	echo '(setq warning-minimum-level :emergency)' >> /home/$USER/.emacs_aliases
 	emacs --name "Emacs Editor" --geometry 80x28-100+0 /var/local/About_This_Install/XUBUNTARK.md &> /dev/null  &
 	sleep 2 # give emacs plenty of time to process before deleting 

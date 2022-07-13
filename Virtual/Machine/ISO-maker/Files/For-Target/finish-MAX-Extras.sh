@@ -70,7 +70,7 @@ else
     
     # Add some final common tools
     sudo mamba install --yes -c anaconda scipy
-    sudo mamba install --yes -c anaconda pyopengl # Otherwise you get an error "Segmentation fault (core dumped)" on some Ubuntu machines
+    sudo mamba install --yes -c anaconda pyopengl # Otherwise you get an errmsg "Segmentation fault (core dumped)" on some Ubuntu machines
     sudo mamba install --yes -c conda-forge jupyter_contrib_nbextensions
     # Make sure commands are executable by regular users
 
