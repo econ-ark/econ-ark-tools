@@ -94,9 +94,9 @@ sudo pip install elpy
 
 for user in $vncuser $rdpuser root; do
 
-    [[ "$user" == "root" ]] && user_dir=/root || user_dir=/home/$user
-    sudo /var/local/config/emacs-user.sh $vncuser
-    sudo /var/local/config/emacs-user.sh $rdpuser
+    user_dir=/home/$user && [[ "$user" == "root" ]] && user_dir=/root
+    
+    sudo /var/local/config/emacs-user.sh $user
 
     # Let users control networks
     sudo adduser  $user netdev

@@ -49,8 +49,6 @@ dirExtra="Files/For-Target"
 ATI="About_This_Install"
 DIR="$pathToScript/$dirExtra"
 
-# version="base" ; size=MAX ; pathToScript=/home/econ-ark/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker
-
 # Keep track locally of what was the most recently built version
 [[ -e "$pathToScript/Size-To-Make-Is-MIN" ]] && rm    "$pathToScript/Size-To-Make-Is-MIN"
 [[ -e "$pathToScript/Size-To-Make-Is-MAX" ]] && rm    "$pathToScript/Size-To-Make-Is-MAX"
