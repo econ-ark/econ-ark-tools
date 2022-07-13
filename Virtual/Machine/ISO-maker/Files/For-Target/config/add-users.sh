@@ -23,3 +23,6 @@ fi
 
 # Make sure all econ-ark users have access to the GitHub directory
 sudo chgrp -Rf econ-ark /usr/local/share/data/GitHub/
+
+# link from /home/root to /root for parallelism
+[[ ! -e /home/root ]] && ln -s /root /home/root

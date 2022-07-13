@@ -15,6 +15,8 @@ myuser=$1
 shared=/usr/local/share/emacs
 myhome=/home/$myuser
 
+[[ "$myuser" == "root" ]] && myuser=/root
+
 [[ ! -e $shared/.emacs.d ]] && echo 'First run installers/install-emacs.sh to create root setup' && exit
 
 localhome=var/local/root/home # templates
@@ -22,28 +24,28 @@ localhome=var/local/root/home # templates
 install_time="$(date +%Y%m%d%H%M)"
 date_commit="$(</var/local/status/date_commit)"
 ## Create .emacs files
-[[ -e /home/$myuser/.emacs ]] && mv /home/$myuser/.emacs /home/$myuser/.emacs_orig_$install_time
+[[ -e $myhome/.emacs ]] && mv $myhome/.emacs $myhome/.emacs_orig_$install_time
 
-cp /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs
-chown $myuser:$myuser /home/$myuser/.emacs
+cp /$localhome/user_regular/dotemacs-regular-users $myhome/.emacs
+chown $myuser:$myuser $myhome/.emacs
 
-[[ ! -e /home/$myuser/.emacs_econ-ark_$date_commit ]] && /$localhome/user_regular/dotemacs-regular-users /home/$myuser/.emacs_econ-ark_$date_commit
+[[ ! -e $myhome/.emacs_econ-ark_$date_commit ]] && /$localhome/user_regular/dotemacs-regular-users $myhome/.emacs_econ-ark_$date_commit
 
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
-[[ -e /home/$myuser/.emacs.d ]] && mv /home/$myuser/.emacs.d /home/$myuser/.emacs.d_$install_time 
+[[ -e $myhome/.emacs.d ]] && mv $myhome/.emacs.d $myhome/.emacs.d_$install_time 
 
 # Don't install packages separately for each user - instead, link root to the existing install
 [[ ! -e $myhome/.emacs.d ]] && mkdir $myhome/.emacs.d
 chmod -Rf u+rw $myhome/.emacs.d
 chown -Rf      $myuser:econ-ark $myhome/.emacs.d
 
-[[ -e /$shared/.emacs.d/elpa ]] && [[ ! -e /home/$myuser/.emacs.d/elpa ]] && ln -s /$shared/.emacs.d/elpa /home/$myuser/.emacs.d/elpa
+[[ -e /$shared/.emacs.d/elpa ]] && [[ ! -e $myhome/.emacs.d/elpa ]] && ln -s /$shared/.emacs.d/elpa $myhome/.emacs.d/elpa
 
-echo ';# -*- mode: emacs-lisp ;-*- ;;; Forces editing in emacs-mode' > /home/$myuser/.emacs_aliases
-echo ';; This file is loaded after .emacs; put your customizations here' >> /home/$myuser/.emacs_aliases
+echo ';# -*- mode: emacs-lisp ;-*- ' > $myhome/.emacs_aliases
+echo ';; This file is loaded after .emacs; put your customizations here' >> $myhome/.emacs_aliases
 
 # Do emacs first-time setup
-emacs -batch --eval "(setq debug-on-error t)" -l     /home/$myuser/.emacs  
+emacs -batch --eval "(setq debug-on-error t)" -l     $myhome/.emacs  
 
 # Finished with default emacs configuration
 

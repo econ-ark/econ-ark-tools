@@ -33,8 +33,13 @@ ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs_econ-ark_githash_$(<
 # avoids error messages
 
 sudo gpg -vv --keyserver hkps://keyserver.ubuntu.com --list-keys
-sudo gpg -vv --keyserver hkps://keyserver.ubuntu.com --receive-keys 066DAFCB81E42C40
-sudo ln -s /root/.gnupg $shared/.gnupg
+if [[ "$?" != 0 ]]; then
+    echo 'Error in setting up GPG keys; retry using\n    /var/local/installers/install-emacs.sh\n' >> /var/local/About_This_Install/XUBUNTARK_body.md
+    exit
+else
+    sudo gpg -vv --keyserver hkps://keyserver.ubuntu.com --receive-keys 066DAFCB81E42C40
+    sudo ln -s /root/.gnupg $shared/.gnupg
+fi
 
 # finally ready to install it
 sudo apt -y install emacs 
