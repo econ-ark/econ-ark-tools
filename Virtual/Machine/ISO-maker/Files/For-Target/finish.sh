@@ -33,7 +33,7 @@ else # replace the default
 fi
 
 # GitHub command line tools
-/var/local/installers/install-gh-cli-tools.sh
+sudo /var/local/installers/install-gh-cli-tools.sh
 
 # LaTeX - minimal (required for auctex install on emacs)
 sudo apt -y install texlive-latex-base
@@ -90,6 +90,11 @@ sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1
 # More useful default tools 
 sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs timeshift
 
+
+cd /var/local
+branch_name="$(</var/local/status/git_branch)"
+online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
+
 sudo pip install elpy
 
 sleep 3600
@@ -97,21 +102,18 @@ sleep 3600
 for user in $vncuser $rdpuser root; do
 
     user_dir=/home/$user && [[ "$user" == "root" ]] && user_dir=/root
-    
+
+    # Configure emacs
     sudo -u $user /var/local/config/emacs-user.sh $user
 
     # Let users control networks
     sudo adduser  $user netdev
 
-    # Get to systemwide GitHub via ~/GitHub whether you are root or econ-ark
+    # Get to systemwide GitHub via ~/GitHub whoever you are
     [[ ! -e $user_dir/GitHub ]] && ln -s /usr/local/share/data/GitHub $user_dir/GitHub
 
     # Everything should be accessible to members of the econ-ark group
-    chown -Rf $user:econ-ark $user_dir
-
-    cd /var/local
-    branch_name="$(</var/local/status/git_branch)"
-    online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
+    [[ "$user" != "root" ]] && chown -Rf $user:econ-ark $user_dir
 
     # Remove the linux automatically created directories like "Music" and "Pictures"
     # Leave only required directories Downloads and Desktop
@@ -123,30 +125,18 @@ for user in $vncuser $rdpuser root; do
 	fi
     done
 
-    # Play nice with Macs (in hopes of being able to monitor it)
-    sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
-    #sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errors when apps are launched
-
-    # Start avahi so machine can be found on local network -- happens automatically in ubuntu
-    mkdir -p /etc/avahi/
-
-    cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
-    
-    # Enable ssh over avahi
-    cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
-
-    cd $user_dir
-
     # Add stuff to bash login script
-
     bashadd=$user_dir/.bash_aliases
     [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-$datetime"
-    ln -s /var/local/root/home/user_regular/bash_aliases "$bashadd"
+    if [[ "$user" == "root" ]]; then
+	ln -s /var/local/root/home/user_root/bash_aliases "$bashadd"
+    else
+	ln -s /var/local/root/home/user_regular/bash_aliases "$bashadd"
+    fi
 
-    # Make ~/.bash_aliases be owned by "$vncuser" instead of root
+    # Make ~/.bash_aliases be owned by the user instead of root
     chmod a+x "$bashadd"
     chown $user:$user "$bashadd" 
-    cd /var/local
 
     sudo -u $user xdg-settings set default-web-browser google-chrome.desktop
 
@@ -156,6 +146,19 @@ for user in $vncuser $rdpuser root; do
     # Now that elpy has been installed, rerun the emacs setup to connect to it
     emacs -batch -l     $user_dir/.emacs  # Run in batch mode to setup everything
 done
+
+# Play nice with Macs (in hopes of being able to monitor it)
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
+#sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errors when apps are launched
+
+# Start avahi so machine can be found on local network -- happens automatically in ubuntu
+mkdir -p /etc/avahi/
+
+cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
+
+# Enable ssh over avahi
+cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
+
 
 ## The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
 if [[ -e /EFI/BOOT ]]; then
