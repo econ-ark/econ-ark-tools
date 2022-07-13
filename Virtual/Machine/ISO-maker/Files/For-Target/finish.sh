@@ -93,6 +93,8 @@ sudo apt -y install build-essential module-assistant parted gparted xsel xclip c
 sudo pip install elpy
 
 for user in $vncuser $rdpuser root; do
+
+    [[ "$user" == "root" ]] && user_dir=/root || user_dir=/home/$user
     sudo /var/local/config/emacs-user.sh $vncuser
     sudo /var/local/config/emacs-user.sh $rdpuser
 
@@ -113,7 +115,7 @@ for user in $vncuser $rdpuser root; do
 
     # Remove the linux automatically created directories like "Music" and "Pictures"
     # Leave only required directories Downloads and Desktop
-    cd /home/$user
+    cd $user_dir
 
     for d in ./*/; do
 	if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]] && [[ ! "$d" == "./GitHub/" ]] && [[ ! "$d" == "./thinclient_drives" ]]; then
