@@ -1,6 +1,6 @@
 #!/bin/bash
 # start.sh installs GUI then reboots;
-# finish automatically starts with newly-installed GUI
+# finish.sh automatically starts with newly-installed GUI
 
 # Conditionally enable verbose output 
 [[ -e /var/local/status/verbose ]] && set -x && set -v
@@ -18,11 +18,12 @@ commit_date="$(cat /var/local/About_This_Install/commit_date)"
 default_hostname="$(</etc/hostname)"
 default_domain=""
 
+# long hostname long is date plus commit hash for econ-ark-tools repo
 datetime="$(</var/local/status/build_date.txt)"
 new_hostname="xubark-$commit_date"
 
-# In verbose mode, hostname is long date + commit hash for econ-ark-tools repo
-[[ -e /var/local/status/verbose ]] && new_hostname="$commit_date-$short_hash" && echo "$new_hostname" > /var/local/status/date_commit
+# short hostname: xubark+date of commit
+[[ -e /var/local/status/verbose ]] && new_hostname="xubark-$commit_date" && echo "$new_hostname" > /var/local/status/date_commit
 
 if [[ "$default_hostname" == "-" ]]; then # not yet defined
     echo "$new_hostname" > /etc/hostname
