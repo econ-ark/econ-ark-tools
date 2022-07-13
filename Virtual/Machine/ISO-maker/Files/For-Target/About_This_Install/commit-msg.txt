@@ -1,1 +1,1 @@
-Test_whether_finish.sh_still_deletes_directories_in_-var-local
+Add_copying_of_ISO_to_-installer
