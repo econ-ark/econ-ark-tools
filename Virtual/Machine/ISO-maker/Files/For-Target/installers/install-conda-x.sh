@@ -41,18 +41,18 @@ echo "$cmd"
 addToPath='export PATH=/usr/local/$CHOSEN/bin:$PATH'
 echo "$addToPath"
 #eval "$addToPath"
-sudo chmod u+w /etc/environment
-sudo sed -e "s\/usr/local/sbin:\/usr/local/$CHOSEN/bin:/usr/local/sbin:\g" /etc/environment > /tmp/environment
+echo esudo chmod u+w /etc/environment
+echo sudo sed -e "s\/usr/local/sbin:\/usr/local/$CHOSEN/bin:/usr/local/sbin:\g" /etc/environment > /tmp/environment
 
 # eliminate any duplicates which may exist if the script has been run more than once
-sudo sed -e 's\/usr/local/$CHOSEN/bin:/usr/local/$CHOSEN/bin\/usr/local/$CHOSEN/bin\g' /tmp/environment > /tmp/environment2
+echo sudo sed -e 's\/usr/local/$CHOSEN/bin:/usr/local/$CHOSEN/bin\/usr/local/$CHOSEN/bin\g' /tmp/environment > /tmp/environment2
 
-sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
-sudo chmod u-w /etc/environment # Restore secure permissions for environment
+echo sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
+echo sudo chmod u-w /etc/environment # Restore secure permissions for environment
 
 if [ ! -e /etc/sudoers.d/$CHOSEN ]; then # Modify secure path so that commands will work with sudo
-    sudo mkdir -p /etc/sudoers.d
-    sudo echo 'Defaults secure_path="/usr/local/'$CHOSEN'/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/snap/bin:/bin"' | sudo tee /etc/sudoers.d/$CHOSEN
+echo    sudo mkdir -p /etc/sudoers.d
+echo    sudo echo 'Defaults secure_path="/usr/local/'$CHOSEN'/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/snap/bin:/bin"' | sudo tee /etc/sudoers.d/$CHOSEN
 fi
 
 # Pull in the modified environment
