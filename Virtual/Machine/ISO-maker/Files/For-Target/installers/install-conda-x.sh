@@ -36,13 +36,15 @@ echo "$cmd"
 eval "$cmd"
 
 # Add to default enviroment path so that all users can find it
-addToPath="export PATH=/usr/local/"$CHOSEN"/bin:$PATH"
+addToPath="export PATH=/usr/local/"
+addToPath+="$CHOSEN"
+addToPath+="/bin:$PATH"
 echo "$addToPath"
 eval "$addToPath"
-sudo chmod u+w /etc/environment
-sudo rm -Rf /tmp/environment
-echo sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /etc/environment 
-sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /etc/environment > /tmp/environment
+# sudo chmod u+w /etc/environment
+# sudo rm -Rf /tmp/environment
+# echo sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /etc/environment 
+# sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /etc/environment > /tmp/environment
 
 # eliminate any duplicates which may exist if the script has been run more than once
 #sudo sed -e "s\/usr/local/$CHOSEN/bin:/usr/local/$CHOSEN/bin\/usr/local/$CHOSEN/bin\g" /tmp/environment > /tmp/environment2
