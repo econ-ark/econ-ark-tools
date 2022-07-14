@@ -38,7 +38,7 @@ echo "$cmd"
 #eval "$cmd"
 
 # Add to default enviroment path so that all users can find it
-addToPath='export PATH=/usr/local/$CHOSEN/bin:$PATH'
+addToPath="export PATH=/usr/local/$CHOSEN/bin:$PATH"
 echo "$addToPath"
 #eval "$addToPath"
 echo esudo chmod u+w /etc/environment
