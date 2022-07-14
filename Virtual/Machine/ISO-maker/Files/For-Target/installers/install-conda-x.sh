@@ -68,7 +68,16 @@ sudo chmod 555 /etc/sudoers.d
 # But they are useful when debugging it because they allow copy and paste
 # of text to a non-root shell on a line-by-line basis
 
-sudo conda init
+sudo conda init bash
+pushd .
+cd /home
+for dir in */; do
+    user=$(basename $dir)
+    cmd="sudo -u $user "$(which conda)$" init bash"
+    eval "$cmd"
+done
+popd    
+source ~/.bashrc  # Update environment with new change
 
 # Because installed as root, files are not executable by non-root users but should be
 pushd .

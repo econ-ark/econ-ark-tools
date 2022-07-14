@@ -13,6 +13,7 @@ if [[ "$(which conda)" == "/usr/local/anaconda/bin/conda" ]] ; then # It's alrea
 else
     /var/local/installers/install-conda-x.sh anaconda
     source /etc/environment # get new environment
+    source ~/.bashrc
 
     sudo conda install --yes -c conda-forge mamba 
     sudo conda activate base 
@@ -27,7 +28,6 @@ else
     sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
     sudo flatpak -y install flathub org.gnu.emacs
 
-    sudo apt -y install /var/local/zoom_amd64.deb
 fi
 
 sudo pip uninstall --yes econ-ark ; sudo conda install --yes -c conda-forge econ-ark # pip install econ-ark
@@ -37,7 +37,7 @@ source /etc/environment  # Get the new environment
 # Instructions from Anaconda mothership say to install pip stuff
 # only after installing all conda stuff
 
-sudo pip install nbval
+sudo conda install -c conda-forge nbval     # use pytest on notebooks
 sudo pip install quantecon
 
 # Get docker 
