@@ -6,7 +6,7 @@
 # sudo bash -c '(rm -f /var/local/status/finished-software-install.flag ; rm -f /var/local/status/boot_first.flag ; rm -f /var/local/status/boot_second.flag ; rm -f /home/econ-ark/.gui_user_login_first.flag; rm -f /home/econ-ark/.gui_user_login_second.flag)' >/dev/null
 
 # Presence of 'verbose' triggers bash debugging mode
-[[ -e /var/local/status/verbose ]] && set -x && set -v && sudo apt -y install emacs 
+[[ -e /var/local/status/verbose ]] && set -x && set -v # && sudo apt -y install emacs 
 
 # Record date and time at which install script is running
 # Used to mark date of original versions of files replaced
@@ -106,7 +106,7 @@ sudo groupadd --system nopasswdlogin
 sudo adduser  $vncuser nopasswdlogin
 sudo gpasswd -a $vncuser nopasswdlogin
 
-# Eliminate useless but confusing error message
+# Eliminate useless but confusing errmsg
 # https://kb.vander.host/operating-systems/couldnt-open-etc-securetty-no-such-file-or-directory
 sudo cp /usr/share/doc-util/linux-examples/securetty /etc/securetty
 
@@ -161,15 +161,9 @@ sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local
 #     dd if="$installer" of=/var/local/XUBARK.iso
 # fi
 
-sudo apt -y install at-spi2-core      # If not insalled lots of lightdm errors
+sudo apt -y install at-spi2-core      # If not insalled lots of lightdm errs
 # Crashes often occur when installing grub, but have no subsequent consequence
 sudo rm -f /var/crash/grub-pc.0.crash
-
-# # enable connection by ssh
-sudo apt -y install openssh-server
-sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable 
-sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
-sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
 
 # When run by late_command, the machine will reboot after finishing start.sh
 # rc.local will then notice that 'finish.sh' has not been run, and will run it

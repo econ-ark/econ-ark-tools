@@ -37,7 +37,7 @@ cd /var/local
 sudo apt -y install sshfs
 
 # Can't run ssh inside chroot; so detect that
-inside_chroot=true ; [[ "$(ischroot)" != 0 ]] && inside_chroot=false
+inside_chroot=true ; ischroot ; [[ "$?" != 0 ]] && inside_chroot=false
 
 # If ssh might be running, stop it before changing its config
 [[ "$inside_chroot" != "true" ]] && sudo systemctl stop ssh
