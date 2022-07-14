@@ -22,7 +22,7 @@ if [ ! -e $BOOT_FIRST_FLAG ]; then # machine's first-ever boot
     [[ -e /var/local/status/boot_second.flag ]]      && rm -f /var/local/status/boot_second.flag
 
     # Some virtual machines need to have lightdm stopped and then restarted
-    if [[ "$(lscpu | grep -i hypervisor)" != "" ]] && service lightdm stop && service lightdm start
+    [[ "$(lscpu | grep -i hypervisor)" != "" ]] && service lightdm stop && service lightdm start
     # create an empty 'signal' file so the "if" will fail after the first boot
     touch "$BOOT_FIRST_FLAG"
 fi
