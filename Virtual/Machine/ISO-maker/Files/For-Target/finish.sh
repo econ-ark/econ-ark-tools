@@ -123,7 +123,7 @@ for user in $vncuser $rdpuser root; do
 
     # Get to systemwide GitHub via ~/GitHub whoever you are
     [[ ! -e $user_dir/GitHub ]] && ln -s /usr/local/share/data/GitHub $user_dir/GitHub
-    [[ ! -e $user_dir/installer ]] && [[ -e /installer ]] && ln -s /installer $user_dir/installer
+    [[ ! -e $user_dir/installer ]] && [[ -e /installer ]] && [[ ! -z /installer ]] && ln -s /installer $user_dir/installer
 
     # Everything should be accessible to members of the econ-ark group
     [[ "$user" != "root" ]] && chown -Rf $user:econ-ark $user_dir
