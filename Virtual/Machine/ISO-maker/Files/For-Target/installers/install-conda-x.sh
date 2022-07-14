@@ -6,7 +6,7 @@ bad=false
 
 # In case they used capitals
 CHOSEN=$(echo $1 | tr '[:upper:]' '[:lower:]')
-
+# CHOSEN=miniconda
 ANA='anaconda' && MIN='miniconda'
 
 echo $CHOSEN
@@ -36,33 +36,33 @@ eval "$cmd" # do
 # eval "$cmd"
 
 sudo rm -Rf /usr/local/$CHOSEN
-sudo chmod a+x /tmp/$CHOSEN/$LATEST 
+
+sudo chmod a+x /tmp/$CHOSEN/$LATEST
 /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
 # Add to default enviroment path so that all users can find it
-addToPath="export PATH=/usr/local/"
-addToPath+="$CHOSEN"
-addToPath+="/bin:$PATH"
-echo "$addToPath"
-eval "$addToPath"
-# sudo chmod u+w /etc/environment
-# sudo rm -Rf /tmp/environment
-# echo sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /etc/environment 
-# sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /etc/environment > /tmp/environment
 
-# eliminate any duplicates which may exist if the script has been run more than once
-#sudo sed -e "s\/usr/local/$CHOSEN/bin:/usr/local/$CHOSEN/bin\/usr/local/$CHOSEN/bin\g" /tmp/environment > /tmp/environment2
-
-sudo mv /tmp/environment /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
-sudo chmod u-w /etc/environment # Restore secure permissions for environment
-
-if [ ! -e /etc/sudoers.d/$CHOSEN ]; then # Modify secure path so that commands will work with sudo
-    sudo mkdir -p /etc/sudoers.d
-    sudo echo 'Defaults secure_path="/usr/local/'$CHOSEN'/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/snap/bin:/bin"' | sudo tee /etc/sudoers.d/$CHOSEN
+source /etc/environment
+if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then
+    echo 'Adding '$CHOSEN' to PATH'
+    # addToPath="export PATH=/usr/local/$CHOSEN/bin:$PATH"
+    # echo "$addToPath"
+    # eval "$addToPath"
+    sudo chmod u+w /etc/environment
+    sudo rm -Rf /tmp/environment
+    sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /etc/environment > /tmp/environment
+    sudo mv /tmp/environment /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
+    sudo chmod u-w /etc/environment # Restore secure permissions for environment
 fi
 
 # Pull in the modified environment
 source /etc/environment  # Get the new environment
+
+[[ ! -e /etc/sudoers.d ]] && sudo mkdir -p /etc/sudoers.d && sudo chmod a+w /etc/sudoers.d
+if [[ ! -e /etc/sudoers.d/$CHOSEN ]]; then
+    sudo echo 'Defaults secure_path="/usr/local/'$CHOSEN'/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/snap/bin:/bin"' | sudo tee /etc/sudoers.d/$CHOSEN
+fi
+sudo chmod 555 /etc/sudoers.d
 
 # The sudos below are not necessary when this script is originally run
 # But they are useful when debugging it because they allow copy and paste
@@ -81,6 +81,4 @@ popd
 sudo conda activate base
 
 # Add some final common tools
-sudo conda install --yes -c anaconda scipy
-sudo conda install --yes -c anaconda pyopengl # Otherwise you get an errmsg "Segmentation fault (core dumped)" on some Ubuntu machines
 sudo conda install --yes -c conda-forge jupyter_contrib_nbextensions
