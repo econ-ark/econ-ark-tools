@@ -41,7 +41,7 @@ echo "$addToPath"
 eval "$addToPath"
 sudo chmod u+w /etc/environment
 sudo rm -Rf /tmp/environment
-sudo sed -e "s\/usr/local/sbin:\/usr/local/$CHOSEN/bin:/usr/local/sbin:\g" /etc/environment > /tmp/environment
+sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /etc/environment > /tmp/environment
 
 # eliminate any duplicates which may exist if the script has been run more than once
 #sudo sed -e "s\/usr/local/$CHOSEN/bin:/usr/local/$CHOSEN/bin\/usr/local/$CHOSEN/bin\g" /tmp/environment > /tmp/environment2
