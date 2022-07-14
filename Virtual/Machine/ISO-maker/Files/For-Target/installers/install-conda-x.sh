@@ -31,28 +31,28 @@ SOURCE="https://repo.continuum.io/archive"
 cmd="wget         -O /tmp/$CHOSEN/$LATEST $SOURCE/$CHOSEN/$LATEST ; cd /tmp/$CHOSEN"
 #cmd="wget --quiet -O /tmp/$CHOSEN/$LATEST $SOURCE/$CHOSEN/$LATEST ; cd /tmp/$CHOSEN"
 echo "$cmd" # tell
-#eval "$cmd" # do
+eval "$cmd" # do
 
 cmd="sudo rm -Rf /usr/local/$CHOSEN ; chmod a+x /tmp/$CHOSEN/$LATEST ; /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN"
 echo "$cmd"
-#eval "$cmd"
+eval "$cmd"
 
 # Add to default enviroment path so that all users can find it
 addToPath="export PATH=/usr/local/$CHOSEN/bin:$PATH"
 echo "$addToPath"
-#eval "$addToPath"
-echo esudo chmod u+w /etc/environment
+eval "$addToPath"
+echo sudo chmod u+w /etc/environment
 echo sudo sed -e "s\/usr/local/sbin:\/usr/local/$CHOSEN/bin:/usr/local/sbin:\g" /etc/environment > /tmp/environment
 
 # eliminate any duplicates which may exist if the script has been run more than once
-echo sudo sed -e 's\/usr/local/$CHOSEN/bin:/usr/local/$CHOSEN/bin\/usr/local/$CHOSEN/bin\g' /tmp/environment > /tmp/environment2
+sudo sed -e 's\/usr/local/$CHOSEN/bin:/usr/local/$CHOSEN/bin\/usr/local/$CHOSEN/bin\g' /tmp/environment > /tmp/environment2
 
-echo sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
-echo sudo chmod u-w /etc/environment # Restore secure permissions for environment
+sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
+sudo chmod u-w /etc/environment # Restore secure permissions for environment
 
 if [ ! -e /etc/sudoers.d/$CHOSEN ]; then # Modify secure path so that commands will work with sudo
-echo    sudo mkdir -p /etc/sudoers.d
-echo    sudo echo 'Defaults secure_path="/usr/local/'$CHOSEN'/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/snap/bin:/bin"' | sudo tee /etc/sudoers.d/$CHOSEN
+    sudo mkdir -p /etc/sudoers.d
+    sudo echo 'Defaults secure_path="/usr/local/'$CHOSEN'/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/snap/bin:/bin"' | sudo tee /etc/sudoers.d/$CHOSEN
 fi
 
 # Pull in the modified environment
