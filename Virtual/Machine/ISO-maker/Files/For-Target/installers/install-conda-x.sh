@@ -21,14 +21,12 @@ fi
 [[ -e /tmp/$CHOSEN ]] && sudo rm -Rf /tmp/$CHOSEN # delete any prior install
 mkdir /tmp/$CHOSEN ; cd /tmp/$CHOSEN
 
-SOURCE="https://repo.continuum.io/archive"
-
-[[ "$CHOSEN" == "$ANA" ]] && LATEST="Anaconda=3-2021.11-Linux-x86_64.sh"
-[[ "$CHOSEN" == "$MIN" ]] && LATEST="Miniconda3-py39-4.12.0-Linux-x86_64.sh"
+[[ "$CHOSEN" == "$ANA" ]] && LATEST="Anaconda=3-2021.11-Linux-x86_64.sh" && URL="repo.continuum.io/archive"
+[[ "$CHOSEN" == "$MIN" ]] && LATEST="Miniconda3-py39-4.12.0-Linux-x86_64.sh" && URL="repo.anaconda.com/miniconda"
 
 # (wisely) gave up on automatically retrieving latest version
 # 2021.11: Python version is 3.9
-cmd="wget         -O /tmp/$CHOSEN/$LATEST $SOURCE/$CHOSEN/$LATEST ; cd /tmp/$CHOSEN"
+cmd="wget         -O /tmp/$CHOSEN/$LATEST https://$URL/$CHOSEN/$LATEST ; cd /tmp/$CHOSEN"
 #cmd="wget --quiet -O /tmp/$CHOSEN/$LATEST $SOURCE/$CHOSEN/$LATEST ; cd /tmp/$CHOSEN"
 echo "$cmd" # tell
 eval "$cmd" # do
