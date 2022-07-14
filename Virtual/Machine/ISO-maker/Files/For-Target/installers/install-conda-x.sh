@@ -22,7 +22,7 @@ fi
 mkdir /tmp/$CHOSEN ; cd /tmp/$CHOSEN
 
 [[ "$CHOSEN" == "$ANA" ]] && LATEST="Anaconda=3-2021.11-Linux-x86_64.sh" && URL="repo.continuum.io/archive"
-[[ "$CHOSEN" == "$MIN" ]] && LATEST="Miniconda3-py39-4.12.0-Linux-x86_64.sh" && URL="repo.anaconda.com/miniconda"
+[[ "$CHOSEN" == "$MIN" ]] && LATEST="Miniconda3-py39-4.12.0-Linux-x86_64.sh" && URL="repo.anaconda.com"
 
 # (wisely) gave up on automatically retrieving latest version
 # 2021.11: Python version is 3.9
