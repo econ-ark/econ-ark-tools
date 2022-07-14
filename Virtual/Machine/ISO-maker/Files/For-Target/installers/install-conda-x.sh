@@ -62,14 +62,10 @@ source /etc/environment  # Get the new environment
 if [[ ! -e /etc/sudoers.d/$CHOSEN ]]; then
     sudo echo 'Defaults secure_path="/usr/local/'$CHOSEN'/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/snap/bin:/bin"' | sudo tee /etc/sudoers.d/$CHOSEN
 fi
-sudo chmod 555 /etc/sudoers.d
+sudo chmod 555 /etc/sudoers.d # restore proper permissions
 
-# The sudos below are not necessary when this script is originally run
-# But they are useful when debugging it because they allow copy and paste
-# of text to a non-root shell on a line-by-line basis
-
-sudo conda init bash
-pushd .
+# conda init puts the path to conda in user's ~/.bashrc
+pushd . 
 cd /home
 for dir in */; do
     user=$(basename $dir)

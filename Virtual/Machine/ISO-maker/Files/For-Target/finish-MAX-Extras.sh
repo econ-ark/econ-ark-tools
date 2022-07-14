@@ -12,8 +12,7 @@ if [[ "$(which conda)" == "/usr/local/anaconda/bin/conda" ]] ; then # It's alrea
     sudo conda update --yes --all anaconda # It's installed, so just update it
 else
     /var/local/installers/install-conda-x.sh anaconda
-    source /etc/environment # get new environment
-    source ~/.bashrc
+    source ~/.bashrc # get new environment with path to anaconda
 
     sudo conda install --yes -c conda-forge mamba 
     sudo conda activate base 
