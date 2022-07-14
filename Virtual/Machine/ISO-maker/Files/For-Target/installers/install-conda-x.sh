@@ -31,9 +31,13 @@ cmd="wget         -O /tmp/$CHOSEN/$LATEST https://$URL/$CHOSEN/$LATEST ; cd /tmp
 echo "$cmd" # tell
 eval "$cmd" # do
 
-cmd="sudo rm -Rf /usr/local/$CHOSEN ; chmod a+x /tmp/$CHOSEN/$LATEST ; /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN"
-echo "$cmd"
-eval "$cmd"
+# cmd="sudo rm -Rf /usr/local/$CHOSEN ; chmod a+x /tmp/$CHOSEN/$LATEST ; /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN"
+# echo "$cmd"
+# eval "$cmd"
+
+sudo rm -Rf /usr/local/$CHOSEN
+sudo chmod a+x /tmp/$CHOSEN/$LATEST 
+/tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
 # Add to default enviroment path so that all users can find it
 addToPath="export PATH=/usr/local/"

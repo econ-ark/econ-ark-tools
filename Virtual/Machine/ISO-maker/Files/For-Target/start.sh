@@ -166,9 +166,9 @@ sudo apt -y install at-spi2-core      # If not insalled lots of lightdm errors
 sudo rm -f /var/crash/grub-pc.0.crash
 
 # # enable connection by ssh
-# sudo apt -y install openssh-server
-# sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable 
-# sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
+sudo apt -y install openssh-server
+sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable 
+sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
 sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
 
 # When run by late_command, the machine will reboot after finishing start.sh

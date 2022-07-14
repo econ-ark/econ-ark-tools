@@ -93,8 +93,7 @@ EOF
 sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1 
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs timeshift
-
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs timeshift deja-dup
 
 cd /var/local
 branch_name="$(</var/local/status/git_branch)"
@@ -144,6 +143,14 @@ for user in $vncuser $rdpuser root; do
     # Make sure that everything in the home user's path is owned by home user 
     chown -Rf $user:$user $user_dir
 
+    if [[ ! "$user" == "root" ]]; then # never run latex as root
+	# Configure latexmkrc: https://mg.readthedocs.io/latexmk.html
+	ltxmkrc=$user_dir/.latekmkrc
+	echo "'"'$dvi_previewer = start xdvi -watchfile 1.5'"';" > "$ltxmkrc"
+	echo "'"'$ps_previewer = start gv --watch'"';" >> "$ltxmkrc"
+	echo "'"'$pdf_previewer = start evince'"';" >> "$ltxmkrc"
+    fi
+    
 done
 
 # Play nice with Macs (in hopes of being able to monitor it)
@@ -196,13 +203,13 @@ sudo apt -y update && sudo apt -y upgrade
 
 # Install either minimal or maximal system
 if [[ "$size" == "MIN" ]]; then
-    sudo apt -y install python3-pip python-pytest python-is-python3
-    sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
-    sudo pip install pytest
-    sudo pip install nbval
-    sudo pip install jupyterlab # jupyter notebook is no longer maintained
+    sudo /var/local/installers/install-conda-x.sh miniconda
+    sudo conda install -c conda-forge pytest
+    sudo conda install -c nbval
+    sudo conda install -c jupyterlab # jupyter notebook is no longer maintained
 else
     sudo chmod +x /var/local/finish-MAX-Extras.sh
+    
     sudo /var/local/finish-MAX-Extras.sh
     source /etc/environment # Update the path
     echo '' >> XUBUNTARK.md
