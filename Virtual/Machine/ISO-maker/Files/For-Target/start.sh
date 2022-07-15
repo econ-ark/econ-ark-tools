@@ -11,7 +11,7 @@
 # Record date and time at which install script is running
 # Used to mark date of original versions of files replaced
 build_date="$(date +%Y%m%d)"
-build_time="$(date +%Y%m%d)"
+build_time="$(date +%Y%m%d%H%M)"
 
 echo "$build_date" > /var/local/status/build_date.txt
 echo "$build_time" > /var/local/status/build_time.txt

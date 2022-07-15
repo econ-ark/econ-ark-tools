@@ -15,21 +15,21 @@ myuser=$1
 shared=/usr/local/share/emacs
 myhome=/home/$myuser
 
-[[ "$myuser" == "root" ]] && myuser=/root
+[[ "$myuser" == "root" ]] && myhome=/root
 
 [[ ! -e $shared/.emacs.d ]] && echo 'First run installers/install-emacs.sh to create root setup' && exit
 
 localhome=var/local/root/home # templates
 
 install_time="$(date +%Y%m%d%H%M)"
-date_commit="$(</var/local/status/date_commit)"
+build_date="$(</var/local/status/build_date)"
 ## Create .emacs files
 [[ -e $myhome/.emacs ]] && mv $myhome/.emacs $myhome/.emacs_orig_$install_time
 
 cp /$localhome/user_regular/dotemacs-regular-users $myhome/.emacs
 chown $myuser:$myuser $myhome/.emacs
 
-[[ ! -e $myhome/.emacs_econ-ark_$date_commit ]] && cp /$localhome/user_regular/dotemacs-regular-users $myhome/.emacs_econ-ark_$date_commit
+[[ ! -e $myhome/.emacs_econ-ark_$build_date ]] && cp /$localhome/user_regular/dotemacs-regular-users $myhome/.emacs_econ-ark_$build_date
 
 # Create .emacs.d directory with proper permissions -- avoids annoying startup warning msg
 [[ -e $myhome/.emacs.d ]] && mv $myhome/.emacs.d $myhome/.emacs.d_$install_time 

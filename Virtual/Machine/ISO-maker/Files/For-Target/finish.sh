@@ -5,25 +5,24 @@
 # Conditionally enable verbose output 
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
-
-# # enable connection by ssh
-sudo apt -y install openssh-server
-sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable 
-sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
-sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
-
 # Now install own stuff
-cd /var/local
-
-sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local/status/install-xubuntu-desktop.log'
-
-
-sudo service lightdm stop
-sudo service lightdm start
-
 vncuser="econ-ark"
 rdpuser="econ-ark-xrdp"
 mypass="kra-noce"
+
+# enable connection by ssh
+sudo apt -y install openssh-server
+sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
+sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
+
+# xubuntu desktop
+sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local/status/install-xubuntu-desktop.log'
+
+# on some vm's it is necessary to stop then restart the vm before it works
+sudo service lightdm stop
+sudo service lightdm start
+
+cd /var/local
 
 # Get info about install
 commit_msg="$(cat /var/local/About_This_Install/commit-msg.txt)"
@@ -31,11 +30,13 @@ short_hash="$(cat /var/local/About_This_Install/short.git-hash)"
 commit_date="$(cat /var/local/About_This_Install/commit_date)"
 
 # Change the name of the host to the date and time of its creation
+##  Get existing
 default_hostname="$(</etc/hostname)"
 default_domain=""
 
-# long hostname long is date plus commit hash for econ-ark-tools repo
-datetime="$(</var/local/status/build_date.txt)"
+# long hostname is date plus commit hash for econ-ark-tools repo
+build_date="$(</var/local/status/build_date.txt)"
+build_time="$(</var/local/status/build_time.txt)"
 
 new_hostname="xubark-$commit_date-$commit_hash"
 # short hostname: xubark+date of commit
