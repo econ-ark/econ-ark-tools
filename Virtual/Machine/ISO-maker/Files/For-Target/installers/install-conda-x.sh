@@ -21,7 +21,7 @@ fi
 [[ -e /tmp/$CHOSEN ]] && sudo rm -Rf /tmp/$CHOSEN # delete any prior install
 mkdir /tmp/$CHOSEN ; cd /tmp/$CHOSEN
 
-[[ "$CHOSEN" == "$ANA" ]] && LATEST="Anaconda=3-2021.11-Linux-x86_64.sh" && URL="repo.continuum.io/archive"
+[[ "$CHOSEN" == "$ANA" ]] && LATEST="Anaconda3-2021.11-Linux-x86_64.sh" && URL="repo.anaconda.com/archive"
 [[ "$CHOSEN" == "$MIN" ]] && LATEST="Miniconda3-py39_4.12.0-Linux-x86_64.sh" && URL="repo.anaconda.com"
 
 # (wisely) gave up on automatically retrieving latest version
@@ -50,8 +50,9 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then
     # eval "$addToPath"
     sudo chmod u+w /etc/environment
     sudo rm -Rf /tmp/environment
-    sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /etc/environment > /tmp/environment
-    sudo mv /tmp/environment /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
+    sudo sed -e 's\/usr/local/'$NOT_CHOSEN'/bin:\\g' /etc/environment > /tmp/environment
+    sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment > /tmp/environment2
+    sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
     sudo chmod u-w /etc/environment # Restore secure permissions for environment
 fi
 

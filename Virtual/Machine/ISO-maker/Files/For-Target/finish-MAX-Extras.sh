@@ -74,6 +74,8 @@ echo 'This is your local, personal copy of REMARK, which you can modify.  '    >
 
 # Run the automated tests to make sure everything installed properly
 cd /usr/local/share/data/GitHub/econ-ark/HARK
+
+sudo conda install -c anaconda pytest
 pytest 
 
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/notebooks
