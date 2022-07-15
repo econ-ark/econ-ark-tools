@@ -1,1 +1,1 @@
-Switch_from_MIN_to_MAX
+Switch_to_MIN
