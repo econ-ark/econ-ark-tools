@@ -26,7 +26,7 @@ mkdir /tmp/$CHOSEN ; cd /tmp/$CHOSEN
 
 # (wisely) gave up on automatically retrieving latest version
 # 2021.11: Python version is 3.9
-cmd="wget         -O /tmp/$CHOSEN/$LATEST https://$URL/$CHOSEN/$LATEST ; cd /tmp/$CHOSEN"
+cmd="wget         -O /tmp/$CHOSEN/$LATEST https://$URL/$LATEST ; cd /tmp/$CHOSEN"
 #cmd="wget --quiet -O /tmp/$CHOSEN/$LATEST $SOURCE/$CHOSEN/$LATEST ; cd /tmp/$CHOSEN"
 echo "$cmd" # tell
 eval "$cmd" # do
@@ -55,7 +55,7 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then
     sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
     sudo chmod u-w /etc/environment # Restore secure permissions for environment
     source /etc/environment
-    conda init bash
+    sudo conda init bash
     sudo -u econ-ark      conda init bash
     sudo -u econ-ark-xrdp conda init bash
 fi
