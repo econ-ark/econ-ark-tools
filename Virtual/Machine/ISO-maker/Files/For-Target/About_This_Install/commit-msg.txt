@@ -1,1 +1,1 @@
-Switch_to_MIN
+Try_not_purging_before_install_of_xubuntu-desktop
