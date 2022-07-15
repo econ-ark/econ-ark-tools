@@ -1,1 +1,1 @@
-Try_not_purging_before_install_of_xubuntu-desktop
+Fix_url_for_anaconda
