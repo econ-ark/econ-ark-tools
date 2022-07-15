@@ -54,6 +54,10 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then
     sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment > /tmp/environment2
     sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
     sudo chmod u-w /etc/environment # Restore secure permissions for environment
+    source /etc/environment
+    conda init bash
+    sudo -u econ-ark      conda init bash
+    sudo -u econ-ark-xrdp conda init bash
 fi
 
 # Pull in the modified environment
