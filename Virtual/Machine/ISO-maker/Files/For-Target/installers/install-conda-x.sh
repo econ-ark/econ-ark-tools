@@ -75,7 +75,7 @@ if [[ ! -e /etc/sudoers.d/$CHOSEN ]]; then
     sudo echo 'Defaults secure_path="/usr/local/'$CHOSEN'/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/snap/bin:/bin"' | sudo tee /etc/sudoers.d/$CHOSEN
 fi
 sudo chmod 555 /etc/sudoers.d # restore proper permissions
-sudo groupadd conda
+sudo groupadd conda # probably already exists; but if not ...
 sudo chgrp -R conda /usr/local/$CHOSEN
 
 # conda init puts the path to conda in user's ~/.bashrc

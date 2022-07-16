@@ -3,7 +3,8 @@
 # Presence of 'verbose' triggers bash debugging mode
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
-grouplist="adm,dialout,cdrom,floppy,audio,dip,video,plugdev,lxd,sudo"
+sudo groupadd conda # probably already exists; but if not ...
+grouplist="adm,dialout,cdrom,floppy,audio,dip,video,plugdev,lxd,sudo,conda"
 
 # stackoverflow.com/questions check-whether-a-user-exists
 if ! id "ubuntu" &>/dev/null; then # Probably created by debian installer preseed
