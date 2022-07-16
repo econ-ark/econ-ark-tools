@@ -218,14 +218,14 @@ sudo apt -y update && sudo apt -y upgrade
 # Install either minimal or maximal system
 if [[ "$size" == "MIN" ]]; then
     /var/local/installers/install-conda-x.sh miniconda
-    sudo pip install --yes econ-ark 
+    pip install --yes econ-ark 
     conda install --yes -c nbval
     conda install --yes -c jupyterlab # jupyter notebook is no longer maintained
     conda install --yes -c conda-forge pytest
     conda install --yes -c conda-forge nbval     # use pytest on notebooks
 else
     /var/local/installers/install-conda-x.sh anaconda
-    sudo pip install --yes econ-ark 
+    pip install --yes econ-ark 
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
     source /etc/environment # Update the path
@@ -239,7 +239,7 @@ fi
 sudo apt -y install python-is-python3
 
 # elpy is for syntax checking in emacs
-sudo pip install elpy
+pip install elpy
 
 # Now that elpy has been installed, rerun the emacs setup to connect to it
 emacs -batch --eval "(setq debug-on-error t)" -l     /root/.emacs  # Run in batch mode to setup everything
@@ -249,11 +249,11 @@ cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
 mv /var/local/XUBUNTARK.md /var/local/About_This_Install
 
 # 20220602: For some reason jinja2 version obained by pip install is out of date
-sudo pip install jinja2
+pip install jinja2
 
 # Configure jupyter notebook tools
 
-sudo pip install jupyter_contrib_nbextensions
+pip install jupyter_contrib_nbextensions
 sudo jupyter contrib nbextension install
 sudo jupyter nbextension enable codefolding/main
 sudo jupyter nbextension enable codefolding/edit
@@ -261,11 +261,11 @@ sudo jupyter nbextension enable toc2/main
 sudo jupyter nbextension enable collapsible_headings/main
 curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo jupyter labextension install jupyterlab-jupytext
-sudo pip install ipywidgets
+pip install ipywidgets
 sudo apt -y install nodejs
 
 # Install systemwide copy of econ-ark 
-sudo pip install --upgrade nbreproduce
+pip install --upgrade nbreproduce
 
 # Install user-owned copies of useful repos
 # Download and extract HARK, REMARK, DemARK, econ-ark-tools from GitHub
