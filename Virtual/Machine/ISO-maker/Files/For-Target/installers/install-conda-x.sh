@@ -1,10 +1,5 @@
 #!/bin/bash
 
-echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
-sudoer=false
-sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
-[[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
-
 bad_syntax=false
 
 [[ "$#" -ne 1 ]] && bad_syntax=true
@@ -20,6 +15,11 @@ if [[ "$bad_syntax" == true ]]; then
     echo 'usage: install-conda-x.sh [ anaconda | miniconda ]'
     exit
 fi
+
+echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
+sudoer=false
+sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
+[[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
 
 # Put $CHOSEN in /tmp directory
 [[ -e /tmp/$CHOSEN ]] && sudo rm -Rf /tmp/$CHOSEN # delete any prior install
