@@ -1,1 +1,1 @@
-Fix_url_for_anaconda
+sudo_pip_->_pip,_sudo_conda_->_conda
