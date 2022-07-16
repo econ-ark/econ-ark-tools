@@ -13,7 +13,7 @@ source /etc/environment  # Get the new environment
 # only after installing all conda stuff
 
 conda install --yes -c conda-forge nbval     # use pytest on notebooks
-pip install quantecon
+sudo pip -E install quantecon
 
 # Get docker 
 sudo apt -y remove  man-db # As of 2020-08-16, install of docker freezes at man-db step
@@ -30,15 +30,15 @@ for repo in REMARK HARK DemARK; do
     sudo -u econ-ark git clone --depth 1 https://github.com/econ-ark/$repo
     # Make it all owned by the econ-ark user -- including invisible files like .git
     # Install all requirements
-    [[ -e $repo/requirements.txt ]] && pip install -r $repo/requirements.txt
-    [[ -e $repo/binder/requirements.txt ]] && pip install -r $repo/binder/requirements.txt
+    [[ -e $repo/requirements.txt ]] && sudo pip -E install -r $repo/requirements.txt
+    [[ -e $repo/binder/requirements.txt ]] && sudo pip -E install -r $repo/binder/requirements.txt
 done
 
 echo 'This is your local, personal copy of HARK; it is also installed systemwide.  '      >  HARK-README.md
 echo 'Local mods will not affect systemwide, unless you change the default source via:'   >> HARK-README.md
-echo "   cd $arkHOME ;  pip install -e setup.py "                                         >> HARK-README.md
+echo "   cd $arkHOME ;  sudo pip -E install -e setup.py "                                 >> HARK-README.md
 echo '' >> HARK-README.md
-echo '(You can switch back to the systemwide version using pip install econ-ark)'         >> HARK-README.md
+echo '(You can switch back to the systemwide version using sudo -E pip install econ-ark)' >> HARK-README.md
 echo 'To test whether everything works, in the root directory type:.  '                   >> HARK-README.md
 echo 'pytest '                                                                            >> HARK-README.md
 

@@ -66,6 +66,8 @@ source /etc/environment  # Get the new environment
 # CHOSEN user should have security permissions
 [[ ! -e /etc/sudoers.d ]] && sudo mkdir -p /etc/sudoers.d && sudo chmod a+w /etc/sudoers.d
 if [[ ! -e /etc/sudoers.d/$CHOSEN ]]; then
+    # if the other version was previously active, deactivate it
+    [[ -e /etc/sudoers.d/$NOT_CHOSEN ]] && rm -Rf /etc/sudoers.d/$NOT_CHOSEN
     sudo echo 'Defaults secure_path="/usr/local/'$CHOSEN'/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/snap/bin:/bin"' | sudo tee /etc/sudoers.d/$CHOSEN
 fi
 sudo chmod 555 /etc/sudoers.d # restore proper permissions
