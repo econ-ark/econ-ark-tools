@@ -217,9 +217,9 @@ sudo apt -y update && sudo apt -y upgrade
 # Install either minimal or maximal system
 if [[ "$size" == "MIN" ]]; then
     sudo /var/local/installers/install-conda-x.sh miniconda
-    sudo conda install -c conda-forge pytest
-    sudo conda install -c nbval
-    sudo conda install -c jupyterlab # jupyter notebook is no longer maintained
+    sudo conda install --yes -c conda-forge pytest
+    sudo conda install --yes -c nbval
+    sudo conda install --yes -c jupyterlab # jupyter notebook is no longer maintained
 else
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     
@@ -231,6 +231,8 @@ else
     echo 'scipy, quantecon, and more.' >> XUBUNTARK.md
     echo '' >> XUBUNTARK.md
 fi
+
+sudo apt -y install python-is-python 3
 
 # elpy is for syntax checking in emacs
 sudo pip install elpy

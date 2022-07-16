@@ -36,7 +36,7 @@ source /etc/environment  # Get the new environment
 # Instructions from Anaconda mothership say to install pip stuff
 # only after installing all conda stuff
 
-sudo conda install -c conda-forge nbval     # use pytest on notebooks
+sudo conda install --yes -c conda-forge nbval     # use pytest on notebooks
 sudo pip install quantecon
 
 # Get docker 
@@ -75,7 +75,7 @@ echo 'This is your local, personal copy of REMARK, which you can modify.  '    >
 # Run the automated tests to make sure everything installed properly
 cd /usr/local/share/data/GitHub/econ-ark/HARK
 
-sudo conda install -c anaconda pytest
+sudo conda install --yes -c anaconda pytest
 pytest 
 
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/notebooks
