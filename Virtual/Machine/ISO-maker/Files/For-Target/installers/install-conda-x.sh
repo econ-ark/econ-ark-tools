@@ -1,5 +1,10 @@
 #!/bin/bash
 
+echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
+sudoer=false
+sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
+[[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
+
 bad_syntax=false
 
 [[ "$#" -ne 1 ]] && bad_syntax=true
@@ -22,8 +27,8 @@ mkdir /tmp/$CHOSEN ; cd /tmp/$CHOSEN
 
 # (wisely) gave up on automatically retrieving latest version
 ## 2021.11: Python version is 3.9
-[[ "$CHOSEN" == "$ANA" ]] && LATEST="Anaconda3-2021.11-Linux-x86_64.sh" && URL="repo.anaconda.com/archive"
-[[ "$CHOSEN" == "$MIN" ]] && LATEST="Miniconda3-py39_4.12.0-Linux-x86_64.sh" && URL="repo.anaconda.com/miniconda"
+[[ "$CHOSEN" == "$ANA" ]] && NOT_CHOSEN="$MIN" && LATEST="Anaconda3-2021.11-Linux-x86_64.sh" && URL="repo.anaconda.com/archive"
+[[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST="Miniconda3-py39_4.12.0-Linux-x86_64.sh" && URL="repo.anaconda.com/miniconda"
 
 cmd="wget         -O /tmp/$CHOSEN/$LATEST https://$URL/$LATEST ; cd /tmp/$CHOSEN"
 #echo "$cmd" # show it
@@ -31,8 +36,9 @@ eval "$cmd" # do it
 
 # Prepare the destination
 sudo rm -Rf /usr/local/$CHOSEN
+sudo rm -Rf /usr/local/$NOT_CHOSEN
 
-# make executable
+# make installer executable
 sudo chmod a+x /tmp/$CHOSEN/$LATEST
 
 # install in "-b" batch mode at "-p" path
@@ -40,7 +46,6 @@ sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
 # Add to default enviroment path so that all users can find it
 source /etc/environment
-
 if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
     echo 'Adding '$CHOSEN' to PATH'
     sudo chmod u+w /etc/environment
@@ -57,12 +62,12 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
     # # conda init bash
     # # sudo -u econ-ark      conda init bash
     # # sudo -u econ-ark-xrdp conda init bash
+    source /etc/environment  # Get the new environment
 fi
 
 # Pull in the modified environment
-source /etc/environment  # Get the new environment
 
-# CHOSEN user should have security permissions
+# add /usr/local/$CHOSEN to secure path
 [[ ! -e /etc/sudoers.d ]] && sudo mkdir -p /etc/sudoers.d && sudo chmod a+w /etc/sudoers.d
 if [[ ! -e /etc/sudoers.d/$CHOSEN ]]; then
     # if the other version was previously active, deactivate it
@@ -79,7 +84,7 @@ cd /home
 for dir in */; do
     user=$(basename $dir)
     sudo adduser "$user" conda # Let all users manipulate conda
-    cmd="sudo -u $user "$(which conda)$" init bash"
+    cmd="sudo -u $user "$(which conda)$" init bash >/dev/null"
     eval "$cmd"
 done
 popd    
