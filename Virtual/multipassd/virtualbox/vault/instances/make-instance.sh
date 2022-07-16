@@ -25,7 +25,7 @@ if [ ! -z "$(multipass list | cut -d' ' -f1 | grep $instance)" ]; then # at leas
     fi
 fi
 
-longtime="$(bc <<< 60*60*2)" # 2 hours in seconds
+longtime="$(bc <<< 60*60*8)" # 8 hours in seconds
 # Try to execute null command ":" on remote
 keep_trying="fails=1;until [[ \$fails == 0 ]]; do echo '.. waiting for up status' ; fails=\$(bash -c '(timeout 10 multipass exec "$instance_specs" : ; echo \$?)')  ; done ; multipass shell "$instance_specs
 echo "$keep_trying"
