@@ -55,7 +55,7 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
     sudo chmod u-w /etc/environment # Restore secure permissions for environment
     # This is done below
     # # source /etc/environment
-    # # sudo conda init bash
+    # # conda init bash
     # # sudo -u econ-ark      conda init bash
     # # sudo -u econ-ark-xrdp conda init bash
 fi
@@ -69,12 +69,15 @@ if [[ ! -e /etc/sudoers.d/$CHOSEN ]]; then
     sudo echo 'Defaults secure_path="/usr/local/'$CHOSEN'/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/snap/bin:/bin"' | sudo tee /etc/sudoers.d/$CHOSEN
 fi
 sudo chmod 555 /etc/sudoers.d # restore proper permissions
+sudo group add conda
+sudo chgrp -R conda /usr/local/$CHOSEN
 
 # conda init puts the path to conda in user's ~/.bashrc
 pushd . 
 cd /home
 for dir in */; do
     user=$(basename $dir)
+    sudo adduser "$user" conda # Let all users manipulate conda
     cmd="sudo -u $user "$(which conda)$" init bash"
     eval "$cmd"
 done
@@ -88,8 +91,8 @@ sudo find . -type f -iname ".sh"  -exec chmod a+x {} \;
 sudo find . -type f -iname "..sh" -exec chmod a+x {} \; # Gets csh, zsh, whatever
 popd
 
-# sudo conda install --yes -c conda-forge mamba
-sudo conda activate base
+conda install --yes -c conda-forge mamba
+conda activate base
 
 # Add some final common tools
-sudo conda install --yes -c conda-forge jupyter_contrib_nbextensions
+conda install --yes -c conda-forge jupyter_contrib_nbextensions

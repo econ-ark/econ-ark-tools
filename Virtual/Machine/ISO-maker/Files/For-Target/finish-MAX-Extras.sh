@@ -7,30 +7,6 @@
 # Presence of 'verbose' triggers bash debugging mode
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
-if [[ "$(which conda)" == "/usr/local/anaconda/bin/conda" ]] ; then # It's already installed
-    sudo conda update --yes --all conda    # It's installed, so just update it
-    sudo conda update --yes --all anaconda # It's installed, so just update it
-else
-    /var/local/installers/install-conda-x.sh anaconda
-    source ~/.bashrc # get new environment with path to anaconda
-
-    sudo conda install --yes -c conda-forge mamba 
-    sudo conda activate base 
-    
-    # Add some final common tools
-    sudo mamba install --yes -c anaconda scipy
-    sudo mamba install --yes -c anaconda pyopengl # Otherwise you get an errmsg "Segmentation fault (core dumped)" on some Ubuntu machines
-
-    # Extra packages for MAX
-    sudo apt -y install gv perl-tk texlive-full ripgrep fd-find
-    sudo apt -y install flatpak gnome-software-plugin-flatpak
-    sudo flatpak remote-add --if-not-exists flathub https://flathub.org/repo/flathub.flatpakrepo
-    sudo flatpak -y install flathub org.gnu.emacs
-
-fi
-
-sudo pip uninstall --yes econ-ark ; sudo conda install --yes -c conda-forge econ-ark # pip install econ-ark
-
 source /etc/environment  # Get the new environment
 
 # Instructions from Anaconda mothership say to install pip stuff
@@ -45,7 +21,7 @@ sudo apt -y install docker
 
 arkHome=/usr/local/share/data/GitHub/econ-ark
 mkdir -p "$arkHome"
-sudo chown econ-ark:econ-ark $arkHome
+sudo chown -Rf econ-ark:econ-ark $arkHome
 
 cd "$arkHome"
 
@@ -75,7 +51,7 @@ echo 'This is your local, personal copy of REMARK, which you can modify.  '    >
 # Run the automated tests to make sure everything installed properly
 cd /usr/local/share/data/GitHub/econ-ark/HARK
 
-sudo conda install --yes -c anaconda pytest
+conda install --yes -c anaconda pytest
 pytest 
 
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/notebooks

@@ -55,6 +55,7 @@ sudo /var/local/installers/install-gh-cli-tools.sh
 
 # LaTeX - minimal (required for auctex install on emacs)
 sudo apt -y install texlive-latex-base
+[[ "$(which emacs)"  != "" ]] && sudo emacs -batch -eval "(setq debug-on-error t)" -l /root/.emacs
 
 # Prepare for emacs install
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
@@ -216,13 +217,16 @@ sudo apt -y update && sudo apt -y upgrade
 
 # Install either minimal or maximal system
 if [[ "$size" == "MIN" ]]; then
-    sudo /var/local/installers/install-conda-x.sh miniconda
-    sudo conda install --yes -c conda-forge pytest
-    sudo conda install --yes -c nbval
-    sudo conda install --yes -c jupyterlab # jupyter notebook is no longer maintained
+    /var/local/installers/install-conda-x.sh miniconda
+    sudo pip install --yes econ-ark 
+    conda install --yes -c nbval
+    conda install --yes -c jupyterlab # jupyter notebook is no longer maintained
+    conda install --yes -c conda-forge pytest
+    conda install --yes -c conda-forge nbval     # use pytest on notebooks
 else
+    /var/local/installers/install-conda-x.sh anaconda
+    sudo pip install --yes econ-ark 
     sudo chmod +x /var/local/finish-MAX-Extras.sh
-    
     sudo /var/local/finish-MAX-Extras.sh
     source /etc/environment # Update the path
     echo '' >> XUBUNTARK.md
@@ -232,13 +236,13 @@ else
     echo '' >> XUBUNTARK.md
 fi
 
-sudo apt -y install python-is-python 3
+sudo apt -y install python-is-python3
 
 # elpy is for syntax checking in emacs
 sudo pip install elpy
 
 # Now that elpy has been installed, rerun the emacs setup to connect to it
-emacs -batch -l     /root/.emacs  # Run in batch mode to setup everything
+emacs -batch --eval "(setq debug-on-error t)" -l     /root/.emacs  # Run in batch mode to setup everything
 
 cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
 
@@ -261,7 +265,6 @@ sudo pip install ipywidgets
 sudo apt -y install nodejs
 
 # Install systemwide copy of econ-ark 
-sudo pip install --upgrade econ-ark
 sudo pip install --upgrade nbreproduce
 
 # Install user-owned copies of useful repos

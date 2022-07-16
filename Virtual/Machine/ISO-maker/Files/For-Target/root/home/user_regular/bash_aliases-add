@@ -94,19 +94,11 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
 	# view "About This Machine"
 	## temporarily suppress any wrnmsg or errmsg
 	echo '(setq warning-minimum-level :emergency)' >> /home/$USER/.emacs_aliases
-	emacs --name "Emacs Editor" --geometry 80x28-100+0 /var/local/About_This_Install/XUBUNTARK.md &> /dev/null  &
+	emacs --eval "(setq byte-compile-error-on-warn nil)" --name "Emacs Editor" --geometry 80x28-100+0 /var/local/About_This_Install/XUBUNTARK.md &> /dev/null  &
 	sleep 2 # give emacs plenty of time to process before deleting 
 	sed -i "$ d" /home/$USER/.emacs_aliases # Remove the temporary suppression 
 
-	# echo ''
-	# echo 'Now download the installer ISO to the Desktop of this machine'
-	# echo '(So you can recreate the machine in its pristine form later)'
-	# echo ''
-	# echo ''
-	# echo 'Hit return to launch firefox at the appropriate link:'
-	# read answer
-
-	# firefox 'https://drive.google.com/drive/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD?usp=sharing' &
+	firefox 'https://econ-ark.org'
 	touch /home/$USER/.gui_user_login_second.flag
     fi
 
