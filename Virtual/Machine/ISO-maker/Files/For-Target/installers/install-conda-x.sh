@@ -76,7 +76,8 @@ if [[ ! -e /etc/sudoers.d/$CHOSEN ]]; then
 fi
 sudo chmod 555 /etc/sudoers.d # restore proper permissions
 sudo groupadd conda # probably already exists; but if not ...
-sudo chgrp -R conda /usr/local/$CHOSEN
+sudo chgrp -R conda /usr/local/$CHOSEN # owned by group conda
+sudo chmod g+rw     /usr/local/$CHOSEN # members can modify
 
 # conda init puts the path to conda in user's ~/.bashrc
 pushd . 
