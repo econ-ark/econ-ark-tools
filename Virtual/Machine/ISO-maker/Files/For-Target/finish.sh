@@ -19,8 +19,7 @@ sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var
 sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local/status/install-xubuntu-desktop.log'
 
 # on some vm's it is necessary to stop then restart the vm before it works
-sudo service lightdm stop
-sudo service lightdm start
+# sudo service lightdm stop; sudo service lightdm start
 
 cd /var/local
 
@@ -304,4 +303,7 @@ tail_monitor="$(pgrep tail | grep -v pgrep)"
 touch /var/local/status/finished-software-install.flag 
 
 sudo chmod -Rf a+rw /var/local/status
+
+sudo apt -y autoremove # Remove unused packages
+
 sudo reboot
