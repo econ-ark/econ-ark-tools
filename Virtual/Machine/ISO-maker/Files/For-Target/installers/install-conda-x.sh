@@ -36,7 +36,7 @@ sudo rm -Rf /usr/local/$CHOSEN
 sudo chmod a+x /tmp/$CHOSEN/$LATEST
 
 # install in "-b" batch mode at "-p" path
-/tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
+sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
 # Add to default enviroment path so that all users can find it
 source /etc/environment
