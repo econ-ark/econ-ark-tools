@@ -171,5 +171,8 @@ sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable
 sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
 sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
 
+# Tools to detect various kinds of hardware
+sudo apt -y install xserver-xorg-input-libinput xserver-xorg-input-evdev xserver-xorg-input-mouse xserver-xorg-input-synaptics
+
 # When run by late_command, the machine will reboot after finishing start.sh
 # rc.local will then notice that 'finish.sh' has not been run, and will run it
