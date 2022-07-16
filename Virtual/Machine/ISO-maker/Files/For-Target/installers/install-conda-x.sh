@@ -9,7 +9,6 @@ CHOSEN=$(echo $1 | tr '[:upper:]' '[:lower:]')
 # CHOSEN=miniconda
 ANA='anaconda' && MIN='miniconda'
 
-echo $CHOSEN
 [[ "$CHOSEN" != "$ANA" ]] && [[ "$CHOSEN" != "$MIN" ]] && bad_syntax=true
 
 if [[ "$bad_syntax" == true ]]; then
@@ -24,7 +23,7 @@ mkdir /tmp/$CHOSEN ; cd /tmp/$CHOSEN
 # (wisely) gave up on automatically retrieving latest version
 ## 2021.11: Python version is 3.9
 [[ "$CHOSEN" == "$ANA" ]] && LATEST="Anaconda3-2021.11-Linux-x86_64.sh" && URL="repo.anaconda.com/archive"
-[[ "$CHOSEN" == "$MIN" ]] && LATEST="Miniconda3-py39_4.12.0-Linux-x86_64.sh" && URL="repo.anaconda.com"
+[[ "$CHOSEN" == "$MIN" ]] && LATEST="Miniconda3-py39_4.12.0-Linux-x86_64.sh" && URL="repo.anaconda.com/miniconda"
 
 cmd="wget         -O /tmp/$CHOSEN/$LATEST https://$URL/$LATEST ; cd /tmp/$CHOSEN"
 echo "$cmd" # show it
