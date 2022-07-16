@@ -36,7 +36,7 @@ avahi-daemon --reload
 refindFile="refind-install-MacOS.sh"
 
 curl -L -o /var/local/grub-menu.sh $online/grub-menu.sh 
-curl -L -o /var/local/Econ-ARK.VolumeIcon.icns $online/Disk/Icons/Econ-ARK.VolumeIcon.icns
+curl -L -o /var/local/Econ-ARK.VolumeIcon.icns $online/root/EFI/BOOT/Econ-ARK.VolumeIcon.icns
 curl -L -o /var/local/Econ-ARK.disk_label      $online/Disk/Labels/Econ-ARK.disklabel    
 curl -L -o /var/local/Econ-ARK.disk_label_2x   $online/Disk/Labels/Econ-ARK.disklabel_2x 
 curl -L -o /var/local/$refindFile $online/$refindFile
@@ -238,7 +238,7 @@ if [[ "$hfsplusLabels" != "" ]]; then
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /tmp/refind-HFS/.VolumeIcon.icns
     sudo cp /var/local/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns
     sudo chmod a+x /tmp/refind-HFS/*.sh
-    sudo curl -L -o /tmp/refind-HFS https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/ISO-maker/Disk/Icons/os_refit.icns /tmp/refind-HFS/.VolumeIcon.icns
+    sudo curl -L -o /tmp/refind-HFS https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/Machine/ISO-maker/root/.VolumeIcon.icns.icns /tmp/refind-HFS/.VolumeIcon.icns
     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')

@@ -270,7 +270,7 @@ echo 'eval $(/usr/bin/gnome-keyring-daemon --start --components=pks11,secrets,ss
 
 # echo '[[ -n "$DESKTOP_SESSION" ]] && eval $(gnome-keyring-daemon --start) && export SSH_AUTH_SOCK' >> /home/$myuser/.bash_profile
 # # # For some reason the pattern for the url this image doesn't fit the pattern of other downloads
-# wget -O  /var/local/Econ-ARK.VolumeIcon.icns           https://github.com/econ-ark/econ-ark-tools/raw/$branch/Virtual/Machine/ISO-maker/Disk/Icons/Econ-ARK.VolumeIcon.icns
+# wget -O  /var/local/Econ-ARK.VolumeIcon.icns           https://github.com/econ-ark/econ-ark-tools/raw/$branch/Virtual/Machine/ISO-maker/Files/For-Target/root/Econ-ARK.VolumeIcon.icns
 
 # Desktop backdrop 
 # #wget -O  /var/local/Econ-ARK-Logo-1536x768.jpg    $online/Econ-ARK-Logo-1536x768.jpg

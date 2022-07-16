@@ -181,8 +181,8 @@ cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
 ## The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
 if [[ -e /EFI/BOOT ]]; then
-    cp /var/local/Disk/Labels/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
-    cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
+    cp /var/local/root/EFI/BOOT/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
+    cp /var/local/root/EFI/BOOT/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
     echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 fi
 

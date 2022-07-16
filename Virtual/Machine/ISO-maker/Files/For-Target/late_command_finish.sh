@@ -9,9 +9,9 @@ cat /tmp/target-partition | grep -v vfat | grep '/dev' | grep -v 'loop' | grep -
 sd=$(cat /tmp/target-dev)
 
 # On Macs, this should allow nice icons when disk is viewed
-cp /var/local/Disk/Labels/Econ-ARK.disk_label     /Econ-ARK.disk_label 
-cp /var/local/Disk/Labels/Econ-ARK.disk_label_2x  /Econ-ARK.disk_label_2x 
-cp /var/local/Disk/Icons/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns 
+cp /var/local/root/EFI/BOOT/Econ-ARK.disk_label     /EFI/BOOT/Econ-ARK.disk_label 
+cp /var/local/root/EFI/BOOT/Econ-ARK.disk_label_2x  /EFI/BOOT/Econ-ARK.disk_label_2x 
+cp /var/local/root/EFI/BOOT/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns 
 echo Econ-ARK > /.disk_label.contentDetails
 
 # Tools that allow machine to recognize many devices without open drivers
