@@ -22,7 +22,7 @@ myhome=/home/$myuser
 localhome=var/local/root/home # templates
 
 install_time="$(date +%Y%m%d%H%M)"
-build_date="$(</var/local/status/build_date)"
+build_date="$(</var/local/status/build_date.txt)"
 ## Create .emacs files
 [[ -e $myhome/.emacs ]] && mv $myhome/.emacs $myhome/.emacs_orig_$install_time
 

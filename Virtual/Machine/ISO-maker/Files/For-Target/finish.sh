@@ -39,7 +39,7 @@ build_time="$(</var/local/status/build_time.txt)"
 
 new_hostname="xubark-$commit_date-$commit_hash"
 # short hostname: xubark+date of commit
-[[ ! -e /var/local/status/verbose ]] && new_hostname="xubark-$commit_date" && echo "$new_hostname" > /var/local/status/date_commit
+[[ ! -e /var/local/status/verbose ]] && new_hostname="xubark-$commit_date" && echo "$new_hostname" > /var/local/status/new_hostname
 
 if [[ "$default_hostname" == "-" ]]; then # not yet defined
     echo "$new_hostname" > /etc/hostname

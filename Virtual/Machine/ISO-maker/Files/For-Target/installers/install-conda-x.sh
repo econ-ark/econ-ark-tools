@@ -26,7 +26,7 @@ mkdir /tmp/$CHOSEN ; cd /tmp/$CHOSEN
 [[ "$CHOSEN" == "$MIN" ]] && LATEST="Miniconda3-py39_4.12.0-Linux-x86_64.sh" && URL="repo.anaconda.com/miniconda"
 
 cmd="wget         -O /tmp/$CHOSEN/$LATEST https://$URL/$LATEST ; cd /tmp/$CHOSEN"
-echo "$cmd" # show it
+#echo "$cmd" # show it
 eval "$cmd" # do it
 
 # Prepare the destination
