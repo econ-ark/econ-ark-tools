@@ -1,1 +1,1 @@
-finish.sh_configure_users_with_.-config-add-user.sh
+Must_source_~-.bashrc_after_installing_[x]conda
