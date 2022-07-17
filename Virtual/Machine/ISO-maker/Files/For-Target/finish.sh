@@ -217,14 +217,14 @@ sudo apt -y update && sudo apt -y upgrade
 # Install either minimal or maximal system
 if [[ "$size" == "MIN" ]]; then
     /var/local/installers/install-conda-x.sh miniconda
-    sudo -E pip install --yes econ-ark 
-    conda install --yes -c nbval
-    conda install --yes -c jupyterlab # jupyter notebook is no longer maintained
+    pip install --quiet econ-ark 
+    conda install --yes -c conda-forge nbval --yes 
+    conda install --yes -c conda-forge jupyterlab # jupyter notebook is no longer maintained
     conda install --yes -c conda-forge pytest
     conda install --yes -c conda-forge nbval     # use pytest on notebooks
 else
     /var/local/installers/install-conda-x.sh anaconda
-    sudo -E pip install --yes econ-ark 
+    pip install --quiet econ-ark 
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
     source /etc/environment # Update the path
@@ -238,7 +238,7 @@ fi
 sudo apt -y install python-is-python3
 
 # elpy is for syntax checking in emacs
-sudo -E pip install elpy
+sudo -H pip install elpy
 
 # Now that elpy has been installed, rerun the emacs setup to connect to it
 emacs -batch --eval "(setq debug-on-error t)" -l     /root/.emacs  # Run in batch mode to setup everything
@@ -247,24 +247,22 @@ cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
 
 mv /var/local/XUBUNTARK.md /var/local/About_This_Install
 
-# 20220602: For some reason jinja2 version obained by sudo -E pip install is out of date
-sudo -E pip install jinja2
+# 20220602: For some reason jinja2 version obained by pip install is out of date
+pip install jinja2
 
 # Configure jupyter notebook tools
 
-sudo -E pip install jupyter_contrib_nbextensions
+sudo apt -y install nodejs
 sudo jupyter contrib nbextension install
 sudo jupyter nbextension enable codefolding/main
 sudo jupyter nbextension enable codefolding/edit
 sudo jupyter nbextension enable toc2/main
 sudo jupyter nbextension enable collapsible_headings/main
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+#curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo jupyter labextension install jupyterlab-jupytext
-sudo -E pip install ipywidgets
-sudo apt -y install nodejs
 
-# Install systemwide copy of econ-ark 
-sudo -E pip install --upgrade nbreproduce
+# Install systemwide copy of nbreproduce
+pip install --upgrade nbreproduce
 
 # Install user-owned copies of useful repos
 # Download and extract HARK, REMARK, DemARK, econ-ark-tools from GitHub
