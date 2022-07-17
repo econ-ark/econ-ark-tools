@@ -218,7 +218,7 @@ sudo apt -y update && sudo apt -y upgrade
 if [[ "$size" == "MIN" ]]; then
     /var/local/installers/install-conda-x.sh miniconda
     pip install --quiet econ-ark 
-    conda install --yes -c conda-forge nbval --yes 
+    conda install --yes -c conda-forge nbval
     conda install --yes -c conda-forge jupyterlab # jupyter notebook is no longer maintained
     conda install --yes -c conda-forge pytest
     conda install --yes -c conda-forge nbval     # use pytest on notebooks
