@@ -10,9 +10,9 @@ vncuser="econ-ark"
 rdpuser="econ-ark-xrdp"
 mypass="kra-noce"
 
-# enable connection by ssh
-sudo apt -y install openssh-server
-sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
+# # enable connection by ssh
+# sudo apt -y install openssh-server
+# sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
 sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
 
 # xubuntu desktop
