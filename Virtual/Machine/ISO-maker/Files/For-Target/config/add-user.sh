@@ -31,9 +31,9 @@
     bashadd=$user_dir/.bash_aliases
     [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-$datetime"
     if [[ "$user" == "root" ]]; then
-	ln -s /var/local/root/home/user_root/bash_aliases "$bashadd"
+	ln -s /var/local/sys_root_dir/home/user_root/bash_aliases "$bashadd"
     else
-	ln -s /var/local/root/home/user_regular/bash_aliases "$bashadd"
+	ln -s /var/local/sys_root_dir/home/user_regular/bash_aliases "$bashadd"
     fi
 
     # Make ~/.bash_aliases be owned by the user instead of root

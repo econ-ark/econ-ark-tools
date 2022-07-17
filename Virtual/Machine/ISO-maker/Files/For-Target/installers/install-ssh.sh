@@ -9,7 +9,7 @@ myuser="$1"
 
 [[ -e /var/local/status/verbose ]] && set -x && set -v 
 # If our sshd_conf is different from one in /etc/sshd_config ...
-# diff /var/local/root/etc/ssh/sshd_config /etc/sshd_config > /dev/null
+# diff /var/local/sys_root_dir/etc/ssh/sshd_config /etc/sshd_config > /dev/null
 # ... then it's because this is the first time we're running the script
 # ... so install the openssh-server
 #[[ "$?" != 0 ]] && sudo apt -y install openssh-server
@@ -32,7 +32,7 @@ fi
 build_date="$(</var/local/status/build_date.txt)"
 # Enable public key authentication
 cd /var/local
-[[ -e root/etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_$build_date
+[[ -e /var/local/sys_root_dir/etc/ssh/sshd_config ]] && [[ -e /etc/ssh/sshd_config ]] && sudo cp /etc/ssh/sshd_config /etc/ssh/sshd_config_$build_date
 
 sudo apt -y install sshfs
 
@@ -43,7 +43,7 @@ inside_chroot=true ; ischroot ; [[ "$?" != 0 ]] && inside_chroot=false
 [[ "$inside_chroot" != "true" ]] && sudo systemctl stop ssh
 
 # Change the config
-sudo cp root/etc/ssh/sshd_config /etc/ssh/sshd_config
+sudo cp /var/local/sys_root_dir/etc/ssh/sshd_config /etc/ssh/sshd_config
 
 # Restart ssh 
 [[ "$inside_chroot" != "true" ]] && sudo systemctl start ssh

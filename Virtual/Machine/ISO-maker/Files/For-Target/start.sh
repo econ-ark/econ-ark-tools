@@ -49,18 +49,18 @@ sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local
 # Our version sequences the rest of the installation 
 [[ ! -e /etc/rc.local ]] && touch /etc/rc.local 
 mv /etc/rc.local /etc/rc.local_orig 
-cp /var/local/root/etc/rc.local /etc/rc.local
+cp /var/local/sys_root_dir/etc/rc.local /etc/rc.local
 
 # .bash_aliases contains the stuff that is executed at the first and second boots of gui users
 if ! grep -q root /root/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
     # Same bash shell for root user
-    sudo ln -s /var/local/root/home/user_root/bash_aliases /root/.bash_aliases 
+    sudo ln -s /var/local/sys_root_dir/home/user_root/bash_aliases /root/.bash_aliases 
     sudo chmod a+x /root/.bash_aliases
 fi
 
 for user in $vncuser $rdpuser; do
     if ! grep -q $user /home/$user/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
-	sudo ln -s /var/local/root/home/user_regular/bash_aliases /home/$user/.bash_aliases # add them
+	sudo ln -s /var/local/sys_root_dir/home/user_regular/bash_aliases /home/$user/.bash_aliases # add them
 	sudo chmod a+x /home/$user/.bash_aliases # ensure correct permissions
 	sudo chown $user:$user /home/$user/.bash_aliases # ensure correct ownership
     fi
@@ -123,15 +123,15 @@ auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by 
 fi
 
 # Make place to store/record stuff that will be installed
-sudo mkdir -p /var/local/root/etc/lightdm.conf.d
+sudo mkdir -p /var/local/sys_root_dir/etc/lightdm.conf.d
 sudo mkdir -p /etc/lightdm/lightdm.conf.d
-sudo mkdir -p /var/local/root/home/$vncuser
+sudo mkdir -p /var/local/sys_root_dir/home/$vncuser
 
 build_date="$(</var/local/status/build_date.txt)"
 # Store original lightdm.conf, and substitute ours
 [[ -e /usr/share/lightdm/lightdm.conf ]] && mv /usr/share/lightdm/lightdm.conf /usr/share/lightdm/lightdm.conf_$build_date
 [[ -e /etc/lightdm/lightdm.conf ]]       && mv /etc/lightdm/lightdm.conf /etc/lightdm/lightdm.conf_$build_date
-sudo         cp  /var/local/root/etc/lightdm/lightdm-gtk-greeter.conf    /etc/lightdm/lightdm-gtk-greeter.conf
+sudo         cp  /var/local/sys_root_dir/etc/lightdm/lightdm-gtk-greeter.conf    /etc/lightdm/lightdm-gtk-greeter.conf
 
 
 # Allow interactive commands to be preseeded

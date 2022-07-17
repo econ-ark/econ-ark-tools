@@ -1,2 +1,0 @@
-;;; # -*- mode: emacs-lisp ;-*- ;;; Forces editing in emacs-mode
-(load "/var/local/root/home/user_only_for_root/dotemacs_root_and_regular_users")

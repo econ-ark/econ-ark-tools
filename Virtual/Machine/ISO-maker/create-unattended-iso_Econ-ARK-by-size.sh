@@ -338,16 +338,16 @@ eval "$cmd"
 # The new icons only appear on a few machines (e.g. Retina 2014 MBPro)
 sudo chmod -Rf a+rw $iso_make
 
-sudo cp $pathToScript/root/EFI/BOOT/ARKINSTALL.disk_label     $iso_make/iso_new/EFI/BOOT/.disk_label
-sudo cp $pathToScript/root/EFI/BOOT/ARKINSTALL.disk_label_2x  $iso_make/iso_new/EFI/BOOT/.disk_label_2x
+sudo cp $pathToScript/sys_root_dir/EFI/BOOT/ARKINSTALL.disk_label     $iso_make/iso_new/EFI/BOOT/.disk_label
+sudo cp $pathToScript/sys_root_dir/EFI/BOOT/ARKINSTALL.disk_label_2x  $iso_make/iso_new/EFI/BOOT/.disk_label_2x
 sudo echo ARKINSTALL                                      > $iso_make/iso_new/EFI/BOOT/.disk_label.contentDetails
-sudo cp $pathToScript/root/EFI/BOOT/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/EFI/BOOT/.VolumeIcon.icns
-sudo cp $pathToScript/root/EFI/BOOT/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.VolumeIcon.icns
+sudo cp $pathToScript/sys_root_dir/EFI/BOOT/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/EFI/BOOT/.VolumeIcon.icns
+sudo cp $pathToScript/sys_root_dir/EFI/BOOT/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.VolumeIcon.icns
 
-sudo cp $pathToScript/root/EFI/BOOT/Econ-ARK.disk_label     $iso_make/iso_new/preseed/Econ-ARK.disk_label
-sudo cp $pathToScript/root/EFI/BOOT/Econ-ARK.disk_label_2x  $iso_make/iso_new/preseed/Econ-ARK.disk_label_2x
+sudo cp $pathToScript/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label     $iso_make/iso_new/preseed/Econ-ARK.disk_label
+sudo cp $pathToScript/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label_2x  $iso_make/iso_new/preseed/Econ-ARK.disk_label_2x
 sudo echo Econ-ARK                                      > $iso_make/iso_new/preseed/Econ-ARK.disk_label.contentDetails
-sudo cp $pathToScript/root/EFI/BOOT/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/preseed/Econ-ARK.VolumeIcon.icns
+sudo cp $pathToScript/sys_root_dir/EFI/BOOT/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/preseed/Econ-ARK.VolumeIcon.icns
 
 # Constraint: Nothing can be copied from the installer ISO to target
 # because the system that installs everything derives instead from initrd
@@ -550,7 +550,7 @@ rpl --quiet 'timeout 300' 'timeout 10'  isolinux/isolinux.cfg # Shuts down langu
 
 # 32 bit bootloader obtained from Ubuntu-Server 18.04 EFI/BOOT
 
-cp $pathToScript/$ForTarget/root/EFI/BOOT/bootia32.efi $iso_make/iso_new/EFI/BOOT
+cp $pathToScript/$ForTarget/sys_root_dir/EFI/BOOT/bootia32.efi $iso_make/iso_new/EFI/BOOT
 # Some configurations expect the efi file at /boot/efi/EFI/BOOT
 mkdir -p $iso_make/iso_new/boot/efi/EFI/BOOT/
 cp $iso_make/iso_new/EFI/BOOT/grubx64.efi $iso_make/iso_new/boot/efi/EFI/BOOT/grubx64.efi  

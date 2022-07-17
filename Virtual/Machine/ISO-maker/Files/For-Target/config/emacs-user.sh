@@ -19,7 +19,7 @@ myhome=/home/$myuser
 
 [[ ! -e $shared/.emacs.d ]] && echo 'First run installers/install-emacs.sh to create root setup' && exit
 
-localhome=var/local/root/home # templates
+localhome=var/local/sys_root_dir/home # templates
 
 install_time="$(date +%Y%m%d%H%M)"
 build_date="$(</var/local/status/build_date.txt)"

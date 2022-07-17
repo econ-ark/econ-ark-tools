@@ -28,7 +28,7 @@ shared_root=$shared/$user_root
 [[ -e /root/.emacs   ]] && mv /root/.emacs         /root/.emacs_orig_$install_time
 [[ -e /root/.emacs.d ]] && mv /root/.emacs.d       /root/.emacs.d_orig_$install_time
 
-localhome=var/local/root/home
+localhome=var/local/sys_root_dir/home
 
 # copy so user can change it; make link so user knows origin
 cp    /$localhome/user_root/dotemacs-root-user /root/.emacs

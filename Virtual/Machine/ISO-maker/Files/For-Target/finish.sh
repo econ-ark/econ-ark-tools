@@ -118,7 +118,7 @@ sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-sca
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
 
-cp /var/local/root/etc/avahi/avahi-daemon.conf /etc/avahi
+cp /var/local/sys_root_dir/etc/avahi/avahi-daemon.conf /etc/avahi
 
 # Enable ssh over avahi
 cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
@@ -126,8 +126,8 @@ cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
 ## The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
 if [[ -e /EFI/BOOT ]]; then
-    cp /var/local/root/EFI/BOOT/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
-    cp /var/local/root/EFI/BOOT/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
+    cp /var/local/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
+    cp /var/local/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
     echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 fi
 
@@ -224,7 +224,7 @@ sudo apt-get install unattended-upgrades
 
 sudo mkdir -p /etc/apt/apt.conf.d
 [[ -e /etc/apt/apt.conf.d/20auto-upgrades ]] && sudo mv /etc/apt/apt.conf.d/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades_orig
-sudo cp /var/local/root/etc/apt/apt.conf.d/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades 
+sudo cp /var/local/sys_root_dir/etc/apt/apt.conf.d/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades 
 
 # Restore printer services (disabled earlier because sometimes cause hang of boot)
 sudo systemctl enable cups-browsed.service 
