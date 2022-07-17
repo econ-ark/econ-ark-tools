@@ -1,15 +1,17 @@
 #!/bin/bash
-# This gets run by late_command during creation of the VM
-# It installs the xubuntu-desktop server and other core tools
+# This script gets run by late_command during creation of the VM
+
+# It creates the econ-ark and econ-ark-xrdp users
+# and does other prep for installation of xubuntu-desktop
 
 # To redo the whole installation sequence (without having to redownload anything):
-# sudo bash -c '(rm -f /var/local/status/finished-software-install.flag ; rm -f /var/local/status/boot_first.flag ; rm -f /var/local/status/boot_second.flag ; rm -f /home/econ-ark/.gui_user_login_first.flag; rm -f /home/econ-ark/.gui_user_login_second.flag)' >/dev/null
+# cd /var/local/status ; rm *.flag ; sudo start.sh
 
 # Presence of 'verbose' triggers bash debugging mode
 [[ -e /var/local/status/verbose ]] && set -x && set -v && apt -y install emacs
 
 # Record date and time at which install script is running
-# Used to mark date of original versions of files replaced
+# Used to mark date of original versions of any files replaced
 build_date="$(date +%Y%m%d)"
 build_time="$(date +%Y%m%d%H%M)"
 
@@ -18,8 +20,6 @@ echo "$build_time" > /var/local/status/build_time.txt
 
 # Remove /var/local/status/finished-software-install.flag to reinstall stuff installed here
 [[ -e /var/local/status/finished-software-install.flag ]] && rm -f /var/local/status/finished-software-install.flag
-# To redo the whole installation sequence (without having to redownload anything):
-# sudo bash -c '(rm -f /var/local/status/finished-software-install.flag ; rm -f /var/local/status/boot_first.flag ; rm -f /var/local/status/boot_second.flag ; rm -f /home/econ-ark/.gui_user_login_first.flag; rm -f /home/econ-ark/.gui_user_login_second.flag)' >/dev/null
 
 # Resources
 vncuser="econ-ark"  # Don't sudo because it needs to be an environment variable
