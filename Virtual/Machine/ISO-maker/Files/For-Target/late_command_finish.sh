@@ -9,6 +9,7 @@ cat /tmp/target-partition | grep -v vfat | grep '/dev' | grep -v 'loop' | grep -
 sd=$(cat /tmp/target-dev)
 
 # On Macs, this should allow nice icons when disk is viewed
+mkdir -p /EFI/BOOT/
 cp /var/local/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label     /EFI/BOOT/Econ-ARK.disk_label 
 cp /var/local/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label_2x  /EFI/BOOT/Econ-ARK.disk_label_2x 
 cp /var/local/sys_root_dir/EFI/BOOT/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns 
