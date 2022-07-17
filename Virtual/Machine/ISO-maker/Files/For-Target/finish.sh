@@ -56,11 +56,6 @@ sudo /var/local/installers/install-gh-cli-tools.sh
 sudo apt -y install texlive-latex-base
 [[ "$(which emacs)"  != "" ]] && sudo emacs -batch -eval "(setq debug-on-error t)" -l /root/.emacs
 
-# Prepare for emacs install
-sudo apt -y install xsel xclip # Allow interchange of clipboard with system
-sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
-
-sudo apt -y reinstall emacs # Might have already been installed; update if so
 sudo /var/local/installers/install-emacs.sh |& tee /var/local/status/install-emacs.log
 
 # Install Chrome browser 
@@ -114,56 +109,6 @@ online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"
 
 for user in $vncuser $rdpuser root; do
 
-    user_dir=/home/$user && [[ "$user" == "root" ]] && user_dir=/root
-
-    # Configure emacs
-    sudo -u $user /var/local/config/emacs-user.sh $user
-
-    # Let user control networks
-    sudo adduser  $user netdev
-
-    # Get to systemwide GitHub via ~/GitHub whoever you are
-    [[ ! -e $user_dir/GitHub ]] && ln -s /usr/local/share/data/GitHub $user_dir/GitHub
-    [[ ! -e $user_dir/installer ]] && [[ -e /installer ]] && [[ ! -z /installer ]] && ln -s /installer $user_dir/installer
-
-    # Everything should be accessible to members of the econ-ark group
-    [[ "$user" != "root" ]] && chown -Rf $user:econ-ark $user_dir
-
-    # Remove the linux automatically created directories like "Music" and "Pictures"
-    # Leave only required directories Downloads and Desktop
-    cd $user_dir
-    for d in ./*/; do
-	if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]] && [[ ! "$d" == "./GitHub/" ]] && [[ ! "$d" == "./thinclient_drives" ]]; then
-	    rm -Rf "$d"
-	fi
-    done
-
-    # Add stuff to bash login script
-    bashadd=$user_dir/.bash_aliases
-    [[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-$datetime"
-    if [[ "$user" == "root" ]]; then
-	ln -s /var/local/root/home/user_root/bash_aliases "$bashadd"
-    else
-	ln -s /var/local/root/home/user_regular/bash_aliases "$bashadd"
-    fi
-
-    # Make ~/.bash_aliases be owned by the user instead of root
-    chmod a+x "$bashadd"
-    chown $user:$user "$bashadd" 
-
-    sudo -u $user xdg-settings set default-web-browser google-chrome.desktop
-
-    # Make sure that everything in the home user's path is owned by home user 
-    chown -Rf $user:$user $user_dir
-
-    if [[ ! "$user" == "root" ]]; then # never run latex as root
-	# Configure latexmkrc: https://mg.readthedocs.io/latexmk.html
-	ltxmkrc=$user_dir/.latekmkrc
-	echo "'"'$dvi_previewer = start xdvi -watchfile 1.5'"';" > "$ltxmkrc"
-	echo "'"'$ps_previewer = start gv --watch'"';" >> "$ltxmkrc"
-	echo "'"'$pdf_previewer = start evince'"';" >> "$ltxmkrc"
-    fi
-    
 done
 
 # Play nice with Macs (in hopes of being able to monitor it)

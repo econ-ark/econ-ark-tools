@@ -1,12 +1,16 @@
 #!/bin/bash
 # Installs emacs for root user and creates systemwide resources
 
+sudo apt -y reinstall emacs # Might have already been installed; update if so
+
 echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
 sudoer=false
 sudo -v &> /dev/null && echo '... sudo privileges are available.' && sudoer=true
 [[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
 
-# Install emacs before the gui because it crashes when run in batch mode on gtk
+# Prepare for emacs install
+sudo apt -y install xsel xclip # Allow interchange of clipboard with system
+sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
 
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
@@ -18,16 +22,17 @@ user_root=user/root
 
 install_time="$(date +%Y%m%d%H%M)"
 # Create .emacs stuff
-## Preserve any existing original config for root user
+## Preserve any existing prior config for root user
+## (Allows nondestructive running for user who already had configured emacs)
 shared_root=$shared/$user_root
-[[ -e /root/.emacs   ]]        && mv /root/.emacs         /root/.emacs_orig_$install_time
-# [[ -e $shared_root/.emacs.d ]] && mv $shared/.emacs.d $shared/.emacs.d_orig_$install_time
+[[ -e /root/.emacs   ]] && mv /root/.emacs         /root/.emacs_orig_$install_time
+[[ -e /root/.emacs.d ]] && mv /root/.emacs.d       /root/.emacs.d_orig_$install_time
 
 localhome=var/local/root/home
 
 # copy so user can change it; make link so user knows origin
 cp    /$localhome/user_root/dotemacs-root-user /root/.emacs
-ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs_econ-ark_githash_$(</var/local/About_This_Install/short.git-hash)
+ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs_econ-ark-tools_githash_$(</var/local/About_This_Install/short.git-hash)
 
 # Set up gpg security before emacs itself
 # avoids error messages
@@ -35,7 +40,6 @@ ln -s /$localhome/user_root/dotemacs-root-user /root/.emacs_econ-ark_githash_$(<
 sudo gpg -vv --keyserver hkps://keyserver.ubuntu.com --list-keys
 if [[ "$?" != 0 ]]; then
     echo 'Error in setting up GPG keys; retry using\n    /var/local/installers/install-emacs.sh\n' >> /var/local/About_This_Install/XUBUNTARK_body.md
-    exit
 else
     sudo gpg -vv --keyserver hkps://keyserver.ubuntu.com --receive-keys 066DAFCB81E42C40
     sudo ln -s /root/.gnupg $shared/.gnupg
