@@ -9,7 +9,7 @@
 
 # Presence of 'verbose' triggers bash debugging mode
 
-[[ -e /var/local/status/verbose ]] && set -x && set -v && apt -y install emacs
+[[ -e /var/local/status/verbose ]] && set -x && set -v
 
 # Record date and time at which install script is running
 # Used to mark date of original versions of any files replaced
