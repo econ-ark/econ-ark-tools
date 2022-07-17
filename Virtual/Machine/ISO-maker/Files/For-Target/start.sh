@@ -8,6 +8,9 @@
 # cd /var/local/status ; rm *.flag ; sudo start.sh
 
 # Presence of 'verbose' triggers bash debugging mode
+
+sleep 3600
+
 [[ -e /var/local/status/verbose ]] && set -x && set -v && apt -y install emacs
 
 # Record date and time at which install script is running
