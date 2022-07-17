@@ -15,8 +15,8 @@ mypass="kra-noce"
 # sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
 sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
 
-# xubuntu desktop
-sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local/status/install-xubuntu-desktop.log'
+# # xubuntu desktop
+# sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local/status/install-xubuntu-desktop.log'
 
 # on some vm's it is necessary to stop then restart the vm before it works
 # sudo service lightdm stop; sudo service lightdm start
