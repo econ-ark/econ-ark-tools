@@ -1,15 +1,18 @@
 #!/bin/bash
-# This gets run by late_command during creation of the VM
-# It installs the xubuntu-desktop server and other core tools
+# This script is run by late_command during creation of the VM
+
+# It creates the econ-ark and econ-ark-xrdp users
+# and does other prep for installation of xubuntu-desktop
 
 # To redo the whole installation sequence (without having to redownload anything):
-# sudo bash -c '(rm -f /var/local/status/finished-software-install.flag ; rm -f /var/local/status/boot_first.flag ; rm -f /var/local/status/boot_second.flag ; rm -f /home/econ-ark/.gui_user_login_first.flag; rm -f /home/econ-ark/.gui_user_login_second.flag)' >/dev/null
+# cd /var/local/status ; rm *.flag ; sudo /var/local/start.sh
 
 # Presence of 'verbose' triggers bash debugging mode
-[[ -e /var/local/status/verbose ]] && set -x && set -v
+
+[[ -e /var/local/status/verbose ]] && set -x && set -v && apt -y install emacs
 
 # Record date and time at which install script is running
-# Used to mark date of original versions of files replaced
+# Used to mark date of original versions of any files replaced
 build_date="$(date +%Y%m%d)"
 build_time="$(date +%Y%m%d%H%M)"
 
@@ -18,13 +21,11 @@ echo "$build_time" > /var/local/status/build_time.txt
 
 # Remove /var/local/status/finished-software-install.flag to reinstall stuff installed here
 [[ -e /var/local/status/finished-software-install.flag ]] && rm -f /var/local/status/finished-software-install.flag
-# To redo the whole installation sequence (without having to redownload anything):
-# sudo bash -c '(rm -f /var/local/status/finished-software-install.flag ; rm -f /var/local/status/boot_first.flag ; rm -f /var/local/status/boot_second.flag ; rm -f /home/econ-ark/.gui_user_login_first.flag; rm -f /home/econ-ark/.gui_user_login_second.flag)' >/dev/null
 
 # Resources
-vncuser="econ-ark"  # Don't sudo because it needs to be an environment variable
-rdpuser="econ-ark-xrdp"  
-mypass="kra-noce"  # Don't sudo because it needs to be an environment variable
+vncuser="econ-ark"      # Don't sudo because it needs to be an environment variable
+rdpuser="econ-ark-xrdp" # Configs for xrdp and for xwindows are incompatible  
+mypass="kra-noce"       # both have the same password
 
 # Suspend hibernation (so that a swapfile instead of partition can be used)
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
@@ -37,9 +38,8 @@ sudo apt-get -y install bash-completion curl
 
 # Use correct git branches during debugging 
 [[ -e /var/local/status/git_branch ]] && branch_name="$(</var/local/status/git_branch)"
-# online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker/Files/For-Target"
 
-# Now install own stuff
+# Now install xubuntu-desktop
 cd /var/local
 
 sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local/status/install-xubuntu-desktop.log'
@@ -58,6 +58,11 @@ if ! grep -q root /root/.bash_aliases &>/dev/null; then # Econ-ARK additions are
     sudo chmod a+x /root/.bash_aliases
 fi
 
+    # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
+    if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
+	sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 xserver-xorg-video-dummy
+    fi
+    
 for user in $vncuser $rdpuser; do
     if ! grep -q $user /home/$user/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
 	sudo ln -s /var/local/sys_root_dir/home/user_regular/bash_aliases /home/$user/.bash_aliases # add them
@@ -65,15 +70,11 @@ for user in $vncuser $rdpuser; do
 	sudo chown $user:$user /home/$user/.bash_aliases # ensure correct ownership
     fi
 
-    # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
-    if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
-	sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 xserver-xorg-video-dummy
-	sudo adduser $user vboxsf
-    fi
-    
     # Create directory designating things to autostart 
     sudo -u $user mkdir -p   /home/$user/.config/autostart
     chown $user:$user /home/$user/.config/autostart
+
+    sudo adduser $user vboxsf  # share files if running in virtualbox
 
     ## Autostart a terminal
     cat <<EOF > /home/$user/.config/autostart/xfce4-terminal.desktop
