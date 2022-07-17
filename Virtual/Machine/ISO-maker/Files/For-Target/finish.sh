@@ -162,6 +162,7 @@ sudo apt -y update && sudo apt -y upgrade
 # Install either minimal or maximal system
 if [[ "$size" == "MIN" ]]; then
     /var/local/installers/install-conda-x.sh miniconda
+    source /etc/environment 
     source ~/.bashrc
     conda activate base
     pip install econ-ark 
@@ -171,6 +172,7 @@ if [[ "$size" == "MIN" ]]; then
     conda install --yes -c conda-forge nbval     # use pytest on notebooks
 else
     /var/local/installers/install-conda-x.sh anaconda
+    source /etc/environment
     source ~/.bashrc
     conda activate base
     pip install econ-ark 

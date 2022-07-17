@@ -12,7 +12,7 @@ user_dir=/home/$user && [[ "$user" == "root" ]] && user_dir=/root
 [[ "$user" != "root" ]] && sudo -u $user /var/local/config/emacs-user.sh $user
 
 # Let user control networks
-sudo adduser $user netdev
+sudo adduser $user netdev &>/dev/null
 
 # Get to systemwide GitHub via ~/GitHub whoever you are
 [[ ! -e $user_dir/GitHub ]] && ln -s /usr/local/share/data/GitHub $user_dir/GitHub

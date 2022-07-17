@@ -33,7 +33,7 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 # Get some basic immediately useful tools 
 sudo apt-get -y install bash-completion curl
 
-# Users with appropriate groups
+# Create with appropriate groups
 /var/local/config/add-users.sh |& tee /var/local/status/add-users.log
 
 # Use correct git branches during debugging 
