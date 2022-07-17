@@ -1,5 +1,5 @@
 #!/bin/bash
-# configure a newly added user
+# configure existing users
 
 user_dir=/home/$user && [[ "$user" == "root" ]] && user_dir=/root
 

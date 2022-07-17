@@ -387,7 +387,9 @@ late_command+=";\
    chroot /target rm -f /var/local/status/Size-To-Make-Is-* ;\
    chroot /target touch /var/local/status/Size-To-Make-Is-\$(echo $size) ;\
    chroot /target echo \$(echo $size > /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) ;\
-   [[ "'"$(echo /cdrom/preseed/*.iso)"'" != '"''"' ]] && mkdir -p /target/installer && cp /cdrom/preseed/*.iso /target/installer "
+   [[ "'"$(echo /cdrom/preseed/*.iso)"'" != '"''"' ]] && mkdir -p /target/installer && cp /cdrom/preseed/*.iso /target/installer ;\
+   chroot /target cat /etc/apt/sources.list | grep -v cdrom > /tmp/apt-sources_without_cdrom.list  ;\
+   mv /tmp/apt-sources_without_cdrom.list /etc/apt/sources.list"
 
 #   if [[ ! -L /target/var/local ]]; then chroot /target rm -Rf /var/local ; chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ; fi ;\
 #   [[ -d /target/var/local ]] && rm -Rf /target/var/local ;\
