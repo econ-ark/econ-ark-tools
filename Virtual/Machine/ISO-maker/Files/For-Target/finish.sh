@@ -162,14 +162,18 @@ sudo apt -y update && sudo apt -y upgrade
 # Install either minimal or maximal system
 if [[ "$size" == "MIN" ]]; then
     /var/local/installers/install-conda-x.sh miniconda
-    pip install --quiet econ-ark 
+    source ~/.bashrc
+    conda activate base
+    pip install econ-ark 
     conda install --yes -c conda-forge nbval
     conda install --yes -c conda-forge jupyterlab # jupyter notebook is no longer maintained
     conda install --yes -c conda-forge pytest
     conda install --yes -c conda-forge nbval     # use pytest on notebooks
 else
     /var/local/installers/install-conda-x.sh anaconda
-    pip install --quiet econ-ark 
+    source ~/.bashrc
+    conda activate base
+    pip install econ-ark 
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
     source /etc/environment # Update the path
