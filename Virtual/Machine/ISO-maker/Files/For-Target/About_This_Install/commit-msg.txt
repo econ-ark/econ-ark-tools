@@ -1,1 +1,1 @@
-Fix_add-user_in_finish.sh
+source_-etc-environment_before_pip_or_conda
