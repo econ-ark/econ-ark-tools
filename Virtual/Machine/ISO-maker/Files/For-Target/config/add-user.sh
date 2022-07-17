@@ -1,6 +1,11 @@
 #!/bin/bash
 # configure existing users
 
+if [[ "$#" -ne 1 ]]; then
+    echo 'usage: add-user userid'
+fi
+
+user="$1" # userid
 user_dir=/home/$user && [[ "$user" == "root" ]] && user_dir=/root
 
 # Configure emacs for non-root users (root configured by install-emacs)

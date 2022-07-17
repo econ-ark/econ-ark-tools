@@ -53,16 +53,17 @@ cp /var/local/sys_root_dir/etc/rc.local /etc/rc.local
 
 # .bash_aliases contains the stuff that is executed at the first and second boots of gui users
 if ! grep -q root /root/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
-    # Same bash shell for root user
+    # Allows custom .bashrc for root user
     sudo ln -s /var/local/sys_root_dir/home/user_root/bash_aliases /root/.bash_aliases 
     sudo chmod a+x /root/.bash_aliases
 fi
 
-    # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
-    if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
-	sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 xserver-xorg-video-dummy
-    fi
-    
+# If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
+if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
+    sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 xserver-xorg-video-dummy
+fi
+
+# Add autostart requirements
 for user in $vncuser $rdpuser; do
     if ! grep -q $user /home/$user/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
 	sudo ln -s /var/local/sys_root_dir/home/user_regular/bash_aliases /home/$user/.bash_aliases # add them
