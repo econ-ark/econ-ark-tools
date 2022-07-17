@@ -6,7 +6,7 @@
 # sudo bash -c '(rm -f /var/local/status/finished-software-install.flag ; rm -f /var/local/status/boot_first.flag ; rm -f /var/local/status/boot_second.flag ; rm -f /home/econ-ark/.gui_user_login_first.flag; rm -f /home/econ-ark/.gui_user_login_second.flag)' >/dev/null
 
 # Presence of 'verbose' triggers bash debugging mode
-[[ -e /var/local/status/verbose ]] && set -x && set -v
+[[ -e /var/local/status/verbose ]] && set -x && set -v && apt -y install emacs
 
 # Record date and time at which install script is running
 # Used to mark date of original versions of files replaced
