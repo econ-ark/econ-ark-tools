@@ -110,11 +110,11 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
 	echo "XUBUNTARK, HARK version $vHARK, https://econ-ark.org"
 	
 	[[ "$(which conda)" != "" ]] && echo 'To install conda packages: "mamba install [package-name]"' # Conda is installed only on XUBUNTARKMAX
-	echo 'To install pip   packages: "sudo pip -E install [package-name]"' # pip is installed by root user -- probably a mistake but ...
-	echo "To upgrade HARK, 'sudo pip -E install --upgrade econ-ark' "
+	echo 'To install pip   packages: "pip install [package-name]"' # pip is installed by root user -- probably a mistake but ...
+	echo "To upgrade HARK, 'pip install --upgrade econ-ark' "
 	echo ''
-	echo 'Scaling too large: "bash -u /var/local/tools/xfce-scaling-shrink-me.sh"'
-	echo 'Scaling too small: "bash -u /var/local/tools/xfce-scaling-grow-me.sh"'
+	echo 'Scaling too large? "bash -u /var/local/tools/xfce-scaling-shrink-me.sh"'
+	echo 'Scaling too small? "bash -u /var/local/tools/xfce-scaling-grow-me.sh"'
 	echo ''
 	touch /home/econ-ark/.first_interactive_shell.flag
     fi
