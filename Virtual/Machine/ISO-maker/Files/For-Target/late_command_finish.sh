@@ -12,7 +12,7 @@ sd=$(cat /tmp/target-dev)
 mkdir -p /EFI/BOOT/
 cp /var/local/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label     /EFI/BOOT/Econ-ARK.disk_label 
 cp /var/local/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label_2x  /EFI/BOOT/Econ-ARK.disk_label_2x 
-cp /var/local/sys_root_dir/EFI/BOOT/Econ-ARK.VolumeIcon.icns /Econ-ARK.VolumeIcon.icns 
+cp /var/local/sys_root_dir/EFI/BOOT/Econ-ARK.VolumeIcon.icns /.VolumeIcon.icns 
 echo Econ-ARK > /.disk_label.contentDetails
 
 # Tools that allow machine to recognize many devices without open drivers
