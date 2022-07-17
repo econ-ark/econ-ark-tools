@@ -98,7 +98,6 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
 	sleep 2 # give emacs plenty of time to process before deleting 
 	sed -i "$ d" /home/$USER/.emacs_aliases # Remove the temporary suppression 
 
-	firefox 'https://econ-ark.org'
 	touch /home/$USER/.gui_user_login_second.flag
     fi
 
