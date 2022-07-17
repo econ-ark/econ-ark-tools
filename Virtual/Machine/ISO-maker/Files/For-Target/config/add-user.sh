@@ -18,7 +18,7 @@ sudo adduser $user netdev &>/dev/null
 [[ ! -e $user_dir/GitHub ]] && ln -s /usr/local/share/data/GitHub $user_dir/GitHub
 
 # If installer ISO exists, make that obvious to user
-[[ ! -e $user_dir/installer ]] && [[ -e /installer ]] && [[ ! -z /installer ]] && ln -s /installer $user_dir/installer
+[[ ! -e $user_dir/installer ]] && [[ -e /installer ]] && [[ ! -s /installer ]] && ln -s /installer $user_dir/installer
 
 # Everything should be accessible to members of the econ-ark group
 [[ "$user" != "root" ]] && chown -Rf $user:econ-ark $user_dir

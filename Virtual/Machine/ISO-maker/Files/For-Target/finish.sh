@@ -94,7 +94,7 @@ EOF
 # sudo apt -y remove mdadm
 
 # Start the GUI if not already running
-[[ "$(pgrep lightdm)" == '' ]] && service lightdm start 
+[[ "$(pgrep xfce4)" == '' ]] && service lightdm stop && service lightdm start
 
 # Packages present in "live" but not in "legacy" version of server
 # https://ubuntuforums.org/showthread.php?t=2443047
@@ -178,7 +178,6 @@ else
     pip install econ-ark 
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
-    source /etc/environment # Update the path
     echo '' >> XUBUNTARK.md
     echo 'In addition, it contains a rich suite of other software (like LaTeX) widely ' >> XUBUNTARK.md
     echo 'used in scientific computing, including full installations of Anaconda, '     >> XUBUNTARK.md
