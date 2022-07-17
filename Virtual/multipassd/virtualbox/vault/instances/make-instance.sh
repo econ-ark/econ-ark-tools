@@ -7,7 +7,7 @@ instance="$1"
 instance=xub-20p04-MIN
 cpus=2
 disk="64G"
-mem="6G"
+mem="4G"
 network="en0"
 
 instance_specs="$instance""-cpus$cpus""disk$disk""mem$mem"
