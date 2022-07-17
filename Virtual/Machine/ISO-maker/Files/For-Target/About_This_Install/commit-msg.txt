@@ -1,1 +1,1 @@
-Must_source_~-.bashrc_after_installing_[x]conda
+Pause_at_beginning_of_start.sh
