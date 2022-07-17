@@ -75,7 +75,8 @@ for user in $vncuser $rdpuser; do
     sudo -u $user mkdir -p   /home/$user/.config/autostart
     chown $user:$user /home/$user/.config/autostart
 
-    sudo adduser $user vboxsf  # share files if running in virtualbox
+    # allow sharing files with host if running in virtualbox
+    sudo adduser $user vboxsf  
 
     ## Autostart a terminal
     cat <<EOF > /home/$user/.config/autostart/xfce4-terminal.desktop
@@ -167,10 +168,10 @@ sudo apt -y install at-spi2-core      # If not insalled lots of lightdm errmsg
 # Crashes often occur when installing grub, but have no subsequent consequence
 sudo rm -f /var/crash/grub-pc.0.crash
 
-# # enable connection by ssh
-sudo apt -y install openssh-server
-sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable 
-sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
+# # # enable connection by ssh
+# sudo apt -y install openssh-server
+# sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable 
+# sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
 sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
 
 # Tools to detect various kinds of hardware
