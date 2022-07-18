@@ -1,1 +1,1 @@
-source_-etc-environment_before_pip_or_conda
+loggers->tools;_add-user_->_config-user
