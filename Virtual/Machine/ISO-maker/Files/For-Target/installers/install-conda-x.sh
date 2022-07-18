@@ -87,7 +87,7 @@ for dir in */; do  # For other users
     user=$(basename $dir)
     if id "$user" >/dev/nu.. 2>&1; then # user exists
 	sudo adduser "$user" conda # Let all users manipulate conda
-	cmd="sudo -u $user "$(which conda)$" init bash >/dev/null"
+	cmd="sudo -u $user "$(which conda)" init bash >/dev/null"
 	eval "$cmd"
     fi
 done
