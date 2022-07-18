@@ -2,8 +2,8 @@
 # Install either miniconda or anaconda
 
 # (wisely) gave up on automatically retrieving latest version
-## 2021.11: Python version is 3.9
-LATEST_ANA="Anaconda3-2021.11-Linux-x86_64.sh"
+## 2022.05: Python version is 3.9
+LATEST_ANA="Anaconda3-2022.05-Linux-x86_64.sh"
 LATEST_MIN="Miniconda3-py39_4.12.0-Linux-x86_64.sh"
 
 bad_syntax=false
