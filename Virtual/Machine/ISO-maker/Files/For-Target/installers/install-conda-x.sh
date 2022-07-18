@@ -55,13 +55,14 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
     sudo rm -Rf /tmp/environment
     # Delete the not-chosen version from the path (if there)
     sudo sed -e 's\/usr/local/'$NOT_CHOSEN'/bin:\\g' /etc/environment > /tmp/environment
+    mv /etc/environment /etc/environment_orig_"$(date +%Y%m%d%H%M)"
     # Add chosen to path
     sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment > /tmp/environment2
     # Execute conda.sh even in noninteractive bash shells
     echo 'BASH_ENV=/etc/profile.d/conda.sh' > /tmp/environment2
     # Replace original environment and fix permissions
     sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
-    sudo chmod u-w /etc/environment # Restore secure permissions for environment
+    sudo chmod u-w /etc/environment* # Restore secure permissions for environment
     source /etc/environment  # Get the new environment
 fi
 
