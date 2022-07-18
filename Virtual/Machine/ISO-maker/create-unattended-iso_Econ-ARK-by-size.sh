@@ -400,7 +400,7 @@ late_command+=";\
 
 # Run the start script and log the results
 late_command+=";\
-   chroot /target /bin/bash -c "'"/var/local/loggers/start-with-log.sh"'" " 
+   chroot /target /bin/bash -c "'"/var/local/tools/start-with-log.sh"'" " 
 
 # late_command will disappear in ubiquity, replaced by ubiquity-success-command which may not be the same thing
 # https://bugs.launchpad.net/ubuntu/+source/grub2/+bug/1867092

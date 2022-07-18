@@ -33,7 +33,7 @@ runcmd:
   - echo ' '
   - echo '# Add econ-ark, econ-ark-xrdb users'
   - echo ' '
-  - sudo echo /var/local/add-users.sh
+  - sudo echo /var/local/config/add-users.sh
   - sudo echo 'DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* apt -y install lightdm'
   - sudo echo chmod a+w /etc/X11/default-display-manager
   - sudo echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager

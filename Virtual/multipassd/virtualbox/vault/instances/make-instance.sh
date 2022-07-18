@@ -4,7 +4,7 @@ cd /Users/Shared/multipassd-virtualbox-vault-instances
 
 instance="$1"
 
-instance=xub-20p04-MIN
+#instance=xub-20p04-MIN
 cpus=2
 disk="64G"
 mem="4G"
@@ -12,8 +12,8 @@ network="en0"
 
 instance_specs="$instance""-cpus$cpus""disk$disk""mem$mem"
 
-if [ ! -z "$(multipass list | cut -d' ' -f1 | grep $instance)" ]; then # at least partial match
-    if [ $(multipass list | cut -d' ' -f1 | grep "$instance") == "$instance_specs" ]; then # exact match
+if [[ ! -z "$(multipass list | cut -d' ' -f1 | grep $instance)" ]]; then # at least partial match
+    if [[  "$(multipass list | cut -d' ' -f1 | grep $instance)" == *"$instance_specs"* ]]; then # exact match
         echo '' ; echo An instance named $instance_specs already exists
         echo '' ; echo Delete it by: ; echo ''
         cmd="multipass stop $instance_specs ; multipass delete $instance_specs ; multipass purge"

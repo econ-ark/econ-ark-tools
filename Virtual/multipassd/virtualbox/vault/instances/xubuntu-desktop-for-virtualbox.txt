@@ -27,7 +27,7 @@ runcmd:
 #   - sudo echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
 #   - sudo DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=.* dpkg-reconfigure lightdm
 #   - sudo echo set shared/default-x-display-manager lightdm | sudo debconf-communicate
-#   - sudo /var/local/add-users.sh
+#   - sudo /var/local/config/add-users.sh
 #   - sudo usermod -aG nopasswdlogin econ-ark
 #   - sudo mkdir -p   /usr/share/lightdm/lightdm.conf.d
 #   - sudo mkdir -p   /etc/systemd/system/getty@tty1.service.d

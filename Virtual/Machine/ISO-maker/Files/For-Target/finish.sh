@@ -108,7 +108,7 @@ branch_name="$(</var/local/status/git_branch)"
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
 
 for user in $vncuser $rdpuser root; do
-    /var/local/config/add-user.sh $user
+    /var/local/config/config-user.sh $user
 done
 
 # Play nice with Macs (in hopes of being able to monitor it)

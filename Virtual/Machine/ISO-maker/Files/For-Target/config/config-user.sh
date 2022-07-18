@@ -2,7 +2,7 @@
 # configure existing users
 
 if [[ "$#" -ne 1 ]]; then
-    echo 'usage: add-user userid'
+    echo 'usage: config-user userid'
 fi
 
 user="$1" # userid
