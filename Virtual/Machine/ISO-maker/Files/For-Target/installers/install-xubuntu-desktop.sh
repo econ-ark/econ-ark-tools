@@ -10,11 +10,11 @@ build_date="$(</var/local/status/build_date.txt)"
 
 # Preconfigure lightdm
 sudo apt -y install debconf debconf-utils
-echo "set shared/default-x-display-manager lightdm" | debconf-communicate
-echo "get shared/default-x-display-manager        " | debconf-communicate
-echo "debconf debconf/priority select critical" |sudo debconf-set-selections -v 
-echo "lightdm shared/default-x-display-manager select lightdm" |sudo debconf-set-selections -v 
-echo "gdm3 shared/default-x-display-manager select lightdm" |sudo debconf-set-selections -v
+echo "set shared/default-x-display-manager lightdm"            | sudo debconf-communicate
+echo "get shared/default-x-display-manager        "            | sudo debconf-communicate
+echo "debconf debconf/priority select critical"                | sudo debconf-set-selections -v 
+echo "lightdm shared/default-x-display-manager select lightdm" | sudo debconf-set-selections -v 
+echo "gdm3 shared/default-x-display-manager select lightdm"    | sudo debconf-set-selections -v
 
 # Prevent installer from stopping to ask which dm (lightdm or gdk3)
 DEBCONF_PRIORITY=critical DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_SEEN=true DEBCONF_DEBUG=5 sudo apt -y install lightdm lightdm-gtk-greeter
@@ -31,7 +31,7 @@ if [[ -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
     # what kind of machine you have installed to and what monitor
     # So just replace the default image with the one we want 
     sudo mv /$backdrops/xubuntu-wallpaper.png         "/$backdrops/xubuntu-wallpaper.png_$build_date"
-    sudo cp  /var/local/sys_root_dir/$backdrops/Econ-ARK-Logo-1536x768.png /$backdrops/xubuntu-wallpaper.png 
+    sudo cp  /var/local/sys_root_dir/$backdrops/Econ-ARK-Logo-1536x768.jpg /$backdrops/xubuntu-wallpaper.png 
 fi
 
 # Two DIFFERENT places for backdrops, depending on xubuntu-core versus xubuntu-desktop

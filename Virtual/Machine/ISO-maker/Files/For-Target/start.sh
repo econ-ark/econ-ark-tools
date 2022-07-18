@@ -96,34 +96,8 @@ EOF
     chown $user:$user /home/$user/.config/autostart/xfce4-terminal.desktop
 done
 
-# Allow autologin for linux and for lightdm
-# sudo /var/local/config/allow-autologin.sh $vncuser
-# Create autologin group (as far as unix is concerned)
-## This may (as here) need to be after install of xubuntu-desktop (or maybe not)
-sudo groupadd --system autologin
-sudo adduser  $vncuser autologin
-sudo gpasswd -a $vncuser autologin
-
-## Allow autologin for PAM security system
-sudo groupadd --system nopasswdlogin
-sudo adduser  $vncuser nopasswdlogin
-sudo gpasswd -a $vncuser nopasswdlogin
-
-# Eliminate useless but confusing errmsg
-# https://kb.vander.host/operating-systems/couldnt-open-etc-securetty-no-such-file-or-directory
-sudo cp /usr/share/doc-util/linux-examples/securetty /etc/securetty
-
-# Allow autologin
-if ! grep -q $vncuser /etc/pam.d/lightdm-autologin; then # We have not yet added the line that makes PAM permit autologin
-    sudo sed -i '1 a\
-auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin' /etc/pam.d/lightdm-autologin
-fi
-
-# Not sure this is necessary
-if ! grep -q $vncuser /etc/pam.d/lightdm          ; then
-    sudo sed -i '1 a\
-auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
-fi
+sudo /var/local/config/allow-autologin.sh $vncuser
+sudo /var/local/config/allow-autologin.sh $rdpuser
 
 # Make place to store/record stuff that will be installed
 sudo mkdir -p /var/local/sys_root_dir/etc/lightdm.conf.d
@@ -157,21 +131,10 @@ sudo touch /etc/cron.hourly/jobs.deny
 sudo chmod a+rw /etc/cron.hourly/jobs.deny
 sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local 
 
-# Include installer 
-# sudo mkdir /tmp/iso ; sudo mount -t iso9660 /dev/sr0 /tmp/iso
-
-# if [[ "$installer" != "" ]]; then
-#     dd if="$installer" of=/var/local/XUBARK.iso
-# fi
-
 sudo apt -y install at-spi2-core      # If not insalled lots of lightdm errmsg
 # Crashes often occur when installing grub, but have no subsequent consequence
 sudo rm -f /var/crash/grub-pc.0.crash
 
-# # # enable connection by ssh
-# sudo apt -y install openssh-server
-# sudo -u econ-ark touch /var/local/status/install-ssh.log # make log readable 
-# sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
 sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
 
 # Tools to detect various kinds of hardware

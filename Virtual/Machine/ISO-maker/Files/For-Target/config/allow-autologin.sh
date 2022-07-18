@@ -29,3 +29,5 @@ if ! grep -q $myuser /etc/pam.d/lightdm          ; then
     sudo sed -i '1 a\
 auth    sufficient      pam_succeed_if.so user ingroup nopasswdlogin # Added by Econ-ARK ' /etc/pam.d/lightdm-greeter
 fi
+
+
