@@ -140,5 +140,8 @@ sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var
 # Tools to detect various kinds of hardware
 sudo apt -y install xserver-xorg-input-libinput xserver-xorg-input-evdev xserver-xorg-input-mouse xserver-xorg-input-synaptics
 
+sudo apt -y install /var/local/installers/install-ssh
+sudo /var/local/config/config-ssh-user.sh $vncuser
+
 # When run by late_command, the machine will reboot after finishing start.sh
 # rc.local will then notice that 'finish.sh' has not been run, and will run it
