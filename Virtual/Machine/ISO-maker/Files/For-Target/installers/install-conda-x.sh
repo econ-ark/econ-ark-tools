@@ -1,6 +1,8 @@
 #!/bin/bash
 # Install either miniconda or anaconda
 
+# (wisely) gave up on automatically retrieving latest version
+## 2021.11: Python version is 3.9
 LATEST_ANA="Anaconda3-2021.11-Linux-x86_64.sh"
 LATEST_MIN="Miniconda3-py39_4.12.0-Linux-x86_64.sh"
 
@@ -29,8 +31,6 @@ sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
 [[ -e /tmp/$CHOSEN ]] && sudo rm -Rf /tmp/$CHOSEN # delete any prior install
 mkdir /tmp/$CHOSEN ; cd /tmp/$CHOSEN
 
-# (wisely) gave up on automatically retrieving latest version
-## 2021.11: Python version is 3.9
 [[ "$CHOSEN" == "$ANA" ]] && NOT_CHOSEN="$MIN" && LATEST=$LATEST_ANA && URL="repo.anaconda.com/archive"
 [[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST=$LATEST_MIN && URL="repo.anaconda.com/miniconda"
 
@@ -57,6 +57,8 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
     sudo sed -e 's\/usr/local/'$NOT_CHOSEN'/bin:\\g' /etc/environment > /tmp/environment
     # Add chosen to path
     sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment > /tmp/environment2
+    # Execute conda.sh even in noninteractive bash shells
+    echo 'BASH_ENV=/etc/profile.d/conda.sh' > /tmp/environment2
     # Replace original environment and fix permissions
     sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
     sudo chmod u-w /etc/environment # Restore secure permissions for environment
@@ -68,6 +70,7 @@ fi
 if [[ ! -e /etc/sudoers.d/$CHOSEN ]]; then
     # if the other version was previously active, deactivate it
     [[ -e /etc/sudoers.d/$NOT_CHOSEN ]] && rm -Rf /etc/sudoers.d/$NOT_CHOSEN
+    # add this version
     sudo echo 'Defaults secure_path="/usr/local/'$CHOSEN'/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/snap/bin:/bin"' | sudo tee /etc/sudoers.d/$CHOSEN
 fi
 sudo chmod 555 /etc/sudoers.d # restore proper permissions
@@ -81,9 +84,11 @@ conda init bash    # For root user
 cd /home
 for dir in */; do  # For other users
     user=$(basename $dir)
-    sudo adduser "$user" conda # Let all users manipulate conda
-    cmd="sudo -u $user "$(which conda)$" init bash >/dev/null"
-    eval "$cmd"
+    if id "$user" >/dev/nu.. 2>&1; then # user exists
+	sudo adduser "$user" conda # Let all users manipulate conda
+	cmd="sudo -u $user "$(which conda)$" init bash >/dev/null"
+	eval "$cmd"
+    fi
 done
 
 source ~/.bashrc  # Update environment with new change
