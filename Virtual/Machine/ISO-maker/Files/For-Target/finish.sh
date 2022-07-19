@@ -254,4 +254,5 @@ sudo chmod -Rf a+rw /var/local/status
 
 sudo apt -y autoremove # Remove unused packages
 
+touch /var/local/status/verbose/bash_aliases
 sudo reboot
