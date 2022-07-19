@@ -26,13 +26,13 @@ echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
 backdrops=usr/share/xfce4/backdrops
 backgrounds=usr/share/backgrounds/xfce4
 
-if [[ -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
-    # Absurdly difficult to change the default wallpaper no matter
-    # what kind of machine you have installed to and what monitor
-    # So just replace the default image with the one we want 
-    sudo mv /$backdrops/xubuntu-wallpaper.png         "/$backdrops/xubuntu-wallpaper.png_$build_date"
-    sudo cp  /var/local/sys_root_dir/$backdrops/Econ-ARK-Logo-1536x768.jpg /$backdrops/xubuntu-wallpaper.png 
-fi
+# if [[ -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
+#     # Absurdly difficult to change the default wallpaper no matter
+#     # what kind of machine you have installed to and what monitor
+#     # So just replace the default image with the one we want 
+#     sudo mv /$backdrops/xubuntu-wallpaper.png         "/$backdrops/xubuntu-wallpaper.png_$build_date"
+#     sudo cp  /var/local/sys_root_dir/$backdrops/Econ-ARK-Logo-1536x768.jpg /$backdrops/xubuntu-wallpaper.png 
+# fi
 
 # Two DIFFERENT places for backdrops, depending on xubuntu-core versus xubuntu-desktop
 sudo cp  /var/local/sys_root_dir/$backdrops/Econ-ARK-Logo-1536x768.*   /$backdrops
