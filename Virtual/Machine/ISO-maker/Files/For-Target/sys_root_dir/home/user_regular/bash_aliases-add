@@ -10,6 +10,8 @@ launch_vnc_server=true
 
 verb_dir=/var/local/status/verbose/ # Directory with flags for verbosity
 
+datetime="$(date +%Y%m%d%H%M%S)"
+
 # To turn on debugging of bash_aliases, touch $verbdir/bash_aliases
 if [[ -e $verbdir/bash_aliases ]]; then # turn it on for bash_aliases
     [[ -e $verbdir/bash_aliases.log ]] && mv $verbdir/bash_aliases.log $verbdir/bash_aliases_$datetime.log
@@ -19,8 +21,6 @@ if [[ -e $verbdir/bash_aliases ]]; then # turn it on for bash_aliases
 fi
 
 [[ ! -t 0 ]] && return # it is not an interactive shell; Google "test interactive shell"
-
-datetime="$(date +%Y%m%d%H%M%S)"
 
 # Modify prompt to keep track of git branches
 parse_git_branch() {
