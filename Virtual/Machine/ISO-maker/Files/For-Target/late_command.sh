@@ -9,8 +9,8 @@ chmod -R a+rwx /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/* /usr/local
 rm -Rf /var/local 
 ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
 rm -f /var/local/status/Size-To-Make-Is-* 
-touch /var/local/status/Size-To-Make-Is-$(echo MAX) 
-echo $(echo MAX > /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) 
+touch /var/local/status/Size-To-Make-Is-$(echo MIN) 
+echo $(echo MIN > /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) 
 [[ "$(echo /cdrom/preseed/*.iso)" != '' ]] && mkdir -p /installer && cp /cdrom/preseed/*.iso /installer 
 cat /etc/apt/sources.list | grep -v cdrom > /tmp/apt-sources_without_cdrom.list 
 mv /tmp/apt-sources_without_cdrom.list /etc/apt/sources.list
