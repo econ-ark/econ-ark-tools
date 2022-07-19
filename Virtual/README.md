@@ -9,14 +9,13 @@ Install "Docker" on your computer, and follow the instructions in the [Docker](h
 * Docker shares resources with your computer
 * Your computer's regular operations will sap the performance of the Docker machine
 	
+### Somewhat More Powerful 
+
+Install multipass on your computer, and follow the instructions in the [multipass](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/multipass) directory to create a VM on your computer.
+
 ### Most Powerful 
 
-Your computer can (temporarily; reversibly; while booted from an
-external drive or USB stick) be turned into a Linux-native machine, which
-makes its full resources (RAM; processors) available to the
-software. This is like a brain transplant for your computer, and is
-worth doing if you will be spending a lot of time working with the
-tools
+Your computer can (temporarily; reversibly; while booted from an external drive or USB stick) be turned into a Linux-native machine, which makes its full resources (RAM; processors) available. This is like a brain transplant for your computer, and is worth doing if you will be spending a lot of time working with the tools
 
 * This will require you to have two USB sticks
    1. A small one to hold the installer software (say, 4GB)
@@ -26,22 +25,12 @@ tools
 * Use the [XUBUNTARK-MAX](#MAX) ISO image file described below
    * Follow the rest of the instructions below
 
-n.b.: This option embeds the "Docker" option because docker is installed as part of the 
-MAX software suite. So you can do all the Docker stuff from inside your VM
-
 ### In-Between
 
-You can install [VirtualBox](https://virtualbox.org) on your computer,
-which will allow you to run Linux in a virtual machine that is
-encapsulated on your regular hard drive.  This has the advantage of
-being very safe (the virtual machine is completely contained inside a
-VirtualBox jail; you have to give it permissions to do everything). It
-has the disadvantage, like the Docker solution, of requiring your
-computer to share its resources.
+You can install [VirtualBox](https://virtualbox.org) on your computer, which will allow you to run Linux in a virtual machine that is encapsulated on your regular hard drive.  This has the advantage of being very safe (the virtual machine is completely contained inside a VirtualBox jail; you have to give it permissions to do anything that affects the rest of your computer). It has the disadvantage, like the Docker solution, of requiring your computer to share its resources.
 
 It also requires a fair bit of configuration, so there is a separate [set 
 of instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/VirtualBox)
-
 
 # MIN or MAX
 
