@@ -12,10 +12,10 @@ verb_dir=/var/local/status/verbose/ # Directory with flags for verbosity
 
 datetime="$(date +%Y%m%d%H%M%S)"
 
-# To turn on debugging of bash_aliases, touch $verbdir/bash_aliases
-if [[ -e $verbdir/bash_aliases ]]; then # turn it on for bash_aliases
-    [[ -e $verbdir/bash_aliases.log ]] && mv $verbdir/bash_aliases.log $verbdir/bash_aliases_$datetime.log
-    exec > >(tee -i $verbdir/bash_aliases.log)
+# To turn on debugging of bash_aliases, touch $verb_dir/bash_aliases
+if [[ -e $verb_dir/bash_aliases ]]; then # turn it on for bash_aliases
+    [[ -e $verb_dir/bash_aliases.log ]] && mv $verb_dir/bash_aliases.log $verb_dir/bash_aliases_$datetime.log
+    exec > >(tee -i $verb_dir/bash_aliases.log)
     exec 2>&1
     set -x && set -v
 fi
