@@ -391,8 +391,8 @@ late_command+=";\
    mv /tmp/apt-sources_without_cdrom.list /etc/apt/sources.list"
 
 #   if [[ ! -L /target/var/local ]]; then chroot /target rm -Rf /var/local ; chroot /target ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local ; fi ;\
-#   [[ -d /target/var/local ]] && rm -Rf /target/var/local ;\
-#   chroot /target echo \$(echo $size > /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) ;\
+    #   [[ -d /target/var/local ]] && rm -Rf /target/var/local ;\
+    #   chroot /target echo \$(echo $size > /target/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/machine-size.txt) ;\
 
 # late_command_finish contains setup stuff also used in cloud-init
 late_command+=";\
@@ -539,6 +539,7 @@ if [ "$version" == "base" ]; then
     /bin/sed -i '/^menuentry "Install Ubuntu Server"/,/^grub_platform/{/^grub_platform/!d}' $iso_make/iso_new/boot/grub/grub.cfg
 
     sudo /bin/sed -i 's|default install|default install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu (UEFI)\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical DEBCONF_DEBUG=5 nolapic                   ---          \nlabel install\n  menu label ^MacBookPro9,1-Mid-2012 (noapic)\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    noapic --- \nmenu begin ^Debug\nmenu title Troubleshooting \nlabel install\n  menu label ^acpi=off\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    acpi=off --- \nlabel install\n  menu label ^nolapic noapic irqpoll\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    noapic irqpoll --- \nlabel install\n  menu label ^noapic\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    noapic ---  \nlabel install\n  menu label ^acpi_osi=Linux\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    acpi_osi=Linux --- \nlabel install\n  menu label ^acpi=ht\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    acpi=ht --- \nlabel install\n  menu label ^pci=noacpi\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    pci=noacpi --- \nlabel install\n  menu label ^apci=noirq\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    apci=noirq ---\nlabel install\n  menu label ^aacpi=noirq\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    aacpi=noirq ---\nlabel install\n  menu label ^apnpacpi=off\n  kernel /install/vmlinuz\nappend file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    apnpacpi=off ---\nmenu end\n|g'     $iso_make/iso_new/isolinux/txt.cfg
+fi
 
 sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back
 
