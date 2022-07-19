@@ -34,7 +34,7 @@ done
 
 # Add stuff to bash login script
 bashadd=$user_dir/.bash_aliases
-[[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd_orig_$(</var/local/status/build_time.txt)"
+[[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd""_orig_$(</var/local/status/build_time.txt)"
 if [[ "$user" == "root" ]]; then
     ln -s /var/local/sys_root_dir/home/user_root/bash_aliases "$bashadd"
 else
