@@ -1,1 +1,1 @@
-Compile_MIN_on_master_branch
+Make_MIN_from_master
