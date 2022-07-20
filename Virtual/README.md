@@ -1,6 +1,6 @@
-# Virtual Machine Options
+# Creating an Econ-ARK Machine (Virtual, Metal, or Hybrid)
 
-You have several options for installing a virtual machine containing the Econ-ARK tools.
+You have several options for creating a virtual machine containing the Econ-ARK tools.
 
 ### Easiest (But Least Powerful -- For Running Existing Tools)
 
@@ -9,46 +9,26 @@ Install "Docker" on your computer, and follow the instructions in the [Docker](h
 * Docker shares resources with your computer
 * Your computer's regular operations will sap the performance of the Docker machine
 	
-### Most Powerful 
+### Somewhat More Powerful 
 
-Your computer can (temporarily; reversibly; while booted from an
-external drive or USB stick) be turned into a Linux-native machine, which
-makes its full resources (RAM; processors) available to the
-software. This is like a brain transplant for your computer, and is
-worth doing if you will be spending a lot of time working with the
-tools
+#### VirtualBox
 
-* This will require you to have two USB sticks
-   1. A small one to hold the installer software (say, 4GB)
-   1. A large one to hold the installed system
-      * at least 64 GB; 128 GB recommended
-* Be sure to get a _fast_ USB stick, at least for the large dive
-* Use the [XUBUNTARK-MAX](#MAX) ISO image file described below
-   * Follow the rest of the instructions below
-
-n.b.: This option embeds the "Docker" option because docker is installed as part of the 
-MAX software suite. So you can do all the Docker stuff from inside your VM
-
-### In-Between
-
-You can install [VirtualBox](https://virtualbox.org) on your computer,
-which will allow you to run Linux in a virtual machine that is
-encapsulated on your regular hard drive.  This has the advantage of
-being very safe (the virtual machine is completely contained inside a
-VirtualBox jail; you have to give it permissions to do everything). It
-has the disadvantage, like the Docker solution, of requiring your
-computer to share its resources.
+You can install [VirtualBox](https://virtualbox.org) on your computer, which will allow you to run Linux in a virtual machine encapsulated on your regular hard drive.  This has the advantage of being very safe (the virtual machine is completely contained inside a VirtualBox jail; you have to give it permissions to do anything that affects the rest of your computer). It has the disadvantage, like the Docker solution, of requiring your computer to share its resources.
 
 It also requires a fair bit of configuration, so there is a separate [set 
 of instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/VirtualBox)
 
 
+#### Multipass
+
+Install multipass on your computer, and follow [these instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/multipass.md) to create a VM on your computer.
+
 # MIN or MAX
 
 ### [XUBUNTARK-MIN](https://drive.google.com/drive/folders/1WVs4TpsMrB8erCIykymzMYmYtxvTjtwk)
 
-Installs python3, jupyter lab, Econ-ARK, and not much else. The total size
-of the software is about 6 GB, and a minimal so even if you have a fairly small USB
+Installs miniconda, tex- jupyter lab, Econ-ARK, and not much else. The total size
+of the software is about 12 GB, and a minimal so even if you have a fairly small USB
 stick (say, 32 GB) you should be able to run Econ-ARK stuff on it.
 
 Installation of this machine should take roughly an hour if you have reasonably
@@ -59,11 +39,12 @@ do a "test run" with the MIN version because it is considerably faster.
 
 ### [XUBUNTARK-MAX](https://drive.google.com/drive/folders/1-DBAWfJYPBVNXKkVytZeF-BMBAaL7r1m?usp=sharing)
 
-#### Note: The installer may not work on a machine with "secure boot" enabled
+#### Note: The installer will not work on a Windows machine with "secure boot" enabled.  
 
 You may need to either
-1. Disable secure-boot on your machine; or
+1. [Disable secure-boot on your machine](https://www.google.com/search?q=how+do+i+disable+secure+boot+in+BIOS); or
 1. Seek instructions on the internet for installing Ubuntu on your particular machine
+    * Instructions for installing the Econ-ARK flavor of Ubuntu should be the same, except that you will be the XUBUNTARK file you download as described below instead of the file from Ubuntu
 
 (Machines new enough to have secure boot probably are powerful enough to use the [VirtualBox](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/VirtualBox) method)
 
@@ -81,30 +62,6 @@ the full results of several computational economics papers.
 
 This machine is considerably larger, and so will take longer to install, perhaps
 several hours.
-
-## Instructions for Installing your VM on a Bootable USB Medium
-
-### [Burn](#burn) your chosen ISO image (MIN or MAX) to the small USB stick
-
-0. Download your selected (MIN or MAX) ISO image to your computer
-0. "mount" the image so that the computer can see it
-   * [Create-A-USB-Stick-On-Windows](https://ubuntu.com/tutorials/create-a-usb-stick-on-windows)
-      * I don't have a Windows machine so can't debug this
-
-   * On Macs, mounting is done with the Disk Utility app ("open image")
-   * Next, make a "bootable USB" stick by burning the ISO image
-      * ["Carbon Copy Cloner"](https://bombich.com/software/download_ccc.php) is the most reliable option for this
-	     * There is a free trial version that should work
-	     * Format your USB stick to MS-DOS
-		 * Clone from the mounted ISO image to the formatted USB stick
-	  * Other options are less reliable 
-         * [UNETBOOTIN](https://unetbootin.github.io)
-	     * Then run the unetbootin app and choose "Drive Image"
-	        * Navigate to wherever you have downloaded your ISO
-      * ["Etcher"](https://balena.io/etcher/)
-	     * Seems to work on 2015-2019 vintage macs
-	     * Fails on some earlier and later ones
-      * [Create-A-USB-Stick-On-Macs](https://ubuntu.com/tutorials/create-a-usb-stick-on-macs) is another resource
 
 ### Physically connect your computer to the internet
 
