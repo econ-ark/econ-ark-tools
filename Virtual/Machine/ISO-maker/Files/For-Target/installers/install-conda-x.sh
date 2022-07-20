@@ -1,5 +1,5 @@
 #!/bin/bash
-<<<<<<< HEAD
+
 # Install either miniconda or anaconda
 
 # (wisely) gave up on automatically retrieving latest version
@@ -19,39 +19,15 @@ ANA='anaconda' && MIN='miniconda'
 [[ "$CHOSEN" != "$ANA" ]] && [[ "$CHOSEN" != "$MIN" ]] && bad_syntax=true
 
 if [[ "$bad_syntax" == true ]]; then
-=======
-
-bad=false
-
-[[ "$#" -ne 1 ]] && bad=true
-
-# In case they used capitals
-CHOSEN=$(echo $1 | tr '[:upper:]' '[:lower:]')
-# CHOSEN=miniconda
-ANA='anaconda' && MIN='miniconda'
-
-echo $CHOSEN
-[[ "$CHOSEN" != "$ANA" ]] && [[ "$CHOSEN" != "$MIN" ]] && bad=true
-
-if [[ "$bad" == true ]]; then
->>>>>>> master
     echo 'usage: install-conda-x.sh [ anaconda | miniconda ]'
     exit
 fi
 
-<<<<<<< HEAD
 echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
 sudoer=false
 sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
 [[ "$sudoer" == "false" ]] && echo 'Exiting because sudoer privileges are not available.' && exit
 
-=======
->>>>>>> master
-# Put $CHOSEN in /tmp directory
-[[ -e /tmp/$CHOSEN ]] && sudo rm -Rf /tmp/$CHOSEN # delete any prior install
-mkdir /tmp/$CHOSEN ; cd /tmp/$CHOSEN
-
-<<<<<<< HEAD
 [[ "$CHOSEN" == "$ANA" ]] && NOT_CHOSEN="$MIN" && LATEST=$LATEST_ANA && URL="repo.anaconda.com/archive"
 [[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST=$LATEST_MIN && URL="repo.anaconda.com/miniconda"
 
@@ -171,16 +147,8 @@ sudo find . -type f -iname ".sh"  -exec chmod a+x {} \;
 sudo find . -type f -iname "..sh" -exec chmod a+x {} \; # Gets csh, zsh, whatever
 popd
 
-<<<<<<< HEAD
 # Mamba is equivalent to conda but much faster for installs
 conda install --yes -c conda-forge mamba
 
 # Add some final common tools
 conda install --yes -c conda-forge jupyter_contrib_nbextensions
-=======
-# sudo conda install --yes -c conda-forge mamba
-sudo conda activate base
-
-# Add some final common tools
-sudo conda install --yes -c conda-forge jupyter_contrib_nbextensions
->>>>>>> master
