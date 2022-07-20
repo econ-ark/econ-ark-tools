@@ -31,5 +31,5 @@ n.b.: You will need to reconfigure your machine to permit it to boot from an ext
       * ["balenaEtcher"](https://balena.io/etcher/)
 	     * Seems to work on 2015-2019 vintage macs
 	     * Fails on some earlier and later ones
-      * [Create-A-USB-Stick-On-Macs](https://ubuntu.com/tutorials/create-a-usb-stick-on-macs) is another resource
+      * [Create-A-USB-Stick-On-Macs](https://ubuntu.com/tutorials/create-a-usb-stick-on-macos) is another resource
 
