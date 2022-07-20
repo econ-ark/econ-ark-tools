@@ -1,16 +1,13 @@
-# VirtualBox Xubuntu Econ-ARK Virtual Machines
+# VirtualBox XUBUNTARK Linux machine.
 
-This directory explains how to construct a VirtualBox virtual Linux machine.  (See [here](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine) for instructions to construct a bootable Econ-ARK drive that takes over all your comptuer's hardware).
+An advantage of a VirtualBox VM is that it can be used on any computer that can run the VirtualBox software (which is almost all computers today). The SAME image can be run on a Win, Mac, or Linux machine.
 
-That VM can then be used on any computer that can run the VirtualBox software (which is almost all computers today).  In practice, we recommend a machine with at least 8GB of RAM and 4 CPU cores in order for the VM to exhibit decent performance.
+We recommend a machine with at least 8GB of RAM and 4 CPU cores.
 
-Because this installer is based on the Xubuntu distribution of Linux, and also installs the Econ-ARK software, we will call it the 'XUBUNTARK' system.
-
-*  Install VirtualBox on your computer
+*  Install VirtualBox on your computer (Google it)
 *  Decide upon a place to store the virtual XUBUNTARK machine(s) you create
    * This space should reliably have at least 64 GB available
-      * That may mean it should be a separate partition/volume on your drive
-   * It can be an external USB stick (this is what I would recommend)
+      * This should probably be an external USB stick or drive
    * If you (unwisely) plan to keep it on your computer's main filesystem:
       * `~/VMs/EconARK` would be a reasonable choice
 
@@ -19,18 +16,18 @@ Because this installer is based on the Xubuntu distribution of Linux, and also i
    * This creates a VM that can simulate all of the hardware
    * But the machine is empty -- it's like a PC without any software installed
 
-1. Download the installer ISO installer image per the [instructions above](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine)
+1. [Download an installer ISO installer image](https://github.com/econ-ark/econ-ark-tools/master/Software/Size.md)
    * Your VirtualBox virtual machine will boot from this as a virtual CD-ROM
 1. Run VirtualBox, then:
    * New -> (Choose "expert mode" at botom of New dialog box)
-      * Name: XUBARK-MAX
-	  * Machine Folder: Where you want it stored (your USB stick; your computer ...)
+      * Name: XUBARK
+	  * Machine Folder: Where you want it stored (your USB stick; your computer; ...)
 	  * Type: Linux
 	  * Version: Ubuntu (64-bit)
 	  * Memory size: 
 	      * It is conventional to give your VM half of your RAM
 	      * But if you have a 4GB machine, 2GB is not really enough
-		  * In this case, you should probably use the [Brain Transplant](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine) strategy
+		  * In this case, you should probably use the [Brain Transplant (Metal)](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/Metal) strategy
 	  * Choose "Create a virtual hard disk now"
 	  * Hit "Create"
    * Disk Configuration
@@ -53,29 +50,10 @@ Because this installer is based on the Xubuntu distribution of Linux, and also i
 	   * It won't touch your computer's real disk
    * You'll have to confirm this decision in several ways. Do so.
 
-Eventually, you should see a window [like this](./XUBUNTARK-At-Startup.png) which is your XUBUNTARK VM running.
+Eventually, you should see a window [like this](https://github.com/econ-ark/econ-ark-tools/tree/master/Software/XUBUNTARK-At-Startup.png) which is your XUBUNTARK VM running.
 
 * It can take a couple of hours
    * Flaky internet connections can stall the process
       * If this happens, choose the 'try again' option
 
-The XUBUNTARK machine is set to autologin:
-```
-   username:econ-ark
-   password:kra-noce
-```
-In the `terminal`in the machine, you should be able to type `jupyter notebook`
-   * Navigate to `GitHub/econ-ark/DemARK/Gentle-Intro-To-HARK.ipynb`
-   * Open it and start learning!
-
-## Details
-
-The "MAX" machine contains a full installation of Anaconda3, LaTeX,
-and other useful tools. The econ-ark toolkit is installed using the
-conda installer that comes with Anaconda.  Local copies, that you can
-modify, of several repos are installed:
-
-1. DemARK
-1. REMARK
-1. HARK
-1. econ-ark-tools
+* See next steps [at the bottom here](https://github.com/econ-ark/econ-ark-tools/tree/master/Software/Size.md)

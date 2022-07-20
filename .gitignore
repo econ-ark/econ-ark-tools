@@ -169,3 +169,14 @@ Temporary Items
 .apdisk
 
 # End of https://www.toptal.com/developers/gitignore/api/macos
+
+# Files specific to installer
+finished-software-install
+build_date.txt
+
+# Ignore files created by install-emacs.sh
+dotemacs
+dotemacs-home
+dotemacs-root
+
+

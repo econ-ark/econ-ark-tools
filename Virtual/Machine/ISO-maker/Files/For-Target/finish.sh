@@ -1,148 +1,139 @@
 #!/bin/bash
 # start.sh installs GUI then reboots;
-# finish automatically starts with newly-installed GUI
+# finish.sh automatically starts with newly-installed GUI
 
-# define download function
-# courtesy of http://fitnr.com/showing-file-download-progress-using-wget.html
-download()
-{
-    local url=$1
-    #    echo -n "    "
-    wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
-        sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
-    #    echo -ne "\b\b\b\b"
-    #    echo " DONE"
-}
+# Conditionally enable verbose output 
+[[ -e /var/local/status/verbose ]] && set -x && set -v
 
-# Set up bash verbose debugging
-set -x ; set -v
-
-export DEBCONF_DEBUG=.*
-export DEBIAN_FRONTEND=noninteractive
-export DEBCONF_NONINTERACTIVE_SEEN=true
-
-# The cups service sometimes gets stuck; stop it before that happens
-sudo systemctl stop    cups-browsed.service 
-sudo systemctl disable cups-browsed.service
-
-sudo apt -y install software-properties-common # Manage software like dbus 
-
-# Meld is a good file/folder diff tool
-sudo apt -y install meld
-
-# More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel ca-certificates
-
-# Make a home for econ-ark in /usr/local/share/data and link to it from home directory
-mkdir -p /home/econ-ark/GitHub
-mkdir -p          /root/GitHub
-
-# Get to econ-ark via ~/econ-ark whether you are root or econ-ark
-ln -s /usr/local/share/data/GitHub/econ-ark /home/econ-ark/GitHub/econ-ark
-ln -s /usr/local/share/data/GitHub/econ-ark          /root/GitHub/econ-ark
-chown -Rf econ-ark:econ-ark /home/econ-ark/GitHub/econ-ark
-chown -Rf econ-ark:econ-ark /home/econ-ark/GitHub/econ-ark/.?*
-chown -Rf econ-ark:econ-ark /usr/local/share/data/GitHub/econ-ark # Make it be owned by econ-ark user 
-
-myuser="econ-ark"
+# Now install own stuff
+vncuser="econ-ark"
+rdpuser="econ-ark-xrdp"
 mypass="kra-noce"
 
-# branch_name="$(git symbolic-ref HEAD 2>/dev/null)"
-# branch_name="${branch_name#refs/heads/}"
+# # enable connection by ssh
+# sudo apt -y install openssh-server
+# sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
+sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
 
-branch_name=master
+# # xubuntu desktop
+# sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local/status/install-xubuntu-desktop.log'
+
+# on some vm's it is necessary to stop then restart the vm before it works
+# sudo service lightdm stop; sudo service lightdm start
+
+cd /var/local
+
+# Get info about install
+commit_msg="$(cat /var/local/About_This_Install/commit-msg.txt)"
+short_hash="$(cat /var/local/About_This_Install/short.git-hash)"
+commit_date="$(cat /var/local/About_This_Install/commit_date)"
+
+# Change the name of the host to the date and time of its creation
+##  Get existing
+default_hostname="$(</etc/hostname)"
+default_domain=""
+
+# long hostname is date plus commit hash for econ-ark-tools repo
+build_date="$(</var/local/status/build_date.txt)"
+build_time="$(</var/local/status/build_time.txt)"
+
+new_hostname="xubark-$commit_date-$commit_hash"
+# short hostname: xubark+date of commit
+[[ ! -e /var/local/status/verbose ]] && new_hostname="xubark-$commit_date" && echo "$new_hostname" > /var/local/status/new_hostname
+
+if [[ "$default_hostname" == "-" ]]; then # not yet defined
+    echo "$new_hostname" > /etc/hostname
+    echo "$new_hostname" > /etc/hosts
+else # replace the default
+    sed -i "s/$default_hostname/$new_hostname/g" /etc/hostname
+    sed -i "s/$default_hostname/$new_hostname/g" /etc/hosts
+fi
+
+# GitHub command line tools
+sudo /var/local/installers/install-gh-cli-tools.sh
+
+# LaTeX - minimal (required for auctex install on emacs)
+sudo apt -y install texlive-tex-base texlive-latex-base
+[[ "$(which emacs)"  != "" ]] && sudo emacs -batch -eval "(setq debug-on-error t)" -l /root/.emacs
+
+sudo /var/local/installers/install-emacs.sh |& tee /var/local/status/install-emacs.log
+
+# Install Chrome browser 
+wget --quiet -O /var/local/status/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt -y install /var/local/status/google-chrome-stable_current_amd64.deb
+
+# Populate About_This_Install directory with info specific to this run of the installer
+
+## Create the "About This Install" markdown file
+cat <<EOF > /var/local/About_This_Install.md
+# Detailed Info About This Installation
+
+This machine (virtual or real) was built using 
+
+https://github.com/econ-ark/econ-ark-tools.git
+
+using scripts in commit $short_hash 
+with commit message "$commit_msg"
+on date "$commit_date"
+
+Starting at the root of a cloned version of that repo,
+you should be able to reproduce the installer with:
+
+    git checkout $short_hash
+    cd Virtual/Machine/ISO-maker ; ./create-unattended-iso_Econ-ARK-by-size.sh [ MIN | MAX ]
+
+A copy of the ISO installer that generated this machine should be in the
+
+    /installers
+
+directory.
+
+EOF
+
+## mdadm is for managing RAID systems but can cause backup problems; disable
+# sudo apt -y remove mdadm
+
+# Start the GUI if not already running
+[[ "$(pgrep xfce4)" == '' ]] && service lightdm stop && service lightdm start
+
+# Packages present in "live" but not in "legacy" version of server
+# https://ubuntuforums.org/showthread.php?t=2443047
+sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1 
+
+# More useful default tools 
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs timeshift deja-dup
+
+cd /var/local
+branch_name="$(</var/local/status/git_branch)"
 online="https://raw.githubusercontent.com/econ-ark/econ-ark-tools/"$branch_name"/Virtual/Machine/ISO-maker"
 
-# Remove the linux automatically created directories like "Music" and "Pictures"
-# Leave only required directories Downloads and Desktop
-cd /home/$myuser
-
-for d in ./*/; do
-    if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]] && [[ ! "$d" == "./GitHub/" ]] ; then
-	rm -Rf "$d"
-    fi
+for user in $vncuser $rdpuser root; do
+    /var/local/config/config-user.sh $user
 done
 
 # Play nice with Macs (in hopes of being able to monitor it)
-sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns ifupdown
+sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
+#sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errmsgs when apps are launched
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
-wget --quiet -O  /etc/avahi/ $online/Files/For-Target/root/etc/avahi/avahi-daemon.conf
+
+cp /var/local/sys_root_dir/etc/avahi/avahi-daemon.conf /etc/avahi
+
 # Enable ssh over avahi
 cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
 
-# Get misc other stuff 
-#refindFile="refind-install-MacOS"
-wget -O   /var/local/Econ-ARK.disk_label           $online/Disk/Labels/Econ-ARK.disklabel    
-wget -O   /var/local/Econ-ARK.disk_label_2x        $online/Disk/Labels/Econ-ARK.disklabel_2x 
-# wget -O   /var/local/$refindFile.sh                $online/Files/For-Target/$refindFile.sh
-# wget -O   /var/local/$refindFile-README.md         $online/Files/For-Target/$refindFile-README.md
-# chmod +x  /var/local/$refindFile.sh
-# chmod a+r /var/local/$refindFile-README.md
-#wget --quiet -O /var/local/zoom_amd64.deb $online/Files/ForTarget/zoom_amd64.deb 
-wget --quiet -O /var/local/zoom_amd64.deb https://zoom.us/client/latest/zoom_amd64.deb
 
-
-# Allow vnc (will only start up after reading ~/.bash_aliases)
-# scraping server means that you're not allowing vnc client to spawn new x sessions
-sudo apt -y install tigervnc-scraping-server
-
-# If a previous version exists, delete it
-[[ -e /home/$myuser/.vnc ]] && rm -Rf /home/$myuser/.vnc  
-sudo mkdir -p /home/$myuser/.vnc
-
-# https://askubuntu.com/questions/328240/assign-vnc-password-using-script
-
-prog=/usr/bin/vncpasswd
-/usr/bin/expect <<EOF
-spawn "$prog"
-expect "Password:"
-send "$mypass\r"
-expect "Verify:"
-send "$mypass\r"
-expect "Would you like to enter a view-only password (y/n)?"
-send "y\r"
-expect "Password:"
-send "$mypass\r"
-expect "Verify:"
-send "$mypass\r"
-expect eof
-exit
-EOF
-
-# set defaults
-default_hostname="$(hostname)"
-default_domain=""
-
-# Change the name of the host to the date and time of its creation
-datetime="$(date +%Y%m%d%H%S)"
-sed -i "s/xubuntu/$datetime/g" /etc/hostname
-sed -i "s/xubuntu/$datetime/g" /etc/hosts
-
-cd /home/"$myuser"
-
-# Add stuff to bash login script
-
-bashadd=/home/"$myuser"/.bash_aliases
-[[ -e "$bashadd" ]] && mv "$bashadd" "$bashadd-orig"
-touch "$bashadd"
-
-cat /var/local/bash_aliases-add >> "$bashadd"
-
-# Make ~/.bash_aliases be owned by "$myuser" instead of root
-chmod a+x "$bashadd"
-chown $myuser:$myuser "$bashadd" 
-
-# # The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
-# mkdir -p /EFI/BOOT/
-# cp /var/local/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
-# cp /var/local/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
-# echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
+## The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
+if [[ -e /EFI/BOOT ]]; then
+    cp /var/local/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label    /EFI/BOOT/.disk_label
+    cp /var/local/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label_2x /EFI/BOOT/.disk_label2x
+    echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
+fi
 
 cd /var/local
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
-[[ -e ./Size-To-Make-Is-MIN ]] && size="MIN"
+[[ -e /var/local/status/Size-To-Make-Is-MIN ]] && size="MIN"
 
 isoSize="$size"
 welcome="# Welcome to the Econ-ARK Machine XUBUNTARK-$size, build "
@@ -163,30 +154,30 @@ EOF
 #echo 'Fetching online image of this installer to '
 #echo "/media/"
 
-cd /media
-
-# Install Chrome browser 
-wget --quiet -O          /var/local/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt -y install /var/local/google-chrome-stable_current_amd64.deb
-sudo -u econ-ark xdg-settings set default-web-browser google-chrome.desktop
-xdg-settings set default-web-browser google-chrome.desktop
-
-# Make sure that everything in the home user's path is owned by home user 
-chown -Rf $myuser:$myuser /home/$myuser/
+[[ -e "/media/*.iso" ]] && sudo rm "/media/*.iso"
 
 # bring system up to date
 sudo apt -y update && sudo apt -y upgrade
 
+# Install either minimal or maximal system
 if [[ "$size" == "MIN" ]]; then
-    sudo apt -y install python3-pip python-pytest python-is-python3
-    sudo update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 10
-    sudo pip install pytest
-    sudo pip install nbval
-    sudo pip install jupyterlab # jupyter is no longer maintained, and the latest version of matplotlib that jupyter_contrib_nbextensions uses does not work with python 3.8.
+    /var/local/installers/install-conda-x.sh miniconda
+    source /etc/environment 
+    source ~/.bashrc
+    conda activate base
+    pip install econ-ark 
+    conda install --yes -c conda-forge nbval
+    conda install --yes -c conda-forge jupyterlab # jupyter notebook is no longer maintained
+    conda install --yes -c conda-forge pytest
+    conda install --yes -c conda-forge nbval     # use pytest on notebooks
 else
+    /var/local/installers/install-conda-x.sh anaconda
+    source /etc/environment
+    source ~/.bashrc
+    conda activate base
+    pip install econ-ark 
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
-    source /etc/environment # Update the path
     echo '' >> XUBUNTARK.md
     echo 'In addition, it contains a rich suite of other software (like LaTeX) widely ' >> XUBUNTARK.md
     echo 'used in scientific computing, including full installations of Anaconda, '     >> XUBUNTARK.md
@@ -194,69 +185,37 @@ else
     echo '' >> XUBUNTARK.md
 fi
 
-cat /var/local/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
+sudo apt -y install python-is-python3
+
+# elpy is for syntax checking in emacs
+pip install elpy
+
+# Now that elpy has been installed, rerun the emacs setup to connect to it
+emacs -batch --eval "(setq debug-on-error t)" -l     /root/.emacs  # Run in batch mode to setup everything
+
+cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
+
+mv /var/local/XUBUNTARK.md /var/local/About_This_Install
+
+# 20220602: For some reason jinja2 version obained by pip install is out of date
+pip install jinja2
 
 # Configure jupyter notebook tools
-sudo pip install jupyter_contrib_nbextensions
+
+sudo apt -y install nodejs
 sudo jupyter contrib nbextension install
 sudo jupyter nbextension enable codefolding/main
 sudo jupyter nbextension enable codefolding/edit
 sudo jupyter nbextension enable toc2/main
 sudo jupyter nbextension enable collapsible_headings/main
-curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+#curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
 sudo jupyter labextension install jupyterlab-jupytext
-sudo pip install ipywidgets
-sudo apt -y install nodejs
 
-# Install systemwide copy of econ-ark 
-sudo pip install --upgrade econ-ark
-sudo pip install --upgrade nbreproduce
+# Install systemwide copy of nbreproduce
+pip install --upgrade nbreproduce
 
 # Install user-owned copies of useful repos
 # Download and extract HARK, REMARK, DemARK, econ-ark-tools from GitHub
-
-arkHome=/usr/local/share/data/GitHub/econ-ark
-mkdir -p "$arkHome"
-sudo chown econ-ark:econ-ark $arkHome
-
-cd "$arkHome"
-
-for repo in REMARK HARK DemARK econ-ark-tools; do
-    sudo -u econ-ark git clone https://github.com/econ-ark/$repo
-    # Make it all owned by the econ-ark user -- including invisible files like .git
-    # Install all requirements
-    [[ -e $repo/requirements.txt ]] && sudo pip install -r $repo/requirements.txt
-    [[ -e $repo/binder/requirements.txt ]] && sudo pip install -r $repo/binder/requirements.txt
-done
-
-echo 'This is your local, personal copy of HARK; it is also installed systemwide.  '      >  HARK-README.md
-echo 'Local mods will not affect systemwide, unless you change the default source via:'   >> HARK-README.md
-echo "   cd $arkHOME ;  pip install -e setup.py "                                         >> HARK-README.md
-echo '' >> HARK-README.md
-echo '(You can switch back to the systemwide version using pip install econ-ark)'         >> HARK-README.md
-echo 'To test whether everything works, in the root directory type:.  '                   >> HARK-README.md
-echo 'pytest '                                                                            >> HARK-README.md
-
-echo 'This is your local, personal copy of DemARK, which you can modify.  '    >  DemARK-README.md
-echo 'To test whether everything works, in the root directory type:.  '       >>  DemARK-README.md
-echo 'cd notebooks ; pytest --nbval-lax --nbval-cell-timeout=12000 --ignore=notebooks/Chinese-Growth.ipynb *.ipynb  '                            >>  DemARK-README.md
-
-echo 'This is your local, personal copy of REMARK, which you can modify.  '    >  REMARK-README.md
-
-# Submodules are links to repos stored elsewhere -- pull a local copy in
-cd /usr/local/share/data/GitHub/econ-ark/REMARK
-git submodule update --init --recursive --remote
-git pull
-
-# Run the automated tests to make sure everything installed properly
-cd /usr/local/share/data/GitHub/econ-ark/HARK
-pytest 
-
-cd /usr/local/share/data/GitHub/econ-ark/DemARK/notebooks
-# 20210904: Disabling pytest because Chinese Growth fails; see DemARK issue posted today
-pytest --nbval-lax --nbval-cell-timeout=12000 --ignore=Chinese-Growth.ipynb *.ipynb
-
-
 
 # Allow reading of MacOS HFS+ files
 sudo apt -y install hfsplus hfsutils hfsprogs
@@ -264,36 +223,35 @@ sudo apt -y install hfsplus hfsutils hfsprogs
 # # Prepare partition for reFind boot manager in MacOS
 # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
 
-# echo "hfsplusLabels=$hfsplusLabels"
-# if [[ "$hfsplusLabels" != "" ]]; then                  # A partition LABELED HFS+ exists...
-#     cmd="mkfs.hfsplus -s -v 'refind-HFS' $hfsplusLabels"  # ... so FORMAT it as hfsplus
-#     echo "cmd=$cmd"
-#     eval "$cmd"
-#     sudo mkdir /tmp/refind-HFS && sudo mount -t hfsplus "$hfsplusLabels" /tmp/refind-HFS  # Mount the new partition in /tmp/refind-HFS
-#     sudo cp /var/local/refind-install-MacOS.sh    /tmp/refind-HFS      # Put refind script on the partition
-#     sudo chmod a+x                                /tmp/refind-HFS/*.sh # make it executable
-#     sudo cp /var/local/Econ-ARK.VolumeIcon.icns   /tmp/refind-HFS/.VolumeIcon.icns # Should endow the HFS+ volume with the Econ-ARK logo
-#     echo  "$online/Disk/Icons/.VolumeIcon.icns" > /tmp/refind-HFS/.VolumeIcon_icns.source
-#     #    sudo wget --quiet -O  /tmp/refind-HFS/.VolumeIcon.icns "$online/Disk/Icons/os_refit.icns" 
-#     #    echo  "$online/Disk/Icons/os_refit.icns" >   /tmp/refind-HFS/.VolumeIcon_icns.source
-#     # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
-#     # sudo apt-get --assume-no install refind # If they might be booting from MacOS or Ubuntu, make refind the base bootloader
-#     # ESP=$(sudo sfdisk --list | grep EFI | awk '{print $1}')
-#     # sudo refind-install --usedefault "$ESP"
-# fi
-
 sudo apt-get update
 sudo apt-get upgrade
 sudo apt-get install unattended-upgrades
 
-sudo mkdir -p /etc/apt/apt.conf.d/20auto-upgrades
-sudo wget -O  /etc/apt/apt.conf.d/20auto-upgrades $online/Files/For-Target/root/etc/apt/apt.conf.d/20auto-upgrades
+sudo mkdir -p /etc/apt/apt.conf.d
+[[ -e /etc/apt/apt.conf.d/20auto-upgrades ]] && sudo mv /etc/apt/apt.conf.d/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades_orig
+sudo cp /var/local/sys_root_dir/etc/apt/apt.conf.d/20auto-upgrades /etc/apt/apt.conf.d/20auto-upgrades 
 
 # Restore printer services (disabled earlier because sometimes cause hang of boot)
 sudo systemctl enable cups-browsed.service 
 
+# Meld is a good file/folder diff tool
+sudo apt -y install meld
+
+# ssh was installed in start.sh
+#/var/local/installers/install-ssh.sh "$user"    |& tee /var/local/status/install-ssh.log
+#/var/local/config/config/config-keyring.sh "$user" |& tee /var/local/config/config-keyring.log
+
+sudo apt -y upgrade
+
+# Kill tail monitor if it is running
+tail_monitor="$(pgrep tail | grep -v pgrep)"
+[[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
 
 # Signal that we've finished software install
-touch /var/local/finished-software-install 
+touch /var/local/status/finished-software-install.flag 
 
-reboot
+sudo chmod -Rf a+rw /var/local/status
+
+sudo apt -y autoremove # Remove unused packages
+
+sudo reboot
