@@ -13,14 +13,12 @@ locale: en_US.UTF-8
 version: 1
 packages:
   - git
-  - emacs
 runcmd:
-  - sudo set -x
-  - sudo set -v
   - sudo mkdir -p /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
   - sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
   - sudo mv /var/local /var/local_orig 
   - sudo ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local
-  - sudo /var/local/late_command.sh 2>&1 | tee /var/local/late_command.log
-  - sudo /var/local/start.sh
-  
+  - sudo rm    /var/local/status/Size-To-Make-Is-*
+  - sudo touch /var/local/status/Size-To-Make-Is-MAX
+  - sudo /var/local/late_command.sh 2>&1 | sudo tee /var/local/status/late_command.log
+  - sudo reboot

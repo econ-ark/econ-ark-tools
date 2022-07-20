@@ -1,5 +1,5 @@
 # 
-Contains the scripts and configuration files used to create the ISO
+Contains the scripts and configuration files used to create the ISO installer
 
 To create the [size] version invoke 
 
@@ -17,9 +17,6 @@ PS. The scripts assume that there are shared folders:
 	
 attached to the creator VM; this is where the ISO will be put in the end.
 
-Other files:
-
-1. ./send-both-To-Google.sh - Constructs both ISOs and sends to Google Drive
-    * gDrive url is public link hard wired in econ-ark-tools/Virtual/README.md
-1. `Disk` contains resources like icon files for the installer 
-1. `Files` is where the various resource files live 
+* `Files` is where the various resource files live
+   * For-ISO: resources for creating the ISO installer
+   * For-Target: resources for constructing the Econ-ARK machine

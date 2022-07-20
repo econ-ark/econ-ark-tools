@@ -1,4 +1,4 @@
-# Virtual Machine Options
+# Creating an Econ-ARK Machine (Virtual, Metal, or Hybrid)
 
 You have several options for creating a virtual machine containing the Econ-ARK tools.
 
@@ -11,33 +11,24 @@ Install "Docker" on your computer, and follow the instructions in the [Docker](h
 	
 ### Somewhat More Powerful 
 
-Install multipass on your computer, and follow the instructions in the [multipass](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/multipass) directory to create a VM on your computer.
+#### VirtualBox
 
-### Most Powerful 
-
-Your computer can (temporarily; reversibly; while booted from an external drive or USB stick) be turned into a Linux-native machine, which makes its full resources (RAM; processors) available. This is like a brain transplant for your computer, and is worth doing if you will be spending a lot of time working with the tools
-
-* This will require you to have two USB sticks
-   1. A small one to hold the installer software (say, 4GB)
-   1. A large one to hold the installed system
-      * at least 128 GB
-* Be sure to get a _fast_ USB stick, at least for the large dive
-* Use the [XUBUNTARK-MAX](#MAX) ISO image file described below
-   * Follow the rest of the instructions below
-
-### In-Between
-
-You can install [VirtualBox](https://virtualbox.org) on your computer, which will allow you to run Linux in a virtual machine that is encapsulated on your regular hard drive.  This has the advantage of being very safe (the virtual machine is completely contained inside a VirtualBox jail; you have to give it permissions to do anything that affects the rest of your computer). It has the disadvantage, like the Docker solution, of requiring your computer to share its resources.
+You can install [VirtualBox](https://virtualbox.org) on your computer, which will allow you to run Linux in a virtual machine encapsulated on your regular hard drive.  This has the advantage of being very safe (the virtual machine is completely contained inside a VirtualBox jail; you have to give it permissions to do anything that affects the rest of your computer). It has the disadvantage, like the Docker solution, of requiring your computer to share its resources.
 
 It also requires a fair bit of configuration, so there is a separate [set 
 of instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/VirtualBox)
+
+
+#### Multipass
+
+Install multipass on your computer, and follow [these instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/multipass.md) to create a VM on your computer.
 
 # MIN or MAX
 
 ### [XUBUNTARK-MIN](https://drive.google.com/drive/folders/1iPyEwhhrUv1XQfRV7uSjmy5k7_TXsKmM?usp=sharing)
 
-Installs python3, jupyter lab, Econ-ARK, and not much else. The total size
-of the software is about 6 GB, and a minimal so even if you have a fairly small USB
+Installs miniconda, tex- jupyter lab, Econ-ARK, and not much else. The total size
+of the software is about 12 GB, and a minimal so even if you have a fairly small USB
 stick (say, 32 GB) you should be able to run Econ-ARK stuff on it.
 
 Installation of this machine should take roughly an hour if you have reasonably
@@ -71,29 +62,6 @@ the full results of several computational economics papers.
 
 This machine is considerably larger, and so will take longer to install, perhaps
 several hours.
-
-## Instructions for Installing your VM on a Bootable USB Stick (or drive)
-
-### [Burn](#burn) your chosen ISO image (MIN or MAX) to the small USB stick
-
-1. Download your selected (MIN or MAX) ISO image to your computer
-0. "mount" the image so that the computer can see it
-   * [Create-A-USB-Stick-On-Windows](https://ubuntu.com/tutorials/create-a-usb-stick-on-windows)
-
-   * On Macs, mounting is done with the Disk Utility app ("open image")
-   * Next, make a "bootable USB" stick by "flashing" the ISO image to the USB stick
-      * ["Carbon Copy Cloner"](https://bombich.com/software/download_ccc.php) is the most reliable option for this
-	     * There is a free trial version that should work
-	     * Format your USB stick to MS-DOS
-		 * Clone from the mounted ISO image to the formatted USB stick
-	  * Other options are less reliable 
-         * [UNETBOOTIN](https://unetbootin.github.io)
-	     * Then run the unetbootin app and choose "Drive Image"
-	        * Navigate to wherever you have downloaded your ISO
-      * ["Etcher"](https://balena.io/etcher/)
-	     * Seems to work on 2015-2019 vintage macs
-	     * Fails on some earlier and later ones
-      * [Create-A-USB-Stick-On-Macs](https://ubuntu.com/tutorials/create-a-usb-stick-on-macs) is another resource
 
 ### Physically connect your computer to the internet
 

@@ -1,15 +1,25 @@
 # econ-ark-tools
-General tools for econ-ark, packaged up
+General tools for econ-ark. Directories:
 
-## Virtual
+## Web
 
-This directory explains options for creating an Econ-ARK Virtual Machine that you can run on a host computer. Naturally, because your computer's resources will be shared with the VM, both your regular processes (email, etc) and the Econ-ARK machine's process may be slow.
+Tools for creation of web resources, like css style files etc
 
-## Metal
+## Machine
 
-This directory explains how to take an existing computer and convert it to have the Econ-ARK system installed in place of whatever OS you may already have. Considerably faster and more efficient than the Virtual option. If you have a disued old computer, you might try this.
+Different ways to construct a self-contained Econ-ARK machine:
 
-## Hybrid
+### Virtual
 
-If you have a compatible version of Linux running in any form (either you already have a linux computer, or you have an existing installation of linux in a VM on your host computer), you can add the Econ-ARK system to that machine (virtual or real).
+Create a Virtual Machine that you can run on a host computer. Because your computer's resources will be shared with the VM, both your regular processes (email, etc) and the Econ-ARK machine's processes may be slow.
+
+### Metal
+
+Take an existing computer and set it up so it can boot the Econ-ARK system on an external drive or flash stick. 
+   * Your machine will be faster and more efficient than the Virtual option. 
+
+### Hybrid/Cloud
+
+Convert an existing platform running Debian/Ubuntu into the Econ-ARK machine.
+
 

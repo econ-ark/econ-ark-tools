@@ -2,7 +2,7 @@
 
 [canonical multipass](https://multipass.run/docs) is a tool to generate cloud-style Ubuntu VMs quickly on Linux, macOS, and Windows.
 
-These notes will assume that you have installed multipass successfully on your computer and have managed to create the default virtual machine (called "primary").
+These notes will assume that you have installed multipass and have managed to create the default virtual machine (called "primary").
 
 When you have done so, you will have a software daemon running on your computer named `multipassd`. The multipass installer will also have created a default directory somewhere on your computer to store all the virtual machines it creates. Where, exactly, it will put that directory varies depending on what kind of machine you have, and how you configure multipass.
 
@@ -59,5 +59,3 @@ n.b. If you have installed virtualbox on your machine and configured it to be th
 then you can also connect to the machine by running VirtualBox as the root user:
 
 	`sudo VirtualBox`
-	
-	
