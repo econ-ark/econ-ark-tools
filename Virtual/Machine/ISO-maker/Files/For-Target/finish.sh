@@ -150,9 +150,9 @@ EOF
 
 
 # Download the installer (very meta!)
-echo ''
-echo 'Fetching online image of this installer to '
-echo "/media/"
+#echo ''
+#echo 'Fetching online image of this installer to '
+#echo "/media/"
 
 [[ -e "/media/*.iso" ]] && sudo rm "/media/*.iso"
 
