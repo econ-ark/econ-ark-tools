@@ -19,7 +19,7 @@ n.b.: You will need to reconfigure your machine to permit it to boot from an ext
 
 ### [Burn](#burn) your chosen ISO image (MIN or MAX) to the small USB stick
 
-1. Download your selected [(MIN or MAX)](https://github.com/econ-ark/econ-ark-tools/master/Software/Size.md) ISO image to your computer
+1. Download your selected [(MIN or MAX)](https://github.com/econ-ark/econ-ark-tools/blob/master/Software/Size.md) ISO image to your computer
 0. "mount" the image so that the computer can see it
    * [Create-A-USB-Stick-On-Windows](https://ubuntu.com/tutorials/create-a-usb-stick-on-windows)
    * On Macs, mounting is done with the Disk Utility app ("open image")
