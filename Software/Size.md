@@ -33,9 +33,7 @@ This machine also executes a set of tests of whether it can run a number of exam
 
 ## ISO Installers
 
-[MIN](./XUBUNTARK-MIN.url)
-
-[MAX](./XUBUNTARK-MAX.url)
+See the [installation guide](https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/README.md#Size)
 
 # Start
 

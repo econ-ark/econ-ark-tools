@@ -1,4 +1,4 @@
-# Creating an Econ-ARK Machine (Virtual, Metal, or Hybrid)
+# Creating an Econ-ARK Virtual Machine
 
 You have several options for creating a virtual machine containing the Econ-ARK tools.
 
@@ -23,7 +23,7 @@ of instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/
 
 Install multipass on your computer, and follow [these instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/multipass.md) to create a VM on your computer.
 
-# MIN or MAX
+# Size
 
 ### [XUBUNTARK-MIN](https://drive.google.com/drive/folders/1WVs4TpsMrB8erCIykymzMYmYtxvTjtwk)
 
