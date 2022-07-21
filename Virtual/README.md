@@ -1,4 +1,4 @@
-# Creating an Econ-ARK Machine (Virtual, Metal, or Hybrid)
+# Creating an Econ-ARK Virtual Machine
 
 You have several options for creating a virtual machine containing the Econ-ARK tools.
 
