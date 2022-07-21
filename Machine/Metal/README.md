@@ -33,3 +33,23 @@ n.b.: You will need to reconfigure your machine to permit it to boot from an ext
 	     * Fails on some earlier and later ones
       * [Create-A-USB-Stick-On-Macs](https://ubuntu.com/tutorials/create-a-usb-stick-on-macos) is another resource
 
+
+### Boot your computer from the newly created USB stick
+
+1. Macs:
+   * Hold the "option" key when the compute is booting
+   * Depending on your Mac model, you will see one of
+      * "ARKINSTALL"
+	  * "EFI BOOT"
+   * Pick whichever of these options you see
+1. Windows:
+   * The steps to boot from an external drive depend on your model
+       * There are lots of tutorials on the web
+	  
+### Do Not Destroy Your Real Computer!
+
+* The last question the installer will ask is whether you want to write the new partioning schemes 
+  * It will show your USB stick's partitioning scheme
+  * It may ALSO show your computer's drive partitioning scheme 
+  * Don't worry, if the partitioning scheme it shows identifies the drive as having a format other than ext4, it won't be touching it.
+      * So, you can hit return to accept 

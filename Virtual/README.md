@@ -23,83 +23,11 @@ of instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/
 
 Install multipass on your computer, and follow [these instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/multipass.md) to create a VM on your computer.
 
-# Size
-
-### [XUBUNTARK-MIN](https://drive.google.com/drive/folders/1WVs4TpsMrB8erCIykymzMYmYtxvTjtwk)
-
-Installs miniconda, tex- jupyter lab, Econ-ARK, and not much else. The total size
-of the software is about 12 GB, and a minimal so even if you have a fairly small USB
-stick (say, 32 GB) you should be able to run Econ-ARK stuff on it.
-
-Installation of this machine should take roughly an hour if you have reasonably
-fast internet access.
-
-Even if you plan ultimately to install the MAX version described below, you might
-do a "test run" with the MIN version because it is considerably faster.
-
-### [XUBUNTARK-MAX](https://drive.google.com/drive/u/5/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD)
-
-#### Note: The installer will not work on a Windows machine with "secure boot" enabled.  
-
-You may need to either
-1. [Disable secure-boot on your machine](https://www.google.com/search?q=how+do+i+disable+secure+boot+in+BIOS); or
-1. Seek instructions on the internet for installing Ubuntu on your particular machine
-    * Instructions for installing the Econ-ARK flavor of Ubuntu should be the same, except that you will be the XUBUNTARK file you download as described below instead of the file from Ubuntu
-
-(Machines new enough to have secure boot probably are powerful enough to use the [VirtualBox](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/VirtualBox) method)
-
-In addition to the contents of [XUBUNTARK-MIN](#XUBUNTARK-MIN), the MAX version includes a full installation of:
-
-1. Anaconda 3
-1. LaTeX
-1. QuantEcon
-1. scipy
-
-and a suite of other tools that together construct a machine that
-should be adequate for a rich variety of tasks for scientific
-computation. Indeed, the VM can run code (installed) that reproduces
-the full results of several computational economics papers.
-
-This machine is considerably larger, and so will take longer to install, perhaps
-several hours.
+## [ISO-Installers](https://github.com/econ-ark/econ-ark-tools/blob/master/Software/Size.md)
 
 ### Physically connect your computer to the internet
 
-Installation is easiest if your computer is directly plugged into a 
-wired ethernet connection. If your only choice is wifi, you will have to
-manually configure the wifi setup when the installer fails to autoconfigure
-its internet connections
-
-### Boot your computer from the USB stick
-
-1. Macs:
-   * Hold the "option" key when the compute is booting
-   * Depending on your model, you will see one of
-      * "ARKINSTALL"
-	  * "EFI BOOT"
-   * Pick whichever of these options you see
-1. Windows:
-   * The steps to boot from an external drive depend on your model
-       * There are lots of tutorials on the web
-	  
-### Do Not Destroy Your Real Computer!
-
-When you boot from the installer USB stick, the first question you are likely to be asked is whether you want to "unmount active partitions." The answer is yes -- the only "active partitions" should be those on the booted USB stick, and you don't want it to write over itself
-
-The next question you will need to answer is where you want to install the system.
-
-There are a number of options, but you should pick "entire disk"
-
-* Don't worry, it won't wipe your computer's drive clean
-* Instead it will ASK you which of the available drives you want to use
-* One of them should have a name corresponding to the large USB stick. Pick that.
-* You will then be asked a couple of further questions
-   * Just hit "enter" or choose "yes" repeatedly
-* The last question is whether you want to write the new partioning schemes 
-  * It will show your USB stick's partitioning scheme
-  * It will ALSO show your computer's drive partitioning scheme 
-  * Don't worry, it won't actually do anything to your computer's scheme
-      * So, say "yes"
+Installation is easiest if your computer is directly plugged into a wired ethernet connection. If your only choice is wifi, you will have to manually configure the wifi setup when the installer fails to autoconfigure its internet connections. If it tries to autoconfigure without asking you for WiFi info, a wired internet connection may be required.
 		  
 ### Wait
 
