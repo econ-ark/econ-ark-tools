@@ -43,6 +43,16 @@ and a suite of other tools that together construct a machine that should be adeq
 
 This machine also executes a set of tests of whether it can run a number of examples of the use of the toolkit.
 
+<<<<<<< HEAD
+=======
+
+## ISO Installers
+
+See the [installation guide](https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/README.md#Size)
+
+# Start
+
+>>>>>>> 6cd1bdd1699cb280302d52d0daff3248563e008e
 The XUBUNTARK machine is set to autologin:
 ```
    username:econ-ark

@@ -216,15 +216,16 @@ d-i mirror/udeb/components multiselect main, restricted, universe, multiverse
 #     debconf-set debconf/priority critical
 
 # Makes it install to the MBR; necessary for vbox
-# d-i grub-installer/only_debian boolean true
+d-i grub-installer/only_debian boolean true
 # include other os's in the grub file if they exist
 # d-i grub-installer/with_other_os boolean true 
+grub-efi-amd64 grub2/force_efi_extra_removable boolean true
 
 ### Kernel options for boot in created machine
 # net.ifnames=0 seems to be required to let the device keep its own name
 # even if the DHCP provider wants to give it another name
 #d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash nolapic nomodeset efi=noruntime
-d-i debian-installer/add-kernel-opts string verbose nosplash nolapic nomodeset efi=noruntime
+d-i debian-installer/add-kernel-opts string verbose nosplash nolapic nomodeset efi=noruntime add_efi_memmap
 
 # Finish
 ## Preserve consoles which help debugging

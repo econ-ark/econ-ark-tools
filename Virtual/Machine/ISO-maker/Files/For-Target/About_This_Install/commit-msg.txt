@@ -1,1 +1,1 @@
-Make_MIN_from_master
+seed:_grub-efi-amd64_grub2-force_efi_extra_removable_boolean_true
