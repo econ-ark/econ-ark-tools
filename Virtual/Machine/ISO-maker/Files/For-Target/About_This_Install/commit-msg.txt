@@ -1,1 +1,1 @@
-grub-efi-amd64_failed;_halt_before_reboot
+remove_grub_from_seed;_halt_before_power_off
