@@ -1,1 +1,1 @@
-seed:_grub-efi-amd64_grub2-force_efi_extra_removable_boolean_true
+grub-efi-amd64_failed;_halt_before_reboot
