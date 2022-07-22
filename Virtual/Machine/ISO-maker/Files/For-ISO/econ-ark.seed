@@ -219,7 +219,7 @@ d-i mirror/udeb/components multiselect main, restricted, universe, multiverse
 d-i grub-installer/only_debian boolean true
 # include other os's in the grub file if they exist
 # d-i grub-installer/with_other_os boolean true 
-grub-efi-amd64 grub2/force_efi_extra_removable boolean true
+# grub-efi-amd64 grub2/force_efi_extra_removable boolean true
 
 ### Kernel options for boot in created machine
 # net.ifnames=0 seems to be required to let the device keep its own name
@@ -239,5 +239,6 @@ d-i cdrom-detect/eject                                      boolean     true
 d-i debian-installer/exit/halt                              boolean     false
 ## With poweroff = true, no reboot
 d-i debian-installer/exit/poweroff                          boolean     false
+d-i debian-installer/exit/poweroff                          boolean     true
 
 # late_command is added by create-unattended-iso script
