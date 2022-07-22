@@ -226,7 +226,7 @@ d-i grub-installer/only_debian boolean true
 # even if the DHCP provider wants to give it another name
 #d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash nolapic nomodeset efi=noruntime
 #d-i debian-installer/add-kernel-opts string verbose nosplash nolapic nomodeset efi=noruntime
-d-i debian-installer/add-kernel-opts string verbose nosplash #nolapic nomodeset efi=noruntime 
+d-i debian-installer/add-kernel-opts string verbose nosplash nomodeset #nolapic efi=noruntime 
 
 # Finish
 ## Preserve consoles which help debugging
