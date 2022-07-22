@@ -37,19 +37,27 @@ n.b.: You will need to reconfigure your machine to permit it to boot from an ext
 ### Boot your computer from the newly created USB stick
 
 1. Macs:
-   * Hold the "option" key when the compute is booting
+   * Hold the "option" key when the computer is booting
    * Depending on your Mac model, you will see one of
       * "ARKINSTALL"
 	  * "EFI BOOT"
    * Pick whichever of these options you see
 1. Windows:
-   * The steps to boot from an external drive depend on your model
+   * The steps to boot from an external USB stick depend on your model
        * There are lots of tutorials on the web
 	  
 ### Do Not Destroy Your Real Computer!
 
-* The last question the installer will ask is whether you want to write the new partioning schemes 
-  * It will show your USB stick's partitioning scheme
-  * It may ALSO show your computer's drive partitioning scheme 
-  * Don't worry, if the partitioning scheme it shows identifies the drive as having a format other than ext4, it won't be touching it.
-      * So, you can hit return to accept 
+The last question the installer will ask is whether you want to write the new partioning schemes to use to format your drive
+
+* It should show your (big) USB stick's (proposed) new partitioning scheme
+* Probably it will show only one drive to partition, identified as a flash or USB
+  * In that case, just hit return
+  
+* If it shows multiple drives to partition, be careful
+  * Above the USB stick it may ALSO show your computer's internal drive partitioning scheme
+  * This will have a main partition (the largest one), which 
+     * will probably be NTFS for a windows machine
+	 * will probably be HFS or APFS for a mac
+	 * If it is ext4, do NOT continue 
+	    - it is saying it wants to wipe your internal drive
