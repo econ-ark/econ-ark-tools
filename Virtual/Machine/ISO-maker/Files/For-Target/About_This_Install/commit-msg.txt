@@ -1,1 +1,1 @@
-remove_grub_from_seed;_halt_before_power_off
+Do_not_use_cdrom_as_a_source
