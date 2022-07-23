@@ -53,7 +53,7 @@ fi
 sudo /var/local/installers/install-gh-cli-tools.sh
 
 # LaTeX - minimal (required for auctex install on emacs)
-sudo apt -y install texlive-tex-base texlive-latex-base
+sudo apt -y install texlive-base texlive-latex-base
 [[ "$(which emacs)"  != "" ]] && sudo emacs -batch -eval "(setq debug-on-error t)" -l /root/.emacs
 
 sudo /var/local/installers/install-emacs.sh |& tee /var/local/status/install-emacs.log

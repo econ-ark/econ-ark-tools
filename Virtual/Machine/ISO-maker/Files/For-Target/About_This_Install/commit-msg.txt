@@ -1,1 +1,1 @@
-Do_not_use_cdrom_as_a_source
+Restore_reboot;_disable_cdrom
