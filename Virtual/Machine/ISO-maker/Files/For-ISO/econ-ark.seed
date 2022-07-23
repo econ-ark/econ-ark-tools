@@ -50,9 +50,9 @@ d-i preseed/early_command string \
 # Nonfree firmware is on the installer disk because it is useful for 
 # connecting to network adapters (required before downloads of
 # nonfree packages could happen over the net)   
-#d-i apt-setup/cdrom/set-first boolean true
-#d-i apt-setup/cdrom/set-next boolean true
-#d-i apt-cdrom/disable-cdrom-entries boolean false
+d-i apt-setup/cdrom/set-first boolean false
+d-i apt-setup/cdrom/set-next boolean  false
+d-i apt-cdrom/disable-cdrom-entries boolean true
 
 ## Extra firmware drivers for unusual cards
 d-i hw-detect/load_firmware boolean true
@@ -240,6 +240,5 @@ d-i cdrom-detect/eject                                      boolean     true
 d-i debian-installer/exit/halt                              boolean     false
 ## With poweroff = true, no reboot
 d-i debian-installer/exit/poweroff                          boolean     false
-d-i debian-installer/exit/poweroff                          boolean     true
 
 # late_command is added by create-unattended-iso script
