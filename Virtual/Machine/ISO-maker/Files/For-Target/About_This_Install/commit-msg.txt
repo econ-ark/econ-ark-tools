@@ -1,1 +1,1 @@
-Restore_reboot;_disable_cdrom
+Fix_texlive_install:_texlive-base_and_texlive-latex-base
