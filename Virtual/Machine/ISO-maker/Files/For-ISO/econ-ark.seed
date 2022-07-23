@@ -50,8 +50,8 @@ d-i preseed/early_command string \
 # Nonfree firmware is on the installer disk because it is useful for 
 # connecting to network adapters (required before downloads of
 # nonfree packages could happen over the net)   
-d-i apt-setup/cdrom/set-first boolean true
-d-i apt-setup/cdrom/set-next boolean true
+#d-i apt-setup/cdrom/set-first boolean true
+#d-i apt-setup/cdrom/set-next boolean true
 #d-i apt-cdrom/disable-cdrom-entries boolean false
 
 ## Extra firmware drivers for unusual cards
@@ -226,7 +226,7 @@ d-i grub-installer/only_debian boolean true
 # even if the DHCP provider wants to give it another name
 #d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash nolapic nomodeset efi=noruntime
 #d-i debian-installer/add-kernel-opts string verbose nosplash nolapic nomodeset efi=noruntime
-d-i debian-installer/add-kernel-opts string verbose nosplash #nolapic nomodeset efi=noruntime 
+d-i debian-installer/add-kernel-opts string verbose nosplash nomodeset #nolapic efi=noruntime 
 
 # Finish
 ## Preserve consoles which help debugging
