@@ -309,6 +309,7 @@ fi
 if grep -qs $iso_make/iso_org /proc/mounts ; then
     echo " image is already mounted"
     echo " unmounting before remounting (to make sure latest version is what is mounted)"
+    echo '(sudo umount $iso_make/iso_org )'
     (sudo umount $iso_make/iso_org )
 fi
 
