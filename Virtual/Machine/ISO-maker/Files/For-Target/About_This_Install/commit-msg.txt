@@ -1,1 +1,1 @@
-Update_create_to_work_with_t2linux_livecd_master
+echo_mount_iso_org_in_create
