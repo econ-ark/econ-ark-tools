@@ -1,0 +1,244 @@
+# ; -*- mode: sh ;-*- ;;; tells emacs to edit in shell script mode
+
+# auto-install allows installer to skip most preseeded questions
+# # (mostly -- or only -- in critical mode)
+d-i auto-install enable boolean true
+
+# # With priority=critical, automatic configuration of networking is attempted
+# # via DHCP on the first available interface but skipped if it fails.
+# # With priority=high, networking will ask user to choose among interfaces
+# # (wifi or wired, if both exist) and if wifi to enter a password
+# # This is required for configuring wifi setup when needed
+
+# # So, must start with 
+d-i debconf/priority select high
+# #d-i debconf/priority select critical
+
+# # With priority=high neither kernel parameters nor the preseeding
+# # below convinces the installer to skip questions about the keyboard
+# # configuration
+
+# Set sources for package downloads
+# # (matches cloud-init setup) from line debconf-selections
+
+# # base-config apt-setup/non-free boolean true
+# # base-config apt-setup/restricted boolean true
+# # base-config apt-setup/universe   boolean true
+# # base-config apt-setup/backports  boolean true
+# # base-config apt-setup/main       boolean true
+# # base-config apt-setup/multiverse boolean true
+# # d-i apt-setup/services-select                               multiselect security, updates
+# # d-i apt-setup/security_host                                 string      security.ubuntu.com
+# # d-i apt-setup/security_path                                 string      /ubuntu
+
+# # Localization - does not prevent required confirmation
+# # under priority high, only under priority critical
+d-i debian-installer/locale string en_US.UTF-8
+# # might work to set the local question to "seen"
+
+# early_command
+# # There are two moments at which an early_command can be executed:
+# # at the very beginning (via preseed/early_command), and at the
+# # beginning of partitioning (via partman/early_command).
+
+d-i preseed/early_command string \
+    debconf-set console-setup/ask_detect false ;\
+    debconf-set keyboard-configuration/layoutcode us ;\
+    cp -a /cdrom/firmware/* /lib/firmware ;\
+    umount /media || true
+
+# Nonfree firmware is on the installer disk because it is useful for 
+# connecting to network adapters (required before downloads of
+# nonfree packages could happen over the net)   
+d-i apt-setup/cdrom/set-first boolean true
+d-i apt-setup/cdrom/set-next boolean  true
+d-i apt-cdrom/disable-cdrom-entries boolean false
+
+## Extra firmware drivers for unusual cards
+d-i hw-detect/load_firmware boolean true
+
+# Show install info rather than eye candy
+d-i debian-installer/splash                                 boolean     false
+
+## Choose WPA security for WiFi
+d-i netcfg/wireless_security_type select wpa
+
+# Preconfigure hostname for netcfg
+d-i netcfg/get_hostname string XUBARK-ISO
+d-i netcfg/hostname                                     string      {{hostname}}
+d-i netcfg/hostname seen                                true
+
+# user account setup
+# # DO NOT uncomment root-password lines: That disables sudo for main user
+# # d-i passwd/root-login                                       boolean     true
+# # d-i passwd/root-password                                    password    {{pwhash}}
+# # d-i passwd/root-password-again                              password    {{pwhash}}
+d-i passwd/make-user                                        boolean     true
+d-i passwd/user-fullname                                    string      {{username}}
+d-i passwd/username                                         string      {{username}}
+d-i passwd/user-password-crypted                            password    {{pwhash}}
+
+# Set UID to 1001 so it can match UID on cloud-init
+d-i passwd/user-uid                                         string      1001 
+
+### Clock and timezone settings
+d-i time/zone                                               string      {{timezone}}
+d-i clock-setup/utc                                         boolean     false
+d-i clock-setup/ntp                                         boolean     true
+
+# Partition the boot disk to install to
+## Code below is modified from
+## github.com/coreprocess/linux-unattended-installation/blob/master/ubuntu/20.04/custom/preseed.cfg
+## but changed to grep -f (below) from grep -vf (originally) to insist on
+## installation to USB device and tail -n1 to choose last usb device
+
+## Purposes:
+## - use only usb devices as candidates for the boot device
+## - exclude the usb drive hosting the installer from list of available USB
+## - tell grub installer to install to boot disk
+## - priority critical allows skipping of confusing questions
+d-i partman/early_command string \
+    CDDEV="$(mount | grep cdrom | cut -d' ' -f1 | sed 's/\(.*\)./\1/')" ;\
+    USBDEV_LIST="$(mktemp)" ;\
+    list-devices usb-partition | sed "s/\(.*\)./\1/" | grep -v "$CDDEV" > "$USBDEV_LIST" ;\
+    BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | grep -v "$CDDEV" | tail -1)" ;\
+    echo BOOTDEV="$BOOTDEV"  ;\
+    echo "$BOOTDEV" > /tmp/BOOTDEV ;\
+    if [[ ! -z "$BOOTDEV" ]]; then \
+	debconf-set partman-auto/disk "$BOOTDEV" ;\
+	debconf-set grub-installer/bootdev "$BOOTDEV" ;\
+    fi ;\
+    debconf-set debconf/priority critical
+    
+## Unmount active partitions, if any
+## Like, partition containing the installer
+## Does not seem actually to have any effect (extensive discussions online)
+d-i partman/unmount_active boolean true
+
+## Skip prompt to insert or make available installation medium
+d-i partman/installation_medium_mounted seen true
+   
+## Format as regular (not lvm or raid) 
+d-i partman-auto/method string regular
+
+## Delete any lvm or raid setup on chosen device
+d-i partman-lvm/device_remove_lvm boolean true
+d-i partman-lvm/confirm boolean true
+d-i partman-md/device_remove_md boolean true
+d-i partman-md/confirm boolean true
+
+## Guided - use entire disk
+d-i partman-auto/automatically_partition select Guided partitioning
+
+## some_device == Guided - use entire disk:
+d-i partman-auto/init_automatically_partition select some_device
+
+## Make sure the partitioning scheme is usable with GPT systems
+d-i partman-partitioning/choose_label string gpt 
+d-i partman-partitioning/default_label string gpt 
+
+## Automatically accept auto-partitioning choices, except last point
+## where user can look to make sure their main drive is not being wiped
+d-i partman-partitioning/confirm_write_new_label boolean true
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
+## Counterintuitively, the setting below forces it TO BE an efi system
+# d-i partman-efi/non_efi_system boolean true
+
+# This recipe was adapted from github.com/nuada/ubuntu-preseed (uefi-boot-root-swap)
+d-i partman-auto/choose_recipe select root-disk
+d-i partman-auto/expert_recipe string root-disk ::  \
+    1 1 1 free                           \
+    $bios_boot{ }                        \
+    method{ biosgrub }                   \
+    .                                    \
+    1024 1024 1024 fat32                    \
+    $primary{ }                          \
+    method{ efi } format{ }              \
+    label{ EFI System Partition }	 \
+    .                                    \
+    32768 65536 -1 ext4                  \
+    $primary{ }                          \
+    $bootable{ }                         \
+    method{ format } format{ }           \
+    use_filesystem{ } filesystem{ ext4 } \
+    mountpoint{ / }                      \
+    label{ root }                        \
+    .                                    \
+    1024 8192 100% linux-swap            \
+    $primary{ }                          \
+    method{ swap } format{ }             \
+    .
+
+    # 512 512 512 fat32                    \
+    # $primary{ }                          \
+    # method{ format } format{ }           \
+    # use_filesystem{ } filesystem{ fat32 }\
+    # mountpoint{ /boot }                  \
+    # .                                    \
+# ### Grub
+# The commented-out commands all select where to put the MBR; we want an EFI-only version
+
+## mirror settings
+d-i mirror/country string manual
+d-i mirror/http/hostname string archive.ubuntu.com
+d-i mirror/http/directory string /ubuntu
+d-i mirror/http/proxy string
+d-i mirror/udeb/components multiselect main, restricted, universe, multiverse
+
+# standard is recommended for all installs
+
+# Install things that should be present before late_command
+# These correspond to the preamble in cloud-init config files
+
+# # ## First, default to not installing recommended stuff
+# # d-i pkgsel/include/install-recommends boolean false
+
+# # # Answer the question the installer would want to ask
+# # d-i shared/default-x-display-manager                    select      lightdm
+
+# # d-i pkgsel/include string openssh-server lightdm lightdm-gtk-greeter
+
+# Automatic update
+# # d-i pkgsel/updatedb                                         boolean     true
+# # d-i pkgsel/upgrade seen true
+# # d-i pkgsel/upgrade                                          select      safe-upgrade
+# # d-i pkgsel/upgrade seen true
+# # # d-i pkgsel/update-policy select unattended-upgrades
+
+#tasksel tasksel/first multiselect xubuntu-desktop
+### Grub
+# The commented-out commands all select where to put the MBR; we want an EFI-only version
+# d-i grub-installer/bootdev string default   # Default is to choose first available
+# reset priority to critical to avoid user having to choose a disk for grub
+# d-i grub-installer/early_command string \
+#     debconf-set debconf/priority critical
+
+# Makes it install to the MBR; necessary for vbox
+d-i grub-installer/only_debian boolean true
+# include other os's in the grub file if they exist
+# d-i grub-installer/with_other_os boolean true 
+# grub-efi-amd64 grub2/force_efi_extra_removable boolean true
+
+### Kernel options for boot in created machine
+# net.ifnames=0 seems to be required to let the device keep its own name
+# even if the DHCP provider wants to give it another name
+#d-i debian-installer/add-kernel-opts string net.ifnames=0 verbose nosplash nolapic nomodeset efi=noruntime
+#d-i debian-installer/add-kernel-opts string verbose nosplash nolapic nomodeset efi=noruntime
+d-i debian-installer/add-kernel-opts string efi=noruntime pcie_ports=compat
+
+# Finish
+## Preserve consoles which help debugging
+d-i finish-install/keep-consoles                            boolean     true   
+## Comment all remaining lines to allow debugging by choosing to drop to shell at last moment before reboot
+## Avoid useless message about install being complete
+d-i finish-install/reboot_in_progress                       note
+## Eject virtual install ISO
+d-i cdrom-detect/eject                                      boolean     true
+## Halt just suspends 
+d-i debian-installer/exit/halt                              boolean     false
+## With poweroff = true, no reboot
+d-i debian-installer/exit/poweroff                          boolean     false
+
+# late_command is added by create-unattended-iso script
