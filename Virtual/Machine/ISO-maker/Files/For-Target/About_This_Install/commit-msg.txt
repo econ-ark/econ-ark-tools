@@ -1,1 +1,1 @@
-MacBookPro9,1_modprobe.blacklist=ahci
+Add_econo-ark-mbp.seed_for_t2linux
