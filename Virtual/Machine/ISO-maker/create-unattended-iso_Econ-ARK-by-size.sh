@@ -257,6 +257,7 @@ if [[ ! -f $iso_from/$download_file ]]; then
 	downloadrepo "$download_location""livecd.zip"
 	unzip livecd.zip
 	mv home/runner/work/mbp-ubuntu/mbp-ubuntu/$download_file ./$download_file
+	seed_file="econ-ark-mbp.seed"
     else
 	download "$download_location$download_file"
     fi
@@ -345,7 +346,7 @@ echo sudo cp -r $iso_make/firmware $iso_make/iso_new/firmware
 sudo cp -r $iso_make/firmware $iso_make/iso_new/firmware
 
 # copy the seed file to the iso
-cmd="sudo cp -rT $pathToScript/$ForISO/$seed_file $iso_make/iso_new/preseed/$seed_file"
+cmd="sudo cp -r $pathToScript/$ForISO/* $iso_make/iso_new/preseed/"
 echo "$cmd"
 eval "$cmd"
 
@@ -358,16 +359,16 @@ eval "$cmd"
 # The new icons only appear on a few machines (e.g. Retina 2014 MBPro)
 sudo chmod -Rf a+rw $iso_make
 
-sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/ARKINSTALL.disk_label     $iso_make/iso_new/EFI/BOOT/.disk_label
-sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/ARKINSTALL.disk_label_2x  $iso_make/iso_new/EFI/BOOT/.disk_label_2x
-sudo echo ARKINSTALL                                      > $iso_make/iso_new/EFI/BOOT/.disk_label.contentDetails
-sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/EFI/BOOT/.VolumeIcon.icns
-sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.VolumeIcon.icns
+[[ -e $iso_make/iso_new/EFI/BOOT ]] && sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/ARKINSTALL.disk_label     $iso_make/iso_new/EFI/BOOT/.disk_label
+[[ -e $iso_make/iso_new/EFI/BOOT ]] && sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/ARKINSTALL.disk_label_2x  $iso_make/iso_new/EFI/BOOT/.disk_label_2x
+[[ -e $iso_make/iso_new/EFI/BOOT ]] && sudo echo ARKINSTALL                                      > $iso_make/iso_new/EFI/BOOT/.disk_label.contentDetails
+[[ -e $iso_make/iso_new/EFI/BOOT ]] && sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/EFI/BOOT/.VolumeIcon.icns
+[[ -e $iso_make/iso_new/EFI/BOOT ]] && sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/.VolumeIcon.icns
 
-sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label     $iso_make/iso_new/preseed/Econ-ARK.disk_label
-sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label_2x  $iso_make/iso_new/preseed/Econ-ARK.disk_label_2x
-sudo echo Econ-ARK                                      > $iso_make/iso_new/preseed/Econ-ARK.disk_label.contentDetails
-sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/preseed/Econ-ARK.VolumeIcon.icns
+[[ -e $iso_make/iso_new/EFI/BOOT ]] && sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label     $iso_make/iso_new/preseed/Econ-ARK.disk_label
+[[ -e $iso_make/iso_new/EFI/BOOT ]] && sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label_2x  $iso_make/iso_new/preseed/Econ-ARK.disk_label_2x
+[[ -e $iso_make/iso_new/EFI/BOOT ]] && sudo echo Econ-ARK                                      > $iso_make/iso_new/preseed/Econ-ARK.disk_label.contentDetails
+[[ -e $iso_make/iso_new/EFI/BOOT ]] && sudo cp $pathToScript/Files/For-Target/sys_root_dir/EFI/BOOT/Econ-ARK.VolumeIcon.icns   $iso_make/iso_new/preseed/Econ-ARK.VolumeIcon.icns
 
 # Constraint: Nothing can be copied from the installer ISO to target
 # because the system that installs everything derives instead from initrd
