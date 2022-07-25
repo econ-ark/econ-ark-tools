@@ -18,7 +18,7 @@ Steps:
 
 ```
 mkdir /usr/local/share/data/GitHub/econ-ark
-sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+sudo git clone --depth 1 --branch master https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
 ```
 
 0. Change to the installed directory and run `late_command.sh`:
