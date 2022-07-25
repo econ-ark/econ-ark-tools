@@ -17,13 +17,15 @@ Steps:
 0. Clone the `econ-ark-tools` repository to the appropriate location:
 
 ```mkdir /usr/local/share/data/GitHub/econ-ark
-sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools```
+sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+```
 
 0. Change to the installed directory and run `late_command.sh`:
 
 ```cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
 	cd ./Virtual/Machine/ISO-Maker/Files/For-Target/
-	sudo ./late_command.sh```
+	sudo ./late_command.sh
+```	
 
 The installation should proceed automatically from there.
 
