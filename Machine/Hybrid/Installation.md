@@ -8,6 +8,8 @@ The word _converting_ is used delibertely: After this procedure, the machine wil
 
 The safest approach is therefore to start with a `clean' installation of Ubuntu (version 20.04 or higher) and upgrade it as below. 
 
+<script type="module" src="./node_modules/@github/clipboard-copy-element/dist/index.js">
+
 Steps:
 
 0. If your machine does not have `git` on it, then install that first:
