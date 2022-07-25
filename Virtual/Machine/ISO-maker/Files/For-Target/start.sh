@@ -143,5 +143,7 @@ sudo apt -y install xserver-xorg-input-libinput xserver-xorg-input-evdev xserver
 sudo /var/local/installers/install-ssh.sh
 sudo /var/local/config/config-ssh-user.sh $vncuser
 
-# When run by late_command, the machine will reboot after finishing start.sh
+# When run by cloud_init, the machine will reboot after finishing start.sh
 # rc.local will then notice that 'finish.sh' has not been run, and will run it
+
+# If you ran late_command.sh by hand, just reboot your machine when it finishes
