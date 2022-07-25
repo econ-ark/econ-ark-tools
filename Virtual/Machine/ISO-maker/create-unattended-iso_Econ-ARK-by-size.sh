@@ -393,7 +393,8 @@ late_command="mount --bind /dev /target/dev ;\
 # Update app install info and (re)install git
 late_command+=";\
    chroot /target apt -y update ;\
-   chroot /target apt -y reinstall git "
+   chroot /target apt -y reinstall git ;\
+   chroot /target apt -y install apt-utils"
 
 # Make place for, and retrieve, econ-ark-tools
 late_command+=";\

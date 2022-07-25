@@ -147,3 +147,4 @@ sudo /var/local/config/config-ssh-user.sh $vncuser
 # rc.local will then notice that 'finish.sh' has not been run, and will run it
 
 # If you ran late_command.sh by hand, just reboot your machine when it finishes
+
