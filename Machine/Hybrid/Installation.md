@@ -24,9 +24,9 @@ sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/ec
 0. Change to the installed directory and run `late_command.sh`:
 
 ```
-	cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
-	cd ./Virtual/Machine/ISO-Maker/Files/For-Target/
-	sudo ./late_command.sh
+cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+cd ./Virtual/Machine/ISO-Maker/Files/For-Target/
+sudo ./late_command.sh
 ```	
 
 The installation should proceed automatically from there.
