@@ -10,7 +10,7 @@ rm -Rf /var/local
 ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
 rm -f /var/local/status/Size-To-Make-Is-* 
 touch /var/local/status/Size-To-Make-Is-$(echo MIN) 
-[[ "$(echo /cdrom/preseed/*.iso)" != '' &>/dev/null ]] && mkdir -p /installer && cp /cdrom/preseed/*.iso /installer 
+[[ "$(echo /cdrom/preseed/*.iso)" != '' ]]  &>/dev/null && mkdir -p /installer && cp /cdrom/preseed/*.iso /installer 
 cat /etc/apt/sources.list | grep -v cdrom > /tmp/apt-sources_without_cdrom.list 
 mv /tmp/apt-sources_without_cdrom.list /etc/apt/sources.list
 /bin/bash -c "/var/local/late_command_finish.sh |& tee /var/local/status/late_command_finish.log" 

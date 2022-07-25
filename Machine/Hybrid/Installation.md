@@ -17,8 +17,8 @@ Steps:
 0. Clone the `econ-ark-tools` repository to the appropriate location:
 
 ```
-mkdir /usr/local/share/data/GitHub/econ-ark
-sudo git clone --depth 1 --branch master https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+mkdir -p /usr/local/share/data/GitHub/econ-ark
+git clone --depth 1 --branch master https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
 ```
 
 0. Change to the installed directory and run `late_command.sh`:
