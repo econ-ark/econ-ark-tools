@@ -25,7 +25,7 @@ sudo git clone --depth 1 --branch Make-Installer-ISO-WORKS https://github.com/ec
 
 ```
 cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
-cd ./Virtual/Machine/ISO-Maker/Files/For-Target/
+cd ./Virtual/Machine/ISO-maker/Files/For-Target/
 sudo ./late_command.sh
 ```	
 
