@@ -252,6 +252,7 @@ touch /var/local/status/finished-software-install.flag
 
 sudo chmod -Rf a+rw /var/local/status
 
+sudo apt -y purge popularity-contest
 sudo apt -y autoremove # Remove unused packages
 
 sudo reboot
