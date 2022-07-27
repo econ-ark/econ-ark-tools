@@ -11,19 +11,19 @@ The safest approach is therefore to start with a `clean' installation of Ubuntu 
 
 Steps:
 
-0. If your machine does not have `git` on it, then install that first:
+* If your machine does not have `git` on it, then install that first:
    ```
    sudo apt -y install git
    ```
-0. Create a path on which to store the tools:
+* Create a path on which to store the tools:
 ```
 sudo mkdir -p /usr/local/share/data/GitHub/econ-ark
 ```
-0. Clone the `econ-ark-tools` repository to the appropriate location:
+* Clone the `econ-ark-tools` repository to the appropriate location:
 ```
 sudo git clone --depth 1 --branch master https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
 ```
-0. Change to the installed directory and run `late_command.sh`:
+* Change to the installed directory and run `late_command.sh`:
 ```
 cd /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
 cd ./Virtual/Machine/ISO-maker/Files/For-Target/
