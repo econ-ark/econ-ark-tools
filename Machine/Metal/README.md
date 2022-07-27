@@ -22,7 +22,7 @@ n.b.: You will need to reconfigure your machine to permit it to boot from an ext
  Download your selected [(MIN or MAX)](https://github.com/econ-ark/econ-ark-tools/blob/master/Software/Size.md) ISO [image](https://drive.google.com/drive/folders/1dMVZ7RgDKk8pJIbmshvaKGR64kuVR7FY?usp=sharing) to your computer
 0. "mount" the image so that the computer can see it
    * [Create-A-USB-Stick-On-Windows](https://ubuntu.com/tutorials/create-a-usb-stick-on-windows)
-   * On Macs, mounting is done with the Disk Utility app ("open image")
+   * On Macs, mounting is done with the _Disk Utility_ app ("open image")
    * Next, make a "bootable USB" stick by "flashing" the ISO image to the USB stick
       * ["Carbon Copy Cloner"](https://bombich.com/software/download_ccc.php) is the most reliable option for this
 	     * There is a free trial version that should work
@@ -53,15 +53,19 @@ The last question the installer will ask is whether you want to write the new pa
 * It should show your (big) USB stick's (proposed) new partitioning scheme
 * Probably it will show only one drive to partition, identified as a flash or USB
   * In that case, just hit return
-  
-* If it shows multiple drives to partition, be careful
-  * Above the USB stick it may ALSO show your computer's internal drive partitioning scheme
+* If it shows multiple drives to partition (see example below), be careful
+  * It may ALSO show your computer's internal drive partitioning scheme
   * This will have a main partition (the largest one), which 
      * will probably be NTFS for a windows machine
 	 * will probably be HFS or APFS for a mac
-	 * If it is ext4, do NOT continue 
-	    - it is saying it wants to wipe your internal drive
+  * You can reassure yourself by checking:
+     * Select the partition you are worried about, hit return
+     * It should show "do not use this partition" 
+	 * If NOT, you can fix by going "Back" in the process
 
+![](processed-6ec84fef-0e1d-4a69-a5d7-baf9f09c8488_O8zHR9rb.jpg)
+
+## 
 #### Wait, then Wait Again
 
 ##### Wait
@@ -69,7 +73,7 @@ For some amount of time that depends on the speed of your computer and your inte
 
 You can monitor the progress of this by hitting the ALT-FN-4 (alt key and the F4 key).
 
-When that installation has been done, the script attempts to reboot the computer. Your computer might have security settings that prevent a program from rebooting it, in which case you may get an error message, or the machine may just seem frozen. If you are monitoring the progress and the computer seems to be stopped with a last line that says `sudo reboot' or something like that, you are at a point where you can reboot.
+When that installation has been done, the script attempts to reboot. Your computer might have security settings that prevent a program from rebooting it, in which case you may get an error message, or the machine may just seem frozen. If you are monitoring the progress and the computer seems to be stopped with a last line that says `sudo reboot' or something like that, you are at a point where you can reboot.
 
 BEFORE you reboot, please remove the installer USB stick. (Otherwise, the installer will start over from scratch when you reboot).
 
@@ -82,7 +86,7 @@ After reboot, the machine will try to install the Econ-ARK set of tools.
 Estimated time for the MIN and MAX versions of the installer:
 
 * MIN: Between 45 min and 2h
-* MAX: Between 28 and 8h (so, do it overnight)
+* MAX: Between 2h and 8h (so, do it overnight)
 
 Your best strategy is probably to install the MIN version, which can be upgraded to the MAX version by changing the name of the file `Size-To-Make-Is-MIN` to `Size-To-Make-Is-MAX` and rerunning the `finish.sh` script; see [here](https:github.com/econ-ark/econ-ark-tools/blob/master/Size.md).
 

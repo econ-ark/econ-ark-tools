@@ -1,4 +1,4 @@
-# How to Convert an Existing Linux Machine
+# How to Transform an Existing Linux Machine
 
 The instructions below should work for transforming an existing Ubuntu Linux machine to the Econ-ARK machine.
 

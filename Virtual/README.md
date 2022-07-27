@@ -40,7 +40,7 @@ Once you have created and configured an Ubuntu container, you have two options f
    * Remaining instructions are the same as for a ["Metal"](https://github.com/econ-ark/econ-ark-tools/blob/master/Machine/Metal)  machine
    
 1. Virtual Ubuntu
-   * Make a plain installation of Ubuntu 20.04 
+   * Make a plain installation of Ubuntu 20.04 or 22.04
    * Boot it, then follow the instructions for a ["Hybrid"](https://github.com/econ-ark/econ-ark-tools/blob/master/Machine/Metal)  machine
 
 1. Constructing the basic Linux operating system and GUI
