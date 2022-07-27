@@ -61,3 +61,28 @@ The last question the installer will ask is whether you want to write the new pa
 	 * will probably be HFS or APFS for a mac
 	 * If it is ext4, do NOT continue 
 	    - it is saying it wants to wipe your internal drive
+
+#### Wait, then Wait Again
+
+##### Wait
+For some amount of time that depends on the speed of your computer and your internet connection and of your computer, but might be anywhere between 15 min and 1.5 hours, your computer will install the OS on your USB stick.
+
+You can monitor the progress of this by hitting the ALT-FN-4 (alt key and the F4 key).
+
+When that installation has been done, the script attempts to reboot the computer. Your computer might have security settings that prevent a program from rebooting it, in which case you may get an error message, or the machine may just seem frozen. If you are monitoring the progress and the computer seems to be stopped with a last line that says `sudo reboot' or something like that, you are at a point where you can reboot.
+
+BEFORE you reboot, please remove the installer USB stick. (Otherwise, the installer will start over from scratch when you reboot).
+
+If the machine autoreboots on its own, it may (or may not) reboot back into the installer if that is still plugged in. So, if it seems that you've gone back to the very beginning, just shut down the computer, remove ihe installer USB, and reboot to the newly created USB stick.
+
+##### Wait Again
+
+After reboot, the machine will try to install the Econ-ARK set of tools.
+
+Estimated time for the MIN and MAX versions of the installer:
+
+* MIN: Between 45 min and 2h
+* MAX: Between 28 and 8h (so, do it overnight)
+
+Your best strategy is probably to install the MIN version, which can be upgraded to the MAX version by changing the name of the file `Size-To-Make-Is-MIN` to `Size-To-Make-Is-MAX` and rerunning the `finish.sh` script.
+
