@@ -1,7 +1,5 @@
 # Creating an Econ-ARK Virtual Machine
 
-You have several options for creating a virtual machine containing the Econ-ARK tools.
-
 ### Easiest (But Least Powerful -- For Running Existing Tools)
 
 Install "Docker" on your computer, and follow the instructions in the [Docker](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Docker) directory to create a Docker "container" on your computer
@@ -13,7 +11,7 @@ Install "Docker" on your computer, and follow the instructions in the [Docker](h
 
 #### VirtualBox
 
-You can install [VirtualBox](https://virtualbox.org) on your computer, which will allow you to run Linux in a virtual machine encapsulated on your regular hard drive.  This has the advantage of being very safe (the virtual machine is completely contained inside a VirtualBox jail; you have to give it permissions to do anything that affects the rest of your computer). It has the disadvantage, like the Docker solution, of requiring your computer to share its resources.
+Install [VirtualBox](https://virtualbox.org) on your computer, which will allow you to run Linux in a virtual machine encapsulated on your regular hard drive.  This has the advantage of being very safe (the virtual machine is completely contained inside a VirtualBox jail; you have to give it permissions to do anything that affects the rest of your computer). It has the disadvantage, like the Docker solution, of requiring your computer to share its resources.
 
 It also requires a fair bit of configuration, so there is a separate [set 
 of instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/VirtualBox)
@@ -23,15 +21,27 @@ of instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/
 
 Install multipass on your computer, and follow [these instructions](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/multipass.md) to create a VM on your computer.
 
-## [ISO-Installers](https://github.com/econ-ark/econ-ark-tools/blob/master/Software/Size.md)
-
 ### Physically connect your computer to the internet
 
 Installation is easiest if your computer is directly plugged into a wired ethernet connection. If your only choice is wifi, you will have to manually configure the wifi setup when the installer fails to autoconfigure its internet connections. If it tries to autoconfigure without asking you for WiFi info, a wired internet connection may be required.
 		  
-### Wait
+### Options
 
-The installation proceeds in two stages:
+#### VirtualBox
+
+Once you have created and configured an Ubuntu container, you have two options for converting it to an Econ-ARK machine:
+
+0. Virtual Metal
+   * Your container is like a computer with no software installed
+   * Settings/Storage lets you configure a "virtual" CDROM
+      * Click on the tiny image of a CDROM on the upper right
+	  * "Choose" then "Attach" the ISO to the virtual CDROM drive
+   * "Start" the virtual machine (it will boot from the ISO installer)
+   * Remaining instructions are the same as for a ["Metal"](https://github.com/econ-ark/econ-ark-tools/blob/master/Machine/Metal)  machine
+   
+1. Virtual Ubuntu
+   * Make a plain installation of Ubuntu 20.04 
+   * Boot it, then follow the instructions for a ["Hybrid"](https://github.com/econ-ark/econ-ark-tools/blob/master/Machine/Metal)  machine
 
 1. Constructing the basic Linux operating system and GUI
 1. Adding supplemental materials
