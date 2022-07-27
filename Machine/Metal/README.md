@@ -84,5 +84,5 @@ Estimated time for the MIN and MAX versions of the installer:
 * MIN: Between 45 min and 2h
 * MAX: Between 28 and 8h (so, do it overnight)
 
-Your best strategy is probably to install the MIN version, which can be upgraded to the MAX version by changing the name of the file `Size-To-Make-Is-MIN` to `Size-To-Make-Is-MAX` and rerunning the `finish.sh` script.
+Your best strategy is probably to install the MIN version, which can be upgraded to the MAX version by changing the name of the file `Size-To-Make-Is-MIN` to `Size-To-Make-Is-MAX` and rerunning the `finish.sh` script; see [here](https:github.com/econ-ark/econ-ark-tools/blob/master/Size.md).
 

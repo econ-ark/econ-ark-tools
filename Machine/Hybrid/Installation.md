@@ -1,10 +1,10 @@
 # How to Convert an Existing Linux Machine
 
-The instructions below should work for converting an existing Ubuntu Linux machine to the Econ-ARK machine.
+The instructions below should work for transforming an existing Ubuntu Linux machine to the Econ-ARK machine.
 
 The instructions are the same whether the machine being converted is a VM or a Metal machine.
 
-The word _converting_ is used delibertely: After this procedure, the machine will have been substantially reconfigured. While an attempt is made to preserve most prior configuration settings (rather than just wiping them out), there is no guarantee that anything installed before will continue to work.
+The word _transforming_ is used delibertely: After this procedure, the machine will have been substantially reconfigured. While an attempt is made to preserve most prior configuration settings (rather than just wiping them out), there is no guarantee that anything installed before will continue to work (or even exist). So, if you need anything on the machine, you should make a [Backup](https://github.com/econ-ark/econ-ark-tools/blob/master/Software/Backup/README.md).
 
 The safest approach is therefore to start with a `clean' installation of Ubuntu (version 20.04 or higher) and upgrade it as below. 
 
@@ -17,8 +17,8 @@ Steps:
 0. Clone the `econ-ark-tools` repository to the appropriate location:
 
 ```
-mkdir -p /usr/local/share/data/GitHub/econ-ark
-git clone --depth 1 --branch master https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
+sudo mkdir -p /usr/local/share/data/GitHub/econ-ark
+sudo git clone --depth 1 --branch master https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools
 ```
 
 0. Change to the installed directory and run `late_command.sh`:
