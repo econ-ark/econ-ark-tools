@@ -90,7 +90,7 @@ for dir in */; do  # For other users
 done
 
 source ~/.bashrc  # Update environment with new change
-=======
+
 [[ "$CHOSEN" == "$ANA" ]] && LATEST="Anaconda=3-2021.11-Linux-x86_64.sh" && URL="repo.continuum.io/archive"
 [[ "$CHOSEN" == "$MIN" ]] && LATEST="Miniconda3-py39_4.12.0-Linux-x86_64.sh" && URL="repo.anaconda.com"
 
