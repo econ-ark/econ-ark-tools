@@ -23,6 +23,8 @@ DEBCONF_PRIORITY=CRITICAL DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_
 # Enforce that lightdm is window manager
 echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
 
+sudo apt install tasksel
+sudo tasksel -y install xubuntu-core
 
 ## Power manager or screensaver can shut down the machine during install
 sudo apt -y --autoremove purge xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins

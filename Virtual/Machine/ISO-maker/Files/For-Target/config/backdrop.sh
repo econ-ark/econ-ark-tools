@@ -1,7 +1,7 @@
 #!/bin/bash
 
 backdrops=usr/share/xfce4/backdrops
-backgrounds=usr/share/backgrounds/xfce4
+backgrounds=usr/share/backgrounds/xfce
 
 # if [[ -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
 #     # Absurdly difficult to change the default wallpaper no matter
