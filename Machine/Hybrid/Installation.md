@@ -6,10 +6,10 @@ The instructions are the same whether the machine being converted is a VM or a M
 
 The word _transforming_ is used delibertely: After this procedure, the machine will have been substantially reconfigured. While an attempt is made to preserve most prior configuration settings (rather than just wiping them out), there is no guarantee that anything installed before will continue to work (or even exist). So, if you need anything on the machine, you should make a [Backup](https://github.com/econ-ark/econ-ark-tools/blob/master/Software/Backup/README.md).
 
-The safest approach is therefore to start with a `clean' installation of Ubuntu (version 20.04 or higher) and upgrade it as below. 
+The safest approach is therefore to start with a 'clean' installation of Ubuntu (version 20.04 or higher) and upgrade it as below. 
 
 
-Steps:
+## Steps:
 
 * If your machine does not have `git` on it, then install that first:
    ```
