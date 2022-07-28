@@ -31,7 +31,7 @@ BOOT_SECOND_FLAG="/var/local/status/boot_second.flag"
 
 if [ ! -e "$BOOT_SECOND_FLAG" ] || [ ! -f /var/local/status/finished-software-install.flag ]; then
     # Haven't finished installation yet
-    (/var/local/finish.sh |& tee -a /var/local/status/start-and-finish.log |& tee /var/local/status/finish.log ) &
+    /var/local/tools/finish-with-log.sh &
     
     # Restore cron jobs so they will run in background on next boot
     # (They were disabled in start.sh because they take forever and delay the first boot inordinately)

@@ -138,7 +138,6 @@ sudo chmod 555 /etc/sudoers.d
 # of text to a non-root shell on a line-by-line basis
 
 sudo conda init
->>>>>>> master
 
 # Because installed as root, files are not executable by non-root users but should be
 pushd .

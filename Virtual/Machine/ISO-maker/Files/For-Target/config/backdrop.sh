@@ -1,5 +1,31 @@
 #!/bin/bash
 
+backdrops=usr/share/xfce4/backdrops
+backgrounds=usr/share/backgrounds/xfce4
+
+# if [[ -L "/$backdrops/xubuntu-wallpaper.png"  ]]; then # original config
+#     # Absurdly difficult to change the default wallpaper no matter
+#     # what kind of machine you have installed to and what monitor
+#     # So just replace the default image with the one we want 
+#     sudo mv /$backdrops/xubuntu-wallpaper.png         "/$backdrops/xubuntu-wallpaper.png_$build_date"
+#     sudo cp  /var/local/sys_root_dir/$backdrops/Econ-ARK-Logo-1536x768.jpg /$backdrops/xubuntu-wallpaper.png 
+# fi
+
+# Two DIFFERENT places for backdrops, depending on xubuntu-core versus xubuntu-desktop
+sudo cp  /var/local/sys_root_dir/$backdrops/Econ-ARK-Logo-1536x768.*   /$backdrops
+sudo cp  /var/local/sys_root_dir/$backdrops/Econ-ARK-Logo-1536x768.*   /$backgrounds
+
+# Document, in /var/local, where its content is used
+## preserve the original
+
+sudo mv                /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$build_date
+cp      /var/local/sys_root_dir/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+
+## Do not start ubuntu at all
+if [[ -e    /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && [[ -s /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]]; then
+    sudo mv /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_$build_date
+fi
+
 # Wait for the monitor to be active before configuring it 
 monitor=""  
 while [[ "$monitor" == "" ]] ; do 
