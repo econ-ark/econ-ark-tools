@@ -1,5 +1,9 @@
 #!/bin/bash
 
+backdrops=usr/share/xfce4/backdrops
+backgrounds=usr/share/backgrounds/xfce
+
+
 # Two DIFFERENT places for backdrops, depending on xubuntu-core versus xubuntu-desktop
 cp  /var/local/sys_root_dir/$backdrops/Econ-ARK-Logo-1536x768.*   /$backdrops
 cp  /var/local/sys_root_dir/$backdrops/Econ-ARK-Logo-1536x768.*   /$backgrounds
