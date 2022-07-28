@@ -57,8 +57,8 @@ emacs -batch --eval "(setq debug-on-error t)" -l     /root/.emacs
 
 # make .emacs.d directory accessible to all users, so anybody can add packages
 mkdir -p $shared/.emacs.d
-sudo mv /root/.emacs.d/elpa /$shared/.emacs.d/elpa
-ln -s /$shared/.emacs.d/elpa /root/.emacs.d/elpa
+[[ ! -e /$shared/.emacs.d/elpa ]] && sudo mv /root/.emacs.d/elpa /$shared/.emacs.d/elpa
+[[ ! -e /root/.emacs.d/elpa ]] && ln -s /$shared/.emacs.d/elpa /root/.emacs.d/elpa
 sudo chmod -Rf a+rwx $shared/.emacs.d 
 
 # Finished with emacs
