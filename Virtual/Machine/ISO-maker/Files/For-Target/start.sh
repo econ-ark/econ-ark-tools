@@ -34,7 +34,7 @@ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.ta
 sudo apt-get -y install bash-completion curl  apt-utils
 
 # Create with appropriate groups
-/var/local/config/add-users.sh |& tee /var/local/status/config-users.log
+/var/local/config/add-users.sh |& tee /var/local/status/add-users.log
 
 # Use correct git branches during debugging 
 [[ -e /var/local/status/git_branch ]] && branch_name="$(</var/local/status/git_branch)"
