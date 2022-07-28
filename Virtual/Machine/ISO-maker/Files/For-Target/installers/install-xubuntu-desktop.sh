@@ -23,8 +23,21 @@ DEBCONF_PRIORITY=CRITICAL DEBIAN_FRONTEND=noninteractive DEBCONF_NONINTERACTIVE_
 # Enforce that lightdm is window manager
 echo "/usr/sbin/lightdm" > /etc/X11/default-display-manager
 
-sudo apt install tasksel
-sudo tasksel -y install xubuntu-core
+sudo apt -y install xubuntu-core^
+
+backdrops=usr/share/xfce4/backdrops
+backgrounds=usr/share/backgrounds/xfce
+
+sudo mkdir -p  $backdrops $backgrounds
+sudo chmod a+w $backdrops $backgrounds
+
+sudo mv                /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$build_date
+cp      /var/local/sys_root_dir/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
+
+## Do not start ubuntu at all
+if [[ -e    /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]] && [[ -s /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf ]]; then
+    sudo mv /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf /usr/share/lightdm/lightdm.conf.d/50-ubuntu.conf_$build_date
+fi
 
 ## Power manager or screensaver can shut down the machine during install
 sudo apt -y --autoremove purge xfce4-power-manager # Bug in power manager causes system to become unresponsive to mouse clicks and keyboard after a few mins
