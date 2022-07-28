@@ -23,6 +23,10 @@ if [ ! -e $BOOT_FIRST_FLAG ]; then # machine's first-ever boot
 
     # Some virtual machines need to have lightdm stopped and then restarted
     [[ "$(lscpu | grep -i hypervisor)" != "" ]] && service lightdm stop && service lightdm start
+
+    # purge gnome if it still exists
+    sudo apt -y remove gnome*
+    sudo dpkg-reconfigure lightdm
     # create an empty 'signal' file so the "if" will fail after the first boot
     touch "$BOOT_FIRST_FLAG"
 fi
