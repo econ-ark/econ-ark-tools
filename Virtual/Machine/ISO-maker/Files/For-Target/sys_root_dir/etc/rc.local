@@ -27,6 +27,9 @@ if [ ! -e $BOOT_FIRST_FLAG ]; then # machine's first-ever boot
     # purge gnome if it still exists
     sudo apt -y remove gnome*
     sudo dpkg-reconfigure lightdm
+
+    sudo apt -y indicator-application # icons on RHS of menu bar
+    
     # create an empty 'signal' file so the "if" will fail after the first boot
     touch "$BOOT_FIRST_FLAG"
 fi
