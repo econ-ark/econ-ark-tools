@@ -1,1 +1,1 @@
-Fixes_for_t2_Macs,_and_others
+Add_application-indicator_for_menu__bar
