@@ -28,8 +28,8 @@ sudo apt -y install xubuntu-core^
 backdrops=usr/share/xfce4/backdrops
 backgrounds=usr/share/backgrounds/xfce
 
-sudo mkdir -p  $backdrops $backgrounds
-sudo chmod a+w $backdrops $backgrounds
+sudo mkdir -p  /$backdrops /$backgrounds
+sudo chmod a+w /$backdrops /$backgrounds
 
 sudo mv                /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf_$build_date
 cp      /var/local/sys_root_dir/usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf /usr/share/lightdm/lightdm.conf.d/60-xubuntu.conf
