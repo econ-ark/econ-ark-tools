@@ -4,7 +4,7 @@
 
 cd /var/local/status
 
-if [[ ! -e /Size-To-Make-Is-MIN ]]; then
+if [[ ! -e ./Size-To-Make-Is-MIN ]]; then
     echo 'Size-To-Make is not currently MIN'
     exit
 fi
