@@ -255,4 +255,17 @@ sudo chmod -Rf a+rw /var/local/status
 sudo apt -y purge popularity-contest
 sudo apt -y autoremove # Remove unused packages
 
+device_containing_sys="$(df -h / | tail -1 | cut -d ' ' -f1)"
+
+# Make a backup in this pristine state
+## Get default config
+cp /var/local/sys_root_dir/etc/timeshift/timeshift.json /etc/timeshift/timeshift.json
+
+sed 's/"backup device uuid : ""/"backup device uuid : "$device_containing_sys"/' /etc/timeshift/timeshift.json > /etc/timeshift.json
+
+msg="Initial backup of Econ-ARK machine"
+
+## Create "O"n-demand backup 
+sudo timeshift --create --comments "$msg" --tags O
+
 sudo reboot
