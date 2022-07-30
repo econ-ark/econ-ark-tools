@@ -9,7 +9,7 @@ LATEST_MIN="Miniconda3-py39_4.12.0-Linux-x86_64.sh"
 
 bad_syntax=false
 
-[[ "$#" -ne 1 ]] && bad_syntax=true
+[[ "$#" -ne 1 ]] && bad_syntax=true  # one argument
 
 # In case they used capitals
 CHOSEN=$(echo $1 | tr '[:upper:]' '[:lower:]')
@@ -35,6 +35,7 @@ sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
 sudo rm -Rf /usr/local/$CHOSEN
 sudo rm -Rf /usr/local/$NOT_CHOSEN
 
+[[ -e /tmp/$CHOSEN ]] && rm -Rf /tmp/$CHOSEN # In case its a re-run
 cmd="mkdir /tmp/$CHOSEN ; wget         -O /tmp/$CHOSEN/$LATEST https://$URL/$LATEST ; cd /tmp/$CHOSEN"
 eval "$cmd" # do it
 
@@ -47,19 +48,27 @@ sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 # Add to default enviroment path so that all users can find it
 source /etc/environment
 if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
-    echo 'Adding '$CHOSEN' to PATH'
+    echo 'Adding '$CHOSEN' to PATH in /etc/environment'
+
     sudo chmod u+w /etc/environment
     [[ -e /tmp/environment ]] && sudo rm -Rf /tmp/environment
+    
     # Delete the not-chosen version from the path (if there)
     sudo sed -e 's\/usr/local/'$NOT_CHOSEN'/bin:\\g' /etc/environment > /tmp/environment
     mv /etc/environment /etc/environment_orig_"$(date +%Y%m%d%H%M)"
+    
     # Add chosen to path
     sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment > /tmp/environment2
-    # Execute conda.sh even in noninteractive bash shells
-    if [[ -z "$BASH_ENV" ]]; then # dont add if already there
-	echo 'BASH_ENV=/usr/local/'$CHOSEN'/etc/profile.d/conda.sh' >> /tmp/environment2
-	chmod a+x /usr/local/etc/$CHOSEN/profile.d/conda.sh
+    
+    # Execute conda.sh also in noninteractive bash shells
+    CONDA_INIT_PATH=/usr/local/$CHOSEN/etc/profile.d/conda.sh
+    if [[ ! "$CONDA_INIT_PATH" == *"$BASH_ENV"* ]]; then # dont add if already there
+	echo "$CONDA_INIT_PATH was already in BASH_ENV"
+    else
+	echo "$CONDA_INIT_PATH" >> /tmp/environment2
     fi
+    chmod a+x /usr/local/etc/$CHOSEN/profile.d/conda.sh
+    
     # Replace original environment and fix permissions
     sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
     sudo chmod u-w /etc/environment* # Restore secure permissions for environment
