@@ -257,7 +257,7 @@ msg="Initial backup of Econ-ARK machine"
 ## Create "O"n-demand backup 
 sudo timeshift --create --comments "$msg" --tags O
 
-sudo apt -y install indictor-applications
+sudo apt -y install indictor-application
 
 sudo chmod -Rf a+rw /var/local/status
 
