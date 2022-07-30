@@ -56,9 +56,9 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
     # Add chosen to path
     sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment > /tmp/environment2
     # Execute conda.sh even in noninteractive bash shells
-    if ! grep -q BASH_ENV; then # dont add if already there
+    if [[ -z "$BASH_ENV" ]]; then # dont add if already there
 	echo 'BASH_ENV=/usr/local/'$CHOSEN'/etc/profile.d/conda.sh' >> /tmp/environment2
-	chmod a+x /usr/local/etc/profile.d/conda.sh
+	chmod a+x /usr/local/etc/$CHOSEN/profile.d/conda.sh
     fi
     # Replace original environment and fix permissions
     sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
