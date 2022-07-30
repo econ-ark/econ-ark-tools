@@ -45,32 +45,32 @@ sudo chmod a+x /tmp/$CHOSEN/$LATEST
 # install in "-b" batch mode at "-p" path
 sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
-# Add to default enviroment path so that all users can find it
-if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
-    echo 'Adding '$CHOSEN' to PATH in /etc/environment'
+# # Add to default enviroment path so that all users can find it
+# if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
+#     echo 'Adding '$CHOSEN' to PATH in /etc/environment'
 
-    sudo chmod u+w /etc/environment
-    [[ -e /tmp/environment ]] && sudo rm -Rf /tmp/environment
+#     sudo chmod u+w /etc/environment
+#     [[ -e /tmp/environment ]] && sudo rm -Rf /tmp/environment
     
-    # Delete the not-chosen version from the path (if there)
-    sudo sed -e 's\/usr/local/'$NOT_CHOSEN'/bin:\\g' /etc/environment > /tmp/environment
-    mv /etc/environment /etc/environment_orig_"$(date +%Y%m%d%H%M)"
+#     # Delete the not-chosen version from the path (if there)
+#     sudo sed -e 's\/usr/local/'$NOT_CHOSEN'/bin:\\g' /etc/environment > /tmp/environment
+#     mv /etc/environment /etc/environment_orig_"$(date +%Y%m%d%H%M)"
     
-    # Add chosen to path
-    sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment > /tmp/environment2
+#     # Add chosen to path
+#     sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment > /tmp/environment2
     
-    # Execute conda.sh also in noninteractive bash shells
-    CONDA_INIT_PATH=/usr/local/$CHOSEN/etc/profile.d/conda.sh
-    if [[ ! "$CONDA_INIT_PATH" == *"$BASH_ENV"* ]]; then # dont add if already there
-	echo "$CONDA_INIT_PATH was already in BASH_ENV"
-    else
-	echo "$CONDA_INIT_PATH" >> /tmp/environment2
-    fi
+#     # Execute conda.sh also in noninteractive bash shells
+#     CONDA_INIT_PATH=/usr/local/$CHOSEN/etc/profile.d/conda.sh
+#     if [[ ! "$CONDA_INIT_PATH" == *"$BASH_ENV"* ]]; then # dont add if already there
+# 	echo "$CONDA_INIT_PATH was already in BASH_ENV"
+#     else
+# 	echo "$CONDA_INIT_PATH" >> /tmp/environment2
+#     fi
     
-    # Replace original environment and fix permissions
-    sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
-    sudo chmod u-w /etc/environment* # Restore secure permissions for environment
-fi
+#     # Replace original environment and fix permissions
+#     sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
+#     sudo chmod u-w /etc/environment* # Restore secure permissions for environment
+# fi
 
 # Because installed as root, files are not executable by non-root users but should be
 pushd .
@@ -103,13 +103,13 @@ sudo chgrp -R conda /usr/local/$CHOSEN # owned by group conda
 sudo chmod g+rw     /usr/local/$CHOSEN # members can modify
 
 # conda init puts the path to conda in user's ~/.bashrc
-conda init bash    # For root user
-cd /home
-for dir in */; do  # For other users
-    user=$(basename $dir)
-    if id "$user" >/dev/null 2>&1; then # user exists
-	sudo adduser "$user" conda &>/dev/null # Let all users manipulate conda
-	cmd="sudo -u $user "$(which conda)" init bash >/dev/null"
-	eval "$cmd"
-    fi
-done
+conda init --system bash    # For root user
+# cd /home
+# for dir in */; do  # For other users
+#     user=$(basename $dir)
+#     if id "$user" >/dev/null 2>&1; then # user exists
+# 	sudo adduser "$user" conda &>/dev/null # Let all users manipulate conda
+# 	cmd="sudo -u $user "$(which conda)" init bash >/dev/null"
+# 	eval "$cmd"
+#     fi
+# done
