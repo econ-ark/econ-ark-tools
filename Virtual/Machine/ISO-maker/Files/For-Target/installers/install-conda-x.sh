@@ -28,8 +28,8 @@ sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
 
 # (wisely) gave up on automatically retrieving latest version
 ## 2022.05: Python version is 3.9
-LATEST_ANA="$(</var/local/About_This_Install/anaconda_version/)"
-LATEST_MIN="$(</var/local/About_This_Install/miniconda_version/)"
+LATEST_ANA="$(</var/local/About_This_Install/anaconda_version)"
+LATEST_MIN="$(</var/local/About_This_Install/miniconda_version)"
 
 # Prepare the destination
 sudo rm -Rf /usr/local/$CHOSEN
