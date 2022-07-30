@@ -23,13 +23,13 @@ sudoer=false
 sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
 [[ "$sudoer" == "false" ]] && echo 'Exiting because sudoer privileges are not available.' && exit
 
-[[ "$CHOSEN" == "$ANA" ]] && NOT_CHOSEN="$MIN" && LATEST=$LATEST_ANA && URL="repo.anaconda.com/archive"
-[[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST=$LATEST_MIN && URL="repo.anaconda.com/miniconda"
-
 # (wisely) gave up on automatically retrieving latest version
 ## 2022.05: Python version is 3.9
 LATEST_ANA="$(</var/local/About_This_Install/anaconda_version)"
 LATEST_MIN="$(</var/local/About_This_Install/miniconda_version)"
+
+[[ "$CHOSEN" == "$ANA" ]] && NOT_CHOSEN="$MIN" && LATEST=$LATEST_ANA && URL="repo.anaconda.com/archive"
+[[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST=$LATEST_MIN && URL="repo.anaconda.com/miniconda"
 
 # Prepare the destination
 sudo rm -Rf /usr/local/$CHOSEN
