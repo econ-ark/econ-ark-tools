@@ -72,7 +72,13 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
     # Replace original environment and fix permissions
     sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
     sudo chmod u-w /etc/environment* # Restore secure permissions for environment
-    source /etc/environment  # Get the new environment
+fi
+
+source /etc/environment
+# If conda command has no path, something went wrong
+if [[ "$(which conda)" == "" ]]; then
+    echo 'Conda install failed; exiting'
+    exit 1
 fi
 
 # add /usr/local/$CHOSEN to secure path
@@ -107,6 +113,7 @@ source ~/.bashrc  # Update environment with new change
 # Because installed as root, files are not executable by non-root users but should be
 pushd .
 cd /usr/local/$CHOSEN
-sudo find . -type f -iname ".sh"  -exec chmod a+x {} \;
-sudo find . -type f -iname "..sh" -exec chmod a+x {} \; # Gets csh, zsh, whatever
+sudo find . -type f -name "*.sh"   -exec chmod a+x {} \;
+sudo find . -type f -name "*..sh"  -exec chmod a+x {} \; # Gets csh, zsh, whatever
+sudo find . -type f -name "*...sh" -exec chmod a+x {} \; # Gets bash, fish
 popd
