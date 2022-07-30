@@ -4,12 +4,12 @@
 
 cd /var/local/status
 
-if [[ ! -e ./Size-To-Make-Is-MIN ]]; then
+if [[ ! -e /var/local/status/Size-To-Make-Is-MIN ]]; then
     echo 'Size-To-Make is not currently MIN'
     exit
 fi
     
 sudo mv /var/local/status/Size-To-Make-Is-MIN /var/local/status/Size-To-Make-Is-MAX
 
-sudo /var/local/tools/finish-with-log.sh
+sudo /var/local/finish.sh |& tee /var/local/status/upgrade-MIN-to-MAX.log
 
