@@ -101,7 +101,7 @@ EOF
 sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1 
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs timeshift deja-dup
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs deja-dup
 
 cd /var/local
 branch_name="$(</var/local/status/git_branch)"
@@ -247,29 +247,25 @@ sudo apt -y upgrade
 tail_monitor="$(pgrep tail | grep -v pgrep)"
 [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
 
-# Signal that we've finished software install
-touch /var/local/status/finished-software-install.flag 
+# Make a backup in this pristine state
+sudo apt -y install timeshift
+
+## Get a config
+sudo /var/local/config/config-timeshift.sh
+
+msg="Initial backup of Econ-ARK machine"
+## Create "O"n-demand backup 
+sudo timeshift --create --comments "$msg" --tags O
+
+
 
 sudo chmod -Rf a+rw /var/local/status
 
 sudo apt -y purge popularity-contest
 sudo apt -y autoremove # Remove unused packages
 
-device_containing_sys="$(df -h / | tail -1 | cut -d ' ' -f1)"
+# Signal that we've finished software install
+touch /var/local/status/finished-software-install.flag 
 
-# Make a backup in this pristine state
-## Get default config
-cp /var/local/sys_root_dir/etc/timeshift/timeshift.json /etc/timeshift/timeshift.json
-
-sed_arg="s|device_containing_sys|$device_containing_sys|g"
-sed_cmd="sed -e '"$sed_arg"' /etc/timeshift/timeshift.json > /etc/timeshift.json"
-eval "$sed_cmd"
-
-sed -e 's/"backup device uuid : ""/"backup device uuid : "$device_containing_sys"/' /etc/timeshift/timeshift.json > /etc/timeshift.json
-
-msg="Initial backup of Econ-ARK machine"
-
-## Create "O"n-demand backup 
-sudo timeshift --create --comments "$msg" --tags O
 
 sudo reboot
