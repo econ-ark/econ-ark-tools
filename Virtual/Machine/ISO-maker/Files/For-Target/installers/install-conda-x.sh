@@ -2,11 +2,6 @@
 
 # Install either miniconda or anaconda
 
-# (wisely) gave up on automatically retrieving latest version
-## 2022.05: Python version is 3.9
-LATEST_ANA="Anaconda3-2022.05-Linux-x86_64.sh"
-LATEST_MIN="Miniconda3-py39_4.12.0-Linux-x86_64.sh"
-
 bad_syntax=false
 
 [[ "$#" -ne 1 ]] && bad_syntax=true  # one argument
@@ -30,6 +25,11 @@ sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
 
 [[ "$CHOSEN" == "$ANA" ]] && NOT_CHOSEN="$MIN" && LATEST=$LATEST_ANA && URL="repo.anaconda.com/archive"
 [[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST=$LATEST_MIN && URL="repo.anaconda.com/miniconda"
+
+# (wisely) gave up on automatically retrieving latest version
+## 2022.05: Python version is 3.9
+LATEST_ANA="$(</var/local/About_This_Install/anaconda_version/)"
+LATEST_MIN="$(</var/local/About_This_Install/miniconda_version/)"
 
 # Prepare the destination
 sudo rm -Rf /usr/local/$CHOSEN
@@ -66,7 +66,6 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
     else
 	echo "$CONDA_INIT_PATH" >> /tmp/environment2
     fi
-    chmod a+x /usr/local/etc/$CHOSEN/profile.d/conda.sh
     
     # Replace original environment and fix permissions
     sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
@@ -76,15 +75,15 @@ fi
 # Because installed as root, files are not executable by non-root users but should be
 pushd .
 cd /usr/local/$CHOSEN
-sudo find . -type f -name "*.sh"   -exec chmod a+x {} \;
-sudo find . -type f -name "*..sh"  -exec chmod a+x {} \; # Gets .csh, .zsh, whatever
-sudo find . -type f -name "*...sh" -exec chmod a+x {} \; # Gets .bash, .fish
+sudo find . -type f -name "*\.sh"   -exec chmod a+x {} \;
+sudo find . -type f -name "*\..sh"  -exec chmod a+x {} \; # Gets .csh, .zsh, whatever
+sudo find . -type f -name "*\...sh" -exec chmod a+x {} \; # Gets .bash, .fish
 popd
 
 source /etc/environment
 # If conda command has no path, something went wrong
 if [[ "$(which conda)" == "" ]]; then
-    echo 'Conda install failed; exiting'
+    echo $0 ' failed; exiting'
     exit 1
 fi
 
@@ -114,5 +113,3 @@ for dir in */; do  # For other users
 	eval "$cmd"
     fi
 done
-
-source ~/.bashrc  # Update environment with new change
