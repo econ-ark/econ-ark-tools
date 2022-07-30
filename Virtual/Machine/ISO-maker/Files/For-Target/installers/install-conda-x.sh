@@ -46,7 +46,6 @@ sudo chmod a+x /tmp/$CHOSEN/$LATEST
 sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
 # Add to default enviroment path so that all users can find it
-source /etc/environment
 if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
     echo 'Adding '$CHOSEN' to PATH in /etc/environment'
 
@@ -78,8 +77,8 @@ fi
 pushd .
 cd /usr/local/$CHOSEN
 sudo find . -type f -name "*.sh"   -exec chmod a+x {} \;
-sudo find . -type f -name "*..sh"  -exec chmod a+x {} \; # Gets csh, zsh, whatever
-sudo find . -type f -name "*...sh" -exec chmod a+x {} \; # Gets bash, fish
+sudo find . -type f -name "*..sh"  -exec chmod a+x {} \; # Gets .csh, .zsh, whatever
+sudo find . -type f -name "*...sh" -exec chmod a+x {} \; # Gets .bash, .fish
 popd
 
 source /etc/environment
