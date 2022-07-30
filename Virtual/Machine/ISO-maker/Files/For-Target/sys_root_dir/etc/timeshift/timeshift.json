@@ -1,5 +1,5 @@
 {
-  "backup_device_uuid" : "",
+  "backup_device_uuid" : "device_containing_sys",
   "parent_device_uuid" : "",
   "do_first_run" : "true",
   "btrfs_mode" : "false",
