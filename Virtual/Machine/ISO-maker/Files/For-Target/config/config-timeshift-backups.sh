@@ -1,4 +1,9 @@
 #!/bin/bash
-# Default is for machine to back itself up upon boot and nightly
-# to the directory /timeshift
+# timeshift makes automated backups
+
+partition_containing_sys="$(df -h / | tail -1 | cut -d ' ' -f1)"
+sed_code="s|partition_containing_sys|"$partition_containing_sys"|g"
+
+sed -e "$sed_code" /var/local/sys_root_dir/etc/timeshift/timeshift.json > /etc/timeshift.json
+
 
