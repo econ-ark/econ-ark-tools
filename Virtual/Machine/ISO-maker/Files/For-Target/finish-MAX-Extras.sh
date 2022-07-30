@@ -2,7 +2,10 @@
 # Add extra stuff that, together, constitutes a well-provisioned
 # scientific computing environment. If you have constructed the MIN
 # machine, you should be able to upgrade it to this one by running
-# ./finish-MAX-Extras.sh
+# ./finish-MAX-Extras.sh; but the better way to do it is
+# 1. In the directory /var/local/status,
+#    rename Size-To-Make-Is-MIN to Size-To-Make-Is-MAX
+# 2. sudo /var/local/finish.sh
 
 # Presence of 'verbose' triggers bash debugging mode
 [[ -e /var/local/status/verbose ]] && set -x && set -v
