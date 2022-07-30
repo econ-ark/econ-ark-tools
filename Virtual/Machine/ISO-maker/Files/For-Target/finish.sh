@@ -171,7 +171,7 @@ if [[ "$size" == "MIN" ]]; then
     conda install --yes -c conda-forge pytest
     conda install --yes -c conda-forge nbval     # use pytest on notebooks
 else
-    /var/local/installers/install-conda-x.sh anaconda
+    /var/local/installers/install-conda-x.sh anaconda |& tee /var/local/status/install-conda-x.log
     source /etc/environment
     source ~/.bashrc
     conda activate base
@@ -261,7 +261,11 @@ device_containing_sys="$(df -h / | tail -1 | cut -d ' ' -f1)"
 ## Get default config
 cp /var/local/sys_root_dir/etc/timeshift/timeshift.json /etc/timeshift/timeshift.json
 
-sed 's/"backup device uuid : ""/"backup device uuid : "$device_containing_sys"/' /etc/timeshift/timeshift.json > /etc/timeshift.json
+sed_arg="s|device_containing_sys|$device_containing_sys|g"
+sed_cmd="sed -e '"$sed_arg"' /etc/timeshift/timeshift.json > /etc/timeshift.json"
+eval "$sed_cmd"
+
+sed -e 's/"backup device uuid : ""/"backup device uuid : "$device_containing_sys"/' /etc/timeshift/timeshift.json > /etc/timeshift.json
 
 msg="Initial backup of Econ-ARK machine"
 
