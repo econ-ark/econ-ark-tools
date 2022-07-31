@@ -31,9 +31,12 @@ LATEST_MIN="$(</var/local/About_This_Install/miniconda_version)"
 [[ "$CHOSEN" == "$ANA" ]] && NOT_CHOSEN="$MIN" && LATEST=$LATEST_ANA && URL="repo.anaconda.com/archive"
 [[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST=$LATEST_MIN && URL="repo.anaconda.com/miniconda"
 
-# Installing ANA over MIN does not fix the paths; do that silently here
+# If installing one over the other, fix paths
+NOT_CHOSEN_CODE_EXISTS="$(grep $NOT_CHOSEN) /root/.bashrc)"
 
-if [[ -e /usr/local/"$NOT_CHOSEN" ]]; then # they are switching
+[[ $NOT_CHOSEN_CODE_EXISTS == "" ]] && echo hi
+
+if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # they are switching
 
     # Construct sed command to replace $NOT_CHOSEN with $CHOSEN
     sed_cmd="'s|/usr/local/"$NOT_CHOSEN"|/usr/local/"$CHOSEN"|g'"
