@@ -32,7 +32,7 @@ LATEST_MIN="$(</var/local/About_This_Install/miniconda_version)"
 [[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST=$LATEST_MIN && URL="repo.anaconda.com/miniconda"
 
 # If installing one over the other, fix paths
-NOT_CHOSEN_CODE_EXISTS="$(grep $NOT_CHOSEN) /root/.bashrc)"
+NOT_CHOSEN_CODE_EXISTS="$(grep $NOT_CHOSEN /root/.bashrc)"
 
 [[ $NOT_CHOSEN_CODE_EXISTS == "" ]] && echo hi
 
@@ -62,9 +62,10 @@ source ~/.bashrc
 sudo rm -Rf /usr/local/$CHOSEN
 sudo rm -Rf /usr/local/$NOT_CHOSEN
 
-[[ -e /tmp/$CHOSEN ]] && rm -Rf /tmp/$CHOSEN # In case its a re-run
-cmd="mkdir /tmp/$CHOSEN ; wget         -O /tmp/$CHOSEN/$LATEST https://$URL/$LATEST ; cd /tmp/$CHOSEN"
-eval "$cmd" # do it
+if [[ ! -e /tmp/$CHOSEN/$LATEST ]]; then # haven't downloaded it yet
+    cmd="mkdir /tmp/$CHOSEN ; wget         -O /tmp/$CHOSEN/$LATEST https://$URL/$LATEST ; cd /tmp/$CHOSEN"
+    eval "$cmd" # do it
+fi
 
 # make installer executable
 sudo chmod a+x /tmp/$CHOSEN/$LATEST
