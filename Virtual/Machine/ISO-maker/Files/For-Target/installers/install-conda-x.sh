@@ -34,7 +34,7 @@ LATEST_MIN="$(</var/local/About_This_Install/miniconda_version)"
 # If installing one over the other, fix paths
 NOT_CHOSEN_CODE_EXISTS="$(grep $NOT_CHOSEN /root/.bashrc)"
 
-[[ $NOT_CHOSEN_CODE_EXISTS == "" ]] && echo hi
+# [[ $NOT_CHOSEN_CODE_EXISTS == "" ]] && echo hi
 
 if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # they are switching
 
@@ -43,6 +43,7 @@ if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # 
 
     # For root, replace NOT_CHOSEN with CHOSEN
     sed -i -e "$sed_cmd" /root/.bashrc
+    conda init bash
     
     # Same for other users
     for dir in */; do  
@@ -51,6 +52,7 @@ if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # 
 	    bashrc="/home/$user/.bashrc"
 	    if [[ -e $bashrc ]]; then
 		sed -i -e "$sed_cmd" "$bashrc"
+		conda init bash
 	    fi
 	fi
     done
