@@ -43,8 +43,11 @@ if [[ "$CHOSEN" == "$ANA" ]]; then
 		fi
 	    fi
 	done
+	sed -i -e 's|/usr/local/miniconda|/usr/local/anaconda|g' /root/.bashrc
     fi
 fi
+
+source ~/.bashrc
 
 # Prepare the destination
 sudo rm -Rf /usr/local/$CHOSEN
