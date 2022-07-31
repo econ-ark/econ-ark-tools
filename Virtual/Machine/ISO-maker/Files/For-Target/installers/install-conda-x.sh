@@ -2,13 +2,11 @@
 
 # Install either miniconda or anaconda
 
-bad_syntax=false
-
 [[ "$#" -ne 1 ]] && bad_syntax=true  # one argument
 
 # In case they used capitals
 CHOSEN=$(echo $1 | tr '[:upper:]' '[:lower:]')
-
+# CHOSEN=miniconda
 ANA='anaconda' && MIN='miniconda'
 
 [[ "$CHOSEN" != "$ANA" ]] && [[ "$CHOSEN" != "$MIN" ]] && bad_syntax=true
