@@ -95,7 +95,7 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
 	# view "About This Machine"
 	## temporarily suppress any wrnmsg or errmsg
 	echo '(setq warning-minimum-level :emergency)' >> /home/$USER/.emacs_aliases
-	emacs --eval "(setq byte-compile-error-on-warn nil)" --name "Emacs Editor" --geometry 80x28-100+0 /var/local/About_This_Install/XUBUNTARK.md &> /dev/null  &
+	emacs --eval "(setq byte-compile-error-on-warn nil)" --name "Emacs Editor" --geometry 80x28-100+0 /var/local/status/XUBUNTARK.md &> /dev/null  &
 	sleep 2 # give emacs plenty of time to process before deleting 
 	sed -i "$ d" /home/$USER/.emacs_aliases # Remove the temporary suppression 
 
