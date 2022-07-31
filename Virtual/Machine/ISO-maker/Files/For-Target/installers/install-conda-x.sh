@@ -52,7 +52,7 @@ if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # 
 	    bashrc="/home/$user/.bashrc"
 	    if [[ -e $bashrc ]]; then
 		sed -i -e "$sed_cmd" "$bashrc"
-		conda init bash
+		sudo -u "$user" conda init bash
 	    fi
 	fi
     done
