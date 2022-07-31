@@ -100,7 +100,7 @@ sudo find . -type f -name "*\...sh" -exec chmod a+x {} \; # Gets .bash, .fish
 popd
 
 CONDA_PATH="$(which conda)"
-echo '$(which conda)='"$(CONDA_PATH)"
+echo '$(which conda)='"$CONDA_PATH"
 
 # If conda command has no path, something went wrong
 if [[ "$(which conda)" == "" ]]; then
