@@ -5,7 +5,7 @@
 
 # Prevent installation of endless locale information
 # the command purges all EXCEPT those listed
-sudo locale-gen --purge en_US en_US.UTF-8 en_US.8859-15 && echo 'only locale is en_US'
+sudo locale-gen --purge en_US en_US.UTF-8 && echo 'only locale is en_US'
 
 # Figure out what the target device is 
 df -hT > /tmp/target-partition 
