@@ -101,6 +101,7 @@ sudo find . -type f -name "*\...sh" -exec chmod a+x {} \; # Gets .bash, .fish
 popd
 
 source /etc/environment
+source ~/.bashrc
 # If conda command has no path, something went wrong
 if [[ "$(which conda)" == "" ]]; then
     echo $0 ' failed; exiting'
