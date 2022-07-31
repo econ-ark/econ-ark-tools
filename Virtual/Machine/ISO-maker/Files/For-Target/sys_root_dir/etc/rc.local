@@ -56,4 +56,7 @@ sudo systemctl restart avahi-daemon
 # permits special messages only at startup of machine
 [[ -e /home/econ-ark/.first_interactive_shell.flag ]] && sudo rm /home/econ-ark/.first_interactive_shell.flag
 
+# Crash information hangs around forever if not deleted
+sudo rm -f /var/crash/*.crash
+
 exit 0

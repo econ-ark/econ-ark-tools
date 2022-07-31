@@ -31,7 +31,7 @@ mypass="kra-noce"       # both have the same password
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion curl  apt-utils
+sudo apt-get -y install bash-completion curl apt-utils  man-db
 
 # Create with appropriate groups
 /var/local/config/add-users.sh |& tee /var/local/status/add-users.log
@@ -50,6 +50,9 @@ sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local
 [[ ! -e /etc/rc.local ]] && touch /etc/rc.local 
 mv /etc/rc.local /etc/rc.local_orig 
 cp /var/local/sys_root_dir/etc/rc.local /etc/rc.local
+
+# Boot in verbose mode
+cp /var/local/sys_root_dir/etc/default/grub /etc/default/grub
 
 # .bash_aliases contains the stuff that is executed at the first and second boots of gui users
 if ! grep -q root /root/.bash_aliases &>/dev/null; then # Econ-ARK additions are not there yet
@@ -132,6 +135,7 @@ sudo chmod a+rw /etc/cron.hourly/jobs.deny
 sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local 
 
 sudo apt -y install at-spi2-core      # If not insalled lots of lightdm errmsg
+
 # Crashes often occur when installing grub, but have no subsequent consequence
 sudo rm -f /var/crash/grub-pc.0.crash
 
@@ -143,8 +147,13 @@ sudo apt -y install xserver-xorg-input-libinput xserver-xorg-input-evdev xserver
 sudo /var/local/installers/install-ssh.sh
 sudo /var/local/config/config-ssh-user.sh $vncuser
 
+# Boot in verbose mode
+cp /var/local/sys_root_dir/etc/default/grub /etc/default/grub
+sudo update-grub
+
 # When run by cloud_init, the machine will reboot after finishing start.sh
 # rc.local will then notice that 'finish.sh' has not been run, and will run it
+
 
 # If you ran late_command.sh by hand, just reboot your machine when it finishes
 

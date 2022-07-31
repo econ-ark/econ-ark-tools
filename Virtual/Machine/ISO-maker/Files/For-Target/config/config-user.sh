@@ -20,6 +20,9 @@ sudo adduser $user netdev &>/dev/null
 # If installer ISO exists, make that obvious to user
 [[ ! -e $user_dir/installer ]] && [[ -e /installer ]] && [[ ! -s /installer ]] && ln -s /installer $user_dir/installer
 
+# make "About_This" eash to find 
+[[ ! -e $user_dir/About_This_Install ]] && ln -s /var/local/About_This_Install $user_dir/About_This_Install
+
 # Everything should be accessible to members of the econ-ark group
 [[ "$user" != "root" ]] && chown -Rf $user:econ-ark $user_dir
 

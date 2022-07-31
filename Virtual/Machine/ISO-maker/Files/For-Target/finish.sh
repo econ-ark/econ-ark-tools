@@ -10,8 +10,6 @@ vncuser="econ-ark"
 rdpuser="econ-ark-xrdp"
 mypass="kra-noce"
 
-# # enable connection by ssh
-# sudo apt -y install openssh-server
 # sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
 sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
 
@@ -101,7 +99,7 @@ EOF
 sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1 
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs timeshift deja-dup
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs deja-dup
 
 cd /var/local
 branch_name="$(</var/local/status/git_branch)"
@@ -131,7 +129,7 @@ if [[ -e /EFI/BOOT ]]; then
     echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 fi
 
-cd /var/local
+cd /var/local/status
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 [[ -e /var/local/status/Size-To-Make-Is-MIN ]] && size="MIN"
 
@@ -171,13 +169,14 @@ if [[ "$size" == "MIN" ]]; then
     conda install --yes -c conda-forge pytest
     conda install --yes -c conda-forge nbval     # use pytest on notebooks
 else
-    /var/local/installers/install-conda-x.sh anaconda
+    /var/local/installers/install-conda-x.sh anaconda |& tee /var/local/status/install-conda-x.log
     source /etc/environment
     source ~/.bashrc
     conda activate base
     pip install econ-ark 
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
+    cd /var/local/status
     echo '' >> XUBUNTARK.md
     echo 'In addition, it contains a rich suite of other software (like LaTeX) widely ' >> XUBUNTARK.md
     echo 'used in scientific computing, including full installations of Anaconda, '     >> XUBUNTARK.md
@@ -193,9 +192,7 @@ pip install elpy
 # Now that elpy has been installed, rerun the emacs setup to connect to it
 emacs -batch --eval "(setq debug-on-error t)" -l     /root/.emacs  # Run in batch mode to setup everything
 
-cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
-
-mv /var/local/XUBUNTARK.md /var/local/About_This_Install
+cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/status/XUBUNTARK.md
 
 # 20220602: For some reason jinja2 version obained by pip install is out of date
 pip install jinja2
@@ -247,12 +244,28 @@ sudo apt -y upgrade
 tail_monitor="$(pgrep tail | grep -v pgrep)"
 [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
 
-# Signal that we've finished software install
-touch /var/local/status/finished-software-install.flag 
+# Install timeshift backup tool
+sudo /var/local/installers/install-timeshift.sh
+
+## Modify default config 
+sudo /var/local/config/config-timeshift-backups.sh
+
+## Create "O"n-demand backup 
+msg="Initial backup of Econ-ARK machine"
+sudo timeshift --scripted --yes --create --comments "$msg" --tags O
+
+# Upper right edge of menu bar
+sudo apt -y install indicator-application
 
 sudo chmod -Rf a+rw /var/local/status
 
 sudo apt -y purge popularity-contest
 sudo apt -y autoremove # Remove unused packages
+
+# GUI software store was removed in purge of gnome*
+sudo apt -y install gnome-software
+
+# Signal that we've finished software install
+touch /var/local/status/finished-software-install.flag 
 
 sudo reboot
