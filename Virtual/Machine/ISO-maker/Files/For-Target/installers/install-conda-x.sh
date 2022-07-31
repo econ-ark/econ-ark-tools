@@ -42,7 +42,7 @@ if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # 
     sed_cmd="'s|/usr/local/"$NOT_CHOSEN"|/usr/local/"$CHOSEN"|g'"
 
     # For root, replace NOT_CHOSEN with CHOSEN
-    sed -i -e "$sed_cmd" /root/.bashrc
+    sudo sed -i -e "$sed_cmd" /root/.bashrc
     source /root/.bashrc
     conda init bash
     
