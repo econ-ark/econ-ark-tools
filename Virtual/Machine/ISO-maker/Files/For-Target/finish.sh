@@ -10,8 +10,6 @@ vncuser="econ-ark"
 rdpuser="econ-ark-xrdp"
 mypass="kra-noce"
 
-# # enable connection by ssh
-# sudo apt -y install openssh-server
 # sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
 sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
 
@@ -250,13 +248,13 @@ tail_monitor="$(pgrep tail | grep -v pgrep)"
 sudo apt -y install timeshift
 
 ## Get a config
-sudo /var/local/config/config-timeshift.sh
+sudo /var/local/config/config-timeshift-backups.sh
 
-msg="Initial backup of Econ-ARK machine"
 ## Create "O"n-demand backup 
-sudo timeshift --create --comments "$msg" --tags O
+msg="Initial backup of Econ-ARK machine"
+sudo timeshift --create --comments "$msg" --scripted --tags O
 
-sudo apt -y install indictor-application
+sudo apt -y install indicator-application
 
 sudo chmod -Rf a+rw /var/local/status
 
@@ -266,5 +264,7 @@ sudo apt -y autoremove # Remove unused packages
 # Signal that we've finished software install
 touch /var/local/status/finished-software-install.flag 
 
+# GUI software store was removed in purge of gnome*
+sudo apt -y install gnome-software
 
 sudo reboot
