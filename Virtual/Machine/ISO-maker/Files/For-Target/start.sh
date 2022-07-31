@@ -132,6 +132,7 @@ sudo chmod a+rw /etc/cron.hourly/jobs.deny
 sudo echo 0anacron > /etc/cron.hourly/jobs.deny  # Reversed at end of rc.local 
 
 sudo apt -y install at-spi2-core      # If not insalled lots of lightdm errmsg
+
 # Crashes often occur when installing grub, but have no subsequent consequence
 sudo rm -f /var/crash/grub-pc.0.crash
 
