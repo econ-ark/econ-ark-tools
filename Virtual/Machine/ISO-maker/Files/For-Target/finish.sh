@@ -244,16 +244,17 @@ sudo apt -y upgrade
 tail_monitor="$(pgrep tail | grep -v pgrep)"
 [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
 
-# Make a backup in this pristine state
-sudo apt -y install timeshift
+# Install timeshift backup tool
+sudo /var/local/installers/install-timeshift.sh
 
-## Get a config
+## Modify default config 
 sudo /var/local/config/config-timeshift-backups.sh
 
 ## Create "O"n-demand backup 
 msg="Initial backup of Econ-ARK machine"
-sudo timeshift --create --comments "$msg" --scripted --tags O
+sudo timeshift --scripted --yes --create --comments "$msg" --tags O
 
+# Upper right edge of menu bar
 sudo apt -y install indicator-application
 
 sudo chmod -Rf a+rw /var/local/status
@@ -261,10 +262,10 @@ sudo chmod -Rf a+rw /var/local/status
 sudo apt -y purge popularity-contest
 sudo apt -y autoremove # Remove unused packages
 
-# Signal that we've finished software install
-touch /var/local/status/finished-software-install.flag 
-
 # GUI software store was removed in purge of gnome*
 sudo apt -y install gnome-software
+
+# Signal that we've finished software install
+touch /var/local/status/finished-software-install.flag 
 
 sudo reboot
