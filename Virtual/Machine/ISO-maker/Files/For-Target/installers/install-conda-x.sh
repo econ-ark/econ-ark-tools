@@ -34,8 +34,6 @@ LATEST_MIN="$(</var/local/About_This_Install/miniconda_version)"
 # If installing one over the other, fix paths
 NOT_CHOSEN_CODE_EXISTS="$(grep $NOT_CHOSEN /root/.bashrc)"
 
-# [[ $NOT_CHOSEN_CODE_EXISTS == "" ]] && echo hi
-
 if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # they are switching
 
     # Construct sed command to replace $NOT_CHOSEN with $CHOSEN
@@ -111,10 +109,9 @@ popd
 
 source ~/.bashrc
 CONDA_PATH="$(which conda)"
-echo '$(which conda)='"$CONDA_PATH"
 
 # If conda command has no path, something went wrong
-if [[ "$(which conda)" == "" ]]; then
+if [[ "$CONDA_PATH" == "" ]]; then
     echo $0 ' failed; exiting'
     exit 1
 fi
