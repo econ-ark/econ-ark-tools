@@ -13,6 +13,8 @@ ANA='anaconda' && MIN='miniconda'
 
 [[ "$CHOSEN" != "$ANA" ]] && [[ "$CHOSEN" != "$MIN" ]] && bad_syntax=true
 
+[[ "$CHOSEN" == "" ]] && echo CHOSEN has no value; aborting && exit
+
 if [[ "$bad_syntax" == true ]]; then
     echo 'usage: install-conda-x.sh [ anaconda | miniconda ]'
     exit
