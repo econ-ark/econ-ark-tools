@@ -34,19 +34,25 @@ LATEST_MIN="$(</var/local/About_This_Install/miniconda_version)"
 [[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST=$LATEST_MIN && URL="repo.anaconda.com/miniconda"
 
 # Installing ANA over MIN does not fix the paths; do that silently here
-if [[ "$CHOSEN" == "$ANA" ]]; then
-    if [[ -e /usr/local/"$MIN" ]]; then
-	for dir in */; do  # For other users
-	    user=$(basename $dir)
-	    if id "$user" >/dev/null 2>&1; then # user exists
-		bashrc="/home/$user/.bashrc"
-		if [[ -e $bashrc ]]; then
-		    sed -i -e 's|/usr/local/miniconda|/usr/local/anaconda|g' "$bashrc"
-		fi
+
+if [[ -e /usr/local/"$NOT_CHOSEN" ]]; then # they are switching
+
+    # Construct sed command to replace $NOT_CHOSEN with $CHOSEN
+    sed_cmd="'s|/usr/local/"$NOT_CHOSEN"|/usr/local/"$CHOSEN"|g'"
+
+    # For root, replace NOT_CHOSEN with CHOSEN
+    sed -i -e "$sed_cmd" /root/.bashrc
+    
+    # Same for other users
+    for dir in */; do  
+	user=$(basename $dir)
+	if id "$user" >/dev/null 2>&1; then # user exists
+	    bashrc="/home/$user/.bashrc"
+	    if [[ -e $bashrc ]]; then
+		sed -i -e "$sed_cmd" "$bashrc"
 	    fi
-	done
-	sed -i -e 's|/usr/local/miniconda|/usr/local/anaconda|g' /root/.bashrc
-    fi
+	fi
+    done
 fi
 
 source ~/.bashrc
