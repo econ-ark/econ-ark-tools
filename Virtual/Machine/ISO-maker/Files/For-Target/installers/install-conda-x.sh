@@ -43,8 +43,7 @@ if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # 
 
     # For root, replace NOT_CHOSEN with CHOSEN
     sudo sed -i -e "$sed_cmd" /root/.bashrc
-    source /root/.bashrc
-    conda init bash
+    sudo conda init bash
     
     # Same for other users
     for dir in */; do  
@@ -52,7 +51,7 @@ if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # 
 	if id "$user" >/dev/null 2>&1; then # user exists
 	    bashrc="/home/$user/.bashrc"
 	    if [[ -e $bashrc ]]; then
-		sed -i -e "$sed_cmd" "$bashrc"
+		sudo -u sed -i -e "$sed_cmd" "$bashrc"
 		sudo -u "$user" conda init bash
 	    fi
 	fi
