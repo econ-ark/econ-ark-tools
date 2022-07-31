@@ -31,6 +31,21 @@ LATEST_MIN="$(</var/local/About_This_Install/miniconda_version)"
 [[ "$CHOSEN" == "$ANA" ]] && NOT_CHOSEN="$MIN" && LATEST=$LATEST_ANA && URL="repo.anaconda.com/archive"
 [[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST=$LATEST_MIN && URL="repo.anaconda.com/miniconda"
 
+# Installing ANA over MIN does not fix the paths; do that silently here
+if [[ "$CHOSEN" == "$ANA" ]]; then
+    if [[ -e /usr/local/"$MIN" ]]; then
+	for dir in */; do  # For other users
+	    user=$(basename $dir)
+	    if id "$user" >/dev/null 2>&1; then # user exists
+		bashrc="/home/$user/.bashrc"
+		if [[ -e $bashrc ]]; then
+		    sed -i -e 's|/usr/local/miniconda|/usr/local/anaconda|g' "$bashrc"
+		fi
+	    fi
+	done
+    fi
+fi
+
 # Prepare the destination
 sudo rm -Rf /usr/local/$CHOSEN
 sudo rm -Rf /usr/local/$NOT_CHOSEN
@@ -51,14 +66,14 @@ sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
 #     sudo chmod u+w /etc/environment
 #     [[ -e /tmp/environment ]] && sudo rm -Rf /tmp/environment
-    
+
 #     # Delete the not-chosen version from the path (if there)
 #     sudo sed -e 's\/usr/local/'$NOT_CHOSEN'/bin:\\g' /etc/environment > /tmp/environment
 #     mv /etc/environment /etc/environment_orig_"$(date +%Y%m%d%H%M)"
-    
+
 #     # Add chosen to path
 #     sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment > /tmp/environment2
-    
+
 #     # Execute conda.sh also in noninteractive bash shells
 #     CONDA_INIT_PATH=/usr/local/$CHOSEN/etc/profile.d/conda.sh
 #     if [[ ! "$CONDA_INIT_PATH" == *"$BASH_ENV"* ]]; then # dont add if already there
@@ -66,7 +81,7 @@ sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 #     else
 # 	echo "$CONDA_INIT_PATH" >> /tmp/environment2
 #     fi
-    
+
 #     # Replace original environment and fix permissions
 #     sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
 #     sudo chmod u-w /etc/environment* # Restore secure permissions for environment
@@ -104,12 +119,3 @@ sudo chmod g+rw     /usr/local/$CHOSEN # members can modify
 
 # conda init puts the path to conda in user's ~/.bashrc
 conda init --system bash    # For root user
-# cd /home
-# for dir in */; do  # For other users
-#     user=$(basename $dir)
-#     if id "$user" >/dev/null 2>&1; then # user exists
-# 	sudo adduser "$user" conda &>/dev/null # Let all users manipulate conda
-# 	cmd="sudo -u $user "$(which conda)" init bash >/dev/null"
-# 	eval "$cmd"
-#     fi
-# done
