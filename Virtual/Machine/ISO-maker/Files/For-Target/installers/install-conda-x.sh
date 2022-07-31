@@ -32,7 +32,7 @@ LATEST_MIN="$(</var/local/About_This_Install/miniconda_version)"
 [[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST=$LATEST_MIN && URL="repo.anaconda.com/miniconda"
 
 # If installing one over the other, fix paths
-NOT_CHOSEN_CODE_EXISTS="$(grep $NOT_CHOSEN /root/.bashrc)"
+NOT_CHOSEN_CODE_EXISTS="$(sudo grep $NOT_CHOSEN /root/.bashrc)"
 
 if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # they are switching
     # Delete systemwide conda.sh - will be replaced by install
@@ -43,6 +43,7 @@ if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # 
 
     # For root, replace NOT_CHOSEN with CHOSEN
     sed -i -e "$sed_cmd" /root/.bashrc
+    source /root/.bashrc
     conda init bash
     
     # Same for other users
