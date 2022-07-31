@@ -131,7 +131,7 @@ if [[ -e /EFI/BOOT ]]; then
     echo 'Econ-ARK'    >                 /EFI/BOOT/.disk_label_contentDetails
 fi
 
-cd /var/local
+cd /var/local/status
 size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 [[ -e /var/local/status/Size-To-Make-Is-MIN ]] && size="MIN"
 
@@ -178,6 +178,7 @@ else
     pip install econ-ark 
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
+    cd /var/local/status
     echo '' >> XUBUNTARK.md
     echo 'In addition, it contains a rich suite of other software (like LaTeX) widely ' >> XUBUNTARK.md
     echo 'used in scientific computing, including full installations of Anaconda, '     >> XUBUNTARK.md
@@ -193,9 +194,7 @@ pip install elpy
 # Now that elpy has been installed, rerun the emacs setup to connect to it
 emacs -batch --eval "(setq debug-on-error t)" -l     /root/.emacs  # Run in batch mode to setup everything
 
-cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/XUBUNTARK.md
-
-mv /var/local/XUBUNTARK.md /var/local/About_This_Install
+cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/status/XUBUNTARK.md
 
 # 20220602: For some reason jinja2 version obained by pip install is out of date
 pip install jinja2
