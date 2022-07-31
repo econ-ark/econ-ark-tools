@@ -81,7 +81,7 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
 
     # Execute conda.sh also in noninteractive bash shells
     CONDA_INIT_PATH=/etc/profile.d/conda.sh
-    if [[ ! "$(grep BASH_ENV /etc/environment)" ]]; then # dont add if already there
+    if [[ "$(grep BASH_ENV /etc/environment)" ]]; then # dont add if already there
 	echo "$CONDA_INIT_PATH was already in BASH_ENV"
     else
 	echo "BASH_ENV=$CONDA_INIT_PATH" >> /tmp/environment2
