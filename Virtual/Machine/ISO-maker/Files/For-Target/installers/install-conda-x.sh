@@ -81,14 +81,13 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
 
     # Execute conda.sh also in noninteractive bash shells
     CONDA_INIT_PATH=/etc/profile.d/conda.sh
-    if [[ "$(grep BASH_ENV /etc/environment)" ]]; then # dont add if already there
+    if [[ "$(grep BASH_ENV /tmp/environment)" ]]; then # dont add if already there
 	echo "$CONDA_INIT_PATH was already in BASH_ENV"
     else
-	echo "BASH_ENV=$CONDA_INIT_PATH" >> /tmp/environment2
+	echo "BASH_ENV=$CONDA_INIT_PATH" >> /etc/environment
     fi
 
     # Replace original environment and fix permissions
-    sudo mv /tmp/environment2 /etc/environment # Weird permissions issue prevents direct redirect into /etc/environment
     sudo chmod u-w /etc/environment* # Restore secure permissions for environment
 fi
 
@@ -100,8 +99,9 @@ sudo find . -type f -name "*\..sh"  -exec chmod a+x {} \; # Gets .csh, .zsh, wha
 sudo find . -type f -name "*\...sh" -exec chmod a+x {} \; # Gets .bash, .fish
 popd
 
-source /etc/environment
-source ~/.bashrc
+CONDA_PATH="$(which conda)"
+echo '$(which conda)='"$(CONDA_PATH)"
+
 # If conda command has no path, something went wrong
 if [[ "$(which conda)" == "" ]]; then
     echo $0 ' failed; exiting'
