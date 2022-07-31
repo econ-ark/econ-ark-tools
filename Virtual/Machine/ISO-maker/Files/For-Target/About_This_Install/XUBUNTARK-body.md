@@ -27,7 +27,7 @@ To install to another drive/USB-stick:
    0. Boot your computer from the "burned" installer medium
    0. Choose the device on which you want to install XUBUNTARK
 
-For a bit more information, see the file `/var/local/About_This_Install.md`
+For a bit more information, see the file `/var/local/About_This_Install/About_This_Intall.md`
 
 For detailed information about how the machine was constructed and configured, see [econ-ark-tools](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual#most-powerful)
 
