@@ -135,7 +135,7 @@ size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 
 isoSize="$size"
 welcome="# Welcome to the Econ-ARK Machine XUBUNTARK-$size, build "
-welcome+="$(cat /var/local/About_This_Install/short.git-hash)"
+welcome+="$(cat /var/local/status/About_This_Install/short.git-hash)"
 
 cat <<EOF > XUBUNTARK.md
 $welcome
