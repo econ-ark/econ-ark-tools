@@ -99,6 +99,7 @@ sudo find . -type f -name "*\..sh"  -exec chmod a+x {} \; # Gets .csh, .zsh, wha
 sudo find . -type f -name "*\...sh" -exec chmod a+x {} \; # Gets .bash, .fish
 popd
 
+source ~/.bashrc
 CONDA_PATH="$(which conda)"
 echo '$(which conda)='"$CONDA_PATH"
 
