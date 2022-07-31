@@ -3,12 +3,13 @@
 # Restoring from a timeshift backup is tricky
 # Here we assume the simplest case:
 # 0. The device to be restored to has the same partitioning structure
-# 0. That device cna boot on its own before the restore
+# 0. That device can boot on its own before the restore
 # 0. The target partition has enough space
 # 0. There is a 'junk' partition to which unneeded stuff is restored
 
 echo ''
 echo 'This script guides you through a manual restore'
+echo 'of your system partition to a different device.'
 echo ''
 echo 'First, launch timeshift as a GUI app'
 echo '(hit return when it is up)'
