@@ -419,7 +419,7 @@ late_command+=";\
 
 # late_command_finish contains setup stuff also used in cloud-init
 late_command+=";\
-   chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh |& tee /var/local/status/late_command_finish.log"'" "
+   chroot /target /bin/bash -c "'"/var/local/late_command_finish.sh 2>&1 |& tee /var/local/status/late_command_finish.log"'" "
 
 # Run the start script and log the results
 late_command+=";\
