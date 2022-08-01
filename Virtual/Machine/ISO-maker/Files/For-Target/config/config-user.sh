@@ -21,12 +21,10 @@ sudo adduser $user netdev &>/dev/null
 [[ "$user" != "root" ]] && chown -Rf $user:econ-ark $user_dir
 
 # Remove linux automatically created directories like "Music" and "Pictures"
-# Leave only required directories Downloads and Desktop
+# if they exist
 cd $user_dir
-for d in ./*/; do
-    if [[ ! "$d" == "./Downloads/" ]] && [[ ! "$d" == "./Desktop/" ]] && [[ ! "$d" == "./snap/" ]] && [[ ! "$d" == "./GitHub/" ]] && [[ ! "$d" == "./thinclient_drives" ]]; then
-	rm -Rf "$d"
-    fi
+for d in Templates Music Pictures Videos Documents; do
+    [[ -d "$d" ]] && rm -Rf "$d"
 done
 
 # If installer ISO exists, make that obvious to user

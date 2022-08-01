@@ -10,16 +10,8 @@ vncuser="econ-ark"
 rdpuser="econ-ark-xrdp"
 mypass="kra-noce"
 
-# sudo /var/local/installers/install-ssh.sh $vncuser |& tee -a /var/local/status/install-ssh.log
+# xrdp user allows a second way to contact machine
 sudo /var/local/installers/install-and-configure-xrdp.sh $vncuser |& tee -a /var/local/status/install-and-configure-xrdp.log
-
-# # xubuntu desktop
-# sudo bash -c '/var/local/installers/install-xubuntu-desktop.sh |& tee /var/local/status/install-xubuntu-desktop.log'
-
-# on some vm's it is necessary to stop then restart the vm before it works
-# sudo service lightdm stop; sudo service lightdm start
-
-cd /var/local
 
 # Get info about install
 commit_msg="$(cat /var/local/About_This_Install/commit-msg.txt)"
@@ -88,18 +80,15 @@ directory.
 
 EOF
 
-## mdadm is for managing RAID systems but can cause backup problems; disable
-# sudo apt -y remove mdadm
-
 # Start the GUI if not already running
 [[ "$(pgrep xfce4)" == '' ]] && service lightdm stop && service lightdm start
 
 # Packages present in "live" but not in "legacy" version of server
-# https://ubuntuforums.org/showthread.php?t=2443047
+## https://ubuntuforums.org/showthread.php?t=2443047
 sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1 
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils rclone autocutsel gnome-disk-utility rpl  net-tools network-manager-gnome snap evince nodejs deja-dup
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils autocutsel gnome-disk-utility rpl net-tools network-manager-gnome snap evince nodejs deja-dup
 
 cd /var/local
 branch_name="$(</var/local/status/git_branch)"
