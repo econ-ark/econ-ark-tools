@@ -51,7 +51,7 @@ sudo chmod a+x /tmp/$CHOSEN/$LATEST
 sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
 # Modify the paths for each user
-if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" || "$(which conda)" == ""]] ; then # they are switching
+if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" || "$(which conda)" == "" ]] ; then # they are switching
 
     # Construct sed command to replace $NOT_CHOSEN with $CHOSEN
     sed_cmd="'s|/usr/local/"$NOT_CHOSEN"|/usr/local/"$CHOSEN"|g'"
