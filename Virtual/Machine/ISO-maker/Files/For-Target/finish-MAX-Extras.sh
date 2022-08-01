@@ -61,4 +61,7 @@ cd /usr/local/share/data/GitHub/econ-ark/DemARK/notebooks
 # 20220508: Chinese-Growth is very slow
 pytest --nbval-lax --ignore-glob='Chinese*.*' --nbval-cell-timeout=120 *.ipynb
 
+#
+
+# TeXLive installation takes several hours
 sudo apt -y install texlive-full
