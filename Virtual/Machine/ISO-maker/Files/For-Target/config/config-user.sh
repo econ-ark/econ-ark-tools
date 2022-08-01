@@ -30,7 +30,7 @@ done
 # If installer ISO exists, make that obvious to user
 [[ ! -e $user_dir/installer ]] && [[ -e /installer ]] && [[ ! -s /installer ]] && ln -s /installer $user_dir/installer
 
-# make "About_This" eash to find 
+# make "About_This" easy to find 
 [[ ! -e $user_dir/About_This_Install ]] && ln -s /var/local/About_This_Install $user_dir/About_This_Install
 
 # Add stuff to bash login script
@@ -46,6 +46,7 @@ fi
 chmod a+x "$bashadd"
 chown $user:$user "$bashadd" 
 
+# Make Chrome the default
 sudo -u $user xdg-settings set default-web-browser google-chrome.desktop
 
 # Make sure that everything in the home user's path is owned by home user 
