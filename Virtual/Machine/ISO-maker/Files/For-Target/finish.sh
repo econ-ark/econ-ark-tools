@@ -179,7 +179,7 @@ sudo apt -y install python-is-python3
 pip install elpy
 
 # Now that elpy has been installed, rerun the emacs setup to connect to it
-emacs -batch --eval "(setq debug-on-error t)" -l     /root/.emacs  # Run in batch mode to setup everything
+emacs -batch --eval "(setq debug-on-error t)" -l     /home/$vncuser/.emacs  # Run in batch mode to setup everything
 
 cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/status/XUBUNTARK.md
 
