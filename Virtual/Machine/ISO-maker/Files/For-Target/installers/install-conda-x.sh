@@ -50,35 +50,19 @@ sudo chmod a+x /tmp/$CHOSEN/$LATEST
 # install in "-b" batch mode at "-p" path
 sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
-# Modify the paths for each user
-if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" || "$(which conda)" == "" ]] ; then # they are switching
-
-    # Construct sed command to replace $NOT_CHOSEN with $CHOSEN
-    sed_cmd="'s|/usr/local/"$NOT_CHOSEN"|/usr/local/"$CHOSEN"|g'"
-
-    # # For root, replace NOT_CHOSEN with CHOSEN
-    # cmd="sudo sed -i -e $sed_cmd /root/.bashrc"
-    # echo "$cmd"
-    # eval "$cmd"
-
-    # # Delete systemwide conda.sh - will be replaced by install
-    # [[ -e /etc/profile.d/conda.sh ]] && sudo rm /etc/profile.d/conda.sh
-    # sudo conda init bash
-    
-    # Same for other users
-    cd /home
-    for dir in */; do  
-	user=$(basename $dir)
-	if id "$user" >/dev/null 2>&1; then # user exists
-	    bashrc="/home/$user/.bashrc"
-	    if [[ -e $bashrc ]]; then
-		cmd="sudo -u $user /usr/local/$CHOSEN/bin/conda init --system bash"
-		echo "$cmd"
-		eval "$cmd"
-	    fi
+# Init for every user
+cd /home
+for dir in */; do  
+    user=$(basename $dir)
+    if id "$user" >/dev/null 2>&1; then # user exists
+	bashrc="/home/$user/.bashrc"
+	if [[ -e $bashrc ]]; then
+	    cmd="sudo -u $user /usr/local/$CHOSEN/bin/conda init --system bash"
+	    echo "$cmd"
+	    eval "$cmd"
 	fi
-    done
-fi
+    fi
+done
 
 ## Add to default environment path so that all users can find it
 if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
