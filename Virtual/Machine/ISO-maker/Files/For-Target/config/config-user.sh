@@ -59,3 +59,5 @@ if [[ ! "$user" == "root" ]]; then # never run latex as root
     echo "'"'$pdf_previewer = start evince'"';" >> "$ltxmkrc"
 fi
 
+# If some version of conda is installed, init it for the user
+[[ ! -z $(which conda) ]] && conda init bash
