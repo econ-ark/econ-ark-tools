@@ -35,8 +35,6 @@ LATEST_MIN="$(</var/local/About_This_Install/miniconda_version)"
 NOT_CHOSEN_CODE_EXISTS="$(sudo grep $NOT_CHOSEN /root/.bashrc)"
 
 if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # they are switching
-    # Delete systemwide conda.sh - will be replaced by install
-    [[ -e /etc/profile.d/conda.sh ]] && sudo rm /etc/profile.d/conda.sh
 
     # Construct sed command to replace $NOT_CHOSEN with $CHOSEN
     sed_cmd="'s|/usr/local/"$NOT_CHOSEN"|/usr/local/"$CHOSEN"|g'"
@@ -45,7 +43,9 @@ if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # 
     cmd="sudo sed -i -e $sed_cmd /root/.bashrc"
     echo "$cmd"
     eval "$cmd"
-    
+
+    # Delete systemwide conda.sh - will be replaced by install
+    [[ -e /etc/profile.d/conda.sh ]] && sudo rm /etc/profile.d/conda.sh
     sudo conda init bash
     
     # Same for other users
