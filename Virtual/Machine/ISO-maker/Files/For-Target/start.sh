@@ -62,7 +62,7 @@ if ! grep -q root /root/.bash_aliases &>/dev/null; then # Econ-ARK additions are
 fi
 
 # If running in VirtualBox, install Guest Additions and add vboxsf to econ-ark groups
-if [[ "$(which lshw)" ]] && vbox="$(lshw 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
+if [[ "$(which lshw)" ]] && vbox="$(lshw -c system 2>/dev/null | grep VirtualBox)"  && [[ "$vbox" != "" ]] ; then
     sudo apt -y install virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11 xserver-xorg-video-dummy
 fi
 
