@@ -5,9 +5,7 @@ Ubuntu/Debian Linux machine. They will add to that machine
 all the components necessary to turn it into an Econ-ARK
 machine.
 
-This may wipe out some of the existing configuration settings
-of the machine, so if you want to preserve your existing settings
-you should do a backup before running these scripts. 
+This may wipe out some of the existing configurations, so if you want to preserve your existing settings, do a backup before running these scripts.
 
 A script that makes a ['timeshift'](https://teejeetech.com/timeshift/) backup is
 
