@@ -14,5 +14,5 @@ touch /var/local/status/Size-To-Make-Is-$(echo MIN)
 [[ "$(/cdrom/preseed/*.iso)" != '' ]] &>/dev/null && mkdir -p /installer && cp /cdrom/preseed/*.iso /installer 
 cat /etc/apt/sources.list | grep -v cdrom > /tmp/apt-sources_without_cdrom.list 
 mv /tmp/apt-sources_without_cdrom.list /etc/apt/sources.list
-/bin/bash -c "/var/local/late_command_finish.sh |& tee /var/local/status/late_command_finish.log" 
+/bin/bash -c "/var/local/late_command_finish.sh 2>&1 |& tee /var/local/status/late_command_finish.log" 
 /bin/bash -c "/var/local/tools/start-with-log.sh"
