@@ -63,7 +63,7 @@ sudo apt -y install /var/local/status/google-chrome-stable_current_amd64.deb
 # Populate About_This_Install directory with info specific to this run of the installer
 
 ## Create the "About This Install" markdown file
-cat <<EOF > /var/local/About_This_Install/About_This_Intall.md
+cat <<EOF > /var/local/About_This_Install/About_This_Install.md
 # Detailed Info About This Installation
 
 This machine (virtual or real) was built using 
