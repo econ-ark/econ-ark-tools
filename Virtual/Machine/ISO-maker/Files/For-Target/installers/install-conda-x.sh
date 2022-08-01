@@ -31,41 +31,39 @@ LATEST_MIN="$(</var/local/About_This_Install/miniconda_version)"
 [[ "$CHOSEN" == "$ANA" ]] && NOT_CHOSEN="$MIN" && LATEST=$LATEST_ANA && URL="repo.anaconda.com/archive"
 [[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST=$LATEST_MIN && URL="repo.anaconda.com/miniconda"
 
-# If installing one over the other, fix paths
-NOT_CHOSEN_CODE_EXISTS="$(sudo grep $NOT_CHOSEN /root/.bashrc)"
+# # If installing one over the other, fix paths
+# NOT_CHOSEN_CODE_EXISTS="$(sudo grep $NOT_CHOSEN /root/.bashrc)"
 
-if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # they are switching
+# if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # they are switching
 
-    # Construct sed command to replace $NOT_CHOSEN with $CHOSEN
-    sed_cmd="'s|/usr/local/"$NOT_CHOSEN"|/usr/local/"$CHOSEN"|g'"
+#     # Construct sed command to replace $NOT_CHOSEN with $CHOSEN
+#     sed_cmd="'s|/usr/local/"$NOT_CHOSEN"|/usr/local/"$CHOSEN"|g'"
 
-    # # For root, replace NOT_CHOSEN with CHOSEN
-    # cmd="sudo sed -i -e $sed_cmd /root/.bashrc"
-    # echo "$cmd"
-    # eval "$cmd"
+#     # # For root, replace NOT_CHOSEN with CHOSEN
+#     # cmd="sudo sed -i -e $sed_cmd /root/.bashrc"
+#     # echo "$cmd"
+#     # eval "$cmd"
 
-    # # Delete systemwide conda.sh - will be replaced by install
-    # [[ -e /etc/profile.d/conda.sh ]] && sudo rm /etc/profile.d/conda.sh
-    # sudo conda init bash
+#     # # Delete systemwide conda.sh - will be replaced by install
+#     # [[ -e /etc/profile.d/conda.sh ]] && sudo rm /etc/profile.d/conda.sh
+#     # sudo conda init bash
     
-    # Same for other users
-    for dir in */; do  
-	user=$(basename $dir)
-	if id "$user" >/dev/null 2>&1; then # user exists
-	    bashrc="/home/$user/.bashrc"
-	    if [[ -e $bashrc ]]; then
-		cmd="sudo -u sed -i -e $sed_cmd $bashrc"
-		echo "$cmd"
-		eval "$cmd"
-		cmd="sudo -u $user conda init bash"
-		echo "$cmd"
-		eval "$cmd"
-	    fi
-	fi
-    done
-fi
+#     # Same for other users
+#     cd /home
+#     for dir in */; do  
+# 	user=$(basename $dir)
+# 	if id "$user" >/dev/null 2>&1; then # user exists
+# 	    bashrc="/home/$user/.bashrc"
+# 	    if [[ -e $bashrc ]]; then
+# 		cmd="sudo -u $user sed -i -e $sed_cmd $bashrc"
+# 		echo "$cmd"
+# 		eval "$cmd"
+# 	    fi
+# 	fi
+#     done
+# fi
 
-source ~/.bashrc
+# source ~/.bashrc
 
 # Prepare the destination
 sudo rm -Rf /usr/local/$CHOSEN
@@ -82,31 +80,33 @@ sudo chmod a+x /tmp/$CHOSEN/$LATEST
 # install in "-b" batch mode at "-p" path
 sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
-## Add to default enviroment path so that all users can find it
-if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
-    echo 'Adding '$CHOSEN' to PATH in /etc/environment'
+sudo /usr/local/$CHOSEN/bin/conda init --system bash
 
-    sudo chmod u+w /etc/environment
-    [[ -e /tmp/environment ]] && sudo rm -Rf /tmp/environment
+# ## Add to default environment path so that all users can find it
+# if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
+#     echo 'Adding '$CHOSEN' to PATH in /etc/environment'
 
-    # Delete the not-chosen version from the path (if there)
-    sudo sed -e 's\/usr/local/'$NOT_CHOSEN'/bin:\\g' /etc/environment > /tmp/environment
-    mv /etc/environment /etc/environment_orig_"$(date +%Y%m%d%H%M)"
+#     sudo chmod u+w /etc/environment
+#     [[ -e /tmp/environment ]] && sudo rm -Rf /tmp/environment
 
-    # Add chosen to universal path
-    sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment > /etc/environment
+#     # Delete the not-chosen version from the path (if there)
+#     sudo sed -e 's\/usr/local/'$NOT_CHOSEN'/bin:\\g' /etc/environment > /tmp/environment
+#     mv /etc/environment /etc/environment_orig_"$(date +%Y%m%d%H%M)"
 
-    # Execute conda.sh also in noninteractive bash shells
-    CONDA_INIT_PATH=/etc/profile.d/conda.sh
-    if [[ "$(grep BASH_ENV /tmp/environment)" ]]; then # dont add if already there
-	echo "$CONDA_INIT_PATH was already in BASH_ENV"
-    else
-	echo "BASH_ENV=$CONDA_INIT_PATH" >> /etc/environment
-    fi
+#     # Add chosen to universal path
+#     sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment > /etc/environment
 
-    # Replace original environment and fix permissions
-    sudo chmod u-w /etc/environment* # Restore secure permissions for environment
-fi
+#     # Execute conda.sh also in noninteractive bash shells
+#     CONDA_INIT_PATH=/etc/profile.d/conda.sh
+#     if [[ "$(grep BASH_ENV /tmp/environment)" ]]; then # dont add if already there
+# 	echo "$CONDA_INIT_PATH was already in BASH_ENV"
+#     else
+# 	echo "BASH_ENV=$CONDA_INIT_PATH" >> /etc/environment
+#     fi
+
+#     # Replace original environment and fix permissions
+#     sudo chmod u-w /etc/environment* # Restore secure permissions for environment
+# fi
 
 # Because installed as root, files are not executable by non-root users but should be
 pushd .
