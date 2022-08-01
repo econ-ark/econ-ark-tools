@@ -92,15 +92,17 @@ if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
     sudo mv /etc/environment /etc/environment_orig_"$(date +%Y%m%d%H%M)"
 
     # Add chosen to universal path
-    sudo sed -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment > /etc/environment
+    sudo sed -i -e "s\/usr/local/sbin:\/usr/local/"$CHOSEN"/bin:/usr/local/sbin:\g" /tmp/environment 
 
     # Execute conda.sh also in noninteractive bash shells
     CONDA_INIT_PATH=/etc/profile.d/conda.sh
     if [[ "$(grep BASH_ENV /tmp/environment)" ]]; then # dont add if already there
 	echo "$CONDA_INIT_PATH was already in BASH_ENV"
     else
-	echo "BASH_ENV=$CONDA_INIT_PATH" >> /etc/environment
+	echo "BASH_ENV=$CONDA_INIT_PATH" >> /tmp/environment
     fi
+
+    sudo mv /tmp/environment /etc/environment
 
     # Replace original environment and fix permissions
     sudo chmod u-w /etc/environment* # Restore secure permissions for environment
