@@ -142,3 +142,8 @@ sudo chmod g+rw     /usr/local/$CHOSEN # members can modify
 
 # conda init puts the path to conda in user's ~/.bashrc
 conda init --system bash    # For root user
+
+echo ''
+echo 'To use the newly installed conda, you must do a'
+echo 'source ~/.bashrc'
+echo ''
