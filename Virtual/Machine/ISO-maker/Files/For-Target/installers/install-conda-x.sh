@@ -39,14 +39,14 @@ if  [[ -e /usr/local/"$NOT_CHOSEN" || $NOT_CHOSEN_CODE_EXISTS != "" ]] ; then # 
     # Construct sed command to replace $NOT_CHOSEN with $CHOSEN
     sed_cmd="'s|/usr/local/"$NOT_CHOSEN"|/usr/local/"$CHOSEN"|g'"
 
-    # For root, replace NOT_CHOSEN with CHOSEN
-    cmd="sudo sed -i -e $sed_cmd /root/.bashrc"
-    echo "$cmd"
-    eval "$cmd"
+    # # For root, replace NOT_CHOSEN with CHOSEN
+    # cmd="sudo sed -i -e $sed_cmd /root/.bashrc"
+    # echo "$cmd"
+    # eval "$cmd"
 
-    # Delete systemwide conda.sh - will be replaced by install
-    [[ -e /etc/profile.d/conda.sh ]] && sudo rm /etc/profile.d/conda.sh
-    sudo conda init bash
+    # # Delete systemwide conda.sh - will be replaced by install
+    # [[ -e /etc/profile.d/conda.sh ]] && sudo rm /etc/profile.d/conda.sh
+    # sudo conda init bash
     
     # Same for other users
     for dir in */; do  
@@ -82,7 +82,7 @@ sudo chmod a+x /tmp/$CHOSEN/$LATEST
 # install in "-b" batch mode at "-p" path
 sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
-# # Add to default enviroment path so that all users can find it
+## Add to default enviroment path so that all users can find it
 if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
     echo 'Adding '$CHOSEN' to PATH in /etc/environment'
 
