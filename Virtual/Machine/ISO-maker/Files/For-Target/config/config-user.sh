@@ -17,12 +17,6 @@ sudo adduser $user netdev &>/dev/null
 # Get to systemwide GitHub via ~/GitHub whoever you are
 [[ ! -e $user_dir/GitHub ]] && ln -s /usr/local/share/data/GitHub $user_dir/GitHub
 
-# If installer ISO exists, make that obvious to user
-[[ ! -e $user_dir/installer ]] && [[ -e /installer ]] && [[ ! -s /installer ]] && ln -s /installer $user_dir/installer
-
-# make "About_This" eash to find 
-[[ ! -e $user_dir/About_This_Install ]] && ln -s /var/local/About_This_Install $user_dir/About_This_Install
-
 # Everything should be accessible to members of the econ-ark group
 [[ "$user" != "root" ]] && chown -Rf $user:econ-ark $user_dir
 
@@ -34,6 +28,12 @@ for d in ./*/; do
 	rm -Rf "$d"
     fi
 done
+
+# If installer ISO exists, make that obvious to user
+[[ ! -e $user_dir/installer ]] && [[ -e /installer ]] && [[ ! -s /installer ]] && ln -s /installer $user_dir/installer
+
+# make "About_This" eash to find 
+[[ ! -e $user_dir/About_This_Install ]] && ln -s /var/local/About_This_Install $user_dir/About_This_Install
 
 # Add stuff to bash login script
 bashadd=$user_dir/.bash_aliases
