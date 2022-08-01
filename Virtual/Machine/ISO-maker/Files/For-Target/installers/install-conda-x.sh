@@ -1,5 +1,7 @@
 #!/bin/bash
 
+[[ -e /var/local/status/verbose ]] && set -x && set -v
+
 # Install either miniconda or anaconda
 
 [[ "$#" -ne 1 ]] && bad_syntax=true  # one argument
