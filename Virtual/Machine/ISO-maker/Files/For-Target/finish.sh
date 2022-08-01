@@ -223,20 +223,12 @@ sudo systemctl enable cups-browsed.service
 # Meld is a good file/folder diff tool
 sudo apt -y install meld
 
-# ssh was installed in start.sh
-#/var/local/installers/install-ssh.sh "$user"    |& tee /var/local/status/install-ssh.log
-#/var/local/config/config/config-keyring.sh "$user" |& tee /var/local/config/config-keyring.log
-
-sudo apt -y upgrade
-
 # Kill tail monitor if it is running
 tail_monitor="$(pgrep tail | grep -v pgrep)"
 [[ ! -z "$tail_monitor" ]] && sudo kill "$tail_monitor"
 
 # Install timeshift backup tool
 sudo /var/local/installers/install-timeshift.sh
-
-## Modify default config 
 sudo /var/local/config/config-timeshift-backups.sh
 
 ## Create "O"n-demand backup 
