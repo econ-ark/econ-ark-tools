@@ -1,1 +1,1 @@
-Merge_branch_'master'_of_https:--github.com-econ-ark-econ-ark-tools
+source_environment_before_bashrc
