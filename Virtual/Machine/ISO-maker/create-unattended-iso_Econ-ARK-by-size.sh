@@ -394,7 +394,10 @@ late_command="mount --bind /dev /target/dev ;\
 late_command+=";\
    chroot /target apt -y update ;\
    chroot /target apt -y reinstall git ;\
-   chroot /target apt -y install apt-utils"
+   chroot /target apt -y install apt-utils ;\
+   chroot /target apt -y install netplan.io ;\
+   chroot /target netplan generate ;\
+   chroot /target netplan apply"
 
 # Make place for, and retrieve, econ-ark-tools
 late_command+=";\
