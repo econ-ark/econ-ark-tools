@@ -100,7 +100,6 @@ done
 
 # Play nice with Macs (in hopes of being able to monitor it)
 sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
-#sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errmsgs when apps are launched
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
@@ -109,7 +108,6 @@ cp /var/local/sys_root_dir/etc/avahi/avahi-daemon.conf /etc/avahi
 
 # Enable ssh over avahi
 cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
-
 
 ## The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
 if [[ -e /EFI/BOOT ]]; then
@@ -134,14 +132,6 @@ This machine contains all the software necessary to use all parts of the
 Econ-ARK toolkit.
 
 EOF
-
-
-# Download the installer (very meta!)
-#echo ''
-#echo 'Fetching online image of this installer to '
-#echo "/media/"
-
-[[ -e "/media/*.iso" ]] && sudo rm "/media/*.iso"
 
 # bring system up to date
 sudo apt -y update && sudo apt -y upgrade
