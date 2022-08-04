@@ -1,1 +1,1 @@
-Remove_install_netplan_from_late_command;_do_not_auto-reboot_from_ISO
+generate_and_apply_netplan_at_end_of_start
