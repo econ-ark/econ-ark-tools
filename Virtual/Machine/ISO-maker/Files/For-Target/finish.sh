@@ -169,7 +169,8 @@ sudo apt -y install python-is-python3
 pip install elpy
 
 # Now that elpy has been installed, rerun the emacs setup to connect to it
-emacs -batch --eval "(setq debug-on-error t)" -l     /home/$vncuser/.emacs  # Run in batch mode to setup everything
+# Run in batch mode to setup everything
+emacs -batch --eval "(setq debug-on-error t)" -l     /home/$vncuser/.emacs 2>&1 |& tee -a /var/local/status/install-emacs.log
 
 cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/status/XUBUNTARK.md
 
@@ -199,8 +200,7 @@ sudo apt -y install hfsplus hfsutils hfsprogs
 # # Prepare partition for reFind boot manager in MacOS
 # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
 
-sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get update && sudo apt-get upgrade
 sudo apt-get install unattended-upgrades
 
 sudo mkdir -p /etc/apt/apt.conf.d
