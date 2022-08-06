@@ -9,10 +9,10 @@ install_time="$(date +%Y%m%d%H%M)"
 [[ -e /etc/timeshift.json ]] && sudo mv /var/local/sys_root_dir/etc/timeshift.json /etc/timeshift_orig_$install_time.json
 sudo cp /var/local/sys_root_dir/etc/timeshift/timeshift.json /etc/timeshift/timeshift.json
 
-sys_part="$(/var/local/tools/determine-sys-partition.sh)"
+sys_UUID="$(/var/local/tools/determine-sys-UUID.sh)"
 
 # Modify the default config
-sudo rpl  'partition_containing_sys' "$sys_part" /etc/timeshift/timeshift.json
+sudo rpl  'partition_containing_sys' "$sys_UUID" /etc/timeshift/timeshift.json
 sudo rpl  '"schedule_hourly" : "false",' '"schedule_hourly" : "true",' /etc/timeshift/timeshift.json
 sudo rpl  '"count_monthly" : "2",'       '"count_monthly" : "6",'      /etc/timeshift/timeshift.json
 
