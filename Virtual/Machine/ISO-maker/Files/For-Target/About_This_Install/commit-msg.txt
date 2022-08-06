@@ -1,1 +1,1 @@
-Put_back[grounds,drops]_in_place_in_start.sh
+Remove_backdrop.sh_from_rc.local
