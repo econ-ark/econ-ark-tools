@@ -7,11 +7,6 @@
 # the command purges all EXCEPT those listed
 sudo locale-gen --purge en_US en_US.UTF-8 && echo 'only locale is en_US'
 
-# Figure out what the target device is 
-df -hT > /tmp/target-partition 
-cat /tmp/target-partition | grep -v vfat | grep '/dev' | grep -v 'loop' | grep -v 'ude' | grep -v 'tmpf' | cut -d ' ' -f1 | sed 's/.$//' > /tmp/target-dev 
-sd=$(cat /tmp/target-dev)
-
 # On some Macs, this should allow nice icons when disk is viewed:
 mkdir -p /EFI/BOOT/
 cp /var/local/sys_root_dir/EFI/BOOT/Econ-ARK.disk_label     /EFI/BOOT/Econ-ARK.disk_label 
