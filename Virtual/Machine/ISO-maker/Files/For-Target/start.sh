@@ -155,6 +155,9 @@ sudo update-grub
 sudo netplan generate
 sudo netplan apply
 
+# Put the Econ-ARK back[ground,drop] in place
+/var/local/config/backdrop-background-copy-Econ-ARK.sh
+
 # When run by cloud_init, the machine will reboot after finishing start.sh
 # rc.local will then notice that 'finish.sh' has not been run, and will run it
 
