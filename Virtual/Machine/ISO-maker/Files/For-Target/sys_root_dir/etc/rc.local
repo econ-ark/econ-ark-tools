@@ -24,6 +24,9 @@ if [ ! -e $BOOT_FIRST_FLAG ]; then # machine's first-ever boot
     # Some virtual machines need to have lightdm stopped and then restarted
     [[ "$(lscpu | grep -i hypervisor)" != "" ]] && service lightdm stop && service lightdm start
 
+    # set default backdrop for root user - later bash_aliases will set it for each user
+    /var/local/config/backdrop.sh
+    
     # purge gnome if it still exists
     sudo apt -y remove gnome*
     sudo dpkg-reconfigure lightdm
