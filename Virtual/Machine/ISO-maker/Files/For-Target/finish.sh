@@ -223,7 +223,7 @@ sudo /var/local/config/config-timeshift-backups.sh
 
 ## Create "O"n-demand backup 
 msg="Initial backup of Econ-ARK machine"
-sudo timeshift --scripted --yes --create --comments "$msg" --tags O
+sudo timeshift --scripted --yes --create --comments "$msg" 
 
 # Upper right edge of menu bar
 sudo apt -y install indicator-application
