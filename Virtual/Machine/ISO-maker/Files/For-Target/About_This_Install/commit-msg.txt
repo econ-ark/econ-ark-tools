@@ -1,1 +1,1 @@
-Set_backdrop_for_root_user_in_rc.local
+Put_back[grounds,drops]_in_place_in_start.sh
