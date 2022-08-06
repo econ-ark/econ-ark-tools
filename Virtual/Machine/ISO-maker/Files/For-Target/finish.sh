@@ -221,8 +221,9 @@ tail_monitor="$(pgrep tail | grep -v pgrep)"
 sudo /var/local/installers/install-timeshift.sh
 sudo /var/local/config/config-timeshift-backups.sh
 
-## Create "O"n-demand backup 
-msg="Initial backup of Econ-ARK machine"
+## Create "O"n-demand backup
+backup_time="$(date +%Y%m%d%H%M)"
+msg="Initial backup of Econ-ARK machine $backup_time"
 sudo timeshift --scripted --yes --create --comments "$msg" 
 
 # Upper right edge of menu bar
