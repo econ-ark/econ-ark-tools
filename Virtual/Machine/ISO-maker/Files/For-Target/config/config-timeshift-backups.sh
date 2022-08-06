@@ -6,7 +6,7 @@
 
 # If there's an existing config file, preserve it
 install_time="$(date +%Y%m%d%H%M)"
-[[ -e /etc/timeshift.json ]] && sudo mv /var/local/sys_root_dir/etc/timeshift.json /etc/timeshift_orig_$install_time.json
+[[ -e /etc/timeshift/timeshift.json ]] && sudo mv /etc/timeshift/timeshift.json /etc/timeshift/timeshift_orig_$install_time.json
 sudo cp /var/local/sys_root_dir/etc/timeshift/timeshift.json /etc/timeshift/timeshift.json
 
 sys_UUID="$(sudo /var/local/tools/determine-sys-UUID.sh)"
