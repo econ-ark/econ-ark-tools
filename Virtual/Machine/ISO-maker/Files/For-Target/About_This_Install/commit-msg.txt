@@ -1,1 +1,1 @@
-fix_typo
+Set_backdrop_for_root_user_in_rc.local
