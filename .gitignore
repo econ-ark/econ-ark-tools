@@ -180,3 +180,9 @@ dotemacs-home
 dotemacs-root
 
 
+boot_*
+*.flag
+*finish.log
+install*.log
+About_This_Install.md
+XUBUNTARK.md
