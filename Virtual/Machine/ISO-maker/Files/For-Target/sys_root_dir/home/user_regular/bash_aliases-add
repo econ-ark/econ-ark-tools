@@ -114,7 +114,9 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
 	vHARK="$(python -c 'import HARK ; print(HARK.__version__)')"
 	echo "XUBUNTARK, HARK version $vHARK, https://econ-ark.org"
 	
-	[[ "$(which conda)" != "" ]] && echo 'To install conda packages: "mamba install [package-name]"' # Conda is installed only on XUBUNTARKMAX
+	#	[[ "$(which conda)" != "" ]] && echo 'To install conda packages: "mamba install [package-name]"' # Conda is installed only on XUBUNTARKMAX
+	# [[ -e /var/local/status/Size-To-Make-Is-MIN ]] && (echo 'To upgrade to MAX, type ';
+	# 						   echo ''; echo 'cd /var/local ; sudo mv status/Size-To-Make-Is-MIN status/Size-To-Make-Is-MAX ; sudo /var/local/finish.sh' ; echo '')
 	echo 'To install pip   packages: "pip install [package-name]"' # pip is installed by root user -- probably a mistake but ...
 	echo "To upgrade HARK, 'pip install --upgrade econ-ark' "
 	echo ''

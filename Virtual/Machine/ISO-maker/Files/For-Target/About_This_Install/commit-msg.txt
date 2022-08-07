@@ -1,1 +1,1 @@
-Do_not_show_tail_--follow_if_software_install_finished
+Increase_default_geometry
