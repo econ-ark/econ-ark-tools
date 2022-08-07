@@ -292,7 +292,7 @@ if [ $(program_is_installed "mkpasswd") -eq 0 ] \
     echo " installing required packages"
     (sudo apt-get -y update > /dev/null 2>&1) &
     spinner $!
-    sudo apt-get -y install whois genisoimage syslinux
+    sudo apt-get -y install whois genisoimage syslinux syslinux-utils
     # (sudo apt-get -y install whois genisoimage syslinux > /dev/null 2>&1) &
     # spinner $!
 fi
