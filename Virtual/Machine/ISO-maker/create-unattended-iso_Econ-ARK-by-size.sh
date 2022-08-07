@@ -160,7 +160,7 @@ esac
 #get the latest versions of Ubuntu LTS
 cd $iso_from
 
-iso_makehtml=$iso_make/tmphtml
+iso_makehtml=./tmphtml
 sudo rm $iso_makehtml >/dev/null 2>&1
 wget -O $iso_makehtml 'http://cdimage.ubuntu.com/' >/dev/null 2>&1
 

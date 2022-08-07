@@ -1,19 +1,22 @@
-# About This Install
+# Detailed Info About This Installation
 
-XUBUNTARK is created using a set of scripts in 
+This machine (virtual or real) was built using 
 
-[econ-ark-tools](https://github.com/econ-ark/econ-ark-tools)
+https://github.com/econ-ark/econ-ark-tools.git
 
-under Git version control; the repository can be obtained by
+using scripts in commit d8a087c2 
+with commit message "add_timestamp_to_initial_backup"
+on date "20220806-1720"
 
-git clone https://github.com/econ-ark/econ-ark-tools
+Starting at the root of a cloned version of that repo,
+you should be able to reproduce the installer with:
 
-The file `short.git-hash` in this directory is the short commit number
-of the git commit that built this installation; the commit message 
-is in `commit-msg.txt` and the commit date is in `commit_date`
+    git checkout d8a087c2
+    cd Virtual/Machine/ISO-maker ; ./create-unattended-iso_Econ-ARK-by-size.sh [ MIN | MAX ]
 
-A copy of the installer that created this machine is in 
+A copy of the ISO installer that generated this machine should be in the
 
-`/var/local/installers`
+    /installers
 
+directory.
 
