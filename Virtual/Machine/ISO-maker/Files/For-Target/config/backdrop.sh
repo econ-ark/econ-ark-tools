@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Presence of 'verbose' triggers bash debugging mode
-[[ -e /var/local/status/verbose ]] && set -x && set -v 
+[[ -e /var/local/status/verbose/backdrop ]] && set -x && set -v 
 
 /var/local/config/backdrop-background-copy-Econ-ARK.sh
 

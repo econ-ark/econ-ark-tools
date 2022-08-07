@@ -356,9 +356,6 @@ cmd="sudo cp -r $pathToScript/$ForISO/* $iso_make/iso_new/preseed/"
 echo "$cmd"
 eval "$cmd"
 
-echo 'pausing'
-read answer
-
 # Goal: Concentrate as many mods as possible in a single directory: EFI/BOOT
 # (A few things, like .seed files, must be put in other directories)
 

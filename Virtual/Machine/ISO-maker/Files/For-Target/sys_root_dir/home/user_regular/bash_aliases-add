@@ -52,7 +52,7 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
     if [[ "$pgrep_process_exists" -eq 1 ]]; then # start vnc server
 	if [[ "$launch_vnc_server" == "true" ]]; then
 	    ip4="$(hostname -I | sed -e 's/ $//g' | rev | cut -d' ' -f1 | rev)" # Get last IP in list
-	    cmd="xfce4-terminal --title=x0vncserver-$ip4 --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd'"
+	    cmd="xfce4-terminal --title=x0vncserver-$ip4 --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd' &"
 	    eval "$cmd" # do
 	fi
     fi
@@ -76,7 +76,7 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
 	# the active monitor
 
 	# Set up Econ-ARK backdrop
-	/var/local/config/backdrop.sh |& tee /var/local/status/backdrop.log
+	/var/local/config/backdrop.sh > tee /var/local/status/backdrop.log
 
 	# pop up a window containing a live scrolling update of steps
 	# occurring via the start.sh and finish.sh installation scripts
