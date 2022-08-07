@@ -1,1 +1,1 @@
-Remove_.-status_files_for_builder
+Do_not_show_tail_--follow_if_software_install_finished
