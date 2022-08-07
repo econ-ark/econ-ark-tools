@@ -186,3 +186,4 @@ boot_*
 install*.log
 About_This_Install.md
 XUBUNTARK.md
+*.deb
