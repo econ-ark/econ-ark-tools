@@ -28,7 +28,8 @@ else
     fi
 fi
 
-size="$1" # size=MIN
+pathToScript=$(dirname `realpath "$0"`)
+size="$1" # size=MIN; pathToScript=/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target
 
 echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
 sudoer=false
@@ -38,8 +39,6 @@ sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
 version="base" # or "full" for debugging (too-many-options) on the grub menu
 
 echo "size_to_build=$size"
-
-pathToScript=$(dirname `realpath "$0"`)
 
 # Get the latest git commit hash and message
 short_hash="$(git rev-parse --short HEAD)"
@@ -352,6 +351,9 @@ sudo cp -r $iso_make/firmware $iso_make/iso_new/firmware
 cmd="sudo cp -r $pathToScript/$ForISO/* $iso_make/iso_new/preseed/"
 echo "$cmd"
 eval "$cmd"
+
+echo 'pausing'
+read answer
 
 # Goal: Concentrate as many mods as possible in a single directory: EFI/BOOT
 # (A few things, like .seed files, must be put in other directories)
