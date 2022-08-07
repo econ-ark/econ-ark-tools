@@ -286,13 +286,14 @@ cd $iso_make
 
 
 # install required packages
-echo " installing required packages"
 if [ $(program_is_installed "mkpasswd") -eq 0 ] || [ $(program_is_installed "mkisofs") -eq 0 ]; then
-    (apt-get -y update > /dev/null 2>&1) &
+    echo " installing required packages"
+    (sudo apt-get -y update > /dev/null 2>&1) &
     spinner $!
-    (apt-get -y install whois genisoimage > /dev/null 2>&1) &
+    (sudo apt-get -y install whois genisoimage > /dev/null 2>&1) &
     spinner $!
 fi
+
 if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
     if [ $(program_is_installed "isohybrid") -eq 0 ]; then
 	# Version Greater Equal 16.04
