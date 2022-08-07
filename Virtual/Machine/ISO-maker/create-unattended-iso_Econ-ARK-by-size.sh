@@ -286,12 +286,15 @@ cd $iso_make
 
 
 # install required packages
-if [ $(program_is_installed "mkpasswd") -eq 0 ] || [ $(program_is_installed "mkisofs") -eq 0 ]; then
+if [ $(program_is_installed "mkpasswd") -eq 0 ] \
+       || [ $(program_is_installed "mkisofs") -eq 0 ] \
+       || [ $(program_is_installed "isohybrid") -eq 0 ]; then
     echo " installing required packages"
     (sudo apt-get -y update > /dev/null 2>&1) &
     spinner $!
-    (sudo apt-get -y install whois genisoimage > /dev/null 2>&1) &
-    spinner $!
+    sudo apt-get -y install whois genisoimage syslinux
+    # (sudo apt-get -y install whois genisoimage syslinux > /dev/null 2>&1) &
+    # spinner $!
 fi
 
 if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
