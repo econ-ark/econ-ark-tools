@@ -28,14 +28,14 @@ else
     fi
 fi
 
+size="$1" # size=MIN
+
 echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
 sudoer=false
 sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
 [[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
 
 version="base" # or "full" for debugging (too-many-options) on the grub menu
-
-size="$1"
 
 echo "size_to_build=$size"
 
@@ -108,6 +108,7 @@ download()
 {
     local url=$1
     echo -n "    "
+    echo wget $url
     wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
         sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
     echo -ne "\b\b\b\b"
@@ -272,17 +273,18 @@ if [[ ! -f $iso_from/$download_file ]]; then
 fi
 
 cd $iso_make
-# download rc.local file
-[[ -f $iso_make/$rclocal_file ]] && rm $iso_make/$rclocal_file
+# # download rc.local file
+# [[ -f $iso_make/$rclocal_file ]] && rm $iso_make/$rclocal_file
 
-echo -n " downloading $rclocal_file: "
-download "$online/$rclocal_file"
+# echo -n " downloading $rclocal_file: "
+# download "$online/$files_for_target/$rclocal_file"
 
-# download econ-ark seed file
-[[ -f $iso_make/$seed_file ]] && rm $iso_make/$seed_file 
+# # download econ-ark seed file
+# [[ -f $iso_make/$seed_file ]] && rm $iso_make/$seed_file 
 
-echo -n " downloading $seed_file: "
-download "$online/$seed_file"
+# echo -n " downloading $seed_file: "
+# download "$online/$seed_file"
+
 
 # install required packages
 echo " installing required packages"
