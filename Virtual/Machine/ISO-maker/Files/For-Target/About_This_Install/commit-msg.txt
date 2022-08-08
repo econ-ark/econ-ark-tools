@@ -1,1 +1,1 @@
-No_known_bugs;_see_if_unknown_crop_up
+Fix_bug_in_partman-early_command
