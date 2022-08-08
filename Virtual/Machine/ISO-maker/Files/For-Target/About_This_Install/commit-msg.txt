@@ -1,1 +1,1 @@
-tweak_partman_early_commad
+Fix_partman_detect_disk
