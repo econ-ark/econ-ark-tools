@@ -105,7 +105,9 @@ d-i partman/early_command string \
     BOOTDEV_CMD="$(list-devices disk | grep -f "$USBDEV_LIST" | grep -v "$CDDEV" | tail -1)" ;\
     BOOTDEV="$BOOTDEV_CMD"  ;\
     echo "$BOOTDEV" > /tmp/BOOTDEV ;\
+    echo "BOOTDEV=$BOOTDEV"
     if [[ ! "$BOOTDEV" == "" ]]; then \
+	echo "BOOTDEV is not empty"
 	debconf-set partman-auto/disk "$BOOTDEV" ;\
 	debconf-set grub-installer/bootdev "$BOOTDEV" ;\
     fi ;\

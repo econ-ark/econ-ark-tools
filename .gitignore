@@ -178,8 +178,6 @@ build_date.txt
 dotemacs
 dotemacs-home
 dotemacs-root
-*.el
-*.elc
 
 # Ignore (most) status files
 boot_*
@@ -191,6 +189,3 @@ XUBUNTARK.md
 *.deb
 *.gui*
 
-# Ignore emacs backups
-*~
-*.*~
