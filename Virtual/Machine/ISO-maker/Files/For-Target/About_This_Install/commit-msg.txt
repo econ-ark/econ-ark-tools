@@ -1,1 +1,1 @@
-gitignore_emacs_backups_and_created_files
+Turn_off_gitignore_of_emacs_junk
