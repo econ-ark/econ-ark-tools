@@ -98,7 +98,7 @@ d-i clock-setup/ntp                                         boolean     true
 ## - tell grub installer to install to boot disk
 ## - priority critical allows skipping of confusing questions
 d-i partman/early_command string \
-    debconf-set priority/critical ;\
+    debconf-set debconf/priority select critical ;\
     CDDEV="$(mount | grep cdrom | tail -1 | cut -d' ' -f1 | sed 's/\(.*\)./\1/')" ;\
     echo $CDDEV > /tmp/CDDEV ;\
     list-devices usb-partition | sed "s/\(.*\)./\1/" | grep -v "$CDDEV" > /tmp/USBDEV_LIST ;\
