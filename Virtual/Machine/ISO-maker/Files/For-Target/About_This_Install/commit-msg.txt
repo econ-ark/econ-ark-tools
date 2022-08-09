@@ -1,1 +1,1 @@
-debconf-set_debconf-priority_critical
+terminate_unterminated_line_in_partman-early_command
