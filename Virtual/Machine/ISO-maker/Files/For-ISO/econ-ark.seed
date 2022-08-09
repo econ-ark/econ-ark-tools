@@ -117,10 +117,7 @@ d-i partman/early_command string \
 	debconf-get partman-auto/disk  ;\
 	debconf-get partman-auto/select_disk  ;\
 	debconf-get grub-installer/bootdev  ;\
-	echo "$(debconf-get partman-auto/disk)"  ;\
-	echo "$(debconf-get partman-auto/select_disk)"  ;\
-	echo "$(debconf-get grub-installer/bootdev)"  ;\
-    fi ;\
+    fi 
     
 ## Unmount active partitions, if any
 ## Like, partition containing the installer
