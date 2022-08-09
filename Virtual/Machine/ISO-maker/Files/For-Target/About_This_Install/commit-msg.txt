@@ -1,1 +1,1 @@
-Turn_off_gitignore_of_emacs_junk
+modprobe.blacklist=ahci
