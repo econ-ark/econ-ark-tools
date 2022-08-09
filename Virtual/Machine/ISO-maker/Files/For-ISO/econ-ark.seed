@@ -106,7 +106,7 @@ d-i partman/early_command string \
     echo BOOTDEV_CMD="$BOOTDEV_CMD" ;\
     BOOTDEV="$(eval $BOOTDEV_CMD)"  ;\
     echo "$BOOTDEV" > /tmp/BOOTDEV ;\
-    echo "BOOTDEV=$BOOTDEV"
+    echo "BOOTDEV=$BOOTDEV" ;\
     if [[ ! "$BOOTDEV" == "" ]]; then \
 	debconf-set debconf/priority critical ;\
 	echo "BOOTDEV is not empty" ;\
