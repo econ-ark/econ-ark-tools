@@ -1,1 +1,1 @@
-more_debugging_of_partman_earrly_command
+debconf-set_debconf-priority_select_critical
