@@ -114,9 +114,9 @@ d-i partman/early_command string \
 	debconf-set partman-auto/disk "$BOOTDEV" ;\
 	debconf-set partman-auto/select_disk "$BOOTDEV" ;\
 	debconf-set grub-installer/bootdev "$BOOTDEV" ;\
-	debconf-get partman-auto/disk  ;\
-	debconf-get partman-auto/select_disk  ;\
-	debconf-get grub-installer/bootdev  ;\
+	echo debconf-get partman-auto/disk: "$(debconf-get partman-auto/disk)"  ;\
+	echo debconf-get partman-auto/select_disk: "$(debconf-get partman-auto/select_disk)"  ;\
+	echo debconf-get grub-installer/bootdev: "$(debconf-get grub-installer/bootdev)"  ;\
     fi 
     
 ## Unmount active partitions, if any
