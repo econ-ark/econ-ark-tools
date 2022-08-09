@@ -1,12 +1,12 @@
 #!/bin/sh
 
 
-CDDEV="$(mount | grep cdrom | cut -d' ' -f1 | sed 's/\(.*\)./\1/')" 
+CDDEV="$(mount | grep cdrom | tail -1 | cut -d' ' -f1 | sed 's/\(.*\)./\1/')" 
 echo $CDDEV > /tmp/CDDEV 
-USBDEV_LIST="/tmp/USBDEV_LIST" 
-list-devices usb-partition | sed "s/\(.*\)./\1/" | grep -v "$CDDEV" > "$USBDEV_LIST" 
-BOOTDEV_CMD="$(list-devices disk | grep -f "$USBDEV_LIST" | grep -v "$CDDEV" | tail -1)" 
-BOOTDEV="$BOOTDEV_CMD"  
+list-devices usb-partition | sed "s/\(.*\)./\1/" | grep -v "$CDDEV" > /tmp/USBDEV_LIST 
+BOOTDEV_CMD="list-devices disk | grep -f /tmp/USBDEV_LIST | grep -v "$CDDEV" | tail -1" 
+echo BOOTDEV_CMD="$BOOTDEV_CMD" 
+BOOTDEV="$(eval $BOOTDEV_CMD)"  
 echo "$BOOTDEV" > /tmp/BOOTDEV 
 echo "BOOTDEV=$BOOTDEV"
 if [[ ! "$BOOTDEV" == "" ]]; then \
