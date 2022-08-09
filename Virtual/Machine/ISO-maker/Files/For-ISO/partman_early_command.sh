@@ -11,6 +11,7 @@ echo "$BOOTDEV" > /tmp/BOOTDEV
 echo "BOOTDEV=$BOOTDEV"
 if [[ ! "$BOOTDEV" == "" ]]; then \
     echo "BOOTDEV is not empty"
+    BOOTDEV="$(cat /tmp/BOOTDEV)"
     debconf-set partman-auto/disk "$BOOTDEV" 
     debconf-set partman-auto/select_disk "$BOOTDEV" 	    
     debconf-set grub-installer/bootdev "$BOOTDEV" 
