@@ -1,1 +1,1 @@
-debconf-set_debconf-priority_select_critical
+debconf-set_debconf-priority_critical
