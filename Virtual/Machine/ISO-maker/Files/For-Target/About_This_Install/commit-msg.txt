@@ -1,1 +1,1 @@
-modprobe.blacklist=ahci
+fix_partman_early_command
