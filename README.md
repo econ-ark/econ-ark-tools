@@ -1,11 +1,11 @@
 # econ-ark-tools
 General tools for econ-ark. Directories:
 
-## [Web](https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual)
+## [Web](https://github.com/econ-ark/econ-ark-tools/blob/master/Web)
 
 Tools for creation of web resources, like css style files etc
 
-## Machine
+## [Machine](https://github.com/econ-ark/econ-ark-tools/blob/master/Web)
 
 Different ways to construct a self-contained Econ-ARK machine:
 
