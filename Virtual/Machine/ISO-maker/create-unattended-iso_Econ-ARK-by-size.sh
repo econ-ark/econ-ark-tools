@@ -18,20 +18,24 @@ if [ "$TERM" == "dumb" ]; then
 fi
 
 # 
-if [ "$#" -ne 1 ]; then
+if [ "$#" -gt 1 ]; then
     echo "Wrong number of arguments:"
-    echo "usage: ${0##*/} Internal-Allow | Internal-Prohibit"
+    echo "usage: ${0##*/} [Internal-Allow | Internal-Prohibit]"
     exit 1
 else
-    if ( [ ! "$1" == "Internal-Allow" ] && [ ! "$1" == "Internal-Prohibit" ] ); then
-	echo "usage: ${0##*/} Internal-Allow | Internal-Prohibit"
-	exit 2
+    if [[ "$#" == 0 ]]; then
+	Internal="Internal-Prohibit"
+    else
+	if ( [ ! "$1" == "Internal-Allow" ] && [ ! "$1" == "Internal-Prohibit" ] ); then
+	    echo "usage: ${0##*/} [Internal-Allow | Internal-Prohibit]"
+	    exit 2
+	fi
+	Internal="Internal-Allow"
     fi
 fi
 
-Internal="$1"
 modprobe_blacklist=""
-if [[ "$Internal" == "Internal-Prohibit" ]] && modprobe_blacklist="modprobe.blacklist=ahci"
+[[ "$Internal" == "Internal-Prohibit" ]] && modprobe_blacklist="modprobe.blacklist=ahci"
 
 pathToScript=$(dirname `realpath "$0"`)
 size="MIN" # size=MIN; pathToScript=/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target
@@ -407,9 +411,9 @@ late_command+=";\
    chroot /target apt -y install apt-utils"
 
 # ;\
-#   chroot /target apt -y install netplan.io ;\
-#   chroot /target netplan generate ;\
-#   chroot /target netplan apply
+    #   chroot /target apt -y install netplan.io ;\
+    #   chroot /target netplan generate ;\
+    #   chroot /target netplan apply
 # Make place for, and retrieve, econ-ark-tools
 late_command+=";\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
@@ -596,8 +600,8 @@ rpl 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' /tmp/README.diskdefi
 sudo chmod u-w /tmp/README.diskdefines
 mv /tmp/README.diskdefines $iso_make/iso_new
 
-new_iso_name_full="$new_iso_name-$commit_date-$short_hash.iso"
-new_iso_plus_full="$new_iso_name-$commit_date-$short_hash-plus.iso"
+new_iso_name_full="$Internal-""$new_iso_name-$commit_date-$short_hash.iso"
+new_iso_plus_full="$Internal-""$new_iso_name-$commit_date-$short_hash-plus.iso"
 
 echo 'new_iso_name_full='$new_iso_name_full
 
