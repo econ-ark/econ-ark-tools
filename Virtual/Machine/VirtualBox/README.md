@@ -17,6 +17,8 @@ We recommend a machine with at least 8GB of RAM and 4 CPU cores.
    * But the machine is empty -- it's like a PC without any software installed
 
 1. [Download an installer ISO installer image](https://github.com/econ-ark/econ-ark-tools/blob/master/Software/Size.md)
+   * You need to install the "Internal-Allow" version of the ISO installer
+      * This will istall to the VIRTUAL internal drive 
    * Your VirtualBox virtual machine will boot from this as a virtual CD-ROM
 1. Run VirtualBox, then:
    * New -> (Choose "expert mode" at botom of New dialog box)
