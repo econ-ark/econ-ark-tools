@@ -600,8 +600,11 @@ rpl 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' /tmp/README.diskdefi
 sudo chmod u-w /tmp/README.diskdefines
 mv /tmp/README.diskdefines $iso_make/iso_new
 
+verbosity=""
+[[ -e /var/local/status/verbose ]] && verbosity="verbose"
+
 new_iso_name_full="$Internal-""$new_iso_name-$commit_date-$short_hash.iso"
-new_iso_plus_full="$Internal-""$new_iso_name-$commit_date-$short_hash-plus.iso"
+new_iso_plus_full="$Internal-""$new_iso_name-$commit_date-$short_hash-plus_$verbosity.iso"
 
 echo 'new_iso_name_full='$new_iso_name_full
 
