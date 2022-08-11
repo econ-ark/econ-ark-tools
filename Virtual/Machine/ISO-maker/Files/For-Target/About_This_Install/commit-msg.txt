@@ -1,1 +1,1 @@
-Remove_.-status-verbose
+Verbose_on
