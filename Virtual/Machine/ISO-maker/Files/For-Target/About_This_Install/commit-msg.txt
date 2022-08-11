@@ -1,1 +1,1 @@
-Fix_path_to_short-hash_in_welcome
+Remove_.-status-verbose
