@@ -57,26 +57,27 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
 	fi
     fi
 
+    # Configure backdrop - can't be done in start.sh or finish.sh
+    # because dbus not running until GUI is up.
+
+    # Wait until monitor is up (xrandr finds an active monitor)
+    # then get the name of the active monitor
+
+    /var/local/config/backdrop.sh > tee /var/local/status/backdrop.log
+
     # Prior to first boot of Econ-ARK machine, start.sh is run and
     # machine reboots Interactive login first happens after that boot,
     # and launches this script So .gui_user_login_first.flag and
     # .gui_user_login_second.flag here are on second and third boots
 
     # If this is this user's first login with the GUI
+
     if [[ ! -e /home/$USER/.gui_user_login_first.flag ]]; then
 	# Configurations for this user's settings for xwindows
 	/var/local/config/set-default-display-geometry.sh
 	
 	# Screensavers interfere with finishing the installation
 	/var/local/tools/turn-off-screensavers.sh
-
-	# Configure backdrop - can't be done in start.sh or finish.sh
-	# because dbus not running until GUI is up Wait until monitor
-	# is up (xrandr finds an active monitor) then get the name of
-	# the active monitor
-
-	# Set up Econ-ARK backdrop
-	/var/local/config/backdrop.sh > tee /var/local/status/backdrop.log
 
 	# pop up a window containing a live scrolling update of steps
 	# occurring via the start.sh and finish.sh installation scripts
