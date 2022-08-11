@@ -169,7 +169,7 @@ esac
 #get the latest versions of Ubuntu LTS
 cd $iso_from
 
-iso_makehtml=./tmphtml
+iso_makehtml=$pathToScript/Resources/tmphtml
 sudo rm $iso_makehtml >/dev/null 2>&1
 wget -O $iso_makehtml 'http://cdimage.ubuntu.com/' >/dev/null 2>&1
 
@@ -601,7 +601,7 @@ sudo chmod u-w /tmp/README.diskdefines
 mv /tmp/README.diskdefines $iso_make/iso_new
 
 verbosity=""
-[[ -e /var/local/status/verbose ]] && verbosity="verbose"
+[[ -e /var/local/status/verbose ]] && verbosity="_verbose"
 
 new_iso_name_full="$Internal-""$new_iso_name-$commit_date-$short_hash.iso"
 new_iso_plus_full="$Internal-""$new_iso_name-$commit_date-$short_hash-plus_$verbosity.iso"
