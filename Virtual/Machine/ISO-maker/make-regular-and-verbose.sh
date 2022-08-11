@@ -5,15 +5,20 @@ pathToScript=$(dirname `realpath "$0"`)
 
 cd $pathToScript
 
-mkdir -p /var/local/status/verbose
-touch    /var/local/status/verbose/.gitkeep
+[[ -e /var/local/status/verbose ]] && mv /var/local/status/verbose /var/local/status/verbose_off
 
 git add . ; git commit -m 'Verbose on' ; git push
 
 $pathToScript/make-Internal-Allow.sh
 $pathToScript/make-Internal-Prohibit.sh
 
-rm -Rf /var/local/status/verbose
+if [[ -e /var/local/status/verbose ]]; then
+    mv /var/local/status/verbose_off /var/local/status/verbose
+else
+    mkdir -p /var/local/status/verbose
+    touch    /var/local/status/verbose/.gitkeep
+fi
+
 
 git add . ; git commit -m 'Verbose off' ; git push
 

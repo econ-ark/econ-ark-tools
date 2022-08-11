@@ -161,7 +161,6 @@ sudo netplan apply
 # When run by cloud_init, the machine will reboot after finishing start.sh
 # rc.local will then notice that 'finish.sh' has not been run, and will run it
 
-touch /var/local/status/verbose/bash_aliases
 
 # If you ran late_command.sh by hand, just reboot your machine when it finishes
 
