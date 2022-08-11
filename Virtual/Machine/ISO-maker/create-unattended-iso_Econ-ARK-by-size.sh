@@ -58,9 +58,9 @@ ATI="About_This_Install"
 DIR="$pathToScript/$dirExtra"
 
 # Keep track locally of what was the most recently built version
-[[ -e "$pathToScript/Size-To-Make-Is-MIN" ]] && rm    "$pathToScript/Size-To-Make-Is-MIN"
-[[ -e "$pathToScript/Size-To-Make-Is-MAX" ]] && rm    "$pathToScript/Size-To-Make-Is-MAX"
-touch "$pathToScript/Size-To-Make-Is-$size"
+[[ -e "/var/local/status/Size-To-Make-Is-MIN" ]] && rm    "/var/local/status/Size-To-Make-Is-MIN"
+[[ -e "/var/local/status/Size-To-Make-Is-MAX" ]] && rm    "/var/local/status/Size-To-Make-Is-MAX"
+touch "/var/local/status/Size-To-Make-Is-$size"
 
 # Names/paths of local and remote files
 ForTarget="Files/For-Target"
@@ -725,7 +725,7 @@ unset seed_file
 
 sudo umount /usr/local/share/iso_make/iso_org
 
-rm "$pathToScript/Size-To-Make-Is-$size"
+rm "/var/local/status/Size-To-Make-Is-$size"
 
 # uncomment the exit to perform cleanup of drive after run
 exit
