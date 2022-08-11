@@ -29,9 +29,9 @@ else
 	if ( [ ! "$1" == "Internal-Allow" ] && [ ! "$1" == "Internal-Prohibit" ] ); then
 	    echo "usage: ${0##*/} [Internal-Allow | Internal-Prohibit]"
 	    exit 2
+	else
+	    Internal="$1"
 	fi
-    else
-	Internal="$1"
     fi
 fi
 
