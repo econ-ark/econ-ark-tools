@@ -30,7 +30,8 @@ else
 	    echo "usage: ${0##*/} [Internal-Allow | Internal-Prohibit]"
 	    exit 2
 	fi
-	Internal="Internal-Allow"
+    else
+	Internal="$1"
     fi
 fi
 
