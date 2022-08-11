@@ -1,1 +1,1 @@
-Verbose_on
+Restore_switch_to_priority_critical_after_install
