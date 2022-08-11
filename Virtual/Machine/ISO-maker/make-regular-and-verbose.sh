@@ -13,6 +13,8 @@ git add . ; git commit -m 'Verbose on' ; git push
 $pathToScript/make-Internal-Allow.sh
 $pathToScript/make-Internal-Prohibit.sh
 
+rm -Rf /var/local/status/verbose
+
 git add . ; git commit -m 'Verbose off' ; git push
 
 $pathToScript/make-Internal-Allow.sh
