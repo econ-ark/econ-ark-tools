@@ -172,7 +172,7 @@ cd $iso_from
 
 iso_makehtml=$pathToScript/Resources/tmphtml
 sudo rm $iso_makehtml >/dev/null 2>&1
-wget -O $iso_makehtml 'http://cdimage.ubuntu.com/' >/dev/null 2>&1
+# wget -O $iso_makehtml 'http://cdimage.ubuntu.com/' >/dev/null 2>&1
 
 prec=$(fgrep Precise $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
 trus=$(fgrep Trusty $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
