@@ -138,21 +138,24 @@ sudo apt -y update && sudo apt -y upgrade
 
 # Install either minimal or maximal system
 if [[ "$size" == "MIN" ]]; then
-    /var/local/installers/install-conda-x.sh miniconda
-    source /etc/environment 
-    source ~/.bashrc
-    conda activate base
-    pip install econ-ark 
-    conda install --yes -c conda-forge nbval
-    conda install --yes -c conda-forge jupyterlab # jupyter notebook is no longer maintained
-    conda install --yes -c conda-forge pytest
-    conda install --yes -c conda-forge nbval     # use pytest on notebooks
+    which_conda=miniconda
 else
-    /var/local/installers/install-conda-x.sh anaconda |& tee /var/local/status/install-conda-x.log
-    source /etc/environment
-    source ~/.bashrc
-    conda activate base
-    pip install econ-ark 
+    which_conda=anaconda
+fi
+
+/var/local/installers/install-conda-x.sh $which_conda |& tee /var/local/status/install-conda-x.log
+/var/local/installers/config-conda-x.sh  $which_conda |& tee /var/local/status/config-conda.log
+
+source /etc/environment 
+source ~/.bashrc
+conda activate base
+conda install --yes -c conda-forge nbval
+conda install --yes -c conda-forge jupyterlab # jupyter notebook is no longer maintained
+conda install --yes -c conda-forge pytest
+conda install --yes -c conda-forge nbval     # use pytest on notebooks
+pip install econ-ark 
+
+if [[ "$which_conda" == "anaconda" ]]; then    
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
     cd /var/local/status
@@ -162,6 +165,7 @@ else
     echo 'scipy, quantecon, and more.' >> XUBUNTARK.md
     echo '' >> XUBUNTARK.md
 fi
+
 
 sudo apt -y install python-is-python3
 

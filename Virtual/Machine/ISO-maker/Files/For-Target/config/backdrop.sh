@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Presence of 'verbose' triggers bash debugging mode
-[[ -e /var/local/status/verbose/backdrop ]] && set -x && set -v 
+[[ -e /var/local/status/verbose/backdrop ]] && set -x && set -v && verbose=true
 
 /var/local/config/backdrop-background-copy-Econ-ARK.sh
 
@@ -9,14 +9,19 @@
 ## preserve the original
 
 # Wait for the monitor to be active before configuring it 
-monitor=""  
-while [[ "$monitor" == "" ]] ; do 
-    echo 'Waiting for monitor to come up ...'
+monitor=""
+slept=0
+give_up_after_seconds=20
+[[ "$verbose" == true ]] && echo ''
+while [[ ( "$monitor" == "" && $slept -le $give_up_after_seconds ) ]] ; do 
+    [[ "$verbose" == true ]] && [[ "$selpt" -ge 1 ]] && echo 'Waiting for monitor to come up ...'
     cmd="$(xrandr --listactivemonitors | tail -n 1 | rev | cut -d' ' -f1 | rev)"
-    echo "$cmd"
     monitor="$cmd" > /dev/null
     sleep 1
+    slept="$(($slept+1))"
 done
+
+[[ "$verbose" == true ]] && echo "monitor=$monitor" && echo ''
 
 # If running on virtualbox, xrandr --listactivemonitors returns 'default' but should return 0
 [[ "$monitor" == "default" ]] && monitor=0 
