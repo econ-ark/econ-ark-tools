@@ -17,16 +17,29 @@ if [ "$TERM" == "dumb" ]; then
     exit 1
 fi
 
-if [ "$#" -ne 1 ]; then
+# 
+if [ "$#" -gt 1 ]; then
     echo "Wrong number of arguments:"
-    echo "usage: ${0##*/} MIN|MAX"
+    echo "usage: ${0##*/} [Internal-Allow | Internal-Prohibit]"
     exit 1
 else
-    if ( [ ! "$1" == "MIN" ] && [ ! "$1" == "MAX" ] ); then
-	echo "usage: ${0##*/} MIN|MAX"
-	exit 2
+    if [[ "$#" == 0 ]]; then
+	Internal="Internal-Prohibit"
+    else
+	if ( [ ! "$1" == "Internal-Allow" ] && [ ! "$1" == "Internal-Prohibit" ] ); then
+	    echo "usage: ${0##*/} [Internal-Allow | Internal-Prohibit]"
+	    exit 2
+	else
+	    Internal="$1"
+	fi
     fi
 fi
+
+modprobe_blacklist=""
+[[ "$Internal" == "Internal-Prohibit" ]] && modprobe_blacklist="modprobe.blacklist=ahci"
+
+pathToScript=$(dirname `realpath "$0"`)
+size="MIN" # size=MIN; pathToScript=/usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target
 
 echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
 sudoer=false
@@ -35,11 +48,7 @@ sudo -v &> /dev/null && echo '... sudo privileges activated.' && sudoer=true
 
 version="base" # or "full" for debugging (too-many-options) on the grub menu
 
-size="$1"
-
 echo "size_to_build=$size"
-
-pathToScript=$(dirname `realpath "$0"`)
 
 # Get the latest git commit hash and message
 short_hash="$(git rev-parse --short HEAD)"
@@ -50,9 +59,9 @@ ATI="About_This_Install"
 DIR="$pathToScript/$dirExtra"
 
 # Keep track locally of what was the most recently built version
-[[ -e "$pathToScript/Size-To-Make-Is-MIN" ]] && rm    "$pathToScript/Size-To-Make-Is-MIN"
-[[ -e "$pathToScript/Size-To-Make-Is-MAX" ]] && rm    "$pathToScript/Size-To-Make-Is-MAX"
-touch "$pathToScript/Size-To-Make-Is-$size"
+[[ -e "/var/local/status/Size-To-Make-Is-MIN" ]] && rm    "/var/local/status/Size-To-Make-Is-MIN"
+[[ -e "/var/local/status/Size-To-Make-Is-MAX" ]] && rm    "/var/local/status/Size-To-Make-Is-MAX"
+touch "/var/local/status/Size-To-Make-Is-$size"
 
 # Names/paths of local and remote files
 ForTarget="Files/For-Target"
@@ -108,6 +117,7 @@ download()
 {
     local url=$1
     echo -n "    "
+    echo wget $url
     wget --progress=dot $url 2>&1 | grep --line-buffered "%" | \
         sed -u -e "s,\.,,g" | awk '{printf("\b\b\b\b%4s", $2)}'
     echo -ne "\b\b\b\b"
@@ -160,9 +170,9 @@ esac
 #get the latest versions of Ubuntu LTS
 cd $iso_from
 
-iso_makehtml=$iso_make/tmphtml
+iso_makehtml=$pathToScript/Resources/tmphtml
 sudo rm $iso_makehtml >/dev/null 2>&1
-wget -O $iso_makehtml 'http://cdimage.ubuntu.com/' >/dev/null 2>&1
+# wget -O $iso_makehtml 'http://cdimage.ubuntu.com/' >/dev/null 2>&1
 
 prec=$(fgrep Precise $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
 trus=$(fgrep Trusty $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
@@ -272,26 +282,31 @@ if [[ ! -f $iso_from/$download_file ]]; then
 fi
 
 cd $iso_make
-# download rc.local file
-[[ -f $iso_make/$rclocal_file ]] && rm $iso_make/$rclocal_file
+# # download rc.local file
+# [[ -f $iso_make/$rclocal_file ]] && rm $iso_make/$rclocal_file
 
-echo -n " downloading $rclocal_file: "
-download "$online/$rclocal_file"
+# echo -n " downloading $rclocal_file: "
+# download "$online/$files_for_target/$rclocal_file"
 
-# download econ-ark seed file
-[[ -f $iso_make/$seed_file ]] && rm $iso_make/$seed_file 
+# # download econ-ark seed file
+# [[ -f $iso_make/$seed_file ]] && rm $iso_make/$seed_file 
 
-echo -n " downloading $seed_file: "
-download "$online/$seed_file"
+# echo -n " downloading $seed_file: "
+# download "$online/$seed_file"
+
 
 # install required packages
-echo " installing required packages"
-if [ $(program_is_installed "mkpasswd") -eq 0 ] || [ $(program_is_installed "mkisofs") -eq 0 ]; then
-    (apt-get -y update > /dev/null 2>&1) &
+if [ $(program_is_installed "mkpasswd") -eq 0 ] \
+       || [ $(program_is_installed "mkisofs") -eq 0 ] \
+       || [ $(program_is_installed "isohybrid") -eq 0 ]; then
+    echo " installing required packages"
+    (sudo apt-get -y update > /dev/null 2>&1) &
     spinner $!
-    (apt-get -y install whois genisoimage > /dev/null 2>&1) &
-    spinner $!
+    sudo apt-get -y install whois genisoimage syslinux syslinux-utils
+    # (sudo apt-get -y install whois genisoimage syslinux > /dev/null 2>&1) &
+    # spinner $!
 fi
+
 if [[ $bootable == "yes" ]] || [[ $bootable == "y" ]]; then
     if [ $(program_is_installed "isohybrid") -eq 0 ]; then
 	# Version Greater Equal 16.04
@@ -394,8 +409,12 @@ late_command="mount --bind /dev /target/dev ;\
 late_command+=";\
    chroot /target apt -y update ;\
    chroot /target apt -y reinstall git ;\
+   chroot /target apt -y install netplan.io ;\
    chroot /target apt -y install apt-utils"
 
+# ;\
+    #   chroot /target netplan generate ;\
+    #   chroot /target netplan apply
 # Make place for, and retrieve, econ-ark-tools
 late_command+=";\
    chroot /target mkdir -p /usr/local/share/data/GitHub/econ-ark  ;\
@@ -556,12 +575,12 @@ if [ "$version" == "base" ]; then
     # 20210215: MacBookPro9,1 now will not boot with standard Autoinstall
     #    seems to give up when thunderbolt does not respond, rather than looking for drives on USB.
     #    noapic kernel argument seems to fix it
-    sudo /bin/sed -i 's|set timeout=30|set timeout=10\nmenuentry "Autoinstall Econ-ARK Xubuntu to external USB" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz libata.force=0.0:disable libata.force=1.0:disable console-setup/ask_detect=false keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA hostname=xubuntark netcfg/get_hostname=xubuntark   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical DEBCONF_DEBUG=5 nolapic b43.allhwsupport=1 ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Enable ATA1 (internal drive)" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz console-setup/ask_detect=false hostname=xubuntark netcfg/get_hostname=xubuntark   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical DEBCONF_DEBUG=5 nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Most Macs" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "MacBookPro9,1-Mid-2012" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true console-setup/ask_detect=false hostname=mbp91 priority=critical DEBCONF_DEBUG=5 modprobe.blacklist=ahci ---\n	initrd	/install/initrd.gz\n}\nmenuentry "MacBookPro5,1 modprob.blacklist=b43-pci-bridge nolapic modprobe.blacklist=b43-pci-bridge" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical nolapic modprobe.blacklist=b43-pci-bridge verbose nosplash debug ---\n	initrd	/install/initrd.gz\n}\nsubmenu "Boot debug options ..." {\nmenuentry "acpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical console-setup/ask_detect=false hostname=xubuntark-acpi-off                   acpi=off        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "nolapic noapic irqpoll" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical console-setup/ask_detect=false hostname=xubark-nolapic-noapic-irqpoll nolapic noapic irqpoll       ---\n	initrd	/install/initrd.gz\n}\nmenuentry "noapic" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical console-setup/ask_detect=false hostname=xubark-noapic noapic        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi=ht" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical console-setup/ask_detect=false                    acpi=ht        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi_osi=Linux" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    cpi_osi=Linux ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noacpi" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/ecopn-ark.seed auto=true priority=critical console-setup/ask_detect=false                    pci=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical console-setup/ask_detect=false                    pci=noirq        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "apci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    acpi=noacpi        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pnpacpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    pnpacpi=off        ---\n	initrd	/install/initrd.gz\n}\nmenuentry "No kernel arguments" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical  ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Mac Mini 2018 (noapic efi=noruntime nomodeset)" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical noapic efi=noruntime nomodeset ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Mac t2linux" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark-mbp.seed auto=true priority=critical efi=noruntime pcie_ports=compat initcall_blacklist=nvme_init ---\n	initrd	/install/initrd.gz\n}\n}|g' $iso_make/iso_new/boot/grub/grub.cfg
+    sudo /bin/sed -i 's|set timeout=30|set timeout=10\nmenuentry "Autoinstall Econ-ARK Xubuntu to external USB" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  console-setup/ask_detect=false keyboard-configuration/modelcode=SKIP keyboard-configuration/layout=USA keyboard-configuration/variant=USA hostname=xubuntark netcfg/get_hostname=xubuntark   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical DEBCONF_DEBUG=5 nolapic b43.allhwsupport=1 '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Enable ATA1 (internal drive)" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz console-setup/ask_detect=false hostname=xubuntark netcfg/get_hostname=xubuntark   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical DEBCONF_DEBUG=5 nolapic ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Most Macs" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    nolapic '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "MacBookPro9,1-Mid-2012" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true console-setup/ask_detect=false hostname=mbp91 priority=critical DEBCONF_DEBUG=5 '$modprobe_blacklist' '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "MacBookPro5,1 blacklist=b43-pci-bridge nolapic blacklist=b43-pci-bridge" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical nolapic modprobe.blacklist=b43-pci-bridge verbose nosplash debug '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nsubmenu "Boot debug options ..." {\nmenuentry "acpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical console-setup/ask_detect=false hostname=xubuntark-acpi-off                   acpi=off        '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "nolapic noapic irqpoll" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical console-setup/ask_detect=false hostname=xubark-nolapic-noapic-irqpoll nolapic noapic irqpoll       '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "noapic" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical console-setup/ask_detect=false hostname=xubark-noapic noapic        '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi=ht" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical console-setup/ask_detect=false                    acpi=ht        '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "acpi_osi=Linux" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    cpi_osi=Linux '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noacpi" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/ecopn-ark.seed auto=true priority=critical console-setup/ask_detect=false                    pci=noacpi        '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical console-setup/ask_detect=false                    pci=noirq        '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "apci=noirq" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz  boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    acpi=noacpi        '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "pnpacpi=off" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical                    pnpacpi=off        '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "No kernel arguments" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical  '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Mac Mini 2018 (noapic efi=noruntime nomodeset)" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark.seed auto=true priority=critical noapic efi=noruntime nomodeset '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\nmenuentry "Mac t2linux" {\n	set gfxpayload=keep\n	linux	/install/vmlinuz   boot=casper file=/cdrom/preseed/econ-ark-mbp.seed auto=true priority=critical efi=noruntime pcie_ports=compat initcall_blacklist=nvme_init '$modprobe_blacklist' ---\n	initrd	/install/initrd.gz\n}\n}|g' $iso_make/iso_new/boot/grub/grub.cfg
     
     # Delete original options
     /bin/sed -i '/^menuentry "Install Ubuntu Server"/,/^grub_platform/{/^grub_platform/!d}' $iso_make/iso_new/boot/grub/grub.cfg
 
-    sudo /bin/sed -i 's|default install|default install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu (UEFI)\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical DEBCONF_DEBUG=5 nolapic                   ---          \nlabel install\n  menu label ^MacBookPro9,1-Mid-2012 (noapic)\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    noapic --- \nmenu begin ^Debug\nmenu title Troubleshooting \nlabel install\n  menu label ^acpi=off\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    acpi=off --- \nlabel install\n  menu label ^nolapic noapic irqpoll\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    noapic irqpoll --- \nlabel install\n  menu label ^noapic\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    noapic ---  \nlabel install\n  menu label ^acpi_osi=Linux\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    acpi_osi=Linux --- \nlabel install\n  menu label ^acpi=ht\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    acpi=ht --- \nlabel install\n  menu label ^pci=noacpi\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    pci=noacpi --- \nlabel install\n  menu label ^apci=noirq\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    apci=noirq ---\nlabel install\n  menu label ^aacpi=noirq\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    aacpi=noirq ---\nlabel install\n  menu label ^apnpacpi=off\n  kernel /install/vmlinuz\nappend file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    apnpacpi=off ---\nmenu end\n|g'     $iso_make/iso_new/isolinux/txt.cfg
+    sudo /bin/sed -i 's|default install|default install\nlabel auto-install\n  menu label ^Install Econ-ARK Xubuntu (UEFI)\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical DEBCONF_DEBUG=5 nolapic                   '$modprobe_blacklist' ---          \nlabel install\n  menu label ^MacBookPro9,1-Mid-2012 (noapic)\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    noapic '$modprobe_blacklist' --- \nmenu begin ^Debug\nmenu title Troubleshooting \nlabel install\n  menu label ^acpi=off\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    acpi=off '$modprobe_blacklist' --- \nlabel install\n  menu label ^nolapic noapic irqpoll\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    noapic irqpoll '$modprobe_blacklist' --- \nlabel install\n  menu label ^noapic\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    noapic '$modprobe_blacklist' ---  \nlabel install\n  menu label ^acpi_osi=Linux\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    acpi_osi=Linux '$modprobe_blacklist' --- \nlabel install\n  menu label ^acpi=ht\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    acpi=ht '$modprobe_blacklist' --- \nlabel install\n  menu label ^pci=noacpi\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    pci=noacpi '$modprobe_blacklist' --- \nlabel install\n  menu label ^apci=noirq\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    apci=noirq '$modprobe_blacklist' ---\nlabel install\n  menu label ^aacpi=noirq\n  kernel /install/vmlinuz\n  append file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    aacpi=noirq '$modprobe_blacklist' ---\nlabel install\n  menu label ^apnpacpi=off\n  kernel /install/vmlinuz\nappend file=/cdrom/preseed/econ-ark.seed vga=788 initrd=/install/initrd.gz auto=true priority=critical                    apnpacpi=off '$modprobe_blacklist'  ---\nmenu end\n|g'     $iso_make/iso_new/isolinux/txt.cfg
 fi
 
 sed -i -r 's/timeout 1/timeout 30/g'     $iso_make/iso_new/isolinux/isolinux.cfg # Somehow this gets changed; change it back
@@ -582,8 +601,11 @@ rpl 'Ubuntu-Server' 'XUBUNTARK modified from Ubuntu-Server' /tmp/README.diskdefi
 sudo chmod u-w /tmp/README.diskdefines
 mv /tmp/README.diskdefines $iso_make/iso_new
 
-new_iso_name_full="$new_iso_name-$commit_date-$short_hash.iso"
-new_iso_plus_full="$new_iso_name-$commit_date-$short_hash-plus.iso"
+verbosity=""
+[[ -e /var/local/status/verbose ]] && verbosity="_verbose"
+
+new_iso_name_full="$Internal-""$new_iso_name-$commit_date-$short_hash$verbosity.iso"
+new_iso_plus_full="$Internal-""$new_iso_name-$commit_date-$short_hash-plus$verbosity.iso"
 
 echo 'new_iso_name_full='$new_iso_name_full
 
@@ -704,7 +726,7 @@ unset seed_file
 
 sudo umount /usr/local/share/iso_make/iso_org
 
-rm "$pathToScript/Size-To-Make-Is-$size"
+rm "/var/local/status/Size-To-Make-Is-$size"
 
 # uncomment the exit to perform cleanup of drive after run
 exit

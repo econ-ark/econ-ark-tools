@@ -16,7 +16,9 @@ We recommend a machine with at least 8GB of RAM and 4 CPU cores.
    * This creates a VM that can simulate all of the hardware
    * But the machine is empty -- it's like a PC without any software installed
 
-1. [Download an installer ISO installer image](https://github.com/econ-ark/econ-ark-tools/master/Software/Size.md)
+1. [Download an installer ISO installer image](https://github.com/econ-ark/econ-ark-tools/blob/master/Software/Size.md)
+   * You need to install the "Internal-Allow" version of the ISO installer
+      * This will istall to the VIRTUAL internal drive 
    * Your VirtualBox virtual machine will boot from this as a virtual CD-ROM
 1. Run VirtualBox, then:
    * New -> (Choose "expert mode" at botom of New dialog box)
@@ -27,11 +29,12 @@ We recommend a machine with at least 8GB of RAM and 4 CPU cores.
 	  * Memory size: 
 	      * It is conventional to give your VM half of your RAM
 	      * But if you have a 4GB machine, 2GB is not really enough
-		  * In this case, you should probably use the [Brain Transplant (Metal)](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual/Machine/Metal) strategy
+		  * In this case, you should probably use the [Brain Transplant (Metal)](https://github.com/econ-ark/econ-ark-tools/blob/master/Machine/Metal) strategy
 	  * Choose "Create a virtual hard disk now"
 	  * Hit "Create"
    * Disk Configuration
-      * Choose VMDK, 
+      * Choose the default (VDI)
+	     * (VDI disks can be shrunk to reclaim host disk space)
 	  * "dynamically allocated" means that the drive is "virtual"
 	  * It actually USES only the amount of disk space it needs
 	  * So go ahead and give it a virtual "500gb"
@@ -50,10 +53,10 @@ We recommend a machine with at least 8GB of RAM and 4 CPU cores.
 	   * It won't touch your computer's real disk
    * You'll have to confirm this decision in several ways. Do so.
 
-Eventually, you should see a window [like this](https://github.com/econ-ark/econ-ark-tools/tree/master/Software/XUBUNTARK-At-Startup.png) which is your XUBUNTARK VM running.
+Eventually, you should see a window [like this](https://github.com/econ-ark/econ-ark-tools/blob/master/Software/XUBUNTARK-At-Startup.png) which is your XUBUNTARK VM running.
 
 * It can take a couple of hours
    * Flaky internet connections can stall the process
       * If this happens, choose the 'try again' option
 
-* See next steps [at the bottom here](https://github.com/econ-ark/econ-ark-tools/tree/master/Software/Size.md)
+* See next steps [at the bottom here](https://github.com/econ-ark/econ-ark-tools/blob/master/Software/Size.md)

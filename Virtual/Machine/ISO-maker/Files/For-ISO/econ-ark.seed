@@ -45,6 +45,25 @@ d-i preseed/early_command string \
     debconf-set console-setup/ask_detect false ;\
     debconf-set keyboard-configuration/layoutcode us ;\
     cp -a /cdrom/firmware/* /lib/firmware ;\
+    CDDEV="$(mount | grep cdrom | tail -1 | cut -d' ' -f1 | sed 's/\(.*\)./\1/')" ;\
+    echo $CDDEV > /tmp/CDDEV ;\
+    list-devices usb-partition | sed "s/\(.*\)./\1/" | grep -v "$CDDEV" > /tmp/USBDEV_LIST ;\
+    BOOTDEV_CMD="list-devices disk | grep -f /tmp/USBDEV_LIST | grep -v "$CDDEV" | tail -1" ;\
+    echo BOOTDEV_CMD="$BOOTDEV_CMD" ;\
+    BOOTDEV="$(eval $BOOTDEV_CMD)"  ;\
+    echo "$BOOTDEV" > /tmp/BOOTDEV ;\
+    echo "BOOTDEV=$BOOTDEV" ;\
+    if [[ ! "$BOOTDEV" == "" ]]; then \
+	debconf-set debconf/priority critical ;\
+	echo "BOOTDEV is not empty" ;\
+	BOOTDEV="$(cat /tmp/BOOTDEV)" ;\
+	debconf-set partman-auto/disk "$BOOTDEV" ;\
+	debconf-set partman-auto/select_disk "$BOOTDEV" ;\
+	debconf-set grub-installer/bootdev "$BOOTDEV" ;\
+	echo debconf-get partman-auto/disk: "$(debconf-get partman-auto/disk)"  ;\
+	echo debconf-get partman-auto/select_disk: "$(debconf-get partman-auto/select_disk)"  ;\
+	echo debconf-get grub-installer/bootdev: "$(debconf-get grub-installer/bootdev)"  ;\
+    fi ;\
     umount /media || true
 
 # Nonfree firmware is on the installer disk because it is useful for 
@@ -97,19 +116,34 @@ d-i clock-setup/ntp                                         boolean     true
 ## - exclude the usb drive hosting the installer from list of available USB
 ## - tell grub installer to install to boot disk
 ## - priority critical allows skipping of confusing questions
-d-i partman/early_command string \
-    CDDEV="$(mount | grep cdrom | cut -d' ' -f1 | sed 's/\(.*\)./\1/')" ;\
-    USBDEV_LIST=/tmp/BOOTDEV_LIST ;\
-    list-devices usb-partition | sed "s/\(.*\)./\1/" | grep -v "$CDDEV" > "$USBDEV_LIST" ;\
-    BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | grep -v "$CDDEV" | tail -1)" ;\
-    echo BOOTDEV="$BOOTDEV"  ;\
-    echo "$BOOTDEV" > /tmp/BOOTDEV ;\
-    if [[ ! -z "$BOOTDEV" ]]; then \
-	debconf-set partman-auto/disk "$BOOTDEV" ;\
-	debconf-set grub-installer/bootdev "$BOOTDEV" ;\
-    fi ;\
-    debconf-set debconf/priority critical
-    
+# d-i partman/early_command string \
+#     debconf-set debconf/priority critical ;\
+#     CDDEV="$(mount | grep cdrom | tail -1 | cut -d' ' -f1 | sed 's/\(.*\)./\1/')" ;\
+#     echo $CDDEV > /tmp/CDDEV ;\
+#     list-devices usb-partition | sed "s/\(.*\)./\1/" | grep -v "$CDDEV" > /tmp/USBDEV_LIST ;\
+#     BOOTDEV_CMD="list-devices disk | grep -f /tmp/USBDEV_LIST | grep -v "$CDDEV" | tail -1" ;\
+#     echo BOOTDEV_CMD="$BOOTDEV_CMD" ;\
+#     BOOTDEV="$(eval $BOOTDEV_CMD)"  ;\
+#     echo "$BOOTDEV" > /tmp/BOOTDEV ;\
+#     echo "BOOTDEV=$BOOTDEV" ;\
+#     if [[ ! "$BOOTDEV" == "" ]]; then \
+# 	debconf-set debconf/priority critical ;\
+# 	echo "BOOTDEV is not empty" ;\
+# 	BOOTDEV="$(cat /tmp/BOOTDEV)" ;\
+# 	debconf-set partman-auto/disk "$BOOTDEV" ;\
+# 	debconf-set partman-auto/select_disk "$BOOTDEV" ;\
+# 	debconf-set grub-installer/bootdev "$BOOTDEV" ;\
+# 	echo debconf-get partman-auto/disk: "$(debconf-get partman-auto/disk)"  ;\
+# 	echo debconf-get partman-auto/select_disk: "$(debconf-get partman-auto/select_disk)"  ;\
+# 	echo debconf-get grub-installer/bootdev: "$(debconf-get grub-installer/bootdev)"  ;\
+#     fi 
+
+# Return to critical priority at end of partman
+# (You might think that "partman/early_command" runs before partman
+# Nope.  It runs at the end of partman
+# Not sure why it's not therefore partman/late_command ...
+d-i partman/early_command string debconf-set debconf/priority critical
+
 ## Unmount active partitions, if any
 ## Like, partition containing the installer
 ## Does not seem actually to have any effect (extensive discussions online)
@@ -205,9 +239,9 @@ d-i mirror/udeb/components multiselect main, restricted, universe, multiverse
 # # d-i pkgsel/upgrade seen true
 # # d-i pkgsel/upgrade                                          select      safe-upgrade
 # # d-i pkgsel/upgrade seen true
-# # # d-i pkgsel/update-policy select unattended-upgrades
+d-i pkgsel/update-policy select unattended-upgrades
 
-#tasksel tasksel/first multiselect xubuntu-desktop
+tasksel tasksel/first multiselect xubuntu-desktop, standard system utilities, OpenSSH server, Basic Ubuntu server
 ### Grub
 # The commented-out commands all select where to put the MBR; we want an EFI-only version
 # d-i grub-installer/bootdev string default   # Default is to choose first available

@@ -1,10 +1,12 @@
 {
   "backup_device_uuid" : "partition_containing_sys",
   "parent_device_uuid" : "partition_containing_sys",
-  "do_first_run" : "true",
+  "do_first_run" : "false",
   "btrfs_mode" : "false",
-  "include_btrfs_home" : "false",
+  "include_btrfs_home_for_backup" : "false",
+  "include_btrfs_home_for_restore" : "false",
   "stop_cron_emails" : "true",
+  "btrfs_use_qgroup" : "true",
   "schedule_monthly" : "true",
   "schedule_weekly" : "false",
   "schedule_daily" : "true",
@@ -12,12 +14,17 @@
   "schedule_boot" : "true",
   "count_monthly" : "4",
   "count_weekly" : "3",
-  "count_daily" : "7",
+  "count_daily" : "5",
   "count_hourly" : "6",
-  "count_boot" : "7",
-  "snapshot_size" : "0",
-  "snapshot_count" : "0",
+  "count_boot" : "5",
+  "snapshot_size" : "",
+  "snapshot_count" : "",
+  "date_format" : "%Y-%m-%d %H:%M:%S",
   "exclude" : [
+    "+ /root/**",
+    "+ /home/econ-ark-xrdp/**",
+    "+ /home/ubuntu/**",
+    "+ /home/econ-ark/**"
   ],
   "exclude-apps" : [
   ]

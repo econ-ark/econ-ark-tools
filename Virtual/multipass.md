@@ -14,7 +14,7 @@ Currently, on MacOS Catalina, the multipass resoruces for VMs created by Virtual
 	
 The component of the path beginning with `multipassd` should be similar on other machines.
 
-The directory `multipassd` in this repo has an identical file structure, at the end of which are `cloud-init` configuration files that instruct multipass how to create the Econ-ARK virtual machine.
+The directory [`multipassd` in this repo](https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/multipassd) has an identical file structure, at the end of which are `cloud-init` configuration files that instruct multipass how to create the Econ-ARK virtual machine.
 
 There is also a unix script that will produce the right command to create such a VM:
 

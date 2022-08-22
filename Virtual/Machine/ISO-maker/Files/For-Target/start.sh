@@ -151,6 +151,13 @@ sudo /var/local/config/config-ssh-user.sh $vncuser
 cp /var/local/sys_root_dir/etc/default/grub /etc/default/grub
 sudo update-grub
 
+# Configure network (now that hardware is installed)
+sudo netplan generate
+sudo netplan apply
+
+# Put the Econ-ARK back[ground,drop] in place
+/var/local/config/backdrop-background-copy-Econ-ARK.sh
+
 # When run by cloud_init, the machine will reboot after finishing start.sh
 # rc.local will then notice that 'finish.sh' has not been run, and will run it
 

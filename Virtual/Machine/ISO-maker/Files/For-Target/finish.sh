@@ -88,7 +88,7 @@ EOF
 sudo apt-get -y install cloud-init console-setup eatmydata gdisk libeatmydata1 
 
 # More useful default tools 
-sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils autocutsel gnome-disk-utility rpl net-tools network-manager-gnome snap evince nodejs deja-dup
+sudo apt -y install build-essential module-assistant parted gparted xsel xclip cifs-utils nautilus exo-utils autocutsel gnome-disk-utility rpl net-tools network-manager-gnome snap evince nodejs deja-dup whois genisoimage
 
 cd /var/local
 branch_name="$(</var/local/status/git_branch)"
@@ -100,7 +100,6 @@ done
 
 # Play nice with Macs (in hopes of being able to monitor it)
 sudo apt -y install avahi-daemon avahi-discover avahi-utils libnss-mdns mdns-scan ifupdown
-#sudo apt -y install at-spi2-core # Prevents some mysterious "AT-SPI" errmsgs when apps are launched
 
 # Start avahi so machine can be found on local network -- happens automatically in ubuntu
 mkdir -p /etc/avahi/
@@ -109,7 +108,6 @@ cp /var/local/sys_root_dir/etc/avahi/avahi-daemon.conf /etc/avahi
 
 # Enable ssh over avahi
 cp /usr/share/doc/avahi-daemon/examples/ssh.service /etc/avahi/services
-
 
 ## The boot process looks for /EFI/BOOT directory and on some machines can use this stuff
 if [[ -e /EFI/BOOT ]]; then
@@ -124,7 +122,7 @@ size="MAX" # Default to max, unless there is a file named Size-To-Make-Is-MIN
 
 isoSize="$size"
 welcome="# Welcome to the Econ-ARK Machine XUBUNTARK-$size, build "
-welcome+="$(cat /var/local/status/About_This_Install/short.git-hash)"
+welcome+="$(cat /var/local/About_This_Install/short.git-hash)"
 
 cat <<EOF > XUBUNTARK.md
 $welcome
@@ -135,34 +133,29 @@ Econ-ARK toolkit.
 
 EOF
 
-
-# Download the installer (very meta!)
-#echo ''
-#echo 'Fetching online image of this installer to '
-#echo "/media/"
-
-[[ -e "/media/*.iso" ]] && sudo rm "/media/*.iso"
-
 # bring system up to date
 sudo apt -y update && sudo apt -y upgrade
 
 # Install either minimal or maximal system
 if [[ "$size" == "MIN" ]]; then
-    /var/local/installers/install-conda-x.sh miniconda
-    source /etc/environment 
-    source ~/.bashrc
-    conda activate base
-    pip install econ-ark 
-    conda install --yes -c conda-forge nbval
-    conda install --yes -c conda-forge jupyterlab # jupyter notebook is no longer maintained
-    conda install --yes -c conda-forge pytest
-    conda install --yes -c conda-forge nbval     # use pytest on notebooks
+    which_conda=miniconda
 else
-    /var/local/installers/install-conda-x.sh anaconda |& tee /var/local/status/install-conda-x.log
-    source /etc/environment
-    source ~/.bashrc
-    conda activate base
-    pip install econ-ark 
+    which_conda=anaconda
+fi
+
+/var/local/installers/install-conda-x.sh $which_conda |& tee /var/local/status/install-conda-x.log
+/var/local/installers/config-conda-x.sh  $which_conda |& tee /var/local/status/config-conda.log
+
+source /etc/environment 
+source ~/.bashrc
+conda activate base
+conda install --yes -c conda-forge nbval
+conda install --yes -c conda-forge jupyterlab # jupyter notebook is no longer maintained
+conda install --yes -c conda-forge pytest
+conda install --yes -c conda-forge nbval     # use pytest on notebooks
+pip install econ-ark 
+
+if [[ "$which_conda" == "anaconda" ]]; then    
     sudo chmod +x /var/local/finish-MAX-Extras.sh
     sudo /var/local/finish-MAX-Extras.sh
     cd /var/local/status
@@ -173,13 +166,15 @@ else
     echo '' >> XUBUNTARK.md
 fi
 
+
 sudo apt -y install python-is-python3
 
 # elpy is for syntax checking in emacs
 pip install elpy
 
 # Now that elpy has been installed, rerun the emacs setup to connect to it
-emacs -batch --eval "(setq debug-on-error t)" -l     /home/$vncuser/.emacs  # Run in batch mode to setup everything
+# Run in batch mode to setup everything
+emacs -batch --eval "(setq debug-on-error t)" -l     /home/$vncuser/.emacs 2>&1 |& tee -a /var/local/status/install-emacs.log
 
 cat /var/local/About_This_Install/XUBUNTARK-body.md >> /var/local/status/XUBUNTARK.md
 
@@ -209,8 +204,7 @@ sudo apt -y install hfsplus hfsutils hfsprogs
 # # Prepare partition for reFind boot manager in MacOS
 # hfsplusLabels="$(sudo sfdisk --list --output Device,Sectors,Size,Type,Attrs,Name | grep "HFS+" | awk '{print $1}')"
 
-sudo apt-get update
-sudo apt-get upgrade
+sudo apt-get update && sudo apt-get upgrade
 sudo apt-get install unattended-upgrades
 
 sudo mkdir -p /etc/apt/apt.conf.d
@@ -231,9 +225,10 @@ tail_monitor="$(pgrep tail | grep -v pgrep)"
 sudo /var/local/installers/install-timeshift.sh
 sudo /var/local/config/config-timeshift-backups.sh
 
-## Create "O"n-demand backup 
-msg="Initial backup of Econ-ARK machine"
-sudo timeshift --scripted --yes --create --comments "$msg" --tags O
+## Create "O"n-demand backup
+backup_time="$(date +%Y%m%d%H%M)"
+msg="Initial backup of Econ-ARK machine $backup_time"
+sudo timeshift --scripted --yes --create --comments "$msg" 
 
 # Upper right edge of menu bar
 sudo apt -y install indicator-application

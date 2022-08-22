@@ -179,4 +179,13 @@ dotemacs
 dotemacs-home
 dotemacs-root
 
+# Ignore (most) status files
+boot_*
+*.flag
+*finish.log
+install*.log
+About_This_Install.md
+XUBUNTARK.md
+*.deb
+*.gui*
 

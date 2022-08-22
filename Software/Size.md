@@ -4,10 +4,6 @@ Each of the various ways of constructing machines described elsewhere can be don
 
 Both setups include the econ-ark toolkit and all its dependencies. The difference is in the supplemental resources they contain.
 
-If you install the `MIN` version of the system, you can easily upgrade it to the `MAX` version. From the unix command line:
-
-	`sudo /var/local/finish-MAX-Extras.sh`
-
 ### [XUBUNTARK-MIN](https://drive.google.com/drive/folders/1WVs4TpsMrB8erCIykymzMYmYtxvTjtwk)
 
 Installs miniconda, tex- jupyter lab, Econ-ARK, and not much else. The total size
@@ -28,10 +24,15 @@ This verison contains a suite of basic tools that are widely useful. Among these
 
 ### [XUBUNTARK-MAX](https://drive.google.com/drive/u/5/folders/1FjI6ORW45gNKVpLe_-NuZxF61T4i-0kD)
 
-This machine is considerably larger, and so will take longer to install, perhaps
-several hours.
+This machine is created from the XUBUNTARK-MIN machine by executing these steps:
 
-This is a much more expansive set of tools, that should allow you to execute anything available from the Econ-ARK project. In addition to the contents of the MIN distribution, also ncluded are
+```
+cd /var/local
+mv .//setup/Size-To-Make-Is-MIN .//setup/Size-To-Make-Is-MAX
+sudo finish.sh
+```
+
+The result is a machine with a much more expansive set of tools, that should allow you to execute anything available from the Econ-ARK project. In addition to the contents of the MIN distribution, also ncluded are
 
 	- anaconda
 	- texlive-full
@@ -43,16 +44,24 @@ and a suite of other tools that together construct a machine that should be adeq
 
 This machine also executes a set of tests of whether it can run a number of examples of the use of the toolkit.
 
-<<<<<<< HEAD
-=======
-
 ## ISO Installers
 
-See the [installation guide](https://github.com/econ-ark/econ-ark-tools/blob/master/Virtual/README.md#Size)
+There are two versions of the installer ISO:
+	1. Internal-Prohibited
+	   * This installer should offer you ONLY the option of installing from one external device (USB stick, say, or USB drive) to another external device.
+	2. Internal-Allowed
+	   * This also permits you to install to a partition on the internal (probably the boot) drive of the machine you are working on.
+
+Internal-Prohibited is safer; it aims to make it impossible for you to wipe out your computer's internal drive.
+
+If you are using the Internal-Allowed version, you should probably repartition your internal drive first, creating a small [ESP partition](https://en.wikipedia.org/wiki/EFI_system_partition) for the boot stuff and a larger partition to contain the linux system. For guides, Google 'How Do I make a Dual Boot machine.'
+
+Once you have created these partitions, you can boot the Install-Allowed USB stick, and make any required changes to the partitioning scheme that you are presented with after the installer has run for a few minutes.
+
+See the [installation guide](https://github.com/econ-ark/econ-ark-tools/tree/master/Machine) for the particular kind of machine you are building.
 
 # Start
 
->>>>>>> 6cd1bdd1699cb280302d52d0daff3248563e008e
 The XUBUNTARK machine is set to autologin:
 ```
    username:econ-ark
