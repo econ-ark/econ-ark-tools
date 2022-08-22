@@ -171,7 +171,7 @@ esac
 cd $iso_from
 
 iso_makehtml=$pathToScript/Resources/html
-sudo rm $iso_makehtml >/dev/null 2>&1
+# sudo rm $iso_makehtml >/dev/null 2>&1
 # wget -O $iso_makehtml 'http://cdimage.ubuntu.com/' >/dev/null 2>&1
 
 prec=$(fgrep Precise $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
