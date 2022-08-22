@@ -19,7 +19,8 @@ n.b.: You will need to reconfigure your machine to permit it to boot from an ext
 
 ### [Burn](#burn) your ISO image (prohibiting or allowing internal install) to the small USB stick
 
- Download your selected [Image](https://drive.google.com/drive/folders/1dMVZ7RgDKk8pJIbmshvaKGR64kuVR7FY?usp=sharing) to your computer
+Download your selected [Image](https://drive.google.com/drive/folders/1dMVZ7RgDKk8pJIbmshvaKGR64kuVR7FY?usp=sharing) to your computer
+
 0. "mount" the image so that the computer can see it
    * [Create-A-USB-Stick-On-Windows](https://ubuntu.com/tutorials/create-a-usb-stick-on-windows)
    * On Macs, mounting is done with the _Disk Utility_ app ("open image")
