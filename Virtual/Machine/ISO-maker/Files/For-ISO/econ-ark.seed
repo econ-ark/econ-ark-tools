@@ -99,7 +99,7 @@ d-i clock-setup/ntp                                         boolean     true
 ## - priority critical allows skipping of confusing questions
 d-i partman/early_command string \
     CDDEV="$(mount | grep cdrom | cut -d' ' -f1 | sed 's/\(.*\)./\1/')" ;\
-    USBDEV_LIST="$(mktemp)" ;\
+    USBDEV_LIST=/tmp/BOOTDEV_LIST ;\
     list-devices usb-partition | sed "s/\(.*\)./\1/" | grep -v "$CDDEV" > "$USBDEV_LIST" ;\
     BOOTDEV="$(list-devices disk | grep -f "$USBDEV_LIST" | grep -v "$CDDEV" | tail -1)" ;\
     echo BOOTDEV="$BOOTDEV"  ;\
