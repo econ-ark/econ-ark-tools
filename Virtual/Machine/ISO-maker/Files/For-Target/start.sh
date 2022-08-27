@@ -152,8 +152,8 @@ cp /var/local/sys_root_dir/etc/default/grub /etc/default/grub
 sudo update-grub
 
 # Configure network (now that hardware is installed)
-sudo netplan generate
-sudo netplan apply
+# sudo netplan generate
+# sudo netplan apply
 
 # Put the Econ-ARK back[ground,drop] in place
 /var/local/config/backdrop-background-copy-Econ-ARK.sh
