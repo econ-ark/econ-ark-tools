@@ -1,1 +1,1 @@
-debconf-set_debconf-priority_critical_typo
+Verbose_off
