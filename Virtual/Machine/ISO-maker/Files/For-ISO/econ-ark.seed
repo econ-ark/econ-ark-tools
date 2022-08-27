@@ -143,7 +143,7 @@ d-i clock-setup/ntp                                         boolean     true
 # Nope.  It runs at the end of partman
 # Not sure why it's not therefore partman/late_command ...
 d-i partman/early_command string \
-    debconf-set debconf/priority critical ;\
+    debconf-set debconf/priority critical
 
 
 ## Unmount active partitions, if any
