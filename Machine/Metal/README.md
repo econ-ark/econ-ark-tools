@@ -23,27 +23,29 @@ Download your selected [Image](https://drive.google.com/drive/folders/1dMVZ7RgDK
 
 0. "mount" the image so that the computer can see it
    * [Create-A-USB-Stick-On-Windows](https://ubuntu.com/tutorials/create-a-usb-stick-on-windows)
-   * On Macs, mounting is done with the _Disk Utility_ app ("open image")
-   * Next, make a "bootable USB" stick by "flashing" the ISO image to the USB stick
-      * ["Carbon Copy Cloner"](https://bombich.com/software/download_ccc.php) is the most reliable option for this
+   * On Macs, mounting is done with the _Disk Utility_ app ("open image")      * Next, make a "bootable USB" stick by "flashing" the ISO image to the USB stick
+         * ["Carbon Copy Cloner"](https://bombich.com/software/download_ccc.php) is the most reliable option for this
 	     * There is a free trial version that should work
 	     * Format your USB stick to MS-DOS
 		 * Clone from the mounted ISO image to the formatted USB stick
-      * ["balenaEtcher"](https://balena.io/etcher/)
-	     * Seems to work on 2015-2019 vintage macs
-	     * Fails on some earlier and later ones
-      * [Create-A-USB-Stick-On-Macs](https://ubuntu.com/tutorials/create-a-usb-stick-on-macos) is another resource
-
+         * [Create-A-USB-Stick-On-Macs](https://ubuntu.com/tutorials/create-a-usb-stick-on-macos) is another resource
+   * ["balenaEtcher"](https://balena.io/etcher/)
+	     * Works for Windows machines
 
 ### Boot your computer from the newly created USB stick
 
-1. Macs:
-   * Hold the "option" key when the computer is booting
-   * Depending on your Mac model, you will see one of
-      * "ARKINSTALL"
-	  * "EFI BOOT"
+1. Macs (Pre-T2 chip, non-Apple-Silicon):
+      * Google for instructions to allow booting from an external drive
+      * Depending on your Mac model, you will see one of
+         * "ARKINSTALL"
+         * "EFI BOOT"
    * Pick whichever of these options you see
-1. Windows:
+1. Macs (T2 chip, Intel silicon):
+   * Internal drive:
+	 * Follow instructions from [t2linux.org](https://t2linux.org)
+   * External drive:
+     * Follow instructions at `t2linux.org` [discord](https://discord.com/channels/595304521857630254/706581810745966653/987376458626396270)
+2. Windows:
    * The steps to boot from an external USB stick depend on your model
        * There are lots of tutorials on the web
 	  
