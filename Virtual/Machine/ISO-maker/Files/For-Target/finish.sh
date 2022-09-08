@@ -244,4 +244,7 @@ sudo apt -y install gnome-software
 # Signal that we've finished software install
 touch /var/local/status/finished-software-install.flag 
 
+# Create locate index of created machine
+sudo apt -y install mlocate
+
 sudo reboot
