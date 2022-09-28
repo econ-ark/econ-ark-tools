@@ -13,7 +13,7 @@ Different ways to construct a self-contained Econ-ARK machine:
 
 * Create a Virtual Machine that you can run on a host computer. Because your computer's resources will be shared with the VM, both your regular processes (email, etc) and the Econ-ARK machine's processes may be slow.
 
-#### [Metal](https://github.com/econ-ark/econ-ark-tools/blob/master/Metal)
+#### [Metal](https://github.com/econ-ark/econ-ark-tools/tree/master/Machine/Metal)
 
 * Take an existing computer and set it up so it can boot the Econ-ARK system on an external drive or flash stick. 
       * Your machine will be faster and more efficient than the Virtual option. 
