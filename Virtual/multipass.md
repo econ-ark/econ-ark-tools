@@ -8,6 +8,8 @@ When you have done so, you will have a software daemon running on your computer 
 
 Multipass works by controlling a `hypervisor` on your computer, which is a software tool that lets you create and run virtual machines. One widely available (and free) hypervisor that works on Mac, Windows, and Linux machines is called `VirtualBox.` (Another free cross-platform hypervisor is `qemu`). The remaining instructions will assume you have installed VirtualBox on your computer.
 
+## Virtualbox
+
 Currently, on MacOS Catalina, the multipass resoruces for VMs created by VirtualBox are in the directory:
 
 	`/private/root/Library/Application Support/multipassd/virtualbox/vault/instances`
