@@ -43,14 +43,13 @@ fi
 sudo /var/local/installers/install-gh-cli-tools.sh
 
 # LaTeX - minimal (required for auctex install on emacs)
-sudo apt -y install texlive-base texlive-latex-base
+sudo apt -y install texlive-base texlive-latex-base texlive-extra-utils
 
 sudo /var/local/installers/install-emacs.sh |& tee /var/local/status/install-emacs.log
 [[ "$(which emacs)"  != "" ]] && sudo emacs -batch -eval "(setq debug-on-error t)" -l /root/.emacs
 
-# Install Chrome browser 
-wget --quiet -O /var/local/status/google-chrome-stable_current_amd64.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo apt -y install /var/local/status/google-chrome-stable_current_amd64.deb
+# Install Chrome browser
+/var/local/installers/install-chrome-browser.sh
 
 # Populate About_This_Install directory with info specific to this run of the installer
 
@@ -243,5 +242,8 @@ sudo apt -y install gnome-software
 
 # Signal that we've finished software install
 touch /var/local/status/finished-software-install.flag 
+
+# Create locate index of created machine
+sudo apt -y install mlocate
 
 sudo reboot

@@ -171,7 +171,7 @@ esac
 cd $iso_from
 
 iso_makehtml=$pathToScript/Resources/html
-sudo rm $iso_makehtml >/dev/null 2>&1
+# sudo rm $iso_makehtml >/dev/null 2>&1
 # wget -O $iso_makehtml 'http://cdimage.ubuntu.com/' >/dev/null 2>&1
 
 prec=$(fgrep Precise $iso_makehtml | head -1 | awk '{print $3}' | sed 's/href=\"//; s/\/\"//')
@@ -409,10 +409,10 @@ late_command="mount --bind /dev /target/dev ;\
 late_command+=";\
    chroot /target apt -y update ;\
    chroot /target apt -y reinstall git ;\
-   chroot /target apt -y install netplan.io ;\
    chroot /target apt -y install apt-utils"
 
 # ;\
+#   chroot /target apt -y install netplan.io ;\
     #   chroot /target netplan generate ;\
     #   chroot /target netplan apply
 # Make place for, and retrieve, econ-ark-tools

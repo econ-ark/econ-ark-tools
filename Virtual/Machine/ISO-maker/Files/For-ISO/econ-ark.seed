@@ -54,7 +54,7 @@ d-i preseed/early_command string \
     echo "$BOOTDEV" > /tmp/BOOTDEV ;\
     echo "BOOTDEV=$BOOTDEV" ;\
     if [[ ! "$BOOTDEV" == "" ]]; then \
-	debconf-set debconf/priority critical ;\
+	debconf-set debconf/priority high ;\
 	echo "BOOTDEV is not empty" ;\
 	BOOTDEV="$(cat /tmp/BOOTDEV)" ;\
 	debconf-set partman-auto/disk "$BOOTDEV" ;\
@@ -142,7 +142,9 @@ d-i clock-setup/ntp                                         boolean     true
 # (You might think that "partman/early_command" runs before partman
 # Nope.  It runs at the end of partman
 # Not sure why it's not therefore partman/late_command ...
-d-i partman/early_command string debconf-set debconf/priority critical
+d-i partman/early_command string \
+    debconf-set debconf/priority critical
+
 
 ## Unmount active partitions, if any
 ## Like, partition containing the installer
