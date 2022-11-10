@@ -32,6 +32,9 @@ LATEST_MIN="$(</var/local/About_This_Install/miniconda_version)"
 [[ "$CHOSEN" == "$ANA" ]] && NOT_CHOSEN="$MIN" && LATEST=$LATEST_ANA && URL="repo.anaconda.com/archive"
 [[ "$CHOSEN" == "$MIN" ]] && NOT_CHOSEN="$ANA" && LATEST=$LATEST_MIN && URL="repo.anaconda.com/miniconda"
 
+arch="$(uname -m)"
+LATEST="$LATEST-Linux-$arch.sh"
+
 # If installing one over the other, fix paths
 NOT_CHOSEN_CODE_EXISTS="$(sudo grep $NOT_CHOSEN /root/.bashrc)"
 
