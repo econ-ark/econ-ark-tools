@@ -50,6 +50,8 @@ sudo chmod a+x /tmp/$CHOSEN/$LATEST
 # install in "-b" batch mode at "-p" path
 sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
+# Get the new ~/.bashrc which should have conda in the path
+
 # Init for every user
 cd /home
 for dir in */; do  
