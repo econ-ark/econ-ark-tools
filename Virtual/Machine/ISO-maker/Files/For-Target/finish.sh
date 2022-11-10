@@ -49,7 +49,12 @@ sudo /var/local/installers/install-emacs.sh |& tee /var/local/status/install-ema
 [[ "$(which emacs)"  != "" ]] && sudo emacs -batch -eval "(setq debug-on-error t)" -l /root/.emacs
 
 # Install Chrome browser
-/var/local/installers/install-chrome-browser.sh
+arch="$(uname -m)"
+if [[ "$arch" == "x86_64" ]]; then
+    /var/local/installers/install-chrome-browser.sh
+else
+    snap install firefox
+fi
 
 # Populate About_This_Install directory with info specific to this run of the installer
 
