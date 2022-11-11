@@ -36,7 +36,8 @@ arch="$(uname -m)"
 LATEST="$LATEST-$arch.sh"
 
 # If installing one over the other, fix paths
-sudo chmod a+r /root/.bashrc
+sudo chmod a+rx /root
+sudo chmod a+rx /root/.bashrc
 NOT_CHOSEN_CODE_EXISTS="$(grep $NOT_CHOSEN /root/.bashrc)"
 
 # Prepare the destination
