@@ -36,7 +36,8 @@ arch="$(uname -m)"
 LATEST="$LATEST-$arch.sh"
 
 # If installing one over the other, fix paths
-NOT_CHOSEN_CODE_EXISTS="$(sudo grep $NOT_CHOSEN /root/.bashrc)"
+sudo chmod a+r /root/.bashrc
+NOT_CHOSEN_CODE_EXISTS="$(grep $NOT_CHOSEN /root/.bashrc)"
 
 # Prepare the destination
 sudo rm -Rf /usr/local/$CHOSEN
@@ -44,7 +45,7 @@ sudo rm -Rf /usr/local/$NOT_CHOSEN
 
 if [[ ! -e /tmp/$CHOSEN/$LATEST ]]; then # haven't downloaded it yet
     cmd="mkdir /tmp/$CHOSEN ; wget         -O /tmp/$CHOSEN/$LATEST https://$URL/$LATEST ; cd /tmp/$CHOSEN"
-    sudo eval "$cmd" # do it
+    sudo /bin/bash -c "$cmd" # do it
 fi
 
 # make installer executable
@@ -64,7 +65,7 @@ for dir in */; do
 	if [[ -e $bashrc ]]; then
 	    cmd="sudo -u $user /usr/local/$CHOSEN/bin/conda init --system bash ; sudo -u $user conda config --add envs_dirs /usr/local/$CHOSEN/envs ; sudo -u $user /usr/local/$CHOSEN/bin/conda config --add pkgs_dirs /usr/local/$CHOSEN/pkgs"
 	    echo "$cmd"
-	    eval "$cmd"
+	    sudo /bin/bash -c "$cmd"
 	fi
     fi
 done
