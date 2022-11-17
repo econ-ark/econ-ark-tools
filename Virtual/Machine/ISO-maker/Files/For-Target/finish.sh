@@ -148,7 +148,7 @@ else
 fi
 
 /var/local/installers/install-conda-x.sh $which_conda |& tee /var/local/status/install-conda-x.log
-/var/local/installers/config-conda-x.sh  $which_conda |& tee /var/local/status/config-conda.log
+/var/local/config/config-conda.sh  $which_conda |& tee /var/local/status/config-conda.log
 
 source /etc/environment 
 source ~/.bashrc
