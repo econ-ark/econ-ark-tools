@@ -5,6 +5,8 @@ if [[ "$#" != 1 ]]; then
     exit 1
 fi
 
+CHOSEN="$1"
+
 if [[ "$(which conda)" == "" ]]; then
     echo conda is not installed so cannot be configured
 fi
