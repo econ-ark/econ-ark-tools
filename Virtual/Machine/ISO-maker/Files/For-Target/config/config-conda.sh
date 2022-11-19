@@ -5,7 +5,7 @@ if [[ "$#" != 1 ]]; then
     exit 1
 fi
 
-CHOSEN="$1"
+export CHOSEN="$1"
 
 if [[ "$(which conda)" == "" ]]; then
     echo conda is not installed so cannot be configured
@@ -14,7 +14,7 @@ fi
 # Init for every user
 cd /home
 for dir in */; do  
-    user=$(basename $dir)
+    export user=$(basename $dir)
     if id "$user" >/dev/null 2>&1; then # user exists
 	bashrc="/home/$user/.bashrc"
 	if [[ -e $bashrc ]]; then
