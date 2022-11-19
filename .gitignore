@@ -189,3 +189,5 @@ XUBUNTARK.md
 *.deb
 *.gui*
 
+# Ignore logs created during execution 
+wget-log*
