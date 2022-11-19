@@ -58,18 +58,7 @@ sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 # Get the new ~/.bashrc which should have conda in the path
 
 # Init for every user
-cd /home
-for dir in */; do  
-    user=$(basename $dir)
-    if id "$user" >/dev/null 2>&1; then # user exists
-	bashrc="/home/$user/.bashrc"
-	if [[ -e $bashrc ]]; then
-	    cmd="sudo -u $user /usr/local/$CHOSEN/bin/conda init --system bash ; sudo -u $user conda config --add envs_dirs /usr/local/$CHOSEN/envs ; sudo -u $user /usr/local/$CHOSEN/bin/conda config --add pkgs_dirs /usr/local/$CHOSEN/pkgs"
-	    echo "$cmd"
-	    sudo /bin/bash -c "$cmd"
-	fi
-    fi
-done
+../config/config-conda.sh $CHOSEN
 
 ## Add to default environment path so that all users can find it
 if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
