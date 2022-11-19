@@ -7,7 +7,7 @@
 if [[ "$#" -ne 1 ]]; then
     echo 'usage: $0 [anaconda|miniconda]'
     exit
-done
+fi
 
 # In case they used capitals
 export CHOSEN=$(echo $1 | tr '[:upper:]' '[:lower:]')
