@@ -5,6 +5,8 @@ if [[ "$#" != 1 ]]; then
     exit 1
 fi
 
+CHOSEN="$1"
+
 if [[ "$(which conda)" == "" ]]; then
     echo conda is not installed so cannot be configured
 fi
@@ -16,7 +18,7 @@ for dir in */; do
     if id "$user" >/dev/null 2>&1; then # user exists
 	bashrc="/home/$user/.bashrc"
 	if [[ -e $bashrc ]]; then
-	    cmd="sudo -u $user /usr/local/$CHOSEN/bin/conda init --system bash ; sudo -u $user conda config --add envs_dirs /usr/local/$CHOSEN/envs ; sudo -u $user conda config --add pkgs_dirs /usr/local/$CHOSEN/pkgs"
+	    cmd="sudo -u $user cp /home/user/.bashrc /home/user/.bashrc_preconda ; sudo -u $user /usr/local/$CHOSEN/bin/conda init --system bash ; sudo -u $user conda config --add envs_dirs /usr/local/$CHOSEN/envs ; sudo -u $user conda config --add pkgs_dirs /usr/local/$CHOSEN/pkgs; sudo chmod -R a+rw /usr/local/$CHOSEN/envs; sudo chmod -R a+rw /usr/local/$CHOSEN/pkgs "
 	    echo "$cmd"
 	    eval "$cmd"
 	fi
