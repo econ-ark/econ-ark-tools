@@ -4,10 +4,13 @@
 
 # Install either miniconda or anaconda
 
-[[ "$#" -ne 1 ]] && bad_syntax=true  # one argument
+if [[ "$#" -ne 1 ]]; then
+    echo 'usage: $0 [anaconda|miniconda]'
+    exit
+done
 
 # In case they used capitals
-CHOSEN=$(echo $1 | tr '[:upper:]' '[:lower:]')
+export CHOSEN=$(echo $1 | tr '[:upper:]' '[:lower:]')
 # CHOSEN=miniconda
 ANA='anaconda' && MIN='miniconda'
 
@@ -15,7 +18,7 @@ ANA='anaconda' && MIN='miniconda'
 [[ "$CHOSEN" == "" ]] && echo "CHOSEN has no value; aborting" && exit
 
 if [[ "$bad_syntax" == true ]]; then
-    echo 'usage: install-conda-x.sh [ anaconda | miniconda ]'
+    echo 'usage: install-conda-x.sh [anaconda|miniconda]'
     exit
 fi
 
