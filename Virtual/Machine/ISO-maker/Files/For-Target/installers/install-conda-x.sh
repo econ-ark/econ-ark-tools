@@ -41,6 +41,9 @@ LATEST="$LATEST-$arch.sh"
 # If installing one over the other, fix paths
 sudo chmod a+rx /root
 sudo chmod a+rx /root/.bashrc
+sudo touch /root/.zshrc
+sudo chmod a+rx /root/.zshrc
+
 NOT_CHOSEN_CODE_EXISTS="$(grep $NOT_CHOSEN /root/.bashrc)"
 
 # Prepare the destination
@@ -62,8 +65,8 @@ sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
 # Init for root user
 cd /root
-sudo cp /home/root/.bashrc /home/root/.bashrc_preconda    
-sudo -u root cp /home/root/.bashrc /home/root/.zshrc_preconda      
+sudo -u root cp -f /home/root/.bashrc /home/root/.bashrc_preconda    
+sudo -u root cp -f /home/root/.zshrc  /home/root/.zshrc_preconda      
 sudo -u root /usr/local/$CHOSEN/bin/conda init --system zsh    
 sudo -u root /usr/local/$CHOSEN/bin/conda init --system bash 
 
