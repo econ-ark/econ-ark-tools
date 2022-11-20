@@ -30,8 +30,8 @@ for dir in */; do
 	    cmd+='sudo -u '$user' cp /home/'$user'/.bashrc /home/'$user'/.zshrc_preconda      ; '
             cmd+='sudo -u '$user' /usr/local/'$CHOSEN'/bin/conda init --system zsh       ; '
             cmd+='sudo -u '$user' /usr/local/'$CHOSEN'/bin/conda init --system bash      ; '
-	    cmd+='sudo -u '$user' conda config --add envs_dirs /usr/local/'$CHOSEN'/envs ; '
-	    cmd+='sudo -u '$user' conda config --add pkgs_dirs /usr/local/'$CHOSEN'/pkgs ; '
+	    cmd+='sudo -u '$user' /usr/local/'$CHOSEN'/bin/conda config --add envs_dirs /usr/local/'$CHOSEN'/envs ; '
+	    cmd+='sudo -u '$user' /usr/local/'$CHOSEN'/bin/conda config --add pkgs_dirs /usr/local/'$CHOSEN'/pkgs ; '
 	    cmd+='sudo chmod -R a+rw /usr/local/'$CHOSEN'/envs                             ; '
 	    cmd+='sudo chmod -R a+rw /usr/local/'$CHOSEN'/pkgs '
 	    echo "$cmd"
