@@ -60,7 +60,13 @@ sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
 
 # Get the new ~/.bashrc which should have conda in the path
 
-exit
+# Init for root user
+cd /root
+sudo cp /home/root/.bashrc /home/root/.bashrc_preconda    
+sudo -u root cp /home/root/.bashrc /home/root/.zshrc_preconda      
+sudo -u root /usr/local/$CHOSEN/bin/conda init --system zsh    
+sudo -u root /usr/local/$CHOSEN/bin/conda init --system bash 
+
 # Init for every user
 ../config/config-conda.sh $CHOSEN
 
