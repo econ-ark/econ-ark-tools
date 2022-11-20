@@ -24,17 +24,24 @@ cd /home
 for dir in */; do  
     user=$(basename $dir)
     if id "$user" >/dev/null 2>&1; then # user exists
-	bashrc="/home/$user/.bashrc"
-	if [[ -e $bashrc ]]; then
-	    cmd="sudo -u $user /usr/local/$CHOSEN/bin/conda init --system --reverse bash"
-	    echo "$cmd"
-	    sudo /bin/bash -c "$cmd"
+	if [[ "$user" != "root" ]]; then
+	    bashrc="/home/$user/.bashrc"
+	    if [[ -e $bashrc ]]; then
+                cmd='sudo -u '$user' /usr/local/'$CHOSEN'/bin/conda init  --reverse bash      ; '
+		cmd='sudo -u '$user' /usr/local/'$CHOSEN'/bin/conda init  --reverse bash'
+		echo "$cmd"
+		eval "$cmd"
+		#	    sudo /bin/bash -c "$cmd"
+	    fi
 	fi
     fi
 done
 
 sudo conda install -c conda-forge anaconda-clean
 
+sudo /usr/local/$CHOSEN/bin/conda init --reverse bash
+sudo /usr/local/$CHOSEN/bin/conda init --reverse zsh
+
 anaconda-clean --yes
 
-rm -Rf /usr/local/anaconda
+#rm -Rf /usr/local/anaconda

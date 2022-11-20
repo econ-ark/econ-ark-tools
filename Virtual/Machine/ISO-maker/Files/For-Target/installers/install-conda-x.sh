@@ -56,10 +56,11 @@ fi
 sudo chmod a+x /tmp/$CHOSEN/$LATEST
 
 # install in "-b" batch mode at "-p" path
-sudo /tmp/$CHOSEN/$LATEST -b -p /usr/local/$CHOSEN
+sudo /tmp/$CHOSEN/$LATEST -b -t -p /usr/local/$CHOSEN
 
 # Get the new ~/.bashrc which should have conda in the path
 
+exit
 # Init for every user
 ../config/config-conda.sh $CHOSEN
 
@@ -124,7 +125,7 @@ sudo groupadd conda &> /dev/null # probably already exists; but if not ...
 sudo chgrp -R conda /usr/local/$CHOSEN # owned by group conda
 sudo chmod g+rw     /usr/local/$CHOSEN # members can modify
 
-# conda init puts the path to conda in user's ~/.bashrc
+## conda init puts the path to conda in user's ~/.bashrc
 conda init --system bash    # For root user
 
 echo ''
