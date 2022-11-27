@@ -42,9 +42,13 @@ fi
 # GitHub command line tools
 sudo /var/local/installers/install-gh-cli-tools.sh
 
-# # LaTeX - minimal (required for auctex install on emacs)
+# LaTeX - minimal (required for auctex install on emacs)
 sudo apt -y install texlive-latex-recommended texlive-fonts-recommended cm-super
 
+# perltk is needed for tlmgr gui
+sudo apt -y install perl-tk
+
+# Install emacs after TeX so that auctex connections work
 sudo /var/local/installers/install-emacs.sh |& tee /var/local/status/install-emacs.log
 [[ "$(which emacs)"  != "" ]] && sudo emacs -batch -eval "(setq debug-on-error t)" -l /root/.emacs
 
