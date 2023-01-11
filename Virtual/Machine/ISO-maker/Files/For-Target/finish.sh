@@ -160,6 +160,7 @@ conda activate base
 conda install --yes -c conda-forge nbval
 conda install --yes -c conda-forge jupyterlab # jupyter notebook is no longer maintained
 conda install --yes -c conda-forge pytest
+conda install --yes -c conda-forge pytest-xdist
 conda install --yes -c conda-forge nbval     # use pytest on notebooks
 pip install econ-ark 
 
