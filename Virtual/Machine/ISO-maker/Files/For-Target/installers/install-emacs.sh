@@ -10,7 +10,6 @@ sudo -v &> /dev/null && echo '... sudo privileges are available.' && sudoer=true
 
 # Prepare for emacs install
 sudo apt -y install xsel xclip # Allow interchange of clipboard with system
-sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
 
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
