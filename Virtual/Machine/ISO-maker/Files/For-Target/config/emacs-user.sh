@@ -4,6 +4,8 @@
 # Presence of 'verbose' triggers bash debugging mode
 [[ -e /var/local/status/verbose ]] && set -x && set -v 
 
+[[ "$(env | grep -i emacs)" != "" ]] && echo 'Script must be run from terminal, not from inside emacs' && exit
+
 if [[ "$#" -ne 1 ]]; then
     echo 'usage: config-emacs.sh [username]'
     exit
@@ -26,7 +28,9 @@ build_date="$(</var/local/status/build_date.txt)"
 ## Create .emacs files
 [[ -e $myhome/.emacs ]] && mv $myhome/.emacs $myhome/.emacs_orig_$install_time
 
-cp /$localhome/user_regular/dotemacs-regular-users $myhome/.emacs
+JUPYTER=""
+[[ "$XDG_CURRENT_DESKTOP" == "" ]] && JUPYTER="_jupyterhub"
+cp /$localhome/user_regular/dotemacs-regular-users$JUPYTER $myhome/.emacs
 chown $myuser:$myuser $myhome/.emacs
 
 [[ ! -e $myhome/.emacs_econ-ark_$build_date ]] && cp /$localhome/user_regular/dotemacs-regular-users $myhome/.emacs_econ-ark_$build_date
@@ -37,8 +41,8 @@ chown $myuser:$myuser $myhome/.emacs
 # Don't install packages separately for each user - instead, link root to the existing install
 [[ ! -e $myhome/.emacs.d ]] && mkdir $myhome/.emacs.d
 chmod -Rf u+rw $myhome/.emacs.d
-chown -Rf      $myuser:econ-ark $myhome/.emacs.d
-
+chown -Rf      $myuser:$myuser $myhome/.emacs.d
+ 
 [[ -e /$shared/.emacs.d/elpa ]] && [[ ! -e $myhome/.emacs.d/elpa ]] && ln -s /$shared/.emacs.d/elpa $myhome/.emacs.d/elpa
 
 echo ';# -*- mode: emacs-lisp ;-*- ' > $myhome/.emacs_aliases
