@@ -42,8 +42,10 @@ fi
 # GitHub command line tools
 sudo /var/local/installers/install-gh-cli-tools.sh
 
-# LaTeX - minimal (required for auctex install on emacs)
-sudo apt -y install texlive-latex-recommended texlive-fonts-recommended cm-super
+# LaTeX - minimum required for reproducing many REMARKs
+#sudo apt -y install texlive-latex-recommended texlive-fonts-recommended cm-super latexmkrc s=texlive-latex-extras texlive-science texlive-fonts-extra
+# LaTeX - absolute minimum
+sudo apt -y install texlive-base
 
 # perltk is needed for tlmgr gui
 sudo apt -y install perl-tk
@@ -160,6 +162,7 @@ conda activate base
 conda install --yes -c conda-forge nbval
 conda install --yes -c conda-forge jupyterlab # jupyter notebook is no longer maintained
 conda install --yes -c conda-forge pytest
+conda install --yes -c conda-forge pytest-xdist
 conda install --yes -c conda-forge nbval     # use pytest on notebooks
 pip install econ-ark 
 

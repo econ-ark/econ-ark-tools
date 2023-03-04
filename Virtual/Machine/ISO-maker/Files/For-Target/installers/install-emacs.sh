@@ -1,7 +1,9 @@
 #!/bin/bash
 # Installs emacs for root user and creates systemwide resources
 
-sudo apt -y reinstall emacs # Might have already been installed; update if so
+[[ "$(env | grep -i emacs)" != "" ]] && echo 'Script must be run from terminal, not from inside emacs' && exit
+
+# sudo apt -y reinstall emacs # Might have already been installed; update if so
 
 echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
 sudoer=false
@@ -9,9 +11,8 @@ sudo -v &> /dev/null && echo '... sudo privileges are available.' && sudoer=true
 [[ "$sudoer" == "false" ]] && echo 'Exiting because no valid sudoer privileges.' && exit
 
 # Prepare for emacs install
-sudo apt -y install xsel xclip # Allow interchange of clipboard with system
-sudo apt -y install gpg gnutls-bin # Required to set up security for emacs package downloading
-
+[[ "$XDG_CURRENT_DESKTOP" != "" ]] && sudo apt -y install xsel xclip # Allow interchange of clipboard with system
+  
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
 ## Needs gpg for security to connect and download packages
@@ -45,20 +46,21 @@ else
     sudo ln -s /root/.gnupg $shared/.gnupg
 fi
 
-# finally ready to install it
-sudo apt -y install emacs 
-
+# finally ready to install it (or reinstall if it's already installed)
+sudo apt -y reinstall emacs 
+ 
 # As of 20220628 there is a problem with a default certificate; comment out that certificate:
 sudo apt -y install ca-certificates 
 sudo sed -i 's|mozilla/DST_Root_CA_X3.crt|!mozilla/DST_Root_CA_X3.crt|g' /etc/ca-certificates.conf
 
 # Do emacs first-time setup (including downloading packages)
-emacs -batch --eval "(setq debug-on-error t)" -l     /root/.emacs  
+emacs -batch --eval "(setq debug-on-error t)" -l     /root/.emacs
+sudo chmod a+r /root/.emacs
 
 # make .emacs.d directory accessible to all users, so anybody can add packages
 mkdir -p $shared/.emacs.d
-[[ ! -e /$shared/.emacs.d/elpa ]] && sudo mv /root/.emacs.d/elpa /$shared/.emacs.d/elpa
-[[ ! -e /root/.emacs.d/elpa ]] && ln -s /$shared/.emacs.d/elpa /root/.emacs.d/elpa
+[[ ! -e $shared/.emacs.d/elpa ]] && sudo mv /root/.emacs.d/elpa $shared/.emacs.d/elpa
+[[ ! -e /root/.emacs.d/elpa ]] && ln -s $shared/.emacs.d/elpa /root/.emacs.d/elpa
 sudo chmod -Rf a+rwx $shared/.emacs.d 
 
 # Finished with emacs
