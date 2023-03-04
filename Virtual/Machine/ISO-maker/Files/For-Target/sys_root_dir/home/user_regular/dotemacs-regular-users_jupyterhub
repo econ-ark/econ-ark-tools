@@ -1,0 +1,5 @@
+;;; # -*- mode: emacs-lisp -*-
+
+(load "~/.emacs_aliases") ;; user-specific customizations 
+(load "/var/local/sys_root_dir/home/user_only_for_root/dotemacs_root_and_regular_users_jupyterhub")
+(load "/var/local/sys_root_dir/home/user_only_for_regular/dotemacs_regular_users_only")

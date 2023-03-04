@@ -55,7 +55,7 @@ echo 'This is your local, personal copy of REMARK, which you can modify.  '    >
 cd /usr/local/share/data/GitHub/econ-ark/HARK
 
 conda install --yes -c anaconda pytest
-pytest 
+pytest -n auto
 
 cd /usr/local/share/data/GitHub/econ-ark/DemARK/notebooks
 # 20220508: Chinese-Growth is very slow
