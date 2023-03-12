@@ -45,7 +45,7 @@ sudo /var/local/installers/install-gh-cli-tools.sh
 # LaTeX - minimum required for reproducing many REMARKs
 #sudo apt -y install texlive-latex-recommended texlive-fonts-recommended cm-super latexmkrc s=texlive-latex-extras texlive-science texlive-fonts-extra
 # LaTeX - absolute minimum
-sudo apt -y install texlive-base
+# sudo apt -y install texlive-base
 
 # perltk is needed for tlmgr gui
 sudo apt -y install perl-tk
