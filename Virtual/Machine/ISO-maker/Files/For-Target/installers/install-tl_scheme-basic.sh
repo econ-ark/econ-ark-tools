@@ -44,3 +44,7 @@ source /etc/environment.d/texlive
 
 # Add the path to tlmgr
 /usr/local/texlive/YYYY/bin/$ARCH-linux/tlmgr path add
+
+cd $SCRIPT_DIR/install-tl-extra
+
+./install-tl_scheme-basic_add.sh
