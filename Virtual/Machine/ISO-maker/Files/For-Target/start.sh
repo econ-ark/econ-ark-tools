@@ -31,7 +31,7 @@ mypass="kra-noce"       # both have the same password
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 
 # Get some basic immediately useful tools 
-sudo apt-get -y install bash-completion curl apt-utils  man-db
+sudo apt-get -y install bash-completion curl apt-utils  man-db nss3-tools net-tools
 
 # Create with appropriate groups
 /var/local/config/add-users.sh |& tee /var/local/status/add-users.log
