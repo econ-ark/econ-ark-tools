@@ -1,7 +1,7 @@
 #!/bin/bash
 # Installs emacs for root user and creates systemwide resources
 
-[[ "$(env | grep -i emacs)" != "" ]] && echo 'Script must be run from terminal, not from inside emacs' && exit
+# [[ "$(env | grep -i emacs)" != "" ]] && echo 'Script must be run from terminal, not from inside emacs' && exit
 
 # sudo apt -y reinstall emacs # Might have already been installed; update if so
 
