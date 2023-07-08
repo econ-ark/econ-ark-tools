@@ -193,5 +193,5 @@ XUBUNTARK.md
 wget-log*
 #Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/About_This_Install.md
 #Virtual/Machine/ISO-maker/Files/For-Target/status/build_time.txt
-About_This_Install/About_This_Install.md
-status/build_time.txt
+About_This_Install.md
+build_time.txt
