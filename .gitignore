@@ -191,3 +191,7 @@ XUBUNTARK.md
 
 # Ignore logs created during execution 
 wget-log*
+#Virtual/Machine/ISO-maker/Files/For-Target/About_This_Install/About_This_Install.md
+#Virtual/Machine/ISO-maker/Files/For-Target/status/build_time.txt
+About_This_Install/About_This_Install.md
+status/build_time.txt
