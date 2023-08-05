@@ -1,0 +1,1 @@
+/usr/local/share/data/.github/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target/sys_root_dir/home/user_regular/bash_aliases
