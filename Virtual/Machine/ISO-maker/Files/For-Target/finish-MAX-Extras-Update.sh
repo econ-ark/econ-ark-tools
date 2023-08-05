@@ -6,4 +6,4 @@
 # Date of updater: 
 
 # Put updates below
-
+sudo snap install --classic code
