@@ -2,7 +2,8 @@
 # For explanations, see econ-ark-tools/Virtual/Machine/ISO-maker/create-unattended-iso script
 
 apt -y update 
-apt -y reinstall git 
+apt -y reinstall git
+git config core.fileMode false
 apt -y install apt-utils
 mkdir -p /usr/local/share/data/GitHub/econ-ark 
 [[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && git clone --depth 1 --branch texlive-none https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
