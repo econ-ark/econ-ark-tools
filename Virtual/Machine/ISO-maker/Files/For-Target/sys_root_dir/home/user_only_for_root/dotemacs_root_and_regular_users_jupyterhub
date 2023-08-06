@@ -163,6 +163,10 @@
 
 ;; The default linux theme is appalling -- replace
 (load-theme 'whiteboard)
+(use-package vscode-dark-plus-theme
+  :ensure t
+  :config
+  (load-theme 'vscode-dark-plus t))
 
 ;; Prevent incremental searches from jumping back to top after last found instance
 (setq isearch-wrap-function '(lambda nil)) 
