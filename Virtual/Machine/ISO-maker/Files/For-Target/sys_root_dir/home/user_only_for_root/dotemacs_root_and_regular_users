@@ -162,7 +162,7 @@
 (setq sort-fold-case t)   ;; Set default to ignore case when sorting  
 
 ;; The default linux theme is appalling -- replace
-(load-theme 'tango-dark)
+(load-theme 'whiteboard)
 
 ;; Prevent incremental searches from jumping back to top after last found instance
 (setq isearch-wrap-function '(lambda nil)) 
