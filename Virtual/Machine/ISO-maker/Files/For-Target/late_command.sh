@@ -5,12 +5,8 @@ apt -y update
 apt -y reinstall git 
 apt -y install apt-utils
 mkdir -p /usr/local/share/data/GitHub/econ-ark 
-[[ ! -e /usr/local/share/data/github/econ-ark/econ-ark-tools ]] && git clone --depth 1 --branch master https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/github/econ-ark/econ-ark-tools 
-chmod -R a+rwx /usr/local/share/data/github/econ-ark/econ-ark-tools/* /usr/local/share/data/github/econ-ark/econ-ark-tools/.*[0-z]*
-[[ -e /usr/local/share/data/GitHub ]] && rm -f /usr/local/share/data/GitHub
-ln -s /usr/local/share/data/github /usr/local/share/data/GitHub
-[[ -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/GitHub ]] && rm -f /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/GitHub
-ln -s /usr/local/share/data/gitgub/econ-ark/econ-ark-tools/github /usr/local/share/data/github/econ-ark/econ-ark-tools/GitHub
+[[ ! -e /usr/local/share/data/GitHub/econ-ark/econ-ark-tools ]] && git clone --depth 1 --branch master https://github.com/econ-ark/econ-ark-tools /usr/local/share/data/GitHub/econ-ark/econ-ark-tools 
+chmod -R a+rwx /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/* /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/.*[0-z]* 
 rm -Rf /var/local 
 ln -s /usr/local/share/data/GitHub/econ-ark/econ-ark-tools/Virtual/Machine/ISO-maker/Files/For-Target /var/local 
 rm -f /var/local/status/Size-To-Make-Is-* 
