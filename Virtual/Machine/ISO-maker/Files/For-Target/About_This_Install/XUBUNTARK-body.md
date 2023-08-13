@@ -31,3 +31,7 @@ For a bit more information, see the file `/var/local/About_This_Install/About_Th
 
 For detailed information about how the machine was constructed and configured, see [econ-ark-tools](https://github.com/econ-ark/econ-ark-tools/tree/master/Virtual#most-powerful)
 
+WARNING: failed to install gh; \ntry rerunning with \n/var/local/installers/install-gh-cli-tools.sh
+WARNING: failed to install gh; \ntry rerunning with \n/var/local/installers/install-gh-cli-tools.sh
+WARNING: failed to install gh; \ntry rerunning with \n/var/local/installers/install-gh-cli-tools.sh
+WARNING: failed to install gh; \ntry rerunning with \n/var/local/installers/install-gh-cli-tools.sh
