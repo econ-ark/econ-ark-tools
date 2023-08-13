@@ -1,9 +1,9 @@
 #!/bin/bash
 # Installs emacs for root user and creates systemwide resources
 
-# [[ "$(env | grep -i emacs)" != "" ]] && echo 'Script must be run from terminal, not from inside emacs' && exit
+[[ "$(env | grep -i emacs)" != "" ]] && echo 'Script must be run from terminal, not from inside emacs' && exit
 
-# sudo apt -y reinstall emacs # Might have already been installed; update if so
+sudo apt -y reinstall emacs # Might have already been installed; update if so
 
 echo '' ; echo 'User must have sudoer privileges ...' ; echo ''
 sudoer=false
@@ -61,6 +61,6 @@ sudo chmod a+r /root/.emacs
 mkdir -p $shared/.emacs.d
 [[ ! -e $shared/.emacs.d/elpa ]] && sudo mv /root/.emacs.d/elpa $shared/.emacs.d/elpa
 [[ ! -e /root/.emacs.d/elpa ]] && ln -s $shared/.emacs.d/elpa /root/.emacs.d/elpa
-sudo chmod -Rf a+rwx $shared/.emacs.d 
+sudo chmod -Rf a+rwx $shared/.emacs.d
 
 # Finished with emacs

@@ -4,7 +4,7 @@
 # Presence of 'verbose' triggers bash debugging mode
 [[ -e /var/local/status/verbose ]] && set -x && set -v 
 
-[[ "$(env | grep -i emacs)" != "" ]] && echo 'Script must be run from terminal, not from inside emacs' && exit
+[[ "$INSIDE_EMACS" != "" ]] && echo 'Script must be run from terminal, not from inside emacs' && exit
 
 if [[ "$#" -ne 1 ]]; then
     echo 'usage: config-emacs.sh [username]'

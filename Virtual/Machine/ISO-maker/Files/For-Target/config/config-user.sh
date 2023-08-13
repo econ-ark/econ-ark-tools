@@ -55,9 +55,10 @@ chown -Rf $user:$user $user_dir
 if [[ ! "$user" == "root" ]]; then # never run latex as root
     # Configure latexmkrc: https://mg.readthedocs.io/latexmk.html
     ltxmkrc=$user_dir/.latekmkrc
-    echo "'"'$dvi_previewer = start xdvi -watchfile 1.5'"';" > "$ltxmkrc"
-    echo "'"'$ps_previewer = start gv --watch'"';" >> "$ltxmkrc"
-    echo "'"'$pdf_previewer = start evince'"';" >> "$ltxmkrc"
+    sudo echo "'"'$dvi_previewer = start xdvi -watchfile 1.5'"';" > "$ltxmkrc"
+    sudo echo "'"'$ps_previewer = start gv --watch'"';" >> "$ltxmkrc"
+    sudo echo "'"'$pdf_previewer = start evince'"';" >> "$ltxmkrc"
+    sudo chmod a+rwx "$ltxmkrc"
 fi
 
 # If some version of conda is installed, init it for the user
