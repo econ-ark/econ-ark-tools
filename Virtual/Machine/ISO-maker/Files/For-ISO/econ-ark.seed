@@ -251,8 +251,19 @@ tasksel tasksel/first multiselect xubuntu-desktop, standard system utilities, Op
 # d-i grub-installer/early_command string \
 #     debconf-set debconf/priority critical
 
+# Force it to install for EFI boot
+# Uses instructions from Claude2 - https://webapp.chatgpt4google.com/s/MzMxNTQ5
+d-i partman-efi/non_efi_system boolean false
+d-i partman-partitioning/choose_label string gpt
+d-i partman-partitioning/default_label string gpt
+d-i partman-efi/non_efi_system boolean false
+
+d-i partman/choose_partition select Finish partitioning and write changes to disk
+d-i partman/confirm boolean true
+d-i partman/confirm_nooverwrite boolean true
+
 # Makes it install to the MBR; necessary for vbox
-d-i grub-installer/only_debian boolean true
+# d-i grub-installer/only_debian boolean true
 # include other os's in the grub file if they exist
 # d-i grub-installer/with_other_os boolean true 
 # grub-efi-amd64 grub2/force_efi_extra_removable boolean true
