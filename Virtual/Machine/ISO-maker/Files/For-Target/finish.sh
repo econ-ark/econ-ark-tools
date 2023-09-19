@@ -258,4 +258,7 @@ touch /var/local/status/finished-software-install.flag
 # Create locate index of created machine
 sudo apt -y install mlocate
 
+# Restore unattended upgrades
+sudo apt -y install unattended-upgrades
+
 sudo reboot
