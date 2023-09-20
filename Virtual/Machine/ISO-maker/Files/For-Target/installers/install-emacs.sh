@@ -1,7 +1,7 @@
 #!/bin/bash
 # Installs emacs for root user and creates systemwide resources
 
-emacs_in_env="$(env | grep -i emacs)"
+emacs_in_env="$(env | grep INSIDE_EMACS)"
 echo "$emacs_in_env"
 
 [[ "$emacs_in_env" != "" ]] && echo 'Script must be run from terminal, not from inside emacs' && exit
