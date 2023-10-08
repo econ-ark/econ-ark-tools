@@ -15,7 +15,7 @@ export CHOSEN=$(echo $1 | tr '[:upper:]' '[:lower:]')
 ANA='anaconda' && MIN='miniconda'
 
 [[ "$CHOSEN" != "$ANA" ]] && [[ "$CHOSEN" != "$MIN" ]] && bad_syntax=true
-[[ "$CHOSEN" == "" ]] && echo "CHOSEN has no value; aborting" && exit
+[[ "$CHOSEN" == "" ]] && echo "CHOSEN has no value; aborting" && exit 1
 
 if [[ "$bad_syntax" == true ]]; then
     echo 'usage: install-conda-x.sh [anaconda|miniconda]'
@@ -44,6 +44,7 @@ sudo chmod a+rx /root/.bashrc
 sudo touch /root/.zshrc
 sudo chmod a+rx /root/.zshrc
 
+# Create variable testing whether unchosen path is in /root/.bashrc
 NOT_CHOSEN_CODE_EXISTS="$(grep $NOT_CHOSEN /root/.bashrc)"
 
 # Prepare the destination
@@ -71,7 +72,7 @@ sudo -u root /usr/local/$CHOSEN/bin/conda init --system zsh
 sudo -u root /usr/local/$CHOSEN/bin/conda init --system bash 
 
 # Init for every user
-../config/config-conda.sh $CHOSEN
+sudo /var/local/config/config-conda.sh $CHOSEN
 
 ## Add to default environment path so that all users can find it
 if [[ ! "$PATH" == *"/usr/local/$CHOSEN"* ]]; then # not in PATH
@@ -136,6 +137,11 @@ sudo chmod g+rw     /usr/local/$CHOSEN # members can modify
 
 ## conda init puts the path to conda in user's ~/.bashrc
 conda init --system bash    # For root user
+
+# Make sure system site-paths is writeable
+# so pip install will install for all users
+site_paths="$(python3 -c 'import sysconfig; print(sysconfig.get_paths()["purelib"])')"
+sudo chmod -Rf a+r "$(site_paths)"
 
 echo ''
 echo 'To use the newly installed conda, you must do a'

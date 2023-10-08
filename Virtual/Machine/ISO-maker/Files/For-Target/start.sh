@@ -11,6 +11,10 @@
 
 [[ -e /var/local/status/verbose ]] && set -x && set -v
 
+# Unattended upgrades can cause timeouts for software installs
+# Disable them here, then reenable at end of finish.sh
+sudo apt -y remove unattended-upgrades
+
 # Record date and time at which install script is running
 # Used to mark date of original versions of any files replaced
 build_date="$(date +%Y%m%d)"

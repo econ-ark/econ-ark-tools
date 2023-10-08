@@ -1,6 +1,6 @@
-;;; # -*- mode: emacs-lisp ;-*- ;;; Forces editing in emacs-mode
-;;; Content that should be in both root user and regular users' config
-;;; Version for XUBUNTARK
+;; # -*- mode: emacs-lisp ;-*- ;;; Forces editing in emacs-mode
+;; Content that should be in both root user and regular users' config
+;; Version for XUBUNTARK
 
 ;;; Bootstrap for first use of emacs -- see https://debbugs.gu.org/cgi/bugreport.cgi?bug=31397
 
@@ -15,12 +15,12 @@
   ;; (add-to-list 'package-archives '("marmalade"    . "http://marmalade-repo.org/packages/") t)
   ;; (add-to-list 'package-archives '("org"          . "http://orgmode.org/elpa/")            t)
 
-  (when (< emacs-major-version 27)  ;; https:iqss.github.io/IQSS.emacs/init.html
-    (package-initialize))
+  ;;  (when (< emacs-major-version 27)  ;; https:iqss.github.io/IQSS.emacs/init.html
+  ;;    (package-initialize))
   (package-initialize)
 
   ;; list of packages we want
-  (setq package-list '(use-package shell-here org markdown-mode git magit elpy gnu-elpa-keyring-update bash-completion dbus cl-lib jupyter))
+  (setq package-list '(use-package shell-here org git magit elpy bash-completion dbus cl-lib jupyter xclip)) ;; markdown-mode requires emacs 27.1 ;;  gnu-elpa-keyring-update generates error message 
   ;; fetch the list of packages available
   (setq package-check-signature nil) ;; signature checking fails too often
   
@@ -163,10 +163,10 @@
 
 ;; The default linux theme is appalling -- replace
 (load-theme 'whiteboard)
-(use-package vscode-dark-plus-theme
-  :ensure t
-  :config
-  (load-theme 'vscode-dark-plus t))
+;; (use-package vscode-dark-plus-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'vscode-dark-plus t))
 
 ;; Prevent incremental searches from jumping back to top after last found instance
 (setq isearch-wrap-function '(lambda nil)) 
@@ -181,6 +181,6 @@
 (global-set-key "\C-w" 'clipboard-kill-region)
 (global-set-key "\M-w" 'clipboard-kill-ring-save)
 (global-set-key "\C-y" 'clipboard-yank)
-;;; (require 'xclip)
-;;; (xclip-mode 1)
+(require 'xclip)
+(xclip-mode 1)
 

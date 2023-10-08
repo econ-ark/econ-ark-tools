@@ -27,7 +27,7 @@ default_domain=""
 build_date="$(</var/local/status/build_date.txt)"
 build_time="$(</var/local/status/build_time.txt)"
 
-new_hostname="xubark-$commit_date-$commit_hash"
+new_hostname="xubark-$commit_date-$short_hash"
 # short hostname: xubark+date of commit
 [[ ! -e /var/local/status/verbose ]] && new_hostname="xubark-$commit_date" && echo "$new_hostname" > /var/local/status/new_hostname
 
@@ -257,5 +257,8 @@ touch /var/local/status/finished-software-install.flag
 
 # Create locate index of created machine
 sudo apt -y install mlocate
+
+# Restore unattended upgrades
+sudo apt -y install unattended-upgrades
 
 sudo reboot
