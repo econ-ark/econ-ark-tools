@@ -1,0 +1,158 @@
+% Contains raw latex versions of many macros
+% When used with demacro, generates document where LaTeX can mostly
+% be rendered by plain markdown etc.
+
+% Define various generically useful terms and items
+\renewcommand{\avg}{\bar}
+\providecommand{\cov}{}\renewcommand{\cov}{\textup{cov}}
+\renewcommand{\Abve}{\bar}
+\renewcommand{\Belw}{\underline}
+\renewcommand{\CDF}{\mathcal{F}}
+\renewcommand{\GroFac}{\Omega} % Generic for growth factor
+\renewcommand{\GroRte}{\omega} % Generic for growth rate 
+\renewcommand{\Lvl}{\mathbf}   % Levels of variables are bold
+
+% Constrained
+\renewcommand{\cnstr}[1]{\grave{#1}}
+
+% Levels are boldface italic
+\renewcommand{\aLvl}{\mathbf{a}}
+\renewcommand{\bLvl}{\mathbf{b}}
+\renewcommand{\cLvl}{\mathbf{c}}
+\renewcommand{\dLvl}{\mathbf{d}}
+\renewcommand{\eLvl}{\mathbf{e}}
+\renewcommand{\fLvl}{\mathbf{f}}
+\renewcommand{\gLvl}{\mathbf{g}}
+\renewcommand{\hLvl}{\mathbf{h}}
+\renewcommand{\iLvl}{\mathbf{i}}
+\renewcommand{\jLvl}{\mathbf{j}}
+\renewcommand{\kLvl}{\mathbf{k}}
+\renewcommand{\mLvl}{\mathbf{m}}
+\renewcommand{\nLvl}{\mathbf{n}}
+\renewcommand{\pLvl}{\mathbf{p}}
+\renewcommand{\qLvl}{\mathbf{q}}
+\renewcommand{\rLvl}{\mathbf{r}}
+\renewcommand{\sLvl}{\mathbf{s}}
+\renewcommand{\tLvl}{\mathbf{t}}
+\renewcommand{\uLvl}{\mathbf{u}}
+\renewcommand{\vLvl}{\mathbf{v}}
+\renewcommand{\wLvl}{\mathbf{w}}
+\renewcommand{\xLvl}{\mathbf{x}}
+\renewcommand{\yLvl}{\mathbf{y}}
+\renewcommand{\zLvl}{\mathbf{z}}
+
+\renewcommand{\ALvl}{\mathbf{A}}
+\renewcommand{\BLvl}{\mathbf{B}}
+\renewcommand{\CLvl}{\mathbf{C}}
+\renewcommand{\DLvl}{\mathbf{D}}
+\renewcommand{\ELvl}{\mathbf{E}}
+\renewcommand{\FLvl}{\mathbf{F}}
+\renewcommand{\GLvl}{\mathbf{G}}
+\renewcommand{\HLvl}{\mathbf{H}}
+\renewcommand{\ILvl}{\mathbf{I}}
+\renewcommand{\JLvl}{\mathbf{J}}
+\renewcommand{\KLvl}{\mathbf{K}}
+\renewcommand{\LLvl}{\mathbf{L}}
+\renewcommand{\MLvl}{\mathbf{M}}
+\renewcommand{\NLvl}{\mathbf{N}}
+\renewcommand{\OLvl}{\mathbf{O}}
+\renewcommand{\PLvl}{\mathbf{P}}
+\renewcommand{\QLvl}{\mathbf{Q}}
+\renewcommand{\RLvl}{\mathbf{R}}
+\renewcommand{\SLvl}{\mathbf{S}}
+\renewcommand{\TLvl}{\mathbf{T}}
+\renewcommand{\ULvl}{\mathbf{U}}
+\renewcommand{\VLvl}{\mathbf{V}}
+\renewcommand{\WLvl}{\mathbf{W}}
+\renewcommand{\XLvl}{\mathbf{X}}
+\renewcommand{\YLvl}{\mathbf{Y}}
+\renewcommand{\ZLvl}{\mathbf{Z}}
+
+% Functions are Roman not italicized
+\renewcommand{\aFunc}{\mathrm{a}}
+\renewcommand{\bFunc}{\mathrm{b}}
+\renewcommand{\cFunc}{\mathrm{c}}
+\renewcommand{\dFunc}{\mathrm{d}}
+\renewcommand{\eFunc}{\mathrm{e}}
+\renewcommand{\fFunc}{\mathrm{f}}
+\renewcommand{\hFunc}{\mathrm{h}}
+\renewcommand{\iFunc}{\mathrm{i}}
+\renewcommand{\jFunc}{\mathrm{j}}
+\renewcommand{\kFunc}{\mathrm{k}}
+\renewcommand{\mFunc}{\mathrm{m}}
+\renewcommand{\nFunc}{\mathrm{n}}
+\renewcommand{\pFunc}{\mathrm{p}}
+\renewcommand{\sFunc}{\mathrm{s}}
+\renewcommand{\rFunc}{\mathrm{r}}
+\renewcommand{\uFunc}{\mathrm{u}}
+\renewcommand{\vFunc}{\mathrm{v}}
+\renewcommand{\wFunc}{\mathrm{w}}
+\renewcommand{\xFunc}{\mathrm{x}}
+\renewcommand{\yFunc}{\mathrm{y}}
+\renewcommand{\zFunc}{\mathrm{z}}
+
+\renewcommand{\AFunc}{\mathrm{A}}
+\renewcommand{\BFunc}{\mathrm{B}}
+\renewcommand{\CFunc}{\mathrm{C}}
+\renewcommand{\DFunc}{\mathrm{D}}
+\renewcommand{\EFunc}{\mathrm{E}}
+\renewcommand{\FFunc}{\mathrm{F}}
+\renewcommand{\GFunc}{\mathrm{G}}
+\renewcommand{\HFunc}{\mathrm{H}}
+\renewcommand{\IFunc}{\mathrm{I}}
+\renewcommand{\JFunc}{\mathrm{J}}
+\renewcommand{\KFunc}{\mathrm{K}}
+\renewcommand{\LFunc}{\mathrm{L}}
+\renewcommand{\MFunc}{\mathrm{M}}
+\renewcommand{\NFunc}{\mathrm{N}}
+\renewcommand{\OFunc}{\mathrm{O}}
+\renewcommand{\PFunc}{\mathrm{P}}
+\renewcommand{\QFunc}{\mathrm{Q}}
+\renewcommand{\RFunc}{\mathrm{R}}
+\renewcommand{\SFunc}{\mathrm{S}}
+\renewcommand{\TFunc}{\mathrm{T}}
+\renewcommand{\UFunc}{\mathrm{U}}
+\renewcommand{\VFunc}{\mathrm{V}}
+\renewcommand{\WFunc}{\mathrm{W}}
+\renewcommand{\XFunc}{\mathrm{X}}
+\renewcommand{\YFunc}{\mathrm{Y}}
+\renewcommand{\ZFunc}{\mathrm{Z}}
+% Ratios to permanent income are normal face
+% but should already have been translated by -clean.sty
+% \renewcommand{\aNrm}{a}
+% \renewcommand{\bNrm}{b}
+% \renewcommand{\cNrm}{c}
+% \renewcommand{\dNrm}{d}
+% \renewcommand{\eNrm}{e}
+% \renewcommand{\fNrm}{f}
+% \renewcommand{\hNrm}{h}
+% \renewcommand{\iNrm}{i}
+% \renewcommand{\jNrm}{j}
+% \renewcommand{\kNrm}{k}
+% \renewcommand{\mNrm}{m}
+% \renewcommand{\pNrm}{p}
+% \renewcommand{\rNrm}{s}
+% \renewcommand{\sNrm}{s}
+% \renewcommand{\vNrm}{v}
+% \renewcommand{\yNrm}{y}
+% \renewcommand{\zNrm}{z}
+
+% \renewcommand{\ANrm}{A}
+% \renewcommand{\BNrm}{B}
+% \renewcommand{\CNrm}{C}
+% \renewcommand{\DNrm}{D}
+% \renewcommand{\ENrm}{E}
+% \renewcommand{\FNrm}{F}
+% \renewcommand{\HNrm}{H}
+% \renewcommand{\INrm}{I}
+% \renewcommand{\JNrm}{J}
+% \renewcommand{\KNrm}{K}
+% \renewcommand{\MNrm}{M}
+% \renewcommand{\PNrm}{P}
+% \renewcommand{\SNrm}{S}
+% \renewcommand{\VNrm}{V}
+% \renewcommand{\YNrm}{Y}
+% \renewcommand{\ZNrm}{Z}
+
+\renewcommand{\RNrm}{\mathcal{R}}
+
