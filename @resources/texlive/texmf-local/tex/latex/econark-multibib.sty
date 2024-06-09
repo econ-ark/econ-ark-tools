@@ -1,55 +1,29 @@
-% Allows two (optional) supplements to hard-wired \texname.bib bibfile:
-% system.bib is a default bibfile that supplies anything missing elsewhere
-% Add-Refs.bib is an override bibfile that supplants anything in \texfile.bib or system.bib
-\provideboolean{AddRefsExists}
-\provideboolean{systemExists}
-\provideboolean{BothExist}
-\provideboolean{NeitherExists}
-\setboolean{BothExist}{true}
-\setboolean{NeitherExists}{true}
+\ProvidesPackage{econark-multibib}[2024/06/08 Supports system.bib and filename-Add-Refs.bib]
 
-\IfFileExists{\texname-Add-Refs.bib}{
-  % then
-  \typeout{References in Add-Refs.bib will take precedence over those elsewhere}
-  \setboolean{AddRefsExists}{true}
-  \setboolean{NeitherExists}{false} % Default is true
-}{
-  % else
-  \setboolean{AddRefsExists}{false} % No added refs exist so defaults will be used
-  \setboolean{BothExist}{false}     % Default is that Add-Refs and system.bib both exist
+\RequirePackage{ifthen}
+
+\newcommand{\econarkmultibib}[1]{%
+  \def\filename{#1}%
+  
+  \IfFileExists{\filename-Add-Refs.bib}{%
+    \IfFileExists{system.bib}{%
+      \typeout{References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
+      \typeout{References in default global system.bib will be used for items not found elsewhere}%
+      \bibliography{\filename-Add-Refs,\filename,system}%
+    }{%
+      \typeout{References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
+      \typeout{Found no global database file}%
+      \bibliography{\filename-Add-Refs,\filename}%
+    }%
+  }{%
+    \IfFileExists{system.bib}{%
+      \typeout{References in default global system.bib will be used for items not found elsewhere}%
+      \bibliography{\filename,system}%
+    }{%
+      \typeout{Found no global database file}%
+      \bibliography{\filename}%
+    }%
+  }%
 }
 
-% Deal with case where system.bib is found by kpsewhich
-\IfFileExists{/usr/local/texlive/texmf-local/bibtex/bib/system.bib}{
-  % then
-  \typeout{References in default global system.bib will be used for items not found elsewhere}
-  \setboolean{systemExists}{true}
-  \setboolean{NeitherExists}{false}
-}{
-  % else
-  \typeout{Found no global database file}
-  \setboolean{systemExists}{false}
-  \setboolean{BothExist}{false}
-}
-
-\ifthenelse{\boolean{showPageHead}}{ %then
-  \clearpairofpagestyles % No header for references pages
-  }{} % No head has been set to clear
-
-\ifthenelse{\boolean{BothExist}}{
-  % then use both
-  \typeout{bibliography{\texname-Add-Refs,\texname,system}}
-  \bibliography{\texname-Add-Refs,\texname,system}
-  % else both do not exist
-}{ % maybe neither does?
-  \ifthenelse{\boolean{NeitherExists}}{
-    \typeout{bibliography{\texname}}
-    \bibliography{\texname}}{
-    % no -- at least one exists
-    \ifthenelse{\boolean{AddRefsExists}}{
-      \typeout{bibliography{\texname-Add-Refs,\texname}}
-      \bibliography{\texname-Add-Refs,\texname}}{
-      \typeout{bibliography{\texname,system}}
-      \bibliography{        \texname,system}}
-  } % end of picking the one that exists
-} % end of testing whether neither exists
+\endinput
