@@ -1,57 +1,77 @@
+latex
 \ProvidesPackage{econark-multibib}[2024/06/08 Supports system.bib and filename-Add-Refs.bib]
 
 \RequirePackage{ifthen}
 \RequirePackage{etoolbox}
 
-\newcommand{\IfLaTeXFileExists}[2]{%
-  \IfFileExists{|kpsewhich #1|}{#2}{}%
-}
 
 \newcommand{\econarkmultibib}[1]{%
   \def\filename{#1}%
   
-  \IfLaTeXFileExists{\filename-Add-Refs.bib}{%
-    \IfLaTeXFileExists{system.bib}{%
-      \IfLaTeXFileExists{\filename.bib}{%
-        \typeout{References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{References in default global system.bib will be used for items not found elsewhere}%
+  \provideboolean{AddRefsExists}%
+  \provideboolean{systemExists}%
+  \provideboolean{filenameExists}%
+  
+  \IfFileExists{\filename-Add-Refs.bib}{%
+    \setboolean{AddRefsExists}{true}%
+  }{%
+    \setboolean{AddRefsExists}{false}%
+  }%
+  
+  \IfFileExists{system.bib}{%
+    \setboolean{systemExists}{true}%
+  }{%
+    \setboolean{systemExists}{false}%
+  }%
+  
+  \IfFileExists{\filename.bib}{%
+    \setboolean{filenameExists}{true}%
+  }{%
+    \setboolean{filenameExists}{false}%
+  }%
+  
+  \ifthenelse{\boolean{AddRefsExists}}{%
+    \ifthenelse{\boolean{systemExists}}{%
+      \ifthenelse{\boolean{filenameExists}}{%
+        \typeout{econtex-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
+        \typeout{econtex-multibib: References in default global system.bib will be used for items not found elsewhere}%
         \write\@auxout{\string\bibdata{\filename-Add-Refs,\filename,system}}%
       }{%
-        \typeout{References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{References in default global system.bib will be used for items not found elsewhere}%
-        \typeout{Warning: \filename.bib not found}%
+        \typeout{econtex-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
+        \typeout{econtex-multibib: References in default global system.bib will be used for items not found elsewhere}%
+        \typeout{econtex-multibib: Warning: \filename.bib not found}%
         \write\@auxout{\string\bibdata{\filename-Add-Refs,system}}%
       }%
     }{%
-      \IfLaTeXFileExists{\filename.bib}{%
-        \typeout{References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{Found no global database file}%
+      \ifthenelse{\boolean{filenameExists}}{%
+        \typeout{econtex-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
+        \typeout{econtex-multibib: Found no global database file}%
         \write\@auxout{\string\bibdata{\filename-Add-Refs,\filename}}%
       }{%
-        \typeout{References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{Found no global database file}%
-        \typeout{Warning: \filename.bib not found}%
+        \typeout{econtex-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
+        \typeout{econtex-multibib: Found no global database file}%
+        \typeout{econtex-multibib: Warning: \filename.bib not found}%
         \write\@auxout{\string\bibdata{\filename-Add-Refs}}%
       }%
     }%
   }{%
-    \IfLaTeXFileExists{system.bib}{%
-      \IfLaTeXFileExists{\filename.bib}{%
-        \typeout{References in default global system.bib will be used for items not found elsewhere}%
+    \ifthenelse{\boolean{systemExists}}{%
+      \ifthenelse{\boolean{filenameExists}}{%
+        \typeout{econtex-multibib: References in default global system.bib will be used for items not found elsewhere}%
         \write\@auxout{\string\bibdata{\filename,system}}%
       }{%
-        \typeout{References in default global system.bib will be used for items not found elsewhere}%
-        \typeout{Warning: \filename.bib not found}%
+        \typeout{econtex-multibib: References in default global system.bib will be used for items not found elsewhere}%
+        \typeout{econtex-multibib: Warning: \filename.bib not found}%
         \write\@auxout{\string\bibdata{system}}%
       }%
     }{%
-      \IfLaTeXFileExists{\filename.bib}{%
-        \typeout{Found no global database file}%
+      \ifthenelse{\boolean{filenameExists}}{%
+        \typeout{econtex-multibib: Found no global database file}%
         \write\@auxout{\string\bibdata{\filename}}%
       }{%
-        \typeout{Found no global database file}%
-        \typeout{Warning: \filename.bib not found}%
-        \typeout{No bibliography files found}%
+        \typeout{econtex-multibib: Found no global database file}%
+        \typeout{econtex-multibib: Warning: \filename.bib not found}%
+        \typeout{econtex-multibib: No bibliography files found}%
       }%
     }%
   }%
