@@ -4,6 +4,7 @@
 
 % Get references right whether compiled as subfile or main file
 % https://tex.stackexchange.com/questions/463699/proper-reference-numbers-with-subfiles
+\RequirePackage{wasysym}
 \newcommand\labelprefix{}
 \newcommand\localorexternallabel[1]{% Removing this comment breaks the command
   \expandafter\ifx\csname r@#1\endcsname\relax
