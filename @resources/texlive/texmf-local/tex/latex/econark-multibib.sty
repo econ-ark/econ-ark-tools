@@ -29,80 +29,79 @@
   \provideboolean{systemExists}%
   \provideboolean{filenameExists}%
 
-  \typeout{testing system.bib}%
-  \IfFileExists{/usr/local/texlive/texmf-local/bibtex/bib/system.bib}{%
+%  \typeout{testing system.bib}%
+  \IfFileExistsAndNotEmpty{/usr/local/texlive/texmf-local/bibtex/bib/system.bib}{%
     \setboolean{systemExists}{true}%
-    \typeout{econark-multibib: File system.bib found}%
+%    \typeout{econark-multibib: File system.bib found}%
   }{%
-    \typeout{cannot be true and false}%
+%    \typeout{cannot be true and false}%
     \setboolean{systemExists}{false}%
-    \typeout{econark-multibib: File system.bib not found}%
+%    \typeout{econark-multibib: File system.bib not found}%
   }%
-  \typeout{testing system.bib end}%
-  \typeout{testing Add-Refs.bib}%
-  \IfFileExists{\filename-Add-Refs.bib}{%
+%  \typeout{testing system.bib end}%
+%  \typeout{testing Add-Refs.bib}%
+  \IfFileExistsAndNotEmpty{\filename-Add-Refs.bib}{%
     \setboolean{AddRefsExists}{true}%
-    \typeout{econark-multibib: File \filename-Add-Refs.bib found}%
+%    \typeout{econark-multibib: File \filename-Add-Refs.bib found}%
   }{%
     \setboolean{AddRefsExists}{false}%
-    \typeout{econark-multibib: File \filename-Add-Refs.bib not found}%
+%    \typeout{econark-multibib: File \filename-Add-Refs.bib not found}%
   }%
-  \typeout{testing Add-Refs.bib - end}%
-  \typeout{testing \filename.bib}%
-  \IfFileExists{\filename.bib}{%
-    \setboolean{filenameExists}{true}%
-    \typeout{econark-multibib: File \filename.bib found}%
+%  \typeout{testing Add-Refs.bib - end}%
+%  \typeout{testing \filename.bib}%
+  \IfFileExistsAndNotEmpty{\filename.bib}{%
+  \setboolean{filenameExists}{true}%
+%    \typeout{econark-multibib: File \filename.bib found}%
   }{%
     \setboolean{filenameExists}{false}%
     \typeout{econark-multibib: File \filename.bib not found}%
   }%
-  \typeout{testing \filename.bib end}%
-  
+%  \typeout{testing \filename.bib end}%
   \ifthenelse{\boolean{AddRefsExists}}{% AddRefs
     \ifthenelse{\boolean{systemExists}}{% Addrefs+system 
       \ifthenelse{\boolean{filenameExists}}{% AddRefs+system+file
-        \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
-        \typeout{}% 
-        \typeout{bibliography{\filename-Add-Refs,\filename,system}}%
-        \typeout{}% 
+        %\typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
+        %\typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
+        % \typeout{}% 
+        % \typeout{bibliography{\filename-Add-Refs,\filename,system}}%
+        % \typeout{}% 
         \bibliography{\filename-Add-Refs,\filename,system}%
       }{% AddRefs+system-file
-        \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
-        \typeout{bibliography{\filename-Add-Refs,system}}%
+        % \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
+        % \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
+        % \typeout{bibliography{\filename-Add-Refs,system}}%
         \bibliography{\filename-Add-Refs,system}%
       }%
     }{% +AddRefs-system
       \ifthenelse{\boolean{filenameExists}}{% AddRefs-system+file
-        \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
-        \typeout{bibliography{\filename,\filename-Add-Refs}}%
+        % \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
+        % \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
+        % \typeout{bibliography{\filename,\filename-Add-Refs}}%
         \bibliography{\filename,\filename-Add-Refs}%
       }{% +AddRefs-system-file
-        \typeout{econark-multibib: References in \filename-Add-Refs.bib will be used}%
-        \typeout{bibliography{\filename-Add-Refs}}%
+        % \typeout{econark-multibib: References in \filename-Add-Refs.bib will be used}%
+        % \typeout{bibliography{\filename-Add-Refs}}%
         \bibliography{\filename-Add-Refs}%
       }% end filename+AddRefs-system
     }%
   }{% -AddRefs
     \ifthenelse{\boolean{systemExists}}{% -AddRefs+system
       \ifthenelse{\boolean{filenameExists}}{% -AddRefs+file+system
-        \typeout{econark-multibib: References in default global system.bib will be used for items not found in \filename.bib}%
-        \typeout{bibliography{\filename,system}}%
+%        \typeout{econark-multibib: References in default global system.bib will be used for items not found in \filename.bib}%
+%        \typeout{bibliography{\filename,system}}%
         \bibliography{\filename,system}%
       }{% -AddRefs+system-file
-        \typeout{econark-multibib: References in default global system.bib will be used}%
-        \typeout{bibliography{system}}%
+%        \typeout{econark-multibib: References in default global system.bib will be used}%
+%        \typeout{bibliography{system}}%
         \bibliography{system}%
       }% end file
     }{% -AddRefs-system
       \ifthenelse{\boolean{filenameExists}}{%
-        \typeout{econark-multibib: references in \filename.bib}%
-        \typeout{bibliography{\filename}}%
+%        \typeout{econark-multibib: references in \filename.bib}%
+%        \typeout{bibliography{\filename}}%
         \bibliography{\filename}%
       }{% -AddRefs-system-file
-        \typeout{econark-multibib: No bibliography files found}%
+%        \typeout{econark-multibib: No bibliography files found}%
       }
     } % end -filename 
   }% end -Addrefs
