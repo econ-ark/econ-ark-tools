@@ -1,80 +1,82 @@
-latex
 \ProvidesPackage{econark-multibib}[2024/06/08 Supports system.bib and filename-Add-Refs.bib]
 
 \RequirePackage{ifthen}
 \RequirePackage{etoolbox}
 
-
 \newcommand{\econarkmultibib}[1]{%
   \def\filename{#1}%
-  
+  \typeout{beginning econarkmultibibmod}
   \provideboolean{AddRefsExists}%
   \provideboolean{systemExists}%
   \provideboolean{filenameExists}%
-  
+
+  \typeout{testing system.bib}%
+  \IfFileExists{/usr/local/texlive/texmf-local/bibtex/bib/system.bib}{%
+    \setboolean{systemExists}{true}%
+    \typeout{econark-multibib: File system.bib found}%
+  }{%
+    \typeout{cannot be true and false}%
+    \setboolean{systemExists}{false}%
+    \typeout{econark-multibib: File system.bib not found}%
+  }%
+  \typeout{testing system.bib end}%
+  \typeout{testing Add-Refs.bib}%
   \IfFileExists{\filename-Add-Refs.bib}{%
     \setboolean{AddRefsExists}{true}%
+    \typeout{econark-multibib: File \filename-Add-Refs.bib found}%
   }{%
     \setboolean{AddRefsExists}{false}%
+    \typeout{econark-multibib: File \filename-Add-Refs.bib not found}%
   }%
-  
-  \IfFileExists{system.bib}{%
-    \setboolean{systemExists}{true}%
-  }{%
-    \setboolean{systemExists}{false}%
-  }%
-  
+  \typeout{testing Add-Refs.bib - end}%
+  \typeout{testing \filename.bib}%
   \IfFileExists{\filename.bib}{%
     \setboolean{filenameExists}{true}%
+    \typeout{econark-multibib: File \filename.bib found}%
   }{%
     \setboolean{filenameExists}{false}%
+    \typeout{econark-multibib: File \filename.bib not found}%
   }%
+  \typeout{testing \filename.bib end}%
   
-  \ifthenelse{\boolean{AddRefsExists}}{%
-    \ifthenelse{\boolean{systemExists}}{%
-      \ifthenelse{\boolean{filenameExists}}{%
-        \typeout{econtex-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{econtex-multibib: References in default global system.bib will be used for items not found elsewhere}%
-        \write\@auxout{\string\bibdata{\filename-Add-Refs,\filename,system}}%
-      }{%
-        \typeout{econtex-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{econtex-multibib: References in default global system.bib will be used for items not found elsewhere}%
-        \typeout{econtex-multibib: Warning: \filename.bib not found}%
-        \write\@auxout{\string\bibdata{\filename-Add-Refs,system}}%
+  \ifthenelse{\boolean{AddRefsExists}}{% AddRefs
+    \ifthenelse{\boolean{systemExists}}{% Addrefs+system 
+      \ifthenelse{\boolean{filenameExists}}{% AddRefs+system+file
+        \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
+        \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
+        \bibliography{\filename-Add-Refs,\filename,system}%
+      }{% AddRefs+system-file
+        \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
+        \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
+        \bibliography{\filename-Add-Refs,system}%
       }%
-    }{%
-      \ifthenelse{\boolean{filenameExists}}{%
-        \typeout{econtex-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{econtex-multibib: Found no global database file}%
-        \write\@auxout{\string\bibdata{\filename-Add-Refs,\filename}}%
-      }{%
-        \typeout{econtex-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{econtex-multibib: Found no global database file}%
-        \typeout{econtex-multibib: Warning: \filename.bib not found}%
-        \write\@auxout{\string\bibdata{\filename-Add-Refs}}%
-      }%
+    }{% +AddRefs-system
+      \ifthenelse{\boolean{filenameExists}}{% AddRefs-system+file
+        \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
+        \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
+        \bibliography{\filename,\filename-Add-Refs}%
+      }{% +AddRefs-system-file
+        \typeout{econark-multibib: References in \filename-Add-Refs.bib will be used}%
+        \bibliography{\filename-Add-Refs}%
+      }% end filename+AddRefs-system
     }%
-  }{%
-    \ifthenelse{\boolean{systemExists}}{%
-      \ifthenelse{\boolean{filenameExists}}{%
-        \typeout{econtex-multibib: References in default global system.bib will be used for items not found elsewhere}%
-        \write\@auxout{\string\bibdata{\filename,system}}%
-      }{%
-        \typeout{econtex-multibib: References in default global system.bib will be used for items not found elsewhere}%
-        \typeout{econtex-multibib: Warning: \filename.bib not found}%
-        \write\@auxout{\string\bibdata{system}}%
-      }%
-    }{%
-      \ifthenelse{\boolean{filenameExists}}{%
-        \typeout{econtex-multibib: Found no global database file}%
-        \write\@auxout{\string\bibdata{\filename}}%
-      }{%
-        \typeout{econtex-multibib: Found no global database file}%
-        \typeout{econtex-multibib: Warning: \filename.bib not found}%
-        \typeout{econtex-multibib: No bibliography files found}%
-      }%
-    }%
+  }{% -AddRefs
+    \ifthenelse{\boolean{systemExists}}{% -AddRefs+system
+      \ifthenelse{\boolean{filenameExists}}{% -AddRefs+file+system
+        \typeout{econark-multibib: References in default global system.bib will be used for items not found in \filename.bib}%
+        \bibliography{\filename,system}%
+      }{% -AddRefs+system-file
+        \typeout{econark-multibib: References in default global system.bib will be used}%
+        \bibliography{system}%
+      }% end file
+    }{% -AddRefs-system
+    \ifthenelse{\boolean{filenameExists}}{%
+      \typeout{econark-multibib: references in \filename.bib}%
+      \bibliography{\filename}%
+    }{% -AddRefs-system-file
+      \typeout{econark-multibib: No bibliography files found}%
+    }}%
   }%
-}
+}%
 
 \endinput
