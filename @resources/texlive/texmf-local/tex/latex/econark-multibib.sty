@@ -63,23 +63,25 @@
       \ifthenelse{\boolean{filenameExists}}{% AddRefs+system+file
         \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
         \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
-        \typeout{\MessageBreak \bibliography{\filename-Add-Refs,\filename,system}}%
+        \typeout{}% 
+        \typeout{bibliography{\filename-Add-Refs,\filename,system}}%
+        \typeout{}% 
         \bibliography{\filename-Add-Refs,\filename,system}%
       }{% AddRefs+system-file
         \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
         \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
-        \typeout{\MessageBreak \bibliography{\filename-Add-Refs,system}}%
+        \typeout{bibliography{\filename-Add-Refs,system}}%
         \bibliography{\filename-Add-Refs,system}%
       }%
     }{% +AddRefs-system
       \ifthenelse{\boolean{filenameExists}}{% AddRefs-system+file
         \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
         \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
-        \typeout{\MessageBreak \bibliography{\filename,\filename-Add-Refs}}%
+        \typeout{bibliography{\filename,\filename-Add-Refs}}%
         \bibliography{\filename,\filename-Add-Refs}%
       }{% +AddRefs-system-file
         \typeout{econark-multibib: References in \filename-Add-Refs.bib will be used}%
-        \typeout{\MessageBreak \bibliography{\filename-Add-Refs}}%
+        \typeout{bibliography{\filename-Add-Refs}}%
         \bibliography{\filename-Add-Refs}%
       }% end filename+AddRefs-system
     }%
@@ -87,17 +89,17 @@
     \ifthenelse{\boolean{systemExists}}{% -AddRefs+system
       \ifthenelse{\boolean{filenameExists}}{% -AddRefs+file+system
         \typeout{econark-multibib: References in default global system.bib will be used for items not found in \filename.bib}%
-        \typeout{\MessageBreak \bibliography{\filename,system}}%
+        \typeout{bibliography{\filename,system}}%
         \bibliography{\filename,system}%
       }{% -AddRefs+system-file
         \typeout{econark-multibib: References in default global system.bib will be used}%
-        \typeout{\MessageBreak \bibliography{system}}%
+        \typeout{bibliography{system}}%
         \bibliography{system}%
       }% end file
     }{% -AddRefs-system
       \ifthenelse{\boolean{filenameExists}}{%
         \typeout{econark-multibib: references in \filename.bib}%
-        \typeout{\MessageBreak \bibliography{\filename}}%
+        \typeout{bibliography{\filename}}%
         \bibliography{\filename}%
       }{% -AddRefs-system-file
         \typeout{econark-multibib: No bibliography files found}%
