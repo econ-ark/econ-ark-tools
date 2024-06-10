@@ -3,6 +3,25 @@
 \RequirePackage{ifthen}
 \RequirePackage{etoolbox}
 
+\newcommand{\IfFileExistsAndNotEmpty}[2]{%
+  \IfFileExists{#1}%
+    {\IsFileEmpty{#1}%
+      {\typeout{File #1 exists but is empty}#2}%
+      {\typeout{File #1 exists and is not empty}#2}%
+    }%
+    {\typeout{File #1 does not exist}}%
+}
+
+\newread\filetest
+\newcommand{\IsFileEmpty}[2]{%
+  \openin\filetest=#1
+  \ifeof\filetest
+    \typeout{File #1 is empty}#2%
+  \else
+    \closein\filetest
+  \fi
+}
+
 \newcommand{\econarkmultibib}[1]{%
   \def\filename{#1}%
   \typeout{beginning econarkmultibibmod}
@@ -11,7 +30,7 @@
   \provideboolean{filenameExists}%
 
   \typeout{testing system.bib}%
-  \IfFileExists{/usr/local/texlive/texmf-local/bibtex/bib/system.bib}{%
+  \IfFileExistsAndNotEmpty{/usr/local/texlive/texmf-local/bibtex/bib/system.bib}{%
     \setboolean{systemExists}{true}%
     \typeout{econark-multibib: File system.bib found}%
   }{%
@@ -21,7 +40,7 @@
   }%
   \typeout{testing system.bib end}%
   \typeout{testing Add-Refs.bib}%
-  \IfFileExists{\filename-Add-Refs.bib}{%
+  \IfFileExistsAndNotEmpty{\filename-Add-Refs.bib}{%
     \setboolean{AddRefsExists}{true}%
     \typeout{econark-multibib: File \filename-Add-Refs.bib found}%
   }{%
@@ -30,7 +49,7 @@
   }%
   \typeout{testing Add-Refs.bib - end}%
   \typeout{testing \filename.bib}%
-  \IfFileExists{\filename.bib}{%
+  \IfFileExistsAndNotEmpty{\filename.bib}{%
     \setboolean{filenameExists}{true}%
     \typeout{econark-multibib: File \filename.bib found}%
   }{%
@@ -70,12 +89,12 @@
         \bibliography{system}%
       }% end file
     }{% -AddRefs-system
-    \ifthenelse{\boolean{filenameExists}}{%
-      \typeout{econark-multibib: references in \filename.bib}%
-      \bibliography{\filename}%
-    }{% -AddRefs-system-file
-      \typeout{econark-multibib: No bibliography files found}%
-    }}%
+      \ifthenelse{\boolean{filenameExists}}{%
+        \typeout{econark-multibib: references in \filename.bib}%
+        \bibliography{\filename}%
+      }{% -AddRefs-system-file
+        \typeout{econark-multibib: No bibliography files found}%
+      }}%
   }%
 }%
 
