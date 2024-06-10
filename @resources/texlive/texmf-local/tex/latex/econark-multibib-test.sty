@@ -1,0 +1,41 @@
+\ProvidesPackage{econark-multibib-test}[2024/06/08 Supports system.bib and filename-Add-Refs.bib]
+
+\RequirePackage{ifthen}
+\RequirePackage{etoolbox}
+
+\newread\filetest
+\newcommand{\IfFileExistsAndNotEmpty}[3]{%
+  \IfFileExists{#1}%
+    {\IsFileEmpty{#1}{#3}{#2}}%
+    {#3}%
+}
+
+\newcommand{\IsFileEmpty}[3]{%
+  \openin\filetest=#1
+  \ifeof\filetest
+    \typeout{File #1 is empty}%
+    #2%
+  \else
+    \typeout{File #1 is not empty}%
+    #3%
+  \fi
+  \closein\filetest
+}
+
+\newcommand{\econarkmultibib}[1]{%
+  \def\filename{#1}%
+  \typeout{beginning econarkmultibibmod}
+  \provideboolean{AddRefsExists}%
+  \provideboolean{systemExists}%
+  \provideboolean{filenameExists}%
+
+  \typeout{testing system.bib}%
+  \IfFileExists{/usr/local/texlive/texmf-local/bibtex/bib/system.bib}{%
+    \setboolean{systemExists}{true}%
+    \typeout{econark-multibib: File system.bib found}%
+  }{%
+    \typeout{cannot be true and false}%
+    \setboolean{systemExists}{false}%
+    \typeout{econark-multibib: File system.bib not found}%
+  }%
+}
