@@ -6,8 +6,8 @@
 \newread\filetest
 \newcommand{\IfFileExistsAndNotEmpty}[3]{%
   \IfFileExists{#1}%
-    {\IsFileEmpty{#1}{#3}{#2}}%
-    {#3}%
+  {\IsFileEmpty{#1}{#3}{#2}}%
+  {#3}%
 }
 
 \newcommand{\IsFileEmpty}[3]{%
@@ -101,8 +101,9 @@
         \bibliography{\filename}%
       }{% -AddRefs-system-file
         \typeout{econark-multibib: No bibliography files found}%
-      }}%
-  }%
-}%
+      }
+    } % end -filename 
+  }% end -Addrefs
+}% end newcommand
 
 \endinput
