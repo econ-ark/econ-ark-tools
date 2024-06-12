@@ -25,7 +25,7 @@ repo_dirpath="$repo_url_root/$resources"
 dest_dir="$here/@resources"
 
 # Change its permissions to allow writing
-chmod u+w "$dest_dir"
+chmod -Rf u+w "$dest_dir"
 
 # Clone the GitHub repository into the temporary directory
 [[ -e /tmp/@resources ]] && rm -rf /tmp/@resources
