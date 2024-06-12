@@ -1,12 +1,12 @@
 #!/bin/bash
+
 # Pull down the latest @resources and replace local files
 # with the same names.  Leave alone any existing files
 # that do not have a counterpart in in the upstream
 # written by Claude, edited by CDC
+# 20240611: fix permissions; cleanup
 
 # script should live in directory of the @resources file to be updated
-
-# path to the directory the script lives in
 
 # Set the GitHub repository URL and the desired subdirectory
 repo_url="https://github.com/econ-ark/econ-ark-tools.git"
@@ -35,18 +35,15 @@ git clone --depth 1 "$repo_url" /tmp/@resources
 src_dir="/tmp/@resources/$repo_subdir" 
 
 # Copy the contents of the subdirectory to the destination directory,
-# printing a list of the files that were changed 
-#echo rsync -avh --delete --checksum --itemize-changes --out-format='"%i %n%L"' "$(realpath .)" "$dest_dir"
-#src_dir="$temp_dir/$repo_subdir"
-
-echo '' ; echo rsync "$src_dir/" "$dest_dir"
+# printing a list of the files that were changed:
+echo '' ; echo rsync "$src_dir/" "$dest_dir" # tell
 rsync -avh --delete --checksum --itemize-changes --out-format="%i %n%L" "$src_dir/" "$dest_dir" | grep '^>f.*c' | tee >(awk 'END { if (NR == 0) print "\nno files were changed\n"; else print NR, "files were changed\n" }')
 
-# # Remove the temporary directory
-# rm -rf "$temp_dir"
+# Remove the temporary directory
+rm -rf "$temp_dir"
 
 # # Return to the source directory
-# popd 
+popd 
 
 # Change to read-only; edits should be done upstream
 chmod u-w "$dest_dir"
