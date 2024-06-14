@@ -1,6 +1,10 @@
 # econ-ark-tools
 General tools for econ-ark. Directories:
 
+## [@resources](https://github.com/econ-ark/econ-ark-tools/blob/master/@resources]
+
+Miscellaneous resources for projects written using Econ-ARK, like logos and styles
+
 ## [Web](https://github.com/econ-ark/econ-ark-tools/blob/master/Web)
 
 Tools for creation of web resources, like css style files etc
