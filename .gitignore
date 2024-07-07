@@ -195,3 +195,5 @@ wget-log*
 #Virtual/Machine/ISO-maker/Files/For-Target/status/build_time.txt
 About_This_Install.md
 build_time.txt
+
+**/auto/
