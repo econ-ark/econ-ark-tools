@@ -3,9 +3,14 @@
 # It is where a user could add customizations of the startup process
 # Econ-ARK customizations for interactive shells
 
+export MANPATH="/usr/local/texlive/2024/texmf-dist/doc/man:$MANPATH"
+export INFOPATH="/usr/local/texlive/2024/texmf-dist/doc/info:$INFOPATH"
+export PATH="/usr/local/texlive/2024/bin/x86_64-linux:$PATH"
+
+
 launch_vnc_server=true
 
-# Get paths that everybody should have 
+# Get paths that everybody should have
 [[ -e /etc/environment ]] && source /etc/environment
 
 verb_dir=/var/local/status/verbose/ # Directory with flags for verbosity
@@ -51,8 +56,9 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
     pgrep_process_exists="$?" # 1 if the previous command did NOT find any matching process
     if [[ "$pgrep_process_exists" -eq 1 ]]; then # start vnc server
 	if [[ "$launch_vnc_server" == "true" ]]; then
-	    ip4="$(hostname -I | sed -e 's/ $//g' | rev | cut -d' ' -f1 | rev)" # Get last IP in list
-	    cmd="xfce4-terminal --title=x0vncserver-$ip4 --minimize --command='x0vncserver -display :0.0 -UseIPv6=0 -UseIPv4=1 -PasswordFile=$HOME/.vnc/passwd'"
+	    #	    ip4="$(hostname -I | sed -e 's/ $//g' | rev | cut -d' ' -f1 | rev)" # Get last IP in list
+	    ip4="$(hostname -I | sed -e 's/ $//g' | cut -d' ' -f1)"
+	    cmd="xfce4-terminal --title=x0vncserver-$ip4 --minimize --command='x0vncserver -display :0.0 -PasswordFile=$HOME/.vnc/passwd'"
 	    eval "$cmd" & # do
 	fi
     fi
@@ -80,7 +86,7 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
 	echo ''
 	echo 'WARNING: Machine should reboot whenever software install completes'
 	echo ''
-	
+
 	touch /home/$USER/.gui_user_login_first.flag  # Signal that first GUI boot user login has succeeded
     fi
 
@@ -128,7 +134,12 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
 	echo 'Scaling too large? "bash -u /var/local/tools/xfce-scaling-shrink-me.sh"'
 	echo 'Scaling too small? "bash -u /var/local/tools/xfce-scaling-grow-me.sh"'
 	echo ''
-	touch /home/econ-ark/.first_interactive_shell.flag
+	touch /home/$USER/.first_interactive_shell.flag
+	
     fi
 fi
+
+export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
+export INFOPATH=$INFOPATH:/usr/local/texlive/2024/texmf-dist/doc/info
+export  MANPATH=$INFOPATH:/usr/local/texlive/2024/texmf-dist/doc/man
 
