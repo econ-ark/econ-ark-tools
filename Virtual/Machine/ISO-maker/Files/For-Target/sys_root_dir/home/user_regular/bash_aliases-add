@@ -88,58 +88,58 @@ if [[ "$DISPLAY" != "" ]]; then # running in Xwindows gui
 	echo ''
 
 	touch /home/$USER/.gui_user_login_first.flag  # Signal that first GUI boot user login has succeeded
+    fi
 
-	# Stuff to run if first gui user login setup has finished and software install has finished
-	if     [[   -e /home/$USER/.gui_user_login_first.flag  ]] &&
-		   [[ ! -e /home/$USER/.gui_user_login_second.flag ]] &&
-		   [[ -e /var/local/status/finished-software-install.flag ]]; then
+    # Stuff to run if first gui user login setup has finished and software install has finished
+    if     [[   -e /home/$USER/.gui_user_login_first.flag  ]] &&
+	       [[ ! -e /home/$USER/.gui_user_login_second.flag ]] &&
+	       [[ -e /var/local/status/finished-software-install.flag ]]; then
 
-	    # view "About This Machine"
-	    ## temporarily suppress any wrnmsg or errmsg
-	    echo '(setq warning-minimum-level :emergency)' >> /home/$USER/.emacs_aliases
-	    emacs --eval "(setq byte-compile-error-on-warn nil)" --name "Emacs Editor" --geometry 80x28-100+0 /var/local/status/XUBUNTARK.md &> /dev/null  &
-	    sleep 2 # give emacs plenty of time to process before deleting 
-	    sed -i "$ d" /home/$USER/.emacs_aliases # Remove the temporary suppression 
+	# view "About This Machine"
+	## temporarily suppress any wrnmsg or errmsg
+	echo '(setq warning-minimum-level :emergency)' >> /home/$USER/.emacs_aliases
+	emacs --eval "(setq byte-compile-error-on-warn nil)" --name "Emacs Editor" --geometry 80x28-100+0 /var/local/status/XUBUNTARK.md &> /dev/null  &
+	sleep 2 # give emacs plenty of time to process before deleting 
+	sed -i "$ d" /home/$USER/.emacs_aliases # Remove the temporary suppression 
 
-	    touch /home/$USER/.gui_user_login_second.flag
-	    # Configure backdrop - can't be done in start.sh or finish.sh
-	    # because dbus not running until GUI is up.
+	touch /home/$USER/.gui_user_login_second.flag
+	# Configure backdrop - can't be done in start.sh or finish.sh
+	# because dbus not running until GUI is up.
 
-	    # Wait until monitor is up (xrandr finds an active monitor)
-	    # then get the name of the active monitor
+	# Wait until monitor is up (xrandr finds an active monitor)
+	# then get the name of the active monitor
 
-	    backdrop_set_flag=/var/local/status/backdrop_set.flag
-	    if [[ ! -e "$backdrop_set_flag" ]]; then
-		/var/local/config/backdrop.sh |& tee /var/local/status/backdrop.log
-		touch "$backdrop_set_flag"
-	    fi
-	fi
-
-	# All subsequent GUI logins
-	if  [[ -e /home/$USER/.gui_user_login_first.flag ]] &&
-		[[ -e /home/$USER/.gui_user_login_second.flag ]]	&&
-		[[ -e /var/local/status/finished-software-install.flag ]] &&
-		[[ ! -e /home/$USER/.first_interactive_shell.flag ]]; then
-	    vHARK="$(python -c 'import HARK ; print(HARK.__version__)')"
-	    echo "XUBUNTARK, HARK version $vHARK, https://econ-ark.org"
-	    
-	    #	[[ "$(which conda)" != "" ]] && echo 'To install conda packages: "mamba install [package-name]"' # Conda is installed only on XUBUNTARKMAX
-	    # [[ -e /var/local/status/Size-To-Make-Is-MIN ]] && (echo 'To upgrade to MAX, type ';
-	    # 						   echo ''; echo 'cd /var/local ; sudo mv status/Size-To-Make-Is-MIN status/Size-To-Make-Is-MAX ; sudo /var/local/finish.sh' ; echo '')
-	    echo ''
-	    echo 'To install pip   packages: "pip install [package-name]"' # pip is installed by root user -- probably a mistake but ...
-	    echo "To upgrade HARK, 'pip install --upgrade econ-ark' "
-	    echo ''
-	    echo 'Scaling too large? "bash -u /var/local/tools/xfce-scaling-shrink-me.sh"'
-	    echo 'Scaling too small? "bash -u /var/local/tools/xfce-scaling-grow-me.sh"'
-	    echo ''
-	    touch /home/$USER/.first_interactive_shell.flag
-
-	    
+	backdrop_set_flag=/var/local/status/backdrop_set.flag
+	if [[ ! -e "$backdrop_set_flag" ]]; then
+	    /var/local/config/backdrop.sh |& tee /var/local/status/backdrop.log
+	    touch "$backdrop_set_flag"
 	fi
     fi
 
-    export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
-    export INFOPATH=$INFOPATH:/usr/local/texlive/2024/texmf-dist/doc/info
-    export  MANPATH=$INFOPATH:/usr/local/texlive/2024/texmf-dist/doc/man
+    # All subsequent GUI logins
+    if  [[ -e /home/$USER/.gui_user_login_first.flag ]] &&
+	    [[ -e /home/$USER/.gui_user_login_second.flag ]]	&&
+	    [[ -e /var/local/status/finished-software-install.flag ]] &&
+	    [[ ! -e /home/$USER/.first_interactive_shell.flag ]]; then
+	vHARK="$(python -c 'import HARK ; print(HARK.__version__)')"
+	echo "XUBUNTARK, HARK version $vHARK, https://econ-ark.org"
+	
+	#	[[ "$(which conda)" != "" ]] && echo 'To install conda packages: "mamba install [package-name]"' # Conda is installed only on XUBUNTARKMAX
+	# [[ -e /var/local/status/Size-To-Make-Is-MIN ]] && (echo 'To upgrade to MAX, type ';
+	# 						   echo ''; echo 'cd /var/local ; sudo mv status/Size-To-Make-Is-MIN status/Size-To-Make-Is-MAX ; sudo /var/local/finish.sh' ; echo '')
+	echo ''
+	echo 'To install pip   packages: "pip install [package-name]"' # pip is installed by root user -- probably a mistake but ...
+	echo "To upgrade HARK, 'pip install --upgrade econ-ark' "
+	echo ''
+	echo 'Scaling too large? "bash -u /var/local/tools/xfce-scaling-shrink-me.sh"'
+	echo 'Scaling too small? "bash -u /var/local/tools/xfce-scaling-grow-me.sh"'
+	echo ''
+	touch /home/$USER/.first_interactive_shell.flag
+	
+    fi
+fi
+
+export PATH=/usr/local/texlive/2024/bin/x86_64-linux:$PATH
+export INFOPATH=$INFOPATH:/usr/local/texlive/2024/texmf-dist/doc/info
+export  MANPATH=$INFOPATH:/usr/local/texlive/2024/texmf-dist/doc/man
 
