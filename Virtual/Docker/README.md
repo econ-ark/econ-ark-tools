@@ -1,4 +1,4 @@
-# Docker setup for Econ-Ark
+# Docker setup for Econ-ARK
 
 To make sure we have stable and reproducible environments we use docker containers to run our code and use jupyter notebooks running inside the docker container.
 The Docker image contains all the essential tools to execute and develop code with Econ-Ark.
