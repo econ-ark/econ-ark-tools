@@ -47,9 +47,25 @@ else
     sudo ln -s /root/.gnupg $shared/.gnupg
 fi
 
-# finally ready to install it (or reinstall if it's already installed)
-sudo apt -y reinstall emacs 
- 
+# Remove the current default installation of Emacs
+sudo apt remove --purge emacs -y
+
+# Install Emacs 29 with native byte compilation
+sudo add-apt-repository ppa:ubuntu-elisp/ppa -y
+sudo apt update
+sudo apt install emacs-snapshot -y
+
+# Activate native compilation in Emacs
+echo "(setq comp-speed 3)" >> ~/.emacs
+
+# Verify the activation of native compilation
+emacs --batch --eval '(message "Native compilation activated successfully")' 2>/dev/null
+if [ $? -eq 0 ]; then
+    echo "Native compilation activated successfully"
+else
+    echo "Failed to activate native compilation"
+fi
+
 # As of 20220628 there is a problem with a default certificate; comment out that certificate:
 sudo apt -y install ca-certificates 
 sudo sed -i 's|mozilla/DST_Root_CA_X3.crt|!mozilla/DST_Root_CA_X3.crt|g' /etc/ca-certificates.conf
