@@ -42,9 +42,9 @@ src_dir="/tmp/econ-ark-tools/$repo_subdir"
 
 echo '' ; echo rsync "$src_dir/" "$dest_dir" ;echo '' 
 echo 'rsync -avh --delete --checksum --itemize-changes --out-format="%i %n%L"' "$src_dir/" "$dest_dir"
-#rsync --dry-run -avh --delete --exclude='.DS_Store' --exclude='auto' --checksum --itemize-changes --out-format="%i %n%L" "$src_dir/" "$dest_dir"  | grep '^>f.*c' 
+#rsync --dry-run -avh --delete --exclude='.DS_Store' --exclude='auto' --exclude='*~' --checksum --itemize-changes --out-format="%i %n%L" "$src_dir/" "$dest_dir"  | grep '^>f.*c' 
 
-rsync --dry-run -avh --delete --checksum --itemize-changes --out-format="%i %n%L" "$src_dir/" "$dest_dir" | grep '^>f.*c' | tee >(awk 'BEGIN {printf "\n"}; END { if (NR == 0) printf "no file(s) changed\n\n"; else printf "file(s) changed\n\n"}')
+rsync            -avh --delete --exclude='.DS_Store' --exclude='auto' --exclude='*~' --checksum --itemize-changes --out-format="%i %n%L" "$src_dir/" "$dest_dir" | grep '^>f.*c' | tee >(awk 'BEGIN {printf "\n"}; END { if (NR == 0) printf "no file(s) changed\n\n"; else printf "file(s) changed\n\n"}')
 
 # Remove the temporary directory
 rm -rf "$temp_dir"
