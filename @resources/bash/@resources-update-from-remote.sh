@@ -45,14 +45,9 @@ echo 'rsync -avh --delete --checksum --itemize-changes --out-format="%i %n%L"' "
 #rsync --dry-run -avh --delete --exclude='.DS_Store' --exclude='auto' --checksum --itemize-changes --out-format="%i %n%L" "$src_dir/" "$dest_dir"  | grep '^>f.*c' 
 
 rsync --dry-run -avh --delete --checksum --itemize-changes --out-format="%i %n%L" "$src_dir/" "$dest_dir" | grep '^>f.*c' | tee >(awk 'BEGIN {printf "\n"}; END { if (NR == 0) printf "no file(s) changed\n\n"; else printf "file(s) changed\n\n"}')
-say stop
-read answer
 
-# # Remove the temporary directory
-# rm -rf "$temp_dir"
-
-# # Return to the source directory
-# popd 
+# Remove the temporary directory
+rm -rf "$temp_dir"
 
 # Change to read-only; edits should be done upstream
 chmod u-w "$dest_dir"
