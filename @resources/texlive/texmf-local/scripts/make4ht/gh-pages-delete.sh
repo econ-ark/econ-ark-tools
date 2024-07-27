@@ -1,0 +1,1 @@
+/Volumes/Sync/GitHub/llorracc/SolvingMicroDSOPs/SolvingMicroDSOPs-make/gh-pages-delete.sh

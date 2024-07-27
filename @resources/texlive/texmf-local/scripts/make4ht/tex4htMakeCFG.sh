@@ -1,0 +1,1 @@
+/usr/local/texlive/texmf-local/tex/latex/tex4htMakeCFG.sh
