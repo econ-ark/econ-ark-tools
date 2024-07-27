@@ -5,6 +5,12 @@
 
 # written by Claude, edited by CDC
 
+# realpath is not built-in for all distos; substitute this
+# (thanks Claude!)
+realpath() {
+    [[ $1 = /* ]] && echo "$1" || echo "$PWD/${1#./}"
+}
+
 # script lives in the bash dir of the @resources dir
 bash_src="$(realpath $(dirname $0))"
 root_src="$(realpath $bash_src/..)"
@@ -34,7 +40,16 @@ fi
 repo_url="https://github.com/econ-ark/econ-ark-tools"
 
 # Clone the GitHub repository into the temporary directory
-tmpdir=/tmp ; pushd . ; cd $tmpdir
+
+## Create a temporary directory
+tmpdir=$(mktemp -d)
+if [[ ! "$tmpdir" || ! -d "$tmpdir" ]]; then
+    echo "Could not create temp dir"
+    exit 1
+fi
+
+## Clone the repo in tmpdir then restore path
+pushd . ; cd $tmpdir
 orig_path=$tmpdir/econ-ark-tools
 [[ -d $orig_path ]] && rm -Rf $orig_path
 cmd='git clone --depth 1 '"$repo_url"
