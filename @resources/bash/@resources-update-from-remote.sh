@@ -45,7 +45,7 @@ echo
 popd > /dev/null
 
 # Change dest permissions to allow writing
-chmod -Rf u+w "$dest_path"
+chmod -Rf u+w "$dest_path/@resources"
 
 # Copy the contents of the subdirectory to the destination directory,
 # printing a list of the files that were changed 
@@ -62,9 +62,7 @@ echo rsync "$dryrun"           -avh --delete --exclude='old' --exclude='.DS_Stor
 rsync "$dryrun"           -avh --delete --exclude='old' --exclude='.DS_Store' --exclude='auto' --exclude='*~' --checksum --itemize-changes --out-format="%i %n%L" "$orig_path/@resources/" "$dest_path/@resources/" | grep '^>f.*c' | tee >(awk 'BEGIN {printf "\n"}; END { if (NR == 0) printf "\nno file(s) changed\n\n"; else printf "\nsome file(s) changed\n\n"}')
 
 # Change to read-only; edits should be done upstream
-chmod -Rf u-w "$dest_path"
-
-exit
+chmod -Rf u-w "$dest_path/@resources"
 
 # Remove the temporary directory
 rm -Rf $tmpdir/econ-ark-tools
