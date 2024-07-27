@@ -1,53 +1,71 @@
 #!/bin/bash
-# Pull down the latest @resources and replace local files
+# pull the latest @resources and replace local files
 # with the same names.  Leave alone any existing files
 # that do not have a counterpart in in the upstream
+
 # written by Claude, edited by CDC
 
-# script should live in the bash dir of the @resources dir
+# script lives in the bash dir of the @resources dir
+bash_src="$(realpath $(dirname $0))"
+root_src="$(realpath $bash_src/..)"
 
-# directory of this script
-bash="$(realpath $(dirname $0))" # here=/Volumes/Data/Papers/HAFiscal/HAFiscal-Latest/@resources/bash
-root="$(realpath $bash/..)"
-echo "$root"
+# if this is being run from $targ/@resources/bash:
+dest_path="$(dirname $(realpath "$root_src"))" 
 
+# Test if directory of $root_src is 'econ-ark-tools'
+if [[ "$(basename $dest_path)"  == "econ-ark-tools" ]]; then
+    # Check if an argument is provided
+    if [ $# -eq 0 ]; then
+	echo 
+	echo "Script executed directly from econ-ark-tools/"
+	echo "requires a destination directory as an argument."
+	echo
+	echo 'example:'
+	echo "$0" /Volumes/Data/Papers/BufferStockTheory/BufferStockTheory-Latest [dryrun]
+	echo 
+	exit 1
+    else # argument was provided
+	dest_path="$1"
+    fi
+fi
+
+# dest_path=/Volumes/Data/Papers/BufferStockTheory/BufferStockTheory-Latest
 # Set the GitHub repository URL and the desired subdirectory
-repo_url="https://github.com/econ-ark/econ-ark-tools.git"
-
-# subdirectory path
-repo_subdir="@resources"
-
-repo_url_root="https://github.com/econ-ark/econ-ark-tools"
-resources="@resources"
-repo_dirpath="$repo_url_root/$resources"
-
-# Set the destination directory on your macOS computer
-#dest_dir="$here/@resources"
-dest_dir="$root"
-
-# Change its permissions to allow writing
-chmod -Rf u+w "$dest_dir"
+repo_url="https://github.com/econ-ark/econ-ark-tools"
 
 # Clone the GitHub repository into the temporary directory
-[[ -e /tmp/econ-ark-tools ]] && rm -rf /tmp/econ-ark-tools
-git clone --depth 1 "$repo_url" /tmp/econ-ark-tools
+tmpdir=/tmp ; pushd . ; cd $tmpdir
+orig_path=$tmpdir/econ-ark-tools
+[[ -d $orig_path ]] && rm -Rf $orig_path
+cmd='git clone --depth 1 '"$repo_url"
+echo
+echo "$cmd"
+eval "$cmd"
+echo 
+popd > /dev/null
 
-# Navigate to the desired subdirectory within the cloned repository
-src_dir="/tmp/econ-ark-tools/$repo_subdir" 
+# Change dest permissions to allow writing
+chmod -Rf u+w "$dest_path"
 
 # Copy the contents of the subdirectory to the destination directory,
 # printing a list of the files that were changed 
-#echo rsync -avh --delete --checksum --itemize-changes --out-format='"%i %n%L"' "$(realpath .)" "$dest_dir"
-#src_dir="$temp_dir/$repo_subdir"
 
-echo '' ; echo rsync "$src_dir/" "$dest_dir" ;echo '' 
-echo 'rsync -avh --delete --checksum --itemize-changes --out-format="%i %n%L"' "$src_dir/" "$dest_dir"
-#rsync --dry-run -avh --delete --exclude='.DS_Store' --exclude='auto' --exclude='*~' --checksum --itemize-changes --out-format="%i %n%L" "$src_dir/" "$dest_dir"  | grep '^>f.*c' 
+# Allow running in dryrun mode 
+dryrun=''
+if [[ $# == 2 ]]; then # second argument
+    if [[ $2 == "dryrun" ]]; then
+	dryrun='--dry-run' && echo "Running in '--dry-run' mode - no changes will be made" && echo
+    fi
+fi
 
-rsync            -avh --delete --exclude='.DS_Store' --exclude='auto' --exclude='*~' --checksum --itemize-changes --out-format="%i %n%L" "$src_dir/" "$dest_dir" | grep '^>f.*c' | tee >(awk 'BEGIN {printf "\n"}; END { if (NR == 0) printf "no file(s) changed\n\n"; else printf "file(s) changed\n\n"}')
-
-# Remove the temporary directory
-rm -rf "$temp_dir"
+echo rsync "$dryrun"           -avh --delete --exclude='old' --exclude='.DS_Store' --exclude='auto' --exclude='*~' --checksum --itemize-changes --out-format="%i %n%L" "$orig_path/@resources/" "$dest_path/@resources/" 
+rsync "$dryrun"           -avh --delete --exclude='old' --exclude='.DS_Store' --exclude='auto' --exclude='*~' --checksum --itemize-changes --out-format="%i %n%L" "$orig_path/@resources/" "$dest_path/@resources/" | grep '^>f.*c' | tee >(awk 'BEGIN {printf "\n"}; END { if (NR == 0) printf "\nno file(s) changed\n\n"; else printf "\nsome file(s) changed\n\n"}')
 
 # Change to read-only; edits should be done upstream
-chmod u-w "$dest_dir"
+chmod -Rf u-w "$dest_path"
+
+exit
+
+# Remove the temporary directory
+rm -Rf $tmpdir/econ-ark-tools
+
