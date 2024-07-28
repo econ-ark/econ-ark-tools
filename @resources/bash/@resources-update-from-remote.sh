@@ -93,11 +93,11 @@ opts=(
     --group # or group
     --human-readable
     --verbose
-    --delete
     --exclude="'old'"
     --exclude="'.DS_Store'"
     --exclude="'auto'"
     --exclude="'*~'"
+    --delete
     --checksum
     --itemize-changes
     --out-format="'%i %n%L'"
