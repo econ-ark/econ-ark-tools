@@ -121,6 +121,8 @@ if [[ -n "$deletions" ]]; then
     read answer
 fi
 
+rsync "$dryrun" "${opts[@]}" "$orig_path/@resources/" "$dest_path/@resources"    | grep '^>f.*c' | tee >(awk 'BEGIN {printf "\n"}; END { if (NR == 0) printf "\nno file(s) changed\n\n"; else printf "\nsome file(s) changed\n\n"}')
+    
 # Change to read-only; edits should be done upstream
 chmod -Rf u-w "$dest_path/@resources"
 
