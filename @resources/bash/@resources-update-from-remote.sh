@@ -98,6 +98,7 @@ opts=(
     --exclude="'auto'"
     --exclude="'*~'"
     --delete
+    --delete-excluded # leave excluded files alone
     --checksum
     --itemize-changes
     --out-format="'%i %n%L'"
