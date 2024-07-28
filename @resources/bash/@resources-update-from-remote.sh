@@ -84,7 +84,7 @@ if [[ $# == 2 ]]; then # second argument
     fi
 fi
 
-cmd='rsync '"$dryrun"' --copy-links --recursive --permsp --owner --group --timestamps --human-readable --verbose --delete --exclude="'"old"'" --exclude='.DS_Store' --exclude='auto' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"' '"$orig_path/@resources/"' '"$dest_path/@resources/"''
+cmd='rsync '"$dryrun"' --copy-links --recursive --perms --owner --group --times --human-readable --verbose --delete --exclude="'"old"'" --exclude='.DS_Store' --exclude='auto' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"' '"$orig_path/@resources/"' '"$dest_path/@resources/"''
 echo "$cmd"
 eval "$cmd"
 
