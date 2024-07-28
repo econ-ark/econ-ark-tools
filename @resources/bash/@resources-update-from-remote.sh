@@ -89,17 +89,24 @@ if [[ "$dryrun" != "dryrun" ]]; then # they did not ask for a dry run
     echo nodryrun
 fi
 
-cmd='rsync '"$dryrun"' --copy-links --recursive --perms --owner --group --human-readable --verbose --delete --exclude="'"old"'" --exclude='".DS_Store"' --exclude='"auto"' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"' '"$orig_path/@resources/"' '"$dest_path/@resources/"''
+#cmd='rsync '"$dryrun"' --copy-links --recursive --perms --owner --group --human-readable --verbose --delete --exclude="'"old"'" --exclude='".DS_Store"' --exclude='"auto"' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"' '"$orig_path/@resources/"' '"$dest_path/@resources/"''
 opts='--copy-links --recursive --perms --owner --group --human-readable --verbose --delete --exclude="'"old"'" --exclude='".DS_Store"' --exclude='"auto"' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"''
-dirs='"$orig_path/@resources/"' '"$dest_path/@resources/"'
-comb='rsync '"$dryrun"' '"$opts"' '"$dirs"
+dirs="$orig_path/@resources/"' '"$dest_path/@resources/"
 
-echo "$cmd"
+deletions=$(rsync --dry-run "$opts" "$dirs" | grep deleting)
+
+# Check if there are any deletions and print them
+if [[ -n "$deletions" ]]; then
+    echo "The following files would be deleted:"
+    echo "$deletions"
+fi
+
 #eval "$cmd"
 
 # Change to read-only; edits should be done upstream
 chmod -Rf u-w "$dest_path/@resources"
 
+exit
 # Ensure temporary directory is removed on script exit
 trap 'rm -rf -- "$tmpdir"' EXIT
 
