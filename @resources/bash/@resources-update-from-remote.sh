@@ -5,10 +5,6 @@
 
 # written by CDC with help of Claude
 
-# Use `set -e` to exit on any error.
-# Use `set -u` to exit on unset variables.
-set -eu
-
 # Function to print usage information
 usage() {
     echo "Usage: $0 [destination_path] [dryrun]"
@@ -42,7 +38,6 @@ if [[ "$base_name" == "econ-ark-tools" ]] || [[ "$base_name" == "bin" ]]; then
         usage
     else
         dest_path="$1"
-        echo "Argument provided: dest_path=$dest_path"
     fi
 fi
 
@@ -64,7 +59,6 @@ git clone --depth 1 "$repo_url" || { echo "Failed to clone repository"; exit 1; 
 popd > /dev/null
 
 # Prepare destination
-echo "Setting write permissions on $dest_path/@resources"
 chmod -Rf u+w "$dest_path/@resources" || { echo "Failed to set write permissions"; exit 1; }
 
 # Handle dry run mode
