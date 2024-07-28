@@ -89,11 +89,29 @@ if [[ "$dryrun" != "dryrun" ]]; then # they did not ask for a dry run
     echo nodryrun
 fi
 
+opts=(
+    --copy-links
+    --recursive
+    --perms
+    --owner
+    --group
+    --human-readable
+    --verbose
+    --delete
+    --exclude="old"
+    --exclude=".DS_Store"
+    --exclude="auto"
+    --exclude="*~"
+    --checksum
+    --itemize-changes
+    --out-format="%i %n%L"
+)
+
 #cmd='rsync '"$dryrun"' --copy-links --recursive --perms --owner --group --human-readable --verbose --delete --exclude="'"old"'" --exclude='".DS_Store"' --exclude='"auto"' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"' '"$orig_path/@resources/"' '"$dest_path/@resources/"''
-opts='--copy-links --recursive --perms --owner --group --human-readable --verbose --delete --exclude="'"old"'" --exclude='".DS_Store"' --exclude='"auto"' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"''
+#opts='--copy-links --recursive --perms --owner --group --human-readable --verbose --delete --exclude="'"old"'" --exclude='".DS_Store"' --exclude='"auto"' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"''
 dirs="$orig_path/@resources/"' '"$dest_path/@resources/"
 
-deletions=$(rsync --dry-run "$opts" "$dirs" | grep deleting)
+deletions=$(rsync --dry-run "${opts[@]}" "$orig_path/@resources/" "$dest_path/@resources/" | grep deleting)
 
 # Check if there are any deletions and print them
 if [[ -n "$deletions" ]]; then
