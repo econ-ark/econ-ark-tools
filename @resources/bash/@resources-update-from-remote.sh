@@ -124,9 +124,10 @@ fi
 #rsync      "$dryrun" -r -p -o -g -t -vh --delete --exclude='old' --exclude='.DS_Store' --exclude='auto' --exclude='*~' --checksum --itemize-changes --out-format="%i %n%L" "$orig_path/@resources/" "$dest_path/@resources/" | grep '^>f.*c' | tee >(awk 'BEGIN {printf "\n"}; END { if (NR == 0) printf "\nno file(s) changed\n\n"; else printf "\nsome file(s) changed\n\n"}')
 
 
-cmd='rsync '"$dryrun"' '"${opts[@]}"' '"$orig_path/@resources/"' '"$dest_path/@resources"
+cmd='rsync '"$dryrun"' '"${opts[@]}"' '"$orig_path/@resources/"' '"$dest_path/@resources/"
 
 echo $cmd
+eval "$cmd" | grep '^>f.*c' | tee >(awk 'BEGIN {printf "\n"}; END { if (NR == 0) printf "\nno file(s) changed\n\n"; else printf "\nsome file(s) changed\n\n"}')
 
 # Change to read-only; edits should be done upstream
 chmod -Rf u-w "$dest_path/@resources"
