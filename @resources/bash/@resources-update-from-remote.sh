@@ -85,10 +85,10 @@ if [[ $# == 2 ]]; then # second argument
 fi
 
 # rsync options 
+#    --perms to copy perms
 opts=(
     --copy-links
     --recursive
-    --perms # do not touch perms
     --owner # or owner 
     --group # or group
     --human-readable
