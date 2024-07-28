@@ -84,17 +84,13 @@ if [[ $# == 2 ]]; then # second argument
     fi
 fi
 
-
-if [[ "$dryrun" != "dryrun" ]]; then # they did not ask for a dry run
-    echo nodryrun
-fi
-
+# rsync options 
 opts=(
     --copy-links
     --recursive
-    --perms
-    --owner
-    --group
+    --perms # do not touch perms
+    --owner # or owner 
+    --group # or group
     --human-readable
     --verbose
     --delete
