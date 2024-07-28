@@ -93,12 +93,12 @@ opts=(
     --group # or group
     --human-readable
     --verbose
+    --delete
+    --delete-excluded # leave excluded files alone
     --exclude="'old'"
     --exclude="'.DS_Store'"
     --exclude="'auto'"
     --exclude="'*~'"
-    --delete
-    --delete-excluded # leave excluded files alone
     --checksum
     --itemize-changes
     --out-format="'%i %n%L'"
