@@ -118,8 +118,8 @@ if [[ -n "$deletions" ]]; then
     if [[ "$dryrun" == '' ]]; then # did not ask for dryrun
 	echo 'hit return to continue, C-c to abort'
 	say 'hit return to proceed'
+	read answer
     fi
-    read answer
 fi
 
 #rsync      "$dryrun" -r -p -o -g -t -vh --delete --exclude='old' --exclude='.DS_Store' --exclude='auto' --exclude='*~' --checksum --itemize-changes --out-format="%i %n%L" "$orig_path/@resources/" "$dest_path/@resources/" | grep '^>f.*c' | tee >(awk 'BEGIN {printf "\n"}; END { if (NR == 0) printf "\nno file(s) changed\n\n"; else printf "\nsome file(s) changed\n\n"}')
