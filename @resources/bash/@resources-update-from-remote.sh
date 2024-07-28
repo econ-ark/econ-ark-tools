@@ -84,9 +84,18 @@ if [[ $# == 2 ]]; then # second argument
     fi
 fi
 
-cmd='rsync '"$dryrun"' --copy-links --recursive --perms --owner --group --human-readable --verbose --delete --exclude="'"old"'" --exclude='.DS_Store' --exclude='auto' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"' '"$orig_path/@resources/"' '"$dest_path/@resources/"''
+
+if [[ "$dryrun" != "dryrun" ]]; then # they did not ask for a dry run
+    echo nodryrun
+fi
+
+cmd='rsync '"$dryrun"' --copy-links --recursive --perms --owner --group --human-readable --verbose --delete --exclude="'"old"'" --exclude='".DS_Store"' --exclude='"auto"' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"' '"$orig_path/@resources/"' '"$dest_path/@resources/"''
+opts='--copy-links --recursive --perms --owner --group --human-readable --verbose --delete --exclude="'"old"'" --exclude='".DS_Store"' --exclude='"auto"' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"''
+dirs='"$orig_path/@resources/"' '"$dest_path/@resources/"'
+comb='rsync '"$dryrun"' '"$opts"' '"$dirs"
+
 echo "$cmd"
-eval "$cmd"
+#eval "$cmd"
 
 # Change to read-only; edits should be done upstream
 chmod -Rf u-w "$dest_path/@resources"
