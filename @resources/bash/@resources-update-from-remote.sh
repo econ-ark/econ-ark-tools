@@ -109,22 +109,25 @@ opts=(
 
 #cmd='rsync '"$dryrun"' --copy-links --recursive --perms --owner --group --human-readable --verbose --delete --exclude="'"old"'" --exclude='".DS_Store"' --exclude='"auto"' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"' '"$orig_path/@resources/"' '"$dest_path/@resources/"''
 #opts='--copy-links --recursive --perms --owner --group --human-readable --verbose --delete --exclude="'"old"'" --exclude='".DS_Store"' --exclude='"auto"' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"''
-dirs="$orig_path/@resources/"' '"$dest_path/@resources/"
-
 deletions=$(rsync --dry-run "${opts[@]}" "$orig_path/@resources/" "$dest_path/@resources/" | grep deleting)
 
 # Check if there are any deletions and print them
 if [[ -n "$deletions" ]]; then
+    echo
     echo "The following files would be deleted:"
     echo "$deletions"
+    echo
+    # If they are not in dryrun mode, give them a chance to stop
+    if [[ "$dryrun" == '' ]]; then # did not ask for dryrun
+	echo 'hit return to continue, C-c to abort'
+	say 'hit return to proceed'
+    fi
+    read answer
 fi
-
-#eval "$cmd"
 
 # Change to read-only; edits should be done upstream
 chmod -Rf u-w "$dest_path/@resources"
 
-exit
 # Ensure temporary directory is removed on script exit
 trap 'rm -rf -- "$tmpdir"' EXIT
 
