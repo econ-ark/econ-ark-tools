@@ -108,7 +108,7 @@ opts=(
 cmd_dryrun='rsync --dry-run '"${opts[@]}"' '"$orig_path/@resources/"' '"$dest_path/@resources/"
 echo $cmd_dryrun
 #deletions=$(rsync --dry-run "${opts[@]}" "$orig_path/@resources/" "$dest_path/@resources/" | grep deleting)
-deletions=$(eval "$cmd_dryrun") | grep deleting)
+deletions=$(eval "$cmd_dryrun" | grep deleting)
 
 # Check if there are any deletions and print them
 if [[ -n "$deletions" ]]; then
