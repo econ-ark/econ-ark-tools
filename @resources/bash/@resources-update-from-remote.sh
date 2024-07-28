@@ -94,13 +94,13 @@ opts=(
     --human-readable
     --verbose
     --delete
-    --exclude="old"
-    --exclude=".DS_Store"
-    --exclude="auto"
-    --exclude="*~"
+    --exclude="'old'"
+    --exclude="'.DS_Store'"
+    --exclude="'auto'"
+    --exclude="'*~'"
     --checksum
     --itemize-changes
-    --out-format="%i %n%L"
+    --out-format="'%i %n%L'"
 )
 
 #cmd='rsync '"$dryrun"' --copy-links --recursive --perms --owner --group --human-readable --verbose --delete --exclude="'"old"'" --exclude='".DS_Store"' --exclude='"auto"' --exclude="'"*~"'" --checksum --itemize-changes --out-format='"'%i %n%L'"' '"$orig_path/@resources/"' '"$dest_path/@resources/"''
