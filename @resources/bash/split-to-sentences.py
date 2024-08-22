@@ -12,11 +12,14 @@ def add_newlines(text):
     # Process each line
     formatted_lines = []
     inside_env = False
+    processable_envs = ['proof', 'theorem', 'comment', 'lemma']
     for line in lines:
         # Check if the line contains a LaTeX environment
-        if re.search(r'\\begin{.*?}', line):
-            inside_env = True
-        elif re.search(r'\\end{.*?}', line):
+        if re.search(r'\\begin{(.*?)}', line):
+            env_name = re.search(r'\\begin{(.*?)}', line).group(1)
+            inside_env = env_name not in processable_envs
+        elif re.search(r'\\end{(.*?)}', line):
+            env_name = re.search(r'\\end{(.*?)}', line).group(1)
             inside_env = False
 
         # Extract LaTeX environments and comments from the line
@@ -26,12 +29,12 @@ def add_newlines(text):
         placeholder_line = re.sub(pattern, '__PLACEHOLDER__', line)
 
         # Regular expression pattern to match sentence endings
-        sentence_pattern = r'(?<=[.!?])\s+(?=\S)'
+        sentence_pattern = r'(?:[.!?]|\.\'|\.\"|\$\.)\s+'
 
         # Replace sentence endings with newline character only if there is further non-whitespace material on the line
-        # and not inside a LaTeX environment
+        # and not inside a non-processable LaTeX environment
         if not inside_env:
-            formatted_line = re.sub(sentence_pattern, '\n', placeholder_line)
+            formatted_line = re.sub(sentence_pattern, lambda m: m.group(0).strip() + '\n', placeholder_line)
         else:
             formatted_line = placeholder_line
 
@@ -73,3 +76,4 @@ with open(output_file, 'w') as file:
     file.write(formatted_text)
 
 print(f"Text has been processed and saved to '{output_file}'.")
+
