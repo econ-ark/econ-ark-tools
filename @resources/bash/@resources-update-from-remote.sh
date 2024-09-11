@@ -59,6 +59,7 @@ git clone --depth 1 "$repo_url" || { echo "Failed to clone repository"; exit 1; 
 popd > /dev/null
 
 # Prepare destination
+[[ ! -e "$dest_path/@resources" ]] && mkdir -p "$dest_path/@resources" 
 chmod -Rf u+w "$dest_path/@resources" || { echo "Failed to set write permissions"; exit 1; }
 
 # Handle dry run mode
