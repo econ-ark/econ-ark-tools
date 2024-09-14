@@ -2,16 +2,27 @@
 }
 
 % Make the title, either from \jobname.title or from the argument 
-\renewcommand{\handoutNameMake}[1][]{%
-  \centerline{\LARGE%
-    \ifx\relax#1\relax
-      \input{\jobname.title}%
-    \else
-      #1%
-    \fi
-  }%
-  \vspace{.15in}%
+
+# Detect OS
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # macOS
+    sed_cmd="sed -i ''"
+else
+    # Linux and others
+    sed_cmd="sed -i"
+fi
+
+# Use sed to make the replacement
+$sed_cmd '
+/\\begin{verbatimwrite}{\\jobname\.title}/,/\\end{verbatimwrite}/{
+    /\\begin{verbatimwrite}{\\jobname\.title}/d
+    /\\end{verbatimwrite}/d
+    s/^[[:space:]]*//
+    s/^/\\handoutName[/
+    s/$/]/
 }
+' "$file"
+
 % \handoutNameMake[Custom Title] will make the title from its argument 
 \providecommand{\handoutNameMake}{\centerline{\LARGE \input \jobname.title}\vspace{.15in}}
 
