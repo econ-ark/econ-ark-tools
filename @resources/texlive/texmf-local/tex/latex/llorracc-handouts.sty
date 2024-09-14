@@ -1,5 +1,18 @@
 \providecommand{\handoutHeader}{{\tiny \noindent $^\copyright$\today, \href{https://www.econ2.jhu.edu/people/ccarroll/}{Christopher D. Carroll} \hfill \href{https://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes}{\jobname}}\medskip\medskip
 }
+
+% Make the title, either from \jobname.title or from the argument 
+\renewcommand{\handoutNameMake}[1][]{%
+  \centerline{\LARGE%
+    \ifx\relax#1\relax
+      \input{\jobname.title}%
+    \else
+      #1%
+    \fi
+  }%
+  \vspace{.15in}%
+}
+% \handoutNameMake[Custom Title] will make the title from its argument 
 \providecommand{\handoutNameMake}{\centerline{\LARGE \input \jobname.title}\vspace{.15in}}
 
 \newcommand{\handoutC}[1]{\href{https://www.econ2.jhu.edu/people/ccarroll/public/lecturenotes/Consumption/#1.pdf}{\texttt{#1}}}
