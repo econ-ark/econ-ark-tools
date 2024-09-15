@@ -3,7 +3,7 @@
 
 % Make the title, either from \jobname.title or from the argument 
 % \handoutNameMake[Custom Title] will make the title from its argument 
-\renewcommand{\handoutNameMake}[1][]{%
+\newcommand{\handoutNameMake}[1][]{%
   \centerline{\LARGE%
     \ifx\relax#1\relax
       \input{\jobname.title}%
