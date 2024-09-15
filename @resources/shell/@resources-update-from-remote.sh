@@ -84,7 +84,10 @@ deletions=$(eval "$cmd_dryrun" | grep -i deleting)
 if [[ -n "$deletions" ]]; then
     echo -e "\nThe following files would be deleted:\n$deletions\n"
     if [[ -z "$dryrun" ]]; then
-        read -p "Hit return to continue, Ctrl-C to abort" -r
+	echo ; echo 'The files below will be deleted:' ; echo
+	say 'check deletions'
+	timeout 20 bash -c 'read -p "Hit return to continue, Ctrl-C to abort" -r'
+	echo
     fi
 fi
 
