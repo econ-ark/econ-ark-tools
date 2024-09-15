@@ -4,12 +4,16 @@
 
 % *.sty, *.cls
 \makeatletter
-\def\input@path{{@resources/texlive/texmf-local//}
-        ,{@local//}
+\def\input@path{{@resources/texlive/texmf-local/tex/latex/}
+        ,{@resources/texlive/bibtex/bst/},
+        ,{@resources/texlive/bibtex/bib/},
+        ,{@local/}
         }
 \makeatother
 \makeatletter
-\def\bibinput@path{{@resources/texlive/texmf-local//}
-        ,{@local//}
+\def\bibinput@path{{@resources/texlive/texmf-local/tex/latex/}
+        ,{@resources/texlive/bibtex/bst/},
+        ,{@resources/texlive/bibtex/bib/},
+        ,{@local/}
         }
 \makeatother
