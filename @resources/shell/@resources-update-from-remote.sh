@@ -87,6 +87,7 @@ if [[ -n "$deletions" ]]; then
 	echo ; echo 'The files below will be deleted:' ; echo
 	say 'check deletions'
 	timeout 20 bash -c 'read -p "Hit return to continue, Ctrl-C to abort" -r'
+	# on MacOS, timeout requires brew install coreutils
 	echo
     fi
 fi
