@@ -1,3 +1,5 @@
+# 20241002:
+# - add '.} ' and '.) ' as sentencers
 import re
 import sys
 import os
@@ -30,6 +32,8 @@ def add_newlines(text):
 
         # Regular expression pattern to match sentence endings
         sentence_pattern = r'(?:[.!?]|\.\'|\.\"|\$\.)\s+'
+        sentence_pattern = r'(?:[.!?]|\.\'|\.\"|\$\.|\.}\s)\s+' # add '.} ' 
+        sentence_pattern = r'(?:[.!?]|\.\'|\.\"|\$\.|\.\)\s|\.}\s)\s+' # add '.) '
 
         # Replace sentence endings with newline character only if there is further non-whitespace material on the line
         # and not inside a non-processable LaTeX environment
