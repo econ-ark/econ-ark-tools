@@ -21,15 +21,18 @@
 
 \ifsubfile
   % Define commands to be executed only in the subfile
-  \renewcommand{\onlyinsubfile}[1]{#1}\renewcommand{\onlyinsubfile}[1]{}
-  \renewcommand{\notinsubfile}[1]{}\renewcommand{\notinsubfile}[1]{#1}
-  \renewcommand{\compilingassubfile}[1]{#1}\renewcommand{\compilingassubfile}[1]{}
+  \typeout{in subfile}
+  \renewcommand{\onlyinsubfile}[1]{#1}
+  \renewcommand{\notinsubfile}[1]{}
+  \renewcommand{\compilingassubfile}[1]{#1}
+  \renewcommand{\compilingasstandalone}[1]{}
 \else
   % Additional setup for main file
-  \renewcommand{\onlyinsubfile}[1]{}\renewcommand{\onlyinsubfile}[1]{#1}
-  \renewcommand{\notinsubfile}[1]{}\renewcommand{\notinsubfile}[1]{#1}
-  \renewcommand{\notinsubfile}[1]{}\renewcommand{\notinsubfile}[1]{#1}
-  \renewcommand{\compilingasstandalone}[1]{}\renewcommand{\compilingasstandalone}[1]{#1}
+  \typeout{standalone}
+  \renewcommand{\onlyinsubfile}[1]{}
+  \renewcommand{\notinsubfile}[1]{#1}
+  \renewcommand{\compilingassubfile}[1]{}
+  \renewcommand{\compilingasstandalone}[1]{#1}
 \fi
 
 \endinput
