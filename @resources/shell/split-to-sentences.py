@@ -14,7 +14,7 @@ def add_newlines(text):
     # Process each line
     formatted_lines = []
     inside_env = False
-    processable_envs = ['proof', 'theorem', 'comment', 'lemma']
+    processable_envs = ['proof', 'theorem', 'comment', 'lemma', 'fact']
     for line in lines:
         # Check if the line contains a LaTeX environment
         if re.search(r'\\begin{(.*?)}', line):
