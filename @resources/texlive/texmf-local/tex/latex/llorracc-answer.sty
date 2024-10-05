@@ -1,23 +1,43 @@
-\provideboolean{AnswersTF}\setboolean{AnswersTF}{false} % Default is no answers; run with \UseOption{Answers} from shell to generate answers
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{examquestions}[2023/06/01 Exam Questions and Answers Package]
 
+% Required packages
+\RequirePackage{ifthen}
+\RequirePackage{xkeyval}
 
-\provideboolean{ExamQ}
+% Boolean for answers
+\newboolean{AnswersTF}
+\setboolean{AnswersTF}{false}
+
+% Boolean for exam questions
+\newboolean{ExamQ}
 \setboolean{ExamQ}{false}
+
+% Boolean for space between answers
+\newboolean{SpaceBetweenAnswers}
+\setboolean{SpaceBetweenAnswers}{true}
+
+% Command for conditional exam questions
 \newcommand{\ifExamQuestion}{\ifthenelse{\boolean{ExamQ}}}
 
-\provideboolean{SpaceBetweenAnswers}
-\setboolean{SpaceBetweenAnswers}{true}
-\providecommand{\AnswerOrBlankSpace}{\ifthenelse{\boolean{SpaceBetweenAnswers}}}
+% Command for conditional space between answers
+\newcommand{\AnswerOrBlankSpace}{\ifthenelse{\boolean{SpaceBetweenAnswers}}}
 
-\opt{Answers}{\provideboolean{AnswersTF}\setboolean{AnswersTF}{true}}
+% Package options
+\DeclareOptionX{Answers}{\setboolean{AnswersTF}{true}}
+\ProcessOptionsX
 
+% Command for conditional answers
 \newcommand{\ifAnswers}{\ifthenelse{\boolean{AnswersTF}}}
-\newcommand{\answer}[2]{\ifthenelse{\boolean{AnswersTF}}{
 
-{\it Answer:}
-\begin{quote}
-#1
-\end{quote}
+% Command for answers
+\newcommand{\answer}[2]{%
+  \ifAnswers{%
+    \textit{Answer:}
+    \begin{quote}
+      #1
+    \end{quote}
+  }{#2}%
 }
-{#2}}
 
+\endinput
