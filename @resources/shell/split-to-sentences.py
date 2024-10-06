@@ -1,5 +1,9 @@
+# see Claude prompt "Sentence" for development
 # 20241002:
 # - add '.} ' and '.) ' as sentencers
+# 20241006:
+# - remove bad sentence_patterns
+
 import re
 import sys
 import os
@@ -31,8 +35,6 @@ def add_newlines(text):
         placeholder_line = re.sub(pattern, '__PLACEHOLDER__', line)
 
         # Regular expression pattern to match sentence endings
-        sentence_pattern = r'(?:[.!?]|\.\'|\.\"|\$\.)\s+'
-        sentence_pattern = r'(?:[.!?]|\.\'|\.\"|\$\.|\.}\s)\s+' # add '.} ' 
         sentence_pattern = r'(?:[.!?]|\.\'|\.\"|\$\.|\.\)\s|\.}\s)\s+' # add '.) '
 
         # Replace sentence endings with newline character only if there is further non-whitespace material on the line
