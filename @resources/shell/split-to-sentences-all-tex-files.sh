@@ -4,6 +4,15 @@
 process_file() {
     input_file="$1"
     python "$script_dir/split-to-sentences.py" "$input_file"
+
+    # Compare the contents of the original file and the 'sentenced' file
+    if cmp -s "$input_file" "${input_file%.tex}-sentenced.tex"; then
+        # If the files are identical, remove the 'sentenced' file
+        rm "${input_file%.tex}-sentenced.tex"
+        echo "No changes made to file: $input_file"
+    else
+        echo "Processed file saved as: ${input_file%.tex}-sentenced.tex"
+    fi
 }
 
 # Get the directory of the Bash script
@@ -67,11 +76,10 @@ if $all_files; then
     for file in "${tex_files[@]}"; do
         echo "Processing file: $file"
         process_file "$file"
-        if $replace_original; then
+        if $replace_original && [ -f "${file%.tex}-sentenced.tex" ]; then
             mv "$file" "${file%.tex}-unsentenced.tex"
             mv "${file%.tex}-sentenced.tex" "$file"
         fi
-        echo "Processed file saved as: ${file%.tex}-sentenced.tex"
         echo "------------------------"
     done
     echo "All .tex files in the directory have been processed."
@@ -92,9 +100,8 @@ else
     # Process the specified file
     echo "Processing file: $filename"
     process_file "$filename"
-    if $replace_original; then
+    if $replace_original && [ -f "${filename%.tex}-sentenced.tex" ]; then
         mv "$filename" "${filename%.tex}-unsentenced.tex"
         mv "${filename%.tex}-sentenced.tex" "$filename"
     fi
-    echo "Processed file saved as: ${filename%.tex}-sentenced.tex"
 fi
