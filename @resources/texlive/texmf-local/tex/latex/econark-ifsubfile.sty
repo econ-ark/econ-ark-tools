@@ -1,39 +1,42 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{econark-ifsubfile}[2023/06/14 Define ifsubfile condition]
-% Define macros that will indicate whether the file is being compiled
-% as a standalone document or is being included as a subfile
 
-\newif\ifsubfile
+\RequirePackage{subfiles}
 
-\@ifundefined{@includedbyfile}{%
-  \typeout{econark-ifsubfile: Not included by another file, assuming standalone/main}
-  \subfilefalse
-  \@namedef{@includedbyfile}{}% Define it now to prevent future redefinitions
+\newif\ifstandalone
+
+% Check if we're in the main file or a subfile
+\@ifundefined{document@subtype}{%
+  \standalonetrue
+  \typeout{econark-ifsubfile: Compiled as standalone or main file}
 }{%
-  \typeout{econark-ifsubfile: Included by another file, assuming subfile}
-  \subfiletrue
+  \def\tmp{subfile}%
+  \ifx\document@subtype\tmp
+    \standalonefalse
+    \typeout{econark-ifsubfile: Included as subfile}
+  \else
+    \standalonetrue
+    \typeout{econark-ifsubfile: Compiled as standalone or main file}
+  \fi
 }
 
 \providecommand{\onlyinsubfile}{}
 \providecommand{\notinsubfile}{}
-
 \providecommand{\compilingassubfile}{}
 \providecommand{\compilingasstandalone}{}
 
-\ifsubfile
-  % Define commands to be executed only in the subfile
-  \typeout{in subfile}
-  \renewcommand{\onlyinsubfile}[1]{#1}
-  \renewcommand{\notinsubfile}[1]{}
-  \renewcommand{\compilingassubfile}[1]{#1}
-  \renewcommand{\compilingasstandalone}[1]{}
-\else
-  % Additional setup for main file
-  \typeout{standalone}
+\ifstandalone
+  % Define commands to be executed only when compiled standalone or as main file
   \renewcommand{\onlyinsubfile}[1]{}
   \renewcommand{\notinsubfile}[1]{#1}
   \renewcommand{\compilingassubfile}[1]{}
   \renewcommand{\compilingasstandalone}[1]{#1}
+\else
+  % Define commands to be executed when included as a subfile
+  \renewcommand{\onlyinsubfile}[1]{#1}
+  \renewcommand{\notinsubfile}[1]{}
+  \renewcommand{\compilingassubfile}[1]{#1}
+  \renewcommand{\compilingasstandalone}[1]{}
 \fi
 
 \endinput
