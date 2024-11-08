@@ -1,5 +1,7 @@
 \ProvidesPackage{econark-bibfilesfind}[2024/11/04 collect existing among filename.bib, system.bib, filename-Add-Refs.bib]
 
+% creates \bibfilesfound with list of nonempty bibfiles
+
 \RequirePackage{ifthen}
 \RequirePackage{etoolbox}
 
@@ -39,7 +41,7 @@
 }
 
 \providecommand{\bibfilesfound}{}
-\newcommand{\bibfilesfound}[1]{%
+\renewcommand{\bibfilesfound}[1]{%
   \def\filename{#1}%
   \provideboolean{AddRefsExists}%
   \provideboolean{systemExists}%
