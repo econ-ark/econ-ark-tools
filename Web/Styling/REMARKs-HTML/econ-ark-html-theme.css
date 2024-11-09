@@ -168,6 +168,7 @@ body {
     background-color: #fff;
     border: 1px solid #ccc;
     border-width: 4px 1px; /* Thicker top/bottom borders */
+    text-align: justify;   /* Add text justification */
 }
 
 /* Responsive design for smaller screens */
