@@ -1,11 +1,18 @@
-/* Econ-ARK Basic HTML Theme styles 1.01						 */
+/* Econ-ARK Basic HTML Theme styles     						 */
 /* path: econ-ark-tools/Web/Styling/REMARKs-HTML/					 */
 /* prior git commit 219bf537a01b96629fd51df690e48d97727664c8				 */
 /* Updates from version 1.0:								 */
-/* - asked Claude to document what each command does					 */
-/*											 */
+/* 1.01 - asked Claude to document what each command does				 */
+/* 1.02: 										 */
+/* - justify body and paragraphs							 */
+/* - make links less obtrusive								 */
 /* ====== Normalize.css v1.1.3 - Makes browsers render elements more consistently ====== */
 /*! normalize.css v1.1.3 | MIT License | git.io/normalize				 */
+
+/* Text justification for paragraphs */
+p {
+    text-align: justify;
+}
 
 /* Make block elements display as blocks */
 article, aside, details, figcaption, figure, footer, header, 
@@ -46,6 +53,22 @@ html, button, input, select, textarea {
 /* Remove default body margin */
 body {
     margin: 0;
+}
+
+/* Link styling */
+a:link {
+    color: #333333;
+    text-decoration: none;
+    border: 1px solid #cccccc;
+    padding: 0 2px;
+}
+
+/* Make visited links subtly different */
+a:visited {
+    color: #666666;    /* Lighter gray than unvisited links */
+    text-decoration: none;
+    border: 1px dashed #cccccc;  /* Dashed instead of solid border */
+    padding: 0 2px;
 }
 
 /* Link focus styles */
