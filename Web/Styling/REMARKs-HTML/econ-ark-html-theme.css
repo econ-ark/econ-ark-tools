@@ -65,9 +65,9 @@ a:link {
 
 /* Make visited links subtly different */
 a:visited {
-    color: #666666;    /* Lighter gray than unvisited links */
+    color: #666666;		/* Lighter gray than unvisited links */
     text-decoration: none;
-    border: 1px dashed #cccccc;  /* Dashed instead of solid border */
+    border: 1px dashed #dddddd; /* Dashed instead of solid border */
     padding: 0 2px;
 }
 
@@ -75,8 +75,14 @@ a:visited {
 a:focus {
     outline: thin dotted;
 }
+
 a:active, a:hover {
     outline: 0;
+    background-color: #f0f0f0;  /* Light gray background on hover/active */
+    /* or */
+    border-color: #999999;      /* Darker border on hover/active */
+    /* or */
+    color: #000000;            /* Darker text on hover/active */
 }
 
 /* Heading sizes and margins */
