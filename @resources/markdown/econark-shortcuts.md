@@ -1,3 +1,4 @@
+{% raw %}
 
 \newcommand{\aLvl}{\pmb{a}}}
 \newcommand{\bLvl}{\pmb{b}}}
@@ -208,7 +209,7 @@
 \newcommand{\risky}{\mathbf{r}}         % The arithmetic return rate E[\Risky] - 1
 \newcommand{\riskyELog}{\risky}         % The arithmetic return rate \Risky - 1
 \newcommand{\riskyELev}{\boldsymbol{r}} % The geometric  return rate \log \Risky
-\newcommand{\riskyshare}{{\varsigma}}
+\newcommand{\riskyshare}{\varsigma}
 \newcommand{\riskyvar}{\std^{2}_{\risky}}
 \newcommand{\Rport}{\mathfrak{R}}       % Portfolio -weighted return
 \newcommand{\rport}{\mathfrak{r}}
@@ -225,36 +226,36 @@
 \newcommand{\MPSmin}{\pZero^{1/\CRRA} \RPFac}
 \newcommand{\MPSmax}{\RPFac}
 
-\newcommand{\PDV}{{\mathbb{P}}} % 
-\newcommand{\Wage}{{\mathsf{W}}}
-\newcommand{\wage}{{\mathsf{w}}}
+\newcommand{\PDV}{\mathbb{P}} % 
+\newcommand{\Wage}{\mathsf{W}
+\newcommand{\wage}{\mathsf{w}
 
 \newcommand{\TaxLev}{T}
 \newcommand{\Tax}{\tau}
-\newcommand{\TaxFree}{{\cancel{\Tax}}}
+\newcommand{\TaxFree}{\cancel{\Tax}}
 
 \newcommand{\Alt}{\grave}
 
-\newcommand{\urate}{{\mho}}
-\newcommand{\erate}{{\cancel{\mho}}}
-\newcommand{\unins}{{\zeta}}
+\newcommand{\urate}{\mho}
+\newcommand{\erate}{\cancel{\mho}}
+\newcommand{\unins}{\zeta}
 
 \newcommand{\Labor}{\mathrm{L}}
 \newcommand{\labor}{\ell}
 
-\newcommand{\EEndMap}{{\mathsf{E}}}
+\newcommand{\EEndMap}{\mathsf{E}}
 
-\newcommand{\CEndFunc}{{\mathfrak{C}}}
-\newcommand{\cEndFunc}{{\mathfrak{c}}}
+\newcommand{\CEndFunc}{\mathfrak{C}}
+\newcommand{\cEndFunc}{\mathfrak{c}}
 
 \newcommand{\uFuncInv}{\rotatebox{180}{$\uFunc$}}
-\newcommand{\muFuncInv}{{\rotatebox{180}{$\uFunc$}}}
+\newcommand{\muFuncInv}{\rotatebox{180}{$\uFunc$}}
 
 \newcommand{\HARKdocs}{\href{https://docs.econ-ark.org}{documentation}}
 \newcommand{\HARKrepo}{\texttt{\href{https://github.com/econ-ark/HARK}{HARK}}}
 
-\newcommand{\Rnorm}{{\mathcal{R}}}    % Normalized version of riskless return factor
-\newcommand{\rnorm}{{\mathit{r}}}    % Normalized version of riskless rate of return
+\newcommand{\Rnorm}{\mathcal{R}}    % Normalized version of riskless return factor
+\newcommand{\rnorm}{\mathit{r}}    % Normalized version of riskless rate of return
 
 \newcommand{\EpremLog}{\varphi} % Not using regular \eprem because want to distinguish between \varphi = log E_{t}[\Phi_{t+1}] and \phi_{t} = E[\log \Phi_{t}]
 \newcommand{\EPrem}{\pmb{\varphi}} % equity premium
@@ -262,10 +263,10 @@
 
 \newcommand{\weight}{\omega}
 
-\newcommand{\FDist}{{\mathcal{F}}}
-\newcommand{\fDist}{{\mathcal{f}}}
+\newcommand{\FDist}{\mathcal{F}}
+\newcommand{\fDist}{\mathcal{f}}
 
-\newcommand{\aMin}{{\Min{\aNrm}}}
+\newcommand{\aMin}{\Min{\aNrm}}
 
 \newcommand{\Nrml}{}\renewcommand{\Nrml}{\mathcal{N}}
 
@@ -281,7 +282,7 @@
 
 
 \newcommand{\chiFunc}{\pmb{\chi}}
-\newcommand{\Chi}{{\mathrm{X}}} % capital chi is sometimes useful, and not native to LaTeX
+\newcommand{\Chi}{\mathrm{X}} % capital chi is sometimes useful, and not native to LaTeX
 
 
 
@@ -312,10 +313,11 @@
 
 \newcommand{\TMap}{}
 \renewcommand{\TMap}{\mathbb{T}}                  % Bellman operator for normalized problem
-\newcommand{\Ex}{{\mathbb{E}}} % Expectations operator
-\newcommand{\Mean}{{\mathbb{M}}} % Mean operator
+\newcommand{\Ex}{\mathbb{E}} % Expectations operator
+\newcommand{\Mean}{\mathbb{M}} % Mean operator
 \newcommand{\cncl}{} % cancellation
-\renewcommand\cncl[1]{{\cancel{#1}}}
+\renewcommand\cncl[1]{\
+\newcomm}}
 
 
 
@@ -398,3 +400,4 @@
 \newcommand{\ARKurl}{\href{https://econ-ark.org}{Econ-ARK}}
 \newcommand{\REMARK}{\href{https://github.com/econ-ark/REMARK}{REMARK}}
 
+{% endraw %}
