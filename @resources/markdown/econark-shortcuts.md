@@ -213,7 +213,6 @@
 \newcommand{\Rport}{\mathfrak{R}}       % Portfolio -weighted return
 \newcommand{\rport}{\mathfrak{r}}
 
-\newcommand{\uPPP}{{{\mathrm{u}^{\prime\prime\prime}}}}
 \newcommand{\uPP}{{{\mathrm{u}^{\prime\prime}}}}
 \newcommand{\uP}{{{\mathrm{u}^{\prime}}}}
 \newcommand{\util}{u}
