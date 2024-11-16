@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 
+SCRIPT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 # Function to process a single file
 process_file() {
     input_file="$1"

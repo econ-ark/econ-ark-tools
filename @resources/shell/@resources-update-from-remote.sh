@@ -59,7 +59,6 @@ git clone --depth 1 "$repo_url" || { echo "Failed to clone repository"; exit 1; 
 popd > /dev/null
 
 # Prepare destination
-[[ ! -e "$dest_path/@resources" ]] && mkdir -p "$dest_path/@resources" 
 chmod -Rf u+w "$dest_path/@resources" || { echo "Failed to set write permissions"; exit 1; }
 
 # Handle dry run mode
@@ -84,11 +83,7 @@ deletions=$(eval "$cmd_dryrun" | grep -i deleting)
 if [[ -n "$deletions" ]]; then
     echo -e "\nThe following files would be deleted:\n$deletions\n"
     if [[ -z "$dryrun" ]]; then
-	echo ; echo 'The files below will be deleted:' ; echo
-	say 'check deletions'
-	timeout 20 bash -c 'read -p "Hit return to continue, Ctrl-C to abort" -r'
-	# on MacOS, timeout requires brew install coreutils
-	echo
+        read -p "Hit return to continue, Ctrl-C to abort" -r
     fi
 fi
 

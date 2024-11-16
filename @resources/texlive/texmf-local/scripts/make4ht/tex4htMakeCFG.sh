@@ -9,6 +9,10 @@ fi
 handoutName=$1
 
 # cd "$(dirname "$0")" # http://stackoverflow.com/questions/3349105/how-to-set-current
+if [[ "$(kpsewhich make4ht.cfg)" == "" ]]; then
+    echo 'Unable to find $(kpsewhich make4ht.cfg) - aborting'
+    exit
+fi
 
 cmd="cp `kpsewhich make4ht.cfg` $handoutName.cfg"
 echo "$cmd" ; eval "$cmd"
