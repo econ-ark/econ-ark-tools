@@ -14,6 +14,7 @@
 
 \newcommand{\IsFileEmpty}[3]{%
   \IfFileExists{#1}{%
+    \newread\filetest
     \openin\filetest=#1
     \read\filetest to \fileline
     \ifeof\filetest
@@ -41,7 +42,8 @@
 }
 
 \providecommand{\bibfilesfound}{}
-\renewcommand{\bibfilesfound}[1]{%
+\providecommand{\bibfilesfind}{}
+\renewcommand{\bibfilesfind}[1]{%
   \def\filename{#1}%
   \provideboolean{AddRefsExists}%
   \provideboolean{systemExists}%
@@ -50,7 +52,7 @@
     \setboolean{systemExists}{true}%
     \typeout{econark-bibfilesfind: File system.bib found}%
   }{%
-    \typeout{cannot be true and false}%
+%    \typeout{cannot be true and false}%
     \setboolean{systemExists}{false}%
     \typeout{econark-bibfilesfind: File system.bib not found}%
   }%
