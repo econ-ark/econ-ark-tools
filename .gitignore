@@ -198,3 +198,7 @@ build_time.txt
 
 **/auto/
 @resources.code-workspace
+
+# Ignore local texhash
+
+ls-R
