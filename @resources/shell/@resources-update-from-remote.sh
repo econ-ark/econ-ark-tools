@@ -73,6 +73,7 @@ fi
 opts=(
     --copy-links --recursive --owner --group --human-readable --verbose
     --exclude="'old'" --exclude="'.DS_Store'" --exclude="'auto'" --exclude="'*~'"
+    --exclude="*.tmp" 
     --checksum --delete --itemize-changes --out-format="'%i %n%L'"
 )
 
