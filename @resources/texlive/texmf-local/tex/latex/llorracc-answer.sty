@@ -6,29 +6,32 @@
 \RequirePackage{xkeyval}
 
 % Boolean for answers
-\newboolean{AnswersTF}
+\provideboolean{AnswersTF}
 \setboolean{AnswersTF}{false}
 
 % Boolean for exam questions
-\newboolean{ExamQ}
+\provideboolean{ExamQ}
 \setboolean{ExamQ}{false}
 
 % Boolean for space between answers
-\newboolean{SpaceBetweenAnswers}
+\provideboolean{SpaceBetweenAnswers}
 \setboolean{SpaceBetweenAnswers}{true}
 
 % Command for conditional exam questions
-\newcommand{\ifExamQuestion}{\ifthenelse{\boolean{ExamQ}}}
+\providecommand{\ifExamQuestion}{}
+\renewcommand{\ifExamQuestion}{\ifthenelse{\boolean{ExamQ}}}
 
 % Command for conditional space between answers
-\newcommand{\AnswerOrBlankSpace}{\ifthenelse{\boolean{SpaceBetweenAnswers}}}
+\providecommand{\AnswerOrBlankSpace}{}
+\renewcommand{\AnswerOrBlankSpace}{\ifthenelse{\boolean{SpaceBetweenAnswers}}}
 
 % Package options
 \DeclareOptionX{Answers}{\setboolean{AnswersTF}{true}}
 \ProcessOptionsX
 
 % Command for conditional answers
-\newcommand{\ifAnswers}{\ifthenelse{\boolean{AnswersTF}}}
+\providecommand{\ifAnswers}{\ifthenelse{\boolean{AnswersTF}}}
+\renewcommand{\ifAnswers}{\ifthenelse{\boolean{AnswersTF}}}
 
 % Command for answers
 \newcommand{\answer}[2]{%
