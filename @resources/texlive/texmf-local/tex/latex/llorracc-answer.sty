@@ -1,45 +1,35 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{examquestions}[2023/06/01 Exam Questions and Answers Package]
+\ProvidesPackage{llorracc-answer}[2024/12/20 Control answer display with AnswersTF boolean]
 
 % Required packages
 \RequirePackage{ifthen}
-\RequirePackage{xkeyval}
 
 % Boolean for answers
 \provideboolean{AnswersTF}
-\setboolean{AnswersTF}{false}
+\setboolean{AnswersTF}{false} % Default: answers are off
 
-% Boolean for exam questions
-\provideboolean{ExamQ}
-\setboolean{ExamQ}{false}
-
-% Boolean for space between answers
-\provideboolean{SpaceBetweenAnswers}
-\setboolean{SpaceBetweenAnswers}{true}
-
-% Command for conditional exam questions
-\providecommand{\ifExamQuestion}{}
-\renewcommand{\ifExamQuestion}{\ifthenelse{\boolean{ExamQ}}}
-
-% Command for conditional space between answers
-\providecommand{\AnswerOrBlankSpace}{}
-\renewcommand{\AnswerOrBlankSpace}{\ifthenelse{\boolean{SpaceBetweenAnswers}}}
-
-% Package options
-\DeclareOptionX{Answers}{\setboolean{AnswersTF}{true}}
-\ProcessOptionsX
+% Safeguard for command-line option (e.g., \def\UseOption{Answers})
+\makeatletter
+\@ifundefined{UseOption}{%
+  % If \UseOption is not defined, default to no answers
+  \setboolean{AnswersTF}{false}%
+}{%
+  % If \UseOption is defined, check its value
+  \ifthenelse{\equal{\UseOption}{Answers}}{%
+    \setboolean{AnswersTF}{true}% Enable answers
+  }{%
+    \setboolean{AnswersTF}{false}% No answers
+  }%
+}
+\makeatother
 
 % Command for conditional answers
-\providecommand{\ifAnswers}{\ifthenelse{\boolean{AnswersTF}}}
-\renewcommand{\ifAnswers}{\ifthenelse{\boolean{AnswersTF}}}
-
-% Command for answers
 \newcommand{\answer}[2]{%
-  \ifAnswers{%
-    \textit{Answer:}
-    \begin{quote}
-      #1
-    \end{quote}
+  \ifthenelse{\boolean{AnswersTF}}{%
+    \textit{Answer:}%
+    \begin{quote}%
+      #1%
+    \end{quote}%
   }{#2}%
 }
 
