@@ -40,10 +40,10 @@
 
 % Hook into both cite and nocite commands to set our flag
 \let\oldcite\cite
-\def\cite{\@citesexisttrue\oldcite}
+\global\def\cite{\global\@citesexisttrue\oldcite}
 
 \let\oldnocite\nocite
-\def\nocite{\@citesexisttrue\oldnocite}
+\global\def\nocite{\global\@citesexisttrue\oldnocite}
 
 % Define the basic conditional command
 \newcommand{\ifcitesexist}[2]{%
@@ -54,4 +54,15 @@
   \fi
 }
 
+% \safebibliographystyle only sets style if it has not already been set
+\newif\ifbibstyleset
+\bibstylesetfalse
+
+\newcommand{\safebibliographystyle}[1]{
+    \ifbibstyleset
+    \else
+        \bibliographystyle{#1}
+        \bibstylesettrue
+    \fi
+  }
 \endinput
