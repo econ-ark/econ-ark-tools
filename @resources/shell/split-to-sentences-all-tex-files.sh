@@ -67,6 +67,11 @@ fi
 # Change to the directory
 cd "$dir_path" || exit
 
+# If no filename is provided, process all files in the directory (same as --all flag)
+if [ -z "$filename" ]; then
+    all_files=true
+fi
+
 if $all_files; then
     # Process all .tex files in the directory
     tex_files=(*.tex)
@@ -85,13 +90,6 @@ if $all_files; then
     done
     echo "All .tex files in the directory have been processed."
 else
-    # Check if the filename is provided
-    if [ -z "$filename" ]; then
-        echo "Error: Filename not provided."
-        echo "Usage: $0 [--all] [--replace] <dir_path> [filename.tex]"
-        exit 1
-    fi
-
     # Check if the file exists
     if [ ! -f "$filename" ]; then
         echo "Error: File '$filename' does not exist in the directory."
