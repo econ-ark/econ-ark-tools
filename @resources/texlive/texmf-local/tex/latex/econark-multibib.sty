@@ -7,13 +7,13 @@
 \newcommand{\IfFileExistsAndNotEmpty}[3]{%
   \IfFileExists{#1}%
   {\IsFileEmpty{#1}{#3}{#2}}%
-  {#3}%
+  {\ignorespaces#3\unskip}%
 }
 
 \newcommand{\IsFileEmpty}[3]{%
   \openin\filetest=#1
   \read\filetest to \fileline
-  \ifeof\filetest
+  \ifx\fileline\empty
     \typeout{File #1 is empty}%
     #2%
   \else
