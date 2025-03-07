@@ -202,3 +202,5 @@ build_time.txt
 # Ignore local texhash
 
 ls-R
+.specstory
+_config.yml
