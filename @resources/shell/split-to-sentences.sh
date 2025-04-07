@@ -39,15 +39,36 @@ add_newlines() {
 # Debugging line to test the number of arguments
 echo "Number of arguments: $#"
 
-# Check if the input and output file names are provided as arguments
-if [ $# -ne 2 ]; then
-    echo "Usage: $0 <input_file> <output_file>"
+# Check if the correct number of arguments is provided
+if [ $# -lt 1 ] || [ $# -gt 2 ]; then
+    echo "Usage: $0 <input_file> [output_file]"
+    echo "   or: $0 <directory> <filename>"
     exit 1
 fi
 
-# Get the input and output file names from the command line arguments
-input_file="$1"
-output_file="$2"
+# Determine if we're dealing with a directory + filename or just a file path
+if [ -d "$1" ] && [ $# -eq 2 ]; then
+    # First argument is a directory and second is a filename
+    dir_path="$1"
+    filename="$2"
+    
+    # Remove trailing slash from directory path if present
+    dir_path="${dir_path%/}"
+    
+    # Combine to form the full input file path
+    input_file="$dir_path/$filename"
+    
+    # Default output file name
+    output_file="${input_file%.tex}-sentenced.tex"
+elif [ $# -eq 1 ]; then
+    # Single argument - treat as input file
+    input_file="$1"
+    output_file="${input_file%.tex}-sentenced.tex"
+else
+    # Two arguments - treat as input and output files
+    input_file="$1"
+    output_file="$2"
+fi
 
 # Check if the input file exists
 if [ ! -f "$input_file" ]; then
