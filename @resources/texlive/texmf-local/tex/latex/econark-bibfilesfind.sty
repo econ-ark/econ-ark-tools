@@ -78,12 +78,12 @@
         \typeout{}% 
         \typeout{\bibfilesfound:{\filename-Add-Refs,\filename,system}}%
         \typeout{}% 
-        \renewcommand{\bibfilesfound}{./\filename-Add-Refs,./\filename,system}%
+        \renewcommand{\bibfilesfound}{system,./\filename-Add-Refs,./\filename}%
       }{% AddRefs+system-file
         \typeout{econark-bibfilesfind: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
         \typeout{econark-bibfilesfind: References in default global system.bib will be used for items not found elsewhere}%
         \typeout{\bibfilesfound:{\filename-Add-Refs,system}}%
-        \renewcommand{\bibfilesfound}{./\filename-Add-Refs,system}%
+        \renewcommand{\bibfilesfound}{system,./\filename-Add-Refs}%
       }%
     }{% +AddRefs-system
       \ifthenelse{\boolean{filenameExists}}{% AddRefs-system+file
@@ -102,7 +102,7 @@
       \ifthenelse{\boolean{filenameExists}}{% -AddRefs+file+system
         \typeout{econark-bibfilesfind: References in default global system.bib will be used for items not found in \filename.bib}%
         \typeout{\bibfilesfound:{\filename,system}}%
-        \renewcommand{\bibfilesfound}{./\filename,system}%
+        \renewcommand{\bibfilesfound}{system,./\filename}%
       }{% -AddRefs+system-file
         \typeout{econark-bibfilesfind: References in default global system.bib will be used}%
         \typeout{\bibfilesfound:{system}}%
