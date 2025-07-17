@@ -1,10 +1,15 @@
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{econark-theorems}[2024/01/01 Econark theorem environments]
+
 % % ------------------ Theorems ------------------ 
 % \newtheorem{assumption}{Assumption}
-\newtheorem{claim}{Claim}
-\newtheorem{proposition}{Proposition}
-\newtheorem{corollary}{Corollary}
-\newtheorem{fact}{Fact}
-\newtheorem{remark}{Remark}
+
+% Define theorems only if not already defined
+\@ifundefined{claim}{\newtheorem{claim}{Claim}}{}
+\@ifundefined{proposition}{\newtheorem{proposition}{Proposition}}{}
+\@ifundefined{corollary}{\newtheorem{corollary}{Corollary}}{}
+\@ifundefined{fact}{\newtheorem{fact}{Fact}}{}
+\@ifundefined{remark}{\newtheorem{remark}{Remark}}{}
 
 % ---------------Custom Definitions--------------
 

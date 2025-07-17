@@ -1,0 +1,58 @@
+# Econ-ARK Mathematical Notation System
+# Generated files from .econ-ark/macros.yaml
+
+# Option 1: Track generated files (recommended for reproducibility)
+# This ensures all users have access to generated files without running the generator
+# Uncomment the lines below to ignore generated files instead:
+
+# .econ-ark/generated/
+# .econ-ark/generated/*.sty
+# .econ-ark/generated/*.yaml
+# .econ-ark/generated/*.md
+
+# Option 2: Ignore generated files (if you prefer clean repos)
+# Pro: Cleaner repository
+# Con: Users must run generator before building
+# To use this option, uncomment the lines above and comment out this section
+
+# For now, we track generated files for easier adoption
+
+# LaTeX auxiliary files
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+*.acn
+*.acr
+*.alg
+*.glg
+*.glo
+*.gls
+*.ist
+*.nav
+*.snm
+*.vrb
+
+# MyST/Jupyter Book build outputs
+_build/
+.jupyter_cache/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# macOS
+.DS_Store
+
+# Example files (these are just demonstrations)
+example-*.pdf 
