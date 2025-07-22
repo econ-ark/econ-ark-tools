@@ -46,7 +46,7 @@ $rc_report = 1;                 # Report configuration
 # Bibliography settings - USE BIBTEX WITH ENHANCED ERROR TOLERANCE
 # Issue: latexmk 4.83 detects duplicate entry errors despite wrapper success
 # Solution: Use bibtex with maximum error tolerance settings
-do '@resources/latexmk/latexmkrc/latexmkrc_using_bibtex_wrapper';
+do 'resources/latexmk/latexmkrc/latexmkrc_using_bibtex_wrapper';
 $bibtex_use = 2;                # Enable bibtex integration
 $bibtex_fudge = 1;              # Ignore bibtex warnings and allow continuation
 $bibtex_silent_switch = '-terse'; # Reduce bibtex verbosity
@@ -72,6 +72,22 @@ $clean_ext = "bbl nav out snm dvi idv tmp 4tc 4ct out aux log fls fdb_latexmk sy
 
 # Post-compilation hook to check for unresolved references
 $success_cmd = q{echo ""; echo "=== LATEXMK POST-COMPILATION CHECK ==="; echo "Checking log file: %R.log"; if [ -f "%R.log" ]; then echo "Log file exists"; else echo "Log file not found!"; fi; if grep -q "LaTeX Warning: There were undefined references" %R.log; then echo "WARNING: LaTeX reported undefined references!"; echo "Consider running latexmk again or use the reproduce_ script."; else echo "No undefined references detected."; fi; echo "====================================="; echo ""};
+
+# ---------------- Custom sanity check ----------------
+# Warn users if they try to compile the main paper directly with latexmk
+BEGIN {
+  # Allow wrapper scripts to silence this message by exporting
+  #   DO_NOT_WARN=1
+  return if $ENV{DO_NOT_WARN};
+
+  if (grep { /(?:^|[\\\/])HAFiscal(?:\.tex)?$/ } @ARGV) {
+    print STDERR "\n*** WARNING ***\n".
+                 "Compiling '*.tex' with latexmk alone will leave\n".
+                 "cross-document references unresolved.\n".
+                 "Please run ./reproduce_document_pdf.sh instead.\n".
+                 "****************\n\n";
+  }
+}
 
 # IMPORTANT NOTES:
 # ===============
