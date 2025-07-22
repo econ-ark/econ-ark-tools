@@ -1,95 +1,21 @@
-#!/bin/bash
-# Convert list of emacs prettify rules to corresponding LaTeX macros
+#!/bin/sh
+# DEPRECATION WRAPPER - DO NOT EDIT
 
-letter_rules=(
-    "\\aNrm:a"
-    "\\bNrm:b"
-    "\\cNrm:c"
-    "\\dNrm:d"
-    "\\eNrm:e"
-    "\\hNrm:h"
-    "\\wNrm:w"
-    "\\pNrm:p"
-    "\\kNrm:k"
-    "\\mNrm:m"
-    "\\vNrm:v"
-    "\\xNrm:x"
-    "\\yNrm:y"
-    "\\yNrm:y"
-    "\\zNrm:z"
-    "\\prd:t"
-    "\\prdt:t"
-    "\\prdT:t"
-    "\\trmT:T"
-)
-unicode_rules=(
-    "\\aLvl:𝐚"
-    "\\bLvl:𝐛"
-    "\\cLvl:𝐜"
-    "\\hLvl:𝐡"
-    "\\pLvl:𝐩"
-    "\\kLvl:𝐤"
-    "\\mLvl:𝐦"
-    "\\vLvl:𝐯"
-    "\\yLvl:𝐲"
-    "\\Ex:𝔼"
-    "\\PermGroFac:𝒢"
-    "\\PermGroFacAdj: "
-    "\\PermGroFacAdj: "
-    "\\RNrmByG:ℛ"
-    "\\vFunc:𝚟"
-    "\\uFunc:𝚞"
-    "\\cFunc:𝚌"
-    "\\DiscFac:β"
-    "\\std:σ"
-    "\\CRRA:ρ"
-    "\\Rfree:R"
-    "\\Risky:𝐑"
-    "\\Rport:ℜ"
-    "\\Shr:Ϛ"
-    "\\TranShkEmp:θ"
-    "\\TranShkEmpDum:ϑ"
-    "\\tranShkEmp:θ"
-    "\\tranShkEmpDum:ϑ"
-    "\\Nrml:𝒩"
-    "\\arvl:←"
-    "\\cntn:→"
-    "\\BegMark:←"
-    "\\EndMark:→"
-    "\\wlthAftr:ẃ"
-    "\\wlthBefr:w"
-    "\\labor:ℓ"
-    )
-    
-generate_prettify_rules() {
-    output_file="symbols-mapping-prettify"
-    > "$output_file"
+# This is an auto-generated wrapper. Its purpose is to warn that the path
+# used to call this script is deprecated and will be removed in the future.
 
-    for rule in "${letter_rules[@]}"; do
-	IFS=':' read -r command symbol <<< "$rule"
-	echo "(\"$command\" . ?$symbol)" >> "$output_file"
-    done
-	      
-    for rule in "${unicode_rules[@]}"; do
-	IFS=':' read -r command symbol <<< "$rule"
-	echo "(\"$command\" . ?$symbol)" >> "$output_file"
-    done
-	      
-    echo "Prettify rules generated in $output_file"
-}
+# The real location of the scripts.
+CANONICAL_PATH="$(dirname "$0")/../scripts/symbols-mapping.bash"
 
-generate_prettify_rules
+# Print a warning message to standard error.
+echo "
+********************************************************************************
+*** DEPRECATION WARNING ***
+* You have accessed a script via the path: '@resources/shell'
+* This path is deprecated and will be removed in a future version.
+* Please update your code/configuration to use the canonical path: '@resources/scripts'
+********************************************************************************
+" >&2
 
-generate_latex_commands() {
-    output_file="symbols-mapping-latex.tex"
-    > "$output_file"
-
-    for rule in "${letter_rules[@]}"; do
-	IFS=':' read -r command symbol <<< "$rule"
-	echo "\\newcommand{$command}{$symbol}" >> "$output_file"
-    done
-
-    echo "LaTeX commands generated in $output_file"
-}
-
-generate_latex_commands
+# Execute the *real* script, passing along all command-line arguments.
+exec "$CANONICAL_PATH" "$@"

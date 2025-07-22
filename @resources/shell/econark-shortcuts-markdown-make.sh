@@ -1,10 +1,21 @@
-#!/bin/bash
+#!/bin/sh
+# DEPRECATION WRAPPER - DO NOT EDIT
 
-# Process the file:
-# 1. Remove lines starting with %
-# 2. Replace \providecommand with \newcommand
-# 3. Write to new file
-sed '/^%/d' ../texlive/texmf-local/tex/latex/econark-shortcuts.sty | \
-    sed 's/\\providecommand/\\newcommand/g' | \
-    sed 's/\\boldsymbol{\\mathit{/\\pmb{/g' > ../markdown/econark-shortcuts.md
+# This is an auto-generated wrapper. Its purpose is to warn that the path
+# used to call this script is deprecated and will be removed in the future.
 
+# The real location of the scripts.
+CANONICAL_PATH="$(dirname "$0")/../scripts/econark-shortcuts-markdown-make.sh"
+
+# Print a warning message to standard error.
+echo "
+********************************************************************************
+*** DEPRECATION WARNING ***
+* You have accessed a script via the path: '@resources/shell'
+* This path is deprecated and will be removed in a future version.
+* Please update your code/configuration to use the canonical path: '@resources/scripts'
+********************************************************************************
+" >&2
+
+# Execute the *real* script, passing along all command-line arguments.
+exec "$CANONICAL_PATH" "$@"

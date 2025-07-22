@@ -11,7 +11,7 @@ CANONICAL_PATH="$(dirname "$0")/../scripts/split-to-sentences-all-tex-files.sh"
 echo "
 ********************************************************************************
 *** DEPRECATION WARNING ***
-* You have accessed a script via the path: '@resources/shell'
+* You have accessed a script via the path: '@resources/bash'
 * This path is deprecated and will be removed in a future version.
 * Please update your code/configuration to use the canonical path: '@resources/scripts'
 ********************************************************************************
