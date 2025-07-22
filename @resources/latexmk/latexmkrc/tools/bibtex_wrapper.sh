@@ -1,60 +1,87 @@
-#!/bin/bash
-# Wrapper script to suppress duplicate BibTeX entries in latexmk.
+#!/usr/bin/env bash
+#
+# bibtex_wrapper.sh
+#
+# PURPOSE:
+#   This script acts as a wrapper around the real `bibtex` command. It is
+#   designed to solve a specific, notorious problem with `latexmk`: `latexmk`
+#   will often halt compilation if it sees "Repeated entry" warnings in
+#   BibTeX's output, even if these warnings are harmless.
+#
+#   This wrapper intercepts the output from BibTeX. If the *only* issues are
+#   "Repeated entry" warnings, it completely suppresses them and reports a
+#   clean success (exit code 0) to `latexmk`. It does this by filtering the
+#   console output and rewriting the .blg log file to remove all traces of
+#   the duplicate entry warnings.
+#
+#   If any other, more serious errors are detected (e.g., missing database
+#   files, undefined citations), it passes them through, ensuring that
+#   genuine problems are still reported.
+#
+# USAGE:
+#   Called automatically by a latexmkrc file configured to use it as the
+#   `$bibtex` command.
+# ---
 
-REAL_BIBTEX="/Library/TeX/texbin/bibtex"  # Adjust if `which bibtex` gives something else
+# --- CONFIGURATION ---
+# Find the full path to the bibtex executable.
+# Using `command -v` is a robust, POSIX-compliant way to find an executable in the PATH.
+REAL_BIBTEX_CMD=$(command -v bibtex)
 
-output="$($REAL_BIBTEX "$@" 2>&1)"
-bibtex_status=$?
-
-# Count total errors and duplicate errors
-total_errors=$(echo "$output" | grep -c "^Repeated entry\|^I didn't find\|^I couldn't open" || echo "0")
-duplicate_errors=$(echo "$output" | grep -c "^Repeated entry" || echo "0")
-real_errors=$((total_errors - duplicate_errors))
-
-# Remove the duplicate-entry error blocks
-filtered_output=$(echo "$output" | sed -E '/^Repeated entry/,/^I'"'"'m skipping/ d')
-
-# Fix the error count in the final summary
-if [[ "$filtered_output" == *"(There were"*"error messages)"* ]]; then
-    if [[ $real_errors -eq 0 ]]; then
-        # No real errors - report success
-        filtered_output=$(echo "$filtered_output" | sed -E 's/\(There were [0-9]+ error messages\)/(There were 0 error messages)/')
-    else
-        # Some real errors remain - report the corrected count
-        filtered_output=$(echo "$filtered_output" | sed -E "s/\(There were [0-9]+ error messages\)/(There were $real_errors error messages)/")
-    fi
+# Check if bibtex was found. If not, exit with an informative error.
+if [ -z "$REAL_BIBTEX_CMD" ]; then
+    echo "FATAL ERROR: 'bibtex' command not found in your system's PATH." >&2
+    echo "Please ensure a TeX distribution is installed and its 'bin' directory is in your PATH." >&2
+    exit 1
 fi
 
-echo "$filtered_output"
+# --- EXECUTION ---
 
-# Also clean up the .blg file if it exists
-# The .blg file has the same name as the .aux file (last argument to bibtex)
-blg_file="${!#}.blg"  # Get the last argument and add .blg extension
-if [[ -f "$blg_file" && $duplicate_errors -gt 0 ]]; then
-    # Create a cleaned version of the .blg file
-    temp_blg="${blg_file}.tmp"
-    # Remove repeated entry blocks and fix error count
-    sed -E '/^Repeated entry/,/^I'"'"'m skipping/ d' "$blg_file" > "$temp_blg"
-    
-    # Fix the error count in the .blg file if all errors were duplicates
-    if [[ $real_errors -eq 0 ]]; then
-        sed -E 's/\(There were [0-9]+ error messages\)/(There were 0 error messages)/' "$temp_blg" > "$blg_file"
-    else
-        sed -E "s/\(There were [0-9]+ error messages\)/(There were $real_errors error messages)/" "$temp_blg" > "$blg_file"
-    fi
-    
-    rm -f "$temp_blg"
-fi
+# The last argument passed to this script is the basename of the .aux file.
+BASENAME_ARG="${!#}"
 
-# If the only errors were duplicate entries, return 0. Else return BibTeX's original status.
-if [[ $bibtex_status -ne 0 ]]; then
-    if [[ $duplicate_errors -gt 0 && $real_errors -eq 0 ]]; then
-        # Only duplicate errors - treat as success
-        exit 0
-    else
-        # Real errors present - return original status
-        exit $bibtex_status
+# Run the real bibtex command, capturing all stdout and stderr into a variable.
+BIBTEX_OUTPUT="$("$REAL_BIBTEX_CMD" "$@" 2>&1)"
+BIBTEX_EXIT_CODE=$?
+
+# --- ANALYSIS ---
+
+# Count the number of "Repeated entry" warnings.
+# The `grep -c` command counts matching lines.
+REPEATED_ENTRY_COUNT=$(echo "$BIBTEX_OUTPUT" | grep -c "^Repeated entry" || true)
+
+# Count critical errors that should always halt the build.
+MISSING_ENTRY_COUNT=$(echo "$BIBTEX_OUTPUT" | grep -c "^I didn't find a database entry" || true)
+FILE_NOT_FOUND_COUNT=$(echo "$BIBTEX_OUTPUT" | grep -c "^I couldn't open file" || true)
+
+# Sum up the critical errors.
+CRITICAL_ERROR_COUNT=$((MISSING_ENTRY_COUNT + FILE_NOT_FOUND_COUNT))
+
+# --- DECISION ---
+
+# If we only have repeated entries and no critical errors, we will simulate success.
+if [[ $REPEATED_ENTRY_COUNT -gt 0 && $CRITICAL_ERROR_COUNT -eq 0 ]]; then
+
+    # 1. Filter the console output to remove the repeated entry warnings.
+    #    The `sed` command deletes the entire block of a repeated entry warning.
+    echo "$BIBTEX_OUTPUT" | sed -E '/^Repeated entry/,/^I\x27m skipping/ d'
+
+    # 2. Rewrite the .blg file to remove any trace of the warnings for latexmk.
+    BLG_FILE="${BASENAME_ARG}.blg"
+    if [ -f "$BLG_FILE" ]; then
+        # Create a temporary file for the cleaned content.
+        TEMP_BLG_FILE="${BLG_FILE}.tmp"
+        # Use sed to filter the original .blg file.
+        sed -E '/^Repeated entry/,/^I\x27m skipping/ d' "$BLG_FILE" > "$TEMP_BLG_FILE"
+        # Replace the original with the cleaned version.
+        mv "$TEMP_BLG_FILE" "$BLG_FILE"
     fi
-else
+
+    # 3. Exit with success code 0, telling latexmk to proceed.
     exit 0
-fi
+
+else
+    # Otherwise, real errors occurred. Pass through the original output and exit code.
+    echo "$BIBTEX_OUTPUT"
+    exit $BIBTEX_EXIT_CODE
+fi 

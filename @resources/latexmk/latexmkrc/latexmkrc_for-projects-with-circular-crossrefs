@@ -1,98 +1,89 @@
-# -*- mode: sh; sh-shell: bash; -*-
-# .latexmkrc-for-pdf
-# 
-# Purpose
-# -------
-# Latexmk configuration tuned for documents that have MANY internal and
-# external cross-references – for example, a main paper and an appendix that
-# \externaldocument{} each other, or several sub-files that cite labels defined
-# in one another.  The settings below make an individual latexmk run
-# (1) robust against BibTeX "Repeated entry" / duplicate-citation warnings,
-# (2) quiet, and
-# (3) willing to iterate enough times for complicated reference graphs.
+# -*- mode: perl; coding: utf-8 -*-
 #
-# What this file *does not* do
-# ----------------------------
-# It does **not** try to resolve *circular* dependencies that span several
-# independent .tex files.  Latexmk's normal dependency mechanism is
-# one-directional, so when two documents cite each other you still need a tiny
-# wrapper script that calls latexmk on each file in turn until the warnings
-# about "undefined references" disappear.
+# .latexmkrc_for-projects-with-circular-crossrefs
 #
-# Why we leave cross-document orchestration to an external script
-#   • latexmk's @default_files treats every target as independent.
-#   • add_cus_dep hooks model one-way dependencies only; they break on cycles.
-#   • A short shell loop is simpler, transparent, and maintainable.
+# ==============================================================================
+# ==                            OVERVIEW                                      ==
+# ==============================================================================
 #
-# Recommended workflow for a *cycle* of N documents
-#   1. For i = 1 … N: run `latexmk -r .latexmkrc-for-pdf  <doc_i>.tex`
-#   2. Repeat step 1 once more.  Two passes are almost always enough.
+# PURPOSE:
+#   This is a high-tolerance latexmk configuration tuned for compiling a single
+#   document that is part of a larger project with complex, and potentially
+#   circular, cross-document references (e.g., a paper and appendix that cite
+#   each other).
 #
-# The remainder of this file contains the operational knobs
-#   • $force_mode, $bibtex_fudge      – compile through BibTeX warnings
-#   • $pdflatex_runs = 4              – enough passes for deep reference graphs
-#   • $silent, $bibtex_silent_switch – keep the console clean
-#   • $clean_ext                      – tidy auxiliary files
+# KEY BEHAVIORS:
+#   1. ROBUST: Compiles through common BibTeX "Repeated entry" warnings.
+#   2. ITERATIVE: Runs pdflatex enough times to resolve deep reference graphs.
+#   3. QUIET: Suppresses verbose output to keep the console clean.
+#   4. INFORMATIVE: Provides a clear summary of unresolved references upon completion.
 #
-# ----------------- end of header; functional settings follow --------------
+# LIMITATIONS:
+#   This file does NOT manage the cross-document compilation order. Latexmk is
+#   used here for what it does best: compiling a SINGLE document robustly.
+#   A separate, external script (e.g., a shell loop) must orchestrate the
+#   compilation of the entire project to resolve circular dependencies.
+#
+# ==============================================================================
+# ==                        CONFIGURATION SETTINGS                            ==
+# ==============================================================================
 
-# Basic compilation settings
-$force_mode = 1;                # Force compilation even with warnings (needed for bibtex warnings)
-$warnings_as_errors = 0;        # Don't treat warnings as errors
-$pdf_mode = 1;                  # Generate PDF output
-$do_cd = 1;                     # Change to document directory
-$rc_report = 1;                 # Report configuration
+# --- General Compilation Control ---
+$pdf_mode = 1;
+$do_cd = 1;
+$rc_report = 1;
+$force_mode = 1;          # Force compilation even with non-fatal errors.
+$warnings_as_errors = 0;
 
-# Bibliography settings - USE BIBTEX WITH ENHANCED ERROR TOLERANCE
-# Issue: latexmk 4.83 detects duplicate entry errors despite wrapper success
-# Solution: Use bibtex with maximum error tolerance settings
+# --- Bibliography (BibTeX) ---
+# Use our enhanced wrapper to handle BibTeX errors gracefully.
 do 'resources/latexmk/latexmkrc/latexmkrc_using_bibtex_wrapper';
-$bibtex_use = 2;                # Enable bibtex integration
-$bibtex_fudge = 1;              # Ignore bibtex warnings and allow continuation
-$bibtex_silent_switch = '-terse'; # Reduce bibtex verbosity
-$force_mode = 1;                # Force compilation through warnings
-$go_mode = 1;                   # Continue despite warnings
+$bibtex_use = 2;
+$bibtex_fudge = 1;        # A legacy setting to ignore bibtex warnings. Redundant
+                          # with our wrapper but kept for maximum compatibility.
+$bibtex_silent_switch = '-terse'; # Reduce bibtex verbosity.
 
-# LaTeX compilation settings
-$pdflatex_runs = 4;             # Maximum pdflatex runs per document (handles internal cross-refs)
+# --- LaTeX Engine ---
+$pdflatex_runs = 4;       # Max runs per doc; sufficient for most reference graphs.
+$recorder = 1;            # Use .fls files for fine-grained dependency tracking.
 
-# Dependency tracking (for single documents only)
-$recorder = 1;                  # Enable dependency tracking within single documents
-$go_mode = 1;                   # Continue despite warnings
+# --- Output, Logging, and Cleanup ---
+$silent = 1;              # Suppress verbose latex output (package loading, etc.).
+$quiet = 0;               # Show latexmk's own summary messages.
+$logfile_warning_list=1;  # Provide a summary of warnings from the .log file.
 
-# Output control: Clean compilation with important information
-$silent = 1;                    # Suppress verbose latex output (package loading, etc.)
-$quiet = 0;                     # Keep latexmk's own messages (compilation progress)
-$show_time = 0;                 # Show timing information
-$logfile_warning_list = 1;      # Show warning summaries (including undefined references)
-$aux_out_dir_report = 1;        # Report auxiliary file locations
+$clean_ext = "bbl nav out snm dvi idv tmp 4tc 4ct aux log fls " .
+             "fdb_latexmk synctex.gz toc ps upa upb lg mk4 css cfg ent";
 
-# File cleanup extensions
-$clean_ext = "bbl nav out snm dvi idv tmp 4tc 4ct out aux log fls fdb_latexmk synctex.gz toc ps out.ps upa upb lg out html mk4 css cfg ent";
+# --- Post-Compilation Hook ---
+# After compiling, run a check for unresolved LaTeX references and print a
+# clear, final status message.
+$success_cmd = q(
+    echo "";
+    echo "================= LATEXMK POST-CHECK ==================";
+    if grep -q "LaTeX Warning: There were undefined references" %R.log; then
+        echo "STATUS: ⚠️  WARNING: Undefined references remain.";
+        echo "          This is expected if compiling one part of a cycle.";
+        echo "          Run the main compilation script to resolve them.";
+    else
+        echo "STATUS: ✅  SUCCESS: No undefined references detected in %R.log.";
+    fi;
+    echo "=====================================================";
+    echo "";
+);
 
-# Post-compilation hook to check for unresolved references
-$success_cmd = q{echo ""; echo "=== LATEXMK POST-COMPILATION CHECK ==="; echo "Checking log file: %R.log"; if [ -f "%R.log" ]; then echo "Log file exists"; else echo "Log file not found!"; fi; if grep -q "LaTeX Warning: There were undefined references" %R.log; then echo "WARNING: LaTeX reported undefined references!"; echo "Consider running latexmk again or use the reproduce_ script."; else echo "No undefined references detected."; fi; echo "====================================="; echo ""};
-
-# ---------------- Custom sanity check ----------------
-# Warn users if they try to compile the main paper directly with latexmk
+# --- Sanity Check Hook ---
+# Warn users if they are misusing this configuration file by trying to compile
+# a known complex document directly, bypassing the necessary build script.
 BEGIN {
-  # Allow wrapper scripts to silence this message by exporting
-  #   DO_NOT_WARN=1
+  # Allow wrapper scripts to disable this warning.
   return if $ENV{DO_NOT_WARN};
 
-  if (grep { /(?:^|[\\\/])HAFiscal(?:\.tex)?$/ } @ARGV) {
-    print STDERR "\n*** WARNING ***\n".
-                 "Compiling '*.tex' with latexmk alone will leave\n".
-                 "cross-document references unresolved.\n".
-                 "Please run ./reproduce_document_pdf.sh instead.\n".
-                 "****************\n\n";
+  if (grep { /HAFiscal(?:\.tex)?$/ } @ARGV) {
+    print STDERR "\n*** CONFIGURATION WARNING ***\n" .
+                 "This document has cross-document dependencies. Compiling it directly\n" .
+                 "with latexmk will likely result in unresolved references.\n\n" .
+                 "==> Please use the project's main 'reproduce_*.sh' script instead. <==\n\n" .
+                 "*****************************\n\n";
   }
 }
-
-# IMPORTANT NOTES:
-# ===============
-# 1. No @default_files specified - this config is for single document compilation
-# 2. No custom dependency functions (add_cus_dep) - these are unreliable for circular deps
-# 3. Cross-document compilation is handled by compile-with-crossrefs.sh
-# 4. This approach uses latexmk for what it's designed for: single document compilation 
-# 5. Bibtex processing is handled by build scripts using bibtex wrapper (which works correctly)
