@@ -1,7 +1,7 @@
 # -*- mode: shell-script; coding: utf-8 -*-
 # Google 'latexmk' for explanation of this config file
 # latexmk at unix command line will compile the paper
-$bibtex = "@resources/latexmk/latexmkrc/tools/bibtex_wrapper_enhanced.sh %O %B"; # suppress dup cite warnings which mess up latexmk
+$bibtex = '@resources/latexmk/latexmkrc/tools/bibtex_wrapper_enhanced.sh %O %B'; # suppress dup cite warnings which mess up latexmk
 $bibtex_use=2;
 
 
