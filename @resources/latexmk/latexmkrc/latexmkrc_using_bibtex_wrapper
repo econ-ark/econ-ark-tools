@@ -17,7 +17,7 @@
 
 # Use single quotes for the path to prevent Perl from interpreting '@' as an array.
 # This is the correct and safe way to specify the path.
-$bibtex = 'sh @resources/latexmk/latexmkrc/tools/bibtex_wrapper.sh %O %B';
+$bibtex = 'sh ./@resources/latexmk/latexmkrc/tools/bibtex_wrapper.sh %O %B';
 
 # Setting `$bibtex_use = 2` tells latexmk that a .bbl file is needed and
 # that it should be generated if it's missing or outdated.
