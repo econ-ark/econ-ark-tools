@@ -63,7 +63,7 @@ if ($pdflatex_quiet eq 'verbose') {
 $logfile_warning_list=1;  # Always provide a summary of warnings from the .log file
 
 $clean_ext = "bbl nav out snm dvi idv tmp 4tc 4ct aux log fls " .
-             "fdb_latexmk synctex.gz toc ps upa upb lg mk4 css cfg ent";
+             "fdb_latexmk synctex.gz toc ps upa upb lg mk4 css cfg ent out.ps";
 
 # --- Post-Compilation Hook ---
 # After compiling, run a check for unresolved LaTeX references and print a
