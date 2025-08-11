@@ -1,4 +1,4 @@
-p#!/bin/bash
+#!/bin/bash
 # Claude wrote this.  In "git" prompt originating Jun 1, 2024.
 
 # Function to check for uncommitted changes
