@@ -212,6 +212,11 @@ table.equation {
     margin: 1rem 0;
 }
 
+/* Tabular table styling - full width to match LaTeX \textwidth behavior */
+table.tabular {
+    width: 100%;
+}
+
 /* ====== Print Styles ====== */
 @media print {
     /* Remove backgrounds and shadows when printing */
