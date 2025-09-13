@@ -331,3 +331,43 @@ table.tabular {
 .clearfix {
     *zoom: 1;
 }
+
+/* ===== RESPONSIVE FIGURE IMPROVEMENTS ===== */
+/* Added 2025-09-13: Make figures responsive and take up most of page width */
+/* Similar to how tables achieve 100% width with div.minipage{width:100%;} */
+
+/* Make figure containers responsive */
+figure.figure {
+    width: 100%;
+    max-width: 100%;
+    margin: 1em auto;
+    text-align: center;
+}
+
+/* Make images within figures responsive */
+figure.figure img {
+    max-width: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Ensure figure captions don't constrain width */
+figure.figure figcaption {
+    width: 100%;
+    max-width: 100%;
+}
+
+/* General responsive image rule for all images */
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Override any fixed dimensions from tex4ht */
+img[width], img[height] {
+    max-width: 100% !important;
+    width: auto !important;
+    height: auto !important;
+}
