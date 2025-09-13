@@ -371,3 +371,39 @@ img[width], img[height] {
     width: auto !important;
     height: auto !important;
 }
+
+/* ===== SUBFIGURE RESPONSIVE IMPROVEMENTS ===== */
+/* Added 2025-09-13: Make subfigures display side-by-side and scale responsively */
+
+/* Make subfigure containers display inline-block for side-by-side layout */
+div.subfigure {
+    display: inline-block;
+    vertical-align: top;
+    width: 48%;
+    margin: 0 1% 1em 1%;
+    text-align: center;
+}
+
+/* Make images within subfigures responsive */
+div.subfigure img {
+    max-width: 100% !important;
+    width: auto !important;
+    height: auto !important;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Ensure subfigure captions scale with container */
+div.subfigure .caption {
+    width: 100%;
+    margin-top: 0.5em;
+}
+
+/* Mobile responsive: stack subfigures vertically on small screens */
+@media screen and (max-width: 600px) {
+    div.subfigure {
+        display: block;
+        width: 100%;
+        margin: 0 0 2em 0;
+    }
+}
