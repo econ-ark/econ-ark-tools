@@ -407,3 +407,54 @@ div.subfigure .caption {
         margin: 0 0 2em 0;
     }
 }
+
+/* ===== MATHML FENCE SCALING FIXES ===== */
+/* Added 2025-09-14: Improves rendering of \begin{cases} environments and other mathematical braces */
+
+/* Force stretchy braces to scale with their content */
+mo[fence="true"][form="prefix"],
+mo[fence="true"][form="postfix"] {
+    font-size: 150% !important;
+    vertical-align: middle !important;
+    line-height: 1 !important;
+}
+
+/* Special handling for cases environments - target braces adjacent to mtable.array */
+mrow:has(mtable.array) > mo[fence="true"][form="prefix"]:first-child,
+mrow:has(mtable.array) > mo[fence="true"][form="postfix"]:last-child {
+    font-size: 200% !important;
+    vertical-align: middle !important;
+    transform: scaleY(1.2);
+    transform-origin: center;
+}
+
+/* Fallback for browsers that don't support :has() - target by structure */
+mrow > mo[fence="true"][form="prefix"] + mrow > mtable.array ~ mo[fence="true"][form="postfix"],
+mrow > mo[fence="true"][form="prefix"]:has(+ mrow > mtable.array) {
+    font-size: 200% !important;
+    vertical-align: middle !important;
+    transform: scaleY(1.2);
+    transform-origin: center;
+}
+
+/* Ensure proper vertical alignment of array content with scaled braces */
+mtable.array {
+    vertical-align: middle !important;
+}
+
+/* Improve spacing around mathematical operators in arrays */
+mtable.array mtd.array-td {
+    vertical-align: middle;
+}
+
+/* Alternative approach using CSS custom properties for easier maintenance */
+:root {
+    --math-fence-scale: 150%;
+    --math-cases-fence-scale: 200%;
+}
+
+/* Apply custom scaling - this provides a fallback method */
+mo[fence="true"] {
+    font-size: var(--math-fence-scale) !important;
+    vertical-align: middle !important;
+}
