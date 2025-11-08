@@ -3,7 +3,8 @@
 # === DEBUG ERROR HANDLING (TEMPORARILY DISABLED FOR DEBUGGING) ===
 set -e  # Exit on error only (removed -uo pipefail to prevent shell crashes)
 # TERMINAL CRASH FIX: 20250905-1715h Capture starting directory for absolute path resolution
-SCRIPT_START_PWD="${SCRIPT_START_PWD:-$(pwd)}"
+# SYMLINK FIX: 20250108 Use pwd -L to preserve symlinked paths
+SCRIPT_START_PWD="${SCRIPT_START_PWD:-$(pwd -L)}"
 
 # Trap function to show which command failed
 debug_trap_error() {
@@ -16,13 +17,13 @@ debug_trap_error() {
     if [[ ! "$script_path" == /* ]]; then
         # If path starts with ./, remove it and prepend current dir
         if [[ "$script_path" == ./* ]]; then
-            script_path="${SCRIPT_START_PWD:-$(pwd)}/${script_path#./}"
+            script_path="${SCRIPT_START_PWD:-$(pwd -L)}/${script_path#./}"
         elif [[ "$script_path" == */* ]]; then
             # Relative path with directory components
-            script_path="${SCRIPT_START_PWD:-$(pwd)}/$script_path"
+            script_path="${SCRIPT_START_PWD:-$(pwd -L)}/$script_path"
         else
             # Just filename - search in PATH or current dir
-            script_path="${SCRIPT_START_PWD:-$(pwd)}/$script_path"
+            script_path="${SCRIPT_START_PWD:-$(pwd -L)}/$script_path"
         fi
     fi
     
@@ -53,8 +54,8 @@ debug_trap_error() {
 # =============================================================================
 
 find_project_container() {
-    local search_dir="${1:-$(pwd)}"
-    local current_dir="$(cd "$search_dir" 2>/dev/null && pwd)" || current_dir="$search_dir"
+    local search_dir="${1:-$(pwd -L)}"
+    local current_dir="$(cd "$search_dir" 2>/dev/null && pwd -L)" || current_dir="$search_dir"
     
     # Search upward for .project_container file
     while [[ "$current_dir" != "/" ]]; do
@@ -148,14 +149,16 @@ get_project_name_from_file() {
 # =============================================================================
 
 detect_execution_context() {
-    local search_dir="${1:-$(pwd)}"
-    local current_dir="$(cd "$search_dir" 2>/dev/null && pwd)" || current_dir="$search_dir"
+    local search_dir="${1:-$(pwd -L)}"
+    local current_dir="$(cd "$search_dir" 2>/dev/null && pwd -L)" || current_dir="$search_dir"
     
-    # Try git root first to get the actual repo directory
-    local git_root="$(cd "$current_dir" && git rev-parse --show-toplevel 2>/dev/null)"
-    if [[ -n "$git_root" ]]; then
-        current_dir="$git_root"
-    fi
+    # SYMLINK FIX: 20250108 Disabled git root detection because it resolves symlinks to physical paths
+    # This breaks dev directory structures that use symlinks to organize sibling repos
+    # Instead, rely on pwd -L + .project_container detection to preserve symlinked structure
+    # local git_root="$(cd "$current_dir" && git rev-parse --show-toplevel 2>/dev/null)"
+    # if [[ -n "$git_root" ]]; then
+    #     current_dir="$git_root"
+    # fi
     
     # Find project parent directory using .project_container file
     local project_container_dir
@@ -198,12 +201,12 @@ get_script_dir() {
     if [[ $# -gt 0 && -n "${1:-}" ]]; then
         script_dir="$1"
     elif [[ -n "$BASH_SOURCE" ]]; then
-        script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd 2>/dev/null)"
+        script_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd -L 2>/dev/null)"
     elif [[ -n "$0" && "$0" != *bash* ]]; then
-        script_dir="$(cd "$(dirname "$0")" && pwd 2>/dev/null)"
+        script_dir="$(cd "$(dirname "$0")" && pwd -L 2>/dev/null)"
     else
         echo "Warning: Cannot determine script directory. Using current directory." >&2
-        script_dir="$(pwd)"
+        script_dir="$(pwd -L)"
     fi
     
     if [[ ! -d "$script_dir" ]]; then
@@ -243,8 +246,8 @@ detect_script_type_heuristic() {
     local script_dir="$(dirname "$calling_script")"
     local script_name="$(basename "$calling_script" .sh)"
     
-    # Resolve relative paths for comparison
-    script_dir="$(cd "$script_dir" 2>/dev/null && pwd)" || script_dir="$script_dir"
+    # Resolve relative paths for comparison (preserve symlinks)
+    script_dir="$(cd "$script_dir" 2>/dev/null && pwd -L)" || script_dir="$script_dir"
     
     # Location-based detection
     if [[ "$script_dir" == *"-make" ]] && [[ ! "$script_dir" == *"/scripts/"* ]]; then
