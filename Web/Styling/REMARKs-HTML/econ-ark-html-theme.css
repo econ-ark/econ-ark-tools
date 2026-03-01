@@ -211,6 +211,15 @@ body {
 table.equation {
     margin: 1rem 0;
 }
+/* MathJax renders <math> as <mjx-math> with display:table and inline
+   margin-left:0;margin-right:0, which pins numbered equations to the left.
+   Override with !important so the shrink-wrapped math block is centered. */
+table.equation td mjx-container[display="true"] > mjx-math {
+    margin: 0 auto !important;
+}
+table.equation td math[display="block"] {
+    margin: 0 auto !important;
+}
 
 /* Tabular table styling - full width to match LaTeX \textwidth behavior */
 table.tabular {
