@@ -16,16 +16,29 @@ path="$1"
 stem="$(basename $path)"
 
 cd "$path"
-# Create /tmp/docs and sync current branch to there
 
-# # (should be on branch gh-pages when you do this)
-# git checkout gh-pages # just in case
-
-# [[ "$?" -ne 0 ]] && echo 'git checkout gh-pages failed; fix then hit return to continue' && say error && read answer
+# ── Safety: refuse to destroy uncommitted work on master ──────────
+# We are on the gh-pages branch (created from master HEAD).
+# 'git restore .' + 'git clean' + 'git checkout master' below will
+# obliterate any working-tree changes that were present when the branch
+# was created.  Detect this by diffing the working tree against master's
+# committed state for source files.
+dirty_vs_master="$(git diff master --name-only -- '*.py' '*.tex' '*.md' '*.ipynb' '*.bib' '*.sh' '*.cfg' '*.sty' 2>/dev/null)"
+if [[ -n "$dirty_vs_master" ]]; then
+    echo "" >&2
+    echo "FATAL: Source files differ from master's committed state:" >&2
+    echo "$dirty_vs_master" >&2
+    echo "" >&2
+    echo "The working tree had uncommitted changes when the gh-pages" >&2
+    echo "branch was created.  Refusing to destroy them." >&2
+    echo "Commit or stash your changes on master, then re-run." >&2
+    echo "" >&2
+    exit 1
+fi
 
 mkdir -p /tmp/"$stem"/docs
 rm -f    /tmp/"$stem"/docs/*.* # in case there's something from the last try
-rsync --delete-excluded --exclude '.git' -aqz . /tmp/"$stem"/docs
+rsync --delete-excluded --exclude '.git' --no-links -aqz . /tmp/"$stem"/docs
 
 # prevent recursion
 [[ -d /tmp/"$stem"/docs/docs ]] && rm -Rf /tmp/"$stem"/docs/docs
@@ -34,13 +47,13 @@ rsync --delete-excluded --exclude '.git' -aqz . /tmp/"$stem"/docs
 git restore .
 
 # This allows switching back to master:
-git clean --force > /dev/null # delete all the unadded/uncommitted stuff
+git clean --force -e '.venv*' > /dev/null # delete all the unadded/uncommitted stuff; keep .venv* untouched
 
 # docs is a dir in master
 git checkout master
 
 # Sync any new content from gh-pages to master/docs
-rsync --delete-excluded --exclude '.git' -aqz /tmp/"$stem"/docs/ docs/
+rsync --delete-excluded --exclude '.git' --no-links -aqz /tmp/"$stem"/docs/ docs/
 
 echo '' ; echo 'finishing '"$(basename $0) }}}"
 

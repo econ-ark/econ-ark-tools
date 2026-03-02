@@ -63,7 +63,7 @@ unicode_rules=(
     
 generate_prettify_rules() {
     output_file="symbols-mapping-prettify"
-    > "$output_file"
+    : > "$output_file"  # Create empty file
 
     for rule in "${letter_rules[@]}"; do
 	IFS=':' read -r command symbol <<< "$rule"
@@ -82,7 +82,7 @@ generate_prettify_rules
 
 generate_latex_commands() {
     output_file="symbols-mapping-latex.tex"
-    > "$output_file"
+    : > "$output_file"  # Create empty file
 
     for rule in "${letter_rules[@]}"; do
 	IFS=':' read -r command symbol <<< "$rule"

@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-# Get full path to script (preserving symlinks)
-SCRIPT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 script_dir="$(dirname "$0")"
 
 # Make sure the Python script exists and is executable

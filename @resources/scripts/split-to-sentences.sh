@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 # 20241002:
 # - add '.} ' and '.) ' as sentencers
-SCRIPT_PATH="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/$(basename "${BASH_SOURCE[0]}")"
 
 add_newlines() {
     # Read the input text
