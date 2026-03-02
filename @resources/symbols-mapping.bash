@@ -1,5 +1,4 @@
 #!/bin/bash
-# Convert list of emacs prettify rules to corresponding LaTeX macros
 
 letter_rules=(
     "\\aNrm:a"

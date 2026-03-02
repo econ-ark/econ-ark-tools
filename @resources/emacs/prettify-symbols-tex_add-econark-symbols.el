@@ -85,12 +85,12 @@
 	 (cons "\\tranShkAll"      (string-to-char "ξ"))
 	 (cons "\\tranShkEmpDummy" (string-to-char "ϑ")) ;; dummy of integration
 	 (cons "\\Nrml"            (string-to-char "𝒩"))
-	 (cons "\\arvl"            (string-to-char "⥞"))
-	 (cons "\\cntn"            (string-to-char "⥟"))
-	 (cons "\\BegMark"         (string-to-char "⥞"))
-	 (cons "\\EndMark"         (string-to-char "⥟"))
-	 (cons "\\wlthAftr"        (string-to-char "ẃ"))
-	 (cons "\\wlthBefr"        (string-to-char "w"))
+	 (cons "\\arvl"            (string-to-char "≺"))
+	 (cons "\\cntn"            (string-to-char "≻"))
+	 (cons "\\dcsn"            (string-to-char "∼"))
+	 (cons "\\BegMark"         (string-to-char "≺"))
+	 (cons "\\EndMark"         (string-to-char "≻"))
+	 ;; \check{\kNrm} and \check{\mNrm} are written inline; \kNrm→k and \mNrm→m prettify the base
 	 (cons "\\labor"           (string-to-char "ℓ"))
          (cons "\\FDist"           (string-to-char "𝓕"))
          (cons "\\vartheta"        (string-to-char "ϑ"))
@@ -103,3 +103,32 @@
 (defun enable-local-tex-symbols ()
   (add-local-tex-symbols))
 
+;; Global toggle for prettify-symbols-mode (C-c C-S-p).
+;; Blocks all activation (including .dir-locals.el) when disabled.
+(unless (fboundp 'cdc/toggle-prettify-symbols-global)
+  (defvar cdc/prettify-symbols-globally-disabled nil
+    "When non-nil, suppress prettify-symbols-mode activation everywhere.")
+  (defun cdc/toggle-prettify-symbols-global ()
+    "Toggle prettify-symbols-mode in all current and future buffers."
+    (interactive)
+    (setq cdc/prettify-symbols-globally-disabled
+          (not cdc/prettify-symbols-globally-disabled))
+    (if cdc/prettify-symbols-globally-disabled
+        (progn
+          (global-prettify-symbols-mode -1)
+          (dolist (buf (buffer-list))
+            (with-current-buffer buf
+              (when (bound-and-true-p prettify-symbols-mode)
+                (prettify-symbols-mode -1))))
+          (message "prettify-symbols: DISABLED globally"))
+      (progn
+        (dolist (buf (buffer-list))
+          (with-current-buffer buf
+            (when (derived-mode-p 'latex-mode 'LaTeX-mode 'TeX-mode)
+              (prettify-symbols-mode 1))))
+        (message "prettify-symbols: RE-ENABLED in TeX buffers"))))
+  (define-advice prettify-symbols-mode (:around (orig-fn &rest args) cdc/suppress)
+    "Prevent prettify-symbols-mode from activating when globally disabled."
+    (unless cdc/prettify-symbols-globally-disabled
+      (apply orig-fn args)))
+  (global-set-key (kbd "C-c t p") #'cdc/toggle-prettify-symbols-global))

@@ -51,12 +51,12 @@ tmpdir=$(mktemp -d) || { echo "Failed to create temp dir"; exit 1; }
 trap 'rm -rf -- "$tmpdir"' EXIT
 
 # Clone the repository
-pushd "$tmpdir" > /dev/null
+pushd "$tmpdir" > /dev/null || { echo "Failed to change to temp directory"; exit 1; }
 orig_path="$tmpdir/econ-ark-tools"
 [[ -d "$orig_path" ]] && rm -rf "$orig_path"
 echo "Cloning repository..."
 git clone --depth 1 "$repo_url" || { echo "Failed to clone repository"; exit 1; }
-popd > /dev/null
+popd > /dev/null || { echo "Failed to return to original directory"; exit 1; }
 
 # Prepare destination
 [[ ! -d "$dest_path/@resources" ]] && mkdir  "$dest_path/@resources" 

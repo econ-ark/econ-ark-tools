@@ -7,13 +7,13 @@
 \newcommand{\IfFileExistsAndNotEmpty}[3]{%
   \IfFileExists{#1}%
   {\IsFileEmpty{#1}{#3}{#2}}%
-  {\ignorespaces#3\unskip}%
+  {#3}%
 }
 
 \newcommand{\IsFileEmpty}[3]{%
   \openin\filetest=#1
   \read\filetest to \fileline
-  \ifx\fileline\empty
+  \ifeof\filetest
     \typeout{File #1 is empty}%
     #2%
   \else
@@ -31,13 +31,20 @@
   \provideboolean{filenameExists}%
 
 %  \typeout{testing system.bib}%
+  % Check if system.bib exists using kpsewhich (BibTeX's search mechanism)
+  % First try absolute path, then try kpsewhich
   \IfFileExistsAndNotEmpty{/usr/local/texlive/texmf-local/bibtex/bib/system.bib}{%
     \setboolean{systemExists}{true}%
     \typeout{econark-multibib: File system.bib found}%
   }{%
-    \typeout{cannot be true and false}%
-    \setboolean{systemExists}{false}%
-    \typeout{econark-multibib: File system.bib not found}%
+    % Try to find system.bib using kpsewhich mechanism
+    \IfFileExistsAndNotEmpty{system.bib}{%
+      \setboolean{systemExists}{true}%
+      \typeout{econark-multibib: File system.bib found via kpsewhich}%
+    }{%
+      \setboolean{systemExists}{false}%
+      \typeout{econark-multibib: File system.bib not found}%
+    }%
   }%
 %  \typeout{testing system.bib end}%
 %  \typeout{testing Add-Refs.bib}%
@@ -76,13 +83,13 @@
     }{% +AddRefs-system
       \ifthenelse{\boolean{filenameExists}}{% AddRefs-system+file
         \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere}%
-        \typeout{bibliography{\filename,\filename-Add-Refs}}%
-        \bibliography{./\filename,./\filename-Add-Refs}%
+        \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere (via BibTeX search)}%
+        \typeout{bibliography{\filename,\filename-Add-Refs,system}}%
+        \bibliography{./\filename,./\filename-Add-Refs,system}%
       }{% +AddRefs-system-file
-        \typeout{econark-multibib: References in \filename-Add-Refs.bib will be used}%
-        \typeout{bibliography{\filename-Add-Refs}}%
-        \bibliography{./\filename-Add-Refs}%
+        \typeout{econark-multibib: References in \filename-Add-Refs.bib will be used, trying system.bib via BibTeX search}%
+        \typeout{bibliography{\filename-Add-Refs,system}}%
+        \bibliography{./\filename-Add-Refs,system}%
       }% end filename+AddRefs-system
     }%
   }{% -AddRefs
@@ -98,11 +105,13 @@
       }% end file
     }{% -AddRefs-system
       \ifthenelse{\boolean{filenameExists}}{%
-        \typeout{econark-multibib: references in \filename.bib}%
-        \typeout{bibliography{\filename}}%
-        \bibliography{./\filename}%
+        \typeout{econark-multibib: references in \filename.bib, trying system.bib via BibTeX search}%
+        \typeout{bibliography{\filename,system}}%
+        \bibliography{./\filename,system}%
       }{% -AddRefs-system-file
-        \typeout{econark-multibib: No bibliography files found}%
+        \typeout{econark-multibib: No local bibliography files found, trying system.bib via BibTeX search}%
+        \typeout{bibliography{system}}%
+        \bibliography{system}%
       }
     } % end -filename 
   }% end -Addrefs

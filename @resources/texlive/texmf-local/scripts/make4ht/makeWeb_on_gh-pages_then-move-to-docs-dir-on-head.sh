@@ -67,6 +67,19 @@ fi
 cd "$source_repo" 
 $this_dir/gh-pages-delete.sh
 
+# ── Final dirty-tree check immediately before the destructive checkout ──
+# The earlier check may have passed, but a concurrent process could have
+# dirtied the tree since then.  Refuse to proceed if so.
+if [[ -n $(git status --porcelain) ]]; then
+    echo "" >&2
+    echo "FATAL: Working tree has uncommitted changes." >&2
+    echo "Refusing to create gh-pages branch — this would destroy your work." >&2
+    echo "Commit or stash first, then re-run." >&2
+    git status >&2
+    echo "" >&2
+    exit 1
+fi
+
 # create gh-pages branch as copy of source branch
 git checkout -b gh-pages
 
