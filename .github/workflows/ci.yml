@@ -1,0 +1,225 @@
+name: Econ-ARK Tools CI
+
+on:
+  push:
+    branches: [ master, main, develop ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  shellcheck:
+    name: Shell Script Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Install shellcheck
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y shellcheck
+          
+      - name: Run shellcheck on all shell scripts
+        run: |
+          # Configure shellcheck for bash compatibility with:
+          # - macOS 15 (bash 3.2.57+) and Ubuntu 20.04+ (bash 5.0+)
+          # - Enable all optional checks for comprehensive validation
+          SHELLCHECK_OPTS="--shell=bash --enable=all --severity=warning --format=gcc"
+          
+          echo "=== Checking shell scripts for compatibility ==="
+          
+          # Find and check all .sh files
+          find . -name "*.sh" -type f | while read -r script; do
+            echo "Checking: $script"
+            shellcheck $SHELLCHECK_OPTS "$script" || {
+              echo "❌ shellcheck failed for $script"
+              exit 1
+            }
+          done
+          
+          echo "✅ All shell scripts passed shellcheck validation"
+
+  test-ubuntu:
+    name: Test on Ubuntu
+    runs-on: ubuntu-20.04
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Test shell script syntax with bash
+        run: |
+          echo "=== Testing shell scripts on Ubuntu with bash ==="
+          find . -name "*.sh" -type f | while read -r script; do
+            echo "Syntax checking: $script"
+            bash -n "$script" || {
+              echo "❌ Syntax error in $script on Ubuntu with bash"
+              exit 1
+            }
+          done
+          echo "✅ All shell scripts have valid syntax on Ubuntu with bash"
+
+  test-macos:
+    name: Test on macOS
+    runs-on: macos-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Test shell script syntax with bash
+        run: |
+          echo "=== Testing shell scripts on macOS with bash ==="
+          find . -name "*.sh" -type f | while read -r script; do
+            echo "Syntax checking: $script"
+            bash -n "$script" || {
+              echo "❌ Syntax error in $script on macOS with bash"
+              exit 1
+            }
+          done
+          echo "✅ All shell scripts have valid syntax on macOS with bash"
+          
+      - name: Test shell script syntax with zsh
+        run: |
+          echo "=== Testing shell scripts on macOS with zsh ==="
+          find . -name "*.sh" -type f | while read -r script; do
+            echo "Syntax checking: $script"
+            zsh -n "$script" || {
+              echo "❌ Syntax error in $script on macOS with zsh"
+              exit 1
+            }
+          done
+          echo "✅ All shell scripts have valid syntax on macOS with zsh"
+
+  latex-validation:
+    name: LaTeX Configuration Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y texlive-full
+          
+      - name: Test latexmkrc configurations
+        run: |
+          echo "=== Testing latexmkrc configuration files ==="
+          
+          # Create a minimal test document
+          cat > test_document.tex <<EOF
+          \documentclass{article}
+          \usepackage[utf8]{inputenc}
+          \begin{document}
+          \title{CI Test Document}
+          \author{Econ-ARK CI}
+          \maketitle
+          
+          This is a test document for validating latexmkrc configurations.
+          Testing citations: \cite{testref}.
+          
+          \begin{thebibliography}{1}
+          \bibitem{testref} Test Reference. \emph{Test Journal}, 2024.
+          \end{thebibliography}
+          \end{document}
+          EOF
+          
+          # Test each latexmkrc configuration by attempting to parse it
+          echo "Testing latexmkrc configuration parsing..."
+          
+          for config in @resources/latexmk/latexmkrc/latexmkrc_*; do
+            if [[ -f "$config" ]]; then
+              echo "Testing configuration: $config"
+              
+              # Test that latexmk can parse the configuration without errors
+              # Use -deps-only to avoid actually compiling, just validate config
+              timeout 30 latexmk -r "$config" -deps-only test_document.tex || {
+                echo "❌ Configuration error in $config"
+                exit 1
+              }
+            fi
+          done
+          
+          echo "✅ All latexmkrc configurations are syntactically valid"
+          
+      - name: Test LaTeX style files syntax
+        run: |
+          echo "=== Testing .sty file syntax ==="
+          
+          # Test the main econark-shortcuts.sty file
+          echo "Testing econark-shortcuts.sty..."
+          
+          cat > test_style.tex <<EOF
+          \documentclass{article}
+          \usepackage{@resources/texlive/texmf-local/tex/latex/econark-shortcuts}
+          \begin{document}
+          Testing ARK commands: \cLvl, \aNrm, \aFunc
+          \end{document}
+          EOF
+          
+          # Try to compile - this will catch syntax errors in the .sty file
+          timeout 60 pdflatex -interaction=batchmode test_style.tex || {
+            echo "❌ Syntax error in econark-shortcuts.sty"
+            cat test_style.log 2>/dev/null || true
+            exit 1
+          }
+          
+          # Clean up
+          rm -f test_style.*
+          
+          echo "✅ econark-shortcuts.sty has valid LaTeX syntax"
+
+  bibtex-wrapper-test:
+    name: BibTeX Wrapper Functionality Test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        
+      - name: Install TeX Live
+        run: |
+          sudo apt-get update  
+          sudo apt-get install -y texlive-full
+          
+      - name: Test bibtex wrapper script
+        run: |
+          echo "=== Testing BibTeX wrapper functionality ==="
+          
+          # Make the wrapper executable
+          chmod +x @resources/latexmk/latexmkrc/tools/bibtex_wrapper.sh
+          
+          # Create test files to verify the wrapper works
+          cat > test.aux <<EOF
+          \relax 
+          \bibstyle{plain}
+          \bibdata{test}
+          \bibcite{testref}{1}
+          EOF
+          
+          cat > test.bib <<EOF
+          @article{testref,
+            title={Test Article},
+            author={Test Author},
+            journal={Test Journal},
+            year={2024}
+          }
+          @article{testref,
+            title={Duplicate Entry - Should be handled gracefully},
+            author={Another Author}, 
+            journal={Another Journal},
+            year={2024}
+          }
+          EOF
+          
+          # Test the wrapper with our test case that has duplicate entries
+          echo "Testing bibtex wrapper with duplicate entries..."
+          @resources/latexmk/latexmkrc/tools/bibtex_wrapper.sh test || {
+            echo "❌ BibTeX wrapper failed"
+            exit 1
+          }
+          
+          echo "✅ BibTeX wrapper handles duplicate entries correctly" 
