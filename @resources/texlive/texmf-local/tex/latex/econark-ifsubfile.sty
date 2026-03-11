@@ -1,23 +1,17 @@
 \NeedsTeXFormat{LaTeX2e}
 \ProvidesPackage{econark-ifsubfile}[2023/06/14 Define ifsubfile condition]
 
-\RequirePackage{subfiles}
 
-\newif\ifstandalone
+\newif\ifsubfile
 
-% Check if we're in the main file or a subfile
-\@ifundefined{document@subtype}{%
-  \standalonetrue
-  \typeout{econark-ifsubfile: Compiled as standalone or main file}
+% Define a command that will only exist in the main file
+\@ifundefined{@mainfile}{%
+  % @mainfile is not defined, so this must be a subfile
+  \subfiletrue
+  \@namedef{@mainfile}{}% Define it now to prevent future redefinitions
 }{%
-  \def\tmp{subfile}%
-  \ifx\document@subtype\tmp
-    \standalonefalse
-    \typeout{econark-ifsubfile: Included as subfile}
-  \else
-    \standalonetrue
-    \typeout{econark-ifsubfile: Compiled as standalone or main file}
-  \fi
+  % @mainfile is defined, so this must be the main file
+  \subfilefalse
 }
 
 \providecommand{\onlyinsubfile}{}
@@ -25,17 +19,17 @@
 \providecommand{\compilingassubfile}{}
 \providecommand{\compilingasstandalone}{}
 
-\ifstandalone
-  % Define commands to be executed only when compiled standalone or as main file
-  \renewcommand{\onlyinsubfile}[1]{}
-  \renewcommand{\notinsubfile}[1]{#1}
-  \renewcommand{\compilingassubfile}[1]{}
-  \renewcommand{\compilingasstandalone}[1]{#1}
-\else
-  % Define commands to be executed when included as a subfile
+\ifsubfile
+  % Compiling a subfile standalone (not included from main)
   \renewcommand{\onlyinsubfile}[1]{#1}
   \renewcommand{\notinsubfile}[1]{}
   \renewcommand{\compilingassubfile}[1]{#1}
+  \renewcommand{\compilingasstandalone}[1]{#1}
+\else
+  % Compiling the main document
+  \renewcommand{\onlyinsubfile}[1]{}
+  \renewcommand{\notinsubfile}[1]{#1}
+  \renewcommand{\compilingassubfile}[1]{}
   \renewcommand{\compilingasstandalone}[1]{}
 \fi
 
