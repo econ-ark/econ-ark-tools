@@ -211,13 +211,14 @@ body {
 table.equation, table.equation-star {
     margin: 1rem 0;
 }
-/* MathJax renders <math> as <mjx-math> with display:table and inline
-   margin-left:0;margin-right:0, which pins equations to the left.
-   Override with !important so the shrink-wrapped math block is centered.
-   Applies to both numbered (table.equation) and unnumbered (table.equation-star). */
-table.equation td mjx-container[display="true"] > mjx-math,
-table.equation-star td mjx-container[display="true"] > mjx-math {
-    margin: 0 auto !important;
+/* MathJax renders display equations inside mjx-container[display="true"].
+   The container is display:block and mjx-math inside it can be block or
+   inline-block with inline margin-left:0;margin-right:0 pinning it left.
+   Flexbox on the container centers children regardless of their display mode. */
+table.equation td > mjx-container[display="true"],
+table.equation-star td > mjx-container[display="true"] {
+    display: flex !important;
+    justify-content: center !important;
 }
 table.equation td math[display="block"],
 table.equation-star td math[display="block"] {
