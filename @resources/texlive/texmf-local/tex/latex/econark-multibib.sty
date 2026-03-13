@@ -82,14 +82,15 @@
       }%
     }{% +AddRefs-system
       \ifthenelse{\boolean{filenameExists}}{% AddRefs-system+file
-        \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{econark-multibib: References in default global system.bib will be used for items not found elsewhere (via BibTeX search)}%
-        \typeout{bibliography{\filename,\filename-Add-Refs,system}}%
-        \bibliography{./\filename,./\filename-Add-Refs,system}%
+        \typeout{econark-multibib: References in \filename-Add-Refs.bib will take precedence over those in \filename.bib}%
+        \typeout{econark-multibib: system.bib not found; omitting from bibliography}%
+        \typeout{bibliography{\filename-Add-Refs,\filename}}%
+        \bibliography{./\filename-Add-Refs,./\filename}%
       }{% +AddRefs-system-file
-        \typeout{econark-multibib: References in \filename-Add-Refs.bib will be used, trying system.bib via BibTeX search}%
-        \typeout{bibliography{\filename-Add-Refs,system}}%
-        \bibliography{./\filename-Add-Refs,system}%
+        \typeout{econark-multibib: References in \filename-Add-Refs.bib will be used}%
+        \typeout{econark-multibib: system.bib not found; omitting from bibliography}%
+        \typeout{bibliography{\filename-Add-Refs}}%
+        \bibliography{./\filename-Add-Refs}%
       }% end filename+AddRefs-system
     }%
   }{% -AddRefs
@@ -105,13 +106,13 @@
       }% end file
     }{% -AddRefs-system
       \ifthenelse{\boolean{filenameExists}}{%
-        \typeout{econark-multibib: references in \filename.bib, trying system.bib via BibTeX search}%
-        \typeout{bibliography{\filename,system}}%
-        \bibliography{./\filename,system}%
+        \typeout{econark-multibib: References in \filename.bib will be used}%
+        \typeout{econark-multibib: system.bib not found; omitting from bibliography}%
+        \typeout{bibliography{\filename}}%
+        \bibliography{./\filename}%
       }{% -AddRefs-system-file
-        \typeout{econark-multibib: No local bibliography files found, trying system.bib via BibTeX search}%
-        \typeout{bibliography{system}}%
-        \bibliography{system}%
+        \typeout{econark-multibib: WARNING: No bibliography files found (no \filename.bib, no system.bib)}%
+        \typeout{econark-multibib: No \space bibliography command emitted}%
       }
     } % end -filename 
   }% end -Addrefs
