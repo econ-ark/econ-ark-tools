@@ -31,20 +31,17 @@
   \provideboolean{filenameExists}%
 
 %  \typeout{testing system.bib}%
-  % Check if system.bib exists using kpsewhich (BibTeX's search mechanism)
-  % First try absolute path, then try kpsewhich
-  \IfFileExistsAndNotEmpty{/usr/local/texlive/texmf-local/bibtex/bib/system.bib}{%
+  % Detect the global system.bib via kpsewhich (BibTeX's BIBINPUTS search),
+  % rather than a hardcoded install path. Writes the resolved path (empty if
+  % absent) to a temp file. Needs -shell-escape; without it this degrades to
+  % "not found", and system is still passed to BibTeX, which does its own search.
+  \immediate\write18{kpsewhich -format=.bib system.bib > \jobname.sysbib 2>/dev/null}%
+  \IfFileExistsAndNotEmpty{\jobname.sysbib}{%
     \setboolean{systemExists}{true}%
-    \typeout{econark-multibib: File system.bib found}%
+    \typeout{econark-multibib: system.bib found via kpsewhich}%
   }{%
-    % Try to find system.bib using kpsewhich mechanism
-    \IfFileExistsAndNotEmpty{system.bib}{%
-      \setboolean{systemExists}{true}%
-      \typeout{econark-multibib: File system.bib found via kpsewhich}%
-    }{%
-      \setboolean{systemExists}{false}%
-      \typeout{econark-multibib: File system.bib not found}%
-    }%
+    \setboolean{systemExists}{false}%
+    \typeout{econark-multibib: system.bib not found}%
   }%
 %  \typeout{testing system.bib end}%
 %  \typeout{testing Add-Refs.bib}%

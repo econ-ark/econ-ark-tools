@@ -48,13 +48,16 @@
   \provideboolean{AddRefsExists}%
   \provideboolean{systemExists}%
   \provideboolean{filenameExists}%
-  \IfFileExistsAndNotEmpty{/usr/local/texlive/texmf-local/bibtex/bib/system.bib}{%
+  % Detect the global system.bib via kpsewhich (BibTeX's BIBINPUTS search),
+  % rather than a hardcoded install path. Needs -shell-escape; degrades to
+  % "not found" without it.
+  \immediate\write18{kpsewhich -format=.bib system.bib > \jobname.sysbib 2>/dev/null}%
+  \IfFileExistsAndNotEmpty{\jobname.sysbib}{%
     \setboolean{systemExists}{true}%
-    \typeout{econark-bibfilesfind: File system.bib found}%
+    \typeout{econark-bibfilesfind: system.bib found via kpsewhich}%
   }{%
-%    \typeout{cannot be true and false}%
     \setboolean{systemExists}{false}%
-    \typeout{econark-bibfilesfind: File system.bib not found}%
+    \typeout{econark-bibfilesfind: system.bib not found}%
   }%
   \IfFileExistsAndNotEmpty{\filename-Add-Refs.bib}{%
     \setboolean{AddRefsExists}{true}%
