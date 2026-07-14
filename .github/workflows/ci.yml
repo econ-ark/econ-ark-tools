@@ -58,8 +58,11 @@ jobs:
 
   test-ubuntu:
     name: Test on Ubuntu
-    runs-on: ubuntu-20.04
-    
+    # ubuntu-20.04 hosted runners were fully retired by GitHub on 2025-04-15;
+    # that label has no capacity and jobs targeting it queue forever. Use the
+    # oldest currently-supported LTS instead.
+    runs-on: ubuntu-22.04
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
