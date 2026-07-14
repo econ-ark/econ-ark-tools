@@ -1,0 +1,25 @@
+# shellcheck reads this automatically (https://www.shellcheck.net/wiki/Ignore#shellcheckrc).
+#
+# CI's "Shell Script Validation" job scans only first-party scripts (see
+# .github/workflows/ci.yml and .agents/plans/20260714_fix-ci-shell-validation.md);
+# vendored/environment-specific trees (Virtual/**, @resources/texlive/texmf-local/scripts/**)
+# are excluded from the scan rather than restyled.
+#
+# The checks below are disabled repo-wide because they are advisory style
+# preferences, not correctness bugs, and enforcing them would require
+# behavior-risking edits to scripts this repo doesn't actively maintain line-by-line.
+# Genuine bugs the same codes caught during the 2026-07 CI fix were corrected in
+# place rather than suppressed (see the plan doc above).
+
+# "Declare and assign separately to avoid masking return values." Pure style;
+# only worth fixing when the masked exit status is actually checked (those
+# instances were fixed directly instead of disabled).
+disable=SC2155
+
+# "references arguments, but none are ever passed" - informational, not a bug.
+disable=SC2120
+
+# "Expanding an array without an index only gives the first element." In bash,
+# $BASH_SOURCE unindexed already equals ${BASH_SOURCE[0]}; flagged usage is
+# intentional and correct for this codebase's bash-only scripts.
+disable=SC2128

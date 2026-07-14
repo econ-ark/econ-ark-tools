@@ -56,7 +56,8 @@ debug_trap_error() {
 
 find_project_container() {
     local search_dir="${1:-$(pwd -L)}"
-    local current_dir="$(cd "$search_dir" 2>/dev/null && pwd -L)" || current_dir="$search_dir"
+    local current_dir
+    current_dir="$(cd "$search_dir" 2>/dev/null && pwd -L)" || current_dir="$search_dir"
     
     # Search upward for @local/ directory (indicates we're in a repo)
     while [[ "$current_dir" != "/" ]]; do
@@ -190,7 +191,8 @@ get_project_name_from_latex() {
 
 detect_execution_context() {
     local search_dir="${1:-$(pwd -L)}"
-    local current_dir="$(cd "$search_dir" 2>/dev/null && pwd -L)" || current_dir="$search_dir"
+    local current_dir
+    current_dir="$(cd "$search_dir" 2>/dev/null && pwd -L)" || current_dir="$search_dir"
     
     # SYMLINK FIX: 20250108 Disabled git root detection because it resolves symlinks to physical paths
     # This breaks dev directory structures that use symlinks to organize sibling repos

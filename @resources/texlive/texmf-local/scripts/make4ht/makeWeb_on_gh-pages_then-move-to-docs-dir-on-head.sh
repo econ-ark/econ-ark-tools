@@ -60,7 +60,7 @@ $this_dir/bounding-boxes-missing-add.sh $root/$base/$base-$vers
 $scripts_git/git-check-whether-repo-current-branch-is-clean.sh "$source_repo" ; err="$?"
 if [[ "$err" -ne 0 ]]; then
     echo aborting && say aborting
-    [[ "$is_sourced"=="true" ]] && exit 1 # exit kills nonsourced shell
+    [[ "$is_sourced" == "true" ]] && exit 1 # exit kills nonsourced shell
 fi
 
 # prepare destination
