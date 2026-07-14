@@ -1,0 +1,31 @@
+# notation-math.yml — AUTO-GENERATED from notation.yml v0.1.0. DO NOT EDIT.
+# Source of truth: @resources/notation/notation.yml (edit there, regenerate).
+# Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
+# Regenerate: python @resources/notation/gen/gen_myst.py
+version: 1
+project:
+  math:
+    '\bNrm': 'b'
+    '\qtilde': '\tilde{q}'
+    '\qLo': 'q{\downarrow}'
+    '\CRRA': '\rho'
+    '\PermGroFac': '\Gamma'
+    '\qHi': 'q{\uparrow}'
+    '\hNrm': 'h'
+    '\hNrmOpt': '\bar{h}'
+    '\hNrmPes': '\underline{h}'
+    '\logmNrmEx': '\boldsymbol{\mu}'
+    '\MPCmax': '\overline{\kappa}'
+    '\MPCmin': '\underline{\kappa}'
+    '\APFac': '\text{Þ}'
+    '\GPFacRaw': '\text{Þ}_{\Gamma}'
+    '\RPFac': '\text{Þ}_{R}'
+    '\permShk': '\psi'
+    '\pcsNrm': 's'
+    '\mBalLvl': '\check{m}'
+    '\mNrmEx': '\ddot{m}'
+    '\RNrmByG': '\mathcal{R}'
+    '\mTrgNrm': '\hat{m}'
+    '\tranShkAll': '\xi'
+    '\wbar': '\bar{w}'
+    '\pZero': '\wp'

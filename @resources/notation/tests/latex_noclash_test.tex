@@ -1,0 +1,14 @@
+% G0-2 no-clash test: loads BOTH econark-shortcuts.sty and econark-notation.sty
+% and uses one macro from each. The \providecommand discipline in
+% econark-notation.sty guarantees no "command already defined" clash regardless
+% of load order. Compile where a TeX engine is available:
+%   TEXINPUTS=../texlive/texmf-local/tex/latex/econark//:.: pdflatex latex_noclash_test.tex
+% (econark-notation.sty is in this directory's parent: @resources/notation/.)
+\documentclass{article}
+\usepackage{amsmath,amssymb,bm,graphicx,cancel}
+\usepackage{econark-shortcuts}   % the full shared macro set
+\usepackage{econark-notation}    % the registry's curated macros (providecommand)
+\begin{document}
+% one macro unique to the registry, one shared (expansions agree), one from shortcuts:
+\[ \wbar \quad \CRRA \quad \MPCmin \quad \qHi \quad \qLo \]
+\end{document}
