@@ -1,0 +1,35 @@
+# terminology.yml — banned / preferred / defined terms + prose conventions.
+#
+# Consumed by gen/gen_lint.py -> notation-lint.sh (word-boundary grep gates)
+# and gen/gen_markdown.py (the human-readable NOTATION.md table).
+# A terminology ruling is a PR against this file (see README.md).
+#
+# Schema:
+#   banned:      [{term, use, scope?, ruling}]   # scope optional; default = all prose
+#   defined:     [{term, definition, ruling}]
+#   conventions: [{rule, ruling}]
+
+banned:
+  - term: 'production'
+    use: 'estimated / estimation'
+    scope: "software sense only, in the powerlaw/theory thread's exposition + codebase; economic production functions exempt; committed run logs change only via real re-runs"
+    ruling: {date: 2026-07-14, source: 'R5'}
+  - term: 'certainty equivalent'
+    use: 'perfect foresight'
+    ruling: {date: 2026-07-14, source: 'T1'}
+  - term: 'target band'
+    use: "'the target' / 'the return region around the target m̂'"
+    ruling: {date: 2026-07-14, source: 'T3'}
+
+defined:
+  - term: 'GIC-cap'
+    definition: "β capped a hair below the raw growth-impatience (GIC) boundary; Strong Growth Impatience (GIC-Mod) already fails there — no target exists; at the estimated ceiling calibration even the mean log-drift is positive"
+    ruling: {date: 2026-07-14, source: 'T4 + verification blocker fix'}
+
+conventions:
+  - rule: "lemmas cited as L0, L1, …; primes mark strengthened variants"
+    ruling: {date: 2026-07-14, source: 'C6'}
+  - rule: "℘ > 0 is phrased as part of the maintained income-process assumption where load-bearing (WRIC's form, the natural borrowing constraint, κ̄); results that survive ℘ = 0 must say so explicitly"
+    ruling: {date: 2026-07-14, source: 'T5'}
+  - rule: "bar = optimist / upper bound; underline = pessimist / lower bound (BST's c̄, κ̲; MoM's h̄/h̲, c̄/c̲; w̄)"
+    ruling: {date: 2026-07-14, source: 'N3'}
