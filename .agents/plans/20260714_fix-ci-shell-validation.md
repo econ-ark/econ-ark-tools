@@ -1,7 +1,8 @@
 # Plan — fix the chronically-red "Econ-ARK Tools CI" (shell-validation jobs)
 
-**Status:** ACTIVE (created 2026-07-14). Implement via
-`.agents/prompts/20260714_fix-ci-shell-validation.md`.
+**Status:** DONE (created 2026-07-14, implemented 2026-07-14). Implemented via
+`.agents/prompts/20260714_fix-ci-shell-validation.md` on branch
+`ci-shell-validation-fix`.
 
 ## Problem
 

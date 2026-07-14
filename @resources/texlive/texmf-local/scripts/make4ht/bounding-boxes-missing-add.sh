@@ -49,14 +49,14 @@ for pic_ext in jpg png; do
         if [ ! -f "${base_name}.xbb" ]; then
             if ebb -x "$file"; then
                 echo "Processed: $file"
-		((count_files+))
+		((count_files++))
                 dirname "$file" >> "$temp_file"
             fi
         fi
     done
 done
 
-if [[ $count_files > 0 ]]; then
+if [[ $count_files -gt 0 ]]; then
     echo processed "$count_files" with missing xbb boxes
 else
     echo '' ; echo found no files with missing xbb boxes ; echo ''

@@ -26,8 +26,7 @@ read answer
 cd install-tl-2*
 
 # Create a configuration file for non-interactive installation
-cat <<EOF
- EOF > texlive.profile
+cat <<EOF > texlive.profile
 selected_scheme scheme-small
 TEXDIR /usr/local/texlive/2024
 TEXMFCONFIG ~/.texlive2024/texmf-config

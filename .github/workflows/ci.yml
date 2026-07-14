@@ -20,25 +20,41 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y shellcheck
           
-      - name: Run shellcheck on all shell scripts
+      - name: Run shellcheck on first-party shell scripts
         run: |
           # Configure shellcheck for bash compatibility with:
           # - macOS 15 (bash 3.2.57+) and Ubuntu 20.04+ (bash 5.0+)
           # - Enable all optional checks for comprehensive validation
+          # (.shellcheckrc disables the handful that are pure style, not bugs)
           SHELLCHECK_OPTS="--shell=bash --enable=all --severity=warning --format=gcc"
-          
-          echo "=== Checking shell scripts for compatibility ==="
-          
-          # Find and check all .sh files
-          find . -name "*.sh" -type f | while read -r script; do
+
+          # Scope: first-party scripts only. Vendored/environment-specific trees
+          # (Virtual/** VM-provisioning, @resources/texlive/texmf-local/scripts/**
+          # make4ht/de-macro tooling) are adapted upstream tooling this repo
+          # doesn't author line-by-line -- see
+          # .agents/plans/20260714_fix-ci-shell-validation.md for the rationale.
+          # Keep this exclusion identical across all three shell jobs.
+
+          echo "=== Checking first-party shell scripts for compatibility ==="
+
+          failed=0
+          while IFS= read -r -d '' script; do
             echo "Checking: $script"
-            shellcheck $SHELLCHECK_OPTS "$script" || {
+            if ! shellcheck $SHELLCHECK_OPTS "$script"; then
               echo "❌ shellcheck failed for $script"
-              exit 1
-            }
-          done
-          
-          echo "✅ All shell scripts passed shellcheck validation"
+              failed=1
+            fi
+          done < <(find . \
+            -path './Virtual' -prune -o \
+            -path './@resources/texlive/texmf-local/scripts' -prune -o \
+            -name '*.sh' -type f -print0)
+
+          if [ "$failed" -ne 0 ]; then
+            echo "❌ One or more first-party shell scripts failed shellcheck validation"
+            exit 1
+          fi
+
+          echo "✅ All first-party shell scripts passed shellcheck validation"
 
   test-ubuntu:
     name: Test on Ubuntu
@@ -50,15 +66,25 @@ jobs:
         
       - name: Test shell script syntax with bash
         run: |
-          echo "=== Testing shell scripts on Ubuntu with bash ==="
-          find . -name "*.sh" -type f | while read -r script; do
+          echo "=== Testing first-party shell scripts on Ubuntu with bash ==="
+          # Scope must match the shellcheck job -- see its comment for rationale.
+          failed=0
+          while IFS= read -r -d '' script; do
             echo "Syntax checking: $script"
-            bash -n "$script" || {
+            if ! bash -n "$script"; then
               echo "❌ Syntax error in $script on Ubuntu with bash"
-              exit 1
-            }
-          done
-          echo "✅ All shell scripts have valid syntax on Ubuntu with bash"
+              failed=1
+            fi
+          done < <(find . \
+            -path './Virtual' -prune -o \
+            -path './@resources/texlive/texmf-local/scripts' -prune -o \
+            -name '*.sh' -type f -print0)
+
+          if [ "$failed" -ne 0 ]; then
+            echo "❌ One or more first-party shell scripts have invalid syntax"
+            exit 1
+          fi
+          echo "✅ All first-party shell scripts have valid syntax on Ubuntu with bash"
 
   test-macos:
     name: Test on macOS
@@ -70,27 +96,48 @@ jobs:
         
       - name: Test shell script syntax with bash
         run: |
-          echo "=== Testing shell scripts on macOS with bash ==="
-          find . -name "*.sh" -type f | while read -r script; do
+          echo "=== Testing first-party shell scripts on macOS with bash ==="
+          # Scope must match the shellcheck job -- see its comment for rationale.
+          # Written for bash 3.2 (macOS's shipped bash): no mapfile/readarray,
+          # declare -A, or ${var,,}/${var^^}.
+          failed=0
+          while IFS= read -r -d '' script; do
             echo "Syntax checking: $script"
-            bash -n "$script" || {
+            if ! bash -n "$script"; then
               echo "❌ Syntax error in $script on macOS with bash"
-              exit 1
-            }
-          done
-          echo "✅ All shell scripts have valid syntax on macOS with bash"
-          
+              failed=1
+            fi
+          done < <(find . \
+            -path './Virtual' -prune -o \
+            -path './@resources/texlive/texmf-local/scripts' -prune -o \
+            -name '*.sh' -type f -print0)
+
+          if [ "$failed" -ne 0 ]; then
+            echo "❌ One or more first-party shell scripts have invalid syntax"
+            exit 1
+          fi
+          echo "✅ All first-party shell scripts have valid syntax on macOS with bash"
+
       - name: Test shell script syntax with zsh
         run: |
-          echo "=== Testing shell scripts on macOS with zsh ==="
-          find . -name "*.sh" -type f | while read -r script; do
+          echo "=== Testing first-party shell scripts on macOS with zsh ==="
+          failed=0
+          while IFS= read -r -d '' script; do
             echo "Syntax checking: $script"
-            zsh -n "$script" || {
+            if ! zsh -n "$script"; then
               echo "❌ Syntax error in $script on macOS with zsh"
-              exit 1
-            }
-          done
-          echo "✅ All shell scripts have valid syntax on macOS with zsh"
+              failed=1
+            fi
+          done < <(find . \
+            -path './Virtual' -prune -o \
+            -path './@resources/texlive/texmf-local/scripts' -prune -o \
+            -name '*.sh' -type f -print0)
+
+          if [ "$failed" -ne 0 ]; then
+            echo "❌ One or more first-party shell scripts have invalid syntax"
+            exit 1
+          fi
+          echo "✅ All first-party shell scripts have valid syntax on macOS with zsh"
 
   latex-validation:
     name: LaTeX Configuration Validation

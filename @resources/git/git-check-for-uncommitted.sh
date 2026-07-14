@@ -12,7 +12,7 @@ check_uncommitted_changes() {
     if git status --porcelain --untracked-files=no | grep -q .; then
         echo "There are uncommitted changes in the repository at:"
         echo
-        echo "$repo_dir"
+        echo "$dir"
         echo
         git status
         exit 2
