@@ -1,31 +1,46 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v0.1.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v1.0.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
 version: 1
 project:
   math:
+    '\aNrmNxt': 'a_{\prdNxt}'
     '\bNrm': 'b'
     '\qtilde': '\tilde{q}'
     '\qLo': 'q{\downarrow}'
+    '\cNrmNxt': 'c_{\prdNxt}'
     '\CRRA': '\rho'
+    '\etaL': '\eta_{L}'
+    '\etaR': '\eta_{R}'
     '\PermGroFac': '\Gamma'
+    '\PermGroRte': 'g'
     '\qHi': 'q{\uparrow}'
     '\hNrm': 'h'
     '\hNrmOpt': '\bar{h}'
     '\hNrmPes': '\underline{h}'
+    '\KimPrem': 'J'
     '\logmNrmEx': '\boldsymbol{\mu}'
+    '\GPRte': '\thorn_{\PermGroRte}'
     '\MPCmax': '\overline{\kappa}'
     '\MPCmin': '\underline{\kappa}'
     '\APFac': '\text{Þ}'
     '\GPFacRaw': '\text{Þ}_{\Gamma}'
     '\RPFac': '\text{Þ}_{R}'
+    '\prdNxt': 't+1'
     '\permShk': '\psi'
-    '\pcsNrm': 's'
+    '\permShkNxt': '\psi_{\prdNxt}'
+    '\psav': 'x'
+    '\psavNxt': '\psav_{\prdNxt}'
     '\mBalLvl': '\check{m}'
     '\mNrmEx': '\ddot{m}'
+    '\mNrmNxt': 'm_{\prdNxt}'
     '\RNrmByG': '\mathcal{R}'
     '\mTrgNrm': '\hat{m}'
+    '\thorn': '\text{þ}'
     '\tranShkAll': '\xi'
+    '\tranShkNxt': '\theta_{\prdNxt}'
+    '\trvTime': '\tau'
     '\wbar': '\bar{w}'
+    '\wbarNxt': '\wbar_{\prdNxt}'
     '\pZero': '\wp'

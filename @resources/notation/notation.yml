@@ -18,8 +18,10 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 0.1.0        # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-07-14   #         MINOR = additions; PATCH = gloss/typo fixes
+  version: 1.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  updated: 2026-07-16   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 1.0.0: precautionary-saving re-ruled \pcsNrm/'s' -> \psav/'x'
+                        #        (owner, 2026-07-16) + editorial-pass additions
 
 symbols:
 
@@ -58,12 +60,13 @@ symbols:
     ruling: {date: 2026-07-14, source: "BST feedback N2 (BST's own b := m−1 overbrace, BufferStockTheory.md MPCminDefn block)"}
 
   precautionary-saving:
-    gloss: "the shortfall of consumption below BST's perfect-foresight rule"
-    define: "s(m) := c̄(m) − c(m) = κ̲·w̄ − c(m) = g(w̄)"
-    latex: {macro: '\pcsNrm', expansion: 's'}   # macro name = owner bikeshed, see DRIFT/report
-    unicode: 's'
-    aliases: ["g — the sanctioned working symbol in the powerlaw proof corpus (s is a pervasive dummy there); the identity s(m) = g(w̄) is stated where defined"]
-    ruling: {date: 2026-07-14, source: "BST feedback R0 + contract v3"}
+    gloss: "precautionary saving — the eXtra saving induced by precaution: the shortfall of consumption below BST's perfect-foresight rule"
+    define: "x(m) := c̄(m) − c(m) = κ̲·w̄ − c(m), written x(w̄) in the perfect-foresight-wealth coordinate"
+    latex: {macro: '\psav', expansion: 'x'}
+    unicode: 'x'
+    aliases: ["RETIRED 2026-07-16: s(m) and g(w̄) — the pre-ruling symbols (one object now has one symbol; the coordinate shows in the argument). Anchor NAMES retaining g (thm-gT, thm-gC, eq-gap-def) are historical and unchanged."]
+    conflicts_checked: "x: \\xNrm in econark-shortcuts.sty is a generic letter macro with no semantic claim; the powerlaw corpus' x₀ validity threshold is unified to w̄₀; x_cut is a code identifier outside prose scope (verified 2026-07-16)"
+    ruling: {date: 2026-07-16, source: "owner ruling Q4 (reactions round, verbatim): 'x replaces both, and is defined as eXtra saving (induced by precaution) throughout'; supersedes the 2026-07-14 \\pcsNrm/'s' ruling — MAJOR bump"}
 
   crra:
     gloss: "coefficient of relative risk aversion"
@@ -187,6 +190,105 @@ symbols:
     unicode: 'q̃'
     aliases: ["alt_proof_compactified.md retains s for this internally (declared bridge)"]
     ruling: {date: 2026-07-14, source: "feedback revision: frees the letter s for precautionary saving on reader-facing pages"}
+
+  # --- 2026-07-16 editorial-pass additions (owner rulings Q2/Q3/Q5) ---
+
+  thorn-glyph:
+    gloss: "lowercase thorn glyph provision — the RATE partner of Þ; referenced by \\GPRte/\\APRte/\\RPRte in econark-shortcuts.sty, which never defined it (latent-broken until this ruling)"
+    latex: {macro: '\thorn', expansion: '\text{þ}'}
+    unicode: 'þ'
+    conflicts_checked: "KaTeX-safe by the same device as \\Thorn -> \\text{Þ} (verified in the powerlaw myst build 2026-07-16); LaTeX-safe under T1/fontspec"
+    ruling: {date: 2026-07-16, source: "owner ruling Q2: glyph availability was the reason Λ had been used instead"}
+
+  growth-rate:
+    gloss: "log permanent-income growth rate"
+    define: "g = ln Γ"
+    latex: {macro: '\PermGroRte', expansion: 'g'}
+    unicode: 'g'
+    conflicts_checked: "matches econark-shortcuts.sty:271 (\\providecommand semantics: shortcuts wins where both load)"
+
+  log-growth-patience-rate:
+    gloss: "log growth-patience rate — lowercase-thorn partner of Þ_Γ; NEGATIVE under GIC; the per-period PF descent rate of ln w̄ is −þ_g"
+    define: "þ_g := ln Þ_Γ   (so −þ_g = ln(1/Þ_Γ) > 0 under GIC; ψ≡1: q↑ = ln ℛ/(−þ_g))"
+    latex: {macro: '\GPRte', expansion: '\thorn_{\PermGroRte}'}
+    unicode: 'þ_g'
+    aliases: ["RETIRED 2026-07-16: Λ := ln(1/Þ_Γ) — the powerlaw corpus' former positive alias; old formulas read Λ = −þ_g"]
+    conflicts_checked: "\\GPRte pre-exists in econark-shortcuts.sty:301 with this exact expansion; this ruling provisions the missing \\thorn glyph (see thorn-glyph) and adopts the macro corpus-wide"
+    ruling: {date: 2026-07-16, source: "owner ruling Q2 (reactions round): option (i), sign = ln of the factor; use the existing macro"}
+
+  travel-time-to-target:
+    gloss: "periods of perfect-foresight descent from w̄ to the target neighborhood (the log-clock); frees T to mean ONLY the terminal/resumption date"
+    define: "τ(w̄) ≈ ln w̄ / (−þ_g)"
+    latex: {macro: '\trvTime', expansion: '\tau'}
+    unicode: 'τ'
+    conflicts_checked: "τ = \\TaxRte/\\tax in econark-shortcuts.sty:358–359 (fiscal context) — deliberate glyph reuse across DISJOINT corpora: no fiscal objects appear in the powerlaw/BST theory pages (verified 2026-07-16)"
+    ruling: {date: 2026-07-16, source: "owner ruling Q3 (reactions round)"}
+
+  gap-remainder-left:
+    gloss: "left remainder of the exact one-step gap identity (Lemma 5.1); collects evaluation-point/linearization corrections; vanishes in the asymptotic region"
+    define: "0 ≤ η_L ≤ K_L/w̄"
+    latex: {macro: '\etaL', expansion: '\eta_{L}'}
+    unicode: 'η_L'
+    conflicts_checked: "η unused across econark-shortcuts.sty, local-macros.sty, the MyST maps and BufferStockTheory.tex (verified 2026-07-16); replaces r_L — r reads as an interest rate"
+    ruling: {date: 2026-07-16, source: "owner ruling Q3 (reactions round)"}
+
+  gap-remainder-right:
+    gloss: "right remainder of the exact one-step gap identity (Lemma 5.1)"
+    define: "|η_R| ≤ K_R/w̄"
+    latex: {macro: '\etaR', expansion: '\eta_{R}'}
+    unicode: 'η_R'
+    ruling: {date: 2026-07-16, source: "owner ruling Q3 (reactions round)"}
+
+  kimball-premium:
+    gloss: "the Kimball precautionary premium — the dividend in the precautionary-debt (pricing) recursion for x"
+    define: "w̄·J(w̄) → κ̲(ρ+1)σ²/(2Þ_Γ)   (transitory-only limit)"
+    latex: {macro: '\KimPrem', expansion: 'J'}
+    unicode: 'J'
+    conflicts_checked: "J carries only generic letter macros (\\JLvl/\\JNrm/\\JFunc) in econark-shortcuts.sty — no semantic claim (verified 2026-07-16)"
+    ruling: {date: 2026-07-16, source: "editorial pass B1: the recursion's dividend named as a first-class object"}
+
+  period-next:
+    gloss: "next-period index (house time tooling; = econark-shortcuts \\prdNxt)"
+    latex: {macro: '\prdNxt', expansion: 't+1'}
+    unicode: 't+1'
+    conflicts_checked: "identical to econark-shortcuts.sty:507 (\\providecommand semantics)"
+
+  consumption-next:
+    gloss: "next-period consumption (time-pair convention: bare symbol = current period, Nxt suffix = next; flip the corpus to primes by renewing ONLY the *Nxt macros, e.g. \\cNrmNxt -> c^{\\prime})"
+    latex: {macro: '\cNrmNxt', expansion: 'c_{\prdNxt}'}
+    unicode: 'c_{t+1}'
+    conflicts_checked: "suffix verified against the econark-shortcuts \\prdNxt family; no Now-suffix exists in house style — bare = current is the rule"
+    ruling: {date: 2026-07-16, source: "owner ruling Q5 (reactions round): flip to t/t+1 now, keep a one-line path back to primes"}
+
+  resources-next:
+    gloss: "next-period market resources (time-pair convention)"
+    latex: {macro: '\mNrmNxt', expansion: 'm_{\prdNxt}'}
+    unicode: 'm_{t+1}'
+
+  assets-next:
+    gloss: "next-period end-of-period assets (time-pair convention)"
+    latex: {macro: '\aNrmNxt', expansion: 'a_{\prdNxt}'}
+    unicode: 'a_{t+1}'
+
+  wealth-total-pf-next:
+    gloss: "next-period perfect-foresight total wealth (time-pair convention)"
+    latex: {macro: '\wbarNxt', expansion: '\wbar_{\prdNxt}'}
+    unicode: 'w̄_{t+1}'
+
+  precautionary-saving-next:
+    gloss: "next-period precautionary saving (time-pair convention)"
+    latex: {macro: '\psavNxt', expansion: '\psav_{\prdNxt}'}
+    unicode: 'x_{t+1}'
+
+  transitory-shock-next:
+    gloss: "next-period transitory shock (time-pair convention; powerlaw-pages θ dialect)"
+    latex: {macro: '\tranShkNxt', expansion: '\theta_{\prdNxt}'}
+    unicode: 'θ_{t+1}'
+
+  permanent-shock-next:
+    gloss: "next-period permanent shock (time-pair convention)"
+    latex: {macro: '\permShkNxt', expansion: '\psi_{\prdNxt}'}
+    unicode: 'ψ_{t+1}'
 
   target:
     gloss: "individual buffer-stock target: E[m′/m] = 1 at m̂ (WRIC+FVAC+GIC-Mod)"

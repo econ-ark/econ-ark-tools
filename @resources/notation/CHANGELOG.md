@@ -2,6 +2,23 @@
 
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
+## v1.0.0 — 2026-07-16
+
+Owner rulings from the powerlaw editorial pass (reactions round, 2026-07-16):
+
+- **MAJOR — `precautionary-saving` re-ruled:** `\pcsNrm`/'s' → **`\psav`/'x'**
+  ("the eXtra saving induced by precaution"); replaces BOTH former symbols
+  s(m) and g(w̄) — one object, one symbol, the coordinate shows in the argument.
+- `\GPRte` (þ_g = ln Þ_Γ, NEGATIVE under GIC) adopted corpus-wide; the missing
+  lowercase `\thorn` glyph is provisioned (`\text{þ}`, KaTeX/LaTeX-safe); the
+  powerlaw corpus' positive alias Λ := ln(1/Þ_Γ) is RETIRED (Λ = −þ_g).
+- `\trvTime` (τ(w̄), the log-clock travel time) frees T for the terminal date.
+- `\etaL`/`\etaR` (η_L, η_R) replace the Lemma-5.1 remainders r_L/r_R.
+- `\KimPrem` (J) names the Kimball precautionary premium.
+- Time-pair convention: bare symbol = current period; `*Nxt` macros render
+  `_{t+1}` (`\cNrmNxt`, `\mNrmNxt`, `\aNrmNxt`, `\wbarNxt`, `\psavNxt`,
+  `\tranShkNxt`, `\permShkNxt`, via `\prdNxt`); flip the corpus back to
+  primes by renewing only the `*Nxt` macros.
 
 ## v0.1.0 — 2026-07-14
 
