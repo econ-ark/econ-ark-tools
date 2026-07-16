@@ -18,8 +18,8 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 0.1.0        # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-07-14   #         MINOR = additions; PATCH = gloss/typo fixes
+  version: 0.2.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  updated: 2026-07-16   #         MINOR = additions; PATCH = gloss/typo fixes
 
 symbols:
 
@@ -160,26 +160,26 @@ symbols:
     aliases: ["\\Rcal — powerlaw pages (\\mathcal{R})"]
 
   high-wealth-exponent:
-    gloss: "high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q↑)"
-    define: "root of E[ψ^{1+q}] = ℛ·Þ_Γ^q  (ψ≡1: q↑ = ln ℛ / ln(1/Þ_Γ))"
-    latex: {macro: '\qHi', expansion: 'q{\uparrow}'}
-    unicode: 'q↑'
-    aliases: ["supersedes q* (\\qstar, q^{*}) — the powerlaw corpus' pre-2026-07-14 symbol"]
+    gloss: "high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q_∞)"
+    define: "root of E[ψ^{1+q}] = ℛ·Þ_Γ^q  (ψ≡1: q_∞ = ln ℛ / ln(1/Þ_Γ))"
+    latex: {macro: '\qHi', expansion: 'q_{\infty}'}
+    unicode: 'q_∞'
+    aliases: ["supersedes q↑ (\\qHi = q{\\uparrow}, 2026-07-14 arrows); earlier q* (\\qstar, q^{*}) pre-2026-07-14"]
     ruling:
-      date: 2026-07-14
-      source: "owner ruling (supersedes q* = \\qstar): arrow decorations — q↑ (high-wealth) / q↓ (constraint)"
-      rationale: "up/down arrows read directly as the two ends of the wealth domain"
+      date: 2026-07-16
+      source: "owner ruling (supersedes the 2026-07-14 q↑/q↓ arrows): subscript-limit notation — q_∞ (high-wealth, m→∞) / q_0 (constraint end, mᵉ→0)"
+      rationale: "each exponent named by the limit it governs; avoids the vector reading of over-/adjacent-arrows; the \\qHi/\\qLo macro NAMES are unchanged, so downstream \\qHi/\\qLo usages need no edits"
 
   constraint-end-exponent:
-    gloss: "constraint-end (bottom-knot) approach exponent — the down-arrow partner of q↑; PROVEN q↓ = ρ"
+    gloss: "constraint-end (bottom-knot) approach exponent — the q_0 partner of the high-wealth q_∞; PROVEN q_0 = ρ"
     define: "MPC deficit κ̄ − c/mᵉ ≍ (mᵉ)^ρ; in MoM coords χ(μ) = μ + b₀ + O(e^{ρμ})"
-    latex: {macro: '\qLo', expansion: 'q{\downarrow}'}
-    unicode: 'q↓'
-    aliases: ["supersedes q° (\\qcirc, q_{\\circ}) — the 2026-07-13 constraint-end theorem symbol"]
+    latex: {macro: '\qLo', expansion: 'q_{0}'}
+    unicode: 'q_0'
+    aliases: ["supersedes q↓ (\\qLo = q{\\downarrow}, 2026-07-14 arrows); earlier q° (\\qcirc, q_{\\circ}) 2026-07-13 constraint-end theorem"]
     ruling:
-      date: 2026-07-14
-      source: "owner ruling (supersedes q° = \\qcirc, 2026-07-13 constraint-end theorem): arrow decorations"
-      rationale: "PROVEN q↓ = ρ (CRRA); the letter r stays reserved for the interest rate"
+      date: 2026-07-16
+      source: "owner ruling (supersedes the 2026-07-14 q↓ arrow): subscript-limit notation q_0 (constraint end, mᵉ→0)"
+      rationale: "PROVEN q_0 = ρ (CRRA); q_0 names the constraint limit; avoids the vector reading of arrows; the letter r stays reserved for the interest rate"
 
   compensation-exponent:
     gloss: "trial/compensation exponent in the detection machinery"

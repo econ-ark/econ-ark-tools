@@ -3,6 +3,18 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v0.2.0 — 2026-07-16
+
+- **Exponent notation (owner ruling, 2026-07-16):** the two decay exponents move
+  from arrows to subscript-limit notation — `\qHi` = `q_{\infty}` (high-wealth,
+  m→∞) and `\qLo` = `q_{0}` (constraint end, mᵉ→0). This **supersedes** the
+  2026-07-14 arrow forms `q↑`/`q↓` (kept as aliases). Rationale: name each
+  exponent by the limit it governs and avoid the vector-notation reading of
+  arrow accents. **Macro names `\qHi`/`\qLo` are unchanged**, so downstream prose
+  that uses the macros needs no edits — only each consumer's vendored
+  `@resources` (regenerated `notation-math.yml`, `econark-notation.sty`, …) is
+  refreshed via `@resources-update-from-remote.sh`.
+
 ## v0.1.0 — 2026-07-14
 
 Initial registry. Seeded from the 2026-07-13/14 notation & terminology rulings
