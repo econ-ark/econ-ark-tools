@@ -45,6 +45,9 @@ check() {
   fi
 }
 
+check "dividend" "the adjustment (the per-period provision moving the buffer stock toward its target)"
+check "precautionary premium" "the (Kimball) adjustment"
+check "precautionary debt" "the buffer stock (the wealth cushion vs the target m̂); x = its financing"
 check "production" "estimated / estimation"
 check "certainty equivalent" "perfect foresight"
 check "target band" "'the target' / 'the return region around the target m̂'"

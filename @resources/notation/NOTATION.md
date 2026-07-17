@@ -8,6 +8,7 @@
 |---|---|---|---|---|---|
 | assets-next | a_{t+1} | `\aNrmNxt` | `a_{\prdNxt}` |  | next-period end-of-period assets (time-pair convention) |
 | bank-balances | b | `\bNrm` | `b` | `bNrm` | beginning-of-period nonhuman wealth: returns realized on last period's assets |
+| buffer-adjustment | J | `\bufAdj` | `J` |  | the (Kimball) adjustment — the per-period provision moving the buffer stock toward its target; SIGNED in general (an oversized buffer stock adjusts downward), provably positive in the high-wealth asymptotic region (the forcing floor) |
 | compensation-exponent | q̃ | `\qtilde` | `\tilde{q}` |  | trial/compensation exponent in the detection machinery |
 | constraint-end-exponent | q↓ | `\qLo` | `q{\downarrow}` |  | constraint-end (bottom-knot) approach exponent — the down-arrow partner of q↑; PROVEN q↓ = ρ |
 | consumption-next | c_{t+1} | `\cNrmNxt` | `c_{\prdNxt}` |  | next-period consumption (time-pair convention: bare symbol = current period, Nxt suffix = next; flip the corpus to primes by renewing ONLY the *Nxt macros, e.g. \cNrmNxt -> c^{\prime}) |
@@ -20,7 +21,6 @@
 | human-wealth | h | `\hNrm` | `h` | `hNrm` | normalized human wealth, current period's income INCLUDED (BST eq-HDef) |
 | human-wealth-optimist | h̄ | `\hNrmOpt` | `\bar{h}` |  | optimist's human wealth (bar = optimist) |
 | human-wealth-pessimist | h̲ | `\hNrmPes` | `\underline{h}` |  | pessimist's (minimal) human wealth |
-| kimball-premium | J | `\KimPrem` | `J` |  | the Kimball precautionary premium — the dividend in the precautionary-debt (pricing) recursion for x |
 | log-excess-resources | μ | `\logmNrmEx` | `\boldsymbol{\mu}` |  | log excess resources |
 | log-growth-patience-rate | þ_g | `\GPRte` | `\thorn_{\PermGroRte}` |  | log growth-patience rate — lowercase-thorn partner of Þ_Γ; NEGATIVE under GIC; the per-period PF descent rate of ln w̄ is −þ_g |
 | mpc-max | κ̄ | `\MPCmax` | `\overline{\kappa}` | `MPCmax` | limiting MPC as m→0 (worst-atom) |
@@ -53,6 +53,13 @@
 
 - **define:** b = ℛa = m − 1 (nonstochastic ℛ; stochastic form b′ = (R/(Γψ′))a)
 - **ruling:** 2026-07-14 · source: BST feedback N2 (BST's own b := m−1 overbrace, BufferStockTheory.md MPCminDefn block)
+
+### buffer-adjustment
+
+- **define:** w̄·J(w̄) → κ̲(ρ+1)σ²/(2Þ_Γ)   (transitory-only limit)
+- **alias:** RETIRED same-PR before any consumption: \KimPrem / 'Kimball precautionary premium' / 'dividend' — banned terms (terminology.yml): they connote a strictly positive flow
+- **conflicts checked:** J carries only generic letter macros (\JLvl/\JNrm/\JFunc) in econark-shortcuts.sty — no semantic claim (verified 2026-07-16)
+- **ruling:** 2026-07-16 · source: owner rulings (second reactions batch + Q-A(ii)): the flow is 'the adjustment'; the stock narrative is 'the buffer stock' (wealth cushion vs target m̂); x FINANCES the adjustment
 
 ### compensation-exponent
 
@@ -108,12 +115,6 @@
 - **define:** h_t = (1−ℛ^{−(T−t+1)})/(1−ℛ⁻¹);  limit h = 1/(1−ℛ⁻¹) = R/(R−Γ)
 - **dialect `hark-python`:** expansion `h − 1`; home: HARK's hNrm EXCLUDES the current period; **MIGRATION-PENDING (ruling 4): a SEMANTIC divergence — needs an explicit owner ruling (rename / re-derive / waiver) before any HARK code change; do not touch code from this mission**; verified in HARK source 2026-07-14
 - **ruling:** 2026-07-14 · source: BST feedback N1 · rationale: one h, BST's; the shadow h_BST and local future-only h are banned
-
-### kimball-premium
-
-- **define:** w̄·J(w̄) → κ̲(ρ+1)σ²/(2Þ_Γ)   (transitory-only limit)
-- **conflicts checked:** J carries only generic letter macros (\JLvl/\JNrm/\JFunc) in econark-shortcuts.sty — no semantic claim (verified 2026-07-16)
-- **ruling:** 2026-07-16 · source: editorial pass B1: the recursion's dividend named as a first-class object
 
 ### log-excess-resources
 
@@ -208,6 +209,9 @@
 
 | Term | Use instead | Scope | Ruling |
 |---|---|---|---|
+| dividend | the adjustment (the per-period provision moving the buffer stock toward its target) | powerlaw corpus + buffer-stock expositions | 2026-07-16 (owner (reactions round 2): connotes a strictly positive flow; an oversized buffer stock adjusts DOWNWARD) |
+| precautionary premium | the (Kimball) adjustment | powerlaw corpus + buffer-stock expositions | 2026-07-16 (owner (reactions round 2): same sign-connotation objection; credit Kimball, not Arrow–Pratt, for the precautionary object) |
+| precautionary debt | the buffer stock (the wealth cushion vs the target m̂); x = its financing | powerlaw corpus | 2026-07-16 (owner (reactions round 2 + Q-A(ii))) |
 | production | estimated / estimation | software sense only, in the powerlaw/theory thread's exposition + codebase; economic production functions exempt; committed run logs change only via real re-runs | 2026-07-14 (R5) |
 | certainty equivalent | perfect foresight | all prose | 2026-07-14 (T1) |
 | target band | 'the target' / 'the return region around the target m̂' | all prose | 2026-07-14 (T3) |

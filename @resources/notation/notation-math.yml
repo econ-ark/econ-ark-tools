@@ -7,6 +7,7 @@ project:
   math:
     '\aNrmNxt': 'a_{\prdNxt}'
     '\bNrm': 'b'
+    '\bufAdj': 'J'
     '\qtilde': '\tilde{q}'
     '\qLo': 'q{\downarrow}'
     '\cNrmNxt': 'c_{\prdNxt}'
@@ -19,7 +20,6 @@ project:
     '\hNrm': 'h'
     '\hNrmOpt': '\bar{h}'
     '\hNrmPes': '\underline{h}'
-    '\KimPrem': 'J'
     '\logmNrmEx': '\boldsymbol{\mu}'
     '\GPRte': '\thorn_{\PermGroRte}'
     '\MPCmax': '\overline{\kappa}'

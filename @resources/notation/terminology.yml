@@ -10,6 +10,18 @@
 #   conventions: [{rule, ruling}]
 
 banned:
+  - term: "dividend"
+    use: "the adjustment (the per-period provision moving the buffer stock toward its target)"
+    scope: "powerlaw corpus + buffer-stock expositions"
+    ruling: {date: 2026-07-16, source: "owner (reactions round 2): connotes a strictly positive flow; an oversized buffer stock adjusts DOWNWARD"}
+  - term: "precautionary premium"
+    use: "the (Kimball) adjustment"
+    scope: "powerlaw corpus + buffer-stock expositions"
+    ruling: {date: 2026-07-16, source: "owner (reactions round 2): same sign-connotation objection; credit Kimball, not Arrow–Pratt, for the precautionary object"}
+  - term: "precautionary debt"
+    use: "the buffer stock (the wealth cushion vs the target m̂); x = its financing"
+    scope: "powerlaw corpus"
+    ruling: {date: 2026-07-16, source: "owner (reactions round 2 + Q-A(ii))"}
   - term: 'production'
     use: 'estimated / estimation'
     scope: "software sense only, in the powerlaw/theory thread's exposition + codebase; economic production functions exempt; committed run logs change only via real re-runs"

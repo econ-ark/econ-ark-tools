@@ -239,13 +239,14 @@ symbols:
     unicode: 'η_R'
     ruling: {date: 2026-07-16, source: "owner ruling Q3 (reactions round)"}
 
-  kimball-premium:
-    gloss: "the Kimball precautionary premium — the dividend in the precautionary-debt (pricing) recursion for x"
+  buffer-adjustment:
+    gloss: "the (Kimball) adjustment — the per-period provision moving the buffer stock toward its target; SIGNED in general (an oversized buffer stock adjusts downward), provably positive in the high-wealth asymptotic region (the forcing floor)"
     define: "w̄·J(w̄) → κ̲(ρ+1)σ²/(2Þ_Γ)   (transitory-only limit)"
-    latex: {macro: '\KimPrem', expansion: 'J'}
+    latex: {macro: '\bufAdj', expansion: 'J'}
     unicode: 'J'
+    aliases: ["RETIRED same-PR before any consumption: \\KimPrem / 'Kimball precautionary premium' / 'dividend' — banned terms (terminology.yml): they connote a strictly positive flow"]
     conflicts_checked: "J carries only generic letter macros (\\JLvl/\\JNrm/\\JFunc) in econark-shortcuts.sty — no semantic claim (verified 2026-07-16)"
-    ruling: {date: 2026-07-16, source: "editorial pass B1: the recursion's dividend named as a first-class object"}
+    ruling: {date: 2026-07-16, source: "owner rulings (second reactions batch + Q-A(ii)): the flow is 'the adjustment'; the stock narrative is 'the buffer stock' (wealth cushion vs target m̂); x FINANCES the adjustment"}
 
   period-next:
     gloss: "next-period index (house time tooling; = econark-shortcuts \\prdNxt)"
