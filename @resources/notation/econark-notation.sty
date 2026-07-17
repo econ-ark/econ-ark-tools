@@ -4,12 +4,18 @@
 % econark-shortcuts.sty). Load alone/first for the registry's base dialect.
 % Regenerate: python @resources/notation/gen/gen_latex.py
 
-\providecommand{\aNrmNxt}{a_{\prdNxt}}  % assets-next
+\providecommand{\aNrmNxt}{a\Nxt}  % assets-next
+\providecommand{\aNrmNow}{a\Now}  % assets-now
 \providecommand{\bNrm}{b}  % bank-balances
+\providecommand{\bNrmNxt}{\bNrm\Nxt}  % bank-balances-next
+\providecommand{\bNrmNow}{\bNrm\Now}  % bank-balances-now
 \providecommand{\bufAdj}{J}  % buffer-adjustment
+\providecommand{\bufAdjFunc}{\mathrm{J}}  % buffer-adjustment-function
 \providecommand{\qtilde}{\tilde{q}}  % compensation-exponent
 \providecommand{\qLo}{q{\downarrow}}  % constraint-end-exponent
-\providecommand{\cNrmNxt}{c_{\prdNxt}}  % consumption-next
+\providecommand{\cFunc}{\mathrm{c}}  % consumption-function
+\providecommand{\cNrmNxt}{c\Nxt}  % consumption-next
+\providecommand{\cNrmNow}{c\Now}  % consumption-now
 \providecommand{\CRRA}{\rho}  % crra
 \providecommand{\etaL}{\eta_{L}}  % gap-remainder-left
 \providecommand{\etaR}{\eta_{R}}  % gap-remainder-right
@@ -27,19 +33,26 @@
 \providecommand{\GPFacRaw}{\text{Þ}_{\Gamma}}  % patience-growth
 \providecommand{\RPFac}{\text{Þ}_{R}}  % patience-return
 \providecommand{\prdNxt}{t+1}  % period-next
+\providecommand{\Nxt}{_{\prdNxt}}  % period-next-suffix
+\providecommand{\Now}{_{\prdt}}  % period-now-suffix
 \providecommand{\permShk}{\psi}  % permanent-shock
-\providecommand{\permShkNxt}{\psi_{\prdNxt}}  % permanent-shock-next
+\providecommand{\permShkNxt}{\psi\Nxt}  % permanent-shock-next
 \providecommand{\psav}{x}  % precautionary-saving
-\providecommand{\psavNxt}{\psav_{\prdNxt}}  % precautionary-saving-next
+\providecommand{\psavFunc}{\mathrm{x}}  % precautionary-saving-function
+\providecommand{\psavNxt}{\psav\Nxt}  % precautionary-saving-next
+\providecommand{\psavNow}{\psav\Now}  % precautionary-saving-now
 \providecommand{\mBalLvl}{\check{m}}  % pseudo-target
 \providecommand{\mNrmEx}{\ddot{m}}  % resources-excess
-\providecommand{\mNrmNxt}{m_{\prdNxt}}  % resources-next
+\providecommand{\mNrmNxt}{m\Nxt}  % resources-next
+\providecommand{\mNrmNow}{m\Now}  % resources-now
 \providecommand{\RNrmByG}{\mathcal{R}}  % return-growth-ratio
 \providecommand{\mTrgNrm}{\hat{m}}  % target
 \providecommand{\thorn}{\text{þ}}  % thorn-glyph
 \providecommand{\tranShkAll}{\xi}  % transitory-shock-all
-\providecommand{\tranShkNxt}{\theta_{\prdNxt}}  % transitory-shock-next
+\providecommand{\tranShkNxt}{\theta\Nxt}  % transitory-shock-next
 \providecommand{\trvTime}{\tau}  % travel-time-to-target
+\providecommand{\uFunc}{\mathrm{u}}  % utility-function
 \providecommand{\wbar}{\bar{w}}  % wealth-total-pf
-\providecommand{\wbarNxt}{\wbar_{\prdNxt}}  % wealth-total-pf-next
+\providecommand{\wbarNxt}{\wbar\Nxt}  % wealth-total-pf-next
+\providecommand{\wbarNow}{\wbar\Now}  % wealth-total-pf-now
 \providecommand{\pZero}{\wp}  % zero-income-prob

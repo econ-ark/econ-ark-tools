@@ -19,9 +19,10 @@
 
 meta:
   version: 1.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-07-16   #         MINOR = additions; PATCH = gloss/typo fixes
+  updated: 2026-07-17   #         MINOR = additions; PATCH = gloss/typo fixes
                         # 1.0.0: precautionary-saving re-ruled \pcsNrm/'s' -> \psav/'x'
-                        #        (owner, 2026-07-16) + editorial-pass additions
+                        #        (owner, 2026-07-16) + editorial-pass additions;
+                        #        amended in-PR 2026-07-17: ruling 9 v2 (guise + \Now/\Nxt)
 
 symbols:
 
@@ -246,7 +247,7 @@ symbols:
     unicode: 'J'
     aliases: ["RETIRED same-PR before any consumption: \\KimPrem / 'Kimball precautionary premium' / 'dividend' — banned terms (terminology.yml): they connote a strictly positive flow"]
     conflicts_checked: "J carries only generic letter macros (\\JLvl/\\JNrm/\\JFunc) in econark-shortcuts.sty — no semantic claim (verified 2026-07-16)"
-    ruling: {date: 2026-07-16, source: "owner rulings (second reactions batch + Q-A(ii)): the flow is 'the adjustment'; the stock narrative is 'the buffer stock' (wealth cushion vs target m̂); x FINANCES the adjustment"}
+    ruling: {date: 2026-07-17, source: "owner rulings 2026-07-16 (the flow is 'the adjustment') as CORRECTED 2026-07-17: the buffer stock is END-OF-PERIOD ASSETS a (a LEVEL, not a wealth-cushion deviation; target â = m̂ − c(m̂), ℛâ + 1 = m̂ at ψ≡1); 'financing' retired as x's narrative name — x is the discounted stock of adjustments still to be provided"}
 
   period-next:
     gloss: "next-period index (house time tooling; = econark-shortcuts \\prdNxt)"
@@ -254,42 +255,118 @@ symbols:
     unicode: 't+1'
     conflicts_checked: "identical to econark-shortcuts.sty:507 (\\providecommand semantics)"
 
+  period-now-suffix:
+    gloss: "current-period decoration suffix — HALF THE DIALECT FLIP POINT (ruling 9 v2): subscript dialect '_{\\prdt}'; prime dialect '{}' — NEVER the empty string (mystmd drops empty macros -> undefined control sequence; verified 2026-07-17)"
+    latex: {macro: '\Now', expansion: '_{\prdt}'}
+    unicode: '_t'
+    conflicts_checked: "no \\Now in econark-shortcuts; supersedes the 'bare = current, no Now-suffix' house rule for path equations (owner-blessed 2026-07-17)"
+    ruling: {date: 2026-07-17, source: "owner proposal ('suppose we tried a different tack... \\newcommand{\\Nxt}{_{t+1}} and \\newcommand{\\Now}{_{t}}... Would that work?') + explicit blessing of the ruling-9 amendment"}
+
+  period-next-suffix:
+    gloss: "next-period decoration suffix — the other half of the flip point: subscript dialect '_{\\prdNxt}'; prime dialect the LITERAL apostrophe — NEVER '^{\\prime}' (double superscript on \\cNrmNxt^{-\\rho} forms; both traps verified against the bundled KaTeX 2026-07-17)"
+    latex: {macro: '\Nxt', expansion: '_{\prdNxt}'}
+    unicode: '_{t+1}'
+    ruling: {date: 2026-07-17, source: "owner proposal + blessing (ruling 9 v2)"}
+
   consumption-next:
-    gloss: "next-period consumption (time-pair convention: bare symbol = current period, Nxt suffix = next; flip the corpus to primes by renewing ONLY the *Nxt macros, e.g. \\cNrmNxt -> c^{\\prime})"
-    latex: {macro: '\cNrmNxt', expansion: 'c_{\prdNxt}'}
+    gloss: "next-period consumption value (time-pair convention v2: the \\*Now/\\*Nxt families are defined THROUGH the \\Now/\\Nxt suffixes, so the dialect flip is the two suffix definitions — NOT per-macro renewal; the old flip example 'c^{\\prime}' is a verified double-superscript trap)"
+    latex: {macro: '\cNrmNxt', expansion: 'c\Nxt'}
     unicode: 'c_{t+1}'
-    conflicts_checked: "suffix verified against the econark-shortcuts \\prdNxt family; no Now-suffix exists in house style — bare = current is the rule"
-    ruling: {date: 2026-07-16, source: "owner ruling Q5 (reactions round): flip to t/t+1 now, keep a one-line path back to primes"}
+    conflicts_checked: "suffix verified against the econark-shortcuts \\prdNxt family; the Now family exists as of 2026-07-17 (ruling 9 v2) — supersedes 'bare = current' for path equations (function equations still keep the state bare)"
+    ruling: {date: 2026-07-17, source: "owner ruling Q5 (2026-07-16: flip to t/t+1, keep a path back to primes) upgraded by ruling 9 v2 (2026-07-17: owner-proposed \\Now/\\Nxt suffix layer; verified flip forms '{}' and literal-')"}
 
   resources-next:
     gloss: "next-period market resources (time-pair convention)"
-    latex: {macro: '\mNrmNxt', expansion: 'm_{\prdNxt}'}
+    latex: {macro: '\mNrmNxt', expansion: 'm\Nxt'}
     unicode: 'm_{t+1}'
 
   assets-next:
     gloss: "next-period end-of-period assets (time-pair convention)"
-    latex: {macro: '\aNrmNxt', expansion: 'a_{\prdNxt}'}
+    latex: {macro: '\aNrmNxt', expansion: 'a\Nxt'}
     unicode: 'a_{t+1}'
 
   wealth-total-pf-next:
     gloss: "next-period perfect-foresight total wealth (time-pair convention)"
-    latex: {macro: '\wbarNxt', expansion: '\wbar_{\prdNxt}'}
+    latex: {macro: '\wbarNxt', expansion: '\wbar\Nxt'}
     unicode: 'w̄_{t+1}'
 
   precautionary-saving-next:
     gloss: "next-period precautionary saving (time-pair convention)"
-    latex: {macro: '\psavNxt', expansion: '\psav_{\prdNxt}'}
+    latex: {macro: '\psavNxt', expansion: '\psav\Nxt'}
     unicode: 'x_{t+1}'
 
   transitory-shock-next:
     gloss: "next-period transitory shock (time-pair convention; powerlaw-pages θ dialect)"
-    latex: {macro: '\tranShkNxt', expansion: '\theta_{\prdNxt}'}
+    latex: {macro: '\tranShkNxt', expansion: '\theta\Nxt'}
     unicode: 'θ_{t+1}'
 
   permanent-shock-next:
     gloss: "next-period permanent shock (time-pair convention)"
-    latex: {macro: '\permShkNxt', expansion: '\psi_{\prdNxt}'}
+    latex: {macro: '\permShkNxt', expansion: '\psi\Nxt'}
     unicode: 'ψ_{t+1}'
+
+  consumption-now:
+    gloss: "current-period consumption value (ruling 9 v2: path equations date every variable)"
+    latex: {macro: '\cNrmNow', expansion: 'c\Now'}
+    unicode: 'c_t'
+    ruling: {date: 2026-07-17, source: "ruling 9 v2 (owner-blessed): the Now family, defined through \\Now"}
+
+  resources-now:
+    gloss: "current-period market resources (path-equation dating)"
+    latex: {macro: '\mNrmNow', expansion: 'm\Now'}
+    unicode: 'm_t'
+
+  assets-now:
+    gloss: "current-period end-of-period assets (path-equation dating)"
+    latex: {macro: '\aNrmNow', expansion: 'a\Now'}
+    unicode: 'a_t'
+
+  bank-balances-now:
+    gloss: "current-period bank balances (path-equation dating)"
+    latex: {macro: '\bNrmNow', expansion: '\bNrm\Now'}
+    unicode: 'b_t'
+
+  bank-balances-next:
+    gloss: "next-period bank balances (time-pair convention; row added 2026-07-17 — \\bNrmNxt was already in corpus use but missing here)"
+    latex: {macro: '\bNrmNxt', expansion: '\bNrm\Nxt'}
+    unicode: 'b_{t+1}'
+
+  wealth-total-pf-now:
+    gloss: "current-period perfect-foresight total wealth (path-equation dating)"
+    latex: {macro: '\wbarNow', expansion: '\wbar\Now'}
+    unicode: 'w̄_t'
+
+  precautionary-saving-now:
+    gloss: "current-period precautionary saving (path-equation dating)"
+    latex: {macro: '\psavNow', expansion: '\psav\Now'}
+    unicode: 'x_t'
+
+  guise-convention:
+    gloss: "ruling 9 v2 (owner-blessed 2026-07-17): a Latin letter naming both a quantity and a function is ITALIC as a quantity (bare letter = the *Nrm object) and UPRIGHT as a function (the *Func object), always with an argument; Greek-letter functions stay italic (KaTeX has no upright lowercase Greek) — arguments disambiguate; primes are reserved for differentiation and appear only on upright letters (time never appears as a prime); path equations date every variable, function equations keep the state bare and date the function"
+    ruling: {date: 2026-07-17, source: "owner: 'adopting the convention used in BufferStockTheory-Latest that FUNCTIONS are written using the non-italicized (mathrm) version of variables, and have explicit macros (like, \\cFunc)' + blessing of the ruling-9 amendment"}
+
+  consumption-function:
+    gloss: "the consumption FUNCTION, upright guise (the value guise is bare italic c)"
+    latex: {macro: '\cFunc', expansion: '\mathrm{c}'}
+    unicode: 'c(·) upright'
+    conflicts_checked: "identical to econark-shortcuts.md:342 and econark_demacro_demacro.sty:108 (\\mathrm{c})"
+
+  utility-function:
+    gloss: "the utility function (always function guise; u' etc. are derivatives)"
+    latex: {macro: '\uFunc', expansion: '\mathrm{u}'}
+    unicode: 'u(·) upright'
+    conflicts_checked: "consistent with the econark-shortcuts \\uFunc family (\\uFuncInv builds on it)"
+
+  precautionary-saving-function:
+    gloss: "precautionary saving as a FUNCTION, upright (applications x(m), x(w̄); the value guise is bare italic x)"
+    latex: {macro: '\psavFunc', expansion: '\mathrm{x}'}
+    unicode: 'x(·) upright'
+
+  buffer-adjustment-function:
+    gloss: "the adjustment as a FUNCTION, upright (applications J(w̄); the value guise is bare italic J)"
+    latex: {macro: '\bufAdjFunc', expansion: '\mathrm{J}'}
+    unicode: 'J(·) upright'
+    conflicts_checked: "\\JFunc in econark-shortcuts is the generic letter macro — no semantic clash"
 
   target:
     gloss: "individual buffer-stock target: E[m′/m] = 1 at m̂ (WRIC+FVAC+GIC-Mod)"

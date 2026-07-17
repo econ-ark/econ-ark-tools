@@ -53,3 +53,20 @@ structurally PASS (all `\providecommand`; compile fixture committed — no TeX
 engine in the build environment); G0-3 (`.md` `*Lvl` clean) PASS; G0-4
 (KaTeX/MyST `--strict` render of every macro) PASS; G0-5 (lint catches planted
 bans, passes clean, honors waivers) PASS.
+
+**Amended in-PR 2026-07-17 (ruling 9 v2 — guise + the \Now/\Nxt dating layer):**
+- **`\Now`/`\Nxt` suffix macros** (owner-proposed): the dialect flip point is the
+  two suffix definitions; `\*Now`/`\*Nxt` families defined THROUGH them (the old
+  per-macro `_{\prdNxt}` hardcoding removed — flip was seven edits, now two).
+  Verified trap warnings recorded: `\Now` must be `'{}'` in the prime dialect
+  (never the empty string — mystmd drops empty macros) and `\Nxt` the literal
+  apostrophe (never `'^{\prime}'` — double superscript on `\cNrmNxt^{-\rho}`).
+- **Guise convention** (ruling 9 v2): values italic (bare letters = `*Nrm`),
+  functions upright (`*Func`, matching econark-shortcuts `\cFunc = \mathrm{c}`);
+  Greek carve-out; primes = differentiation only. New first-class rows:
+  `consumption-function`, `utility-function`, `precautionary-saving-function`,
+  `buffer-adjustment-function`, `guise-convention`, the `*-now` family, and the
+  previously missing `bank-balances-next`.
+- **buffer-adjustment ruling corrected**: the buffer stock is END-OF-PERIOD
+  ASSETS `a` (a level, not a wealth-cushion deviation; target `â = m̂ − c(m̂)`);
+  "financing" retired as x's narrative name (owner, 2026-07-17).

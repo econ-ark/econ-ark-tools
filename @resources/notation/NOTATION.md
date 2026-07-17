@@ -6,17 +6,24 @@
 
 | Object | Symbol | Macro | Expansion | Python | Gloss |
 |---|---|---|---|---|---|
-| assets-next | a_{t+1} | `\aNrmNxt` | `a_{\prdNxt}` |  | next-period end-of-period assets (time-pair convention) |
+| assets-next | a_{t+1} | `\aNrmNxt` | `a\Nxt` |  | next-period end-of-period assets (time-pair convention) |
+| assets-now | a_t | `\aNrmNow` | `a\Now` |  | current-period end-of-period assets (path-equation dating) |
 | bank-balances | b | `\bNrm` | `b` | `bNrm` | beginning-of-period nonhuman wealth: returns realized on last period's assets |
+| bank-balances-next | b_{t+1} | `\bNrmNxt` | `\bNrm\Nxt` |  | next-period bank balances (time-pair convention; row added 2026-07-17 — \bNrmNxt was already in corpus use but missing here) |
+| bank-balances-now | b_t | `\bNrmNow` | `\bNrm\Now` |  | current-period bank balances (path-equation dating) |
 | buffer-adjustment | J | `\bufAdj` | `J` |  | the (Kimball) adjustment — the per-period provision moving the buffer stock toward its target; SIGNED in general (an oversized buffer stock adjusts downward), provably positive in the high-wealth asymptotic region (the forcing floor) |
+| buffer-adjustment-function | J(·) upright | `\bufAdjFunc` | `\mathrm{J}` |  | the adjustment as a FUNCTION, upright (applications J(w̄); the value guise is bare italic J) |
 | compensation-exponent | q̃ | `\qtilde` | `\tilde{q}` |  | trial/compensation exponent in the detection machinery |
 | constraint-end-exponent | q↓ | `\qLo` | `q{\downarrow}` |  | constraint-end (bottom-knot) approach exponent — the down-arrow partner of q↑; PROVEN q↓ = ρ |
-| consumption-next | c_{t+1} | `\cNrmNxt` | `c_{\prdNxt}` |  | next-period consumption (time-pair convention: bare symbol = current period, Nxt suffix = next; flip the corpus to primes by renewing ONLY the *Nxt macros, e.g. \cNrmNxt -> c^{\prime}) |
+| consumption-function | c(·) upright | `\cFunc` | `\mathrm{c}` |  | the consumption FUNCTION, upright guise (the value guise is bare italic c) |
+| consumption-next | c_{t+1} | `\cNrmNxt` | `c\Nxt` |  | next-period consumption value (time-pair convention v2: the \*Now/\*Nxt families are defined THROUGH the \Now/\Nxt suffixes, so the dialect flip is the two suffix definitions — NOT per-macro renewal; the old flip example 'c^{\prime}' is a verified double-superscript trap) |
+| consumption-now | c_t | `\cNrmNow` | `c\Now` |  | current-period consumption value (ruling 9 v2: path equations date every variable) |
 | crra | ρ | `\CRRA` | `\rho` | `CRRA` | coefficient of relative risk aversion |
 | gap-remainder-left | η_L | `\etaL` | `\eta_{L}` |  | left remainder of the exact one-step gap identity (Lemma 5.1); collects evaluation-point/linearization corrections; vanishes in the asymptotic region |
 | gap-remainder-right | η_R | `\etaR` | `\eta_{R}` |  | right remainder of the exact one-step gap identity (Lemma 5.1) |
 | growth-factor | Γ | `\PermGroFac` | `\Gamma` | `PermGroFac` | permanent-income growth factor |
 | growth-rate | g | `\PermGroRte` | `g` |  | log permanent-income growth rate |
+| guise-convention |  |  |  |  | ruling 9 v2 (owner-blessed 2026-07-17): a Latin letter naming both a quantity and a function is ITALIC as a quantity (bare letter = the *Nrm object) and UPRIGHT as a function (the *Func object), always with an argument; Greek-letter functions stay italic (KaTeX has no upright lowercase Greek) — arguments disambiguate; primes are reserved for differentiation and appear only on upright letters (time never appears as a prime); path equations date every variable, function equations keep the state bare and date the function |
 | high-wealth-exponent | q↑ | `\qHi` | `q{\uparrow}` |  | high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q↑) |
 | human-wealth | h | `\hNrm` | `h` | `hNrm` | normalized human wealth, current period's income INCLUDED (BST eq-HDef) |
 | human-wealth-optimist | h̄ | `\hNrmOpt` | `\bar{h}` |  | optimist's human wealth (bar = optimist) |
@@ -29,22 +36,29 @@
 | patience-growth | Þ_Γ | `\GPFacRaw` | `\text{Þ}_{\Gamma}` |  | growth patience factor |
 | patience-return | Þ_R | `\RPFac` | `\text{Þ}_{R}` |  | return patience factor |
 | period-next | t+1 | `\prdNxt` | `t+1` |  | next-period index (house time tooling; = econark-shortcuts \prdNxt) |
+| period-next-suffix | _{t+1} | `\Nxt` | `_{\prdNxt}` |  | next-period decoration suffix — the other half of the flip point: subscript dialect '_{\prdNxt}'; prime dialect the LITERAL apostrophe — NEVER '^{\prime}' (double superscript on \cNrmNxt^{-\rho} forms; both traps verified against the bundled KaTeX 2026-07-17) |
+| period-now-suffix | _t | `\Now` | `_{\prdt}` |  | current-period decoration suffix — HALF THE DIALECT FLIP POINT (ruling 9 v2): subscript dialect '_{\prdt}'; prime dialect '{}' — NEVER the empty string (mystmd drops empty macros -> undefined control sequence; verified 2026-07-17) |
 | permanent-shock | ψ | `\permShk` | `\psi` | `PermShk` | permanent shock, E[ψ]=1, bounded support |
-| permanent-shock-next | ψ_{t+1} | `\permShkNxt` | `\psi_{\prdNxt}` |  | next-period permanent shock (time-pair convention) |
+| permanent-shock-next | ψ_{t+1} | `\permShkNxt` | `\psi\Nxt` |  | next-period permanent shock (time-pair convention) |
 | precautionary-saving | x | `\psav` | `x` |  | precautionary saving — the eXtra saving induced by precaution: the shortfall of consumption below BST's perfect-foresight rule |
-| precautionary-saving-next | x_{t+1} | `\psavNxt` | `\psav_{\prdNxt}` |  | next-period precautionary saving (time-pair convention) |
+| precautionary-saving-function | x(·) upright | `\psavFunc` | `\mathrm{x}` |  | precautionary saving as a FUNCTION, upright (applications x(m), x(w̄); the value guise is bare italic x) |
+| precautionary-saving-next | x_{t+1} | `\psavNxt` | `\psav\Nxt` |  | next-period precautionary saving (time-pair convention) |
+| precautionary-saving-now | x_t | `\psavNow` | `\psav\Now` |  | current-period precautionary saving (path-equation dating) |
 | pseudo-target | m̌ | `\mBalLvl` | `\check{m}` | `mBalLvl` | balanced-growth pseudo-target (GIC-Raw) |
 | resources-excess | m̈ | `\mNrmEx` | `\ddot{m}` |  | excess market resources above the natural borrowing constraint |
-| resources-next | m_{t+1} | `\mNrmNxt` | `m_{\prdNxt}` |  | next-period market resources (time-pair convention) |
+| resources-next | m_{t+1} | `\mNrmNxt` | `m\Nxt` |  | next-period market resources (time-pair convention) |
+| resources-now | m_t | `\mNrmNow` | `m\Now` |  | current-period market resources (path-equation dating) |
 | return-growth-ratio | ℛ | `\RNrmByG` | `\mathcal{R}` |  | growth-normalized return |
 | return-region | ζ (edge) |  |  |  | the compact interval around the target that the renewal argument uses; exists because θ has bounded support; upper edge computable |
 | target | m̂ | `\mTrgNrm` | `\hat{m}` | `mTrgNrm` | individual buffer-stock target: E[m′/m] = 1 at m̂ (WRIC+FVAC+GIC-Mod) |
 | thorn-glyph | þ | `\thorn` | `\text{þ}` |  | lowercase thorn glyph provision — the RATE partner of Þ; referenced by \GPRte/\APRte/\RPRte in econark-shortcuts.sty, which never defined it (latent-broken until this ruling) |
 | transitory-shock-all | ξ | `\tranShkAll` | `\xi` |  | transitory shock INCLUDING the zero-income atom |
-| transitory-shock-next | θ_{t+1} | `\tranShkNxt` | `\theta_{\prdNxt}` |  | next-period transitory shock (time-pair convention; powerlaw-pages θ dialect) |
+| transitory-shock-next | θ_{t+1} | `\tranShkNxt` | `\theta\Nxt` |  | next-period transitory shock (time-pair convention; powerlaw-pages θ dialect) |
 | travel-time-to-target | τ | `\trvTime` | `\tau` |  | periods of perfect-foresight descent from w̄ to the target neighborhood (the log-clock); frees T to mean ONLY the terminal/resumption date |
+| utility-function | u(·) upright | `\uFunc` | `\mathrm{u}` |  | the utility function (always function guise; u' etc. are derivatives) |
 | wealth-total-pf | w̄ | `\wbar` | `\bar{w}` | `wBarNrm` | perfect-foresight total wealth (human and market) — the optimist's wealth, viewed after returns realize on last period's kapital |
-| wealth-total-pf-next | w̄_{t+1} | `\wbarNxt` | `\wbar_{\prdNxt}` |  | next-period perfect-foresight total wealth (time-pair convention) |
+| wealth-total-pf-next | w̄_{t+1} | `\wbarNxt` | `\wbar\Nxt` |  | next-period perfect-foresight total wealth (time-pair convention) |
+| wealth-total-pf-now | w̄_t | `\wbarNow` | `\wbar\Now` |  | current-period perfect-foresight total wealth (path-equation dating) |
 | zero-income-prob | ℘ | `\pZero` | `\wp` | `pZero` | probability of the zero-income event (the worst transitory atom) |
 
 ## Definitions, dialects & rulings
@@ -59,7 +73,11 @@
 - **define:** w̄·J(w̄) → κ̲(ρ+1)σ²/(2Þ_Γ)   (transitory-only limit)
 - **alias:** RETIRED same-PR before any consumption: \KimPrem / 'Kimball precautionary premium' / 'dividend' — banned terms (terminology.yml): they connote a strictly positive flow
 - **conflicts checked:** J carries only generic letter macros (\JLvl/\JNrm/\JFunc) in econark-shortcuts.sty — no semantic claim (verified 2026-07-16)
-- **ruling:** 2026-07-16 · source: owner rulings (second reactions batch + Q-A(ii)): the flow is 'the adjustment'; the stock narrative is 'the buffer stock' (wealth cushion vs target m̂); x FINANCES the adjustment
+- **ruling:** 2026-07-17 · source: owner rulings 2026-07-16 (the flow is 'the adjustment') as CORRECTED 2026-07-17: the buffer stock is END-OF-PERIOD ASSETS a (a LEVEL, not a wealth-cushion deviation; target â = m̂ − c(m̂), ℛâ + 1 = m̂ at ψ≡1); 'financing' retired as x's narrative name — x is the discounted stock of adjustments still to be provided
+
+### buffer-adjustment-function
+
+- **conflicts checked:** \JFunc in econark-shortcuts is the generic letter macro — no semantic clash
 
 ### compensation-exponent
 
@@ -72,10 +90,18 @@
 - **alias:** supersedes q° (\qcirc, q_{\circ}) — the 2026-07-13 constraint-end theorem symbol
 - **ruling:** 2026-07-14 · source: owner ruling (supersedes q° = \qcirc, 2026-07-13 constraint-end theorem): arrow decorations · rationale: PROVEN q↓ = ρ (CRRA); the letter r stays reserved for the interest rate
 
+### consumption-function
+
+- **conflicts checked:** identical to econark-shortcuts.md:342 and econark_demacro_demacro.sty:108 (\mathrm{c})
+
 ### consumption-next
 
-- **conflicts checked:** suffix verified against the econark-shortcuts \prdNxt family; no Now-suffix exists in house style — bare = current is the rule
-- **ruling:** 2026-07-16 · source: owner ruling Q5 (reactions round): flip to t/t+1 now, keep a one-line path back to primes
+- **conflicts checked:** suffix verified against the econark-shortcuts \prdNxt family; the Now family exists as of 2026-07-17 (ruling 9 v2) — supersedes 'bare = current' for path equations (function equations still keep the state bare)
+- **ruling:** 2026-07-17 · source: owner ruling Q5 (2026-07-16: flip to t/t+1, keep a path back to primes) upgraded by ruling 9 v2 (2026-07-17: owner-proposed \Now/\Nxt suffix layer; verified flip forms '{}' and literal-')
+
+### consumption-now
+
+- **ruling:** 2026-07-17 · source: ruling 9 v2 (owner-blessed): the Now family, defined through \Now
 
 ### crra
 
@@ -103,6 +129,10 @@
 
 - **define:** g = ln Γ
 - **conflicts checked:** matches econark-shortcuts.sty:271 (\providecommand semantics: shortcuts wins where both load)
+
+### guise-convention
+
+- **ruling:** 2026-07-17 · source: owner: 'adopting the convention used in BufferStockTheory-Latest that FUNCTIONS are written using the non-italicized (mathrm) version of variables, and have explicit macros (like, \cFunc)' + blessing of the ruling-9 amendment
 
 ### high-wealth-exponent
 
@@ -155,6 +185,15 @@
 
 - **conflicts checked:** identical to econark-shortcuts.sty:507 (\providecommand semantics)
 
+### period-next-suffix
+
+- **ruling:** 2026-07-17 · source: owner proposal + blessing (ruling 9 v2)
+
+### period-now-suffix
+
+- **conflicts checked:** no \Now in econark-shortcuts; supersedes the 'bare = current, no Now-suffix' house rule for path equations (owner-blessed 2026-07-17)
+- **ruling:** 2026-07-17 · source: owner proposal ('suppose we tried a different tack... \newcommand{\Nxt}{_{t+1}} and \newcommand{\Now}{_{t}}... Would that work?') + explicit blessing of the ruling-9 amendment
+
 ### precautionary-saving
 
 - **define:** x(m) := c̄(m) − c(m) = κ̲·w̄ − c(m), written x(w̄) in the perfect-foresight-wealth coordinate
@@ -192,6 +231,10 @@
 - **define:** τ(w̄) ≈ ln w̄ / (−þ_g)
 - **conflicts checked:** τ = \TaxRte/\tax in econark-shortcuts.sty:358–359 (fiscal context) — deliberate glyph reuse across DISJOINT corpora: no fiscal objects appear in the powerlaw/BST theory pages (verified 2026-07-16)
 - **ruling:** 2026-07-16 · source: owner ruling Q3 (reactions round)
+
+### utility-function
+
+- **conflicts checked:** consistent with the econark-shortcuts \uFunc family (\uFuncInv builds on it)
 
 ### wealth-total-pf
 
