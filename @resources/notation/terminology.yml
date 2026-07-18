@@ -26,6 +26,7 @@ banned:
     use: "the (Kimball) adjustment"
     scope: "powerlaw corpus + buffer-stock expositions"
     ruling: {date: 2026-07-16, source: "owner (reactions round 2): same sign-connotation objection; credit Kimball, not Arrow–Pratt, for the precautionary object"}
+    exception: "the compound 'Kimball Precautionary Premium (KPP)' is SANCTIONED as J's textual name (owner, 2026-07-17: 'you can refer to it textually as the Kimball Precautionary Premium (KPP)'); the bare term stays banned"
   - term: "precautionary debt"
     use: "the buffer stock (the wealth cushion vs the target m̂); x = its financing"
     scope: "powerlaw corpus"

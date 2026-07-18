@@ -83,3 +83,11 @@ bans, passes clean, honors waivers) PASS.
   `function-vs-quantity-convention` and de-jargoned. NEW BANS in
   terminology.yml: `\mathfrak{b}` (write RβΓ^{−ρ} / Þ_Γ^ρ) and the
   "dual-guise" coinage.
+- **KPP restored + q-subscripts + kapital (owner, 2026-07-17 evening):** J's
+  textual name is again the Kimball Precautionary Premium (KPP) — a scoped
+  exception to the premium ban ("the adjustment" survives only for the signed
+  buffer-stock-motion concept). Display exponents q↑/q↓ → `q_∞`/`q_0`
+  (subscript ruling; `\qHi`/`\qLo` expansions updated; HARK `q_star` API
+  unchanged; frozen figures may carry arrows — bridge declared). New
+  `kapital-now`/`kapital-next` rows (BST's k_{t+1} = a_t). MoM
+  "optimist/pessimist" language retired from the powerlaw corpus.

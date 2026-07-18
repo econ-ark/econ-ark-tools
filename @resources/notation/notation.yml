@@ -44,7 +44,7 @@ symbols:
       rationale: "one h, BST's; the shadow h_BST and local future-only h are banned"
 
   wealth-total-pf:
-    gloss: "perfect-foresight total wealth (human and market) — the optimist's wealth, viewed after returns realize on last period's kapital. A FUNCTION of the state, not a constant (owner caution 2026-07-17: bars so often mark means/bounds that w̄ tempts a constant reading — the bar is MoM's optimist mark); written w̄(m) at definitional sites, italic throughout (\\wbarFunc retired same-PR, owner 2026-07-17)"
+    gloss: "perfect-foresight total wealth (human and market), viewed after returns realize on last period's kapital (k_t = a_{t−1}). A FUNCTION of the state, not a constant (owner caution 2026-07-17: bars so often mark means/bounds that w̄ tempts a constant reading — the bar is BST's upper-bound mark; MoM 'optimist' language retired 2026-07-17); written w̄(m) at definitional sites, italic throughout (\\wbarFunc retired same-PR, owner 2026-07-17)"
     define: "w̄(m) := b + h = m − 1 + h"
     latex: {macro: '\wbar', expansion: '\bar{w}'}
     unicode: 'w̄'
@@ -163,10 +163,10 @@ symbols:
     aliases: ["\\Rcal — powerlaw pages (\\mathcal{R})"]
 
   high-wealth-exponent:
-    gloss: "high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q↑)"
-    define: "root of E[ψ^{1+q}] = ℛ·Þ_Γ^q  (ψ≡1: q↑ = ln ℛ / ln(1/Þ_Γ))"
-    latex: {macro: '\qHi', expansion: 'q{\uparrow}'}
-    unicode: 'q↑'
+    gloss: "high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q_∞); the ∞ subscript names its domain, the high-wealth limit (subscript ruling 2026-07-17, superseding the 2026-07-14 arrows)"
+    define: "root of E[ψ^{1+q}] = ℛ·Þ_Γ^q  (ψ≡1: q_∞ = ln ℛ / ln(1/Þ_Γ))"
+    latex: {macro: '\qHi', expansion: 'q_{\infty}'}
+    unicode: 'q_∞'
     aliases: ["supersedes q* (\\qstar, q^{*}) — the powerlaw corpus' pre-2026-07-14 symbol"]
     ruling:
       date: 2026-07-14
@@ -174,15 +174,15 @@ symbols:
       rationale: "up/down arrows read directly as the two ends of the wealth domain"
 
   constraint-end-exponent:
-    gloss: "constraint-end (bottom-knot) approach exponent — the down-arrow partner of q↑; PROVEN q↓ = ρ"
+    gloss: "constraint-end (bottom-knot) approach exponent — the 0-subscript partner of q↑; PROVEN q_0 = ρ"
     define: "MPC deficit κ̄ − c/mᵉ ≍ (mᵉ)^ρ; in MoM coords χ(μ) = μ + b₀ + O(e^{ρμ})"
-    latex: {macro: '\qLo', expansion: 'q{\downarrow}'}
-    unicode: 'q↓'
+    latex: {macro: '\qLo', expansion: 'q_{0}'}
+    unicode: 'q_0'
     aliases: ["supersedes q° (\\qcirc, q_{\\circ}) — the 2026-07-13 constraint-end theorem symbol"]
     ruling:
       date: 2026-07-14
       source: "owner ruling (supersedes q° = \\qcirc, 2026-07-13 constraint-end theorem): arrow decorations"
-      rationale: "PROVEN q↓ = ρ (CRRA); the letter r stays reserved for the interest rate"
+      rationale: "PROVEN q_0 = ρ (CRRA); the letter r stays reserved for the interest rate"
 
   compensation-exponent:
     gloss: "trial/compensation exponent in the detection machinery"
@@ -240,7 +240,7 @@ symbols:
     ruling: {date: 2026-07-16, source: "owner ruling Q3 (reactions round)"}
 
   buffer-adjustment:
-    gloss: "the (Kimball) adjustment — the per-period provision moving the buffer stock toward its target; SIGNED in general (an oversized buffer stock adjusts downward), provably positive in the high-wealth asymptotic region (the forcing floor)"
+    gloss: "J — textual name THE KIMBALL PRECAUTIONARY PREMIUM (KPP), restored by owner 2026-07-17 (always positive in the asymptotic region, though not monotone in wealth; the SUM of premia grows with each backward step; the analytic formula is asymptotic-only). 'The adjustment' survives only for the buffer-stock-motion concept, which is SIGNED in general (an oversized buffer stock adjusts downward), provably positive in the high-wealth asymptotic region (the forcing floor)"
     define: "w̄·J(w̄) → κ̲(ρ+1)σ²/(2Þ_Γ)   (transitory-only limit)"
     latex: {macro: '\bufAdj', expansion: 'J'}
     unicode: 'J'
@@ -320,6 +320,17 @@ symbols:
     latex: {macro: '\aNrmNow', expansion: 'a\Now'}
     unicode: 'a_t'
 
+  kapital-now:
+    gloss: "this period's kapital — BST's k_t = a_{t−1}: last period's assets, renamed at the date they earn their return"
+    latex: {macro: '\kNrmNow', expansion: 'k\Now'}
+    unicode: 'k_t'
+    ruling: {date: 2026-07-17, source: "owner: reprise BST's setup so a, b, c, m, k are self-contained; k_{t+1} = a_t"}
+
+  kapital-next:
+    gloss: "next period's kapital, k_{t+1} = a_t (time-pair convention)"
+    latex: {macro: '\kNrmNxt', expansion: 'k\Nxt'}
+    unicode: 'k_{t+1}'
+
   bank-balances-now:
     gloss: "current-period bank balances (path-equation dating)"
     latex: {macro: '\bNrmNow', expansion: '\bNrm\Now'}
@@ -395,7 +406,7 @@ symbols:
   #     since the powerlaw pages now cite the bar-convention) ---
 
   human-wealth-optimist:
-    gloss: "optimist's human wealth (bar = optimist)"
+    gloss: "PF (upper-bound) human wealth (bar = upper bound; MoM 'optimist' language retired from the powerlaw corpus 2026-07-17)"
     latex: {macro: '\hNrmOpt', expansion: '\bar{h}'}
     unicode: 'h̄'
 

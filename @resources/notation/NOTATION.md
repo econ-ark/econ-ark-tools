@@ -11,10 +11,10 @@
 | bank-balances | b | `\bNrm` | `b` | `bNrm` | beginning-of-period nonhuman wealth: returns realized on last period's assets |
 | bank-balances-next | b_{t+1} | `\bNrmNxt` | `\bNrm\Nxt` |  | next-period bank balances (time-pair convention; row added 2026-07-17 — \bNrmNxt was already in corpus use but missing here) |
 | bank-balances-now | b_t | `\bNrmNow` | `\bNrm\Now` |  | current-period bank balances (path-equation dating) |
-| buffer-adjustment | J | `\bufAdj` | `J` |  | the (Kimball) adjustment — the per-period provision moving the buffer stock toward its target; SIGNED in general (an oversized buffer stock adjusts downward), provably positive in the high-wealth asymptotic region (the forcing floor) |
+| buffer-adjustment | J | `\bufAdj` | `J` |  | J — textual name THE KIMBALL PRECAUTIONARY PREMIUM (KPP), restored by owner 2026-07-17 (always positive in the asymptotic region, though not monotone in wealth; the SUM of premia grows with each backward step; the analytic formula is asymptotic-only). 'The adjustment' survives only for the buffer-stock-motion concept, which is SIGNED in general (an oversized buffer stock adjusts downward), provably positive in the high-wealth asymptotic region (the forcing floor) |
 | buffer-adjustment-function | J(·) upright | `\bufAdjFunc` | `\mathrm{J}` |  | the adjustment as a FUNCTION, upright (applications J(w̄)); the italic letter J is the flow quantity |
 | compensation-exponent | q̃ | `\qtilde` | `\tilde{q}` |  | trial/compensation exponent in the detection machinery |
-| constraint-end-exponent | q↓ | `\qLo` | `q{\downarrow}` |  | constraint-end (bottom-knot) approach exponent — the down-arrow partner of q↑; PROVEN q↓ = ρ |
+| constraint-end-exponent | q_0 | `\qLo` | `q_{0}` |  | constraint-end (bottom-knot) approach exponent — the 0-subscript partner of q↑; PROVEN q_0 = ρ |
 | consumption-function | c(·) upright | `\cFunc` | `\mathrm{c}` |  | the consumption FUNCTION, upright guise (the value guise is bare italic c) |
 | consumption-next | c_{t+1} | `\cNrmNxt` | `c\Nxt` |  | next-period consumption value (time-pair convention v2: the \*Now/\*Nxt families are defined THROUGH the \Now/\Nxt suffixes, so the dialect flip is the two suffix definitions — NOT per-macro renewal; the old flip example 'c^{\prime}' is a verified double-superscript trap) |
 | consumption-now | c_t | `\cNrmNow` | `c\Now` |  | current-period consumption value (ruling 9 v2: path equations date every variable) |
@@ -25,10 +25,12 @@
 | gap-remainder-right | η_R | `\etaR` | `\eta_{R}` |  | right remainder of the exact one-step gap identity (Lemma 5.1) |
 | growth-factor | Γ | `\PermGroFac` | `\Gamma` | `PermGroFac` | permanent-income growth factor |
 | growth-rate | g | `\PermGroRte` | `g` |  | log permanent-income growth rate |
-| high-wealth-exponent | q↑ | `\qHi` | `q{\uparrow}` |  | high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q↑) |
+| high-wealth-exponent | q_∞ | `\qHi` | `q_{\infty}` |  | high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q_∞); the ∞ subscript names its domain, the high-wealth limit (subscript ruling 2026-07-17, superseding the 2026-07-14 arrows) |
 | human-wealth | h | `\hNrm` | `h` | `hNrm` | normalized human wealth, current period's income INCLUDED (BST eq-HDef) |
-| human-wealth-optimist | h̄ | `\hNrmOpt` | `\bar{h}` |  | optimist's human wealth (bar = optimist) |
+| human-wealth-optimist | h̄ | `\hNrmOpt` | `\bar{h}` |  | PF (upper-bound) human wealth (bar = upper bound; MoM 'optimist' language retired from the powerlaw corpus 2026-07-17) |
 | human-wealth-pessimist | h̲ | `\hNrmPes` | `\underline{h}` |  | pessimist's (minimal) human wealth |
+| kapital-next | k_{t+1} | `\kNrmNxt` | `k\Nxt` |  | next period's kapital, k_{t+1} = a_t (time-pair convention) |
+| kapital-now | k_t | `\kNrmNow` | `k\Now` |  | this period's kapital — BST's k_t = a_{t−1}: last period's assets, renamed at the date they earn their return |
 | log-excess-resources | μ | `\logmNrmEx` | `\boldsymbol{\mu}` |  | log excess resources |
 | log-growth-patience-rate | þ_g | `\GPRte` | `\thorn_{\PermGroRte}` |  | log growth-patience rate — lowercase-thorn partner of Þ_Γ; NEGATIVE under GIC; the per-period PF descent rate of ln w̄ is −þ_g |
 | mpc-max | κ̄ | `\MPCmax` | `\overline{\kappa}` | `MPCmax` | limiting MPC as m→0 (worst-atom) |
@@ -57,7 +59,7 @@
 | transitory-shock-next | θ_{t+1} | `\tranShkNxt` | `\theta\Nxt` |  | next-period transitory shock (time-pair convention; powerlaw-pages θ dialect) |
 | travel-time-to-target | τ | `\trvTime` | `\tau` |  | periods of perfect-foresight descent from w̄ to the target neighborhood (the log-clock); frees T to mean ONLY the terminal/resumption date |
 | utility-function | u(·) upright | `\uFunc` | `\mathrm{u}` |  | the utility function (always function guise; u' etc. are derivatives) |
-| wealth-total-pf | w̄ | `\wbar` | `\bar{w}` | `wBarNrm` | perfect-foresight total wealth (human and market) — the optimist's wealth, viewed after returns realize on last period's kapital. A FUNCTION of the state, not a constant (owner caution 2026-07-17: bars so often mark means/bounds that w̄ tempts a constant reading — the bar is MoM's optimist mark); written w̄(m) at definitional sites, italic throughout (\wbarFunc retired same-PR, owner 2026-07-17) |
+| wealth-total-pf | w̄ | `\wbar` | `\bar{w}` | `wBarNrm` | perfect-foresight total wealth (human and market), viewed after returns realize on last period's kapital (k_t = a_{t−1}). A FUNCTION of the state, not a constant (owner caution 2026-07-17: bars so often mark means/bounds that w̄ tempts a constant reading — the bar is BST's upper-bound mark; MoM 'optimist' language retired 2026-07-17); written w̄(m) at definitional sites, italic throughout (\wbarFunc retired same-PR, owner 2026-07-17) |
 | wealth-total-pf-next | w̄_{t+1} | `\wbarNxt` | `\wbar\Nxt` |  | next-period perfect-foresight total wealth (time-pair convention) |
 | wealth-total-pf-now | w̄_t | `\wbarNow` | `\wbar\Now` |  | current-period perfect-foresight total wealth (path-equation dating) |
 | zero-income-prob | ℘ | `\pZero` | `\wp` | `pZero` | probability of the zero-income event (the worst transitory atom) |
@@ -89,7 +91,7 @@
 
 - **define:** MPC deficit κ̄ − c/mᵉ ≍ (mᵉ)^ρ; in MoM coords χ(μ) = μ + b₀ + O(e^{ρμ})
 - **alias:** supersedes q° (\qcirc, q_{\circ}) — the 2026-07-13 constraint-end theorem symbol
-- **ruling:** 2026-07-14 · source: owner ruling (supersedes q° = \qcirc, 2026-07-13 constraint-end theorem): arrow decorations · rationale: PROVEN q↓ = ρ (CRRA); the letter r stays reserved for the interest rate
+- **ruling:** 2026-07-14 · source: owner ruling (supersedes q° = \qcirc, 2026-07-13 constraint-end theorem): arrow decorations · rationale: PROVEN q_0 = ρ (CRRA); the letter r stays reserved for the interest rate
 
 ### consumption-function
 
@@ -142,7 +144,7 @@
 
 ### high-wealth-exponent
 
-- **define:** root of E[ψ^{1+q}] = ℛ·Þ_Γ^q  (ψ≡1: q↑ = ln ℛ / ln(1/Þ_Γ))
+- **define:** root of E[ψ^{1+q}] = ℛ·Þ_Γ^q  (ψ≡1: q_∞ = ln ℛ / ln(1/Þ_Γ))
 - **alias:** supersedes q* (\qstar, q^{*}) — the powerlaw corpus' pre-2026-07-14 symbol
 - **ruling:** 2026-07-14 · source: owner ruling (supersedes q* = \qstar): arrow decorations — q↑ (high-wealth) / q↓ (constraint) · rationale: up/down arrows read directly as the two ends of the wealth domain
 
@@ -151,6 +153,10 @@
 - **define:** h_t = (1−ℛ^{−(T−t+1)})/(1−ℛ⁻¹);  limit h = 1/(1−ℛ⁻¹) = R/(R−Γ)
 - **dialect `hark-python`:** expansion `h − 1`; home: HARK's hNrm EXCLUDES the current period; **MIGRATION-PENDING (ruling 4): a SEMANTIC divergence — needs an explicit owner ruling (rename / re-derive / waiver) before any HARK code change; do not touch code from this mission**; verified in HARK source 2026-07-14
 - **ruling:** 2026-07-14 · source: BST feedback N1 · rationale: one h, BST's; the shadow h_BST and local future-only h are banned
+
+### kapital-now
+
+- **ruling:** 2026-07-17 · source: owner: reprise BST's setup so a, b, c, m, k are self-contained; k_{t+1} = a_t
 
 ### log-excess-resources
 
