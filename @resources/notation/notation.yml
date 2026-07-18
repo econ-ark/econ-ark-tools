@@ -44,11 +44,17 @@ symbols:
       rationale: "one h, BST's; the shadow h_BST and local future-only h are banned"
 
   wealth-total-pf:
-    gloss: "perfect-foresight total wealth (human and market) — the optimist's wealth, viewed after returns realize on last period's kapital"
-    define: "w̄ := b + h = m − 1 + h"
+    gloss: "perfect-foresight total wealth (human and market) — the optimist's wealth, viewed after returns realize on last period's kapital. A FUNCTION of the state, not a constant (owner caution 2026-07-17: bars so often mark means/bounds that w̄ tempts a constant reading — the bar is MoM's optimist mark); function guise \\wbarFunc(m), value guise italic \\wbar"
+    define: "w̄(m) := b + h = m − 1 + h"
     latex: {macro: '\wbar', expansion: '\bar{w}'}
     unicode: 'w̄'
     python: 'wBarNrm'   # PROPOSED — no HARK use yet
+
+  wealth-total-pf-function:
+    gloss: "PF total wealth as a FUNCTION of the state, upright per the guise convention: w̄(m) := b + h = m − 1 + h — written applied at definitional/relabeling sites so the state-dependence is explicit"
+    latex: {macro: '\wbarFunc', expansion: '\bar{\mathrm{w}}'}
+    unicode: 'w̄(·) upright'
+    ruling: {date: 2026-07-17, source: "owner: 'because bar is so often used to represent a constant quantity (like a mean), it is sorely tempting to misinterpret it that way... In practice, w̄ is a FUNCTION of m, so maybe writing it explicitly that way would help reduce confusion'"}
     conflicts_checked: "w unused in BST (verified 2026-07-14); bar = optimist per BST's own overbar sentence (BufferStockTheory.md ~line 2882) + MoM convention"
     ruling: {date: 2026-07-14, source: "BST feedback R1"}
 

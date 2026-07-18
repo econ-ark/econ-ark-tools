@@ -56,7 +56,8 @@
 | transitory-shock-next | θ_{t+1} | `\tranShkNxt` | `\theta\Nxt` |  | next-period transitory shock (time-pair convention; powerlaw-pages θ dialect) |
 | travel-time-to-target | τ | `\trvTime` | `\tau` |  | periods of perfect-foresight descent from w̄ to the target neighborhood (the log-clock); frees T to mean ONLY the terminal/resumption date |
 | utility-function | u(·) upright | `\uFunc` | `\mathrm{u}` |  | the utility function (always function guise; u' etc. are derivatives) |
-| wealth-total-pf | w̄ | `\wbar` | `\bar{w}` | `wBarNrm` | perfect-foresight total wealth (human and market) — the optimist's wealth, viewed after returns realize on last period's kapital |
+| wealth-total-pf | w̄ | `\wbar` | `\bar{w}` | `wBarNrm` | perfect-foresight total wealth (human and market) — the optimist's wealth, viewed after returns realize on last period's kapital. A FUNCTION of the state, not a constant (owner caution 2026-07-17: bars so often mark means/bounds that w̄ tempts a constant reading — the bar is MoM's optimist mark); function guise \wbarFunc(m), value guise italic \wbar |
+| wealth-total-pf-function | w̄(·) upright | `\wbarFunc` | `\bar{\mathrm{w}}` |  | PF total wealth as a FUNCTION of the state, upright per the guise convention: w̄(m) := b + h = m − 1 + h — written applied at definitional/relabeling sites so the state-dependence is explicit |
 | wealth-total-pf-next | w̄_{t+1} | `\wbarNxt` | `\wbar\Nxt` |  | next-period perfect-foresight total wealth (time-pair convention) |
 | wealth-total-pf-now | w̄_t | `\wbarNow` | `\wbar\Now` |  | current-period perfect-foresight total wealth (path-equation dating) |
 | zero-income-prob | ℘ | `\pZero` | `\wp` | `pZero` | probability of the zero-income event (the worst transitory atom) |
@@ -238,7 +239,10 @@
 
 ### wealth-total-pf
 
-- **define:** w̄ := b + h = m − 1 + h
+- **define:** w̄(m) := b + h = m − 1 + h
+
+### wealth-total-pf-function
+
 - **conflicts checked:** w unused in BST (verified 2026-07-14); bar = optimist per BST's own overbar sentence (BufferStockTheory.md ~line 2882) + MoM convention
 - **ruling:** 2026-07-14 · source: BST feedback R1
 

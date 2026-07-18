@@ -70,3 +70,8 @@ bans, passes clean, honors waivers) PASS.
 - **buffer-adjustment ruling corrected**: the buffer stock is END-OF-PERIOD
   ASSETS `a` (a level, not a wealth-cushion deviation; target `â = m̂ − c(m̂)`);
   "financing" retired as x's narrative name (owner, 2026-07-17).
+- **`\wbarFunc` + w̄-is-a-function caution (owner, 2026-07-17):** bars tempt a
+  constant/mean reading; w̄(m) := b + h = m − 1 + h is a function of the state
+  (the bar is MoM's optimist mark). New row `wealth-total-pf-function`
+  (`\wbarFunc` = `\bar{\mathrm{w}}`, guise convention); `wealth-total-pf` gloss
+  and define now function-explicit.
