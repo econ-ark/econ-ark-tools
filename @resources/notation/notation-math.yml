@@ -54,7 +54,6 @@ project:
     '\trvTime': '\tau'
     '\uFunc': '\mathrm{u}'
     '\wbar': '\bar{w}'
-    '\wbarFunc': '\bar{\mathrm{w}}'
     '\wbarNxt': '\wbar\Nxt'
     '\wbarNow': '\wbar\Now'
     '\pZero': '\wp'

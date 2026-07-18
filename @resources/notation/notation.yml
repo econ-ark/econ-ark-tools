@@ -44,19 +44,12 @@ symbols:
       rationale: "one h, BST's; the shadow h_BST and local future-only h are banned"
 
   wealth-total-pf:
-    gloss: "perfect-foresight total wealth (human and market) — the optimist's wealth, viewed after returns realize on last period's kapital. A FUNCTION of the state, not a constant (owner caution 2026-07-17: bars so often mark means/bounds that w̄ tempts a constant reading — the bar is MoM's optimist mark); function guise \\wbarFunc(m), value guise italic \\wbar"
+    gloss: "perfect-foresight total wealth (human and market) — the optimist's wealth, viewed after returns realize on last period's kapital. A FUNCTION of the state, not a constant (owner caution 2026-07-17: bars so often mark means/bounds that w̄ tempts a constant reading — the bar is MoM's optimist mark); written w̄(m) at definitional sites, italic throughout (\\wbarFunc retired same-PR, owner 2026-07-17)"
     define: "w̄(m) := b + h = m − 1 + h"
     latex: {macro: '\wbar', expansion: '\bar{w}'}
     unicode: 'w̄'
     python: 'wBarNrm'   # PROPOSED — no HARK use yet
 
-  wealth-total-pf-function:
-    gloss: "PF total wealth as a FUNCTION of the state, upright per the guise convention: w̄(m) := b + h = m − 1 + h — written applied at definitional/relabeling sites so the state-dependence is explicit"
-    latex: {macro: '\wbarFunc', expansion: '\bar{\mathrm{w}}'}
-    unicode: 'w̄(·) upright'
-    ruling: {date: 2026-07-17, source: "owner: 'because bar is so often used to represent a constant quantity (like a mean), it is sorely tempting to misinterpret it that way... In practice, w̄ is a FUNCTION of m, so maybe writing it explicitly that way would help reduce confusion'"}
-    conflicts_checked: "w unused in BST (verified 2026-07-14); bar = optimist per BST's own overbar sentence (BufferStockTheory.md ~line 2882) + MoM convention"
-    ruling: {date: 2026-07-14, source: "BST feedback R1"}
 
   bank-balances:
     gloss: "beginning-of-period nonhuman wealth: returns realized on last period's assets"
@@ -347,9 +340,9 @@ symbols:
     latex: {macro: '\psavNow', expansion: '\psav\Now'}
     unicode: 'x_t'
 
-  guise-convention:
-    gloss: "ruling 9 v2 (owner-blessed 2026-07-17): a Latin letter naming both a quantity and a function is ITALIC as a quantity (bare letter = the *Nrm object) and UPRIGHT as a function (the *Func object), always with an argument; Greek-letter functions stay italic (KaTeX has no upright lowercase Greek) — arguments disambiguate; primes are reserved for differentiation and appear only on upright letters (time never appears as a prime); path equations date every variable, function equations keep the state bare and date the function"
-    ruling: {date: 2026-07-17, source: "owner: 'adopting the convention used in BufferStockTheory-Latest that FUNCTIONS are written using the non-italicized (mathrm) version of variables, and have explicit macros (like, \\cFunc)' + blessing of the ruling-9 amendment"}
+  function-vs-quantity-convention:
+    gloss: "ruling 9 v2, as amended 2026-07-17: a function whose letter also names a quantity is UPRIGHT with its argument (BST's \\cFunc convention — \\cFunc(m), \\psavFunc(m), \\bufAdjFunc(w̄), \\uFunc); the italic letters are the quantities. A letter that names ONLY a function needs no upright form (the gap g, Greek functions). Primes are reserved for differentiation, on upright letters only; path equations date every variable, function equations keep the state bare and date the function. The 'dual-guise' framing is PROHIBITED (owner, 2026-07-17) — state the convention concretely"
+    ruling: {date: 2026-07-17, source: "owner: BST \\cFunc convention adopted 2026-07-17 AM; 'I'm going to strictly prohibit you from using what you call a textbook dual-guise object' + the gap-g prescription, 2026-07-17 PM"}
 
   consumption-function:
     gloss: "the consumption FUNCTION, upright guise (the value guise is bare italic c)"
@@ -364,12 +357,18 @@ symbols:
     conflicts_checked: "consistent with the econark-shortcuts \\uFunc family (\\uFuncInv builds on it)"
 
   precautionary-saving-function:
-    gloss: "precautionary saving as a FUNCTION, upright (applications x(m), x(w̄); the value guise is bare italic x)"
+    gloss: "precautionary saving as a FUNCTION of the STATE m only, upright: x(m) — NEVER applied to w̄ (owner, 2026-07-17: the w̄-coordinate function is the gap g); the italic letter x is the quantity"
     latex: {macro: '\psavFunc', expansion: '\mathrm{x}'}
     unicode: 'x(·) upright'
 
+  gap:
+    gloss: "THE GAP — the PF-wealth-coordinate function, REVIVED 2026-07-17 (partially reverting the 2026-07-16 Q4 merger of s(m)/g(w̄) into x): a bare italic letter (g names nothing else, so no upright form), with g(w̄(m)) = x(m)"
+    define: "g(w̄) := κ̲·w̄ − c(m(w̄))"
+    unicode: 'g(w̄)'
+    ruling: {date: 2026-07-17, source: "owner: 'If you really need to have something that is a function of w̄, then you can revert to your definition of the gap as g as a function of w̄'"}
+
   buffer-adjustment-function:
-    gloss: "the adjustment as a FUNCTION, upright (applications J(w̄); the value guise is bare italic J)"
+    gloss: "the adjustment as a FUNCTION, upright (applications J(w̄)); the italic letter J is the flow quantity"
     latex: {macro: '\bufAdjFunc', expansion: '\mathrm{J}'}
     unicode: 'J(·) upright'
     conflicts_checked: "\\JFunc in econark-shortcuts is the generic letter macro — no semantic clash"

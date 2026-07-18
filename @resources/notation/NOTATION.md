@@ -12,18 +12,19 @@
 | bank-balances-next | b_{t+1} | `\bNrmNxt` | `\bNrm\Nxt` |  | next-period bank balances (time-pair convention; row added 2026-07-17 — \bNrmNxt was already in corpus use but missing here) |
 | bank-balances-now | b_t | `\bNrmNow` | `\bNrm\Now` |  | current-period bank balances (path-equation dating) |
 | buffer-adjustment | J | `\bufAdj` | `J` |  | the (Kimball) adjustment — the per-period provision moving the buffer stock toward its target; SIGNED in general (an oversized buffer stock adjusts downward), provably positive in the high-wealth asymptotic region (the forcing floor) |
-| buffer-adjustment-function | J(·) upright | `\bufAdjFunc` | `\mathrm{J}` |  | the adjustment as a FUNCTION, upright (applications J(w̄); the value guise is bare italic J) |
+| buffer-adjustment-function | J(·) upright | `\bufAdjFunc` | `\mathrm{J}` |  | the adjustment as a FUNCTION, upright (applications J(w̄)); the italic letter J is the flow quantity |
 | compensation-exponent | q̃ | `\qtilde` | `\tilde{q}` |  | trial/compensation exponent in the detection machinery |
 | constraint-end-exponent | q↓ | `\qLo` | `q{\downarrow}` |  | constraint-end (bottom-knot) approach exponent — the down-arrow partner of q↑; PROVEN q↓ = ρ |
 | consumption-function | c(·) upright | `\cFunc` | `\mathrm{c}` |  | the consumption FUNCTION, upright guise (the value guise is bare italic c) |
 | consumption-next | c_{t+1} | `\cNrmNxt` | `c\Nxt` |  | next-period consumption value (time-pair convention v2: the \*Now/\*Nxt families are defined THROUGH the \Now/\Nxt suffixes, so the dialect flip is the two suffix definitions — NOT per-macro renewal; the old flip example 'c^{\prime}' is a verified double-superscript trap) |
 | consumption-now | c_t | `\cNrmNow` | `c\Now` |  | current-period consumption value (ruling 9 v2: path equations date every variable) |
 | crra | ρ | `\CRRA` | `\rho` | `CRRA` | coefficient of relative risk aversion |
+| function-vs-quantity-convention |  |  |  |  | ruling 9 v2, as amended 2026-07-17: a function whose letter also names a quantity is UPRIGHT with its argument (BST's \cFunc convention — \cFunc(m), \psavFunc(m), \bufAdjFunc(w̄), \uFunc); the italic letters are the quantities. A letter that names ONLY a function needs no upright form (the gap g, Greek functions). Primes are reserved for differentiation, on upright letters only; path equations date every variable, function equations keep the state bare and date the function. The 'dual-guise' framing is PROHIBITED (owner, 2026-07-17) — state the convention concretely |
+| gap | g(w̄) |  |  |  | THE GAP — the PF-wealth-coordinate function, REVIVED 2026-07-17 (partially reverting the 2026-07-16 Q4 merger of s(m)/g(w̄) into x): a bare italic letter (g names nothing else, so no upright form), with g(w̄(m)) = x(m) |
 | gap-remainder-left | η_L | `\etaL` | `\eta_{L}` |  | left remainder of the exact one-step gap identity (Lemma 5.1); collects evaluation-point/linearization corrections; vanishes in the asymptotic region |
 | gap-remainder-right | η_R | `\etaR` | `\eta_{R}` |  | right remainder of the exact one-step gap identity (Lemma 5.1) |
 | growth-factor | Γ | `\PermGroFac` | `\Gamma` | `PermGroFac` | permanent-income growth factor |
 | growth-rate | g | `\PermGroRte` | `g` |  | log permanent-income growth rate |
-| guise-convention |  |  |  |  | ruling 9 v2 (owner-blessed 2026-07-17): a Latin letter naming both a quantity and a function is ITALIC as a quantity (bare letter = the *Nrm object) and UPRIGHT as a function (the *Func object), always with an argument; Greek-letter functions stay italic (KaTeX has no upright lowercase Greek) — arguments disambiguate; primes are reserved for differentiation and appear only on upright letters (time never appears as a prime); path equations date every variable, function equations keep the state bare and date the function |
 | high-wealth-exponent | q↑ | `\qHi` | `q{\uparrow}` |  | high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q↑) |
 | human-wealth | h | `\hNrm` | `h` | `hNrm` | normalized human wealth, current period's income INCLUDED (BST eq-HDef) |
 | human-wealth-optimist | h̄ | `\hNrmOpt` | `\bar{h}` |  | optimist's human wealth (bar = optimist) |
@@ -41,7 +42,7 @@
 | permanent-shock | ψ | `\permShk` | `\psi` | `PermShk` | permanent shock, E[ψ]=1, bounded support |
 | permanent-shock-next | ψ_{t+1} | `\permShkNxt` | `\psi\Nxt` |  | next-period permanent shock (time-pair convention) |
 | precautionary-saving | x | `\psav` | `x` |  | precautionary saving — the eXtra saving induced by precaution: the shortfall of consumption below BST's perfect-foresight rule |
-| precautionary-saving-function | x(·) upright | `\psavFunc` | `\mathrm{x}` |  | precautionary saving as a FUNCTION, upright (applications x(m), x(w̄); the value guise is bare italic x) |
+| precautionary-saving-function | x(·) upright | `\psavFunc` | `\mathrm{x}` |  | precautionary saving as a FUNCTION of the STATE m only, upright: x(m) — NEVER applied to w̄ (owner, 2026-07-17: the w̄-coordinate function is the gap g); the italic letter x is the quantity |
 | precautionary-saving-next | x_{t+1} | `\psavNxt` | `\psav\Nxt` |  | next-period precautionary saving (time-pair convention) |
 | precautionary-saving-now | x_t | `\psavNow` | `\psav\Now` |  | current-period precautionary saving (path-equation dating) |
 | pseudo-target | m̌ | `\mBalLvl` | `\check{m}` | `mBalLvl` | balanced-growth pseudo-target (GIC-Raw) |
@@ -56,8 +57,7 @@
 | transitory-shock-next | θ_{t+1} | `\tranShkNxt` | `\theta\Nxt` |  | next-period transitory shock (time-pair convention; powerlaw-pages θ dialect) |
 | travel-time-to-target | τ | `\trvTime` | `\tau` |  | periods of perfect-foresight descent from w̄ to the target neighborhood (the log-clock); frees T to mean ONLY the terminal/resumption date |
 | utility-function | u(·) upright | `\uFunc` | `\mathrm{u}` |  | the utility function (always function guise; u' etc. are derivatives) |
-| wealth-total-pf | w̄ | `\wbar` | `\bar{w}` | `wBarNrm` | perfect-foresight total wealth (human and market) — the optimist's wealth, viewed after returns realize on last period's kapital. A FUNCTION of the state, not a constant (owner caution 2026-07-17: bars so often mark means/bounds that w̄ tempts a constant reading — the bar is MoM's optimist mark); function guise \wbarFunc(m), value guise italic \wbar |
-| wealth-total-pf-function | w̄(·) upright | `\wbarFunc` | `\bar{\mathrm{w}}` |  | PF total wealth as a FUNCTION of the state, upright per the guise convention: w̄(m) := b + h = m − 1 + h — written applied at definitional/relabeling sites so the state-dependence is explicit |
+| wealth-total-pf | w̄ | `\wbar` | `\bar{w}` | `wBarNrm` | perfect-foresight total wealth (human and market) — the optimist's wealth, viewed after returns realize on last period's kapital. A FUNCTION of the state, not a constant (owner caution 2026-07-17: bars so often mark means/bounds that w̄ tempts a constant reading — the bar is MoM's optimist mark); written w̄(m) at definitional sites, italic throughout (\wbarFunc retired same-PR, owner 2026-07-17) |
 | wealth-total-pf-next | w̄_{t+1} | `\wbarNxt` | `\wbar\Nxt` |  | next-period perfect-foresight total wealth (time-pair convention) |
 | wealth-total-pf-now | w̄_t | `\wbarNow` | `\wbar\Now` |  | current-period perfect-foresight total wealth (path-equation dating) |
 | zero-income-prob | ℘ | `\pZero` | `\wp` | `pZero` | probability of the zero-income event (the worst transitory atom) |
@@ -109,6 +109,15 @@
 - **dialect `bst-paper`:** expansion `\gamma`; home: BST published draft; **MIGRATION-PENDING (ruling 4: single dialect across the four; the draft's gamma -> rho migration is owner-gated, do not execute)**; until migrated, cross-citing docs must state the map (the powerlaw pages' §2 does)
 - **ruling:** 2026-07-14 · source: powerlaw §2 symbol dictionary + ruling 4
 
+### function-vs-quantity-convention
+
+- **ruling:** 2026-07-17 · source: owner: BST \cFunc convention adopted 2026-07-17 AM; 'I'm going to strictly prohibit you from using what you call a textbook dual-guise object' + the gap-g prescription, 2026-07-17 PM
+
+### gap
+
+- **define:** g(w̄) := κ̲·w̄ − c(m(w̄))
+- **ruling:** 2026-07-17 · source: owner: 'If you really need to have something that is a function of w̄, then you can revert to your definition of the gap as g as a function of w̄'
+
 ### gap-remainder-left
 
 - **define:** 0 ≤ η_L ≤ K_L/w̄
@@ -130,10 +139,6 @@
 
 - **define:** g = ln Γ
 - **conflicts checked:** matches econark-shortcuts.sty:271 (\providecommand semantics: shortcuts wins where both load)
-
-### guise-convention
-
-- **ruling:** 2026-07-17 · source: owner: 'adopting the convention used in BufferStockTheory-Latest that FUNCTIONS are written using the non-italicized (mathrm) version of variables, and have explicit macros (like, \cFunc)' + blessing of the ruling-9 amendment
 
 ### high-wealth-exponent
 
@@ -241,11 +246,6 @@
 
 - **define:** w̄(m) := b + h = m − 1 + h
 
-### wealth-total-pf-function
-
-- **conflicts checked:** w unused in BST (verified 2026-07-14); bar = optimist per BST's own overbar sentence (BufferStockTheory.md ~line 2882) + MoM convention
-- **ruling:** 2026-07-14 · source: BST feedback R1
-
 ### zero-income-prob
 
 - **ruling:** 2026-07-14 · source: T5: part of the maintained income-process assumption where load-bearing; results surviving ℘=0 say so explicitly
@@ -256,6 +256,8 @@
 
 | Term | Use instead | Scope | Ruling |
 |---|---|---|---|
+| \mathfrak{b} (Euler-weight shorthand) | write RβΓ^{−ρ} out; after identity (I1), Þ_Γ^ρ | powerlaw corpus + buffer-stock expositions | 2026-07-17 (owner: 'I prohibit you from using \mathfrak{b}... if you can't find a better option you can just write out the whole expression') |
+| dual-guise (and 'guise' as a notational term of art) | state the convention concretely: functions upright with argument (BST \cFunc style); italic letters are quantities; single-role letters need no upright form | all corpus prose, comments, instruments, registry glosses | 2026-07-17 (owner: 'I'm going to strictly prohibit you from using what you call a textbook dual-guise object') |
 | dividend | the adjustment (the per-period provision moving the buffer stock toward its target) | powerlaw corpus + buffer-stock expositions | 2026-07-16 (owner (reactions round 2): connotes a strictly positive flow; an oversized buffer stock adjusts DOWNWARD) |
 | precautionary premium | the (Kimball) adjustment | powerlaw corpus + buffer-stock expositions | 2026-07-16 (owner (reactions round 2): same sign-connotation objection; credit Kimball, not Arrow–Pratt, for the precautionary object) |
 | precautionary debt | the buffer stock (the wealth cushion vs the target m̂); x = its financing | powerlaw corpus | 2026-07-16 (owner (reactions round 2 + Q-A(ii))) |

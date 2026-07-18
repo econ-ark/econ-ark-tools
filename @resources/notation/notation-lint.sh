@@ -45,6 +45,8 @@ check() {
   fi
 }
 
+check "\\\\mathfrak\\{b\\} \\(Euler-weight shorthand\\)" "write RβΓ^{−ρ} out; after identity (I1), Þ_Γ^ρ"
+check "dual-guise \\(and 'guise' as a notational term of art\\)" "state the convention concretely: functions upright with argument (BST \\cFunc style); italic letters are quantities; single-role letters need no upright form"
 check "dividend" "the adjustment (the per-period provision moving the buffer stock toward its target)"
 check "precautionary premium" "the (Kimball) adjustment"
 check "precautionary debt" "the buffer stock (the wealth cushion vs the target m̂); x = its financing"

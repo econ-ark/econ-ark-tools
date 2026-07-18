@@ -75,3 +75,11 @@ bans, passes clean, honors waivers) PASS.
   (the bar is MoM's optimist mark). New row `wealth-total-pf-function`
   (`\wbarFunc` = `\bar{\mathrm{w}}`, guise convention); `wealth-total-pf` gloss
   and define now function-explicit.
+- **The gap g revived + prohibitions (owner, 2026-07-17 PM):** the Q4 s/g→x
+  merger PARTIALLY REVERTED — x takes the state m only (`\psavFunc(m)`); the
+  w̄-coordinate function is again the gap `g(w̄) := κ̲w̄ − c(m(w̄))`, a bare
+  italic letter (new `gap` row), with g(w̄(m)) = x(m). `\wbarFunc` retired
+  same-PR (w̄(m) stays italic-explicit). `guise-convention` key renamed
+  `function-vs-quantity-convention` and de-jargoned. NEW BANS in
+  terminology.yml: `\mathfrak{b}` (write RβΓ^{−ρ} / Þ_Γ^ρ) and the
+  "dual-guise" coinage.
