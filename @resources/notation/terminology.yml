@@ -10,6 +10,27 @@
 #   conventions: [{rule, ruling}]
 
 banned:
+  - term: "\\mathfrak{b} (Euler-weight shorthand)"
+    use: "write RβΓ^{−ρ} out; after identity (I1), Þ_Γ^ρ"
+    scope: "powerlaw corpus + buffer-stock expositions"
+    ruling: {date: 2026-07-17, source: "owner: 'I prohibit you from using \\mathfrak{b}... if you can't find a better option you can just write out the whole expression'"}
+  - term: "dual-guise (and 'guise' as a notational term of art)"
+    use: "state the convention concretely: functions upright with argument (BST \\cFunc style); italic letters are quantities; single-role letters need no upright form"
+    scope: "all corpus prose, comments, instruments, registry glosses"
+    ruling: {date: 2026-07-17, source: "owner: 'I'm going to strictly prohibit you from using what you call a textbook dual-guise object'"}
+  - term: "dividend"
+    use: "the adjustment (the per-period provision moving the buffer stock toward its target)"
+    scope: "powerlaw corpus + buffer-stock expositions"
+    ruling: {date: 2026-07-16, source: "owner (reactions round 2): connotes a strictly positive flow; an oversized buffer stock adjusts DOWNWARD"}
+  - term: "precautionary premium"
+    use: "the (Kimball) adjustment"
+    scope: "powerlaw corpus + buffer-stock expositions"
+    ruling: {date: 2026-07-16, source: "owner (reactions round 2): same sign-connotation objection; credit Kimball, not Arrow–Pratt, for the precautionary object"}
+    exception: "the compound 'Kimball Precautionary Premium (KPP)' is SANCTIONED as J's textual name (owner, 2026-07-17: 'you can refer to it textually as the Kimball Precautionary Premium (KPP)'); the bare term stays banned"
+  - term: "precautionary debt"
+    use: "the buffer stock (the wealth cushion vs the target m̂); x = its financing"
+    scope: "powerlaw corpus"
+    ruling: {date: 2026-07-16, source: "owner (reactions round 2 + Q-A(ii))"}
   - term: 'production'
     use: 'estimated / estimation'
     scope: "software sense only, in the powerlaw/theory thread's exposition + codebase; economic production functions exempt; committed run logs change only via real re-runs"

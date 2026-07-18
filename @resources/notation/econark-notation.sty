@@ -1,30 +1,60 @@
-% econark-notation.sty — AUTO-GENERATED from notation.yml v0.1.0. DO NOT EDIT.
+% econark-notation.sty — AUTO-GENERATED from notation.yml v1.0.0. DO NOT EDIT.
 % Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 % Uses \providecommand: defers to any macro already defined (e.g. by
 % econark-shortcuts.sty). Load alone/first for the registry's base dialect.
 % Regenerate: python @resources/notation/gen/gen_latex.py
 
+\providecommand{\aNrmNxt}{a\Nxt}  % assets-next
+\providecommand{\aNrmNow}{a\Now}  % assets-now
 \providecommand{\bNrm}{b}  % bank-balances
+\providecommand{\bNrmNxt}{\bNrm\Nxt}  % bank-balances-next
+\providecommand{\bNrmNow}{\bNrm\Now}  % bank-balances-now
+\providecommand{\bufAdj}{J}  % buffer-adjustment
+\providecommand{\bufAdjFunc}{\mathrm{J}}  % buffer-adjustment-function
 \providecommand{\qtilde}{\tilde{q}}  % compensation-exponent
-\providecommand{\qLo}{q{\downarrow}}  % constraint-end-exponent
+\providecommand{\qLo}{q_{0}}  % constraint-end-exponent
+\providecommand{\cFunc}{\mathrm{c}}  % consumption-function
+\providecommand{\cNrmNxt}{c\Nxt}  % consumption-next
+\providecommand{\cNrmNow}{c\Now}  % consumption-now
 \providecommand{\CRRA}{\rho}  % crra
+\providecommand{\etaL}{\eta_{L}}  % gap-remainder-left
+\providecommand{\etaR}{\eta_{R}}  % gap-remainder-right
 \providecommand{\PermGroFac}{\Gamma}  % growth-factor
-\providecommand{\qHi}{q{\uparrow}}  % high-wealth-exponent
+\providecommand{\PermGroRte}{g}  % growth-rate
+\providecommand{\qHi}{q_{\infty}}  % high-wealth-exponent
 \providecommand{\hNrm}{h}  % human-wealth
 \providecommand{\hNrmOpt}{\bar{h}}  % human-wealth-optimist
 \providecommand{\hNrmPes}{\underline{h}}  % human-wealth-pessimist
+\providecommand{\kNrmNxt}{k\Nxt}  % kapital-next
+\providecommand{\kNrmNow}{k\Now}  % kapital-now
 \providecommand{\logmNrmEx}{\boldsymbol{\mu}}  % log-excess-resources
+\providecommand{\GPRte}{\thorn_{\PermGroRte}}  % log-growth-patience-rate
 \providecommand{\MPCmax}{\overline{\kappa}}  % mpc-max
 \providecommand{\MPCmin}{\underline{\kappa}}  % mpc-min
 \providecommand{\APFac}{\text{Þ}}  % patience-abs
 \providecommand{\GPFacRaw}{\text{Þ}_{\Gamma}}  % patience-growth
 \providecommand{\RPFac}{\text{Þ}_{R}}  % patience-return
+\providecommand{\prdNxt}{t+1}  % period-next
+\providecommand{\Nxt}{_{\prdNxt}}  % period-next-suffix
+\providecommand{\Now}{_{\prdt}}  % period-now-suffix
 \providecommand{\permShk}{\psi}  % permanent-shock
-\providecommand{\pcsNrm}{s}  % precautionary-saving
+\providecommand{\permShkNxt}{\psi\Nxt}  % permanent-shock-next
+\providecommand{\psav}{x}  % precautionary-saving
+\providecommand{\psavFunc}{\mathrm{x}}  % precautionary-saving-function
+\providecommand{\psavNxt}{\psav\Nxt}  % precautionary-saving-next
+\providecommand{\psavNow}{\psav\Now}  % precautionary-saving-now
 \providecommand{\mBalLvl}{\check{m}}  % pseudo-target
 \providecommand{\mNrmEx}{\ddot{m}}  % resources-excess
+\providecommand{\mNrmNxt}{m\Nxt}  % resources-next
+\providecommand{\mNrmNow}{m\Now}  % resources-now
 \providecommand{\RNrmByG}{\mathcal{R}}  % return-growth-ratio
 \providecommand{\mTrgNrm}{\hat{m}}  % target
+\providecommand{\thorn}{\text{þ}}  % thorn-glyph
 \providecommand{\tranShkAll}{\xi}  % transitory-shock-all
+\providecommand{\tranShkNxt}{\theta\Nxt}  % transitory-shock-next
+\providecommand{\trvTime}{\tau}  % travel-time-to-target
+\providecommand{\uFunc}{\mathrm{u}}  % utility-function
 \providecommand{\wbar}{\bar{w}}  % wealth-total-pf
+\providecommand{\wbarNxt}{\wbar\Nxt}  % wealth-total-pf-next
+\providecommand{\wbarNow}{\wbar\Now}  % wealth-total-pf-now
 \providecommand{\pZero}{\wp}  % zero-income-prob

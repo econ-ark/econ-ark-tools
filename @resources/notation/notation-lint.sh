@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# notation-lint.sh — AUTO-GENERATED from terminology.yml (registry v0.1.0). DO NOT EDIT.
+# notation-lint.sh — AUTO-GENERATED from terminology.yml (registry v1.0.0). DO NOT EDIT.
 # Source of truth: @resources/notation/terminology.yml (edit there, regenerate).
 # Regenerate: python @resources/notation/gen/gen_lint.py
 # Exit 0 = clean; 1 = a banned term was found (review or waive it).
@@ -45,6 +45,11 @@ check() {
   fi
 }
 
+check "\\\\mathfrak\\{b\\} \\(Euler-weight shorthand\\)" "write RβΓ^{−ρ} out; after identity (I1), Þ_Γ^ρ"
+check "dual-guise \\(and 'guise' as a notational term of art\\)" "state the convention concretely: functions upright with argument (BST \\cFunc style); italic letters are quantities; single-role letters need no upright form"
+check "dividend" "the adjustment (the per-period provision moving the buffer stock toward its target)"
+check "precautionary premium" "the (Kimball) adjustment"
+check "precautionary debt" "the buffer stock (the wealth cushion vs the target m̂); x = its financing"
 check "production" "estimated / estimation"
 check "certainty equivalent" "perfect foresight"
 check "target band" "'the target' / 'the return region around the target m̂'"

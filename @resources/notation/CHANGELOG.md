@@ -2,6 +2,23 @@
 
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
+## v1.0.0 — 2026-07-16
+
+Owner rulings from the powerlaw editorial pass (reactions round, 2026-07-16):
+
+- **MAJOR — `precautionary-saving` re-ruled:** `\pcsNrm`/'s' → **`\psav`/'x'**
+  ("the eXtra saving induced by precaution"); replaces BOTH former symbols
+  s(m) and g(w̄) — one object, one symbol, the coordinate shows in the argument.
+- `\GPRte` (þ_g = ln Þ_Γ, NEGATIVE under GIC) adopted corpus-wide; the missing
+  lowercase `\thorn` glyph is provisioned (`\text{þ}`, KaTeX/LaTeX-safe); the
+  powerlaw corpus' positive alias Λ := ln(1/Þ_Γ) is RETIRED (Λ = −þ_g).
+- `\trvTime` (τ(w̄), the log-clock travel time) frees T for the terminal date.
+- `\etaL`/`\etaR` (η_L, η_R) replace the Lemma-5.1 remainders r_L/r_R.
+- `\KimPrem` (J) names the Kimball precautionary premium.
+- Time-pair convention: bare symbol = current period; `*Nxt` macros render
+  `_{t+1}` (`\cNrmNxt`, `\mNrmNxt`, `\aNrmNxt`, `\wbarNxt`, `\psavNxt`,
+  `\tranShkNxt`, `\permShkNxt`, via `\prdNxt`); flip the corpus back to
+  primes by renewing only the `*Nxt` macros.
 
 ## v0.1.0 — 2026-07-14
 
@@ -36,3 +53,41 @@ structurally PASS (all `\providecommand`; compile fixture committed — no TeX
 engine in the build environment); G0-3 (`.md` `*Lvl` clean) PASS; G0-4
 (KaTeX/MyST `--strict` render of every macro) PASS; G0-5 (lint catches planted
 bans, passes clean, honors waivers) PASS.
+
+**Amended in-PR 2026-07-17 (ruling 9 v2 — guise + the \Now/\Nxt dating layer):**
+- **`\Now`/`\Nxt` suffix macros** (owner-proposed): the dialect flip point is the
+  two suffix definitions; `\*Now`/`\*Nxt` families defined THROUGH them (the old
+  per-macro `_{\prdNxt}` hardcoding removed — flip was seven edits, now two).
+  Verified trap warnings recorded: `\Now` must be `'{}'` in the prime dialect
+  (never the empty string — mystmd drops empty macros) and `\Nxt` the literal
+  apostrophe (never `'^{\prime}'` — double superscript on `\cNrmNxt^{-\rho}`).
+- **Guise convention** (ruling 9 v2): values italic (bare letters = `*Nrm`),
+  functions upright (`*Func`, matching econark-shortcuts `\cFunc = \mathrm{c}`);
+  Greek carve-out; primes = differentiation only. New first-class rows:
+  `consumption-function`, `utility-function`, `precautionary-saving-function`,
+  `buffer-adjustment-function`, `guise-convention`, the `*-now` family, and the
+  previously missing `bank-balances-next`.
+- **buffer-adjustment ruling corrected**: the buffer stock is END-OF-PERIOD
+  ASSETS `a` (a level, not a wealth-cushion deviation; target `â = m̂ − c(m̂)`);
+  "financing" retired as x's narrative name (owner, 2026-07-17).
+- **`\wbarFunc` + w̄-is-a-function caution (owner, 2026-07-17):** bars tempt a
+  constant/mean reading; w̄(m) := b + h = m − 1 + h is a function of the state
+  (the bar is MoM's optimist mark). New row `wealth-total-pf-function`
+  (`\wbarFunc` = `\bar{\mathrm{w}}`, guise convention); `wealth-total-pf` gloss
+  and define now function-explicit.
+- **The gap g revived + prohibitions (owner, 2026-07-17 PM):** the Q4 s/g→x
+  merger PARTIALLY REVERTED — x takes the state m only (`\psavFunc(m)`); the
+  w̄-coordinate function is again the gap `g(w̄) := κ̲w̄ − c(m(w̄))`, a bare
+  italic letter (new `gap` row), with g(w̄(m)) = x(m). `\wbarFunc` retired
+  same-PR (w̄(m) stays italic-explicit). `guise-convention` key renamed
+  `function-vs-quantity-convention` and de-jargoned. NEW BANS in
+  terminology.yml: `\mathfrak{b}` (write RβΓ^{−ρ} / Þ_Γ^ρ) and the
+  "dual-guise" coinage.
+- **KPP restored + q-subscripts + kapital (owner, 2026-07-17 evening):** J's
+  textual name is again the Kimball Precautionary Premium (KPP) — a scoped
+  exception to the premium ban ("the adjustment" survives only for the signed
+  buffer-stock-motion concept). Display exponents q↑/q↓ → `q_∞`/`q_0`
+  (subscript ruling; `\qHi`/`\qLo` expansions updated; HARK `q_star` API
+  unchanged; frozen figures may carry arrows — bridge declared). New
+  `kapital-now`/`kapital-next` rows (BST's k_{t+1} = a_t). MoM
+  "optimist/pessimist" language retired from the powerlaw corpus.
