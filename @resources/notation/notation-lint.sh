@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# notation-lint.sh — AUTO-GENERATED from terminology.yml (registry v0.1.0). DO NOT EDIT.
+# notation-lint.sh — AUTO-GENERATED from terminology.yml (registry v0.2.0). DO NOT EDIT.
 # Source of truth: @resources/notation/terminology.yml (edit there, regenerate).
 # Regenerate: python @resources/notation/gen/gen_lint.py
 # Exit 0 = clean; 1 = a banned term was found (review or waive it).
