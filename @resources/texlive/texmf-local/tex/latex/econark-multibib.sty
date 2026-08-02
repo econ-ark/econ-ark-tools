@@ -10,6 +10,27 @@
   {#3}%
 }
 
+% Locate the global system.bib the way BibTeX will: ask kpsewhich and read its
+% answer off a pipe.  Sets \econarksysbibpath, or leaves it empty if none.
+% A pipe rather than \write18-with-redirection: TeX Live's DEFAULT restricted
+% shell escape runs whitelisted binaries WITHOUT a shell, so "> file" would be
+% handed to kpsewhich as literal arguments -- writing nothing, while still
+% logging "executed safely (allowed)".  This form works at shell_escape=p and
+% leaves no artifact file.  Shared with econark-bibfilesfind / -collectbibs.
+\@ifundefined{econarksysbibread}{\newread\econarksysbibread}{}
+\providecommand{\econarksysbibpath}{}
+\providecommand{\econarkfindsysbib}{%
+  \def\econarksysbibpath{}%
+  % NB: the space before % is required -- it terminates TeX's filename scan.
+  \openin\econarksysbibread=|"kpsewhich -format=.bib system.bib" %
+  \ifeof\econarksysbibread\else
+    \endlinechar=-1\relax
+    \read\econarksysbibread to \econarksysbibpath
+    \endlinechar=13\relax
+    \closein\econarksysbibread
+  \fi
+}
+
 \newcommand{\IsFileEmpty}[3]{%
   \openin\filetest=#1
   \read\filetest to \fileline
@@ -31,18 +52,28 @@
   \provideboolean{filenameExists}%
 
 %  \typeout{testing system.bib}%
-  % Detect the global system.bib via kpsewhich (BibTeX's BIBINPUTS search),
-  % rather than a hardcoded install path. Writes the resolved path (empty if
-  % absent) to a temp file. Needs -shell-escape; without it this degrades to
-  % "not found", and system is still passed to BibTeX, which does its own search.
-  \immediate\write18{kpsewhich -format=.bib system.bib > \jobname.sysbib 2>/dev/null}%
-  \IfFileExistsAndNotEmpty{\jobname.sysbib}{%
-    \setboolean{systemExists}{true}%
-    \typeout{econark-multibib: system.bib found via kpsewhich}%
-  }{%
-    \setboolean{systemExists}{false}%
-    \typeout{econark-multibib: system.bib not found}%
-  }%
+  % Detect the global system.bib via kpsewhich (BibTeX's BIBINPUTS search)
+  % rather than a hardcoded install path; fall back to the canonical TDS
+  % location if shell escape is disabled outright (shell_escape=f), so that
+  % detection never fails silently.
+  \econarkfindsysbib
+  \ifx\econarksysbibpath\empty
+    \IfFileExistsAndNotEmpty{/usr/local/texlive/texmf-local/bibtex/bib/system.bib}{%
+      \setboolean{systemExists}{true}%
+      \typeout{econark-multibib: system.bib found at canonical TEXMFLOCAL (no shell escape)}%
+    }{%
+      \setboolean{systemExists}{false}%
+      \typeout{econark-multibib: system.bib not found}%
+    }%
+  \else
+    \IfFileExistsAndNotEmpty{\econarksysbibpath}{%
+      \setboolean{systemExists}{true}%
+      \typeout{econark-multibib: system.bib found via kpsewhich: \econarksysbibpath}%
+    }{%
+      \setboolean{systemExists}{false}%
+      \typeout{econark-multibib: system.bib not found}%
+    }%
+  \fi
 %  \typeout{testing system.bib end}%
 %  \typeout{testing Add-Refs.bib}%
   \IfFileExistsAndNotEmpty{\filename-Add-Refs.bib}{%
