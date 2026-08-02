@@ -50,8 +50,19 @@ if [ ! -f "${texfile_noextn}.aux" ]; then
     exit 1
 fi
 
+# Guard against self-inclusion. The .aux records the PREVIOUS bibliography in
+# a \bibdata line (e.g. \bibdata{./HAFiscal}), and "bibtool -x" reads those
+# files in addition to the ones named on the command line. Left alone, the old
+# ${texfile_noextn}.bib is merged into its own replacement -- every entry comes
+# out duplicated. Extract from a sanitized copy of the .aux instead; the
+# bibliographies to draw from are passed explicitly below.
+auxtmp="$(mktemp -t bibextract-aux)" || exit 1
+outtmp="$(mktemp -t bibextract-out)" || exit 1
+trap 'rm -f "$auxtmp" "$outtmp"' EXIT
+grep -v '^\\bibdata{' "${texfile_noextn}.aux" > "$auxtmp"
+
 # Construct the initial bibtool command
-cmd="bibtool -- 'preserve.key.case={on}' -v -x ${texfile_noextn}.aux -o ${texfile_noextn}.bib"
+cmd="bibtool -- 'preserve.key.case={on}' -v -x $auxtmp -o $outtmp"
 
 # Add syslib and addlib to the command if they exist and are non-empty
 [ -n "$syslib" ] && cmd="$cmd $syslib"
@@ -63,6 +74,9 @@ echo "$cmd"
 
 # Execute the command
 eval "$cmd"
+
+# Only now overwrite the bibliography, so it is never its own input
+mv "$outtmp" "${texfile_noextn}.bib"
 
 # Get the full path of the created .bib file
 full_path="$(cd "$(dirname "${texfile_noextn}.bib")" && pwd)/$(basename "${texfile_noextn}.bib")"
@@ -80,7 +94,10 @@ echo "Performing additional processing..."
 #                         -- 'preserve.key.case = on' \
 #                         -i $full_path -o $full_path.tmp"
 
-bibtool_cmd="bibtool    -i $full_path -o $full_path.tmp"
+# preserve.key.case MUST be repeated here. bibtool lowercases citation keys by
+# default, so without it this reformatting pass silently rewrites Auclert2021
+# as auclert2021 -- undoing the setting used during extraction above.
+bibtool_cmd="bibtool -- 'preserve.key.case = {on}' -i $full_path -o $full_path.tmp"
 
 echo "Executing additional processing command:"
 echo "$bibtool_cmd"
