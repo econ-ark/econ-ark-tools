@@ -12,9 +12,14 @@
 %   {This executes if file is empty}
 %   {This executes if file has content}
 
+% \filetest is allocated ONCE, here, rather than inside \IsFileEmpty. TeX has
+% only 16 read registers and \newread never reclaims them, so allocating per
+% call exhausted the pool: eight \bibfilesfind invocations in one document gave
+% "! No room for a new \read" followed by "! Bad number (16)".
+\@ifundefined{filetest}{\newread\filetest}{}
+
 \newcommand{\IsFileEmpty}[3]{%
   \IfFileExists{#1}{%
-    \newread\filetest
     \openin\filetest=#1
     \read\filetest to \fileline
     \ifeof\filetest
