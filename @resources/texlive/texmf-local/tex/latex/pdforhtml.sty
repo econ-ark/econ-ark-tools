@@ -90,3 +90,16 @@
   \usepackage{scrlayer-scrpage} % Package for page headers if PDF
   \usepackage{caption} % allow suppression of appendix figures in NoAppendix PDF
 }
+
+
+% Alternative version using \ifdvi directly (more robust for tex4ht)
+\newcommand{\pdforhtmlDvi}[2]{%
+  \ifdvi#2\else#1\fi%
+}
+% Conditional macro for PDF vs HTML content
+% Usage: \pdforhtml{content-for-pdf}{content-for-html}
+% This allows different content to be shown in PDF output vs HTML (tex4ht) output
+% Uses \ifdvi directly instead of \ifthenelse for robustness in section titles
+\newcommand{\pdforhtml}[2]{%
+  \ifdvi#2\else#1\fi%
+}
