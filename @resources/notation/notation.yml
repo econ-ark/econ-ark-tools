@@ -18,8 +18,8 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 0.2.0        # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-07-16   #         MINOR = additions; PATCH = gloss/typo fixes
+  version: 0.3.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  updated: 2026-08-30   #         MINOR = additions; PATCH = gloss/typo fixes
 
 symbols:
 
@@ -39,6 +39,13 @@ symbols:
       date: 2026-07-14
       source: "BST feedback N1"
       rationale: "one h, BST's; the shadow h_BST and local future-only h are banned"
+
+  weight:
+    gloss: "a weight — a nonnegative multiplier apportioning mass, probability, or the terms of a mixture"
+    latex: {macro: '\weight', expansion: '\omega'}
+    unicode: 'ω'
+    conflicts_checked: "omega is claimed by no other row here. It is NOT a new assignment: econark-shortcuts.sty on this same branch has carried \\ARKcommand{\\weight}{\\omega} since before this registry existed, so this row transcribes a rule the LaTeX layer already enforces and the YAML had never recorded."
+    ruling: {date: 2026-08-30, source: "owner ruling: 'Modify the NARK to use lower-case \\omega for weights'", rationale: "Surfaced by a downstream consumer (HAFiscal) that consulted this registry, found omega unclaimed, and therefore believed it free -- while econark-shortcuts.sty had assigned it all along."}
 
   wealth-total-pf:
     gloss: "perfect-foresight total wealth (human and market) — the optimist's wealth, viewed after returns realize on last period's kapital"

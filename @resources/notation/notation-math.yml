@@ -1,4 +1,4 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v0.2.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v0.3.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
@@ -28,4 +28,5 @@ project:
     '\mTrgNrm': '\hat{m}'
     '\tranShkAll': '\xi'
     '\wbar': '\bar{w}'
+    '\weight': '\omega'
     '\pZero': '\wp'
