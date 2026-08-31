@@ -18,7 +18,7 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 0.3.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 0.4.0        # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-08-30   #         MINOR = additions; PATCH = gloss/typo fixes
 
 symbols:
@@ -39,6 +39,15 @@ symbols:
       date: 2026-07-14
       source: "BST feedback N1"
       rationale: "one h, BST's; the shadow h_BST and local future-only h are banned"
+
+  splurge:
+    gloss: "the splurge — the share of income consumed off the top, outside the optimizing problem"
+    define: "c_splurge = splurge * y"
+    latex: {macro: '\splurge', expansion: '\gimel'}
+    unicode: 'ℷ'
+    python: 'Splurge'
+    conflicts_checked: "gimel was unclaimed in notation.yml, in econark-shortcuts.sty and in HAFiscal. Greek was exhausted: of the 24 lowercase letters only iota, omicron and upsilon were unclaimed, and all three are confusable with Latin i/o/u (upsilon additionally with nu, NARK's discRte). Hebrew was the fallback on NARK's own precedent (daleth = DeprFac, beth = DiscFacAlt), leaving aleph and gimel; gimel chosen over aleph to avoid the cardinality reading. \\mathfrak{s} was considered and rejected: KaTeX renders every \\mathfrak macro as styled ASCII, so it degrades SILENTLY to a plain 's' when the webfont is absent — the failure NARK already records inline for \\mathscr{g} — and fraktur in this corpus marks variants of Roman-letter objects (Rport, CEndFunc), not new primitives."
+    ruling: {date: 2026-08-30, source: "owner ruling: varsigma is the portfolio share in risky assets; the splurge needs its own letter", rationale: "HAFiscal's published paper writes the splurge as \\varsigma, which is NARK's \\riskyshare. varsigma stays with riskyshare; the splurge moves to gimel — a real Unicode codepoint that degrades to nothing rather than to a different meaningful symbol, and that both KaTeX and MathJax render natively."}
 
   weight:
     gloss: "a weight — a nonnegative multiplier apportioning mass, probability, or the terms of a mixture"
