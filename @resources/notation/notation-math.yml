@@ -1,4 +1,4 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v0.5.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v0.6.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
@@ -14,7 +14,11 @@ project:
     '\hNrm': 'h'
     '\hNrmOpt': '\bar{h}'
     '\hNrmPes': '\underline{h}'
+    '\jobFindPrb': '\mathrm{find}'
+    '\tightness': '\mathrm{tgt}'
     '\logmNrmEx': '\boldsymbol{\mu}'
+    '\matchEff': '\mathrm{eff}'
+    '\matchElas': 'z'
     '\MPCmax': '\overline{\kappa}'
     '\MPCmin': '\underline{\kappa}'
     '\APFac': '\text{Þ}'
@@ -30,6 +34,7 @@ project:
     '\mTrgNrm': '\hat{m}'
     '\tranShkAll': '\xi'
     '\vacCost': '\mathrm{cst}'
+    '\vacFillPrb': '\mathrm{fill}'
     '\wbar': '\bar{w}'
     '\weight': '\omega'
     '\pZero': '\wp'
