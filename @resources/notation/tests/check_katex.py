@@ -58,29 +58,58 @@ KNOWN = {
         "\\PtyGroFac = \\mathscr{G} renders correctly, so substituting only the lowercase would "
         "leave the factor/rate pair visually unlinked -- the PAIR should move to a both-cases "
         "font (mathfrak or mathsf). That is a ruling, not a fix."),
-    r"\mathcal{f}": (
-        "\\fDist, found 2026-08-30. Partner \\FDist = \\mathcal{F} renders correctly, so the "
-        "density silently reads as an ordinary variable f while the distribution reads as special. "
-        "Candidate: \\mathrm{f} -- upright, which NARK's own function convention already prescribes "
-        "for a function whose letter also names a quantity, so \\mathcal{f} was the anomaly."),
 }
 
 
+def _strip_tex_comments(line):
+    """Everything after an unescaped % is a comment. The gate must not flag prose that MENTIONS a
+    bad form -- including the notes explaining why a form was retired."""
+    out, i = [], 0
+    while i < len(line):
+        if line[i] == "%" and (i == 0 or line[i - 1] != "\\"):
+            break
+        out.append(line[i])
+        i += 1
+    return "".join(out)
+
+
 def static_check():
+    """An uppercase-only font applied to a lowercase letter, in the places that DEFINE symbols.
+
+    YAML is parsed rather than grepped, so only `latex.expansion` is examined and prose in a gloss or
+    a conflicts_checked note cannot trip the gate. TeX sources are scanned line by line with comments
+    stripped, for the same reason.
+    """
     pat = re.compile(r"\\(" + "|".join(UPPERCASE_ONLY) + r")\{([a-z])\}")
     new, waived = [], []
-    seen = set()   # a line may name the same token twice (macro + its own comment)
+    seen = set()
+
+    def record(rel, n, token, ctx):
+        if (rel, n, token) in seen:
+            return
+        seen.add((rel, n, token))
+        (waived if token in KNOWN else new).append((rel, n, token, ctx[:90]))
+
     for path in SCAN:
         if not os.path.exists(path):
             continue
-        for n, line in enumerate(open(path, encoding="utf-8", errors="replace"), 1):
-            for m in pat.finditer(line):
-                token = "\\%s{%s}" % (m.group(1), m.group(2))
-                rel = os.path.relpath(path, REPO)
-                if (rel, n, token) in seen:
-                    continue
-                seen.add((rel, n, token))
-                (waived if token in KNOWN else new).append((rel, n, token, line.strip()[:90]))
+        rel = os.path.relpath(path, REPO)
+        if path.endswith((".yml", ".yaml")):
+            try:
+                import yaml
+                doc = yaml.safe_load(open(path, encoding="utf-8")) or {}
+            except Exception as e:                      # noqa: BLE001 - reported, not swallowed
+                print(f"  (could not parse {rel}: {e}; skipped)")
+                continue
+            for key, v in (doc.get("symbols") or {}).items():
+                exp = ((v or {}).get("latex") or {}).get("expansion", "") or ""
+                for m in pat.finditer(str(exp)):
+                    record(rel, 0, "\\%s{%s}" % (m.group(1), m.group(2)), f"symbol '{key}'")
+        else:
+            for n, line in enumerate(open(path, encoding="utf-8", errors="replace"), 1):
+                code = _strip_tex_comments(line)
+                for m in pat.finditer(code):
+                    record(rel, n, "\\%s{%s}" % (m.group(1), m.group(2)), code.strip())
     return new, waived
 
 
