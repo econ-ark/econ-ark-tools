@@ -38,7 +38,12 @@ fi
 # --- EXECUTION ---
 
 # The last argument passed to this script is the basename of the .aux file.
-BASENAME_ARG="${!#}"
+# Portable "last argument": the wrapper is invoked as `sh <wrapper> %O %B` (latexmkrc_using_bibtex_wrapper),
+# and on Debian/Ubuntu `sh` is dash, where the bash-only indirect expansion "${!#}" expands to NOTHING (no
+# error). BASENAME_ARG was then empty, so the .blg sanitization below never ran and latexmk's own .blg scan
+# ("There were N error messages") failed the build on every "Repeated entry". macOS `sh` is bash in POSIX
+# mode, which is why it never bit there. Fixed 2026-09-09 (found in llorracc/HAFiscal-Latest on Linux).
+for BASENAME_ARG in "$@"; do :; done
 
 # Run the real bibtex command, capturing all stdout and stderr into a variable.
 BIBTEX_OUTPUT="$("$REAL_BIBTEX_CMD" "$@" 2>&1)"
