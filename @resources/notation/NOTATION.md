@@ -6,6 +6,7 @@
 
 | Object | Symbol | Macro | Expansion | Python | Gloss |
 |---|---|---|---|---|---|
+| ad-elasticity | Ω | `\ADElas` | `\Omega` | `ADelasticity` | consumption elasticity of the aggregate-demand effect — how strongly income responds to aggregate consumption in a recession |
 | bank-balances | b | `\bNrm` | `b` | `bNrm` | beginning-of-period nonhuman wealth: returns realized on last period's assets |
 | compensation-exponent | q̃ | `\qtilde` | `\tilde{q}` |  | trial/compensation exponent in the detection machinery |
 | constraint-end-exponent | q_0 | `\qLo` | `q_{0}` |  | constraint-end (bottom-knot) approach exponent — the q_0 partner of the high-wealth q_∞; PROVEN q_0 = ρ |
@@ -42,6 +43,12 @@
 | zero-income-prob | ℘ | `\pZero` | `\wp` | `pZero` | probability of the zero-income event (the worst transitory atom) |
 
 ## Definitions, dialects & rulings
+
+### ad-elasticity
+
+- **define:** AD(C_t) = (C_t / C̃)^Ω in a recession, 1 otherwise; C̃ = steady-state consumption
+- **conflicts checked:** Written kappa in HAFiscal's published main text, colliding with the MPC (\MPC); \varkappa was rejected as too close to kappa. Of the ten capitals that are not Roman lookalikes, Gamma, Delta, Theta and Pi are live in that paper, Xi, Phi and Psi are NARK's, Sigma is the summation operator, and Lambda reads as a Lagrange multiplier. Omega remains. CAVEAT: Omega is econometrics' Hessian / information matrix -- latent here, since HAFiscal deliberately reports no Hessian-based standard errors. HAFiscal's paper also wrote kappa for the vacancy posting cost in its HANK appendix; \ADElas and \vacCost separate the two. This row was described in v0.5.0 but left out of this file, so the registry showed Omega as free while econark-shortcuts.sty assigned it -- the failure the weight row records for omega.
+- **ruling:** 2026-08-30 · source: owner rulings 2026-08-30 for the SAM block (notation v0.5.0): not kappa, the MPC, and not varkappa, too close to it · rationale: Omega is apt rather than merely free: the AD elasticity governs an economy-wide externality, so a capital follows the aggregate/individual convention.
 
 ### bank-balances
 
