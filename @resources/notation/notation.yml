@@ -90,7 +90,7 @@ symbols:
 
   separation-rate:
     gloss: "job separation rate — the per-period probability an existing match dissolves"
-    define: "N_t = (1 - sep) N_{t-1} + jobFind * v_t"
+    define: "N_t = (1 - sep) N_{t-1} + fill_t * v_t"
     latex: {macro: '\sepRte', expansion: '\mathrm{sep}'}
     unicode: 'sep'
     python: 'job_sep'

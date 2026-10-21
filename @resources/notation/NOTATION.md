@@ -157,7 +157,7 @@
 
 ### separation-rate
 
-- **define:** N_t = (1 - sep) N_{t-1} + jobFind * v_t
+- **define:** N_t = (1 - sep) N_{t-1} + fill_t * v_t
 - **conflicts checked:** Convention (1), a word -- not convention (2)'s tilde. The distinction: (2) is for a SAM parameter that has a CLAIM on a particular Greek letter; the separation rate wanted omega only because one paper happened to write it that way, and omega is \weight. The SAM literature has no settled symbol either (Shimer s, Pissarides lambda, others delta or rho), and all of those are claimed here. A tilde on omega would also have distinguished two symbols by a small visual mark alone, which is the failure that had already disqualified upsilon (too close to nu) and varkappa (too close to kappa).
 - **ruling:** 2026-08-30 · source: owner rulings: words for the SAM model; and 'I thought we were using \mathrm{sep} for the separation rate?' correcting an earlier draft that reached for the tilde · rationale: Words are the DEFAULT for the SAM block; the tilde is the fallback for a parameter with a genuine claim on a taken Greek letter. No current parameter instantiates the fallback.
 
