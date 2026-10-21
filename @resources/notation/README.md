@@ -56,8 +56,10 @@ a candidate fix, because correcting it is a notational ruling rather than a bug 
 ## How to consume
 
 - **Vendoring:** these files ride the existing `@resources/` mechanism. Running a
-  consuming repo's `@resources-update-from-remote_private.sh` rsyncs
-  `econ-ark-tools/@resources/` onto the repo's `@resources/`, so
+  consuming repo's `@resources-update-from-remote_private.sh` (a wrapper that calls
+  the vendored `@resources/bash/@resources-update-from-remote.sh`; a wrapper pointing
+  at an absolute path to the old upstream `_private` script, removed in 9b55a274, no
+  longer works) rsyncs `econ-ark-tools/@resources/` onto the repo's `@resources/`, so
   `@resources/notation/` appears there verbatim. (That pull is interactive and
   belongs to each repo's own session — do not run it from here.)
 - **LaTeX:** `\usepackage{econark-notation}` (point `TEXINPUTS` at this dir). It
