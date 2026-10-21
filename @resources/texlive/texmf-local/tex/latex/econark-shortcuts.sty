@@ -249,7 +249,8 @@
 \ARKcommand{\PermLvl}{\PermLvlAgg}      % 
 \ARKcommand{\PermLvlAll}{\pmb{P}}
 
-\ARKcommand{\tranShkAll}{\pmb{\xi}} 
+\ARKcommand{\tranShkAll}{\tranShkInd} % the same shock as \tranShkInd, zero-income event included:
+                                       % "identical, not distinct" (ruling 2026-10-21). Was \pmb{\xi}.
 \ARKcommand{\TranShkAll}{\pmb{\Xi}}  % doesn't make sense ; \tranShkAll already includes 
 \ARKcommand{\tranShkAllStd}{\std_{\tranShkAll}}
 \ARKcommand{\tranShkAllVar}{\std^{2}_{\tranShkAll}}
@@ -308,7 +309,7 @@
 \ARKcommand{\RfreeEff}{\bar{\Rfree}} % Blanchard-adjusted interest rate
 
 \ARKcommand{\PopnGroFac}{\Xi}
-\ARKcommand{\PopnGroRte}{\xi}
+\ARKcommand{\PopnGroRte}{\xi}   % DEPRECATED (ruling 2026-10-21): xi is the transitory shock; no replacement ruled yet
 \ARKcommand{\PopnLvl}{\pmb{\mathrm{N}}}
   
 \ARKcommand{\LivPrb}{\Alive}
@@ -472,7 +473,7 @@
 % - FOR GREEK CHARACTERS ONLY: Use upper and lower case for Factor vs Rate
 \ARKcommand{\PopGroFac}{\Xi}
 
-\ARKcommand{\popGroRte}{\xi}
+\ARKcommand{\popGroRte}{\xi}    % DEPRECATED (ruling 2026-10-21): xi is the transitory shock; no replacement ruled yet
 
 % There are two exceptions: 
 % - Roman G is a Growth factor and Roman g is the rate

@@ -56,8 +56,10 @@ a candidate fix, because correcting it is a notational ruling rather than a bug 
 ## How to consume
 
 - **Vendoring:** these files ride the existing `@resources/` mechanism. Running a
-  consuming repo's `@resources-update-from-remote_private.sh` rsyncs
-  `econ-ark-tools/@resources/` onto the repo's `@resources/`, so
+  consuming repo's `@resources-update-from-remote_private.sh` (a wrapper that calls
+  the vendored `@resources/bash/@resources-update-from-remote.sh`; a wrapper pointing
+  at an absolute path to the old upstream `_private` script, removed in 9b55a274, no
+  longer works) rsyncs `econ-ark-tools/@resources/` onto the repo's `@resources/`, so
   `@resources/notation/` appears there verbatim. (That pull is interactive and
   belongs to each repo's own session — do not run it from here.)
 - **LaTeX:** `\usepackage{econark-notation}` (point `TEXINPUTS` at this dir). It
@@ -80,23 +82,30 @@ a candidate fix, because correcting it is a notational ruling rather than a bug 
 ## Precedence vs `econark-shortcuts.sty` (important)
 
 `econark-notation.sty` uses `\providecommand`, which **defers** to any macro
-already defined. So when a document loads BOTH files, the already-loaded
-definition wins for every shared name. Consequences:
+already defined. `econark-shortcuts.sty` defines through `\ARKcommand`, which is
+`\providecommand` followed by `\renewcommand`, so it **overwrites**. When a
+document loads BOTH files, shortcuts' definition therefore wins for every shared
+name, in EITHER order (pdflatex, 2026-10-21: `\RNrmByG` takes shortcuts'
+`\mathscr{R}` with the registry loaded first or second).
+Consequences:
 
-- **Load `econark-notation.sty` alone (or first)** to get the registry's *base
-  dialect*.
-- Of the 24 macro names shared with `econark-shortcuts.sty`, 18 render identically
-  — pure no-op: `\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk \mTrgNrm`, and
-  the ten rows added in v0.3.0–v0.6.0 (`\weight \splurge \vacCost \sepRte \ADElas
+- **Load `econark-notation.sty` alone** to get the registry's *base dialect*.
+  Loading it first does not help.
+- Of the 30 macro names shared with `econark-shortcuts.sty`, 26 render identically
+  — pure no-op: `\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk \mTrgNrm`; the
+  ten rows added in v0.3.0–v0.6.0 (`\weight \splurge \vacCost \sepRte \ADElas
   \matchEff \matchElas \vacFillPrb \jobFindPrb \tightness`), each of which
-  transcribes the shortcuts definition. **6 render differently**, where shortcuts
-  wins when both load:
-  `\PermGroFac` (Γ vs 𝒢), `\RNrmByG` (`\mathcal{R}` vs `\mathscr{R}`),
-  `\tranShkAll` (ξ vs bold ξ), `\APFac` / `\RPFac` / `\GPFacRaw` (the registry's
+  transcribes the shortcuts definition; and six from v1.0.0 (`\cFunc \uFunc
+  \PermGroRte \GPRte \prdt \prdNxt`); and `\tranShkAll`, since shortcuts now
+  defines it as `\tranShkInd` (owner ruling 2026-10-21: the same shock); and
+  `\PermGroFac`, now 𝒢 in both (owner ruling 2026-10-21). **4 render
+  differently**, where shortcuts wins when both load:
+  `\RNrmByG` (`\mathcal{R}` vs `\mathscr{R}`),
+  `\APFac` / `\RPFac` / `\GPFacRaw` (the registry's
   Þ-symbol forms vs shortcuts' `\pmb{\Thorn}` / ratio forms). These are the
   declared **MIGRATION-PENDING** dialects (see the `dialects:` entries in
   `notation.yml`); reconciling them is owner-gated (single-dialect ruling), not
-  something loading order should silently decide. The other 10 registry macros
+  something loading order should silently decide. The other 35 registry macros
   are unique and always contributed.
 
 ## Governance — proposing a ruling
