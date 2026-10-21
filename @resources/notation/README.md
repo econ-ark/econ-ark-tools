@@ -80,11 +80,15 @@ a candidate fix, because correcting it is a notational ruling rather than a bug 
 ## Precedence vs `econark-shortcuts.sty` (important)
 
 `econark-notation.sty` uses `\providecommand`, which **defers** to any macro
-already defined. So when a document loads BOTH files, the already-loaded
-definition wins for every shared name. Consequences:
+already defined. `econark-shortcuts.sty` defines through `\ARKcommand`, which is
+`\providecommand` followed by `\renewcommand`, so it **overwrites**. When a
+document loads BOTH files, shortcuts' definition therefore wins for every shared
+name, in EITHER order (pdflatex, 2026-10-21: `\PermGroFac`, `\tranShkAll` and
+`\RNrmByG` take shortcuts' forms with the registry loaded first or second).
+Consequences:
 
-- **Load `econark-notation.sty` alone (or first)** to get the registry's *base
-  dialect*.
+- **Load `econark-notation.sty` alone** to get the registry's *base dialect*.
+  Loading it first does not help.
 - Of the 30 macro names shared with `econark-shortcuts.sty`, 24 render identically
   — pure no-op: `\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk \mTrgNrm`; the
   ten rows added in v0.3.0–v0.6.0 (`\weight \splurge \vacCost \sepRte \ADElas
