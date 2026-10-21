@@ -61,7 +61,7 @@ project:
     '\thorn': '\text{þ}'
     '\tranShkAll': '\xi'
     '\tranShkNxt': '\theta\Nxt'
-    '\trvTime': '\tau'
+    '\trvTime': 'n'
     '\uFunc': '\mathrm{u}'
     '\vacCost': '\mathrm{cst}'
     '\vacFillPrb': '\mathrm{fill}'

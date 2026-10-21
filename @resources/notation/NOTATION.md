@@ -65,7 +65,7 @@
 | thorn-glyph | þ | `\thorn` | `\text{þ}` |  | lowercase thorn glyph provision — the RATE partner of Þ; referenced by \GPRte/\APRte/\RPRte in econark-shortcuts.sty, which never defined it (latent-broken until this ruling) |
 | transitory-shock-all | ξ | `\tranShkAll` | `\xi` |  | transitory shock INCLUDING the zero-income atom |
 | transitory-shock-next | θ_{t+1} | `\tranShkNxt` | `\theta\Nxt` |  | next-period transitory shock (time-pair convention; powerlaw-pages θ dialect) |
-| travel-time-to-target | τ | `\trvTime` | `\tau` |  | periods of perfect-foresight descent from w̄ to the target neighborhood (the log-clock); frees T to mean ONLY the terminal/resumption date |
+| travel-time-to-target | n | `\trvTime` | `n` |  | periods of perfect-foresight descent from w̄ to the target neighborhood (the log-clock); frees T to mean ONLY the terminal/resumption date |
 | utility-function | u(·) upright | `\uFunc` | `\mathrm{u}` |  | the utility function (always function guise; u' etc. are derivatives) |
 | vacancy-cost | cst | `\vacCost` | `\mathrm{cst}` |  | vacancy posting cost — the flow cost of keeping a vacancy open, in a search-and-matching block |
 | vacancy-fill-probability | fill | `\vacFillPrb` | `\mathrm{fill}` |  | probability that a vacancy is filled in a period |
@@ -297,9 +297,10 @@
 
 ### travel-time-to-target
 
-- **define:** τ(w̄) ≈ ln w̄ / (−þ_g)
-- **conflicts checked:** τ = \TaxRte/\tax in econark-shortcuts.sty:358–359 (fiscal context) — deliberate glyph reuse across DISJOINT corpora: no fiscal objects appear in the powerlaw/BST theory pages (verified 2026-07-16)
-- **ruling:** 2026-07-16 · source: owner ruling Q3 (reactions round)
+- **define:** n(w̄) ≈ ln w̄ / (−þ_g)
+- **alias:** supersedes τ (owner ruling Q3, 2026-07-16): τ is econark-shortcuts' \TaxRte / \tax and HAFiscal's tax rate
+- **conflicts checked:** n is claimed by no macro in econark-shortcuts.sty (only the generic \nNrm) and by no other row here, and HAFiscal's paper does not use it. It stays italic: n names only this function, so the function-vs-quantity convention needs no upright form. One overlap, accepted by the owner: BufferStockTheory writes n for the periods remaining before the terminal date T (\cFunc_{T-n}, and the powerlaw draft's MPC recursion), also a number of periods but counted back from T rather than forward to the target. The powerlaw draft's sequence subscripts (delta_n, F_n, M_n) are dummy indices. tau was dropped because the 2026-07-16 case for it, glyph reuse across DISJOINT corpora with no fiscal objects in the theory pages, stopped holding once HAFiscal, which writes tau for its tax rate, took its notation from this registry.
+- **ruling:** 2026-10-21 · source: owner: 'I like n for number of periods', then 'yes, go ahead with n', after the audit found the Greek alphabet exhausted for this purpose · rationale: A number of periods, so n; a single italic glyph because it appears in exponents (Rcal^{-n(w̄)}); and it frees tau for the tax rate everywhere.
 
 ### utility-function
 

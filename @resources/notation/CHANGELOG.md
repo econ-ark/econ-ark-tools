@@ -13,7 +13,8 @@ Owner rulings from the powerlaw editorial pass (reactions round, 2026-07-16):
 - `\GPRte` (þ_g = ln Þ_Γ, NEGATIVE under GIC) adopted corpus-wide; the missing
   lowercase `\thorn` glyph is provisioned (`\text{þ}`, KaTeX/LaTeX-safe); the
   powerlaw corpus' positive alias Λ := ln(1/Þ_Γ) is RETIRED (Λ = −þ_g).
-- `\trvTime` (τ(w̄), the log-clock travel time) frees T for the terminal date.
+- `\trvTime` (n(w̄), the log-clock travel time) frees T for the terminal date.
+  Ruled τ on 2026-07-16; changed to n on 2026-10-21 (below).
 - `\etaL`/`\etaR` (η_L, η_R) replace the Lemma-5.1 remainders r_L/r_R.
 - `\KimPrem` (J) names the Kimball precautionary premium.
 - Time-pair convention: bare symbol = current period; `*Nxt` macros render
@@ -30,6 +31,11 @@ Owner rulings from the powerlaw editorial pass (reactions round, 2026-07-16):
   `\prdt` was defined only in `econark-shortcuts.sty`, so `\Now` and every `*Now` macro were
   undefined with `econark-notation.sty` loaded alone and on every MyST/KaTeX page using
   `notation-math.yml` (KaTeX 0.16.11: 8 of 54 macros failed; all 65 render now).
+- **`\trvTime` = n, not τ (owner ruling, 2026-10-21).** τ is econark-shortcuts' `\TaxRte` /
+  `\tax` and HAFiscal's tax rate; the July case for reusing it (disjoint corpora) ended when
+  HAFiscal took its notation from this registry. n is free in both specs and stays italic,
+  since it names only a function. BufferStockTheory also writes n for the periods before T
+  (`\cFunc_{T-n}`), an overlap accepted with the ruling.
 
 **Amended in-PR 2026-07-17 (ruling 9 v2 — guise + the \Now/\Nxt dating layer):**
 - **`\Now`/`\Nxt` suffix macros** (owner-proposed): the dialect flip point is the
