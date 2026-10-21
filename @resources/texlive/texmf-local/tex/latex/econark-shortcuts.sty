@@ -319,6 +319,26 @@
 \ARKcommand{\CARA}{\alpha}
 \ARKcommand{\CRRA}{\rho}
 \ARKcommand{\MPC}{\kappa}
+
+% --- Search-and-matching block -------------------------------------------------
+% Ruling 2026-08-30. Two conventions, both from the owner:
+%  (1) WORDS for the SAM model's own quantities -- an upright multi-letter name, as the
+%      sequence-space literature this block descends from already does. Unlimited namespace,
+%      self-documenting, and it ends the bidding for scarce Greek letters in the one block
+%      where they ran out.
+%  (2) A SAM parameter that wants a Greek letter ALREADY IN USE takes a TILDE. Read the tilde
+%      as "a variant of the base symbol" -- the same reading that covers \qtilde (the trial
+%      variant of q), so the decoration grammar stays one-meaning-per-mark.
+\ARKcommand{\vacCost}{\mathrm{cst}}      % vacancy posting cost. NOT \kappa, which is the MPC.
+\ARKcommand{\sepRte}{\mathrm{sep}}       % job separation rate. Convention (1): a word. It wanted
+                                        % \omega only because one paper happened to use it, and
+                                        % \omega is \weight above -- so there is no Greek letter it
+                                        % has a claim on, and convention (2) does not apply.
+\ARKcommand{\ADElas}{\Omega}             % consumption elasticity of the aggregate-demand effect.
+                                        % NOT \kappa (the MPC) and NOT \varkappa (too close to it).
+                                        % A CAPITAL: this governs an economy-wide externality, not an
+                                        % individual's behaviour, so upper case follows the
+                                        % aggregate/individual convention rather than fighting it.
 \ARKcommand{\MPCFunc}{\pmb{\kappa}}
 \ARKcommand{\pZero}{\wp}
 

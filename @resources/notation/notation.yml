@@ -18,7 +18,7 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 0.4.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 0.5.0        # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-08-30   #         MINOR = additions; PATCH = gloss/typo fixes
 
 symbols:
@@ -39,6 +39,22 @@ symbols:
       date: 2026-07-14
       source: "BST feedback N1"
       rationale: "one h, BST's; the shadow h_BST and local future-only h are banned"
+
+  vacancy-cost:
+    gloss: "vacancy posting cost — the flow cost of keeping a vacancy open, in a search-and-matching block"
+    latex: {macro: '\vacCost', expansion: '\mathrm{cst}'}
+    unicode: 'cst'
+    conflicts_checked: "The SAM literature commonly writes this kappa, and so did HAFiscal's published appendix — but kappa is the MPC here (\\MPC), and the MPC bounds take it decorated (kappa-bar, kappa-underbar). An upright multi-letter name follows convention (1) below and needs no scarce letter."
+    ruling: {date: 2026-08-30, source: "owner ruling: 'we mustn't use \\kappa for cost. As long as we are using words for the SAM model, let's just use \\mathrm{cst} for the posting cost'", rationale: "Words for the SAM block: unlimited namespace, self-documenting, and it ends the bidding for scarce Greek in the one block where they ran out."}
+
+  separation-rate:
+    gloss: "job separation rate — the per-period probability an existing match dissolves"
+    define: "N_t = (1 - sep) N_{t-1} + jobFind * v_t"
+    latex: {macro: '\sepRte', expansion: '\mathrm{sep}'}
+    unicode: 'sep'
+    python: 'job_sep'
+    conflicts_checked: "Convention (1), a word -- not convention (2)'s tilde. The distinction: (2) is for a SAM parameter that has a CLAIM on a particular Greek letter; the separation rate wanted omega only because one paper happened to write it that way, and omega is \\weight. The SAM literature has no settled symbol either (Shimer s, Pissarides lambda, others delta or rho), and all of those are claimed here. A tilde on omega would also have distinguished two symbols by a small visual mark alone, which is the failure that had already disqualified upsilon (too close to nu) and varkappa (too close to kappa)."
+    ruling: {date: 2026-08-30, source: "owner rulings: words for the SAM model; and 'I thought we were using \\mathrm{sep} for the separation rate?' correcting an earlier draft that reached for the tilde", rationale: "Words are the DEFAULT for the SAM block; the tilde is the fallback for a parameter with a genuine claim on a taken Greek letter. No current parameter instantiates the fallback."}
 
   splurge:
     gloss: "the splurge — the share of income consumed off the top, outside the optimizing problem"
