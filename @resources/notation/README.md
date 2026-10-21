@@ -85,18 +85,19 @@ definition wins for every shared name. Consequences:
 
 - **Load `econark-notation.sty` alone (or first)** to get the registry's *base
   dialect*.
-- Of the 24 macro names shared with `econark-shortcuts.sty`, 18 render identically
-  — pure no-op: `\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk \mTrgNrm`, and
-  the ten rows added in v0.3.0–v0.6.0 (`\weight \splurge \vacCost \sepRte \ADElas
+- Of the 29 macro names shared with `econark-shortcuts.sty`, 23 render identically
+  — pure no-op: `\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk \mTrgNrm`; the
+  ten rows added in v0.3.0–v0.6.0 (`\weight \splurge \vacCost \sepRte \ADElas
   \matchEff \matchElas \vacFillPrb \jobFindPrb \tightness`), each of which
-  transcribes the shortcuts definition. **6 render differently**, where shortcuts
+  transcribes the shortcuts definition; and five from v1.0.0 (`\cFunc \uFunc
+  \PermGroRte \GPRte \prdNxt`). **6 render differently**, where shortcuts
   wins when both load:
   `\PermGroFac` (Γ vs 𝒢), `\RNrmByG` (`\mathcal{R}` vs `\mathscr{R}`),
   `\tranShkAll` (ξ vs bold ξ), `\APFac` / `\RPFac` / `\GPFacRaw` (the registry's
   Þ-symbol forms vs shortcuts' `\pmb{\Thorn}` / ratio forms). These are the
   declared **MIGRATION-PENDING** dialects (see the `dialects:` entries in
   `notation.yml`); reconciling them is owner-gated (single-dialect ruling), not
-  something loading order should silently decide. The other 10 registry macros
+  something loading order should silently decide. The other 35 registry macros
   are unique and always contributed.
 
 ## Governance — proposing a ruling
