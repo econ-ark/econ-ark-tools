@@ -394,7 +394,12 @@
 
 % oddities
 \ARKcommand{\FDist}{{\mathcal{F}}}
-\ARKcommand{\fDist}{{\mathcal{f}}}
+\ARKcommand{\fDist}{{\mathrm{f}}}    % density: UPRIGHT because it is a function, matching
+                                    % \LFunc = \mathrm{L} and \gFunc = \mathrm{g}. Was
+                                    % \mathcal{f}, which KaTeX renders as ordinary math
+                                    % italic (Caligraphic is uppercase-only), making the
+                                    % density indistinguishable from a variable f while its
+                                    % partner \FDist = \mathcal{F} rendered correctly.
 
 \ARKcommand{\aMin}{{\Min{\aNrm}}}
 
