@@ -17,7 +17,7 @@
 | human-wealth-optimist | h̄ | `\hNrmOpt` | `\bar{h}` |  | optimist's human wealth (bar = optimist) |
 | human-wealth-pessimist | h̲ | `\hNrmPes` | `\underline{h}` |  | pessimist's (minimal) human wealth |
 | job-find-probability | find | `\jobFindPrb` | `\mathrm{find}` | `job_find` | probability that a searcher finds a job in a period |
-| labour-market-tightness | tgt | `\tightness` | `\mathrm{tgt}` |  | labour-market tightness — vacancies per searcher |
+| labor-market-tightness | tgt | `\tightness` | `\mathrm{tgt}` |  | labor-market tightness — vacancies per searcher |
 | log-excess-resources | μ | `\logmNrmEx` | `\boldsymbol{\mu}` |  | log excess resources |
 | matching-efficiency | eff | `\matchEff` | `\mathrm{eff}` |  | matching-function efficiency — the scale parameter of the Cobb-Douglas matching function |
 | matching-elasticity | z | `\matchElas` | `z` |  | matching-function elasticity — the searcher exponent in the matching function |
@@ -95,7 +95,7 @@
 - **conflicts checked:** Written eta in HAFiscal's published appendix; the registry claims eta subscripted as \etaL / \etaR. Named apart from vacancy-fill-probability deliberately: the two differ only as tgt^{1-z} against tgt^{-z}, so a reader had to hold which of eta and phi was which.
 - **ruling:** 2026-08-30 · source: owner ruling: words for the SAM block
 
-### labour-market-tightness
+### labor-market-tightness
 
 - **define:** tgt = vacancies / searchers
 - **conflicts checked:** Written Theta in HAFiscal's published appendix; Theta is NARK's \TranShkAgg and \TranShkEmp. Note the SAM literature usually writes tightness as lowercase theta, which is NARK's \tranShkEmp -- so neither case was available.

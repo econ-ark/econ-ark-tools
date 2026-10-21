@@ -80,8 +80,8 @@ symbols:
     conflicts_checked: "Written eta in HAFiscal's published appendix; the registry claims eta subscripted as \\etaL / \\etaR. Named apart from vacancy-fill-probability deliberately: the two differ only as tgt^{1-z} against tgt^{-z}, so a reader had to hold which of eta and phi was which."
     ruling: {date: 2026-08-30, source: "owner ruling: words for the SAM block"}
 
-  labour-market-tightness:
-    gloss: "labour-market tightness — vacancies per searcher"
+  labor-market-tightness:
+    gloss: "labor-market tightness — vacancies per searcher"
     define: "tgt = vacancies / searchers"
     latex: {macro: '\tightness', expansion: '\mathrm{tgt}'}
     unicode: 'tgt'
