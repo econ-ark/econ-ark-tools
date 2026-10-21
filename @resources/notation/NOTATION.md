@@ -84,8 +84,8 @@
 
 ### job-find-probability
 
-- **define:** find = eff * tgt^(1-els)
-- **conflicts checked:** Written eta in HAFiscal's published appendix; the registry claims eta subscripted as \etaL / \etaR. Named apart from vacancy-fill-probability deliberately: the two differ only as tgt^{1-els} against tgt^{-els}, so a reader had to hold which of eta and phi was which.
+- **define:** find = eff * tgt^(1-z)
+- **conflicts checked:** Written eta in HAFiscal's published appendix; the registry claims eta subscripted as \etaL / \etaR. Named apart from vacancy-fill-probability deliberately: the two differ only as tgt^{1-z} against tgt^{-z}, so a reader had to hold which of eta and phi was which.
 - **ruling:** 2026-08-30 · source: owner ruling: words for the SAM block
 
 ### labour-market-tightness
@@ -100,7 +100,7 @@
 
 ### matching-efficiency
 
-- **define:** matches = eff * searchers^els * vacancies^(1-els)
+- **define:** matches = eff * searchers^z * vacancies^(1-z)
 - **conflicts checked:** Written chi in HAFiscal's published appendix. chi is unclaimed upstream, so this moves by CONVENTION (words for the SAM block) rather than to resolve a collision -- kept with its siblings so the block reads as one family.
 - **ruling:** 2026-08-30 · source: owner ruling: words for the SAM block
 
@@ -179,7 +179,7 @@
 
 ### vacancy-fill-probability
 
-- **define:** fill = eff * tgt^(-els)
+- **define:** fill = eff * tgt^(-z)
 - **conflicts checked:** Written phi in HAFiscal's published appendix, where phi is ALSO subscripted for the wage rule, the Taylor rule and two fiscal rules -- five distinct meanings on one letter, the heaviest overload in that document. phi is additionally NARK's \prstShkInd and \eprem. This retires the bare use; the four subscripted ones are a separate question.
 - **ruling:** 2026-08-30 · source: owner ruling: words for the SAM block
 
