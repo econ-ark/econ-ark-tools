@@ -3,6 +3,29 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v2.0.0 — 2026-10-21
+
+- **MAJOR — the patience factors are bold (owner ruling, 2026-10-21):** "yes, factor rows
+  should change to bold". `\APFac` = `\textbf{Þ}`, `\RPFac` = `\textbf{Þ}_{R}`,
+  `\GPFacRaw` = `\textbf{Þ}_{\PermGroFac}`; they were plain `\text{Þ}`. This brings the
+  registry into line with the owner's standing rule of 2026-10-04: a factor, a number compared
+  with 1, takes a bold capital thorn; a rate, its log, a small thorn (`\thorn`, unchanged). The
+  registry had contradicted that rule while nothing recorded the question as open.
+  econark-shortcuts' `\APFac` was already bold, by `\pmb`. Unicode has no bold thorn, so the
+  `unicode` and `define` fields still write Þ.
+- **The powerlaw draft takes its notation from `@resources` (owner ruling, 2026-10-21):** "the
+  powerlaw work needs to use the same @resources/econ-ark-tools approach as the other papers;
+  that way it does not have many things to define, except mathematical objects absent from the
+  other wor[k]". Its pages define about 60 macros in their own `myst.yml`; they are to take the
+  shared ones from `@resources/` and define only objects absent from the other papers. The
+  `powerlaw-pages` dialect entries (Γ for the growth factor, θ for the transitory shock, plain Þ
+  for the factors) are now marked NOT SANCTIONED: they record what the pages' own macros still
+  write, until they switch. Taking the shared macros settles the transitory shock's direction,
+  which ruling 4 had left open (ξ, not θ), and the excess-resources unification, which had been
+  "candidate, NOT ruled" (m̈, `\mNrmEx`, not mᵉ); the constraint-end exponent's definition here
+  now writes m̈. The `bst-paper` (γ for ρ) and `hark-python` (h − 1) dialects are not the
+  powerlaw draft and are unchanged.
+
 ## v1.0.0 — 2026-07-16
 
 Owner rulings from the powerlaw editorial pass (reactions round, 2026-07-16):

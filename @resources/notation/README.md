@@ -102,11 +102,26 @@ Consequences:
   differently**, where shortcuts wins when both load:
   `\RNrmByG` (`\mathcal{R}` vs `\mathscr{R}`),
   `\APFac` / `\RPFac` / `\GPFacRaw` (the registry's
-  Þ-symbol forms vs shortcuts' `\pmb{\Thorn}` / ratio forms). These are the
+  `\textbf{Þ}` with subscripts, Þ_R and Þ_𝒢, vs shortcuts' `\text{\pmb{\Thorn}}`
+  and its ratio forms Þ/R and Þ/𝒢; both are bold since v2.0.0, by different
+  devices). These are the
   declared **MIGRATION-PENDING** dialects (see the `dialects:` entries in
   `notation.yml`); reconciling them is owner-gated (single-dialect ruling), not
   something loading order should silently decide. The other 35 registry macros
   are unique and always contributed.
+
+## The powerlaw draft takes its notation from `@resources`
+
+The powerlaw pages (`theory/powerlaw-decay/` in BufferStockTheory-Latest) use the
+same `@resources/` approach as the other papers. Owner, 2026-10-21: *"the powerlaw
+work needs to use the same @resources/econ-ark-tools approach as the other papers;
+that way it does not have many things to define, except mathematical objects absent
+from the other wor[k]"*. So the shared notation comes from `@resources/` (for MyST,
+`notation-math.yml` through `extends:`), and the pages define for themselves only
+the objects that no other paper has. Today their `myst.yml` defines about 60 macros
+itself. Where those render differently from the shared ones, the `powerlaw-pages`
+entries under `dialects:` record it, marked **NOT SANCTIONED**: they go when the
+pages take the shared macros, and they are not alternatives.
 
 ## Governance — proposing a ruling
 

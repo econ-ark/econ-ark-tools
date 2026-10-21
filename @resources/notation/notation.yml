@@ -18,8 +18,10 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 1.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 2.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-10-21   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 2.0.0: the patience factors \APFac, \RPFac, \GPFacRaw take a bold
+                        #        capital thorn (owner, 2026-10-21)
                         # 1.0.0: precautionary-saving re-ruled \pcsNrm/'s' -> \psav/'x'
                         #        (owner, 2026-07-16) + editorial-pass additions;
                         #        amended in-PR 2026-07-17: ruling 9 v2 (guise + \Now/\Nxt)
@@ -177,7 +179,7 @@ symbols:
       powerlaw-pages:
         expansion: '\Gamma'
         home: "the powerlaw pages define Þ_Γ locally (\\ThornG) and write Γ"
-        status: "MIGRATION-PENDING: those pages follow the 2026-10-21 ruling when they switch"
+        status: "NOT SANCTIONED. Owner, 2026-10-21: 'the powerlaw work needs to use the same @resources/econ-ark-tools approach as the other papers; that way it does not have many things to define, except mathematical objects absent from the other wor[k]' (typed 17:12:27 EDT in the econ-ark-tools session, clarifying his ruling of 17:08:24). This records what the macros the pages define for themselves in their myst.yml still write; it goes when they take the shared macros from @resources"
     ruling: {date: 2026-10-21, source: "owner: '`The registry defines g = ln Γ `  It shouldn't do that; at best it should be either g \\approx ln G or \\gamma \\approx ln \\Gamma.' (15:54:40 EDT, typed in the BufferStockTheory-Latest session, relayed, and verified with claude-relay-check); then, choosing between them in the econ-ark-tools session at about 16:37 EDT: 'OK, (B)' (keep g; the factor becomes NARK's calligraphic G)"}
 
   transitory-shock-all:
@@ -191,7 +193,7 @@ symbols:
         expansion: '\theta'
         home: "powerlaw corpus writes θ for the shock incl. atom cases"
         note: "BST reserves θ (\\tranShkEmp) for the employed-state shock; ξ = 0 w.p. ℘, else θ/(1−℘)"
-        status: "MIGRATION-PENDING (ruling 4; intra-four divergence; direction needs an owner ruling — flag in report)"
+        status: "NOT SANCTIONED. Owner, 2026-10-21: 'the powerlaw work needs to use the same @resources/econ-ark-tools approach as the other papers; that way it does not have many things to define, except mathematical objects absent from the other wor[k]' (typed 17:12:27 EDT in the econ-ark-tools session, clarifying his ruling of 17:08:24). This records what the macros the pages define for themselves in their myst.yml still write; it goes when they take the shared macros from @resources. Taking the shared macro settles the direction ruling 4 left open: ξ, not θ"
     ruling: {date: 2026-10-21, source: "owner: 'the individual transitory shock, and the shock including the zero-income event, are identical, not distinct.  And it should be deprecated for population growth' (typed 16:08:25 EDT in the BufferStockTheory-Latest session; relayed, and verified with claude-relay-check). Earlier: 2026-07-14, BST ass-shocks + powerlaw §2 + ruling 4"}
 
   permanent-shock:
@@ -225,23 +227,32 @@ symbols:
   patience-abs:
     gloss: "absolute patience factor"
     define: "Þ = (Rβ)^{1/ρ}"
-    latex: {macro: '\APFac', expansion: '\text{Þ}'}
+    latex: {macro: '\APFac', expansion: '\textbf{Þ}'}
     unicode: 'Þ'
-    aliases: ["\\Thorn — the powerlaw pages' macro (\\text{Þ}); verified KaTeX-safe 2026-07-14"]
+    aliases: ["\\Thorn — the powerlaw pages' macro, in plain type (\\text{Þ}; verified KaTeX-safe 2026-07-14), so not an alias of the bold factor: see the dialect below"]
+    conflicts_checked: "econark-shortcuts.sty's \\APFac is already bold, by a different device (\\text{\\pmb{\\Thorn}}, poor man's bold); \\textbf is a real bold face in LaTeX and KaTeX alike."
+    dialects:
+      powerlaw-pages:
+        expansion: '\text{Þ}'
+        home: "the powerlaw pages define \\Thorn, \\ThornR and \\ThornG in plain type and write them for the factors"
+        status: "NOT SANCTIONED. Owner, 2026-10-21: 'the powerlaw work needs to use the same @resources/econ-ark-tools approach as the other papers; that way it does not have many things to define, except mathematical objects absent from the other wor[k]' (typed 17:12:27 EDT in the econ-ark-tools session, clarifying his ruling of 17:08:24). This records what the macros the pages define for themselves in their myst.yml still write; it goes when they take the shared macros from @resources, in bold"
+    ruling: {date: 2026-10-21, source: "owner: 'yes, factor rows should change to bold' (typed 17:06:17 EDT in the econ-ark-tools session), answering whether these rows should follow his standing rule of 2026-10-04: a factor, a number compared with 1, is written with a bold capital thorn; a rate, its log, with a small thorn (\\thorn, unchanged)", rationale: "the registry had written every patience factor in plain type, contradicting that rule while nothing recorded the question as open. Unicode has no bold thorn, so the unicode and define fields still write Þ; the LaTeX expansion carries the bold"}
 
   patience-return:
     gloss: "return patience factor"
     define: "Þ_R = Þ/R"
-    latex: {macro: '\RPFac', expansion: '\text{Þ}_{R}'}
+    latex: {macro: '\RPFac', expansion: '\textbf{Þ}_{R}'}
     unicode: 'Þ_R'
-    aliases: ["\\ThornR — powerlaw pages"]
+    aliases: ["\\ThornR — powerlaw pages, in plain type, so not an alias of the bold factor: see patience-abs's dialect"]
+    ruling: {date: 2026-10-21, source: "owner: 'yes, factor rows should change to bold' (typed 17:06:17 EDT in the econ-ark-tools session), answering whether these rows should follow his standing rule of 2026-10-04: a factor, a number compared with 1, is written with a bold capital thorn; a rate, its log, with a small thorn (\\thorn, unchanged)", rationale: "the registry had written every patience factor in plain type, contradicting that rule while nothing recorded the question as open. Unicode has no bold thorn, so the unicode and define fields still write Þ; the LaTeX expansion carries the bold"}
 
   patience-growth:
     gloss: "growth patience factor"
     define: "Þ_𝒢 = Þ/𝒢"
-    latex: {macro: '\GPFacRaw', expansion: '\text{Þ}_{\PermGroFac}'}
+    latex: {macro: '\GPFacRaw', expansion: '\textbf{Þ}_{\PermGroFac}'}
     unicode: 'Þ_𝒢'
-    aliases: ["\\ThornG — powerlaw pages"]
+    aliases: ["\\ThornG — powerlaw pages, in plain type and with Γ, so not an alias of the bold factor: see patience-abs's and growth-factor's dialects"]
+    ruling: {date: 2026-10-21, source: "owner: 'yes, factor rows should change to bold' (typed 17:06:17 EDT in the econ-ark-tools session), answering whether these rows should follow his standing rule of 2026-10-04: a factor, a number compared with 1, is written with a bold capital thorn; a rate, its log, with a small thorn (\\thorn, unchanged)", rationale: "the registry had written every patience factor in plain type, contradicting that rule while nothing recorded the question as open. Unicode has no bold thorn, so the unicode and define fields still write Þ; the LaTeX expansion carries the bold"}
 
   return-growth-ratio:
     gloss: "growth-normalized return"
@@ -263,7 +274,7 @@ symbols:
 
   constraint-end-exponent:
     gloss: "constraint-end (bottom-knot) approach exponent — the q_0 partner of the high-wealth q_∞; PROVEN q_0 = ρ"
-    define: "MPC deficit κ̄ − c/mᵉ ≍ (mᵉ)^ρ; in MoM coords χ(μ) = μ + b₀ + O(e^{ρμ})"
+    define: "MPC deficit κ̄ − c/m̈ ≍ m̈^ρ; in MoM coords χ(μ) = μ + b₀ + O(e^{ρμ})"
     latex: {macro: '\qLo', expansion: 'q_{0}'}
     unicode: 'q_0'
     aliases: ["supersedes q↓ (\\qLo = q{\\downarrow}, 2026-07-14 arrows); earlier q° (\\qcirc, q_{\\circ}) 2026-07-13 constraint-end theorem"]
@@ -391,7 +402,7 @@ symbols:
     unicode: 'x_{t+1}'
 
   transitory-shock-next:
-    gloss: "next-period transitory shock (time-pair convention): ξ_{t+1}; the powerlaw pages write θ_{t+1}, their declared dialect (see transitory-shock-all)"
+    gloss: "next-period transitory shock (time-pair convention): ξ_{t+1}; the powerlaw pages still write θ_{t+1}, which is not sanctioned (see transitory-shock-all)"
     latex: {macro: '\tranShkNxt', expansion: '\tranShkAll\Nxt'}
     unicode: 'ξ_{t+1}'
     conflicts_checked: "Was \\theta\\Nxt, the powerlaw pages' θ carried into the base form. θ is econark-shortcuts' \\tranShkEmp, the employed-state shock, a different object; the shock itself is ξ (owner, 2026-10-21: \\tranShkAll and \\tranShkInd are identical)."
@@ -517,7 +528,7 @@ symbols:
     define: "m̈ = m − m_min"
     latex: {macro: '\mNrmEx', expansion: '\ddot{m}'}
     unicode: 'm̈'
-    aliases: ["the powerlaw constraint-end pages write m^e for the same object — candidate future unification, NOT ruled"]
+    conflicts_checked: "The powerlaw constraint-end pages write mᵉ for the same object. That was recorded here as a candidate unification, not ruled. It is settled once those pages take their macros from @resources (owner, 2026-10-21), since \\mNrmEx is the shared macro for this object: they write m̈."
 
   log-excess-resources:
     gloss: "log excess resources"
