@@ -19,7 +19,7 @@
 
 meta:
   version: 0.6.0        # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-08-30   #         MINOR = additions; PATCH = gloss/typo fixes
+  updated: 2026-10-21   #         MINOR = additions; PATCH = gloss/typo fixes
 
 symbols:
 
