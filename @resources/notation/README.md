@@ -26,6 +26,31 @@ propagated by hand to every repo, and shared macro files drifting apart
 `notation-math.yml`, `NOTATION.md`, `notation-lint.sh`. Edit the YAML, run the
 generators, run `python tests/check_sync.py`, commit.
 
+## Font availability (KaTeX)
+
+**A symbol that needs both cases must use a font KaTeX has in both cases.**
+
+| available in both cases | **uppercase only** |
+|---|---|
+| `\mathrm` `\mathit` `\mathbf` `\mathsf` `\mathtt` `\mathfrak` | `\mathcal` `\mathscr` `\mathbb` |
+
+KaTeX ships its Caligraphic, Script and AMS-blackboard fonts in uppercase only. Asked for a lowercase
+one it does not error and does not draw a box — it renders **ordinary math italic**, indistinguishable
+from an unstyled variable. Measured with KaTeX 0.18.4: `\mathscr{g}` emits the glyph class
+`mathnormal`, byte-identical to plain `g`.
+
+That is the worst shape of rendering bug for a registry, and it is *asymmetric* when it hits one half
+of a pair: `\FDist` = `\mathcal{F}` rendered as a caligraphic F while `\fDist` = `\mathcal{f}`
+rendered as a plain f, so the distribution looked special and its density looked like any other
+variable (fixed in v0.5.0: `\fDist` = `\mathrm{f}`). MathJax draws real outlines for all of these, so
+the PDF and MathJax paths are unaffected — but the MyST output this directory generates is a KaTeX
+path.
+
+Enforced by `tests/check_katex.py` (static scan, Python only; plus a deeper render probe when a node
+KaTeX is reachable, which is what would catch a NEW gap if KaTeX's coverage changes). One
+pre-existing violation, `\PtyGroRte` = `\mathscr{g}`, is waived in that file with the reasoning and
+a candidate fix, because correcting it is a notational ruling rather than a bug fix.
+
 **Dependency:** the generators require Python 3 + `PyYAML`.
 
 ## How to consume
@@ -60,9 +85,12 @@ definition wins for every shared name. Consequences:
 
 - **Load `econark-notation.sty` alone (or first)** to get the registry's *base
   dialect*.
-- Of the 14 macro names shared with `econark-shortcuts.sty`, 7 render identically
-  (`\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk` — pure no-op) and **6
-  render differently**, where shortcuts wins when both load:
+- Of the 24 macro names shared with `econark-shortcuts.sty`, 18 render identically
+  — pure no-op: `\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk \mTrgNrm`, and
+  the ten rows added in v0.3.0–v0.6.0 (`\weight \splurge \vacCost \sepRte \ADElas
+  \matchEff \matchElas \vacFillPrb \jobFindPrb \tightness`), each of which
+  transcribes the shortcuts definition. **6 render differently**, where shortcuts
+  wins when both load:
   `\PermGroFac` (Γ vs 𝒢), `\RNrmByG` (`\mathcal{R}` vs `\mathscr{R}`),
   `\tranShkAll` (ξ vs bold ξ), `\APFac` / `\RPFac` / `\GPFacRaw` (the registry's
   Þ-symbol forms vs shortcuts' `\pmb{\Thorn}` / ratio forms). These are the

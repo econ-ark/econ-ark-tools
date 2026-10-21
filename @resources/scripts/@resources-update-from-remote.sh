@@ -27,18 +27,20 @@ root_src="$(dirname "$bash_src")"
 dest_path="$(dirname "$root_src")"
 base_name="$(basename "$dest_path")"
 
-# Check if script is run from econ-ark-tools or bin
-if [[ "$base_name" == "econ-ark-tools" ]] || [[ "$base_name" == "bin" ]]; then
-    if [ $# -eq 0 ]; then
-        echo 
-        echo "Script executed directly from econ-ark-tools/"
-        echo "or from an interactive shell"
-        echo "requires a destination directory as an argument."
-        echo
-        usage
-    else
-        dest_path="$1"
-    fi
+# An explicitly-passed destination ALWAYS wins. It used to be honoured only when
+# the script's grandparent directory happened to be named econ-ark-tools or bin;
+# called from anywhere else, an explicit destination argument was silently
+# ignored and the script synced its OWN checkout instead -- a no-op that reads
+# as success ("No file(s) changed").
+if [ $# -gt 0 ]; then
+    dest_path="$1"
+elif [[ "$base_name" == "econ-ark-tools" ]] || [[ "$base_name" == "bin" ]]; then
+    echo
+    echo "Script executed directly from econ-ark-tools/"
+    echo "or from an interactive shell"
+    echo "requires a destination directory as an argument."
+    echo
+    usage
 fi
 
 echo "dest_path=$dest_path"
@@ -82,7 +84,14 @@ opts=(
 cmd_dryrun="rsync --dry-run ${opts[*]} $orig_path/@resources/ $dest_path/@resources/"
 echo 'cmd_dryrun='"$cmd_dryrun"
 
-deletions=$(eval "$cmd_dryrun" | grep -i deleting)
+# Capture rsync's own exit status: a failure here (e.g. a dangling symlink under
+# --copy-links, which rsync reports as code 23) must not be swallowed by the
+# pipeline, or the run reports success having transferred nothing.
+dryrun_out="$(eval "$cmd_dryrun")" || {
+    echo "ERROR: rsync dry-run failed (exit $?). Aborting without touching $dest_path." >&2
+    exit 1
+}
+deletions="$(printf '%s\n' "$dryrun_out" | grep -i deleting)"
 
 if [[ -n "$deletions" ]]; then
     echo -e "\nThe following files would be deleted:\n$deletions\n"
@@ -95,9 +104,21 @@ fi
 cmd="rsync $dryrun ${opts[*]} $orig_path/@resources/ $dest_path/@resources/"
 echo "$cmd"
 eval "$cmd" | grep '^>f.*c' | tee >(awk 'BEGIN {printf "\n"}; END { if (NR == 0) printf "\nNo file(s) changed\n\n"; else printf "\nSome file(s) changed\n\n"}')
+# PIPESTATUS[0] is rsync's status; the pipeline's own status is grep's, which is
+# 1 whenever no file changed and would mask a genuine rsync failure.
+rsync_rc=${PIPESTATUS[0]}
 
 # Change target to read-only to remind self that edits should be done upstream
 chmod -Rf u-w "$dest_path/@resources"
+
+# Report the failure only after the destination has been left in a sane state.
+if [[ $rsync_rc -ne 0 ]]; then
+    echo >&2
+    echo "ERROR: rsync exited $rsync_rc -- $dest_path/@resources may be incompletely updated." >&2
+    echo "       (code 23 = some files/attrs not transferred; a dangling symlink" >&2
+    echo "        under --copy-links is the usual cause.)" >&2
+    exit "$rsync_rc"
+fi
 
 # Ensure temporary directory is removed on script exit
 trap 'rm -rf -- "$tmpdir"' EXIT

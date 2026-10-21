@@ -19,7 +19,7 @@
 
 meta:
   version: 1.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-07-17   #         MINOR = additions; PATCH = gloss/typo fixes
+  updated: 2026-10-21   #         MINOR = additions; PATCH = gloss/typo fixes
                         # 1.0.0: precautionary-saving re-ruled \pcsNrm/'s' -> \psav/'x'
                         #        (owner, 2026-07-16) + editorial-pass additions;
                         #        amended in-PR 2026-07-17: ruling 9 v2 (guise + \Now/\Nxt)
@@ -42,6 +42,88 @@ symbols:
       date: 2026-07-14
       source: "BST feedback N1"
       rationale: "one h, BST's; the shadow h_BST and local future-only h are banned"
+
+  vacancy-cost:
+    gloss: "vacancy posting cost — the flow cost of keeping a vacancy open, in a search-and-matching block"
+    latex: {macro: '\vacCost', expansion: '\mathrm{cst}'}
+    unicode: 'cst'
+    conflicts_checked: "The SAM literature commonly writes this kappa, and so did HAFiscal's published appendix — but kappa is the MPC here (\\MPC), and the MPC bounds take it decorated (kappa-bar, kappa-underbar). An upright multi-letter name follows convention (1) below and needs no scarce letter."
+    ruling: {date: 2026-08-30, source: "owner ruling: 'we mustn't use \\kappa for cost. As long as we are using words for the SAM model, let's just use \\mathrm{cst} for the posting cost'", rationale: "Words for the SAM block: unlimited namespace, self-documenting, and it ends the bidding for scarce Greek in the one block where they ran out."}
+
+  matching-efficiency:
+    gloss: "matching-function efficiency — the scale parameter of the Cobb-Douglas matching function"
+    define: "matches = eff * searchers^z * vacancies^(1-z)"
+    latex: {macro: '\matchEff', expansion: '\mathrm{eff}'}
+    unicode: 'eff'
+    conflicts_checked: "Written chi in HAFiscal's published appendix. chi is unclaimed upstream, so this moves by CONVENTION (words for the SAM block) rather than to resolve a collision -- kept with its siblings so the block reads as one family."
+    ruling: {date: 2026-08-30, source: "owner ruling: words for the SAM block"}
+
+  matching-elasticity:
+    gloss: "matching-function elasticity — the searcher exponent in the matching function"
+    define: "matches = eff * searchers^z * vacancies^(1-z)"
+    latex: {macro: '\matchElas', expansion: 'z'}
+    unicode: 'z'
+    conflicts_checked: "The one member of this block that keeps a single letter, because it is an EXPONENT: a multi-letter name crowds in e^{els} and tgt^{1-els}, measured against e^{alpha}. Greek was exhausted -- of the three unclaimed lowercase letters, omicron reads as Latin o, upsilon is too close to nu, and iota is too close to 1 and l at superscript size, which is exactly where this symbol lives. Of the lowercase Roman letters, n reads as individual employment beside N (which is employment in this very block) and x is the registry's precautionary-saving (\\psav, ruled 2026-07-16). z is unclaimed in both registry lineages, carries no macro, and appears zero times in the paper; NARK's meaning for it (leisure) is inert in this model."
+    ruling: {date: 2026-08-30, source: "owner ruling: 'use z' -- after \\mathrm{els}, \\varkappa, \\upsilon and \\iota were each rejected in turn", rationale: "An exponent needs a single glyph; z is the only one left that is free everywhere and unambiguous at superscript size."}
+
+  vacancy-fill-probability:
+    gloss: "probability that a vacancy is filled in a period"
+    define: "fill = eff * tgt^(-z)"
+    latex: {macro: '\vacFillPrb', expansion: '\mathrm{fill}'}
+    unicode: 'fill'
+    conflicts_checked: "Written phi in HAFiscal's published appendix, where phi is ALSO subscripted for the wage rule, the Taylor rule and two fiscal rules -- five distinct meanings on one letter, the heaviest overload in that document. phi is additionally NARK's \\prstShkInd and \\eprem. This retires the bare use; the four subscripted ones are a separate question."
+    ruling: {date: 2026-08-30, source: "owner ruling: words for the SAM block"}
+
+  job-find-probability:
+    gloss: "probability that a searcher finds a job in a period"
+    define: "find = eff * tgt^(1-z)"
+    latex: {macro: '\jobFindPrb', expansion: '\mathrm{find}'}
+    unicode: 'find'
+    python: 'job_find'
+    conflicts_checked: "Written eta in HAFiscal's published appendix; the registry claims eta subscripted as \\etaL / \\etaR. Named apart from vacancy-fill-probability deliberately: the two differ only as tgt^{1-z} against tgt^{-z}, so a reader had to hold which of eta and phi was which."
+    ruling: {date: 2026-08-30, source: "owner ruling: words for the SAM block"}
+
+  labor-market-tightness:
+    gloss: "labor-market tightness — vacancies per searcher"
+    define: "tgt = vacancies / searchers"
+    latex: {macro: '\tightness', expansion: '\mathrm{tgt}'}
+    unicode: 'tgt'
+    conflicts_checked: "Written Theta in HAFiscal's published appendix; Theta is NARK's \\TranShkAgg and \\TranShkEmp. Note the SAM literature usually writes tightness as lowercase theta, which is NARK's \\tranShkEmp -- so neither case was available."
+    ruling: {date: 2026-08-30, source: "owner ruling: words for the SAM block"}
+
+  separation-rate:
+    gloss: "job separation rate — the per-period probability an existing match dissolves"
+    define: "N_t = (1 - sep) N_{t-1} + fill_t * v_t"
+    latex: {macro: '\sepRte', expansion: '\mathrm{sep}'}
+    unicode: 'sep'
+    python: 'job_sep'
+    conflicts_checked: "Convention (1), a word -- not convention (2)'s tilde. The distinction: (2) is for a SAM parameter that has a CLAIM on a particular Greek letter; the separation rate wanted omega only because one paper happened to write it that way, and omega is \\weight. The SAM literature has no settled symbol either (Shimer s, Pissarides lambda, others delta or rho), and all of those are claimed here. A tilde on omega would also have distinguished two symbols by a small visual mark alone, which is the failure that had already disqualified upsilon (too close to nu) and varkappa (too close to kappa)."
+    ruling: {date: 2026-08-30, source: "owner rulings: words for the SAM model; and 'I thought we were using \\mathrm{sep} for the separation rate?' correcting an earlier draft that reached for the tilde", rationale: "Words are the DEFAULT for the SAM block; the tilde is the fallback for a parameter with a genuine claim on a taken Greek letter. No current parameter instantiates the fallback."}
+
+  ad-elasticity:
+    gloss: "consumption elasticity of the aggregate-demand effect — how strongly income responds to aggregate consumption in a recession"
+    define: "AD(C_t) = (C_t / C̃)^Ω in a recession, 1 otherwise; C̃ = steady-state consumption"
+    latex: {macro: '\ADElas', expansion: '\Omega'}
+    unicode: 'Ω'
+    python: 'ADelasticity'
+    conflicts_checked: "Written kappa in HAFiscal's published main text, colliding with the MPC (\\MPC); \\varkappa was rejected as too close to kappa. Of the ten capitals that are not Roman lookalikes, Gamma, Delta, Theta and Pi are live in that paper, Xi, Phi and Psi are NARK's, Sigma is the summation operator, and Lambda reads as a Lagrange multiplier. Omega remains. CAVEAT: Omega is econometrics' Hessian / information matrix -- latent here, since HAFiscal deliberately reports no Hessian-based standard errors. HAFiscal's paper also wrote kappa for the vacancy posting cost in its HANK appendix; \\ADElas and \\vacCost separate the two. This row was described in v0.5.0 but left out of this file, so the registry showed Omega as free while econark-shortcuts.sty assigned it -- the failure the weight row records for omega."
+    ruling: {date: 2026-08-30, source: "owner rulings 2026-08-30 for the SAM block (notation v0.5.0): not kappa, the MPC, and not varkappa, too close to it", rationale: "Omega is apt rather than merely free: the AD elasticity governs an economy-wide externality, so a capital follows the aggregate/individual convention."}
+
+  splurge:
+    gloss: "the splurge — the share of income consumed off the top, outside the optimizing problem"
+    define: "c_splurge = splurge * y"
+    latex: {macro: '\splurge', expansion: '\gimel'}
+    unicode: 'ℷ'
+    python: 'Splurge'
+    conflicts_checked: "gimel was unclaimed in notation.yml, in econark-shortcuts.sty and in HAFiscal. Greek was exhausted: of the 24 lowercase letters only iota, omicron and upsilon were unclaimed, and all three are confusable with Latin i/o/u (upsilon additionally with nu, NARK's discRte). Hebrew was the fallback on NARK's own precedent (daleth = DeprFac, beth = DiscFacAlt), leaving aleph and gimel; gimel chosen over aleph to avoid the cardinality reading. \\mathfrak{s} was considered and rejected on two grounds. (a) Graceful degradation: KaTeX renders EVERY glyph as a character plus a font class, ordinary italic included, so a missing webfont degrades the whole document rather than fraktur specially — but with fonts absent \\mathfrak{s} falls back to the letter 's', which reads plausibly beside y, whereas gimel emits a real codepoint and falls back to itself. (b) In this corpus \\mathfrak marks VARIANTS of Roman-letter objects (Rport/rport, CEndFunc/cEndFunc), keeping the case=factor/rate convention inside the pair; the splurge is a new primitive share. The genuine KaTeX gap is elsewhere — lowercase mathcal/mathscr/mathbb, which KaTeX has in uppercase only and silently renders as ordinary math italic."
+    ruling: {date: 2026-08-30, source: "owner ruling: varsigma is the portfolio share in risky assets; the splurge needs its own letter", rationale: "HAFiscal's published paper writes the splurge as \\varsigma, which is NARK's \\riskyshare. varsigma stays with riskyshare; the splurge moves to gimel — a real Unicode codepoint that degrades to nothing rather than to a different meaningful symbol, and that both KaTeX and MathJax render natively."}
+
+  weight:
+    gloss: "a weight — a nonnegative multiplier apportioning mass, probability, or the terms of a mixture"
+    latex: {macro: '\weight', expansion: '\omega'}
+    unicode: 'ω'
+    conflicts_checked: "omega is claimed by no other row here. It is NOT a new assignment: econark-shortcuts.sty on this same branch has carried \\ARKcommand{\\weight}{\\omega} since before this registry existed, so this row transcribes a rule the LaTeX layer already enforces and the YAML had never recorded."
+    ruling: {date: 2026-08-30, source: "owner ruling: 'Modify the NARK to use lower-case \\omega for weights'", rationale: "Surfaced by a downstream consumer (HAFiscal) that consulted this registry, found omega unclaimed, and therefore believed it free -- while econark-shortcuts.sty had assigned it all along."}
 
   wealth-total-pf:
     gloss: "perfect-foresight total wealth (human and market), viewed after returns realize on last period's kapital (k_t = a_{t−1}). A FUNCTION of the state, not a constant (owner caution 2026-07-17: bars so often mark means/bounds that w̄ tempts a constant reading — the bar is BST's upper-bound mark; MoM 'optimist' language retired 2026-07-17); written w̄(m) at definitional sites, italic throughout (\\wbarFunc retired same-PR, owner 2026-07-17)"
@@ -163,26 +245,26 @@ symbols:
     aliases: ["\\Rcal — powerlaw pages (\\mathcal{R})"]
 
   high-wealth-exponent:
-    gloss: "high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q_∞); the ∞ subscript names its domain, the high-wealth limit (subscript ruling 2026-07-17, superseding the 2026-07-14 arrows)"
+    gloss: "high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q_∞)"
     define: "root of E[ψ^{1+q}] = ℛ·Þ_Γ^q  (ψ≡1: q_∞ = ln ℛ / ln(1/Þ_Γ))"
     latex: {macro: '\qHi', expansion: 'q_{\infty}'}
     unicode: 'q_∞'
-    aliases: ["supersedes q* (\\qstar, q^{*}) — the powerlaw corpus' pre-2026-07-14 symbol"]
+    aliases: ["supersedes q↑ (\\qHi = q{\\uparrow}, 2026-07-14 arrows); earlier q* (\\qstar, q^{*}) pre-2026-07-14"]
     ruling:
-      date: 2026-07-14
-      source: "owner ruling (supersedes q* = \\qstar): arrow decorations — q↑ (high-wealth) / q↓ (constraint)"
-      rationale: "up/down arrows read directly as the two ends of the wealth domain"
+      date: 2026-07-16
+      source: "owner ruling (supersedes the 2026-07-14 q↑/q↓ arrows): subscript-limit notation — q_∞ (high-wealth, m→∞) / q_0 (constraint end, mᵉ→0)"
+      rationale: "each exponent named by the limit it governs; avoids the vector reading of over-/adjacent-arrows; the \\qHi/\\qLo macro NAMES are unchanged, so downstream \\qHi/\\qLo usages need no edits"
 
   constraint-end-exponent:
-    gloss: "constraint-end (bottom-knot) approach exponent — the 0-subscript partner of q↑; PROVEN q_0 = ρ"
+    gloss: "constraint-end (bottom-knot) approach exponent — the q_0 partner of the high-wealth q_∞; PROVEN q_0 = ρ"
     define: "MPC deficit κ̄ − c/mᵉ ≍ (mᵉ)^ρ; in MoM coords χ(μ) = μ + b₀ + O(e^{ρμ})"
     latex: {macro: '\qLo', expansion: 'q_{0}'}
     unicode: 'q_0'
-    aliases: ["supersedes q° (\\qcirc, q_{\\circ}) — the 2026-07-13 constraint-end theorem symbol"]
+    aliases: ["supersedes q↓ (\\qLo = q{\\downarrow}, 2026-07-14 arrows); earlier q° (\\qcirc, q_{\\circ}) 2026-07-13 constraint-end theorem"]
     ruling:
-      date: 2026-07-14
-      source: "owner ruling (supersedes q° = \\qcirc, 2026-07-13 constraint-end theorem): arrow decorations"
-      rationale: "PROVEN q_0 = ρ (CRRA); the letter r stays reserved for the interest rate"
+      date: 2026-07-16
+      source: "owner ruling (supersedes the 2026-07-14 q↓ arrow): subscript-limit notation q_0 (constraint end, mᵉ→0)"
+      rationale: "PROVEN q_0 = ρ (CRRA); q_0 names the constraint limit; avoids the vector reading of arrows; the letter r stays reserved for the interest rate"
 
   compensation-exponent:
     gloss: "trial/compensation exponent in the detection machinery"
