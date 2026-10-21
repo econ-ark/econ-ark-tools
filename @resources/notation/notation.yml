@@ -18,7 +18,7 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 0.3.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 0.4.0        # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-08-30   #         MINOR = additions; PATCH = gloss/typo fixes
 
 symbols:
@@ -39,6 +39,15 @@ symbols:
       date: 2026-07-14
       source: "BST feedback N1"
       rationale: "one h, BST's; the shadow h_BST and local future-only h are banned"
+
+  splurge:
+    gloss: "the splurge — the share of income consumed off the top, outside the optimizing problem"
+    define: "c_splurge = splurge * y"
+    latex: {macro: '\splurge', expansion: '\gimel'}
+    unicode: 'ℷ'
+    python: 'Splurge'
+    conflicts_checked: "gimel was unclaimed in notation.yml, in econark-shortcuts.sty and in HAFiscal. Greek was exhausted: of the 24 lowercase letters only iota, omicron and upsilon were unclaimed, and all three are confusable with Latin i/o/u (upsilon additionally with nu, NARK's discRte). Hebrew was the fallback on NARK's own precedent (daleth = DeprFac, beth = DiscFacAlt), leaving aleph and gimel; gimel chosen over aleph to avoid the cardinality reading. \\mathfrak{s} was considered and rejected on two grounds. (a) Graceful degradation: KaTeX renders EVERY glyph as a character plus a font class, ordinary italic included, so a missing webfont degrades the whole document rather than fraktur specially — but with fonts absent \\mathfrak{s} falls back to the letter 's', which reads plausibly beside y, whereas gimel emits a real codepoint and falls back to itself. (b) In this corpus \\mathfrak marks VARIANTS of Roman-letter objects (Rport/rport, CEndFunc/cEndFunc), keeping the case=factor/rate convention inside the pair; the splurge is a new primitive share. The genuine KaTeX gap is elsewhere — lowercase mathcal/mathscr/mathbb, which KaTeX has in uppercase only and silently renders as ordinary math italic."
+    ruling: {date: 2026-08-30, source: "owner ruling: varsigma is the portfolio share in risky assets; the splurge needs its own letter", rationale: "HAFiscal's published paper writes the splurge as \\varsigma, which is NARK's \\riskyshare. varsigma stays with riskyshare; the splurge moves to gimel — a real Unicode codepoint that degrades to nothing rather than to a different meaningful symbol, and that both KaTeX and MathJax render natively."}
 
   weight:
     gloss: "a weight — a nonnegative multiplier apportioning mass, probability, or the terms of a mixture"
