@@ -85,12 +85,12 @@ definition wins for every shared name. Consequences:
 
 - **Load `econark-notation.sty` alone (or first)** to get the registry's *base
   dialect*.
-- Of the 29 macro names shared with `econark-shortcuts.sty`, 23 render identically
+- Of the 30 macro names shared with `econark-shortcuts.sty`, 24 render identically
   — pure no-op: `\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk \mTrgNrm`; the
   ten rows added in v0.3.0–v0.6.0 (`\weight \splurge \vacCost \sepRte \ADElas
   \matchEff \matchElas \vacFillPrb \jobFindPrb \tightness`), each of which
-  transcribes the shortcuts definition; and five from v1.0.0 (`\cFunc \uFunc
-  \PermGroRte \GPRte \prdNxt`). **6 render differently**, where shortcuts
+  transcribes the shortcuts definition; and six from v1.0.0 (`\cFunc \uFunc
+  \PermGroRte \GPRte \prdt \prdNxt`). **6 render differently**, where shortcuts
   wins when both load:
   `\PermGroFac` (Γ vs 𝒢), `\RNrmByG` (`\mathcal{R}` vs `\mathscr{R}`),
   `\tranShkAll` (ξ vs bold ξ), `\APFac` / `\RPFac` / `\GPFacRaw` (the registry's

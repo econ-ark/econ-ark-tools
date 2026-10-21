@@ -330,11 +330,17 @@ symbols:
     conflicts_checked: "J carries only generic letter macros (\\JLvl/\\JNrm/\\JFunc) in econark-shortcuts.sty — no semantic claim (verified 2026-07-16)"
     ruling: {date: 2026-07-17, source: "owner rulings 2026-07-16 (the flow is 'the adjustment') as CORRECTED 2026-07-17: the buffer stock is END-OF-PERIOD ASSETS a (a LEVEL, not a wealth-cushion deviation; target â = m̂ − c(m̂), ℛâ + 1 = m̂ at ψ≡1); 'financing' retired as x's narrative name — x is the discounted stock of adjustments still to be provided"}
 
+  period-now:
+    gloss: "current-period index (house time tooling; = econark-shortcuts \\prdt)"
+    latex: {macro: '\prdt', expansion: 't'}
+    unicode: 't'
+    conflicts_checked: "identical to econark-shortcuts.sty's \\prdt (\\providecommand semantics). Added 2026-10-21 because \\Now expands to _{\\prdt}: without this row \\Now and every *Now macro were undefined wherever the registry is used without econark-shortcuts.sty -- LaTeX loading econark-notation.sty alone, and every MyST/KaTeX page using notation-math.yml."
+
   period-next:
     gloss: "next-period index (house time tooling; = econark-shortcuts \\prdNxt)"
     latex: {macro: '\prdNxt', expansion: 't+1'}
     unicode: 't+1'
-    conflicts_checked: "identical to econark-shortcuts.sty:507 (\\providecommand semantics)"
+    conflicts_checked: "renders identically to econark-shortcuts.sty's \\prdNxt (\\prdt+1) (\\providecommand semantics)"
 
   period-now-suffix:
     gloss: "current-period decoration suffix — HALF THE DIALECT FLIP POINT (ruling 9 v2): subscript dialect '_{\\prdt}'; prime dialect '{}' — NEVER the empty string (mystmd drops empty macros -> undefined control sequence; verified 2026-07-17)"

@@ -42,6 +42,7 @@ project:
     '\RPFac': '\text{Þ}_{R}'
     '\prdNxt': 't+1'
     '\Nxt': '_{\prdNxt}'
+    '\prdt': 't'
     '\Now': '_{\prdt}'
     '\permShk': '\psi'
     '\permShkNxt': '\psi\Nxt'

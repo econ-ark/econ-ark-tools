@@ -45,6 +45,7 @@
 | patience-return | Þ_R | `\RPFac` | `\text{Þ}_{R}` |  | return patience factor |
 | period-next | t+1 | `\prdNxt` | `t+1` |  | next-period index (house time tooling; = econark-shortcuts \prdNxt) |
 | period-next-suffix | _{t+1} | `\Nxt` | `_{\prdNxt}` |  | next-period decoration suffix — the other half of the flip point: subscript dialect '_{\prdNxt}'; prime dialect the LITERAL apostrophe — NEVER '^{\prime}' (double superscript on \cNrmNxt^{-\rho} forms; both traps verified against the bundled KaTeX 2026-07-17) |
+| period-now | t | `\prdt` | `t` |  | current-period index (house time tooling; = econark-shortcuts \prdt) |
 | period-now-suffix | _t | `\Now` | `_{\prdt}` |  | current-period decoration suffix — HALF THE DIALECT FLIP POINT (ruling 9 v2): subscript dialect '_{\prdt}'; prime dialect '{}' — NEVER the empty string (mystmd drops empty macros -> undefined control sequence; verified 2026-07-17) |
 | permanent-shock | ψ | `\permShk` | `\psi` | `PermShk` | permanent shock, E[ψ]=1, bounded support |
 | permanent-shock-next | ψ_{t+1} | `\permShkNxt` | `\psi\Nxt` |  | next-period permanent shock (time-pair convention) |
@@ -235,11 +236,15 @@
 
 ### period-next
 
-- **conflicts checked:** identical to econark-shortcuts.sty:507 (\providecommand semantics)
+- **conflicts checked:** renders identically to econark-shortcuts.sty's \prdNxt (\prdt+1) (\providecommand semantics)
 
 ### period-next-suffix
 
 - **ruling:** 2026-07-17 · source: owner proposal + blessing (ruling 9 v2)
+
+### period-now
+
+- **conflicts checked:** identical to econark-shortcuts.sty's \prdt (\providecommand semantics). Added 2026-10-21 because \Now expands to _{\prdt}: without this row \Now and every *Now macro were undefined wherever the registry is used without econark-shortcuts.sty -- LaTeX loading econark-notation.sty alone, and every MyST/KaTeX page using notation-math.yml.
 
 ### period-now-suffix
 

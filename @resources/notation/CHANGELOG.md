@@ -26,6 +26,10 @@ Owner rulings from the powerlaw editorial pass (reactions round, 2026-07-16):
   because it merges after them. The q_∞/q_0 subscripts in the KPP / q-subscripts / kapital
   amendment had already reached master as v0.2.0 (#37), so the `\qHi`/`\qLo` rows keep
   v0.2.0's wording.
+- **`period-now` row added (2026-10-21): `\prdt` = t.** `\Now` expands to `_{\prdt}`, but
+  `\prdt` was defined only in `econark-shortcuts.sty`, so `\Now` and every `*Now` macro were
+  undefined with `econark-notation.sty` loaded alone and on every MyST/KaTeX page using
+  `notation-math.yml` (KaTeX 0.16.11: 8 of 54 macros failed; all 65 render now).
 
 **Amended in-PR 2026-07-17 (ruling 9 v2 — guise + the \Now/\Nxt dating layer):**
 - **`\Now`/`\Nxt` suffix macros** (owner-proposed): the dialect flip point is the
