@@ -65,7 +65,7 @@ project:
     '\uFunc': '\mathrm{u}'
     '\vacCost': '\mathrm{cst}'
     '\vacFillPrb': '\mathrm{fill}'
-    '\wbar': '\bar{w}'
+    '\wbar': 'o'
     '\wbarNxt': '\wbar\Nxt'
     '\wbarNow': '\wbar\Now'
     '\weight': '\omega'

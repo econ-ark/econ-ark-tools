@@ -36,6 +36,14 @@ Owner rulings from the powerlaw editorial pass (reactions round, 2026-07-16):
   HAFiscal took its notation from this registry. n is free in both specs and stays italic,
   since it names only a function. BufferStockTheory also writes n for the periods before T
   (`\cFunc_{T-n}`), an overlap accepted with the ruling.
+- **Total wealth is o, not w̄ (owner ruling, 2026-10-21):** "I've reconsidered and think total
+  wealth (human + nonhuman) should be just the roman letter o, not \omicron." That reverses his
+  omicron ruling of minutes earlier. `\wbar` keeps its name and now expands to `o`;
+  `\wbarNow`/`\wbarNxt` follow. Every gloss and formula that wrote w̄ now writes o.
+- **`\tranShkAll` and `\tranShkInd` are one shock (owner ruling, 2026-10-21):** "identical,
+  not distinct". econark-shortcuts.sty now defines `\tranShkAll` as `\tranShkInd` (it was
+  bold ξ), and marks ξ for population growth (`\PopnGroRte`, `\popGroRte`) DEPRECATED, with
+  no replacement ruled yet.
 
 **Amended in-PR 2026-07-17 (ruling 9 v2 — guise + the \Now/\Nxt dating layer):**
 - **`\Now`/`\Nxt` suffix macros** (owner-proposed): the dialect flip point is the

@@ -13,15 +13,15 @@
 | bank-balances-next | b_{t+1} | `\bNrmNxt` | `\bNrm\Nxt` |  | next-period bank balances (time-pair convention; row added 2026-07-17 — \bNrmNxt was already in corpus use but missing here) |
 | bank-balances-now | b_t | `\bNrmNow` | `\bNrm\Now` |  | current-period bank balances (path-equation dating) |
 | buffer-adjustment | J | `\bufAdj` | `J` |  | J — textual name THE KIMBALL PRECAUTIONARY PREMIUM (KPP), restored by owner 2026-07-17 (always positive in the asymptotic region, though not monotone in wealth; the SUM of premia grows with each backward step; the analytic formula is asymptotic-only). 'The adjustment' survives only for the buffer-stock-motion concept, which is SIGNED in general (an oversized buffer stock adjusts downward), provably positive in the high-wealth asymptotic region (the forcing floor) |
-| buffer-adjustment-function | J(·) upright | `\bufAdjFunc` | `\mathrm{J}` |  | the adjustment as a FUNCTION, upright (applications J(w̄)); the italic letter J is the flow quantity |
+| buffer-adjustment-function | J(·) upright | `\bufAdjFunc` | `\mathrm{J}` |  | the adjustment as a FUNCTION, upright (applications J(o)); the italic letter J is the flow quantity |
 | compensation-exponent | q̃ | `\qtilde` | `\tilde{q}` |  | trial/compensation exponent in the detection machinery |
 | constraint-end-exponent | q_0 | `\qLo` | `q_{0}` |  | constraint-end (bottom-knot) approach exponent — the q_0 partner of the high-wealth q_∞; PROVEN q_0 = ρ |
 | consumption-function | c(·) upright | `\cFunc` | `\mathrm{c}` |  | the consumption FUNCTION, upright guise (the value guise is bare italic c) |
 | consumption-next | c_{t+1} | `\cNrmNxt` | `c\Nxt` |  | next-period consumption value (time-pair convention v2: the \*Now/\*Nxt families are defined THROUGH the \Now/\Nxt suffixes, so the dialect flip is the two suffix definitions — NOT per-macro renewal; the old flip example 'c^{\prime}' is a verified double-superscript trap) |
 | consumption-now | c_t | `\cNrmNow` | `c\Now` |  | current-period consumption value (ruling 9 v2: path equations date every variable) |
 | crra | ρ | `\CRRA` | `\rho` | `CRRA` | coefficient of relative risk aversion |
-| function-vs-quantity-convention |  |  |  |  | ruling 9 v2, as amended 2026-07-17: a function whose letter also names a quantity is UPRIGHT with its argument (BST's \cFunc convention — \cFunc(m), \psavFunc(m), \bufAdjFunc(w̄), \uFunc); the italic letters are the quantities. A letter that names ONLY a function needs no upright form (the gap g, Greek functions). Primes are reserved for differentiation, on upright letters only; path equations date every variable, function equations keep the state bare and date the function. The 'dual-guise' framing is PROHIBITED (owner, 2026-07-17) — state the convention concretely |
-| gap | g(w̄) |  |  |  | THE GAP — the PF-wealth-coordinate function, REVIVED 2026-07-17 (partially reverting the 2026-07-16 Q4 merger of s(m)/g(w̄) into x): a bare italic letter (g names nothing else, so no upright form), with g(w̄(m)) = x(m) |
+| function-vs-quantity-convention |  |  |  |  | ruling 9 v2, as amended 2026-07-17: a function whose letter also names a quantity is UPRIGHT with its argument (BST's \cFunc convention — \cFunc(m), \psavFunc(m), \bufAdjFunc(o), \uFunc); the italic letters are the quantities. A letter that names ONLY a function needs no upright form (the gap g, Greek functions). Primes are reserved for differentiation, on upright letters only; path equations date every variable, function equations keep the state bare and date the function. The 'dual-guise' framing is PROHIBITED (owner, 2026-07-17) — state the convention concretely |
+| gap | g(o) |  |  |  | THE GAP — the PF-wealth-coordinate function, REVIVED 2026-07-17 (partially reverting the 2026-07-16 Q4 merger of s(m)/g(o) into x): a bare italic letter (g names nothing else, so no upright form), with g(o(m)) = x(m) |
 | gap-remainder-left | η_L | `\etaL` | `\eta_{L}` |  | left remainder of the exact one-step gap identity (Lemma 5.1); collects evaluation-point/linearization corrections; vanishes in the asymptotic region |
 | gap-remainder-right | η_R | `\etaR` | `\eta_{R}` |  | right remainder of the exact one-step gap identity (Lemma 5.1) |
 | growth-factor | Γ | `\PermGroFac` | `\Gamma` | `PermGroFac` | permanent-income growth factor |
@@ -35,7 +35,7 @@
 | kapital-now | k_t | `\kNrmNow` | `k\Now` |  | this period's kapital — BST's k_t = a_{t−1}: last period's assets, renamed at the date they earn their return |
 | labor-market-tightness | tgt | `\tightness` | `\mathrm{tgt}` |  | labor-market tightness — vacancies per searcher |
 | log-excess-resources | μ | `\logmNrmEx` | `\boldsymbol{\mu}` |  | log excess resources |
-| log-growth-patience-rate | þ_g | `\GPRte` | `\thorn_{\PermGroRte}` |  | log growth-patience rate — lowercase-thorn partner of Þ_Γ; NEGATIVE under GIC; the per-period PF descent rate of ln w̄ is −þ_g |
+| log-growth-patience-rate | þ_g | `\GPRte` | `\thorn_{\PermGroRte}` |  | log growth-patience rate — lowercase-thorn partner of Þ_Γ; NEGATIVE under GIC; the per-period PF descent rate of ln o is −þ_g |
 | matching-efficiency | eff | `\matchEff` | `\mathrm{eff}` |  | matching-function efficiency — the scale parameter of the Cobb-Douglas matching function |
 | matching-elasticity | z | `\matchElas` | `z` |  | matching-function elasticity — the searcher exponent in the matching function |
 | mpc-max | κ̄ | `\MPCmax` | `\overline{\kappa}` | `MPCmax` | limiting MPC as m→0 (worst-atom) |
@@ -50,7 +50,7 @@
 | permanent-shock | ψ | `\permShk` | `\psi` | `PermShk` | permanent shock, E[ψ]=1, bounded support |
 | permanent-shock-next | ψ_{t+1} | `\permShkNxt` | `\psi\Nxt` |  | next-period permanent shock (time-pair convention) |
 | precautionary-saving | x | `\psav` | `x` |  | precautionary saving — the eXtra saving induced by precaution: the shortfall of consumption below BST's perfect-foresight rule |
-| precautionary-saving-function | x(·) upright | `\psavFunc` | `\mathrm{x}` |  | precautionary saving as a FUNCTION of the STATE m only, upright: x(m) — NEVER applied to w̄ (owner, 2026-07-17: the w̄-coordinate function is the gap g); the italic letter x is the quantity |
+| precautionary-saving-function | x(·) upright | `\psavFunc` | `\mathrm{x}` |  | precautionary saving as a FUNCTION of the STATE m only, upright: x(m) — NEVER applied to o (owner, 2026-07-17: the o-coordinate function is the gap g); the italic letter x is the quantity |
 | precautionary-saving-next | x_{t+1} | `\psavNxt` | `\psav\Nxt` |  | next-period precautionary saving (time-pair convention) |
 | precautionary-saving-now | x_t | `\psavNow` | `\psav\Now` |  | current-period precautionary saving (path-equation dating) |
 | pseudo-target | m̌ | `\mBalLvl` | `\check{m}` | `mBalLvl` | balanced-growth pseudo-target (GIC-Raw) |
@@ -63,15 +63,15 @@
 | splurge | ℷ | `\splurge` | `\gimel` | `Splurge` | the splurge — the share of income consumed off the top, outside the optimizing problem |
 | target | m̂ | `\mTrgNrm` | `\hat{m}` | `mTrgNrm` | individual buffer-stock target: E[m′/m] = 1 at m̂ (WRIC+FVAC+GIC-Mod) |
 | thorn-glyph | þ | `\thorn` | `\text{þ}` |  | lowercase thorn glyph provision — the RATE partner of Þ; referenced by \GPRte/\APRte/\RPRte in econark-shortcuts.sty, which never defined it (latent-broken until this ruling) |
-| transitory-shock-all | ξ | `\tranShkAll` | `\xi` |  | transitory shock INCLUDING the zero-income atom |
+| transitory-shock-all | ξ | `\tranShkAll` | `\xi` |  | the transitory shock, zero-income event included — the same object as econark-shortcuts' \tranShkInd (owner, 2026-10-21: identical, not distinct) |
 | transitory-shock-next | θ_{t+1} | `\tranShkNxt` | `\theta\Nxt` |  | next-period transitory shock (time-pair convention; powerlaw-pages θ dialect) |
-| travel-time-to-target | n | `\trvTime` | `n` |  | periods of perfect-foresight descent from w̄ to the target neighborhood (the log-clock); frees T to mean ONLY the terminal/resumption date |
+| travel-time-to-target | n | `\trvTime` | `n` |  | periods of perfect-foresight descent from o to the target neighborhood (the log-clock); frees T to mean ONLY the terminal/resumption date |
 | utility-function | u(·) upright | `\uFunc` | `\mathrm{u}` |  | the utility function (always function guise; u' etc. are derivatives) |
 | vacancy-cost | cst | `\vacCost` | `\mathrm{cst}` |  | vacancy posting cost — the flow cost of keeping a vacancy open, in a search-and-matching block |
 | vacancy-fill-probability | fill | `\vacFillPrb` | `\mathrm{fill}` |  | probability that a vacancy is filled in a period |
-| wealth-total-pf | w̄ | `\wbar` | `\bar{w}` | `wBarNrm` | perfect-foresight total wealth (human and market), viewed after returns realize on last period's kapital (k_t = a_{t−1}). A FUNCTION of the state, not a constant (owner caution 2026-07-17: bars so often mark means/bounds that w̄ tempts a constant reading — the bar is BST's upper-bound mark; MoM 'optimist' language retired 2026-07-17); written w̄(m) at definitional sites, italic throughout (\wbarFunc retired same-PR, owner 2026-07-17) |
-| wealth-total-pf-next | w̄_{t+1} | `\wbarNxt` | `\wbar\Nxt` |  | next-period perfect-foresight total wealth (time-pair convention) |
-| wealth-total-pf-now | w̄_t | `\wbarNow` | `\wbar\Now` |  | current-period perfect-foresight total wealth (path-equation dating) |
+| wealth-total-pf | o | `\wbar` | `o` | `wBarNrm` | perfect-foresight total ('overall') wealth (human and market), viewed after returns realize on last period's kapital (k_t = a_{t−1}). A FUNCTION of the state, not a constant (owner caution 2026-07-17); written o(m) at definitional sites, italic throughout (\wbarFunc retired same-PR, owner 2026-07-17) |
+| wealth-total-pf-next | o_{t+1} | `\wbarNxt` | `\wbar\Nxt` |  | next-period perfect-foresight total wealth (time-pair convention) |
+| wealth-total-pf-now | o_t | `\wbarNow` | `\wbar\Now` |  | current-period perfect-foresight total wealth (path-equation dating) |
 | weight | ω | `\weight` | `\omega` |  | a weight — a nonnegative multiplier apportioning mass, probability, or the terms of a mixture |
 | zero-income-prob | ℘ | `\pZero` | `\wp` | `pZero` | probability of the zero-income event (the worst transitory atom) |
 
@@ -90,7 +90,7 @@
 
 ### buffer-adjustment
 
-- **define:** w̄·J(w̄) → κ̲(ρ+1)σ²/(2Þ_Γ)   (transitory-only limit)
+- **define:** o·J(o) → κ̲(ρ+1)σ²/(2Þ_Γ)   (transitory-only limit)
 - **alias:** RETIRED same-PR before any consumption: \KimPrem / 'Kimball precautionary premium' / 'dividend' — banned terms (terminology.yml): they connote a strictly positive flow
 - **conflicts checked:** J carries only generic letter macros (\JLvl/\JNrm/\JFunc) in econark-shortcuts.sty — no semantic claim (verified 2026-07-16)
 - **ruling:** 2026-07-17 · source: owner rulings 2026-07-16 (the flow is 'the adjustment') as CORRECTED 2026-07-17: the buffer stock is END-OF-PERIOD ASSETS a (a LEVEL, not a wealth-cushion deviation; target â = m̂ − c(m̂), ℛâ + 1 = m̂ at ψ≡1); 'financing' retired as x's narrative name — x is the discounted stock of adjustments still to be provided
@@ -134,18 +134,18 @@
 
 ### gap
 
-- **define:** g(w̄) := κ̲·w̄ − c(m(w̄))
+- **define:** g(o) := κ̲·o − c(m(o))
 - **ruling:** 2026-07-17 · source: owner: 'If you really need to have something that is a function of w̄, then you can revert to your definition of the gap as g as a function of w̄'
 
 ### gap-remainder-left
 
-- **define:** 0 ≤ η_L ≤ K_L/w̄
+- **define:** 0 ≤ η_L ≤ K_L/o
 - **conflicts checked:** η unused across econark-shortcuts.sty, local-macros.sty, the MyST maps and BufferStockTheory.tex (verified 2026-07-16); replaces r_L — r reads as an interest rate
 - **ruling:** 2026-07-16 · source: owner ruling Q3 (reactions round)
 
 ### gap-remainder-right
 
-- **define:** \|η_R\| ≤ K_R/w̄
+- **define:** \|η_R\| ≤ K_R/o
 - **ruling:** 2026-07-16 · source: owner ruling Q3 (reactions round)
 
 ### growth-factor
@@ -253,7 +253,7 @@
 
 ### precautionary-saving
 
-- **define:** x(m) := c̄(m) − c(m) = κ̲·w̄ − c(m), written x(w̄) in the perfect-foresight-wealth coordinate
+- **define:** x(m) := c̄(m) − c(m) = κ̲·o − c(m), written x(o) in the perfect-foresight-wealth coordinate
 - **alias:** RETIRED 2026-07-16: s(m) and g(w̄) — the pre-ruling symbols (one object now has one symbol; the coordinate shows in the argument). Anchor NAMES retaining g (thm-gT, thm-gC, eq-gap-def) are historical and unchanged.
 - **conflicts checked:** x: \xNrm in econark-shortcuts.sty is a generic letter macro with no semantic claim; the powerlaw corpus' x₀ validity threshold is unified to w̄₀; x_cut is a code identifier outside prose scope (verified 2026-07-16)
 - **ruling:** 2026-07-16 · source: owner ruling Q4 (reactions round, verbatim): 'x replaces both, and is defined as eXtra saving (induced by precaution) throughout'; supersedes the 2026-07-14 \pcsNrm/'s' ruling — MAJOR bump
@@ -292,12 +292,14 @@
 
 ### transitory-shock-all
 
+- **alias:** \tranShkInd — econark-shortcuts' name for the same shock
+- **conflicts checked:** ξ is also econark-shortcuts' \PopnGroRte and \popGroRte, the population growth rate; that use is DEPRECATED (owner, 2026-10-21) and no replacement has been ruled. econark-shortcuts drew \tranShkAll in bold (\pmb{\xi}) as if it were a different object from \tranShkInd; it now defines \tranShkAll as \tranShkInd.
 - **dialect `powerlaw-pages`:** expansion `\theta`; home: powerlaw corpus writes θ for the shock incl. atom cases; **MIGRATION-PENDING (ruling 4; intra-four divergence; direction needs an owner ruling — flag in report)**; BST reserves θ (\tranShkEmp) for the employed-state shock; ξ = 0 w.p. ℘, else θ/(1−℘)
-- **ruling:** 2026-07-14 · source: BST ass-shocks + powerlaw §2 + ruling 4
+- **ruling:** 2026-10-21 · source: owner: 'the individual transitory shock, and the shock including the zero-income event, are identical, not distinct.  And it should be deprecated for population growth' (typed 16:08:25 EDT in the BufferStockTheory-Latest session; relayed, and verified with claude-relay-check). Earlier: 2026-07-14, BST ass-shocks + powerlaw §2 + ruling 4
 
 ### travel-time-to-target
 
-- **define:** n(w̄) ≈ ln w̄ / (−þ_g)
+- **define:** n(o) ≈ ln o / (−þ_g)
 - **alias:** supersedes τ (owner ruling Q3, 2026-07-16): τ is econark-shortcuts' \TaxRte / \tax and HAFiscal's tax rate
 - **conflicts checked:** n is claimed by no macro in econark-shortcuts.sty (only the generic \nNrm) and by no other row here, and HAFiscal's paper does not use it. It stays italic: n names only this function, so the function-vs-quantity convention needs no upright form. One overlap, accepted by the owner: BufferStockTheory writes n for the periods remaining before the terminal date T (\cFunc_{T-n}, and the powerlaw draft's MPC recursion), also a number of periods but counted back from T rather than forward to the target. The powerlaw draft's shell count n(w̄) = ln(w̄/w̄_a)/(−þ_g) is the same object: its anchor w̄_a and the travel time's ζ differ by an additive constant, which the ≈ in the log-clock already absorbs. The draft's sequence subscripts (delta_n, F_n, M_n) are dummy indices. BufferStockTheory's powerlaw pages switched \trvTime to n on 2026-10-21. tau was dropped because the 2026-07-16 case for it, glyph reuse across DISJOINT corpora with no fiscal objects in the theory pages, stopped holding once HAFiscal, which writes tau for its tax rate, took its notation from this registry.
 - **ruling:** 2026-10-21 · source: owner: 'I like n for number of periods', then 'yes, go ahead with n', after the audit found the Greek alphabet exhausted for this purpose · rationale: A number of periods, so n; a single italic glyph because it appears in exponents (Rcal^{-n(w̄)}); and it frees tau for the tax rate everywhere.
@@ -319,7 +321,10 @@
 
 ### wealth-total-pf
 
-- **define:** w̄(m) := b + h = m − 1 + h
+- **define:** o(m) := b + h = m − 1 + h
+- **alias:** supersedes w̄ (\bar{w}, 2026-07-14; the bar was BST's upper-bound mark, and the owner's 2026-07-17 caution was that bars tempt a constant reading); the macro keeps the name \wbar so documents follow without edits
+- **conflicts checked:** o is claimed by no macro in econark-shortcuts.sty (only the generic \oNrm) and by no other row. NARK prohibits uppercase O; the owner named only lowercase o, which NARK records as the exception. Reading hazard: the powerlaw draft also writes little-o, o(·), in its asymptotics (6 times in its math, beside 27 big-O), and total wealth is written o(m) at definitional sites.
+- **ruling:** 2026-10-21 · source: owner: 'I've reconsidered and think total wealth (human + nonhuman) should be just the roman letter o, not \omicron.' (16:13:06 EDT), reversing his 'NARK and the registry should both use $\omicron$ for "overall" (=total) wealth' (16:05:53 EDT); both typed in the BufferStockTheory-Latest session, relayed, and verified with claude-relay-check
 
 ### weight
 
