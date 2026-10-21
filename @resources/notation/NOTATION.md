@@ -24,7 +24,7 @@
 | gap | g(o) |  |  |  | THE GAP — the PF-wealth-coordinate function, REVIVED 2026-07-17 (partially reverting the 2026-07-16 Q4 merger of s(m)/g(o) into x): a bare italic letter (g names nothing else, so no upright form), with g(o(m)) = x(m) |
 | gap-remainder-left | η_L | `\etaL` | `\eta_{L}` |  | left remainder of the exact one-step gap identity (Lemma 5.1); collects evaluation-point/linearization corrections; vanishes in the asymptotic region |
 | gap-remainder-right | η_R | `\etaR` | `\eta_{R}` |  | right remainder of the exact one-step gap identity (Lemma 5.1) |
-| growth-factor | Γ | `\PermGroFac` | `\Gamma` | `PermGroFac` | permanent-income growth factor |
+| growth-factor | 𝒢 | `\PermGroFac` | `\mathcal{G}` | `PermGroFac` | permanent-income growth factor |
 | growth-rate | g | `\PermGroRte` | `g` |  | log permanent-income growth rate |
 | high-wealth-exponent | q_∞ | `\qHi` | `q_{\infty}` |  | high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q_∞) |
 | human-wealth | h | `\hNrm` | `h` | `hNrm` | normalized human wealth, current period's income INCLUDED (BST eq-HDef) |
@@ -35,13 +35,13 @@
 | kapital-now | k_t | `\kNrmNow` | `k\Now` |  | this period's kapital — BST's k_t = a_{t−1}: last period's assets, renamed at the date they earn their return |
 | labor-market-tightness | tgt | `\tightness` | `\mathrm{tgt}` |  | labor-market tightness — vacancies per searcher |
 | log-excess-resources | μ | `\logmNrmEx` | `\boldsymbol{\mu}` |  | log excess resources |
-| log-growth-patience-rate | þ_g | `\GPRte` | `\thorn_{\PermGroRte}` |  | log growth-patience rate — lowercase-thorn partner of Þ_Γ; NEGATIVE under GIC; the per-period PF descent rate of ln o is −þ_g |
+| log-growth-patience-rate | þ_g | `\GPRte` | `\thorn_{\PermGroRte}` |  | log growth-patience rate — lowercase-thorn partner of Þ_𝒢; NEGATIVE under GIC; the per-period PF descent rate of ln o is −þ_g |
 | matching-efficiency | eff | `\matchEff` | `\mathrm{eff}` |  | matching-function efficiency — the scale parameter of the Cobb-Douglas matching function |
 | matching-elasticity | z | `\matchElas` | `z` |  | matching-function elasticity — the searcher exponent in the matching function |
 | mpc-max | κ̄ | `\MPCmax` | `\overline{\kappa}` | `MPCmax` | limiting MPC as m→0 (worst-atom) |
 | mpc-min | κ̲ | `\MPCmin` | `\underline{\kappa}` | `MPCmin` | limiting MPC as m→∞ (PF MPC); pessimist/lower-bound underline |
 | patience-abs | Þ | `\APFac` | `\text{Þ}` |  | absolute patience factor |
-| patience-growth | Þ_Γ | `\GPFacRaw` | `\text{Þ}_{\Gamma}` |  | growth patience factor |
+| patience-growth | Þ_𝒢 | `\GPFacRaw` | `\text{Þ}_{\PermGroFac}` |  | growth patience factor |
 | patience-return | Þ_R | `\RPFac` | `\text{Þ}_{R}` |  | return patience factor |
 | period-next | t+1 | `\prdNxt` | `t+1` |  | next-period index (house time tooling; = econark-shortcuts \prdNxt) |
 | period-next-suffix | _{t+1} | `\Nxt` | `_{\prdNxt}` |  | next-period decoration suffix — the other half of the flip point: subscript dialect '_{\prdNxt}'; prime dialect the LITERAL apostrophe — NEVER '^{\prime}' (double superscript on \cNrmNxt^{-\rho} forms; both traps verified against the bundled KaTeX 2026-07-17) |
@@ -64,7 +64,7 @@
 | target | m̂ | `\mTrgNrm` | `\hat{m}` | `mTrgNrm` | individual buffer-stock target: E[m′/m] = 1 at m̂ (WRIC+FVAC+GIC-Mod) |
 | thorn-glyph | þ | `\thorn` | `\text{þ}` |  | lowercase thorn glyph provision — the RATE partner of Þ; referenced by \GPRte/\APRte/\RPRte in econark-shortcuts.sty, which never defined it (latent-broken until this ruling) |
 | transitory-shock-all | ξ | `\tranShkAll` | `\xi` |  | the transitory shock, zero-income event included — the same object as econark-shortcuts' \tranShkInd (owner, 2026-10-21: identical, not distinct) |
-| transitory-shock-next | θ_{t+1} | `\tranShkNxt` | `\theta\Nxt` |  | next-period transitory shock (time-pair convention; powerlaw-pages θ dialect) |
+| transitory-shock-next | ξ_{t+1} | `\tranShkNxt` | `\tranShkAll\Nxt` |  | next-period transitory shock (time-pair convention): ξ_{t+1}; the powerlaw pages write θ_{t+1}, their declared dialect (see transitory-shock-all) |
 | travel-time-to-target | n | `\trvTime` | `n` |  | periods of perfect-foresight descent from o to the target neighborhood (the log-clock); frees T to mean ONLY the terminal/resumption date |
 | utility-function | u(·) upright | `\uFunc` | `\mathrm{u}` |  | the utility function (always function guise; u' etc. are derivatives) |
 | vacancy-cost | cst | `\vacCost` | `\mathrm{cst}` |  | vacancy posting cost — the flow cost of keeping a vacancy open, in a search-and-matching block |
@@ -85,12 +85,12 @@
 
 ### bank-balances
 
-- **define:** b = ℛa = m − 1 (nonstochastic ℛ; stochastic form b′ = (R/(Γψ′))a)
+- **define:** b = ℛa = m − 1 (nonstochastic ℛ; stochastic form b′ = (R/(𝒢ψ′))a)
 - **ruling:** 2026-07-14 · source: BST feedback N2 (BST's own b := m−1 overbrace, BufferStockTheory.md MPCminDefn block)
 
 ### buffer-adjustment
 
-- **define:** o·J(o) → κ̲(ρ+1)σ²/(2Þ_Γ)   (transitory-only limit)
+- **define:** o·J(o) → κ̲(ρ+1)σ²/(2Þ_𝒢)   (transitory-only limit)
 - **alias:** RETIRED same-PR before any consumption: \KimPrem / 'Kimball precautionary premium' / 'dividend' — banned terms (terminology.yml): they connote a strictly positive flow
 - **conflicts checked:** J carries only generic letter macros (\JLvl/\JNrm/\JFunc) in econark-shortcuts.sty — no semantic claim (verified 2026-07-16)
 - **ruling:** 2026-07-17 · source: owner rulings 2026-07-16 (the flow is 'the adjustment') as CORRECTED 2026-07-17: the buffer stock is END-OF-PERIOD ASSETS a (a LEVEL, not a wealth-cushion deviation; target â = m̂ − c(m̂), ℛâ + 1 = m̂ at ψ≡1); 'financing' retired as x's narrative name — x is the discounted stock of adjustments still to be provided
@@ -150,24 +150,26 @@
 
 ### growth-factor
 
-- **conflicts checked:** econark-shortcuts.sty defines \PermGroFac as \mathcal{G} (the BST-paper 𝒢 dialect); DRIFT-AUDIT Category B. Registry base = \Gamma (powerlaw/HARK dialect). Since econark-notation.sty uses \providecommand, a doc that also loads econark-shortcuts.sty gets \mathcal{G} (shortcuts wins); load econark-notation alone for the base dialect. Reconciliation is owner-gated (ruling 4).
-- **dialect `bst-paper`:** expansion `\mathcal{G}`; home: BST published draft (𝒢); also econark-shortcuts.sty's \PermGroFac; **MIGRATION-PENDING (ruling 4; owner-gated)**
-- **ruling:** 2026-07-14 · source: powerlaw §2 symbol dictionary + ruling 4
+- **alias:** supersedes Γ (\Gamma, 2026-07-14, the powerlaw/HARK dialect)
+- **conflicts checked:** Now the same as econark-shortcuts.sty's \PermGroFac and the BST paper's 𝒢, ending the registry's declared divergence from them (DRIFT-AUDIT Category B). Calligraphic, not Roman: Roman G is econark-shortcuts' \ptyGroFac (productivity growth). It pairs with the rate g as R with r: 𝒢 = 1 + g, so g ≈ ln 𝒢.
+- **dialect `powerlaw-pages`:** expansion `\Gamma`; home: the powerlaw pages define Þ_Γ locally (\ThornG) and write Γ; **MIGRATION-PENDING: those pages follow the 2026-10-21 ruling when they switch**
+- **ruling:** 2026-10-21 · source: owner: '`The registry defines g = ln Γ `  It shouldn't do that; at best it should be either g \approx ln G or \gamma \approx ln \Gamma.' (15:54:40 EDT, typed in the BufferStockTheory-Latest session, relayed, and verified with claude-relay-check); then, choosing between them in the econ-ark-tools session at about 16:37 EDT: 'OK, (B)' (keep g; the factor becomes NARK's calligraphic G)
 
 ### growth-rate
 
-- **define:** g = ln Γ
-- **conflicts checked:** matches econark-shortcuts.sty:271 (\providecommand semantics: shortcuts wins where both load)
+- **define:** g ≈ ln 𝒢, with 𝒢 = 1 + g: the rate is arithmetic, as R = 1 + r
+- **conflicts checked:** matches econark-shortcuts.sty's \PermGroRte = g (shortcuts also gives g to \ptyGroRte, productivity growth: a NARK-side overload). The registry's gap row also writes g; its note that g names nothing else is not true while g is this rate, and is a separate question.
+- **ruling:** 2026-10-21 · source: owner: '`The registry defines g = ln Γ `  It shouldn't do that; at best it should be either g \approx ln G or \gamma \approx ln \Gamma.' (15:54:40 EDT, typed in the BufferStockTheory-Latest session, relayed, and verified with claude-relay-check); then, choosing between them in the econ-ark-tools session at about 16:37 EDT: 'OK, (B)' (keep g; the factor becomes NARK's calligraphic G)
 
 ### high-wealth-exponent
 
-- **define:** root of E[ψ^{1+q}] = ℛ·Þ_Γ^q  (ψ≡1: q_∞ = ln ℛ / ln(1/Þ_Γ))
+- **define:** root of E[ψ^{1+q}] = ℛ·Þ_𝒢^q  (ψ≡1: q_∞ = ln ℛ / ln(1/Þ_𝒢))
 - **alias:** supersedes q↑ (\qHi = q{\uparrow}, 2026-07-14 arrows); earlier q* (\qstar, q^{*}) pre-2026-07-14
 - **ruling:** 2026-07-16 · source: owner ruling (supersedes the 2026-07-14 q↑/q↓ arrows): subscript-limit notation — q_∞ (high-wealth, m→∞) / q_0 (constraint end, mᵉ→0) · rationale: each exponent named by the limit it governs; avoids the vector reading of over-/adjacent-arrows; the \qHi/\qLo macro NAMES are unchanged, so downstream \qHi/\qLo usages need no edits
 
 ### human-wealth
 
-- **define:** h_t = (1−ℛ^{−(T−t+1)})/(1−ℛ⁻¹);  limit h = 1/(1−ℛ⁻¹) = R/(R−Γ)
+- **define:** h_t = (1−ℛ^{−(T−t+1)})/(1−ℛ⁻¹);  limit h = 1/(1−ℛ⁻¹) = R/(R−𝒢)
 - **dialect `hark-python`:** expansion `h − 1`; home: HARK's hNrm EXCLUDES the current period; **MIGRATION-PENDING (ruling 4): a SEMANTIC divergence — needs an explicit owner ruling (rename / re-derive / waiver) before any HARK code change; do not touch code from this mission**; verified in HARK source 2026-07-14
 - **ruling:** 2026-07-14 · source: BST feedback N1 · rationale: one h, BST's; the shadow h_BST and local future-only h are banned
 
@@ -193,7 +195,7 @@
 
 ### log-growth-patience-rate
 
-- **define:** þ_g := ln Þ_Γ   (so −þ_g = ln(1/Þ_Γ) > 0 under GIC; ψ≡1: q↑ = ln ℛ/(−þ_g))
+- **define:** þ_g := ln Þ_𝒢   (so −þ_g = ln(1/Þ_𝒢) > 0 under GIC; ψ≡1: q_∞ = ln ℛ/(−þ_g))
 - **alias:** RETIRED 2026-07-16: Λ := ln(1/Þ_Γ) — the powerlaw corpus' former positive alias; old formulas read Λ = −þ_g
 - **conflicts checked:** \GPRte pre-exists in econark-shortcuts.sty:301 with this exact expansion; this ruling provisions the missing \thorn glyph (see thorn-glyph) and adopts the macro corpus-wide
 - **ruling:** 2026-07-16 · source: owner ruling Q2 (reactions round): option (i), sign = ln of the factor; use the existing macro
@@ -226,7 +228,7 @@
 
 ### patience-growth
 
-- **define:** Þ_Γ = Þ/Γ
+- **define:** Þ_𝒢 = Þ/𝒢
 - **alias:** \ThornG — powerlaw pages
 
 ### patience-return
@@ -265,12 +267,12 @@
 
 ### return-growth-ratio
 
-- **define:** ℛ = R/Γ
+- **define:** ℛ = R/𝒢
 - **alias:** \Rcal — powerlaw pages (\mathcal{R})
 
 ### return-region
 
-- **define:** upper edge ζ = C₀/(1−Þ_Γ), C₀ = max(1, θ_max − 1 + ℛ·ḡ)
+- **define:** upper edge ζ = C₀/(1−Þ_𝒢), C₀ = max(1, θ_max − 1 + ℛ·ḡ)
 - **ruling:** 2026-07-14 · source: feedback T3/C3 (def-return-region anchor)
 
 ### separation-rate
@@ -296,6 +298,10 @@
 - **conflicts checked:** ξ is also econark-shortcuts' \PopnGroRte and \popGroRte, the population growth rate; that use is DEPRECATED (owner, 2026-10-21) and no replacement has been ruled. econark-shortcuts drew \tranShkAll in bold (\pmb{\xi}) as if it were a different object from \tranShkInd; it now defines \tranShkAll as \tranShkInd.
 - **dialect `powerlaw-pages`:** expansion `\theta`; home: powerlaw corpus writes θ for the shock incl. atom cases; **MIGRATION-PENDING (ruling 4; intra-four divergence; direction needs an owner ruling — flag in report)**; BST reserves θ (\tranShkEmp) for the employed-state shock; ξ = 0 w.p. ℘, else θ/(1−℘)
 - **ruling:** 2026-10-21 · source: owner: 'the individual transitory shock, and the shock including the zero-income event, are identical, not distinct.  And it should be deprecated for population growth' (typed 16:08:25 EDT in the BufferStockTheory-Latest session; relayed, and verified with claude-relay-check). Earlier: 2026-07-14, BST ass-shocks + powerlaw §2 + ruling 4
+
+### transitory-shock-next
+
+- **conflicts checked:** Was \theta\Nxt, the powerlaw pages' θ carried into the base form. θ is econark-shortcuts' \tranShkEmp, the employed-state shock, a different object; the shock itself is ξ (owner, 2026-10-21: \tranShkAll and \tranShkInd are identical).
 
 ### travel-time-to-target
 

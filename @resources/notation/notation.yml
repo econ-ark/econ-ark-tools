@@ -28,7 +28,7 @@ symbols:
 
   human-wealth:
     gloss: "normalized human wealth, current period's income INCLUDED (BST eq-HDef)"
-    define: "h_t = (1−ℛ^{−(T−t+1)})/(1−ℛ⁻¹);  limit h = 1/(1−ℛ⁻¹) = R/(R−Γ)"
+    define: "h_t = (1−ℛ^{−(T−t+1)})/(1−ℛ⁻¹);  limit h = 1/(1−ℛ⁻¹) = R/(R−𝒢)"
     latex: {macro: '\hNrm', expansion: 'h'}
     unicode: 'h'
     python: 'hNrm'
@@ -138,7 +138,7 @@ symbols:
 
   bank-balances:
     gloss: "beginning-of-period nonhuman wealth: returns realized on last period's assets"
-    define: "b = ℛa = m − 1 (nonstochastic ℛ; stochastic form b′ = (R/(Γψ′))a)"
+    define: "b = ℛa = m − 1 (nonstochastic ℛ; stochastic form b′ = (R/(𝒢ψ′))a)"
     latex: {macro: '\bNrm', expansion: 'b'}
     unicode: 'b'
     python: 'bNrm'
@@ -168,16 +168,17 @@ symbols:
 
   growth-factor:
     gloss: "permanent-income growth factor"
-    latex: {macro: '\PermGroFac', expansion: '\Gamma'}
-    unicode: 'Γ'
+    latex: {macro: '\PermGroFac', expansion: '\mathcal{G}'}
+    unicode: '𝒢'
     python: 'PermGroFac'
-    conflicts_checked: "econark-shortcuts.sty defines \\PermGroFac as \\mathcal{G} (the BST-paper 𝒢 dialect); DRIFT-AUDIT Category B. Registry base = \\Gamma (powerlaw/HARK dialect). Since econark-notation.sty uses \\providecommand, a doc that also loads econark-shortcuts.sty gets \\mathcal{G} (shortcuts wins); load econark-notation alone for the base dialect. Reconciliation is owner-gated (ruling 4)."
+    aliases: ["supersedes Γ (\\Gamma, 2026-07-14, the powerlaw/HARK dialect)"]
+    conflicts_checked: "Now the same as econark-shortcuts.sty's \\PermGroFac and the BST paper's 𝒢, ending the registry's declared divergence from them (DRIFT-AUDIT Category B). Calligraphic, not Roman: Roman G is econark-shortcuts' \\ptyGroFac (productivity growth). It pairs with the rate g as R with r: 𝒢 = 1 + g, so g ≈ ln 𝒢."
     dialects:
-      bst-paper:
-        expansion: '\mathcal{G}'
-        home: "BST published draft (𝒢); also econark-shortcuts.sty's \\PermGroFac"
-        status: "MIGRATION-PENDING (ruling 4; owner-gated)"
-    ruling: {date: 2026-07-14, source: "powerlaw §2 symbol dictionary + ruling 4"}
+      powerlaw-pages:
+        expansion: '\Gamma'
+        home: "the powerlaw pages define Þ_Γ locally (\\ThornG) and write Γ"
+        status: "MIGRATION-PENDING: those pages follow the 2026-10-21 ruling when they switch"
+    ruling: {date: 2026-10-21, source: "owner: '`The registry defines g = ln Γ `  It shouldn't do that; at best it should be either g \\approx ln G or \\gamma \\approx ln \\Gamma.' (15:54:40 EDT, typed in the BufferStockTheory-Latest session, relayed, and verified with claude-relay-check); then, choosing between them in the econ-ark-tools session at about 16:37 EDT: 'OK, (B)' (keep g; the factor becomes NARK's calligraphic G)"}
 
   transitory-shock-all:
     gloss: "the transitory shock, zero-income event included — the same object as econark-shortcuts' \\tranShkInd (owner, 2026-10-21: identical, not distinct)"
@@ -237,21 +238,21 @@ symbols:
 
   patience-growth:
     gloss: "growth patience factor"
-    define: "Þ_Γ = Þ/Γ"
-    latex: {macro: '\GPFacRaw', expansion: '\text{Þ}_{\Gamma}'}
-    unicode: 'Þ_Γ'
+    define: "Þ_𝒢 = Þ/𝒢"
+    latex: {macro: '\GPFacRaw', expansion: '\text{Þ}_{\PermGroFac}'}
+    unicode: 'Þ_𝒢'
     aliases: ["\\ThornG — powerlaw pages"]
 
   return-growth-ratio:
     gloss: "growth-normalized return"
-    define: "ℛ = R/Γ"
+    define: "ℛ = R/𝒢"
     latex: {macro: '\RNrmByG', expansion: '\mathcal{R}'}
     unicode: 'ℛ'
     aliases: ["\\Rcal — powerlaw pages (\\mathcal{R})"]
 
   high-wealth-exponent:
     gloss: "high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q_∞)"
-    define: "root of E[ψ^{1+q}] = ℛ·Þ_Γ^q  (ψ≡1: q_∞ = ln ℛ / ln(1/Þ_Γ))"
+    define: "root of E[ψ^{1+q}] = ℛ·Þ_𝒢^q  (ψ≡1: q_∞ = ln ℛ / ln(1/Þ_𝒢))"
     latex: {macro: '\qHi', expansion: 'q_{\infty}'}
     unicode: 'q_∞'
     aliases: ["supersedes q↑ (\\qHi = q{\\uparrow}, 2026-07-14 arrows); earlier q* (\\qstar, q^{*}) pre-2026-07-14"]
@@ -289,14 +290,15 @@ symbols:
 
   growth-rate:
     gloss: "log permanent-income growth rate"
-    define: "g = ln Γ"
+    define: "g ≈ ln 𝒢, with 𝒢 = 1 + g: the rate is arithmetic, as R = 1 + r"
     latex: {macro: '\PermGroRte', expansion: 'g'}
     unicode: 'g'
-    conflicts_checked: "matches econark-shortcuts.sty:271 (\\providecommand semantics: shortcuts wins where both load)"
+    conflicts_checked: "matches econark-shortcuts.sty's \\PermGroRte = g (shortcuts also gives g to \\ptyGroRte, productivity growth: a NARK-side overload). The registry's gap row also writes g; its note that g names nothing else is not true while g is this rate, and is a separate question."
+    ruling: {date: 2026-10-21, source: "owner: '`The registry defines g = ln Γ `  It shouldn't do that; at best it should be either g \\approx ln G or \\gamma \\approx ln \\Gamma.' (15:54:40 EDT, typed in the BufferStockTheory-Latest session, relayed, and verified with claude-relay-check); then, choosing between them in the econ-ark-tools session at about 16:37 EDT: 'OK, (B)' (keep g; the factor becomes NARK's calligraphic G)"}
 
   log-growth-patience-rate:
-    gloss: "log growth-patience rate — lowercase-thorn partner of Þ_Γ; NEGATIVE under GIC; the per-period PF descent rate of ln o is −þ_g"
-    define: "þ_g := ln Þ_Γ   (so −þ_g = ln(1/Þ_Γ) > 0 under GIC; ψ≡1: q↑ = ln ℛ/(−þ_g))"
+    gloss: "log growth-patience rate — lowercase-thorn partner of Þ_𝒢; NEGATIVE under GIC; the per-period PF descent rate of ln o is −þ_g"
+    define: "þ_g := ln Þ_𝒢   (so −þ_g = ln(1/Þ_𝒢) > 0 under GIC; ψ≡1: q_∞ = ln ℛ/(−þ_g))"
     latex: {macro: '\GPRte', expansion: '\thorn_{\PermGroRte}'}
     unicode: 'þ_g'
     aliases: ["RETIRED 2026-07-16: Λ := ln(1/Þ_Γ) — the powerlaw corpus' former positive alias; old formulas read Λ = −þ_g"]
@@ -329,7 +331,7 @@ symbols:
 
   buffer-adjustment:
     gloss: "J — textual name THE KIMBALL PRECAUTIONARY PREMIUM (KPP), restored by owner 2026-07-17 (always positive in the asymptotic region, though not monotone in wealth; the SUM of premia grows with each backward step; the analytic formula is asymptotic-only). 'The adjustment' survives only for the buffer-stock-motion concept, which is SIGNED in general (an oversized buffer stock adjusts downward), provably positive in the high-wealth asymptotic region (the forcing floor)"
-    define: "o·J(o) → κ̲(ρ+1)σ²/(2Þ_Γ)   (transitory-only limit)"
+    define: "o·J(o) → κ̲(ρ+1)σ²/(2Þ_𝒢)   (transitory-only limit)"
     latex: {macro: '\bufAdj', expansion: 'J'}
     unicode: 'J'
     aliases: ["RETIRED same-PR before any consumption: \\KimPrem / 'Kimball precautionary premium' / 'dividend' — banned terms (terminology.yml): they connote a strictly positive flow"]
@@ -389,9 +391,10 @@ symbols:
     unicode: 'x_{t+1}'
 
   transitory-shock-next:
-    gloss: "next-period transitory shock (time-pair convention; powerlaw-pages θ dialect)"
-    latex: {macro: '\tranShkNxt', expansion: '\theta\Nxt'}
-    unicode: 'θ_{t+1}'
+    gloss: "next-period transitory shock (time-pair convention): ξ_{t+1}; the powerlaw pages write θ_{t+1}, their declared dialect (see transitory-shock-all)"
+    latex: {macro: '\tranShkNxt', expansion: '\tranShkAll\Nxt'}
+    unicode: 'ξ_{t+1}'
+    conflicts_checked: "Was \\theta\\Nxt, the powerlaw pages' θ carried into the base form. θ is econark-shortcuts' \\tranShkEmp, the employed-state shock, a different object; the shock itself is ξ (owner, 2026-10-21: \\tranShkAll and \\tranShkInd are identical)."
 
   permanent-shock-next:
     gloss: "next-period permanent shock (time-pair convention)"
@@ -492,7 +495,7 @@ symbols:
 
   return-region:
     gloss: "the compact interval around the target that the renewal argument uses; exists because θ has bounded support; upper edge computable"
-    define: "upper edge ζ = C₀/(1−Þ_Γ), C₀ = max(1, θ_max − 1 + ℛ·ḡ)"
+    define: "upper edge ζ = C₀/(1−Þ_𝒢), C₀ = max(1, θ_max − 1 + ℛ·ḡ)"
     unicode: 'ζ (edge)'
     ruling: {date: 2026-07-14, source: "feedback T3/C3 (def-return-region anchor)"}
 

@@ -44,6 +44,16 @@ Owner rulings from the powerlaw editorial pass (reactions round, 2026-07-16):
   not distinct". econark-shortcuts.sty now defines `\tranShkAll` as `\tranShkInd` (it was
   bold ξ), and marks ξ for population growth (`\PopnGroRte`, `\popGroRte`) DEPRECATED, with
   no replacement ruled yet.
+- **The growth factor is 𝒢 and its rate g ≈ ln 𝒢 (owner rulings, 2026-10-21).** "The registry
+  defines g = ln Γ": "It shouldn't do that; at best it should be either g \approx ln G or \gamma
+  \approx ln \Gamma." He chose the first: the rate keeps g, as in econark-shortcuts and the BST
+  paper, and the factor becomes their calligraphic 𝒢, not Γ (Roman G is shortcuts' productivity
+  growth factor). γ was passed over because both published papers write it for risk aversion.
+  The relation is approximate because the rate is arithmetic: 𝒢 = 1 + g, as R = 1 + r.
+  `\GPFacRaw` is now Þ_𝒢, and every formula that wrote Γ writes 𝒢; Γ stays as the powerlaw
+  pages' declared dialect.
+- **`\tranShkNxt` is ξ_{t+1}, not θ_{t+1}.** #38 had carried the powerlaw pages' θ into the base
+  form; θ is econark-shortcuts' employed-state shock, and the shock is ξ.
 
 **Amended in-PR 2026-07-17 (ruling 9 v2 — guise + the \Now/\Nxt dating layer):**
 - **`\Now`/`\Nxt` suffix macros** (owner-proposed): the dialect flip point is the
