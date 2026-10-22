@@ -184,9 +184,10 @@ jobs:
             if [[ -f "$config" ]]; then
               echo "Testing configuration: $config"
               
-              # Test that latexmk can parse the configuration without errors
-              # Use -deps-only to avoid actually compiling, just validate config
-              timeout 30 latexmk -r "$config" -deps-only test_document.tex || {
+              # latexmkrc files are Perl, so check that Perl can compile each one. (This step used
+              # `latexmk -r "$config" -deps-only`, but latexmk has no -deps-only option, so it failed
+              # on every config whatever its contents.)
+              perl -c "$config" || {
                 echo "❌ Configuration error in $config"
                 exit 1
               }
@@ -202,11 +203,12 @@ jobs:
           # Test the main econark-shortcuts.sty file
           echo "Testing econark-shortcuts.sty..."
           
-          cat > test_style.tex <<EOF
+          # The shortcuts are math-mode macros, so use them in math mode (in text mode they fail).
+          cat > test_style.tex <<'EOF'
           \documentclass{article}
           \usepackage{@resources/texlive/texmf-local/tex/latex/econark-shortcuts}
           \begin{document}
-          Testing ARK commands: \cLvl, \aNrm, \aFunc
+          Testing ARK commands: $\cLvl, \aNrm, \aFunc$
           \end{document}
           EOF
           
@@ -243,8 +245,11 @@ jobs:
           chmod +x @resources/latexmk/latexmkrc/tools/bibtex_wrapper.sh
           
           # Create test files to verify the wrapper works
-          cat > test.aux <<EOF
+          # The .aux must cite the entry, or BibTeX stops at "I found no \citation commands" (a real
+          # error, which the wrapper rightly passes through) before it reads the duplicate.
+          cat > test.aux <<'EOF'
           \relax 
+          \citation{testref}
           \bibstyle{plain}
           \bibdata{test}
           \bibcite{testref}{1}
@@ -265,11 +270,19 @@ jobs:
           }
           EOF
           
-          # Test the wrapper with our test case that has duplicate entries
+          # Test the wrapper with our test case that has duplicate entries, both directly and the way
+          # latexmkrc_using_bibtex_wrapper runs it (`sh <wrapper>`, which is dash on Ubuntu)
           echo "Testing bibtex wrapper with duplicate entries..."
-          @resources/latexmk/latexmkrc/tools/bibtex_wrapper.sh test || {
-            echo "❌ BibTeX wrapper failed"
-            exit 1
-          }
+          for runner in "" "sh"; do
+            rm -f test.bbl test.blg
+            $runner @resources/latexmk/latexmkrc/tools/bibtex_wrapper.sh test || {
+              echo "❌ BibTeX wrapper failed (runner: ${runner:-direct})"
+              exit 1
+            }
+            if grep -q "Repeated entry" test.blg; then
+              echo "❌ BibTeX wrapper left 'Repeated entry' in test.blg (runner: ${runner:-direct})"
+              exit 1
+            fi
+          done
           
           echo "✅ BibTeX wrapper handles duplicate entries correctly" 

@@ -65,12 +65,14 @@ CRITICAL_ERROR_COUNT=$((MISSING_ENTRY_COUNT + FILE_NOT_FOUND_COUNT))
 # --- DECISION ---
 
 # If we only have repeated entries and no critical errors, we will simulate success.
-if [[ $REPEATED_ENTRY_COUNT -gt 0 && $CRITICAL_ERROR_COUNT -eq 0 ]]; then
+# POSIX test, not bash's [[ ]]: latexmk runs this as `sh <wrapper>`, and dash (Debian/Ubuntu's sh) fails on
+# "[[" ("not found"), so the condition was false and every "Repeated entry" still failed the build there.
+if [ "$REPEATED_ENTRY_COUNT" -gt 0 ] && [ "$CRITICAL_ERROR_COUNT" -eq 0 ]; then
 
     # 1. Filter the console output to remove the repeated entry warnings.
     #    The `sed` command deletes the entire block of a repeated entry warning.
     #    Also remove the "(There was X error message)" line that appears at the end.
-    echo "$BIBTEX_OUTPUT" | sed -E '/^Repeated entry/,/^I\x27m skipping/ d; s/^\((There (was [0-9]+ error message|were [0-9]+ error messages))\)$//'
+    echo "$BIBTEX_OUTPUT" | sed -E '/^Repeated entry/,/^I.m skipping/ d; s/^\((There (was [0-9]+ error message|were [0-9]+ error messages))\)$//'
 
     # 2. Rewrite the .blg file to remove any trace of the warnings for latexmk.
     BLG_FILE="${BASENAME_ARG}.blg"
@@ -79,7 +81,7 @@ if [[ $REPEATED_ENTRY_COUNT -gt 0 && $CRITICAL_ERROR_COUNT -eq 0 ]]; then
         TEMP_BLG_FILE="${BLG_FILE}.tmp"
         # Use sed to filter the original .blg file.
         # Remove repeated entry warnings and the error message count line.
-        sed -E '/^Repeated entry/,/^I\x27m skipping/ d; s/^\((There (was [0-9]+ error message|were [0-9]+ error messages))\)$//' "$BLG_FILE" > "$TEMP_BLG_FILE"
+        sed -E '/^Repeated entry/,/^I.m skipping/ d; s/^\((There (was [0-9]+ error message|were [0-9]+ error messages))\)$//' "$BLG_FILE" > "$TEMP_BLG_FILE"
         # Replace the original with the cleaned version.
         mv "$TEMP_BLG_FILE" "$BLG_FILE"
     fi
