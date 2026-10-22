@@ -22,7 +22,7 @@
 \providecommand{\cNrmNow}{c\Now}  % consumption-now
 \providecommand{\CRRA}{\varrho}  % crra
 \providecommand{\DiscFac}{\beta}  % discount-factor
-\providecommand{\DiscFacLiv}{\mathring{\DiscFac}}  % discount-factor-liv
+\providecommand{\DiscFacEff}{\mathring{\DiscFac}}  % discount-factor-liv
 \providecommand{\DiscFacSprd}{\nabla}  % discount-factor-spread
 \providecommand{\EPermShkInv}{\Ex[\permShk^{-1}]}  % e-perm-shk-inv
 \providecommand{\eprem}{\phi}  % equity-premium-log
@@ -50,12 +50,13 @@
 \providecommand{\MPCmin}{\underline{\kappa}}  % mpc-min
 \providecommand{\paretoExp}{\varepsilon}  % pareto-exponent
 \providecommand{\APFac}{\textbf{Þ}}  % patience-abs
-\providecommand{\APFacLiv}{\mathring{\APFac}}  % patience-abs-liv
+\providecommand{\APFacEff}{\mathring{\APFac}}  % patience-abs-liv
 \providecommand{\GPFacRaw}{\APFac_{\PermGroFac}}  % patience-growth
-\providecommand{\GPFacLiv}{\APFacLiv_{\PermGroFac}}  % patience-growth-liv
+\providecommand{\GPFacEff}{\APFacEff_{\PermGroFac}}  % patience-growth-liv
 \providecommand{\GPFacMod}{\GPFacRaw\EPermShkInv}  % patience-growth-mod
+\providecommand{\GPFacLiv}{\LivPrb\GPFacEff}  % patience-growth-mortality-adj
 \providecommand{\RPFac}{\APFac_{\Rfree}}  % patience-return
-\providecommand{\RPFacLiv}{\APFacLiv_{\Rfree}}  % patience-return-liv
+\providecommand{\RPFacEff}{\APFacEff_{\Rfree}}  % patience-return-liv
 \providecommand{\prdNxt}{\prdt+1}  % period-next
 \providecommand{\Nxt}{_{\prdNxt}}  % period-next-suffix
 \providecommand{\prdt}{t}  % period-now

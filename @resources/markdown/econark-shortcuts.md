@@ -214,7 +214,8 @@
 \newcommand{\DiscAlt}{\beth}
 \newcommand{\DiscAltuAdj}{\Min{\Min{\beth}}}
 \newcommand{\DiscFacRaw}{\beta}
-\newcommand{\DiscFacLiv}{\mathring{\DiscFacRaw}}
+\newcommand{\DiscFacEff}{\mathring{\DiscFacRaw}}
+\newcommand{\DiscFacLiv}{\DiscFacEff}
 \newcommand{\DiscRte}{\nu}
 \newcommand{\discRte}{\nu}
 \newcommand{\Thorn}{\text{Þ}}
@@ -225,9 +226,10 @@
 \newcommand{\GPFacRaw}{\APFac_{\PermGroFac}}
 \newcommand{\GPFacMod}{\GPFacRaw\EPermShkInv}
 \newcommand{\RPFac}{\APFac_{\Rfree}}
-\newcommand{\APFacLiv}{\mathring{\APFac}}
-\newcommand{\RPFacLiv}{\APFacLiv_{\Rfree}}
-\newcommand{\GPFacLiv}{\APFacLiv_{\PermGroFac}}
+\newcommand{\APFacEff}{\mathring{\APFac}}
+\newcommand{\RPFacEff}{\APFacEff_{\Rfree}}
+\newcommand{\GPFacEff}{\APFacEff_{\PermGroFac}}
+\newcommand{\GPFacLiv}{\LivPrb\GPFacEff}
 \newcommand{\RPRte}{\text{\thorn}_{\rfree}}
 \newcommand{\GPRte}{\text{\thorn}_{\PermGroRte}}
 \newcommand{\APRte}{\text{\thorn}}

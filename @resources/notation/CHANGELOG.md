@@ -18,6 +18,24 @@ which now prints ϱ. Those rulings are otherwise unchanged: HAFiscal's replaceme
 and ξ_{U,nb}, and its Taylor-rule ρ_r still becomes φ_i. Ruling quotations elsewhere in the registry keep the
 owner's words as typed.
 
+**The survival-inclusive names follow HARK's (11:00:07, 11:17:23).** The owner: "GPFacLiv < 1 is the correct
+version of the GIC-Liv", then "implement your recs". In v5.0.0 `\GPFacLiv` named the ring factor Þ̊_𝒢, but
+HARK's GPFacLiv is ℒÞ̊_𝒢. The same name meant two numbers a factor ℒ apart, so a paper writing `\GPFacLiv < 1`
+for the GIC-Liv would have printed the growth impatience condition instead. HARK's own patience factors
+already include survival: its APFac is (Rfree·DiscFac·LivPrb)^(1/CRRA). So:
+- The ring variants take HARK's suffix Eff, as in its DiscFacEff and the registry's `\RfreeEff`:
+  - `\DiscFacEff` = β̊ (HARK's DiscFacEff). `\DiscFacLiv` stays in econark-shortcuts.sty as an alias, since
+    the BST paper writes it.
+  - `\APFacEff` = Þ̊ (HARK's APFac).
+  - `\RPFacEff` = Þ̊_R (HARK's RPFac, and PatFac in two of its solvers).
+  - `\GPFacEff` = Þ̊_𝒢 (HARK's GPFacRaw).
+- `\GPFacLiv` = ℒÞ̊_𝒢, HARK's GPFacLiv, in a new row, `patience-growth-mortality-adj`. The GIC-Liv is
+  `\GPFacLiv < 1`.
+- `\APFacLiv` and `\RPFacLiv`, new in v5.0.0 and used by no paper, are retired.
+- The survival-free rows (`\APFac`, `\RPFac`, `\GPFacRaw`, `\GPFacMod`) record in a `hark-python` dialect
+  that HARK's same-named variable is the Eff form. HARK's GPFacMod is `\GPFacEff\EPermShkInv`.
+- Row keys are unchanged.
+
 ## v5.0.0 — 2026-10-22
 
 The owner's rulings of 2026-10-22, given in the econ-ark-tools session between 07:17 and 08:39 EDT

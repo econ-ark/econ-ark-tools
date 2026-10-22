@@ -291,9 +291,11 @@
 \ARKcommand{\DiscAltuAdj}{\Min{\Min{\beth}}}
 \ARKcommand{\DiscFacRaw}{\beta}
 % Survival: an unaccented beta or thorn excludes the survival probability; the RING includes it (owner ruling 2026-10-22):
-% \mathring{\beta} = \beta\LivPrb, \mathring{\APFac} = (\Rfree\mathring{\beta})^{1/\CRRA}. (\DiscFacLiv was \Min{\DiscFacRaw},
-% an underline, which also means a lower bound.)
-\ARKcommand{\DiscFacLiv}{\mathring{\DiscFacRaw}}
+% \mathring{\beta} = \beta\LivPrb, \mathring{\APFac} = (\Rfree\mathring{\beta})^{1/\CRRA}. The ring variants take HARK's suffix
+% Eff, as in its DiscFacEff = DiscFac*LivPrb and in \RfreeEff; "Liv" is kept for HARK's GPFacLiv (owner, 2026-10-22).
+% (\DiscFacLiv was \Min{\DiscFacRaw}, an underline, which also means a lower bound.)
+\ARKcommand{\DiscFacEff}{\mathring{\DiscFacRaw}}
+\ARKcommand{\DiscFacLiv}{\DiscFacEff}   % alias: the v5 name, which the BST paper writes
 \ARKcommand{\DiscRte}{\nu} % vartheta is too easily confused with theta
 \ARKcommand{\discRte}{\nu} % 
 
@@ -314,9 +316,12 @@
 \ARKcommand{\GPFacRaw}{\APFac_{\PermGroFac}}
 \ARKcommand{\GPFacMod}{\GPFacRaw\EPermShkInv}  % BST's product form (owner ruling 2026-10-22) (was \APFac_{\PermGroFacAdj})
 \ARKcommand{\RPFac}{\APFac_{\Rfree}}
-\ARKcommand{\APFacLiv}{\mathring{\APFac}}            % survival-inclusive: (\Rfree \DiscFacLiv)^{1/\CRRA}
-\ARKcommand{\RPFacLiv}{\APFacLiv_{\Rfree}}
-\ARKcommand{\GPFacLiv}{\APFacLiv_{\PermGroFac}}
+% Survival-inclusive (ring) patience factors, HARK's APFac, RPFac and GPFacRaw, which all include LivPrb. The
+% unaccented \APFac, \RPFac, \GPFacRaw above exclude survival, so HARK's same-named variables are the Eff forms.
+\ARKcommand{\APFacEff}{\mathring{\APFac}}            % (\Rfree \DiscFacEff)^{1/\CRRA}
+\ARKcommand{\RPFacEff}{\APFacEff_{\Rfree}}
+\ARKcommand{\GPFacEff}{\APFacEff_{\PermGroFac}}
+\ARKcommand{\GPFacLiv}{\LivPrb\GPFacEff}     % mortality-adjusted, HARK's GPFacLiv: the GIC-Liv is \GPFacLiv < 1
 
 \ARKcommand{\RPRte}{\text{\thorn}_{\rfree}}
 \ARKcommand{\GPRte}{\text{\thorn}_{\PermGroRte}}

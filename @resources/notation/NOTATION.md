@@ -24,7 +24,7 @@
 | consumption-now | c_t |  | `\cNrmNow` | `c\Now` |  | current-period consumption value (ruling 9 v2: path equations date every variable) |
 | crra | ϱ |  | `\CRRA` | `\varrho` | `CRRA` | coefficient of relative risk aversion |
 | discount-factor | β |  | `\DiscFac` | `\beta` | `DiscFac` | time-preference discount factor, EXCLUDING survival |
-| discount-factor-liv | β̊ |  | `\DiscFacLiv` | `\mathring{\DiscFac}` | `DiscFacEff` | discount factor INCLUDING survival: β̊ = βℒ. The ring marks a survival-inclusive variant |
+| discount-factor-liv | β̊ |  | `\DiscFacEff` | `\mathring{\DiscFac}` | `DiscFacEff` | discount factor INCLUDING survival: β̊ = βℒ. The ring marks a survival-inclusive variant |
 | discount-factor-spread | ∇ |  | `\DiscFacSprd` | `\nabla` |  | spread of discount factors across types |
 | e-perm-shk-inv | 𝔼[ψ⁻¹] |  | `\EPermShkInv` | `\Ex[\permShk^{-1}]` |  | expectation of the inverse permanent shock |
 | equity-premium-log | φ |  | `\eprem` | `\phi` |  | log equity premium |
@@ -53,12 +53,13 @@
 | mpc-min | κ̲ | `κ_min` | `\MPCmin` | `\underline{\kappa}` | `MPCmin` | limiting MPC as m→∞ (PF MPC); pessimist/lower-bound underline |
 | pareto-exponent | ε |  | `\paretoExp` | `\varepsilon` |  | Pareto (tail) exponent of the wealth distribution |
 | patience-abs | Þ |  | `\APFac` | `\textbf{Þ}` |  | absolute patience factor |
-| patience-abs-liv | Þ̊ |  | `\APFacLiv` | `\mathring{\APFac}` |  | absolute patience factor INCLUDING survival |
+| patience-abs-liv | Þ̊ |  | `\APFacEff` | `\mathring{\APFac}` | `APFac` | absolute patience factor INCLUDING survival |
 | patience-growth | Þ_𝒢 |  | `\GPFacRaw` | `\APFac_{\PermGroFac}` |  | growth patience factor |
-| patience-growth-liv | Þ̊_𝒢 |  | `\GPFacLiv` | `\APFacLiv_{\PermGroFac}` |  | growth patience factor INCLUDING survival |
+| patience-growth-liv | Þ̊_𝒢 |  | `\GPFacEff` | `\APFacEff_{\PermGroFac}` | `GPFacRaw` | growth patience factor INCLUDING survival |
 | patience-growth-mod | Þ_𝒢𝔼[ψ⁻¹] |  | `\GPFacMod` | `\GPFacRaw\EPermShkInv` |  | growth patience factor with the risk-adjusted growth factor |
+| patience-growth-mortality-adj | ℒÞ̊_𝒢 |  | `\GPFacLiv` | `\LivPrb\GPFacEff` | `GPFacLiv` | mortality-adjusted growth patience factor; the mortality-adjusted growth impatience condition (GIC-Liv) is \GPFacLiv < 1 |
 | patience-return | Þ_R |  | `\RPFac` | `\APFac_{\Rfree}` |  | return patience factor |
-| patience-return-liv | Þ̊_R |  | `\RPFacLiv` | `\APFacLiv_{\Rfree}` | `PatFac` | return patience factor INCLUDING survival |
+| patience-return-liv | Þ̊_R |  | `\RPFacEff` | `\APFacEff_{\Rfree}` | `RPFac` | return patience factor INCLUDING survival |
 | period-next | t+1 |  | `\prdNxt` | `\prdt+1` |  | next-period index (house time tooling; = econark-shortcuts \prdNxt) |
 | period-next-suffix | _{t+1} |  | `\Nxt` | `_{\prdNxt}` |  | next-period decoration suffix — the other half of the flip point: subscript dialect '_{\prdNxt}'; prime dialect the LITERAL apostrophe — NEVER '^{\prime}' (double superscript on \cNrmNxt^{-\CRRA} forms; both traps verified against the bundled KaTeX 2026-07-17) |
 | period-now | t |  | `\prdt` | `t` |  | current-period index (house time tooling; = econark-shortcuts \prdt) |
@@ -175,8 +176,9 @@
 ### discount-factor-liv
 
 - **define:** β̊ = βℒ
+- **alias:** \DiscFacLiv — the v5.0.0 name, kept as an alias in econark-shortcuts.sty (the BST paper writes it)
 - **conflicts checked:** Was \underline{\beta} (\Min{\DiscFacRaw}), but an underline also marks a lower bound. The ring is used nowhere else in econark-shortcuts, the registry or the five papers (checked 2026-10-22); hat and check are the target and pseudo-target. HARK's DiscFacEff = DiscFac·LivPrb.
-- **ruling:** 2026-10-22 · source: owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \beta and \LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \accented{\beta} = \beta \LivPrb, and \accented{\APFac} = (\Rfree \accented{\beta})^{1/\rho} (etc).'; accent chosen at 07:27:11: the ring
+- **ruling:** 2026-10-22 · source: owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \beta and \LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \accented{\beta} = \beta \LivPrb, and \accented{\APFac} = (\Rfree \accented{\beta})^{1/\rho} (etc).'; accent chosen at 07:27:11: the ring. names: owner, 2026-10-22 11:00:07 EDT, 'GPFacLiv < 1 is the correct version of the GIC-Liv', then 11:17:23 'implement your recs': the ring variants take HARK's suffix Eff, and \GPFacLiv is HARK's GPFacLiv
 
 ### discount-factor-spread
 
@@ -298,43 +300,55 @@
 - **alias:** \Thorn — the powerlaw pages' macro, in plain type (\text{Þ}; verified KaTeX-safe 2026-07-14), so not an alias of the bold factor: see the dialect below
 - **conflicts checked:** econark-shortcuts.sty's \APFac is \textbf{\Thorn}, with \Thorn the plain glyph \text{\TH}: the same rendering. Until 2026-10-21 it was \text{\pmb{\Thorn}}, and with BufferStockTheory's \Thorn = \pmb{\TH} the thorn was bolded twice; the owner ruled for 'a single \textbf not double'.
 - **dialect `powerlaw-pages`:** expansion `\text{Þ}`; home: the powerlaw pages define \Thorn, \ThornR and \ThornG in plain type and write them for the factors; **NOT SANCTIONED. Owner, 2026-10-21: 'the powerlaw work needs to use the same @resources/econ-ark-tools approach as the other papers; that way it does not have many things to define, except mathematical objects absent from the other wor[k]' (typed 17:12:27 EDT in the econ-ark-tools session, clarifying his ruling of 17:08:24). This records what the macros the pages define for themselves in their myst.yml still write; it goes when they take the shared macros from @resources, in bold**
+- **dialect `hark-python`:** expansion `\APFacEff`; home: HARK's APFac, which includes the survival probability LivPrb; **DECLARED CODE NAME (owner, 2026-10-22 11:17:23 EDT, 'implement your recs'): HARK's patience factors include LivPrb, so its APFac is \APFacEff, the ring row patience-abs-liv; this row's survival-free object has no HARK variable**
 - **ruling:** 2026-10-21 · source: owner: 'yes, factor rows should change to bold' (typed 17:06:17 EDT in the econ-ark-tools session), answering whether these rows should follow his standing rule of 2026-10-04: a factor, a number compared with 1, is written with a bold capital thorn; a rate, its log, with a small thorn (\thorn, unchanged) · rationale: the registry had written every patience factor in plain type, contradicting that rule while nothing recorded the question as open. Unicode has no bold thorn, so the unicode and define fields still write Þ; the LaTeX expansion carries the bold
 
 ### patience-abs-liv
 
 - **define:** Þ̊ = (R β̊)^{1/ϱ} = ℒ^{1/ϱ} Þ
-- **ruling:** 2026-10-22 · source: owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \beta and \LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \accented{\beta} = \beta \LivPrb, and \accented{\APFac} = (\Rfree \accented{\beta})^{1/\rho} (etc).'; accent chosen at 07:27:11: the ring
+- **conflicts checked:** HARK's APFac = (Rfree·DiscFac·LivPrb)^(1/CRRA) is this object, not the unaccented \APFac (ConsIndShockModel.py, PerfForesightConsumerType, checked 2026-10-22). Was \APFacLiv in v5.0.0.
+- **ruling:** 2026-10-22 · source: owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \beta and \LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \accented{\beta} = \beta \LivPrb, and \accented{\APFac} = (\Rfree \accented{\beta})^{1/\rho} (etc).'; accent chosen at 07:27:11: the ring. names: owner, 2026-10-22 11:00:07 EDT, 'GPFacLiv < 1 is the correct version of the GIC-Liv', then 11:17:23 'implement your recs': the ring variants take HARK's suffix Eff, and \GPFacLiv is HARK's GPFacLiv
 
 ### patience-growth
 
 - **define:** Þ_𝒢 = Þ/𝒢
 - **alias:** \ThornG — powerlaw pages, in plain type and with Γ, so not an alias of the bold factor: see patience-abs's and growth-factor's dialects
 - **conflicts checked:** Written with a subscript on the bold thorn. econark-shortcuts now writes \APFac_{\PermGroFac} instead of the ratio \APFac/{\PermGroFac}, and its \GPFac is \GPFacRaw instead of a separate copy (v4.0.0: owner, in an earlier econ-ark-tools session at about 16:48 EDT: 'OK, implement your recs' (one form for econark-shortcuts and the registry, so that NARK needs no overrides; recorded in commit b23e5668 on branch notation-patience-factor-forms, whose session transcript is not on jhu-dell); then in this session at 22:40:21 EDT: 'I want to reconcile and merge all the branches on which we have been trying already to reconcile notation').
+- **dialect `hark-python`:** expansion `\GPFacEff`; home: HARK's GPFacRaw, which includes the survival probability LivPrb; **DECLARED CODE NAME (owner, 2026-10-22 11:17:23 EDT, 'implement your recs'): HARK's patience factors include LivPrb, so its GPFacRaw is \GPFacEff, the ring row patience-growth-liv; this row's survival-free object has no HARK variable**
 - **ruling:** 2026-10-21 · source: owner: 'yes, factor rows should change to bold' (typed 17:06:17 EDT in the econ-ark-tools session), answering whether these rows should follow his standing rule of 2026-10-04: a factor, a number compared with 1, is written with a bold capital thorn; a rate, its log, with a small thorn (\thorn, unchanged) · rationale: the registry had written every patience factor in plain type, contradicting that rule while nothing recorded the question as open. Unicode has no bold thorn, so the unicode and define fields still write Þ; the LaTeX expansion carries the bold
 
 ### patience-growth-liv
 
 - **define:** Þ̊_𝒢 = Þ̊/𝒢
-- **ruling:** 2026-10-22 · source: owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \beta and \LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \accented{\beta} = \beta \LivPrb, and \accented{\APFac} = (\Rfree \accented{\beta})^{1/\rho} (etc).'; accent chosen at 07:27:11: the ring
+- **conflicts checked:** HARK's GPFacRaw = APFac/PermGroFac is this object; it includes LivPrb, while this registry's \GPFacRaw does not. In v5.0.0 this row's macro was \GPFacLiv, which HARK uses for a different object (patience-growth-mortality-adj, ℒÞ̊_𝒢).
+- **ruling:** 2026-10-22 · source: owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \beta and \LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \accented{\beta} = \beta \LivPrb, and \accented{\APFac} = (\Rfree \accented{\beta})^{1/\rho} (etc).'; accent chosen at 07:27:11: the ring. names: owner, 2026-10-22 11:00:07 EDT, 'GPFacLiv < 1 is the correct version of the GIC-Liv', then 11:17:23 'implement your recs': the ring variants take HARK's suffix Eff, and \GPFacLiv is HARK's GPFacLiv
 
 ### patience-growth-mod
 
 - **define:** Þ_𝒢 𝔼[ψ⁻¹]
 - **conflicts checked:** BST's form, now the shared one; econark-shortcuts wrote \APFac_{\PermGroFacAdj} until v5.0.0.
+- **dialect `hark-python`:** expansion `\GPFacEff\EPermShkInv`; home: HARK's GPFacMod, which includes the survival probability LivPrb; **DECLARED CODE NAME (owner, 2026-10-22 11:17:23 EDT, 'implement your recs'): HARK's patience factors include LivPrb, so its GPFacMod is \GPFacEff\EPermShkInv, the ring row patience-growth-liv times 𝔼[ψ⁻¹]; this row's survival-free object has no HARK variable**
 - **ruling:** 2026-10-22 · source: owner, in the econ-ark-tools session, 08:00:19 EDT: \GPFacMod takes BST's product form
+
+### patience-growth-mortality-adj
+
+- **define:** ℒ Þ̊_𝒢
+- **conflicts checked:** HARK's GPFacLiv = GPFacRaw·LivPrb (IndShockConsumerType, checked 2026-10-22), whose check prints 'GICLiv ℒÞ/G < 1' with HARK's survival-inclusive Þ. The sce-wg-1-dev schemas' GIC-Liv row maps to it. In v5.0.0 the macro \GPFacLiv named Þ̊_𝒢 instead (now \GPFacEff).
+- **ruling:** 2026-10-22 · source: owner, in the econ-ark-tools session, 11:00:07 EDT: 'GPFacLiv < 1 is the correct version of the GIC-Liv'; then 11:17:23 'implement your recs'
 
 ### patience-return
 
 - **define:** Þ_R = Þ/R
 - **alias:** \ThornR — powerlaw pages, in plain type, so not an alias of the bold factor: see patience-abs's dialect
 - **conflicts checked:** Written with a subscript, the return factor's sans-serif R (econark-shortcuts' \Rfree = \mathsf{R}; it was an italic R here), on the bold thorn. econark-shortcuts now writes \APFac_{\Rfree} instead of the ratio \APFac/{\Rfree} that defines it (v4.0.0: owner, in an earlier econ-ark-tools session at about 16:48 EDT: 'OK, implement your recs' (one form for econark-shortcuts and the registry, so that NARK needs no overrides; recorded in commit b23e5668 on branch notation-patience-factor-forms, whose session transcript is not on jhu-dell); then in this session at 22:40:21 EDT: 'I want to reconcile and merge all the branches on which we have been trying already to reconcile notation').
+- **dialect `hark-python`:** expansion `\RPFacEff`; home: HARK's RPFac, which includes the survival probability LivPrb; **DECLARED CODE NAME (owner, 2026-10-22 11:17:23 EDT, 'implement your recs'): HARK's patience factors include LivPrb, so its RPFac is \RPFacEff, the ring row patience-return-liv; this row's survival-free object has no HARK variable**
 - **ruling:** 2026-10-21 · source: owner: 'yes, factor rows should change to bold' (typed 17:06:17 EDT in the econ-ark-tools session), answering whether these rows should follow his standing rule of 2026-10-04: a factor, a number compared with 1, is written with a bold capital thorn; a rate, its log, with a small thorn (\thorn, unchanged) · rationale: the registry had written every patience factor in plain type, contradicting that rule while nothing recorded the question as open. Unicode has no bold thorn, so the unicode and define fields still write Þ; the LaTeX expansion carries the bold
 
 ### patience-return-liv
 
 - **define:** Þ̊_R = Þ̊/R
-- **conflicts checked:** HARK's PatFac is this object (it includes LivPrb).
-- **ruling:** 2026-10-22 · source: owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \beta and \LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \accented{\beta} = \beta \LivPrb, and \accented{\APFac} = (\Rfree \accented{\beta})^{1/\rho} (etc).'; accent chosen at 07:27:11: the ring
+- **conflicts checked:** HARK's RPFac = APFac/Rfree is this object, and so is the PatFac of HARK's bequest and general-income solvers; both include LivPrb. Was \RPFacLiv in v5.0.0.
+- **ruling:** 2026-10-22 · source: owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \beta and \LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \accented{\beta} = \beta \LivPrb, and \accented{\APFac} = (\Rfree \accented{\beta})^{1/\rho} (etc).'; accent chosen at 07:27:11: the ring. names: owner, 2026-10-22 11:00:07 EDT, 'GPFacLiv < 1 is the correct version of the GIC-Liv', then 11:17:23 'implement your recs': the ring variants take HARK's suffix Eff, and \GPFacLiv is HARK's GPFacLiv
 
 ### period-next
 
@@ -523,6 +537,6 @@
 - ℘ > 0 is phrased as part of the maintained income-process assumption where load-bearing (WRIC's form, the natural borrowing constraint, κ̄); results that survive ℘ = 0 must say so explicitly _(ruling 2026-07-14, T5)_
 - bar = optimist / upper bound; underline = pessimist / lower bound (BST's c̄, κ̲; MoM's h̄/h̲, c̄/c̲) _(ruling 2026-07-14, N3)_
 - r and R, in any font or style, name only a rate of return or a return factor (or a modification of one) _(ruling 2026-07-19, owner, BufferStockTheory-Latest session, 14:00:51 EDT: 'a strict prohibition for using the letter r or R or any font or modal (italics, bold, etc) of them for anything other than some version of a rate of return or return factor or some modification thereof')_
-- a ring marks the survival-inclusive variant of a symbol: β̊ = βℒ, Þ̊ = (Rβ̊)^{1/ϱ}, R̊ = R/ℒ; the unaccented symbol excludes survival _(ruling 2026-10-22, owner, econ-ark-tools session, 07:22:54 and 07:27:11 EDT)_
+- a ring marks the survival-inclusive variant of a symbol: β̊ = βℒ, Þ̊ = (Rβ̊)^{1/ϱ}, R̊ = R/ℒ; the unaccented symbol excludes survival. The ring variants' macros end in Eff, as HARK's DiscFacEff does (\DiscFacEff, \APFacEff, \RPFacEff, \GPFacEff, \RfreeEff); HARK's APFac, RPFac and GPFacRaw are the ring variants. \GPFacLiv is HARK's GPFacLiv, the mortality-adjusted ℒÞ̊_𝒢: the GIC-Liv is \GPFacLiv < 1 _(ruling 2026-10-22, owner, econ-ark-tools session, 07:22:54 and 07:27:11 EDT (the ring); the names 11:00:07 ('GPFacLiv < 1 is the correct version of the GIC-Liv') and 11:17:23 ('implement your recs'))_
 - a time index joins an existing subscript, last: Þ_{R,t}, ξ_{U,b,t} _(ruling 2026-10-22, owner, econ-ark-tools session, 07:47:23 EDT)_
 - a paper may give a letter the shared files claim to an object the shared files do not cover, declared in the paper's own macro file; never to a shared object _(ruling 2026-10-22, owner, econ-ark-tools session, 07:47:23 EDT)_

@@ -57,8 +57,8 @@ conventions:
 
   - rule: "r and R, in any font or style, name only a rate of return or a return factor (or a modification of one)"
     ruling: {date: 2026-07-19, source: "owner, BufferStockTheory-Latest session, 14:00:51 EDT: 'a strict prohibition for using the letter r or R or any font or modal (italics, bold, etc) of them for anything other than some version of a rate of return or return factor or some modification thereof'"}
-  - rule: "a ring marks the survival-inclusive variant of a symbol: β̊ = βℒ, Þ̊ = (Rβ̊)^{1/ϱ}, R̊ = R/ℒ; the unaccented symbol excludes survival"
-    ruling: {date: 2026-10-22, source: "owner, econ-ark-tools session, 07:22:54 and 07:27:11 EDT"}
+  - rule: "a ring marks the survival-inclusive variant of a symbol: β̊ = βℒ, Þ̊ = (Rβ̊)^{1/ϱ}, R̊ = R/ℒ; the unaccented symbol excludes survival. The ring variants' macros end in Eff, as HARK's DiscFacEff does (\\DiscFacEff, \\APFacEff, \\RPFacEff, \\GPFacEff, \\RfreeEff); HARK's APFac, RPFac and GPFacRaw are the ring variants. \\GPFacLiv is HARK's GPFacLiv, the mortality-adjusted ℒÞ̊_𝒢: the GIC-Liv is \\GPFacLiv < 1"
+    ruling: {date: 2026-10-22, source: "owner, econ-ark-tools session, 07:22:54 and 07:27:11 EDT (the ring); the names 11:00:07 ('GPFacLiv < 1 is the correct version of the GIC-Liv') and 11:17:23 ('implement your recs')"}
   - rule: "a time index joins an existing subscript, last: Þ_{R,t}, ξ_{U,b,t}"
     ruling: {date: 2026-10-22, source: "owner, econ-ark-tools session, 07:47:23 EDT"}
   - rule: "a paper may give a letter the shared files claim to an object the shared files do not cover, declared in the paper's own macro file; never to a shared object"
