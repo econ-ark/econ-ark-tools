@@ -18,6 +18,11 @@ batch; the owner approved the batch there: "all five as written" (20:43:30 EDT).
 - **`\IncUnemp` is ξ_U in econark-shortcuts.sty**, not μ, which is this registry's log excess
   resources. Owner, in the sce-wg-1-dev session: "fix \IncUnemp's erroneous expansion" (19:59:01
   EDT), after choosing ξ_U there at 19:25.
+- **econark-shortcuts.sty defines `\Thorn` and `\thorn`** (owner: "yes", 2026-10-21, to adding
+  the definition). Its `\APFac` and its rates `\APRte`, `\RPRte`, `\GPRte` used them without
+  defining them, so a document that loaded the file without its own definitions failed. `\Thorn`
+  is BufferStockTheory's `\pmb{\TH}` (in `\text`), so BST's output does not change; `\thorn` is a
+  plain `\th`. Both need T1 encoding, as the registry's `\text{Þ}` does.
 - **`mpc-min`'s define is κ̲ = max(0, 1 − Þ_R)**, so it covers a failing RIC, where the limiting
   MPC is 0. The schemas write R(1 − κ̲) for min(Þ, R), which needs that reading.
 - **A `plain` field beside `unicode`**, for terminals and code where a combining underline
