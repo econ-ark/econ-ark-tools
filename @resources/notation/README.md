@@ -91,14 +91,16 @@ Consequences:
 
 - **Load `econark-notation.sty` alone** to get the registry's *base dialect*.
   Loading it first does not help.
-- Of the 30 macro names shared with `econark-shortcuts.sty`, 26 render identically
+- Of the 37 macro names shared with `econark-shortcuts.sty`, 33 render identically
   — pure no-op: `\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk \mTrgNrm`; the
   ten rows added in v0.3.0–v0.6.0 (`\weight \splurge \vacCost \sepRte \ADElas
   \matchEff \matchElas \vacFillPrb \jobFindPrb \tightness`), each of which
   transcribes the shortcuts definition; and six from v1.0.0 (`\cFunc \uFunc
   \PermGroRte \GPRte \prdt \prdNxt`); and `\tranShkAll`, since shortcuts now
   defines it as `\tranShkInd` (owner ruling 2026-10-21: the same shock); and
-  `\PermGroFac`, now 𝒢 in both (owner ruling 2026-10-21). **4 render
+  `\PermGroFac`, now 𝒢 in both (owner ruling 2026-10-21); and seven from v2.1.0
+  (`\tranShkEmp \IncUnemp \tranShkMin \tranShkEmpMin \permShkIndMin \aMin \LivPrb`),
+  `\IncUnemp` since shortcuts writes ξ_U too (2026-10-21). **4 render
   differently**, where shortcuts wins when both load:
   `\RNrmByG` (`\mathcal{R}` vs `\mathscr{R}`),
   `\APFac` / `\RPFac` / `\GPFacRaw` (the registry's
@@ -107,7 +109,7 @@ Consequences:
   devices). These are the
   declared **MIGRATION-PENDING** dialects (see the `dialects:` entries in
   `notation.yml`); reconciling them is owner-gated (single-dialect ruling), not
-  something loading order should silently decide. The other 35 registry macros
+  something loading order should silently decide. The other 39 registry macros
   are unique and always contributed.
 
 ## The powerlaw draft takes its notation from `@resources`
@@ -147,12 +149,18 @@ symbols:
     define:  "<defining equation, unicode>"          # optional
     latex:   {macro: '\Xyz', expansion: '<latex>'}   # optional (gloss-only objects omit it)
     unicode: '<glyph(s)>'
+    plain:   '<name for terminals and code>'           # optional; see below
     python:  '<HARKishName>'                          # optional; PROPOSED if not in use
     aliases: ["<sanctioned alternates + where>"]      # optional
     dialects: {<key>: {expansion, home, note, status}}   # optional; DECLARED divergences
     conflicts_checked: "<what was verified against what>"  # optional
     ruling:  {date, source, rationale}
 ```
+
+`plain` is the name to use in terminals, plain-text prose and code where `unicode` needs a
+combining underline (U+0332), which many terminals draw under the next cell: `κ_min` for κ̲,
+`a_Nat` for a̲_Nat. It is never pasted into LaTeX as it stands. Marks above a letter (m̂, κ̄, q̃)
+draw correctly and get no `plain`.
 
 Generators emit symbols **sorted by semantic key**, with no timestamps, so
 re-running is byte-identical (that is what `check_sync` enforces). Dialects are

@@ -3,6 +3,26 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v2.1.0 — 2026-10-21
+
+Requested by the buffer-stock schemas' session (llorracc/sce-wg-1-dev), item 5 of its notation
+batch; the owner approved the batch there: "all five as written" (20:43:30 EDT).
+
+- **Rows for the schemas' symbols (MINOR).** θ, the employed draw (`\tranShkEmp`); ξ_U, income
+  while unemployed (`\IncUnemp`, python `IncUnemp`); the minima ξ̲, θ̲, ψ̲ (`\tranShkMin`,
+  `\tranShkEmpMin`, `\permShkIndMin`); the borrowing constraints a̲_Art, a̲_Nat and the one in force,
+  a̲ (`\BoroCnstArt`, `\BoroCnstNat`, `\aMin`); the lowest market resources m̲ (`\mNrmMin`); survival
+  ℒ (`\LivPrb`); and the probability of the worst income, p_worst (`\pWorst`). Seven reuse
+  econark-shortcuts' macros with the same rendering; `\BoroCnstArt`, `\BoroCnstNat`, `\pWorst` and
+  `\mNrmMin` are new, named for HARK where HARK has a name.
+- **`\IncUnemp` is ξ_U in econark-shortcuts.sty**, not μ, which is this registry's log excess
+  resources. Owner, in the sce-wg-1-dev session: "fix \IncUnemp's erroneous expansion" (19:59:01
+  EDT), after choosing ξ_U there at 19:25.
+- **`mpc-min`'s define is κ̲ = max(0, 1 − Þ_R)**, so it covers a failing RIC, where the limiting
+  MPC is 0. The schemas write R(1 − κ̲) for min(Þ, R), which needs that reading.
+- **A `plain` field beside `unicode`**, for terminals and code where a combining underline
+  misdraws: `κ_min`, `h_min` and every new underlined row. NOTATION.md's table gains a Plain column.
+
 ## v2.0.0 — 2026-10-21
 
 - **MAJOR — the patience factors are bold (owner ruling, 2026-10-21):** "yes, factor rows

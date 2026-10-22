@@ -11,6 +11,7 @@
 #     define:  "<defining equation, unicode>"          # optional
 #     latex:   {macro: '\Xyz', expansion: '<latex>'}   # optional (glosses may omit)
 #     unicode: '<glyph(s)>'
+#     plain:   '<name for terminals and code>'           # optional; where unicode needs a combining underline
 #     python:  '<HARKishName>'                          # optional; PROPOSED if not in use
 #     aliases: ["<sanctioned alternates + where>"]      # optional
 #     dialects: {<key>: {expansion, home, note, status}}   # optional; DECLARED divergences
@@ -18,8 +19,10 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 2.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 2.1.0        # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-10-21   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 2.1.0: rows for the buffer-stock schemas' symbols; the plain field;
+                        #        mpc-min defined as max(0, 1 − Þ_R) (owner, 2026-10-21)
                         # 2.0.0: the patience factors \APFac, \RPFac, \GPFacRaw take a bold
                         #        capital thorn (owner, 2026-10-21)
                         # 1.0.0: precautionary-saving re-ruled \pcsNrm/'s' -> \psav/'x'
@@ -211,11 +214,13 @@ symbols:
 
   mpc-min:
     gloss: "limiting MPC as m→∞ (PF MPC); pessimist/lower-bound underline"
-    define: "κ̲ = 1 − Þ_R"
+    define: "κ̲ = max(0, 1 − Þ_R): 1 − Þ_R when the RIC holds (Þ_R < 1), and 0 when it fails"
     latex: {macro: '\MPCmin', expansion: '\underline{\kappa}'}
     unicode: 'κ̲'
+    plain: 'κ_min'
     python: 'MPCmin'
     aliases: ["\\kap — the powerlaw pages' macro for the same object (verified 2026-07-14, theory/powerlaw-decay/myst.yml)"]
+    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
 
   mpc-max:
     gloss: "limiting MPC as m→0 (worst-atom)"
@@ -522,6 +527,7 @@ symbols:
     gloss: "pessimist's (minimal) human wealth"
     latex: {macro: '\hNrmPes', expansion: '\underline{h}'}
     unicode: 'h̲'
+    plain: 'h_min'
 
   resources-excess:
     gloss: "excess market resources above the natural borrowing constraint"
@@ -535,3 +541,101 @@ symbols:
     define: "μ = ln m̈"
     latex: {macro: '\logmNrmEx', expansion: '\boldsymbol{\mu}'}
     unicode: 'μ'
+
+  # --- 2026-10-21: rows for the buffer-stock schemas' symbols (llorracc/sce-wg-1-dev,
+  #     schemas/bst-1/model.md's notation table). Every macro but the three new ones
+  #     (\BoroCnstArt, \BoroCnstNat, \pWorst) is econark-shortcuts', with the same rendering. ---
+
+  transitory-shock-employed:
+    gloss: "the employed draw: the transitory shock's value outside the unemployment event, E[θ] = 1"
+    define: "ξ = ξ_U with probability ℘, otherwise θ(1 − ℘ξ_U)/(1 − ℘), so E[ξ] = 1; BST's case ξ_U = 0 gives θ/(1 − ℘)"
+    latex: {macro: '\tranShkEmp', expansion: '\theta'}
+    unicode: 'θ'
+    conflicts_checked: "econark-shortcuts' \\tranShkEmp, the same rendering. The powerlaw pages write θ for ξ itself, a NOT SANCTIONED dialect recorded under transitory-shock-all."
+    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
+
+  income-unemployed:
+    gloss: "income while unemployed, as a ratio to permanent income: ξ's value in the unemployment event (probability ℘); 0 in BST, where it is ξ's lowest value, though in general it need not be"
+    latex: {macro: '\IncUnemp', expansion: '\xi_{\mathrm{U}}'}
+    unicode: 'ξ_U'
+    plain: 'ξ_U'
+    python: 'IncUnemp'
+    conflicts_checked: "econark-shortcuts expanded \\IncUnemp to μ until 2026-10-21; μ is this registry's log excess resources (\\logmNrmEx). The owner chose ξ_U in the sce-wg-1-dev session ('OK, I give in.  ξ_U', 19:25 EDT) and asked for the fix ('fix \\IncUnemp's erroneous expansion', 19:59:01 EDT), so shortcuts now writes \\xi_{\\mathrm{U}} too. HARK's parameter has the same name."
+    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
+
+  transitory-shock-min:
+    gloss: "the transitory shock's lowest value, the worst transitory income"
+    define: "ξ̲ = min(ξ_U, θ̲(1 − ℘ξ_U)/(1 − ℘)) when ℘ > 0; θ̲ when ℘ = 0"
+    latex: {macro: '\tranShkMin', expansion: '\underline{\xi}'}
+    unicode: 'ξ̲'
+    plain: 'ξ_min'
+    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
+
+  transitory-shock-employed-min:
+    gloss: "the employed draw's lowest value"
+    latex: {macro: '\tranShkEmpMin', expansion: '\underline{\theta}'}
+    unicode: 'θ̲'
+    plain: 'θ_min'
+    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
+
+  permanent-shock-min:
+    gloss: "the permanent shock's lowest value"
+    latex: {macro: '\permShkIndMin', expansion: '\underline{\psi}'}
+    unicode: 'ψ̲'
+    plain: 'ψ_min'
+    conflicts_checked: "econark-shortcuts' name, kept although this registry's ψ is \\permShk: shortcuts defines no \\permShkMin."
+    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
+
+  worst-income-prob:
+    gloss: "the probability of the worst income ψ̲ξ̲, the mass at it; ℘ in BST's case, where the worst income is 0"
+    latex: {macro: '\pWorst', expansion: 'p_{\mathrm{worst}}'}
+    unicode: 'p_worst'
+    plain: 'p_worst'
+    conflicts_checked: "\\pWorst is new; no macro in econark-shortcuts.sty or row here has that name. Italic p with an upright subscript does not collide with shortcuts' bold \\pLvl, permanent income in levels."
+    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
+
+  borrowing-limit-artificial:
+    gloss: "the artificial borrowing constraint: a lower bound on end-of-period assets a imposed by the model, not by solvency"
+    latex: {macro: '\BoroCnstArt', expansion: '\underline{a}_{\mathrm{Art}}'}
+    unicode: 'a̲_Art'
+    plain: 'a_Art'
+    python: 'BoroCnstArt'
+    conflicts_checked: "New macro, named for HARK's parameter; econark-shortcuts has none."
+    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
+
+  borrowing-limit-natural:
+    gloss: "the natural borrowing constraint: the most a consumer can owe and still repay if the worst income ψ̲ξ̲ recurs forever"
+    define: "a̲_Nat = −ξ̲ψ̲/(ℛ − ψ̲) when ψ̲ < ℛ; no finite limit when ψ̲ ≥ ℛ. BST's ξ̲ = 0 gives a̲_Nat = 0"
+    latex: {macro: '\BoroCnstNat', expansion: '\underline{a}_{\mathrm{Nat}}'}
+    unicode: 'a̲_Nat'
+    plain: 'a_Nat'
+    python: 'BoroCnstNat'
+    conflicts_checked: "New macro, named for HARK's attribute. BufferStockTheory-Latest's docs/@local/local-macros.sty has \\NatBoroCnstra = \\underline{a} for this object; in BST there is no artificial constraint, so the natural one is the one in force (borrowing-limit) and \\underline{a} is right there."
+    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
+
+  borrowing-limit:
+    gloss: "the borrowing constraint in force"
+    define: "a̲ = max(a̲_Art, a̲_Nat)"
+    latex: {macro: '\aMin', expansion: '\underline{a}'}
+    unicode: 'a̲'
+    plain: 'a_min'
+    conflicts_checked: "econark-shortcuts' \\aMin, the same rendering."
+    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
+
+  resources-min:
+    gloss: "the lowest market resources from which positive consumption is feasible: the m_min of resources-excess"
+    define: "m̲ = a̲, since c = m − a > 0 needs m > a̲"
+    latex: {macro: '\mNrmMin', expansion: '\underline{m}'}
+    unicode: 'm̲'
+    plain: 'm_min'
+    python: 'mNrmMin'
+    conflicts_checked: "New macro, named for HARK's solution attribute; econark-shortcuts has none."
+    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
+
+  survival-prob:
+    gloss: "the probability of surviving into the next period"
+    latex: {macro: '\LivPrb', expansion: '\mathcal{L}'}
+    unicode: 'ℒ'
+    python: 'LivPrb'
+    conflicts_checked: "econark-shortcuts' \\LivPrb (through \\Alive), the same rendering. The powerlaw pages' \\Lfun is \\mathfrak{L}, a different letterform; uppercase, so KaTeX draws \\mathcal{L} correctly."
+    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}

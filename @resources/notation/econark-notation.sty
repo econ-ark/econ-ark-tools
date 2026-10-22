@@ -1,4 +1,4 @@
-% econark-notation.sty — AUTO-GENERATED from notation.yml v2.0.0. DO NOT EDIT.
+% econark-notation.sty — AUTO-GENERATED from notation.yml v2.1.0. DO NOT EDIT.
 % Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 % Uses \providecommand: defers to any macro already defined (e.g. by
 % econark-shortcuts.sty). Load alone/first for the registry's base dialect.
@@ -10,6 +10,9 @@
 \providecommand{\bNrm}{b}  % bank-balances
 \providecommand{\bNrmNxt}{\bNrm\Nxt}  % bank-balances-next
 \providecommand{\bNrmNow}{\bNrm\Now}  % bank-balances-now
+\providecommand{\aMin}{\underline{a}}  % borrowing-limit
+\providecommand{\BoroCnstArt}{\underline{a}_{\mathrm{Art}}}  % borrowing-limit-artificial
+\providecommand{\BoroCnstNat}{\underline{a}_{\mathrm{Nat}}}  % borrowing-limit-natural
 \providecommand{\bufAdj}{J}  % buffer-adjustment
 \providecommand{\bufAdjFunc}{\mathrm{J}}  % buffer-adjustment-function
 \providecommand{\qtilde}{\tilde{q}}  % compensation-exponent
@@ -26,6 +29,7 @@
 \providecommand{\hNrm}{h}  % human-wealth
 \providecommand{\hNrmOpt}{\bar{h}}  % human-wealth-optimist
 \providecommand{\hNrmPes}{\underline{h}}  % human-wealth-pessimist
+\providecommand{\IncUnemp}{\xi_{\mathrm{U}}}  % income-unemployed
 \providecommand{\jobFindPrb}{\mathrm{find}}  % job-find-probability
 \providecommand{\kNrmNxt}{k\Nxt}  % kapital-next
 \providecommand{\kNrmNow}{k\Now}  % kapital-now
@@ -44,6 +48,7 @@
 \providecommand{\prdt}{t}  % period-now
 \providecommand{\Now}{_{\prdt}}  % period-now-suffix
 \providecommand{\permShk}{\psi}  % permanent-shock
+\providecommand{\permShkIndMin}{\underline{\psi}}  % permanent-shock-min
 \providecommand{\permShkNxt}{\psi\Nxt}  % permanent-shock-next
 \providecommand{\psav}{x}  % precautionary-saving
 \providecommand{\psavFunc}{\mathrm{x}}  % precautionary-saving-function
@@ -51,14 +56,19 @@
 \providecommand{\psavNow}{\psav\Now}  % precautionary-saving-now
 \providecommand{\mBalLvl}{\check{m}}  % pseudo-target
 \providecommand{\mNrmEx}{\ddot{m}}  % resources-excess
+\providecommand{\mNrmMin}{\underline{m}}  % resources-min
 \providecommand{\mNrmNxt}{m\Nxt}  % resources-next
 \providecommand{\mNrmNow}{m\Now}  % resources-now
 \providecommand{\RNrmByG}{\mathcal{R}}  % return-growth-ratio
 \providecommand{\sepRte}{\mathrm{sep}}  % separation-rate
 \providecommand{\splurge}{\gimel}  % splurge
+\providecommand{\LivPrb}{\mathcal{L}}  % survival-prob
 \providecommand{\mTrgNrm}{\hat{m}}  % target
 \providecommand{\thorn}{\text{þ}}  % thorn-glyph
 \providecommand{\tranShkAll}{\xi}  % transitory-shock-all
+\providecommand{\tranShkEmp}{\theta}  % transitory-shock-employed
+\providecommand{\tranShkEmpMin}{\underline{\theta}}  % transitory-shock-employed-min
+\providecommand{\tranShkMin}{\underline{\xi}}  % transitory-shock-min
 \providecommand{\tranShkNxt}{\tranShkAll\Nxt}  % transitory-shock-next
 \providecommand{\trvTime}{n}  % travel-time-to-target
 \providecommand{\uFunc}{\mathrm{u}}  % utility-function
@@ -68,4 +78,5 @@
 \providecommand{\wbarNxt}{\wbar\Nxt}  % wealth-total-pf-next
 \providecommand{\wbarNow}{\wbar\Now}  % wealth-total-pf-now
 \providecommand{\weight}{\omega}  % weight
+\providecommand{\pWorst}{p_{\mathrm{worst}}}  % worst-income-prob
 \providecommand{\pZero}{\wp}  % zero-income-prob
