@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# notation-lint.sh — AUTO-GENERATED from terminology.yml (registry v5.0.0). DO NOT EDIT.
+# notation-lint.sh — AUTO-GENERATED from terminology.yml (registry v6.0.0). DO NOT EDIT.
 # Source of truth: @resources/notation/terminology.yml (edit there, regenerate).
 # Regenerate: python @resources/notation/gen/gen_lint.py
 # Exit 0 = clean; 1 = a banned term was found (review or waive it).
@@ -45,7 +45,7 @@ check() {
   fi
 }
 
-check "\\\\mathfrak\\{b\\} \\(Euler-weight shorthand\\)" "write Rβ𝒢^{−ρ} out; after identity (I1), Þ_𝒢^ρ"
+check "\\\\mathfrak\\{b\\} \\(Euler-weight shorthand\\)" "write Rβ𝒢^{−ϱ} out; after identity (I1), Þ_𝒢^ϱ"
 check "dual-guise \\(and 'guise' as a notational term of art\\)" "state the convention concretely: functions upright with argument (BST \\cFunc style); italic letters are quantities; single-role letters need no upright form"
 check "dividend" "the adjustment (the per-period provision moving the buffer stock toward its target)"
 check "precautionary premium" "the (Kimball) adjustment"

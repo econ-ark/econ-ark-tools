@@ -19,7 +19,7 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 5.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 6.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-10-22   #         MINOR = additions; PATCH = gloss/typo fixes
                         # 5.0.0: the 2026-10-22 rulings (survival ring, unemployment probability,
                         #        Pareto exponent, productivity growth, ...); powerlaw-only rows leave
@@ -165,16 +165,17 @@ symbols:
 
   crra:
     gloss: "coefficient of relative risk aversion"
-    latex: {macro: '\CRRA', expansion: '\rho'}
-    unicode: 'ρ'
+    latex: {macro: '\CRRA', expansion: '\varrho'}
+    unicode: 'ϱ'
     python: 'CRRA'
+    conflicts_checked: "2026-10-22: ϱ (\\varrho) has no other meaning in econark-shortcuts.sty or this registry. The retired econtexShortcuts/handoutShortcuts define \\corr = \\varrho (correlation); they survive only in NARK's dead texmf-local trees and TractableBufferStock's bundled copy, and no paper's source uses \\corr. The registry gives plain ρ no meaning, which frees it for each paper's own persistence and correlation parameters (local-symbol rule). Papers that type \\rho for risk aversion instead of \\CRRA print ρ beside ϱ until they switch."
     dialects:
       bst-paper:
         expansion: '\gamma'
         home: "BST published draft"
-        status: "TO MIGRATE (owner ruling 2026-10-22 07:31:41: 'Move to ρ; I'll ask AS'): BST moves to ρ once Chris has raised it with AS, together with the subscript factors (07:47:23)"
+        status: "TO MIGRATE (owner ruling 2026-10-22 07:31:41: 'Move to ρ; I'll ask AS'; since 10:58:30 the shared symbol is ϱ): BST moves from γ to \\CRRA once Chris has raised it with AS, together with the subscript factors (07:47:23)"
         note: "until migrated, cross-citing docs must state the map (the powerlaw pages' §2 does)"
-    ruling: {date: 2026-07-14, source: "powerlaw §2 symbol dictionary + ruling 4"}
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 2026-10-22 10:58:30 EDT: 'I think we ought to designate \\CRRA as \\varrho not as regular \\rho so we can avoid conflicts'. Before: ρ (2026-07-14, powerlaw §2 symbol dictionary + ruling 4)", rationale: "plain ρ is the common letter for persistence, correlation and other papers' parameters; giving risk aversion ϱ keeps the shared symbol off it"}
 
   growth-factor:
     gloss: "permanent-income growth factor"
@@ -235,14 +236,14 @@ symbols:
 
   mpc-max:
     gloss: "limiting MPC as m→0 (worst-atom)"
-    define: "κ̄ = 1 − ℘^{1/ρ}Þ_R"
+    define: "κ̄ = 1 − ℘^{1/ϱ}Þ_R"
     latex: {macro: '\MPCmax', expansion: '\overline{\kappa}'}
     unicode: 'κ̄'
     python: 'MPCmax'
 
   patience-abs:
     gloss: "absolute patience factor"
-    define: "Þ = (Rβ)^{1/ρ}"
+    define: "Þ = (Rβ)^{1/ϱ}"
     latex: {macro: '\APFac', expansion: '\textbf{Þ}'}
     unicode: 'Þ'
     aliases: ["\\Thorn — the powerlaw pages' macro, in plain type (\\text{Þ}; verified KaTeX-safe 2026-07-14), so not an alias of the bold factor: see the dialect below"]
@@ -293,8 +294,8 @@ symbols:
       rationale: "each exponent named by the limit it governs; avoids the vector reading of over-/adjacent-arrows; the \\qHi/\\qLo macro NAMES are unchanged, so downstream \\qHi/\\qLo usages need no edits"
 
   constraint-end-exponent:
-    gloss: "constraint-end (bottom-knot) approach exponent — the q_0 partner of the high-wealth q_∞; PROVEN q_0 = ρ"
-    define: "MPC deficit κ̄ − c/m̈ ≍ m̈^ρ; in MoM coords χ(μ) = μ + b₀ + O(e^{ρμ})"
+    gloss: "constraint-end (bottom-knot) approach exponent — the q_0 partner of the high-wealth q_∞; PROVEN q_0 = ϱ (CRRA)"
+    define: "MPC deficit κ̄ − c/m̈ ≍ m̈^ϱ; in MoM coords χ(μ) = μ + b₀ + O(e^{ϱμ})"
     latex: {macro: '\qLo', expansion: 'q_{0}'}
     unicode: 'q_0'
     aliases: ["supersedes q↓ (\\qLo = q{\\downarrow}, 2026-07-14 arrows); earlier q° (\\qcirc, q_{\\circ}) 2026-07-13 constraint-end theorem"]
@@ -349,7 +350,7 @@ symbols:
     ruling: {date: 2026-07-17, source: "owner proposal ('suppose we tried a different tack... \\newcommand{\\Nxt}{_{t+1}} and \\newcommand{\\Now}{_{t}}... Would that work?') + explicit blessing of the ruling-9 amendment"}
 
   period-next-suffix:
-    gloss: "next-period decoration suffix — the other half of the flip point: subscript dialect '_{\\prdNxt}'; prime dialect the LITERAL apostrophe — NEVER '^{\\prime}' (double superscript on \\cNrmNxt^{-\\rho} forms; both traps verified against the bundled KaTeX 2026-07-17)"
+    gloss: "next-period decoration suffix — the other half of the flip point: subscript dialect '_{\\prdNxt}'; prime dialect the LITERAL apostrophe — NEVER '^{\\prime}' (double superscript on \\cNrmNxt^{-\\CRRA} forms; both traps verified against the bundled KaTeX 2026-07-17)"
     latex: {macro: '\Nxt', expansion: '_{\prdNxt}'}
     unicode: '_{t+1}'
     ruling: {date: 2026-07-17, source: "owner proposal + blessing (ruling 9 v2)"}
@@ -631,7 +632,7 @@ symbols:
 
   patience-abs-liv:
     gloss: "absolute patience factor INCLUDING survival"
-    define: "Þ̊ = (R β̊)^{1/ρ} = ℒ^{1/ρ} Þ"
+    define: "Þ̊ = (R β̊)^{1/ϱ} = ℒ^{1/ϱ} Þ"
     latex: {macro: '\APFacLiv', expansion: '\mathring{\APFac}'}
     unicode: 'Þ̊'
     ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \\beta and \\LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \\accented{\\beta} = \\beta \\LivPrb, and \\accented{\\APFac} = (\\Rfree \\accented{\\beta})^{1/\\rho} (etc).'; accent chosen at 07:27:11: the ring"}

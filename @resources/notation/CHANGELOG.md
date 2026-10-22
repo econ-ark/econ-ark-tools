@@ -3,6 +3,21 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v6.0.0 — 2026-10-22
+
+**Risk aversion is ϱ (10:58:30).** The owner, in the econ-ark-tools session: "I think we ought to designate
+\CRRA as \varrho not as regular \rho so we can avoid conflicts". MAJOR: `\CRRA` changes rendering, from ρ to
+ϱ, in both `econark-shortcuts.sty` and the registry. Every formula built on it follows (Þ = (Rβ)^{1/ϱ},
+κ̄ = 1 − ℘^{1/ϱ}Þ_R, q_0 = ϱ). The registry gives plain ρ no meaning, so each paper may use it for its own
+persistence or correlation parameters, declared locally. ϱ had no meaning in the shared files. The retired
+econtexShortcuts' `\corr` = ϱ (correlation) is used by no paper's source.
+
+Migration: a paper that types `\rho` (or ρ) for risk aversion, instead of `\CRRA`, now prints ρ beside the
+shared ϱ until it switches. Today's rulings that move the BST paper and HAFiscal from γ "to ρ" mean to `\CRRA`,
+which now prints ϱ. Those rulings are otherwise unchanged: HAFiscal's replacement rates still become ξ_{U,b}
+and ξ_{U,nb}, and its Taylor-rule ρ_r still becomes φ_i. Ruling quotations elsewhere in the registry keep the
+owner's words as typed.
+
 ## v5.0.0 — 2026-10-22
 
 The owner's rulings of 2026-10-22, given in the econ-ark-tools session between 07:17 and 08:39 EDT

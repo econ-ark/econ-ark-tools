@@ -1,4 +1,4 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v5.0.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v6.0.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
@@ -21,7 +21,7 @@ project:
     '\cFunc': '\mathrm{c}'
     '\cNrmNxt': 'c\Nxt'
     '\cNrmNow': 'c\Now'
-    '\CRRA': '\rho'
+    '\CRRA': '\varrho'
     '\DiscFac': '\beta'
     '\DiscFacLiv': '\mathring{\DiscFac}'
     '\DiscFacSprd': '\nabla'

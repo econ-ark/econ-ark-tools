@@ -1,4 +1,4 @@
-# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v5.0.0. DO NOT EDIT.
+# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v6.0.0. DO NOT EDIT.
 # Every shared macro, KaTeX-safe. Consume via `extends: [<path>/econark-math.yml]` in myst.yml.
 # Regenerate: python @resources/notation/gen/gen_shortcuts.py
 version: 1
@@ -244,7 +244,7 @@ project:
     '\LivPrb': '\Alive'
     '\pNotZero': '(1-\pZero)'
     '\CARA': '\mathrm{cara}'
-    '\CRRA': '\rho'
+    '\CRRA': '\varrho'
     '\MPC': '\kappa'
     '\vacCost': '\mathrm{cst}'
     '\sepRte': '\mathrm{sep}'

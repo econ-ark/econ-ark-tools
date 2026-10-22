@@ -11,7 +11,7 @@
 
 banned:
   - term: "\\mathfrak{b} (Euler-weight shorthand)"
-    use: "write Rβ𝒢^{−ρ} out; after identity (I1), Þ_𝒢^ρ"
+    use: "write Rβ𝒢^{−ϱ} out; after identity (I1), Þ_𝒢^ϱ"
     scope: "powerlaw corpus + buffer-stock expositions"
     ruling: {date: 2026-07-17, source: "owner: 'I prohibit you from using \\mathfrak{b}... if you can't find a better option you can just write out the whole expression'"}
   - term: "dual-guise (and 'guise' as a notational term of art)"
@@ -57,7 +57,7 @@ conventions:
 
   - rule: "r and R, in any font or style, name only a rate of return or a return factor (or a modification of one)"
     ruling: {date: 2026-07-19, source: "owner, BufferStockTheory-Latest session, 14:00:51 EDT: 'a strict prohibition for using the letter r or R or any font or modal (italics, bold, etc) of them for anything other than some version of a rate of return or return factor or some modification thereof'"}
-  - rule: "a ring marks the survival-inclusive variant of a symbol: β̊ = βℒ, Þ̊ = (Rβ̊)^{1/ρ}, R̊ = R/ℒ; the unaccented symbol excludes survival"
+  - rule: "a ring marks the survival-inclusive variant of a symbol: β̊ = βℒ, Þ̊ = (Rβ̊)^{1/ϱ}, R̊ = R/ℒ; the unaccented symbol excludes survival"
     ruling: {date: 2026-10-22, source: "owner, econ-ark-tools session, 07:22:54 and 07:27:11 EDT"}
   - rule: "a time index joins an existing subscript, last: Þ_{R,t}, ξ_{U,b,t}"
     ruling: {date: 2026-10-22, source: "owner, econ-ark-tools session, 07:47:23 EDT"}

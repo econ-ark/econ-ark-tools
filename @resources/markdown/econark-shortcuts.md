@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v5.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v6.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -241,7 +241,7 @@
 \newcommand{\LivPrb}{\Alive}
 \newcommand{\pNotZero}{(1-\pZero)}
 \newcommand{\CARA}{\mathrm{cara}}
-\newcommand{\CRRA}{\rho}
+\newcommand{\CRRA}{\varrho}
 \newcommand{\MPC}{\kappa}
 \newcommand{\vacCost}{\mathrm{cst}}
 \newcommand{\sepRte}{\mathrm{sep}}

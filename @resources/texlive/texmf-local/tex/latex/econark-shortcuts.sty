@@ -2,7 +2,7 @@
 % @resources/notation/notation.yml, the single source of notation for the papers).
 % Explicit definitions only (no factory/\@for loops); Lvl/Nrm/Func for a-z and A-Z are inline.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{econark-shortcuts}[2026/10/22 v5.0.0 Econ-ARK shared notation]
+\ProvidesPackage{econark-shortcuts}[2026/10/22 v6.0.0 Econ-ARK shared notation]
 % What the macros below need (2026-10-22). eucal is loaded only if no package has defined
 % \mathscr already, so a class that loads it with its own options is not disturbed.
 \RequirePackage{amsmath,amssymb,cancel,graphicx}
@@ -291,7 +291,7 @@
 \ARKcommand{\DiscAltuAdj}{\Min{\Min{\beth}}}
 \ARKcommand{\DiscFacRaw}{\beta}
 % Survival: an unaccented beta or thorn excludes the survival probability; the RING includes it (owner ruling 2026-10-22):
-% \mathring{\beta} = \beta\LivPrb, \mathring{\APFac} = (\Rfree\mathring{\beta})^{1/\rho}. (\DiscFacLiv was \Min{\DiscFacRaw},
+% \mathring{\beta} = \beta\LivPrb, \mathring{\APFac} = (\Rfree\mathring{\beta})^{1/\CRRA}. (\DiscFacLiv was \Min{\DiscFacRaw},
 % an underline, which also means a lower bound.)
 \ARKcommand{\DiscFacLiv}{\mathring{\DiscFacRaw}}
 \ARKcommand{\DiscRte}{\nu} % vartheta is too easily confused with theta
@@ -338,7 +338,7 @@
 \ARKcommand{\pNotZero}{(1-\pZero)}
 
 \ARKcommand{\CARA}{\mathrm{cara}}   % a word (owner ruling 2026-10-22); \alpha is the capital share (\kapShare)
-\ARKcommand{\CRRA}{\rho}
+\ARKcommand{\CRRA}{\varrho}   % not plain \rho, which papers keep for persistence and correlation (owner ruling 2026-10-22)
 \ARKcommand{\MPC}{\kappa}
 
 % --- Search-and-matching block -------------------------------------------------
