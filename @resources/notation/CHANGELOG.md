@@ -3,6 +3,61 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v5.0.0 — 2026-10-22
+
+The owner's rulings of 2026-10-22, given in the econ-ark-tools session between 07:17 and 08:39 EDT
+(times are of his answers), after a survey of every paper against v4.0.0. MAJOR: renderings change and
+rows are removed. Both `econark-shortcuts.sty` and the registry change, and every name in both prints the
+same (61 names, `tests/check_shortcuts_agree.py`).
+
+**The single source (07:17:41: "Step 1 only").** `econark-shortcuts.sty` stays hand-edited; its copies are
+generated. New `gen/gen_shortcuts.py` writes `econark-math.yml` (a KaTeX-safe MyST map of all 421 shared
+macros) and `../markdown/econark-shortcuts.md` (the mirror BufferStockTheory-make reads, hand-edited and 91
+macros behind until now). `check_sync` covers both; `check_shortcuts_agree.py` is new.
+
+**Survival (07:22:54, 07:27:11).** "There should be two variants of \beta and \LivPrb, with and without an
+accent. The variant without the accent should not incorporate the survival probability; the one with it
+should." The accent is the ring, used nowhere before: `\DiscFacLiv` = β̊ = βℒ (was β̲); new `\APFacLiv` =
+Þ̊, `\RPFacLiv` = Þ̊_R (HARK's PatFac), `\GPFacLiv` = Þ̊_𝒢. `\RfreeEff` (Blanchard, R/ℒ) is R̊ (08:13:40);
+`\RBoro` keeps R̄.
+
+**Probabilities (07:31:41).** ℘ (`\pZero`) is the probability of unemployment, HARK's UnempPrb, whatever ξ_U;
+the row's key is now `unemployment-prob`. `\pWorst` maps to HARK's WorstIncPrb.
+
+**Letters.**
+- ζ stays with the leisure share (`\leiShare`); the Pareto (tail) exponent is ε, `\paretoExp` (07:35:28).
+  `\unins` leaves the shared file for TractableBufferStock, which writes it λ (08:25:26, 08:26:39).
+- Population growth: factor Ξ, rate ln Ξ (`\PopnGroRte`, `\popGroRte`); `\TranShkAll` retired (07:35:28).
+- Productivity growth: sans-serif 𝖦 and 𝗀 (07:44:34). The script g printed nothing in PDF and KaTeX;
+  `check_katex`'s only waiver goes.
+- Θ is the aggregate of θ: `\TranShkAgg` canonical, `\TranShkEmp` its alias (08:06:54).
+- α is the capital share; CARA is the word `\mathrm{cara}` (07:57:56, 08:18:06).
+- ℓ is labor and φ the log equity premium; `\livPrb` and `\prstShk`/`\prstShkInd`, used by no paper,
+  are retired (08:15:54). `\TaxAmt` is retired: T is only the terminal date (08:33:44).
+- ψ̲ is ψ's minimum; `\InvEPermShkInv` is written out, (𝔼[ψ⁻¹])⁻¹ (08:15:54, 08:31:10).
+- `\GPFacMod` takes BST's product form Þ_𝒢𝔼[ψ⁻¹] (08:00:19).
+- ∇ for the spread of discount factors, `\DiscFacSprd` (08:33:44).
+
+**Registry scope (08:36:22, 08:39:09).** Powerlaw-only definitions leave the registry for the powerlaw pages:
+`\qtilde`, `\etaL`, `\etaR`, `\bufAdj`, `\bufAdjFunc`, `\wbarMax`, `\trvTime`, and the gap. Precautionary
+saving stays a shared object without the powerlaw draft's x; its symbol is to be chosen, so the row has
+no macro (and `\psavFunc`, `\psavNow`, `\psavNxt` go).
+
+**Conventions (07:47:23; terminology.yml).** A time index joins an existing subscript, last (Þ_{R,t}); a paper
+may give a claimed letter only to an object the shared files do not cover; the ring marks
+survival-inclusive symbols; r and R name only returns (ruling of 2026-07-19, now recorded). Human wealth
+includes this period's income (08:00:19); HARK's hNrm, BoroCnstNat and PermShk are declared code dialects.
+
+**Rows added for shared objects** the registry had left to the shortcuts: `\Rfree`, `\DiscFac`, `\MPC`,
+`\Ex`, `\EPermShkInv`, plus the rows above. `\RPFac` is now written through `\Rfree`, `\prdNxt` through
+`\prdt`. HARK names: `mNrmTrg`, `mNrmStE`.
+
+**Mechanical.** `econark-shortcuts.sty` declares itself (`\ProvidesPackage`) and what it needs; its thorns
+work in any font encoding; `\shr` is defined (`\ShrBar` used it undefined); `\muFuncInv` is the inverse of
+MARGINAL utility (it was drawn the same as `\uFuncInv`); `\cnstr` goes through `\ARKcommandParam`. TeX finds
+`econark-notation.sty` through a symlink in `texmf-local/tex/latex/`. `@resources-update-from-remote.sh`: a
+dry run no longer changes permissions, and the vendored copy is executable.
+
 ## v4.0.0 — 2026-10-21
 
 - **MAJOR — econark-shortcuts and the registry agree on every shared name.** Owner, in an

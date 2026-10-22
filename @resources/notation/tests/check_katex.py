@@ -52,13 +52,7 @@ SCAN = [
 
 # Pre-existing violations, waived so this gate can land without bundling a notational ruling.
 # Each needs a decision about the SYMBOL, not just the font -- see the note.
-KNOWN = {
-    r"\mathscr{g}": (
-        "\\PtyGroRte. Already documented inline in econark-shortcuts.sty. Its partner "
-        "\\PtyGroFac = \\mathscr{G} renders correctly, so substituting only the lowercase would "
-        "leave the factor/rate pair visually unlinked -- the PAIR should move to a both-cases "
-        "font (mathfrak or mathsf). That is a ruling, not a fix."),
-}
+KNOWN = {}  # the one waiver, \\PtyGroRte = \\mathscr{g}, ended with v5.0.0: productivity growth is \\mathsf{g}
 
 
 def _strip_tex_comments(line):

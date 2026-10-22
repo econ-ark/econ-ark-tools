@@ -1,10 +1,12 @@
 # econark notation registry (`@resources/notation/`)
 
 **Single source of truth** for the mathematical notation and terminology shared
-by the econ-ark theory/implementation thread (HARK, HAFiscal-Latest,
-BufferStockTheory-Latest, MethodOfModeration). One place rulings live; four
-generators fan them out to LaTeX, MyST/KaTeX, a human-readable table, and a
-prose lint. This ends the two failure modes that motivated it: rulings
+by the econ-ark papers and code (NARK, HARK, HAFiscal-Latest, BufferStockTheory-Latest,
+SolvingMicroDSOPs, TractableBufferStock, MethodOfModeration). Together with the hand-edited
+`../texlive/texmf-local/tex/latex/econark-shortcuts.sty` (owner ruling 2026-10-22: it stays
+hand-edited, and its copies are generated, with drift tests), this is where rulings live;
+the generators fan them out to LaTeX, MyST/KaTeX, a human-readable table, the Markdown
+mirror and a prose lint. This ends the two failure modes that motivated it: rulings
 propagated by hand to every repo, and shared macro files drifting apart
 (see `DRIFT-AUDIT-2026-07.md`).
 
@@ -18,13 +20,16 @@ propagated by hand to every repo, and shared macro files drifting apart
 | `gen/gen_myst.py` → `notation-math.yml` | a MyST `project.math` map, consumed via `extends:` |
 | `gen/gen_markdown.py` → `NOTATION.md` | the human/agent-readable table (read this before writing math/prose) |
 | `gen/gen_lint.py` → `notation-lint.sh` | word-boundary grep gate for banned terms |
-| `tests/check_sync.py` | regenerates all four in a tempdir, byte-compares, nonzero on drift |
+| `gen/gen_shortcuts.py` → `econark-math.yml`, `../markdown/econark-shortcuts.md` | the KaTeX-safe map of **every** shared macro (shortcuts + registry) for MyST, and the Markdown mirror BufferStockTheory-make reads |
+| `tests/check_sync.py` | regenerates every artifact in a tempdir, byte-compares, nonzero on drift |
+| `tests/check_shortcuts_agree.py` | every name in both `econark-shortcuts.sty` and the registry prints the same (pdflatex box sizes) |
 | `tests/latex_noclash_test.tex` | G0-2 compile fixture (loads shortcuts + notation, no clash) |
 | `CHANGELOG.md`, `RULING_TEMPLATE.md`, `DRIFT-AUDIT-2026-07.md` | history / PR template / initial drift report |
 
-**Generated files are committed AND checked** — never hand-edit `.sty`,
-`notation-math.yml`, `NOTATION.md`, `notation-lint.sh`. Edit the YAML, run the
-generators, run `python tests/check_sync.py`, commit.
+**Generated files are committed AND checked** — never hand-edit `econark-notation.sty`,
+`notation-math.yml`, `econark-math.yml`, `NOTATION.md`, `notation-lint.sh` or
+`../markdown/econark-shortcuts.md`. Edit the YAML (or `econark-shortcuts.sty`), run the
+generators, run `python tests/check_sync.py` and `python tests/check_shortcuts_agree.py`, commit.
 
 ## Font availability (KaTeX)
 
@@ -42,14 +47,13 @@ from an unstyled variable. Measured with KaTeX 0.18.4: `\mathscr{g}` emits the g
 That is the worst shape of rendering bug for a registry, and it is *asymmetric* when it hits one half
 of a pair: `\FDist` = `\mathcal{F}` rendered as a caligraphic F while `\fDist` = `\mathcal{f}`
 rendered as a plain f, so the distribution looked special and its density looked like any other
-variable (fixed in v0.5.0: `\fDist` = `\mathrm{f}`). MathJax draws real outlines for all of these, so
-the PDF and MathJax paths are unaffected — but the MyST output this directory generates is a KaTeX
-path.
+variable (fixed in v0.5.0: `\fDist` = `\mathrm{f}`). The PDF path is no refuge: Computer Modern's
+`\mathcal{g}` prints a right brace and mathrsfs's `\mathscr{g}` prints nothing ("There is no g in font
+rsfs10"), measured on jhu-dell 2026-10-22.
 
 Enforced by `tests/check_katex.py` (static scan, Python only; plus a deeper render probe when a node
-KaTeX is reachable, which is what would catch a NEW gap if KaTeX's coverage changes). One
-pre-existing violation, `\PtyGroRte` = `\mathscr{g}`, is waived in that file with the reasoning and
-a candidate fix, because correcting it is a notational ruling rather than a bug fix.
+KaTeX is reachable, which is what would catch a NEW gap if KaTeX's coverage changes). Its one waiver,
+`\PtyGroRte` = `\mathscr{g}`, ended in v5.0.0: productivity growth is sans-serif, 𝖦 and 𝗀.
 
 **Dependency:** the generators require Python 3 + `PyYAML`.
 
@@ -62,16 +66,21 @@ a candidate fix, because correcting it is a notational ruling rather than a bug 
   longer works) rsyncs `econ-ark-tools/@resources/` onto the repo's `@resources/`, so
   `@resources/notation/` appears there verbatim. (That pull is interactive and
   belongs to each repo's own session — do not run it from here.)
-- **LaTeX:** `\usepackage{econark-notation}` (point `TEXINPUTS` at this dir). It
-  is all `\providecommand`, so it loads alongside `econark-shortcuts.sty` without
-  clash — see precedence below.
+- **LaTeX:** `\usepackage{econark-shortcuts}` and, for the registry's own rows,
+  `\usepackage{econark-notation}`. TeX finds both through `@resources/texlive/texmf-local/tex/latex/`
+  (a symlink there points at this directory's `econark-notation.sty`). The registry is all
+  `\providecommand`, so it loads alongside the shortcuts without clash — see precedence below.
+  The shortcuts now declare what they need (amsmath, amssymb, cancel, graphicx, and eucal's
+  `\mathscr` if nothing has defined it), and their thorns work in any font encoding.
 - **MyST:** add the generated map to your `myst.yml` **top-level** `extends:` list
   (verified with mystmd 1.10.1 — `extends:` is a sibling of `version:`/`project:`,
   NOT under `project:`; a relative path resolves against the `myst.yml`'s dir):
   ```yaml
   extends:
-    - <relative-or-abs>/notation-math.yml
+    - <relative-or-abs>/econark-math.yml
   ```
+  `econark-math.yml` carries every shared macro (the shortcuts and the registry), KaTeX-tested;
+  `notation-math.yml` carries the registry's rows alone.
 - **Humans / agents:** read `NOTATION.md`. A consuming repo's `AGENTS.md` should
   carry: *"Notation and terminology rulings live in
   `@resources/notation/NOTATION.md` (version pinned by the @resources snapshot).
@@ -93,19 +102,12 @@ Consequences:
 
 - **Load `econark-notation.sty` alone** to get the registry's *base dialect*.
   Loading it first does not help.
-- All 38 macro names shared with `econark-shortcuts.sty` print the same symbol in
-  both (v4.0.0): `\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk \mTrgNrm`; the ten
-  rows added in v0.3.0–v0.6.0 (`\weight \splurge \vacCost \sepRte \ADElas \matchEff
-  \matchElas \vacFillPrb \jobFindPrb \tightness`); six from v1.0.0 (`\cFunc \uFunc
-  \PermGroRte \GPRte \prdt \prdNxt`); `\tranShkAll` and `\PermGroFac` (2026-10-21);
-  seven from v2.1.0 (`\tranShkEmp \IncUnemp \tranShkMin \tranShkEmpMin \permShkIndMin
-  \aMin \LivPrb`); `\thorn`; `\APFac`, a single `\textbf` thorn in both since v2.1.1;
-  and, since v4.0.0, `\RPFac \GPFacRaw \RNrmByG`: the bold thorn with subscripts (Þ_R
-  with the sans-serif R of `\Rfree`, Þ_𝒢) and calligraphic ℛ. So no shared name is a
-  dialect any more: a document that loads both files gets the registry's notation, and
-  NARK needs no overrides. The `dialects:` entries left in `notation.yml` are individual
-  documents' divergences (HARK's `hNrm`, the BST paper's γ for CRRA, the powerlaw
-  pages'). The other 38 registry macros are unique and always contributed.
+- Every macro name in both files prints the same thing: 61 of them at v5.0.0, checked by
+  `tests/check_shortcuts_agree.py`, which typesets each name with either file alone. So no shared
+  name is a dialect: a document that loads both files gets the registry's notation, and NARK needs
+  no overrides. The `dialects:` entries left in `notation.yml` record individual documents'
+  divergences: HARK's code names (`hNrm`, `BoroCnstNat`, `PermShk`), the BST paper's γ (to move to ρ),
+  and the powerlaw pages'.
 
 ## The powerlaw draft takes its notation from `@resources`
 
@@ -120,6 +122,13 @@ itself. Where those render differently from the shared ones, the `powerlaw-pages
 entries under `dialects:` record it, marked **NOT SANCTIONED**: they go when the
 pages take the shared macros, and they are not alternatives.
 
+**Registry scope (owner ruling 2026-10-22, 08:36:22 and 08:39:09).** Definitions unique to the powerlaw
+pages are not shared notation, so they left this registry for the pages' own definitions in v5.0.0:
+q̃, η_L, η_R, the buffer adjustment J (and the Kimball premium), the return-region edge ō, the travel
+time n, and the gap g. q_∞ and q_0 stay (HAFiscal and MethodOfModeration use them). Precautionary
+saving c̄(m) − c(m) stays a shared object, but not as the powerlaw draft's x; its shared symbol is still
+to be chosen, so its row defines no macro.
+
 ## Governance — proposing a ruling
 
 1. Open a PR editing `notation.yml` / `terminology.yml`, using
@@ -127,12 +136,15 @@ pages take the shared macros, and they are not alternatives.
    migration notes).
 2. Bump `meta.version` (SemVer: MAJOR = change an existing rendering or meaning;
    MINOR = additions; PATCH = gloss/typo). Add a `CHANGELOG.md` entry.
-3. Regenerate (`python gen/gen_*.py`), run `python tests/check_sync.py`, commit
-   the regenerated artifacts in the same PR. Owner merges.
+3. Regenerate (`for g in gen/gen_*.py; do python $g; done`), run `python tests/check_sync.py`,
+   `python tests/check_shortcuts_agree.py` and `python tests/check_katex.py`, and commit the
+   regenerated artifacts in the same PR. Owner merges.
 4. Consumers pick it up on their next `@resources` pull and bump deliberately.
 5. Frozen / append-only artifacts (grafted proof lineage, refuter-reviewed
    proofs, committed `*_out.txt` run logs, THEOREM-REF-pinned files) never
-   retro-conform; `--waive` them in the lint.
+   retro-conform; `--waive` them in the lint. Exception (owner ruling 2026-10-22 08:00:19):
+   frozen pages that a site SERVES to readers (the powerlaw pages' alt_proof_compactified) are
+   conformed like live pages.
 
 ## `notation.yml` schema
 

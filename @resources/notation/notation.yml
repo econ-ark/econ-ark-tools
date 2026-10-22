@@ -19,8 +19,10 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 4.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-10-21   #         MINOR = additions; PATCH = gloss/typo fixes
+  version: 5.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  updated: 2026-10-22   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 5.0.0: the 2026-10-22 rulings (survival ring, unemployment probability,
+                        #        Pareto exponent, productivity growth, ...); powerlaw-only rows leave
                         # 4.0.0: subscripted patience factors and calligraphic ℛ in both files, so
                         #        econark-shortcuts and the registry agree on every shared name
                         # 3.0.0: the return region's upper edge is ō (\wbarMax), not ζ (owner, 2026-10-21)
@@ -46,7 +48,7 @@ symbols:
         expansion: 'h − 1'
         home: "HARK's hNrm EXCLUDES the current period"
         note: "verified in HARK source 2026-07-14"
-        status: "MIGRATION-PENDING (ruling 4): a SEMANTIC divergence — needs an explicit owner ruling (rename / re-derive / waiver) before any HARK code change; do not touch code from this mission"
+        status: "DECLARED CODE DIALECT (owner ruling 2026-10-22 08:00:19: human wealth includes this period's income, as BST and this registry write it; HARK's hNrm stays h − 1 in code, and MethodOfModeration rewrites its w = m + h̄ as o)"
     ruling:
       date: 2026-07-14
       source: "BST feedback N1"
@@ -71,6 +73,7 @@ symbols:
     gloss: "matching-function elasticity — the searcher exponent in the matching function"
     define: "matches = eff * searchers^z * vacancies^(1-z)"
     latex: {macro: '\matchElas', expansion: 'z'}
+    aliases: ["the sce-wg-1-dev schemas also write z for the employment state, which no matching function shares: approved in their notation batch ('all five as written', 2026-10-21 20:43:30, sce-wg-1-dev session)"]
     unicode: 'z'
     conflicts_checked: "The one member of this block that keeps a single letter, because it is an EXPONENT: a multi-letter name crowds in e^{els} and tgt^{1-els}, measured against e^{alpha}. Greek was exhausted -- of the three unclaimed lowercase letters, omicron reads as Latin o, upsilon is too close to nu, and iota is too close to 1 and l at superscript size, which is exactly where this symbol lives. Of the lowercase Roman letters, n reads as individual employment beside N (which is employment in this very block) and x is the registry's precautionary-saving (\\psav, ruled 2026-07-16). z is unclaimed in both registry lineages, carries no macro, and appears zero times in the paper; NARK's meaning for it (leisure) is inert in this model."
     ruling: {date: 2026-08-30, source: "owner ruling: 'use z' -- after \\mathrm{els}, \\varkappa, \\upsilon and \\iota were each rejected in turn", rationale: "An exponent needs a single glyph; z is the only one left that is free everywhere and unambiguous at superscript size."}
@@ -141,7 +144,7 @@ symbols:
     unicode: 'o'
     python: 'wBarNrm'   # PROPOSED — no HARK use yet
     aliases: ["supersedes w̄ (\\bar{w}, 2026-07-14; the bar was BST's upper-bound mark, and the owner's 2026-07-17 caution was that bars tempt a constant reading); the macro keeps the name \\wbar so documents follow without edits"]
-    conflicts_checked: "o is claimed by no macro in econark-shortcuts.sty (only the generic \\oNrm) and by no other row. NARK prohibits uppercase O; the owner named only lowercase o, which NARK records as the exception. Reading hazard: the powerlaw draft also writes little-o, o(·), in its asymptotics (6 times in its math, beside 27 big-O), and total wealth is written o(m) at definitional sites."
+    conflicts_checked: "o is claimed by no macro in econark-shortcuts.sty (only the generic \\oNrm) and by no other row. NARK prohibits uppercase O; the owner named only lowercase o, which NARK records as the exception. Reading hazard: the powerlaw draft also writes little-o, o(·), in its asymptotics (6 times in its math, beside 27 big-O), and total wealth is written o(m) at definitional sites. The aggregate of total wealth may be written O: NARK lifts its ban on O for it (owner ruling 2026-10-22 08:03:43)."
     ruling: {date: 2026-10-21, source: "owner: 'I've reconsidered and think total wealth (human + nonhuman) should be just the roman letter o, not \\omicron.' (16:13:06 EDT), reversing his 'NARK and the registry should both use $\\omicron$ for \"overall\" (=total) wealth' (16:05:53 EDT); both typed in the BufferStockTheory-Latest session, relayed, and verified with claude-relay-check"}
 
 
@@ -154,13 +157,11 @@ symbols:
     ruling: {date: 2026-07-14, source: "BST feedback N2 (BST's own b := m−1 overbrace, BufferStockTheory.md MPCminDefn block)"}
 
   precautionary-saving:
-    gloss: "precautionary saving — the eXtra saving induced by precaution: the shortfall of consumption below BST's perfect-foresight rule"
-    define: "x(m) := c̄(m) − c(m) = κ̲·o − c(m), written x(o) in the perfect-foresight-wealth coordinate"
-    latex: {macro: '\psav', expansion: 'x'}
-    unicode: 'x'
-    aliases: ["RETIRED 2026-07-16: s(m) and g(w̄) — the pre-ruling symbols (one object now has one symbol; the coordinate shows in the argument). Anchor NAMES retaining g (thm-gT, thm-gC, eq-gap-def) are historical and unchanged."]
-    conflicts_checked: "x: \\xNrm in econark-shortcuts.sty is a generic letter macro with no semantic claim; the powerlaw corpus' x₀ validity threshold is unified to w̄₀; x_cut is a code identifier outside prose scope (verified 2026-07-16)"
-    ruling: {date: 2026-07-16, source: "owner ruling Q4 (reactions round, verbatim): 'x replaces both, and is defined as eXtra saving (induced by precaution) throughout'; supersedes the 2026-07-14 \\pcsNrm/'s' ruling — MAJOR bump"}
+    gloss: "precautionary saving: the shortfall of consumption below the perfect-foresight rule. A shared object (TractableBufferStock, MethodOfModeration, BST); its shared SYMBOL IS NOT YET CHOSEN, so this row defines no macro"
+    define: "c̄(m) − c(m)"
+    unicode: '(to be chosen)'
+    aliases: ["the powerlaw pages write x (\\psav, 'eXtra saving'), TractableBufferStock c̸ (\\psavFunc = \\cancel{c}), MethodOfModeration g: each declared in that paper until the shared symbol is chosen"]
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 2026-10-22 08:36:22 and 08:39:09 EDT: 'This is a definition unique to the powerlaw context that should not be in the overall registry'; then, shown the other papers' uses: keep the object, drop x, choose a shared symbol later. Earlier: 2026-07-16, x for the powerlaw draft ('x replaces both, and is defined as eXtra saving (induced by precaution) throughout')"}
 
   crra:
     gloss: "coefficient of relative risk aversion"
@@ -171,7 +172,7 @@ symbols:
       bst-paper:
         expansion: '\gamma'
         home: "BST published draft"
-        status: "MIGRATION-PENDING (ruling 4: single dialect across the four; the draft's gamma -> rho migration is owner-gated, do not execute)"
+        status: "TO MIGRATE (owner ruling 2026-10-22 07:31:41: 'Move to ρ; I'll ask AS'): BST moves to ρ once Chris has raised it with AS, together with the subscript factors (07:47:23)"
         note: "until migrated, cross-citing docs must state the map (the powerlaw pages' §2 does)"
     ruling: {date: 2026-07-14, source: "powerlaw §2 symbol dictionary + ruling 4"}
 
@@ -208,13 +209,19 @@ symbols:
     latex: {macro: '\permShk', expansion: '\psi'}
     unicode: 'ψ'
     python: 'PermShk'
+    dialects:
+      hark-python:
+        expansion: 'PermShk'
+        home: "in HARK's solver PermShk is ψ; the simulated shocks['PermShk'] is 𝒢ψ ('includes expected growth')"
+        status: "DECLARED CODE DIALECT (2026-10-22)"
 
-  zero-income-prob:
-    gloss: "probability of the zero-income event (the worst transitory atom)"
+  unemployment-prob:
+    gloss: "probability of the unemployment event, whatever income while unemployed ξ_U is; in BST, where ξ_U = 0, it is also the probability of zero income"
     latex: {macro: '\pZero', expansion: '\wp'}
     unicode: '℘'
-    python: 'pZero'
-    ruling: {date: 2026-07-14, source: "T5: part of the maintained income-process assumption where load-bearing; results surviving ℘=0 say so explicitly"}
+    python: 'UnempPrb'
+    conflicts_checked: "Was 'probability of the zero-income event', python pZero (used nowhere in HARK). HARK's UnempPrb is this object; the probability of the worst income is \\pWorst (HARK's WorstIncPrb). The two coincide when ξ_U = 0. Bears out the HARK-session ruling of 2026-10-20 16:01: 'it is improper to include the unemployment shock as just another value of the transitory shock'."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 2026-10-22 07:31:41 EDT: ℘ is the probability of unemployment (HARK UnempPrb), chosen over the probability of zero income. Earlier: 2026-07-14, T5"}
 
   mpc-min:
     gloss: "limiting MPC as m→∞ (PF MPC); pessimist/lower-bound underline"
@@ -250,7 +257,7 @@ symbols:
   patience-return:
     gloss: "return patience factor"
     define: "Þ_R = Þ/R"
-    latex: {macro: '\RPFac', expansion: '\APFac_{\mathsf{R}}'}
+    latex: {macro: '\RPFac', expansion: '\APFac_{\Rfree}'}
     unicode: 'Þ_R'
     aliases: ["\\ThornR — powerlaw pages, in plain type, so not an alias of the bold factor: see patience-abs's dialect"]
     conflicts_checked: "Written with a subscript, the return factor's sans-serif R (econark-shortcuts' \\Rfree = \\mathsf{R}; it was an italic R here), on the bold thorn. econark-shortcuts now writes \\APFac_{\\Rfree} instead of the ratio \\APFac/{\\Rfree} that defines it (v4.0.0: owner, in an earlier econ-ark-tools session at about 16:48 EDT: 'OK, implement your recs' (one form for econark-shortcuts and the registry, so that NARK needs no overrides; recorded in commit b23e5668 on branch notation-patience-factor-forms, whose session transcript is not on jhu-dell); then in this session at 22:40:21 EDT: 'I want to reconcile and merge all the branches on which we have been trying already to reconcile notation')."
@@ -296,17 +303,10 @@ symbols:
       source: "owner ruling (supersedes the 2026-07-14 q↓ arrow): subscript-limit notation q_0 (constraint end, mᵉ→0)"
       rationale: "PROVEN q_0 = ρ (CRRA); q_0 names the constraint limit; avoids the vector reading of arrows; the letter r stays reserved for the interest rate"
 
-  compensation-exponent:
-    gloss: "trial/compensation exponent in the detection machinery"
-    latex: {macro: '\qtilde', expansion: '\tilde{q}'}
-    unicode: 'q̃'
-    aliases: ["alt_proof_compactified.md retains s for this internally (declared bridge)"]
-    ruling: {date: 2026-07-14, source: "feedback revision: frees the letter s for precautionary saving on reader-facing pages"}
-
   # --- 2026-07-16 editorial-pass additions (owner rulings Q2/Q3/Q5) ---
 
   thorn-glyph:
-    gloss: "lowercase thorn glyph provision — the RATE partner of Þ; referenced by \\GPRte/\\APRte/\\RPRte in econark-shortcuts.sty, which never defined it (latent-broken until this ruling)"
+    gloss: "lowercase thorn glyph provision — the RATE partner of Þ; referenced by \\GPRte/\\APRte/\\RPRte; econark-shortcuts.sty has defined it since v2.1.0"
     latex: {macro: '\thorn', expansion: '\text{þ}'}
     unicode: 'þ'
     conflicts_checked: "KaTeX-safe by the same device as \\Thorn -> \\text{Þ} (verified in the powerlaw myst build 2026-07-16); LaTeX-safe under T1/fontspec"
@@ -329,39 +329,6 @@ symbols:
     conflicts_checked: "\\GPRte pre-exists in econark-shortcuts.sty:301 with this exact expansion; this ruling provisions the missing \\thorn glyph (see thorn-glyph) and adopts the macro corpus-wide"
     ruling: {date: 2026-07-16, source: "owner ruling Q2 (reactions round): option (i), sign = ln of the factor; use the existing macro"}
 
-  travel-time-to-target:
-    gloss: "periods of perfect-foresight descent from o to the target neighborhood (the log-clock); frees T to mean ONLY the terminal/resumption date"
-    define: "n(o) ≈ ln o / (−þ_g)"
-    latex: {macro: '\trvTime', expansion: 'n'}
-    unicode: 'n'
-    aliases: ["supersedes τ (owner ruling Q3, 2026-07-16): τ is econark-shortcuts' \\TaxRte / \\tax and HAFiscal's tax rate"]
-    conflicts_checked: "n is claimed by no macro in econark-shortcuts.sty (only the generic \\nNrm) and by no other row here, and HAFiscal's paper does not use it. It stays italic: n names only this function, so the function-vs-quantity convention needs no upright form. One overlap, accepted by the owner: BufferStockTheory writes n for the periods remaining before the terminal date T (\\cFunc_{T-n}, and the powerlaw draft's MPC recursion), also a number of periods but counted back from T rather than forward to the target. The powerlaw draft's shell count n(w̄) = ln(w̄/w̄_a)/(−þ_g) is the same object: its anchor w̄_a and the travel time's ō (return-region; ζ until 2026-10-21) differ by an additive constant, which the ≈ in the log-clock already absorbs. The draft's sequence subscripts (delta_n, F_n, M_n) are dummy indices. BufferStockTheory's powerlaw pages switched \\trvTime to n on 2026-10-21. tau was dropped because the 2026-07-16 case for it, glyph reuse across DISJOINT corpora with no fiscal objects in the theory pages, stopped holding once HAFiscal, which writes tau for its tax rate, took its notation from this registry."
-    ruling: {date: 2026-10-21, source: "owner: 'I like n for number of periods', then 'yes, go ahead with n', after the audit found the Greek alphabet exhausted for this purpose", rationale: "A number of periods, so n; a single italic glyph because it appears in exponents (Rcal^{-n(w̄)}); and it frees tau for the tax rate everywhere."}
-
-  gap-remainder-left:
-    gloss: "left remainder of the exact one-step gap identity (Lemma 5.1); collects evaluation-point/linearization corrections; vanishes in the asymptotic region"
-    define: "0 ≤ η_L ≤ K_L/o"
-    latex: {macro: '\etaL', expansion: '\eta_{L}'}
-    unicode: 'η_L'
-    conflicts_checked: "η unused across econark-shortcuts.sty, local-macros.sty, the MyST maps and BufferStockTheory.tex (verified 2026-07-16); replaces r_L — r reads as an interest rate"
-    ruling: {date: 2026-07-16, source: "owner ruling Q3 (reactions round)"}
-
-  gap-remainder-right:
-    gloss: "right remainder of the exact one-step gap identity (Lemma 5.1)"
-    define: "|η_R| ≤ K_R/o"
-    latex: {macro: '\etaR', expansion: '\eta_{R}'}
-    unicode: 'η_R'
-    ruling: {date: 2026-07-16, source: "owner ruling Q3 (reactions round)"}
-
-  buffer-adjustment:
-    gloss: "J — textual name THE KIMBALL PRECAUTIONARY PREMIUM (KPP), restored by owner 2026-07-17 (always positive in the asymptotic region, though not monotone in wealth; the SUM of premia grows with each backward step; the analytic formula is asymptotic-only). 'The adjustment' survives only for the buffer-stock-motion concept, which is SIGNED in general (an oversized buffer stock adjusts downward), provably positive in the high-wealth asymptotic region (the forcing floor)"
-    define: "o·J(o) → κ̲(ρ+1)σ²/(2Þ_𝒢)   (transitory-only limit)"
-    latex: {macro: '\bufAdj', expansion: 'J'}
-    unicode: 'J'
-    aliases: ["RETIRED same-PR before any consumption: \\KimPrem / 'Kimball precautionary premium' / 'dividend' — banned terms (terminology.yml): they connote a strictly positive flow"]
-    conflicts_checked: "J carries only generic letter macros (\\JLvl/\\JNrm/\\JFunc) in econark-shortcuts.sty — no semantic claim (verified 2026-07-16)"
-    ruling: {date: 2026-07-17, source: "owner rulings 2026-07-16 (the flow is 'the adjustment') as CORRECTED 2026-07-17: the buffer stock is END-OF-PERIOD ASSETS a (a LEVEL, not a wealth-cushion deviation; target â = m̂ − c(m̂), ℛâ + 1 = m̂ at ψ≡1); 'financing' retired as x's narrative name — x is the discounted stock of adjustments still to be provided"}
-
   period-now:
     gloss: "current-period index (house time tooling; = econark-shortcuts \\prdt)"
     latex: {macro: '\prdt', expansion: 't'}
@@ -370,7 +337,7 @@ symbols:
 
   period-next:
     gloss: "next-period index (house time tooling; = econark-shortcuts \\prdNxt)"
-    latex: {macro: '\prdNxt', expansion: 't+1'}
+    latex: {macro: '\prdNxt', expansion: '\prdt+1'}
     unicode: 't+1'
     conflicts_checked: "renders identically to econark-shortcuts.sty's \\prdNxt (\\prdt+1) (\\providecommand semantics)"
 
@@ -408,11 +375,6 @@ symbols:
     gloss: "next-period perfect-foresight total wealth (time-pair convention)"
     latex: {macro: '\wbarNxt', expansion: '\wbar\Nxt'}
     unicode: 'o_{t+1}'
-
-  precautionary-saving-next:
-    gloss: "next-period precautionary saving (time-pair convention)"
-    latex: {macro: '\psavNxt', expansion: '\psav\Nxt'}
-    unicode: 'x_{t+1}'
 
   transitory-shock-next:
     gloss: "next-period transitory shock (time-pair convention): ξ_{t+1}; the powerlaw pages still write θ_{t+1}, which is not sanctioned (see transitory-shock-all)"
@@ -467,11 +429,6 @@ symbols:
     latex: {macro: '\wbarNow', expansion: '\wbar\Now'}
     unicode: 'o_t'
 
-  precautionary-saving-now:
-    gloss: "current-period precautionary saving (path-equation dating)"
-    latex: {macro: '\psavNow', expansion: '\psav\Now'}
-    unicode: 'x_t'
-
   function-vs-quantity-convention:
     gloss: "ruling 9 v2, as amended 2026-07-17: a function whose letter also names a quantity is UPRIGHT with its argument (BST's \\cFunc convention — \\cFunc(m), \\psavFunc(m), \\bufAdjFunc(o), \\uFunc); the italic letters are the quantities. A letter that names ONLY a function needs no upright form (the gap g, Greek functions). Primes are reserved for differentiation, on upright letters only; path equations date every variable, function equations keep the state bare and date the function. The 'dual-guise' framing is PROHIBITED (owner, 2026-07-17) — state the convention concretely"
     ruling: {date: 2026-07-17, source: "owner: BST \\cFunc convention adopted 2026-07-17 AM; 'I'm going to strictly prohibit you from using what you call a textbook dual-guise object' + the gap-g prescription, 2026-07-17 PM"}
@@ -488,47 +445,17 @@ symbols:
     unicode: 'u(·) upright'
     conflicts_checked: "consistent with the econark-shortcuts \\uFunc family (\\uFuncInv builds on it)"
 
-  precautionary-saving-function:
-    gloss: "precautionary saving as a FUNCTION of the STATE m only, upright: x(m) — NEVER applied to o (owner, 2026-07-17: the o-coordinate function is the gap g); the italic letter x is the quantity"
-    latex: {macro: '\psavFunc', expansion: '\mathrm{x}'}
-    unicode: 'x(·) upright'
-
-  gap:
-    gloss: "THE GAP — the PF-wealth-coordinate function, REVIVED 2026-07-17 (partially reverting the 2026-07-16 Q4 merger of s(m)/g(o) into x): a bare italic letter (g names nothing else, so no upright form), with g(o(m)) = x(m)"
-    define: "g(o) := κ̲·o − c(m(o))"
-    unicode: 'g(o)'
-    ruling: {date: 2026-07-17, source: "owner: 'If you really need to have something that is a function of w̄, then you can revert to your definition of the gap as g as a function of w̄'"}
-
-  buffer-adjustment-function:
-    gloss: "the adjustment as a FUNCTION, upright (applications J(o)); the italic letter J is the flow quantity"
-    latex: {macro: '\bufAdjFunc', expansion: '\mathrm{J}'}
-    unicode: 'J(·) upright'
-    conflicts_checked: "\\JFunc in econark-shortcuts is the generic letter macro — no semantic clash"
-
   target:
     gloss: "individual buffer-stock target: E[m′/m] = 1 at m̂ (WRIC+FVAC+GIC-Mod)"
     latex: {macro: '\mTrgNrm', expansion: '\hat{m}'}
     unicode: 'm̂'
-    python: 'mTrgNrm'
+    python: 'mNrmTrg'
 
   pseudo-target:
     gloss: "balanced-growth pseudo-target (GIC-Raw)"
     latex: {macro: '\mBalLvl', expansion: '\check{m}'}
     unicode: 'm̌'
-    python: 'mBalLvl'
-
-  return-region:
-    gloss: "the upper edge of the return region, the compact interval around the target that the renewal argument uses: above ō, perfect-foresight total wealth o falls. The region exists because ξ has bounded support, and its edge is computable"
-    define: "ō = C₀/(1 − Þ_𝒢), the fixed point of o ↦ Þ_𝒢 o + C₀, with C₀ = max(1, ξ̄ − 1 + ℛ·ḡ); the travel time to the region is n(o) = ln(o/ō)/(−þ_g)"
-    latex: {macro: '\wbarMax', expansion: '\bar{o}'}
-    unicode: 'ō'
-    conflicts_checked: "Was ζ. econark-shortcuts gives ζ to \\leiShare and \\unins, the registry's one remaining overlap with it, and the powerlaw draft also writes ζ* for the Kesten root, the wealth distribution's Pareto exponent, for which ζ is the literature's letter (Gabaix). ō is the object's own letter, o, with the registry's bar for an upper bound (κ̄, h̄, and ḡ in C₀); no macro in econark-shortcuts.sty or row here writes it. The macro joins \\wbar's family (\\wbar is o) and follows shortcuts' Max suffix (\\tranShkMax). C₀'s θ_max, the powerlaw pages' θ, is ξ̄ (\\tranShkMax)."
-    dialects:
-      powerlaw-pages:
-        expansion: '\zeta'
-        home: "final_proof.md §5.2 and §8: ζ := C₀/(1−Þ_Γ), the enlargement constant and the return region's upper edge; also n(w̄) = ln(w̄/ζ)/(−þ_g)"
-        status: "NOT SANCTIONED. Owner, 2026-10-21: 'the powerlaw work needs to use the same @resources/econ-ark-tools approach as the other papers; that way it does not have many things to define, except mathematical objects absent from the other wor[k]' (typed 17:12:27 EDT in the econ-ark-tools session, clarifying his ruling of 17:08:24). This records what the macros the pages define for themselves in their myst.yml still write; it goes when they take the shared macros from @resources"
-    ruling: {date: 2026-10-21, source: "owner: 'OK, o-bar sounds great implement that' (typed 22:07:59 EDT in the econ-ark-tools session), answering a proposal to replace ζ with ō. Earlier: 2026-07-14, feedback T3/C3 (def-return-region anchor)"}
+    python: 'mNrmStE'
 
   # --- MoM set (source: MethodOfModeration content/macros.yml — promote as shared
   #     since the powerlaw pages now cite the bar-convention) ---
@@ -604,6 +531,7 @@ symbols:
   worst-income-prob:
     gloss: "the probability of the worst income ψ̲ξ̲, the mass at it; ℘ in BST's case, where the worst income is 0"
     latex: {macro: '\pWorst', expansion: 'p_{\mathrm{worst}}'}
+    python: 'WorstIncPrb'
     unicode: 'p_worst'
     plain: 'p_worst'
     conflicts_checked: "\\pWorst is new; no macro in econark-shortcuts.sty or row here has that name. Italic p with an upright subscript does not collide with shortcuts' bold \\pLvl, permanent income in levels."
@@ -626,6 +554,12 @@ symbols:
     plain: 'a_Nat'
     python: 'BoroCnstNat'
     conflicts_checked: "New macro, named for HARK's attribute. BufferStockTheory-Latest's docs/@local/local-macros.sty has \\NatBoroCnstra = \\underline{a} for this object; in BST there is no artificial constraint, so the natural one is the one in force (borrowing-limit) and \\underline{a} is right there."
+    dialects:
+      hark-python:
+        expansion: 'BoroCnstNat'
+        home: "HARK computes BoroCnstNat from next period's mNrmMin, which already includes BoroCnstArt (ConsIndShockModel.py)"
+        note: "equals a̲_Nat only when the artificial constraint never binds"
+        status: "DECLARED CODE DIALECT (2026-10-22)"
     ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
 
   borrowing-limit:
@@ -654,3 +588,167 @@ symbols:
     python: 'LivPrb'
     conflicts_checked: "econark-shortcuts' \\LivPrb (through \\Alive), the same rendering. The powerlaw pages' \\Lfun is \\mathfrak{L}, a different letterform; uppercase, so KaTeX draws \\mathcal{L} correctly."
     ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
+
+  # --- 2026-10-22: rows for the day's rulings, and for shared objects the registry had left to
+  #     econark-shortcuts alone. Each prints as econark-shortcuts prints it. ---
+
+  return-factor:
+    gloss: "return factor on the safe asset"
+    latex: {macro: '\Rfree', expansion: '\mathsf{R}'}
+    unicode: '𝖱'
+    python: 'Rfree'
+    conflicts_checked: "r and R name only rates of return and return factors (owner, 2026-07-19 14:00:51: 'a strict prohibition for using the letter r or R or any font or modal ... of them for anything other than some version of a rate of return or return factor')."
+
+  return-blanchard:
+    gloss: "Blanchard-adjusted return factor, R/ℒ: the safe return to a survivor"
+    define: "R̊ = R/ℒ"
+    latex: {macro: '\RfreeEff', expansion: '\mathring{\Rfree}'}
+    unicode: '𝖱̊'
+    conflicts_checked: "Was \\bar{\\Rfree}, the same glyph as \\RBoro (the borrowing rate). The ring is the mark for 'includes survival' (see discount-factor-liv)."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 08:13:40 EDT: the Blanchard-adjusted rate becomes R̊ (the survival ring); the borrowing rate keeps R̄"}
+
+  return-borrowing:
+    gloss: "return factor on borrowing"
+    latex: {macro: '\RBoro', expansion: '\bar{\Rfree}'}
+    unicode: '𝖱̄'
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 08:13:40 EDT: the Blanchard-adjusted rate becomes R̊ (the survival ring); the borrowing rate keeps R̄"}
+
+  discount-factor:
+    gloss: "time-preference discount factor, EXCLUDING survival"
+    latex: {macro: '\DiscFac', expansion: '\beta'}
+    unicode: 'β'
+    python: 'DiscFac'
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \\beta and \\LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \\accented{\\beta} = \\beta \\LivPrb, and \\accented{\\APFac} = (\\Rfree \\accented{\\beta})^{1/\\rho} (etc).'; accent chosen at 07:27:11: the ring"}
+
+  discount-factor-liv:
+    gloss: "discount factor INCLUDING survival: β̊ = βℒ. The ring marks a survival-inclusive variant"
+    define: "β̊ = βℒ"
+    latex: {macro: '\DiscFacLiv', expansion: '\mathring{\DiscFac}'}
+    unicode: 'β̊'
+    python: 'DiscFacEff'
+    conflicts_checked: "Was \\underline{\\beta} (\\Min{\\DiscFacRaw}), but an underline also marks a lower bound. The ring is used nowhere else in econark-shortcuts, the registry or the five papers (checked 2026-10-22); hat and check are the target and pseudo-target. HARK's DiscFacEff = DiscFac·LivPrb."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \\beta and \\LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \\accented{\\beta} = \\beta \\LivPrb, and \\accented{\\APFac} = (\\Rfree \\accented{\\beta})^{1/\\rho} (etc).'; accent chosen at 07:27:11: the ring"}
+
+  patience-abs-liv:
+    gloss: "absolute patience factor INCLUDING survival"
+    define: "Þ̊ = (R β̊)^{1/ρ} = ℒ^{1/ρ} Þ"
+    latex: {macro: '\APFacLiv', expansion: '\mathring{\APFac}'}
+    unicode: 'Þ̊'
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \\beta and \\LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \\accented{\\beta} = \\beta \\LivPrb, and \\accented{\\APFac} = (\\Rfree \\accented{\\beta})^{1/\\rho} (etc).'; accent chosen at 07:27:11: the ring"}
+
+  patience-return-liv:
+    gloss: "return patience factor INCLUDING survival"
+    define: "Þ̊_R = Þ̊/R"
+    latex: {macro: '\RPFacLiv', expansion: '\APFacLiv_{\Rfree}'}
+    unicode: 'Þ̊_R'
+    python: 'PatFac'
+    conflicts_checked: "HARK's PatFac is this object (it includes LivPrb)."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \\beta and \\LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \\accented{\\beta} = \\beta \\LivPrb, and \\accented{\\APFac} = (\\Rfree \\accented{\\beta})^{1/\\rho} (etc).'; accent chosen at 07:27:11: the ring"}
+
+  patience-growth-liv:
+    gloss: "growth patience factor INCLUDING survival"
+    define: "Þ̊_𝒢 = Þ̊/𝒢"
+    latex: {macro: '\GPFacLiv', expansion: '\APFacLiv_{\PermGroFac}'}
+    unicode: 'Þ̊_𝒢'
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \\beta and \\LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \\accented{\\beta} = \\beta \\LivPrb, and \\accented{\\APFac} = (\\Rfree \\accented{\\beta})^{1/\\rho} (etc).'; accent chosen at 07:27:11: the ring"}
+
+  expectation:
+    gloss: "expectations operator"
+    latex: {macro: '\Ex', expansion: '\mathbb{E}'}
+    unicode: '𝔼'
+
+  e-perm-shk-inv:
+    gloss: "expectation of the inverse permanent shock"
+    latex: {macro: '\EPermShkInv', expansion: '\Ex[\permShk^{-1}]'}
+    unicode: '𝔼[ψ⁻¹]'
+
+  inv-e-perm-shk-inv:
+    gloss: "the growth-compensated permanent shock (𝔼[ψ⁻¹])⁻¹, written out"
+    latex: {macro: '\InvEPermShkInv', expansion: '{(\EPermShkInv)}^{-1}'}
+    unicode: '(𝔼[ψ⁻¹])⁻¹'
+    conflicts_checked: "Was \\underline{\\psi}, which in the BST paper also meant ψ's lowest value (\\permShkIndMin): two objects, one glyph. The minimum keeps ψ̲."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 08:15:54 and 08:31:10 EDT: the minimum keeps ψ̲; (𝔼[ψ⁻¹])⁻¹ is written out"}
+
+  patience-growth-mod:
+    gloss: "growth patience factor with the risk-adjusted growth factor"
+    define: "Þ_𝒢 𝔼[ψ⁻¹]"
+    latex: {macro: '\GPFacMod', expansion: '\GPFacRaw\EPermShkInv'}
+    unicode: 'Þ_𝒢𝔼[ψ⁻¹]'
+    conflicts_checked: "BST's form, now the shared one; econark-shortcuts wrote \\APFac_{\\PermGroFacAdj} until v5.0.0."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 08:00:19 EDT: \\GPFacMod takes BST's product form"}
+
+  mpc:
+    gloss: "marginal propensity to consume"
+    latex: {macro: '\MPC', expansion: '\kappa'}
+    unicode: 'κ'
+
+  aggregate-transitory-shock:
+    gloss: "aggregate transitory shock: the aggregate of the employed draw θ (ξ has no aggregate)"
+    latex: {macro: '\TranShkAgg', expansion: '\Theta'}
+    unicode: 'Θ'
+    python: 'TranShkAgg'
+    aliases: ["\\TranShkEmp — the same object under its case-rule name"]
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 08:06:54 EDT: Θ is the aggregate of θ; \\TranShkAgg canonical, \\TranShkEmp an alias"}
+
+  capital-share:
+    gloss: "capital share (Cobb-Douglas)"
+    latex: {macro: '\kapShare', expansion: '\alpha'}
+    unicode: 'α'
+    conflicts_checked: "econark-shortcuts also gave α to \\CARA, now the word cara."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:57:56 EDT: α is the capital share"}
+
+  cara:
+    gloss: "coefficient of absolute risk aversion, written as a word"
+    latex: {macro: '\CARA', expansion: '\mathrm{cara}'}
+    unicode: 'cara'
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 08:18:06 EDT: CARA becomes a word, \\mathrm{cara}"}
+
+  labor:
+    gloss: "labor (or labor productivity)"
+    latex: {macro: '\labor', expansion: '\ell'}
+    unicode: 'ℓ'
+    conflicts_checked: "econark-shortcuts also gave ℓ to a lowercase survival probability, \\livPrb, used by no paper and retired; survival is ℒ (\\LivPrb)."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 08:15:54 EDT: ℓ is labor, φ the log equity premium; \\livPrb and \\prstShk retired"}
+
+  equity-premium-log:
+    gloss: "log equity premium"
+    latex: {macro: '\eprem', expansion: '\phi'}
+    unicode: 'φ'
+    conflicts_checked: "econark-shortcuts also gave φ to a persistent shock (\\prstShk, \\prstShkInd), used by no paper and retired."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 08:15:54 EDT: ℓ is labor, φ the log equity premium; \\livPrb and \\prstShk retired"}
+
+  leisure-share:
+    gloss: "leisure share"
+    latex: {macro: '\leiShare', expansion: '\zeta'}
+    unicode: 'ζ'
+    conflicts_checked: "econark-shortcuts also gave ζ to \\unins, TractableBufferStock's uninsurance rate, which now lives in that paper (as λ, since the paper uses ζ for its own ℛκΠ/Γ)."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:35:28 and 08:25:26 EDT: the leisure share keeps ζ; \\unins is TractableBufferStock's own"}
+
+  pareto-exponent:
+    gloss: "Pareto (tail) exponent of the wealth distribution"
+    latex: {macro: '\paretoExp', expansion: '\varepsilon'}
+    unicode: 'ε'
+    conflicts_checked: "Written ζ (ζ* for the Kesten root) in the BST paper, the powerlaw draft and the sce-wg-1-dev schemas; ζ stays with the leisure share."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:31:41 and 07:35:28 EDT: ζ stays in the shared file; the Pareto exponent is ε"}
+
+  discount-factor-spread:
+    gloss: "spread of discount factors across types"
+    latex: {macro: '\DiscFacSprd', expansion: '\nabla'}
+    unicode: '∇'
+    conflicts_checked: "As HAFiscal writes it (34 uses) and as Chris writes it; NARK's ν is \\DiscRte."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 08:33:44 EDT: add a registry row for ∇"}
+
+  population-growth:
+    gloss: "population growth factor; its rate is written ln Ξ, with no letter of its own"
+    latex: {macro: '\PopnGroFac', expansion: '\Xi'}
+    unicode: 'Ξ'
+    aliases: ["\\PopGroFac", "\\PopnGroRte, \\popGroRte = ln Ξ (ξ was deprecated for population growth on 2026-10-21)"]
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:35:28 EDT: factor Ξ, rate ln Ξ; \\TranShkAll retired"}
+
+  productivity-growth:
+    gloss: "productivity growth factor; its rate is \\PtyGroRte = 𝗀"
+    latex: {macro: '\PtyGroFac', expansion: '\mathsf{G}'}
+    unicode: '𝖦'
+    aliases: ["\\ptyGroFac (same object)", "\\PtyGroRte, \\ptyGroRte = \\mathsf{g}"]
+    conflicts_checked: "Was script G (shared with \\PermGroFacAgg), a script g that no font has (it printed nothing in PDF), and Roman G and g (clashing with \\permGroFacInd and \\PermGroRte). Sans-serif also marks \\Rfree, \\DiePrb and \\wage."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:44:34 EDT: sans-serif 𝖦 and 𝗀 for productivity growth"}
