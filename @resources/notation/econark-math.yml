@@ -1,4 +1,4 @@
-# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v5.0.0. DO NOT EDIT.
+# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v6.0.0. DO NOT EDIT.
 # Every shared macro, KaTeX-safe. Consume via `extends: [<path>/econark-math.yml]` in myst.yml.
 # Regenerate: python @resources/notation/gen/gen_shortcuts.py
 version: 1
@@ -217,7 +217,8 @@ project:
     '\DiscAlt': '\beth'
     '\DiscAltuAdj': '\Min{\Min{\beth}}'
     '\DiscFacRaw': '\beta'
-    '\DiscFacLiv': '\mathring{\DiscFacRaw}'
+    '\DiscFacEff': '\mathring{\DiscFacRaw}'
+    '\DiscFacLiv': '\DiscFacEff'
     '\DiscRte': '\nu'
     '\discRte': '\nu'
     '\Thorn': '\text{Þ}'
@@ -228,9 +229,10 @@ project:
     '\GPFacRaw': '\APFac_{\PermGroFac}'
     '\GPFacMod': '\GPFacRaw\EPermShkInv'
     '\RPFac': '\APFac_{\Rfree}'
-    '\APFacLiv': '\mathring{\APFac}'
-    '\RPFacLiv': '\APFacLiv_{\Rfree}'
-    '\GPFacLiv': '\APFacLiv_{\PermGroFac}'
+    '\APFacEff': '\mathring{\APFac}'
+    '\RPFacEff': '\APFacEff_{\Rfree}'
+    '\GPFacEff': '\APFacEff_{\PermGroFac}'
+    '\GPFacLiv': '\LivPrb\GPFacEff'
     '\RPRte': '\text{\thorn}_{\rfree}'
     '\GPRte': '\text{\thorn}_{\PermGroRte}'
     '\APRte': '\text{\thorn}'
@@ -244,7 +246,7 @@ project:
     '\LivPrb': '\Alive'
     '\pNotZero': '(1-\pZero)'
     '\CARA': '\mathrm{cara}'
-    '\CRRA': '\rho'
+    '\CRRA': '\varrho'
     '\MPC': '\kappa'
     '\vacCost': '\mathrm{cst}'
     '\sepRte': '\mathrm{sep}'

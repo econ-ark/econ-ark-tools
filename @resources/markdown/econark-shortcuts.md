@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v5.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v6.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -214,7 +214,8 @@
 \newcommand{\DiscAlt}{\beth}
 \newcommand{\DiscAltuAdj}{\Min{\Min{\beth}}}
 \newcommand{\DiscFacRaw}{\beta}
-\newcommand{\DiscFacLiv}{\mathring{\DiscFacRaw}}
+\newcommand{\DiscFacEff}{\mathring{\DiscFacRaw}}
+\newcommand{\DiscFacLiv}{\DiscFacEff}
 \newcommand{\DiscRte}{\nu}
 \newcommand{\discRte}{\nu}
 \newcommand{\Thorn}{\text{Þ}}
@@ -225,9 +226,10 @@
 \newcommand{\GPFacRaw}{\APFac_{\PermGroFac}}
 \newcommand{\GPFacMod}{\GPFacRaw\EPermShkInv}
 \newcommand{\RPFac}{\APFac_{\Rfree}}
-\newcommand{\APFacLiv}{\mathring{\APFac}}
-\newcommand{\RPFacLiv}{\APFacLiv_{\Rfree}}
-\newcommand{\GPFacLiv}{\APFacLiv_{\PermGroFac}}
+\newcommand{\APFacEff}{\mathring{\APFac}}
+\newcommand{\RPFacEff}{\APFacEff_{\Rfree}}
+\newcommand{\GPFacEff}{\APFacEff_{\PermGroFac}}
+\newcommand{\GPFacLiv}{\LivPrb\GPFacEff}
 \newcommand{\RPRte}{\text{\thorn}_{\rfree}}
 \newcommand{\GPRte}{\text{\thorn}_{\PermGroRte}}
 \newcommand{\APRte}{\text{\thorn}}
@@ -241,7 +243,7 @@
 \newcommand{\LivPrb}{\Alive}
 \newcommand{\pNotZero}{(1-\pZero)}
 \newcommand{\CARA}{\mathrm{cara}}
-\newcommand{\CRRA}{\rho}
+\newcommand{\CRRA}{\varrho}
 \newcommand{\MPC}{\kappa}
 \newcommand{\vacCost}{\mathrm{cst}}
 \newcommand{\sepRte}{\mathrm{sep}}

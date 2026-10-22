@@ -106,7 +106,7 @@ Consequences:
   `tests/check_shortcuts_agree.py`, which typesets each name with either file alone. So no shared
   name is a dialect: a document that loads both files gets the registry's notation, and NARK needs
   no overrides. The `dialects:` entries left in `notation.yml` record individual documents'
-  divergences: HARK's code names (`hNrm`, `BoroCnstNat`, `PermShk`), the BST paper's γ (to move to ρ),
+  divergences: HARK's code names (`hNrm`, `BoroCnstNat`, `PermShk`), the BST paper's γ (to move to `\CRRA`, ϱ),
   and the powerlaw pages'.
 
 ## The powerlaw draft takes its notation from `@resources`

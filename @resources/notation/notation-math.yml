@@ -1,4 +1,4 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v5.0.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v6.0.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
@@ -21,9 +21,9 @@ project:
     '\cFunc': '\mathrm{c}'
     '\cNrmNxt': 'c\Nxt'
     '\cNrmNow': 'c\Now'
-    '\CRRA': '\rho'
+    '\CRRA': '\varrho'
     '\DiscFac': '\beta'
-    '\DiscFacLiv': '\mathring{\DiscFac}'
+    '\DiscFacEff': '\mathring{\DiscFac}'
     '\DiscFacSprd': '\nabla'
     '\EPermShkInv': '\Ex[\permShk^{-1}]'
     '\eprem': '\phi'
@@ -51,12 +51,13 @@ project:
     '\MPCmin': '\underline{\kappa}'
     '\paretoExp': '\varepsilon'
     '\APFac': '\textbf{Þ}'
-    '\APFacLiv': '\mathring{\APFac}'
+    '\APFacEff': '\mathring{\APFac}'
     '\GPFacRaw': '\APFac_{\PermGroFac}'
-    '\GPFacLiv': '\APFacLiv_{\PermGroFac}'
+    '\GPFacEff': '\APFacEff_{\PermGroFac}'
     '\GPFacMod': '\GPFacRaw\EPermShkInv'
+    '\GPFacLiv': '\LivPrb\GPFacEff'
     '\RPFac': '\APFac_{\Rfree}'
-    '\RPFacLiv': '\APFacLiv_{\Rfree}'
+    '\RPFacEff': '\APFacEff_{\Rfree}'
     '\prdNxt': '\prdt+1'
     '\Nxt': '_{\prdNxt}'
     '\prdt': 't'
