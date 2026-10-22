@@ -91,22 +91,40 @@ Consequences:
 
 - **Load `econark-notation.sty` alone** to get the registry's *base dialect*.
   Loading it first does not help.
-- Of the 30 macro names shared with `econark-shortcuts.sty`, 26 render identically
+- Of the 38 macro names shared with `econark-shortcuts.sty`, 34 render identically
   — pure no-op: `\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk \mTrgNrm`; the
   ten rows added in v0.3.0–v0.6.0 (`\weight \splurge \vacCost \sepRte \ADElas
   \matchEff \matchElas \vacFillPrb \jobFindPrb \tightness`), each of which
   transcribes the shortcuts definition; and six from v1.0.0 (`\cFunc \uFunc
   \PermGroRte \GPRte \prdt \prdNxt`); and `\tranShkAll`, since shortcuts now
   defines it as `\tranShkInd` (owner ruling 2026-10-21: the same shock); and
-  `\PermGroFac`, now 𝒢 in both (owner ruling 2026-10-21). **4 render
+  `\PermGroFac`, now 𝒢 in both (owner ruling 2026-10-21); and seven from v2.1.0
+  (`\tranShkEmp \IncUnemp \tranShkMin \tranShkEmpMin \permShkIndMin \aMin \LivPrb`),
+  `\IncUnemp` since shortcuts writes ξ_U too (2026-10-21); and `\thorn`, the rates' glyph,
+  which shortcuts used without defining until 2026-10-21 and now defines as `\text{\th}`. **4 render
   differently**, where shortcuts wins when both load:
   `\RNrmByG` (`\mathcal{R}` vs `\mathscr{R}`),
   `\APFac` / `\RPFac` / `\GPFacRaw` (the registry's
-  Þ-symbol forms vs shortcuts' `\pmb{\Thorn}` / ratio forms). These are the
+  `\textbf{Þ}` with subscripts, Þ_R and Þ_𝒢, vs shortcuts' `\text{\pmb{\Thorn}}`
+  and its ratio forms Þ/R and Þ/𝒢; both are bold since v2.0.0, by different
+  devices). These are the
   declared **MIGRATION-PENDING** dialects (see the `dialects:` entries in
   `notation.yml`); reconciling them is owner-gated (single-dialect ruling), not
-  something loading order should silently decide. The other 35 registry macros
+  something loading order should silently decide. The other 38 registry macros
   are unique and always contributed.
+
+## The powerlaw draft takes its notation from `@resources`
+
+The powerlaw pages (`theory/powerlaw-decay/` in BufferStockTheory-Latest) use the
+same `@resources/` approach as the other papers. Owner, 2026-10-21: *"the powerlaw
+work needs to use the same @resources/econ-ark-tools approach as the other papers;
+that way it does not have many things to define, except mathematical objects absent
+from the other wor[k]"*. So the shared notation comes from `@resources/` (for MyST,
+`notation-math.yml` through `extends:`), and the pages define for themselves only
+the objects that no other paper has. Today their `myst.yml` defines about 60 macros
+itself. Where those render differently from the shared ones, the `powerlaw-pages`
+entries under `dialects:` record it, marked **NOT SANCTIONED**: they go when the
+pages take the shared macros, and they are not alternatives.
 
 ## Governance — proposing a ruling
 
@@ -132,12 +150,18 @@ symbols:
     define:  "<defining equation, unicode>"          # optional
     latex:   {macro: '\Xyz', expansion: '<latex>'}   # optional (gloss-only objects omit it)
     unicode: '<glyph(s)>'
+    plain:   '<name for terminals and code>'           # optional; see below
     python:  '<HARKishName>'                          # optional; PROPOSED if not in use
     aliases: ["<sanctioned alternates + where>"]      # optional
     dialects: {<key>: {expansion, home, note, status}}   # optional; DECLARED divergences
     conflicts_checked: "<what was verified against what>"  # optional
     ruling:  {date, source, rationale}
 ```
+
+`plain` is the name to use in terminals, plain-text prose and code where `unicode` needs a
+combining underline (U+0332), which many terminals draw under the next cell: `κ_min` for κ̲,
+`a_Nat` for a̲_Nat. It is never pasted into LaTeX as it stands. Marks above a letter (m̂, κ̄, q̃)
+draw correctly and get no `plain`.
 
 Generators emit symbols **sorted by semantic key**, with no timestamps, so
 re-running is byte-identical (that is what `check_sync` enforces). Dialects are

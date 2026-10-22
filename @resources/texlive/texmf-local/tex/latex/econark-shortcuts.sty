@@ -224,7 +224,8 @@
 \ARKcommand{\TranShkEmp}{\Theta}     % agg
 \ARKcommand{\tranShkEmpMin}{\Min{\tranShkEmp}}    
 \ARKcommand{\tranShkEmpMax}{\Max{\tranShkEmp}}    
-\ARKcommand{\IncUnemp}{\mu}  % Income in unemployment
+\ARKcommand{\IncUnemp}{\xi_{\mathrm{U}}}  % Income in unemployment: the transitory shock's value in the unemployment event
+%  (owner, 2026-10-21; was \mu, which the notation registry gives to log excess resources, \logmNrmEx)
 
 %% Agg variables (also affect individuals)
 \ARKcommand{\TranShkAgg}{\Theta}   % 
@@ -290,6 +291,11 @@
 \ARKcommand{\DiscRte}{\nu} % vartheta is too easily confused with theta
 \ARKcommand{\discRte}{\nu} % 
 
+% The thorn glyphs. \APFac and the *PRte rates used \Thorn and \thorn, which this file never
+% defined, so a document loading it without its own definitions failed (2026-10-21). \Thorn is
+% BufferStockTheory's definition (bold); \thorn is plain, as a rate is. Both need T1 encoding.
+\ARKcommand{\Thorn}{\text{\pmb{\TH}}}
+\ARKcommand{\thorn}{\text{\th}}
 \ARKcommand{\APFac}{\text{\pmb{\Thorn}}} % Former \Pat
 \ARKcommand{\APFacDefn}{\hyperlink{APFacDefn}{\textrm{APF}}}
 

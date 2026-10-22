@@ -36,12 +36,12 @@ def render(notation, terminology):
     out.append("")
     out.append("## Symbols")
     out.append("")
-    out.append("| Object | Symbol | Macro | Expansion | Python | Gloss |")
-    out.append("|---|---|---|---|---|---|")
+    out.append("| Object | Symbol | Plain | Macro | Expansion | Python | Gloss |")
+    out.append("|---|---|---|---|---|---|---|")
     for key, e in C.sorted_symbols(notation):
         latex = e.get("latex") or {}
-        out.append("| {} | {} | {} | {} | {} | {} |".format(
-            cell(key), cell(e.get("unicode")),
+        out.append("| {} | {} | {} | {} | {} | {} | {} |".format(
+            cell(key), cell(e.get("unicode")), code(e.get("plain")),
             code(latex.get("macro")), code(latex.get("expansion")),
             code(e.get("python")), cell(e.get("gloss")),
         ))
