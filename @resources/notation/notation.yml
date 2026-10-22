@@ -19,8 +19,10 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 3.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 4.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-10-21   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 4.0.0: subscripted patience factors and calligraphic ℛ in both files, so
+                        #        econark-shortcuts and the registry agree on every shared name
                         # 3.0.0: the return region's upper edge is ō (\wbarMax), not ζ (owner, 2026-10-21)
                         # 2.1.1: econark-shortcuts' \APFac bolds the thorn once (owner, 2026-10-21)
                         # 2.1.0: rows for the buffer-stock schemas' symbols; the plain field;
@@ -248,17 +250,19 @@ symbols:
   patience-return:
     gloss: "return patience factor"
     define: "Þ_R = Þ/R"
-    latex: {macro: '\RPFac', expansion: '\textbf{Þ}_{R}'}
+    latex: {macro: '\RPFac', expansion: '\APFac_{\mathsf{R}}'}
     unicode: 'Þ_R'
     aliases: ["\\ThornR — powerlaw pages, in plain type, so not an alias of the bold factor: see patience-abs's dialect"]
+    conflicts_checked: "Written with a subscript, the return factor's sans-serif R (econark-shortcuts' \\Rfree = \\mathsf{R}; it was an italic R here), on the bold thorn. econark-shortcuts now writes \\APFac_{\\Rfree} instead of the ratio \\APFac/{\\Rfree} that defines it (v4.0.0: owner, in an earlier econ-ark-tools session at about 16:48 EDT: 'OK, implement your recs' (one form for econark-shortcuts and the registry, so that NARK needs no overrides; recorded in commit b23e5668 on branch notation-patience-factor-forms, whose session transcript is not on jhu-dell); then in this session at 22:40:21 EDT: 'I want to reconcile and merge all the branches on which we have been trying already to reconcile notation')."
     ruling: {date: 2026-10-21, source: "owner: 'yes, factor rows should change to bold' (typed 17:06:17 EDT in the econ-ark-tools session), answering whether these rows should follow his standing rule of 2026-10-04: a factor, a number compared with 1, is written with a bold capital thorn; a rate, its log, with a small thorn (\\thorn, unchanged)", rationale: "the registry had written every patience factor in plain type, contradicting that rule while nothing recorded the question as open. Unicode has no bold thorn, so the unicode and define fields still write Þ; the LaTeX expansion carries the bold"}
 
   patience-growth:
     gloss: "growth patience factor"
     define: "Þ_𝒢 = Þ/𝒢"
-    latex: {macro: '\GPFacRaw', expansion: '\textbf{Þ}_{\PermGroFac}'}
+    latex: {macro: '\GPFacRaw', expansion: '\APFac_{\PermGroFac}'}
     unicode: 'Þ_𝒢'
     aliases: ["\\ThornG — powerlaw pages, in plain type and with Γ, so not an alias of the bold factor: see patience-abs's and growth-factor's dialects"]
+    conflicts_checked: "Written with a subscript on the bold thorn. econark-shortcuts now writes \\APFac_{\\PermGroFac} instead of the ratio \\APFac/{\\PermGroFac}, and its \\GPFac is \\GPFacRaw instead of a separate copy (v4.0.0: owner, in an earlier econ-ark-tools session at about 16:48 EDT: 'OK, implement your recs' (one form for econark-shortcuts and the registry, so that NARK needs no overrides; recorded in commit b23e5668 on branch notation-patience-factor-forms, whose session transcript is not on jhu-dell); then in this session at 22:40:21 EDT: 'I want to reconcile and merge all the branches on which we have been trying already to reconcile notation')."
     ruling: {date: 2026-10-21, source: "owner: 'yes, factor rows should change to bold' (typed 17:06:17 EDT in the econ-ark-tools session), answering whether these rows should follow his standing rule of 2026-10-04: a factor, a number compared with 1, is written with a bold capital thorn; a rate, its log, with a small thorn (\\thorn, unchanged)", rationale: "the registry had written every patience factor in plain type, contradicting that rule while nothing recorded the question as open. Unicode has no bold thorn, so the unicode and define fields still write Þ; the LaTeX expansion carries the bold"}
 
   return-growth-ratio:
@@ -267,6 +271,8 @@ symbols:
     latex: {macro: '\RNrmByG', expansion: '\mathcal{R}'}
     unicode: 'ℛ'
     aliases: ["\\Rcal — powerlaw pages (\\mathcal{R})"]
+    conflicts_checked: "econark-shortcuts now agrees (it drew \\RNrmByG as \\mathscr{R} until v4.0.0); calligraphic is also its \\Rnorm, the same R/𝒢."
+    ruling: {date: 2026-10-21, source: "owner, in an earlier econ-ark-tools session at about 16:48 EDT: 'OK, implement your recs' (one form for econark-shortcuts and the registry, so that NARK needs no overrides; recorded in commit b23e5668 on branch notation-patience-factor-forms, whose session transcript is not on jhu-dell); then in this session at 22:40:21 EDT: 'I want to reconcile and merge all the branches on which we have been trying already to reconcile notation'"}
 
   high-wealth-exponent:
     gloss: "high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q_∞)"

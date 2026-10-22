@@ -1,4 +1,4 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v3.0.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v4.0.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
@@ -42,8 +42,8 @@ project:
     '\MPCmax': '\overline{\kappa}'
     '\MPCmin': '\underline{\kappa}'
     '\APFac': '\textbf{Þ}'
-    '\GPFacRaw': '\textbf{Þ}_{\PermGroFac}'
-    '\RPFac': '\textbf{Þ}_{R}'
+    '\GPFacRaw': '\APFac_{\PermGroFac}'
+    '\RPFac': '\APFac_{\mathsf{R}}'
     '\prdNxt': 't+1'
     '\Nxt': '_{\prdNxt}'
     '\prdt': 't'

@@ -85,32 +85,27 @@ a candidate fix, because correcting it is a notational ruling rather than a bug 
 already defined. `econark-shortcuts.sty` defines through `\ARKcommand`, which is
 `\providecommand` followed by `\renewcommand`, so it **overwrites**. When a
 document loads BOTH files, shortcuts' definition therefore wins for every shared
-name, in EITHER order (pdflatex, 2026-10-21: `\RNrmByG` takes shortcuts'
-`\mathscr{R}` with the registry loaded first or second).
+name, in EITHER order (pdflatex, 2026-10-21, while the two still differed: `\RNrmByG`
+took shortcuts' then-`\mathscr{R}` with the registry loaded first or second). Since
+v4.0.0 every shared name prints the same symbol in both, so the order matters only
+if they drift apart again.
 Consequences:
 
 - **Load `econark-notation.sty` alone** to get the registry's *base dialect*.
   Loading it first does not help.
-- Of the 38 macro names shared with `econark-shortcuts.sty`, 35 render identically
-  — pure no-op: `\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk \mTrgNrm`; the
-  ten rows added in v0.3.0–v0.6.0 (`\weight \splurge \vacCost \sepRte \ADElas
-  \matchEff \matchElas \vacFillPrb \jobFindPrb \tightness`), each of which
-  transcribes the shortcuts definition; and six from v1.0.0 (`\cFunc \uFunc
-  \PermGroRte \GPRte \prdt \prdNxt`); and `\tranShkAll`, since shortcuts now
-  defines it as `\tranShkInd` (owner ruling 2026-10-21: the same shock); and
-  `\PermGroFac`, now 𝒢 in both (owner ruling 2026-10-21); and seven from v2.1.0
-  (`\tranShkEmp \IncUnemp \tranShkMin \tranShkEmpMin \permShkIndMin \aMin \LivPrb`),
-  `\IncUnemp` since shortcuts writes ξ_U too (2026-10-21); and `\thorn`, the rates' glyph,
-  which shortcuts used without defining until 2026-10-21 and now defines as `\text{\th}`; and
-  `\APFac`, a single `\textbf` thorn in both since v2.1.1. **3 render
-  differently**, where shortcuts wins when both load:
-  `\RNrmByG` (`\mathcal{R}` vs `\mathscr{R}`),
-  `\RPFac` / `\GPFacRaw` (the registry's subscript forms Þ_R and Þ_𝒢 vs shortcuts'
-  ratio forms Þ/R and Þ/𝒢; the thorn is bold in both). These are the
-  declared **MIGRATION-PENDING** dialects (see the `dialects:` entries in
-  `notation.yml`); reconciling them is owner-gated (single-dialect ruling), not
-  something loading order should silently decide. The other 39 registry macros
-  are unique and always contributed.
+- All 38 macro names shared with `econark-shortcuts.sty` print the same symbol in
+  both (v4.0.0): `\CRRA \MPCmin \MPCmax \bNrm \hNrm \pZero \permShk \mTrgNrm`; the ten
+  rows added in v0.3.0–v0.6.0 (`\weight \splurge \vacCost \sepRte \ADElas \matchEff
+  \matchElas \vacFillPrb \jobFindPrb \tightness`); six from v1.0.0 (`\cFunc \uFunc
+  \PermGroRte \GPRte \prdt \prdNxt`); `\tranShkAll` and `\PermGroFac` (2026-10-21);
+  seven from v2.1.0 (`\tranShkEmp \IncUnemp \tranShkMin \tranShkEmpMin \permShkIndMin
+  \aMin \LivPrb`); `\thorn`; `\APFac`, a single `\textbf` thorn in both since v2.1.1;
+  and, since v4.0.0, `\RPFac \GPFacRaw \RNrmByG`: the bold thorn with subscripts (Þ_R
+  with the sans-serif R of `\Rfree`, Þ_𝒢) and calligraphic ℛ. So no shared name is a
+  dialect any more: a document that loads both files gets the registry's notation, and
+  NARK needs no overrides. The `dialects:` entries left in `notation.yml` are individual
+  documents' divergences (HARK's `hNrm`, the BST paper's γ for CRRA, the powerlaw
+  pages'). The other 38 registry macros are unique and always contributed.
 
 ## The powerlaw draft takes its notation from `@resources`
 
