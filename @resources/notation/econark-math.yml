@@ -1,4 +1,4 @@
-# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v6.0.0. DO NOT EDIT.
+# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v7.0.0. DO NOT EDIT.
 # Every shared macro, KaTeX-safe. Consume via `extends: [<path>/econark-math.yml]` in myst.yml.
 # Regenerate: python @resources/notation/gen/gen_shortcuts.py
 version: 1
@@ -237,8 +237,8 @@ project:
     '\GPRte': '\text{\thorn}_{\PermGroRte}'
     '\APRte': '\text{\thorn}'
     '\EPermShkInv': '\Ex[\permShk^{-1}]'
-    '\InvEPermShkInv': '{(\EPermShkInv)}^{-1}'
-    '\uInvEuPermShk': '\Min{\Min{\permShk}}'
+    '\InvEPermShkInv': '{\PowMean_{-1}[\permShk]}'
+    '\uInvEuPermShk': '{\PowMean_{1-\CRRA}[\permShk]}'
     '\RfreeEff': '\mathring{\Rfree}'
     '\PopnGroFac': '\Xi'
     '\PopnGroRte': '\ln\PopnGroFac'
@@ -330,6 +330,7 @@ project:
     '\TMap': '\mathbb{T}'
     '\Ex': '{\mathbb{E}}'
     '\Mean': '{\mathbb{M}}'
+    '\PowMean': '{\mathcal{M}}'
     '\cncl': '{\cancel{#1}}'
     '\cnstr': '\grave{#1}'
     '\avg': '\bar'

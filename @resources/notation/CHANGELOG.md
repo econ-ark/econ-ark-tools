@@ -3,6 +3,24 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v7.0.0 — 2026-10-22
+
+**The compensated permanent shocks are power means (13:17:19 to 13:27:14).** The owner: "I want to replace
+the decision in which we decided that this object should be replaced (in text) by its meaning.  We need some
+shorthand for it, based on accenting or something.  Make some proposals". Of the proposals (an acute, an
+under-tilde, a subscript H, a power-mean operator) he chose the power mean (13:22:19). He extended it to the
+utility-compensated shock (13:22:38), and chose calligraphic ℳ over 𝕄 (13:27:14), because 𝕄 (`\Mean`) is the BST
+paper's population mean. MAJOR: two renderings change.
+- New operator `\PowMean` = ℳ, with ℳ_p[x] ≡ (𝔼[x^p])^{1/p}.
+- `\InvEPermShkInv` = ℳ₋₁[ψ], the harmonic mean: the growth-compensated permanent shock (𝔼[ψ⁻¹])⁻¹. This
+  replaces 08:31:10's written-out form. The BST calibration table's row now reads ℳ₋₁[ψ] ≡ (𝔼[ψ⁻¹])⁻¹ instead
+  of an identity.
+- `\uInvEuPermShk` = ℳ_{1−ϱ}[ψ], the utility-compensated permanent shock (𝔼[ψ^{1−ϱ}])^{1/(1−ϱ)}. Until now it was a
+  double underline on ψ.
+- Unchanged: the minimum ψ̲ (`\permShkIndMin`), 𝒢̲ (`\PermGroFacAdj`) and the double-underlined `\PermGroFacuAdj`
+  and `\DiscAltuAdj`.
+- New registry rows `power-mean` and `u-inv-e-u-perm-shk`.
+
 ## v6.0.0 — 2026-10-22
 
 **Risk aversion is ϱ (10:58:30).** The owner, in the econ-ark-tools session: "I think we ought to designate
