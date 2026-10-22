@@ -3,6 +3,17 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v2.1.1 — 2026-10-21
+
+- **econark-shortcuts' `\APFac` bolds the thorn once** (owner: "yes, it should be a single \textbf
+  not double"). It was `\text{\pmb{\Thorn}}`, and with BufferStockTheory's `\Thorn` = `\pmb{\TH}`
+  (and v2.1.0's copy of it here) the thorn was bolded twice and looked smeared. Now `\Thorn` is
+  the plain glyph `\text{\TH}` and `\APFac` is `\textbf{\Thorn}`, the registry's rendering, so
+  `\APFac` leaves the README's list of macros that render differently. BST's
+  `\providecommand{\Thorn}{\pmb{\TH}}` (local.sty, the slides) becomes a no-op whichever loads
+  first, since shortcuts' `\ARKcommand` overwrites; its tikz `\Pat` = `\textbf{\Thorn}` is
+  single-bold too. `\RPFac` and `\GPFacRaw` keep their ratio forms.
+
 ## v2.1.0 — 2026-10-21
 
 Requested by the buffer-stock schemas' session (llorracc/sce-wg-1-dev), item 5 of its notation

@@ -19,8 +19,9 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 2.1.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 2.1.1        # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-10-21   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 2.1.1: econark-shortcuts' \APFac bolds the thorn once (owner, 2026-10-21)
                         # 2.1.0: rows for the buffer-stock schemas' symbols; the plain field;
                         #        mpc-min defined as max(0, 1 − Þ_R) (owner, 2026-10-21)
                         # 2.0.0: the patience factors \APFac, \RPFac, \GPFacRaw take a bold
@@ -235,7 +236,7 @@ symbols:
     latex: {macro: '\APFac', expansion: '\textbf{Þ}'}
     unicode: 'Þ'
     aliases: ["\\Thorn — the powerlaw pages' macro, in plain type (\\text{Þ}; verified KaTeX-safe 2026-07-14), so not an alias of the bold factor: see the dialect below"]
-    conflicts_checked: "econark-shortcuts.sty's \\APFac is already bold, by a different device (\\text{\\pmb{\\Thorn}}, poor man's bold); \\textbf is a real bold face in LaTeX and KaTeX alike."
+    conflicts_checked: "econark-shortcuts.sty's \\APFac is \\textbf{\\Thorn}, with \\Thorn the plain glyph \\text{\\TH}: the same rendering. Until 2026-10-21 it was \\text{\\pmb{\\Thorn}}, and with BufferStockTheory's \\Thorn = \\pmb{\\TH} the thorn was bolded twice; the owner ruled for 'a single \\textbf not double'."
     dialects:
       powerlaw-pages:
         expansion: '\text{Þ}'
