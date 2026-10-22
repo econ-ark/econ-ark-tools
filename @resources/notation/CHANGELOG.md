@@ -3,6 +3,19 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v3.0.0 — 2026-10-21
+
+- **MAJOR — the return region's upper edge is ō, not ζ** (owner: "OK, o-bar sounds great
+  implement that", 22:07:59 EDT). The `return-region` row now has a macro, `\wbarMax` = `\bar{o}`:
+  ō = C₀/(1 − Þ_𝒢), the fixed point of o ↦ Þ_𝒢 o + C₀, which anchors the travel time
+  n(o) = ln(o/ō)/(−þ_g). o is the object's own letter (total wealth) and the bar is the registry's
+  mark for an upper bound (κ̄, h̄, ḡ). This ends the registry's one remaining overlap with
+  econark-shortcuts (ζ is its `\leiShare` and `\unins`) and leaves ζ to the powerlaw draft's ζ*,
+  the Pareto exponent, for which ζ is the literature's letter. The draft's ζ is recorded as a NOT
+  SANCTIONED `powerlaw-pages` dialect.
+- The same row wrote the powerlaw pages' θ for the transitory shock: its gloss now says ξ has
+  bounded support, and C₀'s θ_max is ξ̄ (`\tranShkMax`).
+
 ## v2.1.1 — 2026-10-21
 
 - **econark-shortcuts' `\APFac` bolds the thorn once** (owner: "yes, it should be a single \textbf

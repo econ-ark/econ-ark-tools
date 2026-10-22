@@ -109,7 +109,7 @@ Consequences:
   ratio forms Þ/R and Þ/𝒢; the thorn is bold in both). These are the
   declared **MIGRATION-PENDING** dialects (see the `dialects:` entries in
   `notation.yml`); reconciling them is owner-gated (single-dialect ruling), not
-  something loading order should silently decide. The other 38 registry macros
+  something loading order should silently decide. The other 39 registry macros
   are unique and always contributed.
 
 ## The powerlaw draft takes its notation from `@resources`

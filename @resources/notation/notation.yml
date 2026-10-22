@@ -19,8 +19,9 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 2.1.1        # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 3.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-10-21   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 3.0.0: the return region's upper edge is ō (\wbarMax), not ζ (owner, 2026-10-21)
                         # 2.1.1: econark-shortcuts' \APFac bolds the thorn once (owner, 2026-10-21)
                         # 2.1.0: rows for the buffer-stock schemas' symbols; the plain field;
                         #        mpc-min defined as max(0, 1 − Þ_R) (owner, 2026-10-21)
@@ -328,7 +329,7 @@ symbols:
     latex: {macro: '\trvTime', expansion: 'n'}
     unicode: 'n'
     aliases: ["supersedes τ (owner ruling Q3, 2026-07-16): τ is econark-shortcuts' \\TaxRte / \\tax and HAFiscal's tax rate"]
-    conflicts_checked: "n is claimed by no macro in econark-shortcuts.sty (only the generic \\nNrm) and by no other row here, and HAFiscal's paper does not use it. It stays italic: n names only this function, so the function-vs-quantity convention needs no upright form. One overlap, accepted by the owner: BufferStockTheory writes n for the periods remaining before the terminal date T (\\cFunc_{T-n}, and the powerlaw draft's MPC recursion), also a number of periods but counted back from T rather than forward to the target. The powerlaw draft's shell count n(w̄) = ln(w̄/w̄_a)/(−þ_g) is the same object: its anchor w̄_a and the travel time's ζ differ by an additive constant, which the ≈ in the log-clock already absorbs. The draft's sequence subscripts (delta_n, F_n, M_n) are dummy indices. BufferStockTheory's powerlaw pages switched \\trvTime to n on 2026-10-21. tau was dropped because the 2026-07-16 case for it, glyph reuse across DISJOINT corpora with no fiscal objects in the theory pages, stopped holding once HAFiscal, which writes tau for its tax rate, took its notation from this registry."
+    conflicts_checked: "n is claimed by no macro in econark-shortcuts.sty (only the generic \\nNrm) and by no other row here, and HAFiscal's paper does not use it. It stays italic: n names only this function, so the function-vs-quantity convention needs no upright form. One overlap, accepted by the owner: BufferStockTheory writes n for the periods remaining before the terminal date T (\\cFunc_{T-n}, and the powerlaw draft's MPC recursion), also a number of periods but counted back from T rather than forward to the target. The powerlaw draft's shell count n(w̄) = ln(w̄/w̄_a)/(−þ_g) is the same object: its anchor w̄_a and the travel time's ō (return-region; ζ until 2026-10-21) differ by an additive constant, which the ≈ in the log-clock already absorbs. The draft's sequence subscripts (delta_n, F_n, M_n) are dummy indices. BufferStockTheory's powerlaw pages switched \\trvTime to n on 2026-10-21. tau was dropped because the 2026-07-16 case for it, glyph reuse across DISJOINT corpora with no fiscal objects in the theory pages, stopped holding once HAFiscal, which writes tau for its tax rate, took its notation from this registry."
     ruling: {date: 2026-10-21, source: "owner: 'I like n for number of periods', then 'yes, go ahead with n', after the audit found the Greek alphabet exhausted for this purpose", rationale: "A number of periods, so n; a single italic glyph because it appears in exponents (Rcal^{-n(w̄)}); and it frees tau for the tax rate everywhere."}
 
   gap-remainder-left:
@@ -511,10 +512,17 @@ symbols:
     python: 'mBalLvl'
 
   return-region:
-    gloss: "the compact interval around the target that the renewal argument uses; exists because θ has bounded support; upper edge computable"
-    define: "upper edge ζ = C₀/(1−Þ_𝒢), C₀ = max(1, θ_max − 1 + ℛ·ḡ)"
-    unicode: 'ζ (edge)'
-    ruling: {date: 2026-07-14, source: "feedback T3/C3 (def-return-region anchor)"}
+    gloss: "the upper edge of the return region, the compact interval around the target that the renewal argument uses: above ō, perfect-foresight total wealth o falls. The region exists because ξ has bounded support, and its edge is computable"
+    define: "ō = C₀/(1 − Þ_𝒢), the fixed point of o ↦ Þ_𝒢 o + C₀, with C₀ = max(1, ξ̄ − 1 + ℛ·ḡ); the travel time to the region is n(o) = ln(o/ō)/(−þ_g)"
+    latex: {macro: '\wbarMax', expansion: '\bar{o}'}
+    unicode: 'ō'
+    conflicts_checked: "Was ζ. econark-shortcuts gives ζ to \\leiShare and \\unins, the registry's one remaining overlap with it, and the powerlaw draft also writes ζ* for the Kesten root, the wealth distribution's Pareto exponent, for which ζ is the literature's letter (Gabaix). ō is the object's own letter, o, with the registry's bar for an upper bound (κ̄, h̄, and ḡ in C₀); no macro in econark-shortcuts.sty or row here writes it. The macro joins \\wbar's family (\\wbar is o) and follows shortcuts' Max suffix (\\tranShkMax). C₀'s θ_max, the powerlaw pages' θ, is ξ̄ (\\tranShkMax)."
+    dialects:
+      powerlaw-pages:
+        expansion: '\zeta'
+        home: "final_proof.md §5.2 and §8: ζ := C₀/(1−Þ_Γ), the enlargement constant and the return region's upper edge; also n(w̄) = ln(w̄/ζ)/(−þ_g)"
+        status: "NOT SANCTIONED. Owner, 2026-10-21: 'the powerlaw work needs to use the same @resources/econ-ark-tools approach as the other papers; that way it does not have many things to define, except mathematical objects absent from the other wor[k]' (typed 17:12:27 EDT in the econ-ark-tools session, clarifying his ruling of 17:08:24). This records what the macros the pages define for themselves in their myst.yml still write; it goes when they take the shared macros from @resources"
+    ruling: {date: 2026-10-21, source: "owner: 'OK, o-bar sounds great implement that' (typed 22:07:59 EDT in the econ-ark-tools session), answering a proposal to replace ζ with ō. Earlier: 2026-07-14, feedback T3/C3 (def-return-region anchor)"}
 
   # --- MoM set (source: MethodOfModeration content/macros.yml — promote as shared
   #     since the powerlaw pages now cite the bar-convention) ---
