@@ -1,4 +1,4 @@
-% econark-notation.sty — AUTO-GENERATED from notation.yml v6.0.0. DO NOT EDIT.
+% econark-notation.sty — AUTO-GENERATED from notation.yml v7.0.0. DO NOT EDIT.
 % Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 % Uses \providecommand: defers to any macro already defined (e.g. by
 % econark-shortcuts.sty). Load alone/first for the registry's base dialect.
@@ -34,7 +34,7 @@
 \providecommand{\hNrmOpt}{\bar{h}}  % human-wealth-optimist
 \providecommand{\hNrmPes}{\underline{h}}  % human-wealth-pessimist
 \providecommand{\IncUnemp}{\xi_{\mathrm{U}}}  % income-unemployed
-\providecommand{\InvEPermShkInv}{{(\EPermShkInv)}^{-1}}  % inv-e-perm-shk-inv
+\providecommand{\InvEPermShkInv}{{\PowMean_{-1}[\permShk]}}  % inv-e-perm-shk-inv
 \providecommand{\jobFindPrb}{\mathrm{find}}  % job-find-probability
 \providecommand{\kNrmNxt}{k\Nxt}  % kapital-next
 \providecommand{\kNrmNow}{k\Now}  % kapital-now
@@ -65,6 +65,7 @@
 \providecommand{\permShkIndMin}{\underline{\psi}}  % permanent-shock-min
 \providecommand{\permShkNxt}{\psi\Nxt}  % permanent-shock-next
 \providecommand{\PopnGroFac}{\Xi}  % population-growth
+\providecommand{\PowMean}{{\mathcal{M}}}  % power-mean
 \providecommand{\PtyGroFac}{\mathsf{G}}  % productivity-growth
 \providecommand{\mBalLvl}{\check{m}}  % pseudo-target
 \providecommand{\mNrmEx}{\ddot{m}}  % resources-excess
@@ -85,6 +86,7 @@
 \providecommand{\tranShkEmpMin}{\underline{\theta}}  % transitory-shock-employed-min
 \providecommand{\tranShkMin}{\underline{\xi}}  % transitory-shock-min
 \providecommand{\tranShkNxt}{\tranShkAll\Nxt}  % transitory-shock-next
+\providecommand{\uInvEuPermShk}{{\PowMean_{1-\CRRA}[\permShk]}}  % u-inv-e-u-perm-shk
 \providecommand{\pZero}{\wp}  % unemployment-prob
 \providecommand{\uFunc}{\mathrm{u}}  % utility-function
 \providecommand{\vacCost}{\mathrm{cst}}  % vacancy-cost

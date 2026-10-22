@@ -2,7 +2,7 @@
 % @resources/notation/notation.yml, the single source of notation for the papers).
 % Explicit definitions only (no factory/\@for loops); Lvl/Nrm/Func for a-z and A-Z are inline.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{econark-shortcuts}[2026/10/22 v6.0.0 Econ-ARK shared notation]
+\ProvidesPackage{econark-shortcuts}[2026/10/22 v7.0.0 Econ-ARK shared notation]
 % What the macros below need (2026-10-22). eucal is loaded only if no package has defined
 % \mathscr already, so a class that loads it with its own options is not disturbed.
 \RequirePackage{amsmath,amssymb,cancel,graphicx}
@@ -328,8 +328,11 @@
 \ARKcommand{\APRte}{\text{\thorn}}
 
 \ARKcommand{\EPermShkInv}{\Ex[\permShk^{-1}]}  % Formerly EpShkInv
-\ARKcommand{\InvEPermShkInv}{{(\EPermShkInv)}^{-1}} % written out (owner ruling 2026-10-22): \underline{\psi} is the minimum, \permShkIndMin
-\ARKcommand{\uInvEuPermShk}{\Min{\Min{\permShk}}} % Formerly {\uInvEpShkuInv}
+% The growth- and utility-compensated permanent shocks are power means of psi (owner ruling 2026-10-22):
+% the harmonic mean M_{-1}[psi] = (E[psi^{-1}])^{-1}, and M_{1-rho}[psi] = (E[psi^{1-rho}])^{1/(1-rho)}.
+% (They were \underline{\psi}, which is also the minimum \permShkIndMin, and a double underline.)
+\ARKcommand{\InvEPermShkInv}{{\PowMean_{-1}[\permShk]}}
+\ARKcommand{\uInvEuPermShk}{{\PowMean_{1-\CRRA}[\permShk]}} % Formerly {\uInvEpShkuInv}
 
 \ARKcommand{\RfreeEff}{\mathring{\Rfree}} % Blanchard-adjusted return R/\LivPrb: the survival ring (owner ruling 2026-10-22); R-bar is \RBoro
 
@@ -524,7 +527,8 @@
 
 \ARKcommand{\TMap}{\mathbb{T}}                  % Bellman operator for normalized problem
 \ARKcommand{\Ex}{{\mathbb{E}}} % Expectations operator
-\ARKcommand{\Mean}{{\mathbb{M}}} % Mean operator
+\ARKcommand{\Mean}{{\mathbb{M}}} % Mean operator: the population (cross-sectional) mean, as BST defines it
+\ARKcommand{\PowMean}{{\mathcal{M}}} % power mean: \PowMean_{p}[x] = (\Ex[x^{p}])^{1/p}; calligraphic, since \Mean is the population mean
 \ARKcommandParam{\cncl}{1}{{\cancel{#1}}} % cancellation
 
 

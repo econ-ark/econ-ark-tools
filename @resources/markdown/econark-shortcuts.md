@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v6.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v7.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -234,8 +234,8 @@
 \newcommand{\GPRte}{\text{\thorn}_{\PermGroRte}}
 \newcommand{\APRte}{\text{\thorn}}
 \newcommand{\EPermShkInv}{\Ex[\permShk^{-1}]}
-\newcommand{\InvEPermShkInv}{{(\EPermShkInv)}^{-1}}
-\newcommand{\uInvEuPermShk}{\Min{\Min{\permShk}}}
+\newcommand{\InvEPermShkInv}{{\PowMean_{-1}[\permShk]}}
+\newcommand{\uInvEuPermShk}{{\PowMean_{1-\CRRA}[\permShk]}}
 \newcommand{\RfreeEff}{\mathring{\Rfree}}
 \newcommand{\PopnGroFac}{\Xi}
 \newcommand{\PopnGroRte}{\ln\PopnGroFac}
@@ -327,6 +327,7 @@
 \newcommand{\TMap}{\mathbb{T}}
 \newcommand{\Ex}{{\mathbb{E}}}
 \newcommand{\Mean}{{\mathbb{M}}}
+\newcommand{\PowMean}{{\mathcal{M}}}
 \newcommand{\cncl}[1]{{\cancel{#1}}}
 \newcommand{\cnstr}[1]{\grave{#1}}
 \newcommand{\avg}{\bar}
