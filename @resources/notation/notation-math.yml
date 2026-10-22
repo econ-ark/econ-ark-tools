@@ -1,4 +1,4 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v7.0.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v8.0.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
@@ -34,7 +34,8 @@ project:
     '\hNrm': 'h'
     '\hNrmOpt': '\bar{h}'
     '\hNrmPes': '\underline{h}'
-    '\IncUnemp': '\xi_{\mathrm{U}}'
+    '\IncUnemp': '\xi_{\mathrm{u}}'
+    '\IncUnempNoBen': '\xi_{\mathrm{x}}'
     '\InvEPermShkInv': '{\PowMean_{-1}[\permShk]}'
     '\jobFindPrb': '\mathrm{find}'
     '\kNrmNxt': 'k\Nxt'
