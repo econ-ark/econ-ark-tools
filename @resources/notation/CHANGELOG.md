@@ -3,6 +3,21 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v8.0.0 — 2026-10-22
+
+**Unemployment incomes are ξ_u and ξ_x (13:59:19).** The owner: "let's use _u and _x everywhere (note: 'x' for
+'eXpired' here)". This settles a clash between the schemas' ξ_U, ξ_X and HAFiscal's ξ_{U,b}, ξ_{U,nb}. It
+supersedes ξ_U, chosen 2026-10-21. MAJOR: `\IncUnemp`'s rendering changes.
+- `\IncUnemp` = ξ_u: the income while unemployed, or, where benefits can expire, the income while they are
+  paid. `\IncUnempBen`, HAFiscal's name for it, is an alias.
+- New `\IncUnempNoBen` = ξ_x: the income once benefits have expired. The name is HAFiscal's, which already
+  wrote it, so the shared definition now takes precedence over HAFiscal's local one.
+- The registry's definitions write ξ_u. The dating example becomes ξ_{x,t}.
+
+**The employment state is j (14:00:53).** The owner: "I like j". In the schemas, HAFiscal's design note wrote j
+for the employment state, while the schemas wrote z, which is also the matching elasticity `\matchElas`. A new
+gloss-only row, `employment-state`, claims j, and `\matchElas`'s note no longer says the schemas share z.
+
 ## v7.0.0 — 2026-10-22
 
 **The compensated permanent shocks are power means (13:17:19 to 13:27:14).** The owner: "I want to replace

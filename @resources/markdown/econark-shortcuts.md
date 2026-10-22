@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v7.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v8.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -171,7 +171,9 @@
 \newcommand{\TranShkEmp}{\TranShkAgg}
 \newcommand{\tranShkEmpMin}{\Min{\tranShkEmp}}
 \newcommand{\tranShkEmpMax}{\Max{\tranShkEmp}}
-\newcommand{\IncUnemp}{\xi_{\mathrm{U}}}
+\newcommand{\IncUnemp}{\xi_{\mathrm{u}}}
+\newcommand{\IncUnempNoBen}{\xi_{\mathrm{x}}}
+\newcommand{\IncUnempBen}{\IncUnemp}
 \newcommand{\TranShkAgg}{\Theta}
 \newcommand{\PermShkAgg}{\Psi}
 \newcommand{\std}{\sigma}

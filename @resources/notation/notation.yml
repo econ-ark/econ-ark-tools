@@ -19,7 +19,7 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 7.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 8.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-10-22   #         MINOR = additions; PATCH = gloss/typo fixes
                         # 5.0.0: the 2026-10-22 rulings (survival ring, unemployment probability,
                         #        Pareto exponent, productivity growth, ...); powerlaw-only rows leave
@@ -73,7 +73,7 @@ symbols:
     gloss: "matching-function elasticity — the searcher exponent in the matching function"
     define: "matches = eff * searchers^z * vacancies^(1-z)"
     latex: {macro: '\matchElas', expansion: 'z'}
-    aliases: ["the sce-wg-1-dev schemas also write z for the employment state, which no matching function shares: approved in their notation batch ('all five as written', 2026-10-21 20:43:30, sce-wg-1-dev session)"]
+    aliases: ["until 2026-10-22 the sce-wg-1-dev schemas also wrote z for the employment state (approved 2026-10-21 20:43:30, 'all five as written'); the owner then chose j for it (2026-10-22 14:00:53, 'I like j'), see employment-state, so z is the matching elasticity alone"]
     unicode: 'z'
     conflicts_checked: "The one member of this block that keeps a single letter, because it is an EXPONENT: a multi-letter name crowds in e^{els} and tgt^{1-els}, measured against e^{alpha}. Greek was exhausted -- of the three unclaimed lowercase letters, omicron reads as Latin o, upsilon is too close to nu, and iota is too close to 1 and l at superscript size, which is exactly where this symbol lives. Of the lowercase Roman letters, n reads as individual employment beside N (which is employment in this very block) and x is the registry's precautionary-saving (\\psav, ruled 2026-07-16). z is unclaimed in both registry lineages, carries no macro, and appears zero times in the paper; NARK's meaning for it (leisure) is inert in this model."
     ruling: {date: 2026-08-30, source: "owner ruling: 'use z' -- after \\mathrm{els}, \\varkappa, \\upsilon and \\iota were each rejected in turn", rationale: "An exponent needs a single glyph; z is the only one left that is free everywhere and unambiguous at superscript size."}
@@ -217,11 +217,11 @@ symbols:
         status: "DECLARED CODE DIALECT (2026-10-22)"
 
   unemployment-prob:
-    gloss: "probability of the unemployment event, whatever income while unemployed ξ_U is; in BST, where ξ_U = 0, it is also the probability of zero income"
+    gloss: "probability of the unemployment event, whatever income while unemployed ξ_u is; in BST, where ξ_u = 0, it is also the probability of zero income"
     latex: {macro: '\pZero', expansion: '\wp'}
     unicode: '℘'
     python: 'UnempPrb'
-    conflicts_checked: "Was 'probability of the zero-income event', python pZero (used nowhere in HARK). HARK's UnempPrb is this object; the probability of the worst income is \\pWorst (HARK's WorstIncPrb). The two coincide when ξ_U = 0. Bears out the HARK-session ruling of 2026-10-20 16:01: 'it is improper to include the unemployment shock as just another value of the transitory shock'."
+    conflicts_checked: "Was 'probability of the zero-income event', python pZero (used nowhere in HARK). HARK's UnempPrb is this object; the probability of the worst income is \\pWorst (HARK's WorstIncPrb). The two coincide when ξ_u = 0. Bears out the HARK-session ruling of 2026-10-20 16:01: 'it is improper to include the unemployment shock as just another value of the transitory shock'."
     ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 2026-10-22 07:31:41 EDT: ℘ is the probability of unemployment (HARK UnempPrb), chosen over the probability of zero income. Earlier: 2026-07-14, T5"}
 
   mpc-min:
@@ -505,24 +505,39 @@ symbols:
 
   transitory-shock-employed:
     gloss: "the employed draw: the transitory shock's value outside the unemployment event, E[θ] = 1"
-    define: "ξ = ξ_U with probability ℘, otherwise θ(1 − ℘ξ_U)/(1 − ℘), so E[ξ] = 1; BST's case ξ_U = 0 gives θ/(1 − ℘)"
+    define: "ξ = ξ_u with probability ℘, otherwise θ(1 − ℘ξ_u)/(1 − ℘), so E[ξ] = 1; BST's case ξ_u = 0 gives θ/(1 − ℘)"
     latex: {macro: '\tranShkEmp', expansion: '\theta'}
     unicode: 'θ'
     conflicts_checked: "econark-shortcuts' \\tranShkEmp, the same rendering. The powerlaw pages write θ for ξ itself, a NOT SANCTIONED dialect recorded under transitory-shock-all."
     ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
 
+  employment-state:
+    gloss: "the employment state, a Markov state (employed, unemployed with benefits, benefits expired, ...) in the sce-wg-1-dev schemas and HAFiscal. Gloss-only: the letter is claimed, with no macro"
+    unicode: 'j'
+    conflicts_checked: "j has no meaning in econark-shortcuts.sty, whose \\jNrm, \\jLvl and \\jFunc are its every-letter factory macros and are used by no paper (checked 2026-10-22). Was z in the schemas, which is the matching elasticity (\\matchElas)."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 2026-10-22 14:00:53 EDT: 'I like j', answering that HAFiscal's design note in the schemas wrote j for the employment state while the schemas wrote z. Supersedes z (2026-10-21 20:43:30, 'all five as written', sce-wg-1-dev session)"}
+
   income-unemployed:
-    gloss: "income while unemployed, as a ratio to permanent income: ξ's value in the unemployment event (probability ℘); 0 in BST, where it is ξ's lowest value, though in general it need not be"
-    latex: {macro: '\IncUnemp', expansion: '\xi_{\mathrm{U}}'}
-    unicode: 'ξ_U'
-    plain: 'ξ_U'
+    gloss: "income while unemployed, as a ratio to permanent income: ξ's value in the unemployment event (probability ℘); where unemployment benefits can expire (HAFiscal), the income while they are paid. 0 in BST, where it is ξ's lowest value, though in general it need not be"
+    latex: {macro: '\IncUnemp', expansion: '\xi_{\mathrm{u}}'}
+    unicode: 'ξ_u'
+    plain: 'ξ_u'
     python: 'IncUnemp'
-    conflicts_checked: "econark-shortcuts expanded \\IncUnemp to μ until 2026-10-21; μ is this registry's log excess resources (\\logmNrmEx). The owner chose ξ_U in the sce-wg-1-dev session ('OK, I give in.  ξ_U', 19:25 EDT) and asked for the fix ('fix \\IncUnemp's erroneous expansion', 19:59:01 EDT), so shortcuts now writes \\xi_{\\mathrm{U}} too. HARK's parameter has the same name."
-    ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
+    aliases: ["\\IncUnempBen — HAFiscal's name for the income while benefits are paid; an alias in econark-shortcuts.sty"]
+    conflicts_checked: "Was ξ_U (\\xi_{\\mathrm{U}}), 2026-10-21 to v7.0.0; the schemas wrote ξ_U and HAFiscal ξ_{U,b}. Before 2026-10-21 econark-shortcuts expanded \\IncUnemp to μ, which is this registry's log excess resources (\\logmNrmEx). HARK's parameter has the same name. A time index joins the subscript last: ξ_{u,t}."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 2026-10-22 13:59:19 EDT: \"let's use _u and _x everywhere (note: 'x' for 'eXpired' here)\", choosing between the schemas' ξ_U, ξ_X and HAFiscal's ξ_{U,b}, ξ_{U,nb}. Supersedes ξ_U (2026-10-21, 'OK, I give in.  ξ_U', sce-wg-1-dev session)"}
+
+  income-unemployed-expired:
+    gloss: "income while unemployed after unemployment benefits have expired, as a ratio to permanent income ('x' for eXpired); HAFiscal's ξ_{U,nb} and the schemas' ξ_X"
+    latex: {macro: '\IncUnempNoBen', expansion: '\xi_{\mathrm{x}}'}
+    unicode: 'ξ_x'
+    plain: 'ξ_x'
+    conflicts_checked: "A subscript label, so it does not touch x as a variable (the powerlaw pages' local x). The macro name is HAFiscal's, which already wrote it 17 times. A time index joins the subscript last: ξ_{x,t}."
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 2026-10-22 13:59:19 EDT: \"let's use _u and _x everywhere (note: 'x' for 'eXpired' here)\", choosing between the schemas' ξ_U, ξ_X and HAFiscal's ξ_{U,b}, ξ_{U,nb}. Supersedes ξ_U (2026-10-21, 'OK, I give in.  ξ_U', sce-wg-1-dev session)"}
 
   transitory-shock-min:
     gloss: "the transitory shock's lowest value, the worst transitory income"
-    define: "ξ̲ = min(ξ_U, θ̲(1 − ℘ξ_U)/(1 − ℘)) when ℘ > 0; θ̲ when ℘ = 0"
+    define: "ξ̲ = min(ξ_u, θ̲(1 − ℘ξ_u)/(1 − ℘)) when ℘ > 0; θ̲ when ℘ = 0"
     latex: {macro: '\tranShkMin', expansion: '\underline{\xi}'}
     unicode: 'ξ̲'
     plain: 'ξ_min'

@@ -2,7 +2,7 @@
 % @resources/notation/notation.yml, the single source of notation for the papers).
 % Explicit definitions only (no factory/\@for loops); Lvl/Nrm/Func for a-z and A-Z are inline.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{econark-shortcuts}[2026/10/22 v7.0.0 Econ-ARK shared notation]
+\ProvidesPackage{econark-shortcuts}[2026/10/22 v8.0.0 Econ-ARK shared notation]
 % What the macros below need (2026-10-22). eucal is loaded only if no package has defined
 % \mathscr already, so a class that loads it with its own options is not disturbed.
 \RequirePackage{amsmath,amssymb,cancel,graphicx}
@@ -227,8 +227,10 @@
 \ARKcommand{\TranShkEmp}{\TranShkAgg}  % alias: Theta is the aggregate of theta; \TranShkAgg is canonical (owner ruling 2026-10-22)
 \ARKcommand{\tranShkEmpMin}{\Min{\tranShkEmp}}    
 \ARKcommand{\tranShkEmpMax}{\Max{\tranShkEmp}}    
-\ARKcommand{\IncUnemp}{\xi_{\mathrm{U}}}  % Income in unemployment: the transitory shock's value in the unemployment event
-%  (owner, 2026-10-21; was \mu, which the notation registry gives to log excess resources, \logmNrmEx)
+\ARKcommand{\IncUnemp}{\xi_{\mathrm{u}}}  % Income in unemployment: the transitory shock's value in the unemployment event
+%  (owner, 2026-10-22: subscripts u and x; was \xi_{\mathrm{U}}, and before 2026-10-21 \mu, which the registry gives to \logmNrmEx)
+\ARKcommand{\IncUnempNoBen}{\xi_{\mathrm{x}}}  % income once unemployment benefits have expired ("x for eXpired", owner 2026-10-22)
+\ARKcommand{\IncUnempBen}{\IncUnemp}           % alias: income while unemployed and receiving benefits (HAFiscal's name)
 
 %% Agg variables (also affect individuals)
 \ARKcommand{\TranShkAgg}{\Theta}   % the aggregate transitory shock, aggregate of \tranShkEmp (xi has no aggregate)
