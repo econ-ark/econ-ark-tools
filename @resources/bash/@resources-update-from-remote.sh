@@ -60,8 +60,6 @@ popd > /dev/null || { echo "Failed to return to original directory"; exit 1; }
 
 # Prepare destination
 [[ ! -e "$dest_path/@resources" ]] && mkdir -p "$dest_path/@resources" 
-chmod -Rf u+w "$dest_path/@resources" || { echo "Failed to set write permissions"; exit 1; }
-
 # Handle dry run mode
 dryrun=''
 if [[ $# == 2 ]]; then # second argument
@@ -69,6 +67,11 @@ if [[ $# == 2 ]]; then # second argument
         dryrun='--dry-run' && echo "Running in '--dry-run' mode - no changes will be made" && echo
     fi
 fi
+# A dry run changes nothing, permissions included (2026-10-22: it used to leave @resources read-only)
+if [[ -z "$dryrun" ]]; then
+    chmod -Rf u+w "$dest_path/@resources" || { echo "Failed to set write permissions"; exit 1; }
+fi
+
 
 # rsync options
 opts=(
@@ -98,7 +101,7 @@ echo "$cmd"
 eval "$cmd" | grep '^>f.*c' | tee >(awk 'BEGIN {printf "\n"}; END { if (NR == 0) printf "\nNo file(s) changed\n\n"; else printf "\nSome file(s) changed\n\n"}')
 
 # Change target to read-only to remind self that edits should be done upstream
-chmod -Rf u-w "$dest_path/@resources"
+[[ -z "$dryrun" ]] && chmod -Rf u-w "$dest_path/@resources"
 
 # Ensure temporary directory is removed on script exit
 trap 'rm -rf -- "$tmpdir"' EXIT

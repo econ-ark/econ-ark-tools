@@ -2,8 +2,8 @@
 % and uses one macro from each. The \providecommand discipline in
 % econark-notation.sty guarantees no "command already defined" clash regardless
 % of load order. Compile where a TeX engine is available:
-%   TEXINPUTS=../texlive/texmf-local/tex/latex/econark//:.: pdflatex latex_noclash_test.tex
-% (econark-notation.sty is in this directory's parent: @resources/notation/.)
+%   TEXINPUTS=../../texlive/texmf-local/tex/latex//: pdflatex latex_noclash_test.tex   (run in tests/)
+% (econark-notation.sty lives in @resources/notation/; a symlink in texmf-local/tex/latex/ lets TeX find it.)
 \documentclass{article}
 \usepackage{amsmath,amssymb,bm,graphicx,cancel}
 \usepackage{econark-shortcuts}   % the full shared macro set

@@ -1,10 +1,11 @@
-% econark-notation.sty — AUTO-GENERATED from notation.yml v4.0.0. DO NOT EDIT.
+% econark-notation.sty — AUTO-GENERATED from notation.yml v5.0.0. DO NOT EDIT.
 % Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 % Uses \providecommand: defers to any macro already defined (e.g. by
 % econark-shortcuts.sty). Load alone/first for the registry's base dialect.
 % Regenerate: python @resources/notation/gen/gen_latex.py
 
 \providecommand{\ADElas}{\Omega}  % ad-elasticity
+\providecommand{\TranShkAgg}{\Theta}  % aggregate-transitory-shock
 \providecommand{\aNrmNxt}{a\Nxt}  % assets-next
 \providecommand{\aNrmNow}{a\Now}  % assets-now
 \providecommand{\bNrm}{b}  % bank-balances
@@ -13,16 +14,19 @@
 \providecommand{\aMin}{\underline{a}}  % borrowing-limit
 \providecommand{\BoroCnstArt}{\underline{a}_{\mathrm{Art}}}  % borrowing-limit-artificial
 \providecommand{\BoroCnstNat}{\underline{a}_{\mathrm{Nat}}}  % borrowing-limit-natural
-\providecommand{\bufAdj}{J}  % buffer-adjustment
-\providecommand{\bufAdjFunc}{\mathrm{J}}  % buffer-adjustment-function
-\providecommand{\qtilde}{\tilde{q}}  % compensation-exponent
+\providecommand{\kapShare}{\alpha}  % capital-share
+\providecommand{\CARA}{\mathrm{cara}}  % cara
 \providecommand{\qLo}{q_{0}}  % constraint-end-exponent
 \providecommand{\cFunc}{\mathrm{c}}  % consumption-function
 \providecommand{\cNrmNxt}{c\Nxt}  % consumption-next
 \providecommand{\cNrmNow}{c\Now}  % consumption-now
 \providecommand{\CRRA}{\rho}  % crra
-\providecommand{\etaL}{\eta_{L}}  % gap-remainder-left
-\providecommand{\etaR}{\eta_{R}}  % gap-remainder-right
+\providecommand{\DiscFac}{\beta}  % discount-factor
+\providecommand{\DiscFacLiv}{\mathring{\DiscFac}}  % discount-factor-liv
+\providecommand{\DiscFacSprd}{\nabla}  % discount-factor-spread
+\providecommand{\EPermShkInv}{\Ex[\permShk^{-1}]}  % e-perm-shk-inv
+\providecommand{\eprem}{\phi}  % equity-premium-log
+\providecommand{\Ex}{\mathbb{E}}  % expectation
 \providecommand{\PermGroFac}{\mathcal{G}}  % growth-factor
 \providecommand{\PermGroRte}{g}  % growth-rate
 \providecommand{\qHi}{q_{\infty}}  % high-wealth-exponent
@@ -30,37 +34,46 @@
 \providecommand{\hNrmOpt}{\bar{h}}  % human-wealth-optimist
 \providecommand{\hNrmPes}{\underline{h}}  % human-wealth-pessimist
 \providecommand{\IncUnemp}{\xi_{\mathrm{U}}}  % income-unemployed
+\providecommand{\InvEPermShkInv}{{(\EPermShkInv)}^{-1}}  % inv-e-perm-shk-inv
 \providecommand{\jobFindPrb}{\mathrm{find}}  % job-find-probability
 \providecommand{\kNrmNxt}{k\Nxt}  % kapital-next
 \providecommand{\kNrmNow}{k\Now}  % kapital-now
+\providecommand{\labor}{\ell}  % labor
 \providecommand{\tightness}{\mathrm{tgt}}  % labor-market-tightness
+\providecommand{\leiShare}{\zeta}  % leisure-share
 \providecommand{\logmNrmEx}{\boldsymbol{\mu}}  % log-excess-resources
 \providecommand{\GPRte}{\thorn_{\PermGroRte}}  % log-growth-patience-rate
 \providecommand{\matchEff}{\mathrm{eff}}  % matching-efficiency
 \providecommand{\matchElas}{z}  % matching-elasticity
+\providecommand{\MPC}{\kappa}  % mpc
 \providecommand{\MPCmax}{\overline{\kappa}}  % mpc-max
 \providecommand{\MPCmin}{\underline{\kappa}}  % mpc-min
+\providecommand{\paretoExp}{\varepsilon}  % pareto-exponent
 \providecommand{\APFac}{\textbf{Þ}}  % patience-abs
+\providecommand{\APFacLiv}{\mathring{\APFac}}  % patience-abs-liv
 \providecommand{\GPFacRaw}{\APFac_{\PermGroFac}}  % patience-growth
-\providecommand{\RPFac}{\APFac_{\mathsf{R}}}  % patience-return
-\providecommand{\prdNxt}{t+1}  % period-next
+\providecommand{\GPFacLiv}{\APFacLiv_{\PermGroFac}}  % patience-growth-liv
+\providecommand{\GPFacMod}{\GPFacRaw\EPermShkInv}  % patience-growth-mod
+\providecommand{\RPFac}{\APFac_{\Rfree}}  % patience-return
+\providecommand{\RPFacLiv}{\APFacLiv_{\Rfree}}  % patience-return-liv
+\providecommand{\prdNxt}{\prdt+1}  % period-next
 \providecommand{\Nxt}{_{\prdNxt}}  % period-next-suffix
 \providecommand{\prdt}{t}  % period-now
 \providecommand{\Now}{_{\prdt}}  % period-now-suffix
 \providecommand{\permShk}{\psi}  % permanent-shock
 \providecommand{\permShkIndMin}{\underline{\psi}}  % permanent-shock-min
 \providecommand{\permShkNxt}{\psi\Nxt}  % permanent-shock-next
-\providecommand{\psav}{x}  % precautionary-saving
-\providecommand{\psavFunc}{\mathrm{x}}  % precautionary-saving-function
-\providecommand{\psavNxt}{\psav\Nxt}  % precautionary-saving-next
-\providecommand{\psavNow}{\psav\Now}  % precautionary-saving-now
+\providecommand{\PopnGroFac}{\Xi}  % population-growth
+\providecommand{\PtyGroFac}{\mathsf{G}}  % productivity-growth
 \providecommand{\mBalLvl}{\check{m}}  % pseudo-target
 \providecommand{\mNrmEx}{\ddot{m}}  % resources-excess
 \providecommand{\mNrmMin}{\underline{m}}  % resources-min
 \providecommand{\mNrmNxt}{m\Nxt}  % resources-next
 \providecommand{\mNrmNow}{m\Now}  % resources-now
+\providecommand{\RfreeEff}{\mathring{\Rfree}}  % return-blanchard
+\providecommand{\RBoro}{\bar{\Rfree}}  % return-borrowing
+\providecommand{\Rfree}{\mathsf{R}}  % return-factor
 \providecommand{\RNrmByG}{\mathcal{R}}  % return-growth-ratio
-\providecommand{\wbarMax}{\bar{o}}  % return-region
 \providecommand{\sepRte}{\mathrm{sep}}  % separation-rate
 \providecommand{\splurge}{\gimel}  % splurge
 \providecommand{\LivPrb}{\mathcal{L}}  % survival-prob
@@ -71,7 +84,7 @@
 \providecommand{\tranShkEmpMin}{\underline{\theta}}  % transitory-shock-employed-min
 \providecommand{\tranShkMin}{\underline{\xi}}  % transitory-shock-min
 \providecommand{\tranShkNxt}{\tranShkAll\Nxt}  % transitory-shock-next
-\providecommand{\trvTime}{n}  % travel-time-to-target
+\providecommand{\pZero}{\wp}  % unemployment-prob
 \providecommand{\uFunc}{\mathrm{u}}  % utility-function
 \providecommand{\vacCost}{\mathrm{cst}}  % vacancy-cost
 \providecommand{\vacFillPrb}{\mathrm{fill}}  % vacancy-fill-probability
@@ -80,4 +93,3 @@
 \providecommand{\wbarNow}{\wbar\Now}  % wealth-total-pf-now
 \providecommand{\weight}{\omega}  % weight
 \providecommand{\pWorst}{p_{\mathrm{worst}}}  % worst-income-prob
-\providecommand{\pZero}{\wp}  % zero-income-prob
