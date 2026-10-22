@@ -18,8 +18,10 @@ existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
   - `\RNrmByG`, `\RNrmByGRnd`: calligraphic `\mathcal{R}` in econark-shortcuts (was
     `\mathscr{R}`), as in the registry and shortcuts' own `\Rnorm`.
   - In print, documents that load econark-shortcuts change: the BST paper's 342 `\RPFac` and
-    187 `\GPFacRaw` read Þ_R and Þ_𝒢, not Þ/R and Þ/𝒢 (`BufferStockTheory.tex:69-81` records
-    the coauthor's earlier agreement to the ratios), and its 77 `\RNrmByG` turn calligraphic.
+    187 `\GPFacRaw` read Þ_R and Þ_𝒢, not Þ/R and Þ/𝒢, and its 77 `\RNrmByG` turn
+    calligraphic. `BufferStockTheory.tex:76-89` records the coauthor (AS) objecting to a stacked
+    `\frac` and accepting the inline ratio Þ/R; he has not seen the subscript forms, so this is a
+    new change to his paper.
 
 ## v3.0.0 — 2026-10-21
 
