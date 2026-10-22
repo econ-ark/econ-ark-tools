@@ -3,6 +3,24 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v4.0.0 — 2026-10-21
+
+- **MAJOR — econark-shortcuts and the registry agree on every shared name.** Owner, in an
+  earlier econ-ark-tools session at about 16:48 EDT: "OK, implement your recs" (branch
+  `notation-patience-factor-forms`, commit b23e5668, never merged); then, in this session at
+  22:40:21 EDT: "I want to reconcile and merge all the branches on which we have been trying
+  already to reconcile notation". This re-applies that branch on top of v3.0.0.
+  - `\RPFac`, `\GPFacRaw`, `\GPFacMod`: econark-shortcuts writes the subscript forms
+    `\APFac_{\Rfree}`, `\APFac_{\PermGroFac}`, `\APFac_{\PermGroFacAdj}`, not the ratios
+    Þ/R, Þ/𝒢 that define them. `\GPFac` is now `\GPFacRaw`, not a separate copy.
+  - The registry's `\RPFac` takes the sans-serif R of `\Rfree` (`\APFac_{\mathsf{R}}`; it was an
+    italic R), and `\GPFacRaw` is `\APFac_{\PermGroFac}`.
+  - `\RNrmByG`, `\RNrmByGRnd`: calligraphic `\mathcal{R}` in econark-shortcuts (was
+    `\mathscr{R}`), as in the registry and shortcuts' own `\Rnorm`.
+  - In print, documents that load econark-shortcuts change: the BST paper's 342 `\RPFac` and
+    187 `\GPFacRaw` read Þ_R and Þ_𝒢, not Þ/R and Þ/𝒢 (`BufferStockTheory.tex:69-81` records
+    the coauthor's earlier agreement to the ratios), and its 77 `\RNrmByG` turn calligraphic.
+
 ## v3.0.0 — 2026-10-21
 
 - **MAJOR — the return region's upper edge is ō, not ζ** (owner: "OK, o-bar sounds great

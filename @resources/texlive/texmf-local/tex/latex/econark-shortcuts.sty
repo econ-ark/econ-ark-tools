@@ -300,10 +300,13 @@
 \ARKcommand{\APFac}{\textbf{\Thorn}} % Former \Pat
 \ARKcommand{\APFacDefn}{\hyperlink{APFacDefn}{\textrm{APF}}}
 
-\ARKcommand{\GPFac}{\APFac/{\PermGroFac}}
-\ARKcommand{\GPFacRaw}{\APFac/{\PermGroFac}}
-\ARKcommand{\GPFacMod}{\APFac/{\PermGroFacAdj}}
-\ARKcommand{\RPFac}{\APFac/{\Rfree}}
+% The patience factors are WRITTEN with a subscript, as the registry writes them: Þ_𝒢 and Þ_R,
+% not the ratios Þ/𝒢 and Þ/R that define them (ruling 2026-10-21, to bring econark-shortcuts
+% and the notation registry to one form).
+\ARKcommand{\GPFac}{\GPFacRaw}
+\ARKcommand{\GPFacRaw}{\APFac_{\PermGroFac}}
+\ARKcommand{\GPFacMod}{\APFac_{\PermGroFacAdj}}
+\ARKcommand{\RPFac}{\APFac_{\Rfree}}
 
 \ARKcommand{\RPRte}{\text{\thorn}_{\rfree}}
 \ARKcommand{\GPRte}{\text{\thorn}_{\PermGroRte}}
@@ -524,8 +527,8 @@
 
 % Normalized return is special because G is normalizer
 % If there are any instances of RNrm that have been missed, make them stick out like a sore thumb
-\ARKcommand{\RNrmByG}{\mathscr{R}}
-\ARKcommand{\RNrmByGRnd}{\Rnd{\mathscr{R}}}
+\ARKcommand{\RNrmByG}{\mathcal{R}}      % R/G, calligraphic as in the registry and \Rnorm (ruling 2026-10-21; was \mathscr{R})
+\ARKcommand{\RNrmByGRnd}{\Rnd{\mathcal{R}}}
 
 % Functions
 % - Functions are Roman not italicized
