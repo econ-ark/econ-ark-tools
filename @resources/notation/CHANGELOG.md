@@ -3,6 +3,23 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v8.1.0 — 2026-11-02
+
+**The stationary permanent income condition, SPIC (19:17:06 to 21:28:43 EST).** The owner, in the sce-wg-1-dev
+session: "I'm inclined to rule that we need to add to the buffer stock framework a requirement of a mortality
+probability sufficient to guarantee a stationary distribution of permanent income" (19:17:06); the four decisions
+put to him accepted (21:00:56); "I like SPIC." (21:24:16); "great, yess, add the notation registry" (21:28:43).
+MINOR: one new row and one defined term.
+- New `\SPIFac` = ℒ𝒢, the stationary permanent income factor (row `stationary-perm-inc-factor`): ℒ𝒢 with newborns
+  at permanent income one, ℒ with newborns at the trend. The SPIC is `\SPIFac` < 1: under perpetual youth the
+  economy's permanent income has a stationary distribution with a finite mean. Its moment conditions SPIC(k),
+  ℒ𝒢^k 𝔼[ψ^k] < 1, make the moment of order k finite; k = 2 is the variance, k = −ϱ marginal utility in levels.
+- It carries no patience term: `\GPFacLiv` = ℒÞ̊_𝒢, the GIC-Liv's factor, is a different object, the income
+  measure's mean condition at the trend under the RIC.
+- Defined term `SPIC` in `terminology.yml`. The schemas' `bst/conditions.md` holds the derivation and the numbers:
+  BST's annual calibration needs ℒ < 0.971 for a finite mean with newborns at one; HAFiscal's toy sits 0.05% from
+  SPIC(2).
+
 ## v8.0.0 — 2026-10-22
 
 **Unemployment incomes are ξ_u and ξ_x (13:59:19).** The owner: "let's use _u and _x everywhere (note: 'x' for

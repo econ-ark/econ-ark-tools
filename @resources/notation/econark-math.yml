@@ -1,4 +1,4 @@
-# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v8.0.0. DO NOT EDIT.
+# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v8.1.0. DO NOT EDIT.
 # Every shared macro, KaTeX-safe. Consume via `extends: [<path>/econark-math.yml]` in myst.yml.
 # Regenerate: python @resources/notation/gen/gen_shortcuts.py
 version: 1
@@ -425,6 +425,7 @@ project:
     '\mNrmMin': '\underline{m}'
     '\mNrmNxt': 'm\Nxt'
     '\mNrmNow': 'm\Now'
+    '\SPIFac': '\LivPrb\PermGroFac'
     '\tranShkNxt': '\tranShkAll\Nxt'
     '\wbar': 'o'
     '\wbarNxt': '\wbar\Nxt'

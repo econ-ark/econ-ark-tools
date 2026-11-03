@@ -46,6 +46,9 @@ defined:
   - term: 'GIC-cap'
     definition: "β capped a hair below the raw growth-impatience (GIC) boundary; Strong Growth Impatience (GIC-Mod) already fails there — no target exists; at the estimated ceiling calibration even the mean log-drift is positive"
     ruling: {date: 2026-07-14, source: 'T4 + verification blocker fix'}
+  - term: 'SPIC (stationary permanent income condition)'
+    definition: "ℒ𝒢 < 1 with newborns at permanent income one, ℒ < 1 with newborns at the trend (\\SPIFac < 1): under perpetual youth the economy's permanent income has a stationary distribution with a finite mean. Its moment conditions SPIC(k), ℒ𝒢^k 𝔼[ψ^k] < 1, make the moment of order k finite. A validity condition of the buffer-stock schemas' families since 2026-11-02; not a patience condition, and not the GIC-Liv"
+    ruling: {date: 2026-11-02, source: "owner, sce-wg-1-dev session, 21:24:16 EST: 'I like SPIC.'; 21:28:43: 'great, yess, add the notation registry'"}
 
 conventions:
   - rule: "lemmas cited as L0, L1, …; primes mark strengthened variants"

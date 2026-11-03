@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v8.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v8.1.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -422,6 +422,7 @@
 \newcommand{\mNrmMin}{\underline{m}}
 \newcommand{\mNrmNxt}{m\Nxt}
 \newcommand{\mNrmNow}{m\Now}
+\newcommand{\SPIFac}{\LivPrb\PermGroFac}
 \newcommand{\tranShkNxt}{\tranShkAll\Nxt}
 \newcommand{\wbar}{o}
 \newcommand{\wbarNxt}{\wbar\Nxt}

@@ -19,8 +19,9 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 8.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-10-22   #         MINOR = additions; PATCH = gloss/typo fixes
+  version: 8.1.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  updated: 2026-11-02   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 8.1.0: the stationary permanent income factor \SPIFac and the SPIC (owner, 2026-11-02)
                         # 5.0.0: the 2026-10-22 rulings (survival ring, unemployment probability,
                         #        Pareto exponent, productivity growth, ...); powerlaw-only rows leave
                         # 4.0.0: subscripted patience factors and calligraphic ℛ in both files, so
@@ -695,6 +696,15 @@ symbols:
     python: 'GPFacLiv'
     conflicts_checked: "HARK's GPFacLiv = GPFacRaw·LivPrb (IndShockConsumerType, checked 2026-10-22), whose check prints 'GICLiv ℒÞ/G < 1' with HARK's survival-inclusive Þ. The sce-wg-1-dev schemas' GIC-Liv row maps to it. In v5.0.0 the macro \\GPFacLiv named Þ̊_𝒢 instead (now \\GPFacEff)."
     ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 11:00:07 EDT: 'GPFacLiv < 1 is the correct version of the GIC-Liv'; then 11:17:23 'implement your recs'"}
+
+  stationary-perm-inc-factor:
+    gloss: "stationary permanent income factor; the stationary permanent income condition (SPIC) is \\SPIFac < 1: under perpetual youth the economy's permanent income has a stationary distribution with a finite mean, so aggregate income is finite. Its moment conditions SPIC(k), ℒ𝒢^k 𝔼[ψ^k] < 1 (ℒ 𝔼[ψ^k] < 1 at the trend), make the moment of order k finite: k = 2 the variance, k = 1 − ϱ utility in levels, k = −ϱ marginal utility in levels; the SPIC is SPIC(1), since 𝔼[ψ] = 1"
+    define: "ℒ𝒢 with newborns at permanent income one; ℒ with newborns at the trend 𝒢^t; SPIC(k): ℒ𝒢^k 𝔼[ψ^k] < 1"
+    latex: {macro: '\SPIFac', expansion: '\LivPrb\PermGroFac'}
+    unicode: 'ℒ𝒢'
+    python: 'SPIFac'
+    conflicts_checked: "\\SPIFac is new; no macro in econark-shortcuts.sty or row here has that name (checked 2026-11-02). It carries no patience term, unlike \\GPFacLiv = ℒÞ̊_𝒢, the GIC-Liv's factor, which under the RIC is the income measure's mean condition at the trend. No HARK check computes it: the python name is PROPOSED. Defined in the sce-wg-1-dev schemas' bst/conditions.md as a validity condition of the buffer-stock families, with the moment conditions as domain rules."
+    ruling: {date: 2026-11-02, source: "owner, in the sce-wg-1-dev session (EST): 19:17:06, 'I'm inclined to rule that we need to add to the buffer stock framework a requirement of a mortality probability sufficient to guarantee a stationary distribution of permanent income'; 21:00:56, the four decisions put to him accepted as recommended (a member's choice of the newborn's permanent income, one or the trend; ℒ < 1 and, at one, ℒ𝒢 < 1 as validity conditions, the moment conditions as domain rules; the restrained-limit members at the trend with a tail exponent of at least 2; the name); 21:24:16, 'I like SPIC.'; 21:28:43, 'great, yess, add the notation registry'", rationale: "Mortality makes the cross-section of permanent income a geometric mixture over ages, stationary for any ℒ < 1, with power-law tails whose exponents solve ℒ𝒢^α 𝔼[ψ^α] = 1 above and ℒ𝒢^(−α) 𝔼[ψ^(−α)] = 1 below (without 𝒢 at the trend): existence is cheap, and each moment has its own condition. With newborns at one, aggregate income is finite only if mortality outruns growth; BST's annual calibration, 𝒢 = 1.03, needs ℒ < 0.971. HAFiscal's toy sits 0.05% from SPIC(2), which is why a toolkit's check should report it."}
 
   expectation:
     gloss: "expectations operator"
