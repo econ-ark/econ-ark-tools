@@ -9,18 +9,25 @@
 #   <semantic-key>:                    # kebab-case; names the OBJECT, never the letter
 #     gloss:   "<one line>"
 #     define:  "<defining equation, unicode>"          # optional
-#     latex:   {macro: '\Xyz', expansion: '<latex>'}   # optional (glosses may omit)
+#     latex:   {macro: '\Xyz', expansion: '<latex>', args: N}   # optional (glosses may omit); args if it takes #1..
 #     unicode: '<glyph(s)>'
 #     plain:   '<name for terminals and code>'           # optional; where unicode needs a combining underline
 #     python:  '<HARKishName>'                          # optional; PROPOSED if not in use
 #     aliases: ["<sanctioned alternates + where>"]      # optional
 #     dialects: {<key>: {expansion, home, note, status}}   # optional; DECLARED divergences
 #     conflicts_checked: "<what was verified against what>"  # optional
+#     scope:   "<the documents a meaning holds in>"    # optional; a shared accent (accent-locality)
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 8.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-10-22   #         MINOR = additions; PATCH = gloss/typo fixes
+  version: 9.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  updated: 2026-11-04   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 9.0.0: the owner's rulings of 2026-11-02/03 in the Intertemporal Choice course's
+                        #        session: permanent-income growth 𝖦/𝗀, productivity growth 𝒢/g, ϑ, υ, ϖ,
+                        #        n; new rows Ð/ð, G, steady state, golden rule, z, χ, sav (adopted 2026-11-04)
+                        # 8.0.0: unemployment incomes ξ_u and ξ_x; the employment state is j
+                        # 7.0.0: the power mean ℳ; ℳ₋₁[ψ] and ℳ_{1−ϱ}[ψ]
+                        # 6.0.0: \CRRA = ϱ; the ring macros take HARK's suffix Eff; \GPFacLiv = HARK's GPFacLiv
                         # 5.0.0: the 2026-10-22 rulings (survival ring, unemployment probability,
                         #        Pareto exponent, productivity growth, ...); powerlaw-only rows leave
                         # 4.0.0: subscripted patience factors and calligraphic ℛ in both files, so
@@ -39,7 +46,7 @@ symbols:
 
   human-wealth:
     gloss: "normalized human wealth, current period's income INCLUDED (BST eq-HDef)"
-    define: "h_t = (1−ℛ^{−(T−t+1)})/(1−ℛ⁻¹);  limit h = 1/(1−ℛ⁻¹) = R/(R−𝒢)"
+    define: "h_t = (1−ℛ^{−(T−t+1)})/(1−ℛ⁻¹);  limit h = 1/(1−ℛ⁻¹) = R/(R−𝖦)"
     latex: {macro: '\hNrm', expansion: 'h'}
     unicode: 'h'
     python: 'hNrm'
@@ -71,12 +78,12 @@ symbols:
 
   matching-elasticity:
     gloss: "matching-function elasticity — the searcher exponent in the matching function"
-    define: "matches = eff * searchers^z * vacancies^(1-z)"
-    latex: {macro: '\matchElas', expansion: 'z'}
-    aliases: ["until 2026-10-22 the sce-wg-1-dev schemas also wrote z for the employment state (approved 2026-10-21 20:43:30, 'all five as written'); the owner then chose j for it (2026-10-22 14:00:53, 'I like j'), see employment-state, so z is the matching elasticity alone"]
-    unicode: 'z'
-    conflicts_checked: "The one member of this block that keeps a single letter, because it is an EXPONENT: a multi-letter name crowds in e^{els} and tgt^{1-els}, measured against e^{alpha}. Greek was exhausted -- of the three unclaimed lowercase letters, omicron reads as Latin o, upsilon is too close to nu, and iota is too close to 1 and l at superscript size, which is exactly where this symbol lives. Of the lowercase Roman letters, n reads as individual employment beside N (which is employment in this very block) and x is the registry's precautionary-saving (\\psav, ruled 2026-07-16). z is unclaimed in both registry lineages, carries no macro, and appears zero times in the paper; NARK's meaning for it (leisure) is inert in this model."
-    ruling: {date: 2026-08-30, source: "owner ruling: 'use z' -- after \\mathrm{els}, \\varkappa, \\upsilon and \\iota were each rejected in turn", rationale: "An exponent needs a single glyph; z is the only one left that is free everywhere and unambiguous at superscript size."}
+    define: "matches = eff * searchers^ϖ * vacancies^(1−ϖ)"
+    latex: {macro: '\matchElas', expansion: '\varpi'}
+    aliases: ["was z (2026-08-30 to v9.0.0), which passes to leisure; until 2026-10-22 the sce-wg-1-dev schemas also wrote z for the employment state, which is now j (see employment-state)"]
+    unicode: 'ϖ'
+    conflicts_checked: "MAJOR (v9.0.0). ϖ is used nowhere in the registry, the shortcuts, the course's book and questions, or HARK's symbol tables (checked 2026-11-02). The 2026-08-30 search rejected \\mathrm{els}, ϰ, υ and ι and did not consider ϖ; it chose z, which needs a single glyph because it is an EXPONENT. Reading hazard: ϖ resembles ω, the registry's \\weight, and HAFiscal uses both (its HANK appendix writes \\matchElas)."
+    ruling: {date: 2026-11-03, source: "owner, in the cc:course-choice session, 08:08:44 EST: 'z for leisure; elasticity takes ϖ'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "leisure keeps z, as NARK and the course write it, and both symbols become unique; supersedes 'use z' (2026-08-30)"}
 
   vacancy-fill-probability:
     gloss: "probability that a vacancy is filled in a period"
@@ -150,7 +157,7 @@ symbols:
 
   bank-balances:
     gloss: "beginning-of-period nonhuman wealth: returns realized on last period's assets"
-    define: "b = ℛa = m − 1 (nonstochastic ℛ; stochastic form b′ = (R/(𝒢ψ′))a)"
+    define: "b = ℛa = m − 1 (nonstochastic ℛ; stochastic form b′ = (R/(𝖦ψ′))a)"
     latex: {macro: '\bNrm', expansion: 'b'}
     unicode: 'b'
     python: 'bNrm'
@@ -179,17 +186,18 @@ symbols:
 
   growth-factor:
     gloss: "permanent-income growth factor"
-    latex: {macro: '\PermGroFac', expansion: '\mathcal{G}'}
-    unicode: '𝒢'
+    define: "𝖦 = 1 + 𝗀, as 𝖱 = 1 + 𝗋"
+    latex: {macro: '\PermGroFac', expansion: '\mathsf{G}'}
+    unicode: '𝖦'
     python: 'PermGroFac'
-    aliases: ["supersedes Γ (\\Gamma, 2026-07-14, the powerlaw/HARK dialect)"]
-    conflicts_checked: "Now the same as econark-shortcuts.sty's \\PermGroFac and the BST paper's 𝒢, ending the registry's declared divergence from them (DRIFT-AUDIT Category B). Calligraphic, not Roman: Roman G is econark-shortcuts' \\ptyGroFac (productivity growth). It pairs with the rate g as R with r: 𝒢 = 1 + g, so g ≈ ln 𝒢."
+    aliases: ["supersedes calligraphic 𝒢 (2026-10-21 to v9.0.0), which passes to productivity growth (productivity-growth)", "supersedes Γ (\\Gamma, 2026-07-14, the powerlaw/HARK dialect; HARK's docstrings and notebooks)"]
+    conflicts_checked: "MAJOR (v9.0.0). 𝖦 and 𝗀 were productivity growth (\\PtyGroFac, \\PtyGroRte; 2026-10-22 07:44:34 EDT), which moves to 𝒢 and g in the same set of rulings. Sans-serif puts the growth factor in the face of the other nonstochastic factors (𝖱, 𝖣, 𝖶), so ℛ = 𝖱/𝖦. KaTeX renders \\mathsf{G} and \\mathsf{g} (checked 2026-11-02 against 0.16.22 and 0.17.0, and 2026-11-04 against 0.16.11). HARK's PermGroFac is the individual's total growth in the individual-shock models and the individual part in the aggregate-shock solvers (HARK session, 2026-11-03); 𝖦 covers both. Wage growth stays roman G (\\WGroFac), one font away. Papers built before v9.0.0 printed 𝒢 for this object; a document that cites one states the map."
     dialects:
       powerlaw-pages:
         expansion: '\Gamma'
         home: "the powerlaw pages define Þ_Γ locally (\\ThornG) and write Γ"
         status: "NOT SANCTIONED. Owner, 2026-10-21: 'the powerlaw work needs to use the same @resources/econ-ark-tools approach as the other papers; that way it does not have many things to define, except mathematical objects absent from the other wor[k]' (typed 17:12:27 EDT in the econ-ark-tools session, clarifying his ruling of 17:08:24). This records what the macros the pages define for themselves in their myst.yml still write; it goes when they take the shared macros from @resources"
-    ruling: {date: 2026-10-21, source: "owner: '`The registry defines g = ln Γ `  It shouldn't do that; at best it should be either g \\approx ln G or \\gamma \\approx ln \\Gamma.' (15:54:40 EDT, typed in the BufferStockTheory-Latest session, relayed, and verified with claude-relay-check); then, choosing between them in the econ-ark-tools session at about 16:37 EDT: 'OK, (B)' (keep g; the factor becomes NARK's calligraphic G)"}
+    ruling: {date: 2026-11-02, source: "owner, in the cc:course-choice session, 12:59:06 EST: '𝖦 and 𝗀, sans-serif', after asking 'Is there some other version of G which has upper and lower case in KaTeX?' and 'What about a Sans Serif'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "a matched case pair mirroring 𝖱 = 1 + 𝗋; supersedes the 2026-10-21 ruling (𝒢 and g: 'OK, (B)', econ-ark-tools session, about 16:37 EDT)"}
 
   transitory-shock-all:
     gloss: "the transitory shock, zero-income event included — the same object as econark-shortcuts' \\tranShkInd (owner, 2026-10-21: identical, not distinct)"
@@ -213,7 +221,7 @@ symbols:
     dialects:
       hark-python:
         expansion: 'PermShk'
-        home: "in HARK's solver PermShk is ψ; the simulated shocks['PermShk'] is 𝒢ψ ('includes expected growth')"
+        home: "in HARK's solver PermShk is ψ; the simulated shocks['PermShk'] is 𝖦ψ ('includes expected growth')"
         status: "DECLARED CODE DIALECT (2026-10-22)"
 
   unemployment-prob:
@@ -275,9 +283,9 @@ symbols:
 
   patience-growth:
     gloss: "growth patience factor"
-    define: "Þ_𝒢 = Þ/𝒢"
+    define: "Þ_𝖦 = Þ/𝖦"
     latex: {macro: '\GPFacRaw', expansion: '\APFac_{\PermGroFac}'}
-    unicode: 'Þ_𝒢'
+    unicode: 'Þ_𝖦'
     aliases: ["\\ThornG — powerlaw pages, in plain type and with Γ, so not an alias of the bold factor: see patience-abs's and growth-factor's dialects"]
     conflicts_checked: "Written with a subscript on the bold thorn. econark-shortcuts now writes \\APFac_{\\PermGroFac} instead of the ratio \\APFac/{\\PermGroFac}, and its \\GPFac is \\GPFacRaw instead of a separate copy (v4.0.0: owner, in an earlier econ-ark-tools session at about 16:48 EDT: 'OK, implement your recs' (one form for econark-shortcuts and the registry, so that NARK needs no overrides; recorded in commit b23e5668 on branch notation-patience-factor-forms, whose session transcript is not on jhu-dell); then in this session at 22:40:21 EDT: 'I want to reconcile and merge all the branches on which we have been trying already to reconcile notation')."
     dialects:
@@ -289,16 +297,16 @@ symbols:
 
   return-growth-ratio:
     gloss: "growth-normalized return"
-    define: "ℛ = R/𝒢"
+    define: "ℛ = R/𝖦"
     latex: {macro: '\RNrmByG', expansion: '\mathcal{R}'}
     unicode: 'ℛ'
     aliases: ["\\Rcal — powerlaw pages (\\mathcal{R})"]
-    conflicts_checked: "econark-shortcuts now agrees (it drew \\RNrmByG as \\mathscr{R} until v4.0.0); calligraphic is also its \\Rnorm, the same R/𝒢."
+    conflicts_checked: "econark-shortcuts now agrees (it drew \\RNrmByG as \\mathscr{R} until v4.0.0); calligraphic is also its \\Rnorm, the same R/𝖦."
     ruling: {date: 2026-10-21, source: "owner, in an earlier econ-ark-tools session at about 16:48 EDT: 'OK, implement your recs' (one form for econark-shortcuts and the registry, so that NARK needs no overrides; recorded in commit b23e5668 on branch notation-patience-factor-forms, whose session transcript is not on jhu-dell); then in this session at 22:40:21 EDT: 'I want to reconcile and merge all the branches on which we have been trying already to reconcile notation'"}
 
   high-wealth-exponent:
     gloss: "high-wealth decay-exponent characteristic root (random-multiplicative eigenvalue); realized exponent min(1, q_∞)"
-    define: "root of E[ψ^{1+q}] = ℛ·Þ_𝒢^q  (ψ≡1: q_∞ = ln ℛ / ln(1/Þ_𝒢))"
+    define: "root of E[ψ^{1+q}] = ℛ·Þ_𝖦^q  (ψ≡1: q_∞ = ln ℛ / ln(1/Þ_𝖦))"
     latex: {macro: '\qHi', expansion: 'q_{\infty}'}
     unicode: 'q_∞'
     aliases: ["supersedes q↑ (\\qHi = q{\\uparrow}, 2026-07-14 arrows); earlier q* (\\qstar, q^{*}) pre-2026-07-14"]
@@ -328,19 +336,19 @@ symbols:
     ruling: {date: 2026-07-16, source: "owner ruling Q2: glyph availability was the reason Λ had been used instead"}
 
   growth-rate:
-    gloss: "log permanent-income growth rate"
-    define: "g ≈ ln 𝒢, with 𝒢 = 1 + g: the rate is arithmetic, as R = 1 + r"
-    latex: {macro: '\PermGroRte', expansion: 'g'}
-    unicode: 'g'
-    conflicts_checked: "matches econark-shortcuts.sty's \\PermGroRte = g (shortcuts also gives g to \\ptyGroRte, productivity growth: a NARK-side overload). The registry's gap row also writes g; its note that g names nothing else is not true while g is this rate, and is a separate question."
-    ruling: {date: 2026-10-21, source: "owner: '`The registry defines g = ln Γ `  It shouldn't do that; at best it should be either g \\approx ln G or \\gamma \\approx ln \\Gamma.' (15:54:40 EDT, typed in the BufferStockTheory-Latest session, relayed, and verified with claude-relay-check); then, choosing between them in the econ-ark-tools session at about 16:37 EDT: 'OK, (B)' (keep g; the factor becomes NARK's calligraphic G)"}
+    gloss: "permanent-income growth rate"
+    define: "𝗀 ≈ ln 𝖦, with 𝖦 = 1 + 𝗀: the rate is arithmetic, as 𝖱 = 1 + 𝗋"
+    latex: {macro: '\PermGroRte', expansion: '\mathsf{g}'}
+    unicode: '𝗀'
+    conflicts_checked: "MAJOR (v9.0.0): was italic g (2026-10-21), which passes to productivity growth's rate (\\PtyGroRte). The growth patience rate þ_𝗀 (\\GPRte) follows it. The 2026-10-21 ruling that the rate is approximately the log of the factor, not equal to it, stands (owner, 15:54:40 EDT, typed in the BufferStockTheory-Latest session: 'at best it should be either g \\approx ln G or \\gamma \\approx ln \\Gamma')."
+    ruling: {date: 2026-11-02, source: "the ruling of growth-factor (owner, in the cc:course-choice session, 12:59:06 EST: '𝖦 and 𝗀, sans-serif'); adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "the rate partner of 𝖦"}
 
   log-growth-patience-rate:
-    gloss: "log growth-patience rate — lowercase-thorn partner of Þ_𝒢; NEGATIVE under GIC; the per-period PF descent rate of ln o is −þ_g"
-    define: "þ_g := ln Þ_𝒢   (so −þ_g = ln(1/Þ_𝒢) > 0 under GIC; ψ≡1: q_∞ = ln ℛ/(−þ_g))"
+    gloss: "log growth-patience rate — lowercase-thorn partner of Þ_𝖦; NEGATIVE under GIC; the per-period PF descent rate of ln o is −þ_𝗀"
+    define: "þ_𝗀 := ln Þ_𝖦   (so −þ_𝗀 = ln(1/Þ_𝖦) > 0 under GIC; ψ≡1: q_∞ = ln ℛ/(−þ_𝗀))"
     latex: {macro: '\GPRte', expansion: '\thorn_{\PermGroRte}'}
-    unicode: 'þ_g'
-    aliases: ["RETIRED 2026-07-16: Λ := ln(1/Þ_Γ) — the powerlaw corpus' former positive alias; old formulas read Λ = −þ_g"]
+    unicode: 'þ_𝗀'
+    aliases: ["RETIRED 2026-07-16: Λ := ln(1/Þ_Γ) — the powerlaw corpus' former positive alias; old formulas read Λ = −þ_𝗀"]
     conflicts_checked: "\\GPRte pre-exists in econark-shortcuts.sty:301 with this exact expansion; this ruling provisions the missing \\thorn glyph (see thorn-glyph) and adopts the macro corpus-wide"
     ruling: {date: 2026-07-16, source: "owner ruling Q2 (reactions round): option (i), sign = ln of the factor; use the existing macro"}
 
@@ -514,7 +522,7 @@ symbols:
   employment-state:
     gloss: "the employment state, a Markov state (employed, unemployed with benefits, benefits expired, ...) in the sce-wg-1-dev schemas and HAFiscal. Gloss-only: the letter is claimed, with no macro"
     unicode: 'j'
-    conflicts_checked: "j has no meaning in econark-shortcuts.sty, whose \\jNrm, \\jLvl and \\jFunc are its every-letter factory macros and are used by no paper (checked 2026-10-22). Was z in the schemas, which is the matching elasticity (\\matchElas)."
+    conflicts_checked: "j has no meaning in econark-shortcuts.sty, whose \\jNrm, \\jLvl and \\jFunc are its every-letter factory macros and are used by no paper (checked 2026-10-22). Was z in the schemas, which was then the matching elasticity (\\matchElas, now ϖ) and is now leisure (\\leisure)."
     ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 2026-10-22 14:00:53 EDT: 'I like j', answering that HAFiscal's design note in the schemas wrote j for the employment state while the schemas wrote z. Supersedes z (2026-10-21 20:43:30, 'all five as written', sce-wg-1-dev session)"}
 
   income-unemployed:
@@ -680,20 +688,20 @@ symbols:
 
   patience-growth-liv:
     gloss: "growth patience factor INCLUDING survival"
-    define: "Þ̊_𝒢 = Þ̊/𝒢"
+    define: "Þ̊_𝖦 = Þ̊/𝖦"
     latex: {macro: '\GPFacEff', expansion: '\APFacEff_{\PermGroFac}'}
-    unicode: 'Þ̊_𝒢'
+    unicode: 'Þ̊_𝖦'
     python: 'GPFacRaw'
-    conflicts_checked: "HARK's GPFacRaw = APFac/PermGroFac is this object; it includes LivPrb, while this registry's \\GPFacRaw does not. In v5.0.0 this row's macro was \\GPFacLiv, which HARK uses for a different object (patience-growth-mortality-adj, ℒÞ̊_𝒢)."
+    conflicts_checked: "HARK's GPFacRaw = APFac/PermGroFac is this object; it includes LivPrb, while this registry's \\GPFacRaw does not. In v5.0.0 this row's macro was \\GPFacLiv, which HARK uses for a different object (patience-growth-mortality-adj, ℒÞ̊_𝖦)."
     ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:22:54 and 07:27:11 EDT: 'There should be two variants of \\beta and \\LivPrb, with and without an accent.  The variant without the accent should not incorporate the survival probability; the one with it should.  So, e.g., \\accented{\\beta} = \\beta \\LivPrb, and \\accented{\\APFac} = (\\Rfree \\accented{\\beta})^{1/\\rho} (etc).'; accent chosen at 07:27:11: the ring. names: owner, 2026-10-22 11:00:07 EDT, 'GPFacLiv < 1 is the correct version of the GIC-Liv', then 11:17:23 'implement your recs': the ring variants take HARK's suffix Eff, and \\GPFacLiv is HARK's GPFacLiv"}
 
   patience-growth-mortality-adj:
     gloss: "mortality-adjusted growth patience factor; the mortality-adjusted growth impatience condition (GIC-Liv) is \\GPFacLiv < 1"
-    define: "ℒ Þ̊_𝒢"
+    define: "ℒ Þ̊_𝖦"
     latex: {macro: '\GPFacLiv', expansion: '\LivPrb\GPFacEff'}
-    unicode: 'ℒÞ̊_𝒢'
+    unicode: 'ℒÞ̊_𝖦'
     python: 'GPFacLiv'
-    conflicts_checked: "HARK's GPFacLiv = GPFacRaw·LivPrb (IndShockConsumerType, checked 2026-10-22), whose check prints 'GICLiv ℒÞ/G < 1' with HARK's survival-inclusive Þ. The sce-wg-1-dev schemas' GIC-Liv row maps to it. In v5.0.0 the macro \\GPFacLiv named Þ̊_𝒢 instead (now \\GPFacEff)."
+    conflicts_checked: "HARK's GPFacLiv = GPFacRaw·LivPrb (IndShockConsumerType, checked 2026-10-22), whose check prints 'GICLiv ℒÞ/G < 1' with HARK's survival-inclusive Þ. The sce-wg-1-dev schemas' GIC-Liv row maps to it. In v5.0.0 the macro \\GPFacLiv named Þ̊_𝖦 instead (now \\GPFacEff)."
     ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 11:00:07 EDT: 'GPFacLiv < 1 is the correct version of the GIC-Liv'; then 11:17:23 'implement your recs'"}
 
   expectation:
@@ -732,9 +740,9 @@ symbols:
 
   patience-growth-mod:
     gloss: "growth patience factor with the risk-adjusted growth factor"
-    define: "Þ_𝒢 𝔼[ψ⁻¹]"
+    define: "Þ_𝖦 𝔼[ψ⁻¹]"
     latex: {macro: '\GPFacMod', expansion: '\GPFacRaw\EPermShkInv'}
-    unicode: 'Þ_𝒢𝔼[ψ⁻¹]'
+    unicode: 'Þ_𝖦𝔼[ψ⁻¹]'
     conflicts_checked: "BST's form, now the shared one; econark-shortcuts wrote \\APFac_{\\PermGroFacAdj} until v5.0.0."
     dialects:
       hark-python:
@@ -760,14 +768,16 @@ symbols:
     gloss: "capital share (Cobb-Douglas)"
     latex: {macro: '\kapShare', expansion: '\alpha'}
     unicode: 'α'
-    conflicts_checked: "econark-shortcuts also gave α to \\CARA, now the word cara."
+    conflicts_checked: "econark-shortcuts also gave α to \\CARA, which became the word cara (2026-10-22) and then υ (v9.0.0)."
     ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:57:56 EDT: α is the capital share"}
 
   cara:
-    gloss: "coefficient of absolute risk aversion, written as a word"
-    latex: {macro: '\CARA', expansion: '\mathrm{cara}'}
-    unicode: 'cara'
-    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 08:18:06 EDT: CARA becomes a word, \\mathrm{cara}"}
+    gloss: "coefficient of absolute risk aversion"
+    latex: {macro: '\CARA', expansion: '\upsilon'}
+    unicode: 'υ'
+    aliases: ["the word cara (\\mathrm{cara}, 2026-10-22 to v9.0.0)", "the course's \\CARA, which rendered α (the registry's capital share)"]
+    conflicts_checked: "MAJOR (v9.0.0). υ is claimed by no macro in notation.yml, econark-math.yml, econark-shortcuts.sty or the course book's macros.yml (the book's capital Υ, \\CGroOverG, is used nowhere). NARK's notation table writes \\CARA, and so does the course (the book's two CARA pages and the questions). HARK's CARAutility names the parameter alpha. The registry's own notes call υ, ι and ο confusable with Latin letters (υ was passed over for the matching elasticity on 2026-08-30); in CARA utility it sits beside u."
+    ruling: {date: 2026-11-03, source: "owner, in the cc:course-choice session, 11:58:21 EST: 'switch CARA to \\upsilon'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'. Reopens the econ-ark-tools ruling of 2026-10-22 08:18:06 EDT ('CARA becomes a word')", rationale: "not stated"}
 
   labor:
     gloss: "labor (or labor productivity)"
@@ -801,20 +811,110 @@ symbols:
     gloss: "spread of discount factors across types"
     latex: {macro: '\DiscFacSprd', expansion: '\nabla'}
     unicode: '∇'
-    conflicts_checked: "As HAFiscal writes it (34 uses) and as Chris writes it; NARK's ν is \\DiscRte."
+    conflicts_checked: "As HAFiscal writes it (34 uses) and as Chris writes it; NARK's ν was \\DiscRte, which is ϑ from v9.0.0."
     ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 08:33:44 EDT: add a registry row for ∇"}
 
   population-growth:
-    gloss: "population growth factor; its rate is written ln Ξ, with no letter of its own"
+    gloss: "population growth factor; its rate is n (population-growth-rate)"
+    define: "n ≈ ln Ξ"
     latex: {macro: '\PopnGroFac', expansion: '\Xi'}
     unicode: 'Ξ'
-    aliases: ["\\PopGroFac", "\\PopnGroRte, \\popGroRte = ln Ξ (ξ was deprecated for population growth on 2026-10-21)"]
-    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:35:28 EDT: factor Ξ, rate ln Ξ; \\TranShkAll retired"}
+    aliases: ["\\PopGroFac"]
+    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:35:28 EDT: factor Ξ, rate ln Ξ; \\TranShkAll retired. The rate's letter re-ruled 2026-11-02 (population-growth-rate)"}
+
+  population-growth-rate:
+    gloss: "population growth rate"
+    define: "n ≈ ln Ξ"
+    latex: {macro: '\PopnGroRte', expansion: 'n'}
+    unicode: 'n'
+    aliases: ["\\popGroRte", "was ln Ξ, with no letter of its own (2026-10-22 to v9.0.0); ξ was deprecated for population growth on 2026-10-21"]
+    conflicts_checked: "n is free in the registry except as the generic \\nNrm, and is Solow's letter. The course's ξ for the rate (150 uses) collided with the transitory shock ξ. One course question writes n for infrastructure capital and takes another letter. The 2026-08-30 search-and-matching notes passed over n for the matching elasticity because it reads as individual employment beside N. NARK's notation table writes \\popGroRte."
+    ruling: {date: 2026-11-02, source: "owner, in the cc:course-choice session, 21:05:35 EST: 'n, a new registry row'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "a letter of its own for the rate; supersedes ln Ξ (2026-10-22)"}
 
   productivity-growth:
-    gloss: "productivity growth factor; its rate is \\PtyGroRte = 𝗀"
-    latex: {macro: '\PtyGroFac', expansion: '\mathsf{G}'}
-    unicode: '𝖦'
-    aliases: ["\\ptyGroFac (same object)", "\\PtyGroRte, \\ptyGroRte = \\mathsf{g}"]
-    conflicts_checked: "Was script G (shared with \\PermGroFacAgg), a script g that no font has (it printed nothing in PDF), and Roman G and g (clashing with \\permGroFacInd and \\PermGroRte). Sans-serif also marks \\Rfree, \\DiePrb and \\wage."
-    ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 07:44:34 EDT: sans-serif 𝖦 and 𝗀 for productivity growth"}
+    gloss: "productivity growth factor, which is also the aggregate permanent growth factor (HARK's PermGroFacAgg); its rate is \\PtyGroRte = g"
+    define: "𝒢 = 1 + g"
+    latex: {macro: '\PtyGroFac', expansion: '\mathcal{G}'}
+    unicode: '𝒢'
+    python: 'PermGroFacAgg'
+    aliases: ["\\ptyGroFac (same object)", "\\PermGroFacAgg (same object; its script 𝒢, \\mathscr{G}, retires)", "\\PtyGroRte, \\ptyGroRte = g"]
+    conflicts_checked: "MAJOR (v9.0.0): was sans-serif 𝖦 and 𝗀 (2026-10-22 07:44:34 EDT), now permanent-income growth's, and before that script G. 𝒢 and g are freed by the move of permanent-income growth to 𝖦 and 𝗀. Calligraphic has no lowercase in KaTeX (tests/check_katex.py), so the rate is italic g. In HARK (main 4c285e86, checked by the HARK session with paired runs, 2026-11-03), PermGroFacAgg is the trend growth factor of aggregate labor-augmenting productivity in the aggregate-shock models, the trend newborns inherit in the individual-shock models (PlvlAgg, which the code calls the aggregate permanent productivity level), and inert in the GenIncProcess family. Documents written before v9.0.0 read 𝒢 as permanent-income growth, so cross-citing documents state the map; NARK's notation table writes \\PtyGroFac. Unicode has one code point for script and calligraphic G (U+1D4A2). \\permGroFacInd (italic G) is used by no paper (checked 2026-11-04)."
+    ruling: {date: 2026-11-02, source: "owner, in the cc:course-choice session, 13:03:43 EST: '𝒢 and g, freed by your ruling'; and 21:05:35 EST, on aggregate permanent growth: 'Merge it with productivity growth', conditional on HARK's models, which the HARK session confirmed; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "supersedes sans-serif 𝖦 and 𝗀 (2026-10-22), now permanent-income growth, and the script 𝒢 of \\PermGroFacAgg"}
+
+  # ---- v9.0.0 (2026-11-04): rows from the owner's rulings of 2026-11-02 and 2026-11-03 in the cc:course-choice session
+  # ---- (the Intertemporal Choice course), adopted here.
+
+  time-preference-rate:
+    gloss: "time preference rate: the rate at which future utility is discounted; β = 1/(1+ϑ)"
+    define: "β ≡ 1/(1+ϑ)"
+    latex: {macro: '\discRte', expansion: '\vartheta'}
+    unicode: 'ϑ'
+    aliases: ["\\DiscRte: the same object and rendering", "the course's \\timeRate and \\DiscRate (econtexShortcuts dialect), retired by the course's substitution"]
+    conflicts_checked: "MAJOR (v9.0.0): changes an existing rendering. econark-shortcuts.sty's \\DiscRte and \\discRte were \\nu (NARK's dialect), commented 'vartheta is too easily confused with theta' (θ is \\tranShkEmp, Θ \\TranShkAgg); both become \\vartheta. ϑ is claimed by no macro in econark-shortcuts.sty, econark-math.yml or notation.yml (checked 2026-11-02). HARK names no time preference rate (it has DiscFac only), and its symbol tables and docstrings use neither ϑ nor ν for one. NARK's notation table writes \\discRte. ν becomes free; the course writes ν for the labor share (\\labShare, 34 uses), an upstream candidate."
+    ruling: {date: 2026-11-02, source: "owner, in the cc:course-choice session, 11:32:29 EST: 'rulings: ϑ against ν: ϑ', answering the course's list of glyph conflicts (the course's ϑ, 688 uses, against the registry's ν); adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "the course's long-standing ϑ, with β = 1/(1+ϑ) as the course's Lucas chapter defines it; supersedes the shortcuts' ν and its reason that ϑ is too easily confused with θ"}
+
+  stochastic-discount-factor:
+    gloss: "stochastic discount factor between t and t+n: the factor by which a unit of value received in t+n is discounted to t, random because marginal utility in t+n is"
+    define: "Ð_{t,t+n} = β^n u'(c_{t+n})/u'(c_t);  Ð_{t,t+2} = Ð_{t,t+1} Ð_{t+1,t+2};  risk neutral: Ð_{t,t+n} = β^n = R^{−n}"
+    latex: {macro: '\SDF', expansion: '\textbf{Ð}'}
+    unicode: 'Ð'
+    aliases: ["M_{t,t+1} in the course's Lucas and Bubbles chapters until 2026-11-02 (book PR #66 retires it); m or M in Cochrane and most of the finance literature; Λ_{t+1}/Λ_t in Duffie"]
+    conflicts_checked: "Ð and ð are unused in econark-shortcuts.sty, in notation.yml and in the course book's macros.yml (checked 2026-11-02 against econ-ark-tools 9d3d108a). M is the registry's and the book's market resources (\\mLvl, \\MLev), which is why M is ruled out for this object. KaTeX and amssymb already define \\eth (it renders ð), so the macro for the log is \\sdf, not \\eth. The letter is the sibling of the thorn Þ that the registry's patience factors use, and like them it names a factor: uppercase, bold. The registry writes it \\textbf{Ð}, as \\APFac is \\textbf{Þ}; econark-shortcuts.sty takes the glyph from T1 (\\DH), as it does the thorn's (\\TH). KaTeX 0.16.11 renders \\textbf{Ð} and \\text{ð} (checked 2026-11-04)."
+    ruling: {date: 2026-11-02, source: "owner, in the cc:course-choice session, 09:22:57 EST: 'I've never liked M or any variant thereof for the stochastic discount factor; I'd like you to propose an alternative that would permit me to continue using M to mean market resources everywhere'; 09:58:41, choosing eth from the proposals (β̃ recommended, Ð the alternative): 'I love your suggestion of Ð (eth), thorn's sibling, with ð for its log as þ is for Þ ... and that's what I want to implement'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "M is market resources everywhere; the SDF is a discount factor, so it takes a letter from the discounting family, the thorn's sibling, with the registry's factor/rate case convention"}
+
+  stochastic-discount-rate:
+    gloss: "log of the stochastic discount factor"
+    define: "ð_{t,t+n} = log Ð_{t,t+n}"
+    latex: {macro: '\sdf', expansion: '\text{ð}'}
+    unicode: 'ð'
+    conflicts_checked: "see stochastic-discount-factor; lowercase = rate, as þ is the rate partner of Þ (\\thorn, thorn-glyph); econark-shortcuts.sty takes the glyph from T1 (\\dh)"
+    ruling: {date: 2026-11-02, source: "owner, in the cc:course-choice session, 09:58:41 EST: 'with ð for its log as þ is for Þ'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "the registry's convention: uppercase factor, lowercase rate"}
+
+  wage-growth:
+    gloss: "growth factor of wages, and of permanent labor income in perfect-foresight models; its rate is roman g"
+    latex: {macro: '\WGroFac', expansion: '\mathrm{G}'}
+    unicode: 'G'
+    aliases: ["\\WGroRte = \\mathrm{g}", "the course's \\WGro and \\wGro (its rate was written 𝗀)"]
+    conflicts_checked: "Roman G is also \\GFunc, by the registry's roman-for-functions convention; context separates them. One font away from 𝖦, permanent-income growth, by the owner's choice to keep roman G in the perfect-foresight chapters. A new row for macros econark-shortcuts.sty already defined."
+    ruling: {date: 2026-11-02, source: "owner, in the cc:course-choice session, 13:03:43 EST: 'Keep roman G for both' (permanent labor income growth in the perfect-foresight, sticky-expectations and Campbell-Mankiw chapters; wage growth in the labor-supply and generational-accounts chapters); adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "the course's long-standing roman G"}
+
+  steady-state:
+    gloss: "steady-state mark: a variable's value in a steady state"
+    latex: {macro: '\Steady', expansion: '\bar{#1}', args: 1}
+    unicode: '◌̄'
+    scope: "growth, OLG and Ramsey documents (the course's growth chapters); not a document that also uses the bar for an upper bound or writes the borrowing rate R̄"
+    conflicts_checked: "the bar's other meanings, in other documents: the upper bound (2026-07-14, N3: BST's c̄ and κ̄, MoM's h̄; econark-shortcuts' \\Max is \\overline) and \\RBoro = R̄. In the course they meet only if one page has both: the OLG chapter writes its steady-state interest rate 𝗋̄ and no borrowing rate; Fisher2Period's R̲ and R̄ (two values of R, the bound sense) sit on a page with no steady state. Under accent-locality (terminology.yml)."
+    ruling: {date: 2026-11-03, source: "owner, in the cc:course-choice session, 19:10:17 EST: 'for the steady state k, I'm willing to relent to make it be \\bar{} and to make the golden rule \\bar{\\bar{}}'; 19:17:46 EST: 'It should admit multiple uses for a single decorator/accent, as long as they do not locally conflict in a particular document'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "the course's long-standing bar, allowed by scope"}
+
+  golden-rule:
+    gloss: "golden-rule mark: a variable's value in the steady state that maximizes consumption per worker"
+    latex: {macro: '\GoldRule', expansion: '\bar{\bar{#1}}', args: 1}
+    unicode: '◌̄̄'
+    scope: "as steady-state"
+    conflicts_checked: "No registry macro draws a double bar with \\bar (checked 2026-11-03 against 9d3d108a); econark-shortcuts' \\MPCmaxmax is \\overline{\\overline{\\kappa}}, the bound sense, and older question macro files define \\MPCmaxmax = \\bar{\\bar{\\kappa}} and \\cFuncMax = \\bar{\\bar{c}}. The macro name was proposed by the course session and accepted by the owner (2026-11-03 19:23:39 EST: 'I accept your \\GoldRule proposal'). Under accent-locality (terminology.yml)."
+    ruling: {date: 2026-11-03, source: "owner, in the cc:course-choice session, 19:10:17 EST (as steady-state); adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "the double bar the course's SocSecAndKAccum already writes, replacing k**"}
+
+  leisure:
+    gloss: "leisure: time not worked"
+    define: "z = 1 − ℓ when the time endowment is 1"
+    latex: {macro: '\leisure', expansion: 'z'}
+    unicode: 'z'
+    aliases: ["NARK's z for leisure", "the leisure share is ζ (\\leiShare)"]
+    conflicts_checked: "z was the matching elasticity (2026-08-30), which moves to ϖ in the same ruling; \\zNrm is only the generic normalized z"
+    ruling: {date: 2026-11-03, source: "owner, in the cc:course-choice session, 08:08:44 EST: 'z for leisure; elasticity takes ϖ'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "as NARK and the course write it"}
+
+  investment-tax-credit:
+    gloss: "investment tax credit rate: the fraction of its spending on new capital that the tax code returns to the firm"
+    latex: {macro: '\itcRte', expansion: '\chi'}
+    unicode: 'χ'
+    aliases: ["the course's \\itc (was ζ) and \\PostITC (a struck-through ζ, retired: 1 − χ is written out, owner 2026-11-03 19:08:12 EST)"]
+    conflicts_checked: "plain χ is unclaimed: the registry's matching efficiency moved from χ to eff (2026-08-30), bold χ is \\chiFunc (the consumption rule), and capital chi is \\Chi = X. Hall and Jorgenson wrote the credit k, which is capital here; the course keeps their z, the present value of the depreciation deductions. Considered and passed over: the word itc (ruled 08:01:19, superseded), ζ (the registry's leisure share), ι (reads as the investment i) and υ."
+    ruling: {date: 2026-11-03, source: "owner, in the cc:course-choice session, 11:48:00 EST: 'let's use \\chi for the ITC (mnemonic: it's a CREDIT and chi is the greek C)'; superseding the word itc (08:01:19) and a return to ζ (09:34:31); adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "χ is the Greek C, for credit"}
+
+  saving-rate:
+    gloss: "saving rate, as a share of income (the government's, in the course's GreekDebtCrisis-Short question)"
+    latex: {macro: '\savRte', expansion: '\mathrm{sav}'}
+    unicode: 'sav'
+    aliases: ["the course's \\srate (was ς)"]
+    conflicts_checked: "written as a word; the course wrote ς, econark-shortcuts' portfolio share (\\riskyshare); s was offered and declined"
+    ruling: {date: 2026-11-03, source: "owner, in the cc:course-choice session, 08:08:44 EST: 'The word sav'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "unique by construction"}

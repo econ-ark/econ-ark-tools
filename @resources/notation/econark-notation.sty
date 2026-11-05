@@ -1,4 +1,4 @@
-% econark-notation.sty — AUTO-GENERATED from notation.yml v8.0.0. DO NOT EDIT.
+% econark-notation.sty — AUTO-GENERATED from notation.yml v9.0.0. DO NOT EDIT.
 % Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 % Uses \providecommand: defers to any macro already defined (e.g. by
 % econark-shortcuts.sty). Load alone/first for the registry's base dialect.
@@ -15,7 +15,7 @@
 \providecommand{\BoroCnstArt}{\underline{a}_{\mathrm{Art}}}  % borrowing-limit-artificial
 \providecommand{\BoroCnstNat}{\underline{a}_{\mathrm{Nat}}}  % borrowing-limit-natural
 \providecommand{\kapShare}{\alpha}  % capital-share
-\providecommand{\CARA}{\mathrm{cara}}  % cara
+\providecommand{\CARA}{\upsilon}  % cara
 \providecommand{\qLo}{q_{0}}  % constraint-end-exponent
 \providecommand{\cFunc}{\mathrm{c}}  % consumption-function
 \providecommand{\cNrmNxt}{c\Nxt}  % consumption-next
@@ -27,8 +27,9 @@
 \providecommand{\EPermShkInv}{\Ex[\permShk^{-1}]}  % e-perm-shk-inv
 \providecommand{\eprem}{\phi}  % equity-premium-log
 \providecommand{\Ex}{\mathbb{E}}  % expectation
-\providecommand{\PermGroFac}{\mathcal{G}}  % growth-factor
-\providecommand{\PermGroRte}{g}  % growth-rate
+\providecommand{\GoldRule}[1]{\bar{\bar{#1}}}  % golden-rule
+\providecommand{\PermGroFac}{\mathsf{G}}  % growth-factor
+\providecommand{\PermGroRte}{\mathsf{g}}  % growth-rate
 \providecommand{\qHi}{q_{\infty}}  % high-wealth-exponent
 \providecommand{\hNrm}{h}  % human-wealth
 \providecommand{\hNrmOpt}{\bar{h}}  % human-wealth-optimist
@@ -36,16 +37,18 @@
 \providecommand{\IncUnemp}{\xi_{\mathrm{u}}}  % income-unemployed
 \providecommand{\IncUnempNoBen}{\xi_{\mathrm{x}}}  % income-unemployed-expired
 \providecommand{\InvEPermShkInv}{{\PowMean_{-1}[\permShk]}}  % inv-e-perm-shk-inv
+\providecommand{\itcRte}{\chi}  % investment-tax-credit
 \providecommand{\jobFindPrb}{\mathrm{find}}  % job-find-probability
 \providecommand{\kNrmNxt}{k\Nxt}  % kapital-next
 \providecommand{\kNrmNow}{k\Now}  % kapital-now
 \providecommand{\labor}{\ell}  % labor
 \providecommand{\tightness}{\mathrm{tgt}}  % labor-market-tightness
+\providecommand{\leisure}{z}  % leisure
 \providecommand{\leiShare}{\zeta}  % leisure-share
 \providecommand{\logmNrmEx}{\boldsymbol{\mu}}  % log-excess-resources
 \providecommand{\GPRte}{\thorn_{\PermGroRte}}  % log-growth-patience-rate
 \providecommand{\matchEff}{\mathrm{eff}}  % matching-efficiency
-\providecommand{\matchElas}{z}  % matching-elasticity
+\providecommand{\matchElas}{\varpi}  % matching-elasticity
 \providecommand{\MPC}{\kappa}  % mpc
 \providecommand{\MPCmax}{\overline{\kappa}}  % mpc-max
 \providecommand{\MPCmin}{\underline{\kappa}}  % mpc-min
@@ -66,8 +69,9 @@
 \providecommand{\permShkIndMin}{\underline{\psi}}  % permanent-shock-min
 \providecommand{\permShkNxt}{\psi\Nxt}  % permanent-shock-next
 \providecommand{\PopnGroFac}{\Xi}  % population-growth
+\providecommand{\PopnGroRte}{n}  % population-growth-rate
 \providecommand{\PowMean}{{\mathcal{M}}}  % power-mean
-\providecommand{\PtyGroFac}{\mathsf{G}}  % productivity-growth
+\providecommand{\PtyGroFac}{\mathcal{G}}  % productivity-growth
 \providecommand{\mBalLvl}{\check{m}}  % pseudo-target
 \providecommand{\mNrmEx}{\ddot{m}}  % resources-excess
 \providecommand{\mNrmMin}{\underline{m}}  % resources-min
@@ -77,11 +81,16 @@
 \providecommand{\RBoro}{\bar{\Rfree}}  % return-borrowing
 \providecommand{\Rfree}{\mathsf{R}}  % return-factor
 \providecommand{\RNrmByG}{\mathcal{R}}  % return-growth-ratio
+\providecommand{\savRte}{\mathrm{sav}}  % saving-rate
 \providecommand{\sepRte}{\mathrm{sep}}  % separation-rate
 \providecommand{\splurge}{\gimel}  % splurge
+\providecommand{\Steady}[1]{\bar{#1}}  % steady-state
+\providecommand{\SDF}{\textbf{Ð}}  % stochastic-discount-factor
+\providecommand{\sdf}{\text{ð}}  % stochastic-discount-rate
 \providecommand{\LivPrb}{\mathcal{L}}  % survival-prob
 \providecommand{\mTrgNrm}{\hat{m}}  % target
 \providecommand{\thorn}{\text{þ}}  % thorn-glyph
+\providecommand{\discRte}{\vartheta}  % time-preference-rate
 \providecommand{\tranShkAll}{\xi}  % transitory-shock-all
 \providecommand{\tranShkEmp}{\theta}  % transitory-shock-employed
 \providecommand{\tranShkEmpMin}{\underline{\theta}}  % transitory-shock-employed-min
@@ -92,6 +101,7 @@
 \providecommand{\uFunc}{\mathrm{u}}  % utility-function
 \providecommand{\vacCost}{\mathrm{cst}}  % vacancy-cost
 \providecommand{\vacFillPrb}{\mathrm{fill}}  % vacancy-fill-probability
+\providecommand{\WGroFac}{\mathrm{G}}  % wage-growth
 \providecommand{\wbar}{o}  % wealth-total-pf
 \providecommand{\wbarNxt}{\wbar\Nxt}  % wealth-total-pf-next
 \providecommand{\wbarNow}{\wbar\Now}  % wealth-total-pf-now

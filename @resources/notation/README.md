@@ -154,13 +154,14 @@ symbols:
   <semantic-key>:                    # kebab-case; names the OBJECT, never the letter
     gloss:   "<one line>"
     define:  "<defining equation, unicode>"          # optional
-    latex:   {macro: '\Xyz', expansion: '<latex>'}   # optional (gloss-only objects omit it)
+    latex:   {macro: '\Xyz', expansion: '<latex>', args: N}   # optional (gloss-only objects omit it); args: see below
     unicode: '<glyph(s)>'
     plain:   '<name for terminals and code>'           # optional; see below
     python:  '<HARKishName>'                          # optional; PROPOSED if not in use
     aliases: ["<sanctioned alternates + where>"]      # optional
     dialects: {<key>: {expansion, home, note, status}}   # optional; DECLARED divergences
     conflicts_checked: "<what was verified against what>"  # optional
+    scope:   "<the documents this meaning holds in>"  # optional; see below
     ruling:  {date, source, rationale}
 ```
 
@@ -168,6 +169,15 @@ symbols:
 combining underline (U+0332), which many terminals draw under the next cell: `κ_min` for κ̲,
 `a_Nat` for a̲_Nat. It is never pasted into LaTeX as it stands. Marks above a letter (m̂, κ̄, q̃)
 draw correctly and get no `plain`.
+
+`args` is the number of arguments a macro takes (`\Steady{k}` = k̄ has one); the generators emit
+`\providecommand{\Steady}[1]{…}` and the agreement test typesets it with `x`. Omit it for a macro
+with none.
+
+`scope` names the documents, or kinds of document, in which a row's meaning holds. It is needed only
+where an accent carries more than one meaning (the convention `accent-locality` in `terminology.yml`,
+owner, 2026-11-03): no single document may use two meanings of one accent, and a row without a scope
+holds wherever no scoped row of the same accent applies. No tool checks this yet.
 
 Generators emit symbols **sorted by semantic key**, with no timestamps, so
 re-running is byte-identical (that is what `check_sync` enforces). Dialects are

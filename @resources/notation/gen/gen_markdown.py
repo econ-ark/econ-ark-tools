@@ -50,7 +50,7 @@ def render(notation, terminology):
     # Details: only symbols with something beyond the table columns.
     detail_keys = []
     for key, e in C.sorted_symbols(notation):
-        if any(e.get(k) for k in ("define", "aliases", "dialects",
+        if any(e.get(k) for k in ("define", "aliases", "dialects", "scope",
                                   "conflicts_checked", "ruling")):
             detail_keys.append((key, e))
     if detail_keys:
@@ -61,6 +61,10 @@ def render(notation, terminology):
             out.append("")
             if e.get("define"):
                 out.append(f"- **define:** {cell(e['define'])}")
+            if (e.get("latex") or {}).get("args"):
+                out.append(f"- **arguments:** {e['latex']['args']}")
+            if e.get("scope"):
+                out.append(f"- **scope:** {cell(e['scope'])}")
             for a in (e.get("aliases") or []):
                 out.append(f"- **alias:** {cell(a)}")
             if e.get("conflicts_checked"):
