@@ -2,7 +2,7 @@
 % @resources/notation/notation.yml, the single source of notation for the papers).
 % Explicit definitions only (no factory/\@for loops); Lvl/Nrm/Func for a-z and A-Z are inline.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{econark-shortcuts}[2026/10/22 v8.0.0 Econ-ARK shared notation]
+\ProvidesPackage{econark-shortcuts}[2026/11/04 v9.0.0 Econ-ARK shared notation]
 % What the macros below need (2026-10-22). eucal is loaded only if no package has defined
 % \mathscr already, so a class that loads it with its own options is not disturbed.
 \RequirePackage{amsmath,amssymb,cancel,graphicx}
@@ -268,14 +268,17 @@
 \ARKcommand{\MPCmaxmin}{\Max{\Min{\MPC}}}
 \ARKcommand{\MPCminmin}{\Min{\Min{\MPC}}}
 
-%% Growth factors
-\ARKcommand{\PermGroFacAgg}{\mathscr{G}}
+%% Growth factors (owner rulings 2026-11-02, adopted in v9.0.0). Permanent-income growth is sans-serif, 𝖦 = 1 + 𝗀,
+%% as 𝖱 = 1 + 𝗋; until v9.0.0 it was calligraphic, which passes to productivity growth (\PtyGroFac below). Aggregate
+%% permanent growth (HARK's PermGroFacAgg) IS productivity growth, so \PermGroFacAgg is an alias (it was \mathscr{G}).
+%% Wage growth, and permanent labor income growth in perfect-foresight models, stays roman G and g.
+\ARKcommand{\PermGroFacAgg}{\PtyGroFac}   % alias
 \ARKcommand{\permGroFacInd}{\mathit{G}}
-\ARKcommand{\PermGroFac}{\mathcal{G}}
+\ARKcommand{\PermGroFac}{\mathsf{G}}
 \ARKcommand{\PermGroFacRnd}{\Rnd{\PermGroFac}}       % normalization including shock
 \ARKcommand{\PermGroFacAdj}{\Min{\PermGroFac}}
 \ARKcommand{\PermGroFacuAdj}{\Min{\Min{\PermGroFac}}}
-\ARKcommand{\PermGroRte}{g}
+\ARKcommand{\PermGroRte}{\mathsf{g}}
 \ARKcommand{\WGroFac}{\ensuremath{\mathrm{G}}}
 \ARKcommand{\WGroRte}{\mathrm{g}}
 
@@ -298,8 +301,10 @@
 % (\DiscFacLiv was \Min{\DiscFacRaw}, an underline, which also means a lower bound.)
 \ARKcommand{\DiscFacEff}{\mathring{\DiscFacRaw}}
 \ARKcommand{\DiscFacLiv}{\DiscFacEff}   % alias: the v5 name, which the BST paper writes
-\ARKcommand{\DiscRte}{\nu} % vartheta is too easily confused with theta
-\ARKcommand{\discRte}{\nu} % 
+% The time preference rate, beta = 1/(1+vartheta) (owner ruling 2026-11-02). It was \nu, with the note that vartheta is too
+% easily confused with theta (\tranShkEmp); the owner chose vartheta, the course's long-standing letter.
+\ARKcommand{\DiscRte}{\vartheta}
+\ARKcommand{\discRte}{\vartheta}
 
 % The thorn glyphs, both plain. \APFac makes the factor bold, once: \textbf, a real bold face, as
 % in the notation registry (owner, 2026-10-21: "a single \textbf not double"; this was
@@ -311,8 +316,8 @@
 \ARKcommand{\APFac}{\textbf{\Thorn}} % Former \Pat
 \ARKcommand{\APFacDefn}{\hyperlink{APFacDefn}{\textrm{APF}}}
 
-% The patience factors are WRITTEN with a subscript, as the registry writes them: Þ_𝒢 and Þ_R,
-% not the ratios Þ/𝒢 and Þ/R that define them (ruling 2026-10-21, to bring econark-shortcuts
+% The patience factors are WRITTEN with a subscript, as the registry writes them: Þ_𝖦 and Þ_R,
+% not the ratios Þ/𝖦 and Þ/R that define them (ruling 2026-10-21, to bring econark-shortcuts
 % and the notation registry to one form).
 \ARKcommand{\GPFac}{\GPFacRaw}
 \ARKcommand{\GPFacRaw}{\APFac_{\PermGroFac}}
@@ -329,6 +334,12 @@
 \ARKcommand{\GPRte}{\text{\thorn}_{\PermGroRte}}
 \ARKcommand{\APRte}{\text{\thorn}}
 
+% The stochastic discount factor and its log take the eth, the thorn's sibling, with the factor/rate case convention
+% (owner ruling 2026-11-02): Ð_{t,t+n} = β^n u'(c_{t+n})/u'(c_t), ð = log Ð. Bold, as the patience factors are. The
+% glyphs come from T1 as the thorns' do; \eth is amssymb's own ð, so the log is \sdf. M stays market resources.
+\ARKcommand{\SDF}{\textbf{\text{\fontencoding{T1}\selectfont\DH}}}
+\ARKcommand{\sdf}{\text{\fontencoding{T1}\selectfont\dh}}
+
 \ARKcommand{\EPermShkInv}{\Ex[\permShk^{-1}]}  % Formerly EpShkInv
 % The growth- and utility-compensated permanent shocks are power means of psi (owner ruling 2026-10-22):
 % the harmonic mean M_{-1}[psi] = (E[psi^{-1}])^{-1}, and M_{1-rho}[psi] = (E[psi^{1-rho}])^{1/(1-rho)}.
@@ -339,7 +350,7 @@
 \ARKcommand{\RfreeEff}{\mathring{\Rfree}} % Blanchard-adjusted return R/\LivPrb: the survival ring (owner ruling 2026-10-22); R-bar is \RBoro
 
 \ARKcommand{\PopnGroFac}{\Xi}
-\ARKcommand{\PopnGroRte}{\ln\PopnGroFac}   % no letter of its own (owner ruling 2026-10-22); xi is the transitory shock
+\ARKcommand{\PopnGroRte}{n}   % Solow's letter (owner ruling 2026-11-02); was \ln\PopnGroFac, and before that xi, the transitory shock
 \ARKcommand{\PopnLvl}{\pmb{\mathrm{N}}}
   
 \ARKcommand{\LivPrb}{\Alive}
@@ -347,7 +358,7 @@
 
 \ARKcommand{\pNotZero}{(1-\pZero)}
 
-\ARKcommand{\CARA}{\mathrm{cara}}   % a word (owner ruling 2026-10-22); \alpha is the capital share (\kapShare)
+\ARKcommand{\CARA}{\upsilon}   % owner ruling 2026-11-03; was the word cara (2026-10-22). \alpha is the capital share (\kapShare)
 \ARKcommand{\CRRA}{\varrho}   % not plain \rho, which papers keep for persistence and correlation (owner ruling 2026-10-22)
 \ARKcommand{\MPC}{\kappa}
 
@@ -371,11 +382,11 @@
                                         % individual's behavior, so upper case follows the
                                         % aggregate/individual convention rather than fighting it.
 \ARKcommand{\matchEff}{\mathrm{eff}}     % matching-function efficiency. Was \chi.
-\ARKcommand{\matchElas}{z}               % matching-function elasticity. A single letter, unlike its
-                                        % four siblings, BECAUSE IT IS AN EXPONENT: e^{z}, tgt^{1-z}.
-                                        % Was \alpha (NARK's \kapShare and \CARA). z is the only
-                                        % lowercase Roman left -- n reads as individual employment
-                                        % beside N, and x is \psav in the registry.
+\ARKcommand{\matchElas}{\varpi}          % matching-function elasticity. A single letter, unlike its
+                                        % four siblings, BECAUSE IT IS AN EXPONENT: e^{\varpi}, tgt^{1-\varpi}.
+                                        % Was \alpha (NARK's \kapShare), then z (2026-08-30), which
+                                        % passes to \leisure (owner ruling 2026-11-03). Mind omega
+                                        % (\weight), which varpi resembles.
 \ARKcommand{\vacFillPrb}{\mathrm{fill}}  % probability a VACANCY is filled. Was \phi, which is
                                         % NARK's \prstShkInd / \eprem -- and which the paper
                                         % additionally subscripts for the wage, Taylor and fiscal
@@ -441,6 +452,9 @@
 
 \ARKcommand{\Labor}{\mathrm{L}}
 \ARKcommand{\labor}{\ell}
+\ARKcommand{\leisure}{z}       % time not worked, z = 1 - \ell with a unit endowment (owner ruling 2026-11-03); the share is \leiShare
+\ARKcommand{\itcRte}{\chi}     % investment tax credit rate: chi, the Greek C, for credit (owner ruling 2026-11-03); write 1-\chi out
+\ARKcommand{\savRte}{\mathrm{sav}}  % saving rate, a word (owner ruling 2026-11-03); \varsigma is \riskyshare
 
 \ARKcommand{\EEndMap}{{\mathsf{E}}}
 
@@ -513,10 +527,11 @@
 % - Roman G is a Growth factor and Roman g is the rate
 % - Roman R is a Growth factor and Roman r is the rate
 
-% Productivity growth: sans-serif (owner ruling 2026-10-22). (Was script G, shared with \PermGroFacAgg; a script g that no
-% font has, so it printed nothing; and Roman G and g, which clashed with \permGroFacInd and \PermGroRte.)
-\ARKcommand{\PtyGroFac}{\mathsf{G}}
-\ARKcommand{\PtyGroRte}{\mathsf{g}}
+% Productivity growth, which is also aggregate permanent growth (\PermGroFacAgg): calligraphic G, rate italic g (owner
+% rulings 2026-11-02; calligraphic has no lowercase, so the rate is plain g). It was sans-serif from 2026-10-22, now
+% permanent-income growth's; before that script G, a script g that no font has, and Roman G and g.
+\ARKcommand{\PtyGroFac}{\mathcal{G}}
+\ARKcommand{\PtyGroRte}{g}
 \ARKcommand{\ptyGroFac}{\PtyGroFac}
 \ARKcommand{\ptyGroRte}{\PtyGroRte}
 
@@ -537,6 +552,10 @@
 % ------------------ Modifiers ------------------ 
 
 \ARKcommandParam{\cnstr}{1}{\grave{#1}} %% Constrained
+% Steady state and golden rule (owner rulings 2026-11-03). The bar also means an upper bound elsewhere; the registry
+% allows both, provided no document uses two meanings of one accent (terminology.yml, accent-locality).
+\ARKcommandParam{\Steady}{1}{\bar{#1}}
+\ARKcommandParam{\GoldRule}{1}{\bar{\bar{#1}}}
 \ARKcommand{\avg}{\bar}
 \ARKcommand{\Max}{\overline}
 \ARKcommand{\Min}{\underline}

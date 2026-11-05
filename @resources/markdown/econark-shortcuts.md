@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v8.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v9.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -197,13 +197,13 @@
 \newcommand{\MPCmaxmax}{\Max{\Max{\MPC}}}
 \newcommand{\MPCmaxmin}{\Max{\Min{\MPC}}}
 \newcommand{\MPCminmin}{\Min{\Min{\MPC}}}
-\newcommand{\PermGroFacAgg}{\mathscr{G}}
+\newcommand{\PermGroFacAgg}{\PtyGroFac}
 \newcommand{\permGroFacInd}{\mathit{G}}
-\newcommand{\PermGroFac}{\mathcal{G}}
+\newcommand{\PermGroFac}{\mathsf{G}}
 \newcommand{\PermGroFacRnd}{\Rnd{\PermGroFac}}
 \newcommand{\PermGroFacAdj}{\Min{\PermGroFac}}
 \newcommand{\PermGroFacuAdj}{\Min{\Min{\PermGroFac}}}
-\newcommand{\PermGroRte}{g}
+\newcommand{\PermGroRte}{\mathsf{g}}
 \newcommand{\WGroFac}{\mathrm{G}}
 \newcommand{\WGroRte}{\mathrm{g}}
 \newcommand{\Alive}{\mathcal{L}}
@@ -218,8 +218,8 @@
 \newcommand{\DiscFacRaw}{\beta}
 \newcommand{\DiscFacEff}{\mathring{\DiscFacRaw}}
 \newcommand{\DiscFacLiv}{\DiscFacEff}
-\newcommand{\DiscRte}{\nu}
-\newcommand{\discRte}{\nu}
+\newcommand{\DiscRte}{\vartheta}
+\newcommand{\discRte}{\vartheta}
 \newcommand{\Thorn}{\text{Þ}}
 \newcommand{\thorn}{\text{þ}}
 \newcommand{\APFac}{\textbf{\Thorn}}
@@ -235,23 +235,25 @@
 \newcommand{\RPRte}{\text{\thorn}_{\rfree}}
 \newcommand{\GPRte}{\text{\thorn}_{\PermGroRte}}
 \newcommand{\APRte}{\text{\thorn}}
+\newcommand{\SDF}{\textbf{\text{Ð}}}
+\newcommand{\sdf}{\text{ð}}
 \newcommand{\EPermShkInv}{\Ex[\permShk^{-1}]}
 \newcommand{\InvEPermShkInv}{{\PowMean_{-1}[\permShk]}}
 \newcommand{\uInvEuPermShk}{{\PowMean_{1-\CRRA}[\permShk]}}
 \newcommand{\RfreeEff}{\mathring{\Rfree}}
 \newcommand{\PopnGroFac}{\Xi}
-\newcommand{\PopnGroRte}{\ln\PopnGroFac}
+\newcommand{\PopnGroRte}{n}
 \newcommand{\PopnLvl}{\pmb{\mathrm{N}}}
 \newcommand{\LivPrb}{\Alive}
 \newcommand{\pNotZero}{(1-\pZero)}
-\newcommand{\CARA}{\mathrm{cara}}
+\newcommand{\CARA}{\upsilon}
 \newcommand{\CRRA}{\varrho}
 \newcommand{\MPC}{\kappa}
 \newcommand{\vacCost}{\mathrm{cst}}
 \newcommand{\sepRte}{\mathrm{sep}}
 \newcommand{\ADElas}{\Omega}
 \newcommand{\matchEff}{\mathrm{eff}}
-\newcommand{\matchElas}{z}
+\newcommand{\matchElas}{\varpi}
 \newcommand{\vacFillPrb}{\mathrm{fill}}
 \newcommand{\jobFindPrb}{\mathrm{find}}
 \newcommand{\tightness}{\mathrm{tgt}}
@@ -293,6 +295,9 @@
 \newcommand{\erate}{{\cancel{\mho}}}
 \newcommand{\Labor}{\mathrm{L}}
 \newcommand{\labor}{\ell}
+\newcommand{\leisure}{z}
+\newcommand{\itcRte}{\chi}
+\newcommand{\savRte}{\mathrm{sav}}
 \newcommand{\EEndMap}{{\mathsf{E}}}
 \newcommand{\CEndFunc}{{\mathfrak{C}}}
 \newcommand{\cEndFunc}{{\mathfrak{c}}}
@@ -321,8 +326,8 @@
 \newcommand{\Chi}{{\mathrm{X}}}
 \newcommand{\PopGroFac}{\Xi}
 \newcommand{\popGroRte}{\PopnGroRte}
-\newcommand{\PtyGroFac}{\mathsf{G}}
-\newcommand{\PtyGroRte}{\mathsf{g}}
+\newcommand{\PtyGroFac}{\mathcal{G}}
+\newcommand{\PtyGroRte}{g}
 \newcommand{\ptyGroFac}{\PtyGroFac}
 \newcommand{\ptyGroRte}{\PtyGroRte}
 \newcommand{\Reals}{\mathbb{R}}
@@ -332,6 +337,8 @@
 \newcommand{\PowMean}{{\mathcal{M}}}
 \newcommand{\cncl}[1]{{\cancel{#1}}}
 \newcommand{\cnstr}[1]{\grave{#1}}
+\newcommand{\Steady}[1]{\bar{#1}}
+\newcommand{\GoldRule}[1]{\bar{\bar{#1}}}
 \newcommand{\avg}{\bar}
 \newcommand{\Max}{\overline}
 \newcommand{\Min}{\underline}

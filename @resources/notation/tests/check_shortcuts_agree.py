@@ -31,16 +31,23 @@ PREAMBLE = r"""\documentclass{article}
 
 
 def shared_names():
+    """{name: number of arguments} for every macro in both files (a macro taking arguments is
+    typeset with x in each)."""
     reg = yaml.safe_load(open(os.path.join(NOTATION, "notation.yml"), encoding="utf-8"))
-    reg_macros = {(e.get("latex") or {}).get("macro") for e in reg["symbols"].values()} - {None}
+    reg_macros = {}
+    for e in reg["symbols"].values():
+        latex = e.get("latex") or {}
+        if latex.get("macro"):
+            reg_macros[latex["macro"]] = int(latex.get("args", 0))
     sty = open(STY, encoding="utf-8").read()
-    sty_macros = set(re.findall(r"^\s*\\ARKcommand\{(\\[A-Za-z]+)\}", sty, re.M))
-    return sorted(reg_macros & sty_macros)
+    sty_macros = set(re.findall(r"^\s*\\ARKcommand(?:Param)?\{(\\[A-Za-z]+)\}", sty, re.M))
+    return {n: reg_macros[n] for n in sorted(set(reg_macros) & sty_macros)}
 
 
 def measure(tmp, package, names):
     body = "\n".join(
-        r"\sbox0{$\displaystyle %s$}\typeout{AGREE|%s|\the\wd0|\the\ht0|\the\dp0}" % (n, n[1:])
+        r"\sbox0{$\displaystyle %s%s$}\typeout{AGREE|%s|\the\wd0|\the\ht0|\the\dp0}"
+        % (n, "{x}" * names[n], n[1:])
         for n in names)
     tex = os.path.join(tmp, f"agree_{package}.tex")
     with open(tex, "w", encoding="utf-8") as f:

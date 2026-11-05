@@ -29,6 +29,8 @@ MIRROR_DIR = os.path.join(C.NOTATION_DIR, "..", "markdown")
 KATEX_REWRITES = [
     (r"\text{\fontencoding{T1}\selectfont\TH}", r"\text{Þ}"),
     (r"\text{\fontencoding{T1}\selectfont\th}", r"\text{þ}"),
+    (r"\text{\fontencoding{T1}\selectfont\DH}", r"\text{Ð}"),
+    (r"\text{\fontencoding{T1}\selectfont\dh}", r"\text{ð}"),
     (r"\rotatebox{180}{$\uFunc$}", r"\uFunc^{-1}"),
     (r"\null", r"{}"),
 ]
@@ -106,7 +108,7 @@ def merged(doc):
     for _, entry in C.macro_symbols(doc):
         macro = entry["latex"]["macro"]
         if macro not in names:
-            entries.append((macro, 0, entry["latex"]["expansion"]))
+            entries.append((macro, int(entry["latex"].get("args", 0)), entry["latex"]["expansion"]))
             names.add(macro)
     return entries
 

@@ -3,6 +3,38 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v9.0.0 — 2026-11-04
+
+**The Intertemporal Choice course's notation, reconciled with the registry.** The owner ruled on the course's
+conflicts with the registry on 2026-11-02 and 2026-11-03, in the course's session (cc:course-choice); his words and
+times are in each row's `ruling`. That session drafted the rows, and the owner adopted them here on 2026-11-04 at
+19:20:49 EST ("adopt them"). MAJOR: six renderings change.
+- **Permanent-income growth is sans-serif:** `\PermGroFac` = 𝖦 and `\PermGroRte` = 𝗀 (were calligraphic 𝒢 and
+  italic g, 2026-10-21), so 𝖦 = 1 + 𝗀 as 𝖱 = 1 + 𝗋. Everything built on them follows: Þ_𝖦 (`\GPFacRaw`), Þ̊_𝖦,
+  ℒÞ̊_𝖦, þ_𝗀 (`\GPRte`), 𝖦̲ (`\PermGroFacAdj`).
+- **Productivity growth takes the freed 𝒢 and g:** `\PtyGroFac` = 𝒢, `\PtyGroRte` = g (were sans-serif 𝖦 and 𝗀,
+  2026-10-22). Aggregate permanent growth is the same object (HARK's PermGroFacAgg, checked by the HARK session
+  on 2026-11-03), so `\PermGroFacAgg` becomes an alias and its script 𝒢 (`\mathscr{G}`) retires.
+- **Time preference rate:** `\discRte` and `\DiscRte` = ϑ (were ν), with β = 1/(1+ϑ). A new row.
+- **CARA:** `\CARA` = υ (was the word cara, 2026-10-22).
+- **Matching elasticity:** `\matchElas` = ϖ (was z, 2026-08-30), so z can be leisure.
+- **Population growth rate:** `\PopnGroRte` = n (was ln Ξ, 2026-10-22), in a new row of its own.
+
+New rows: the stochastic discount factor `\SDF` = Ð and its log `\sdf` = ð, the thorn's sibling (M stays
+market resources); wage growth `\WGroFac` = G and `\WGroRte` = g (macros the shortcuts already had); the steady
+state `\Steady{k}` = k̄ and the golden rule `\GoldRule{k}` = k̿; leisure `\leisure` = z; the investment tax
+credit `\itcRte` = χ (1 − χ written out); the saving rate `\savRte` = sav.
+
+**A convention, accent-locality (2026-11-03 19:17:46 EST):** an accent may carry several meanings, each in its own
+row with a `scope`, provided no single document (for a book, a page or chapter) uses two of them. The bar is the
+first: an upper bound in BST and MoM, the steady state in the course's growth chapters. No tool checks it yet.
+
+Schema: `latex.args` for macros that take arguments (the generators and `check_shortcuts_agree.py` handle them),
+and `scope`. The Ð and ð glyphs come from T1 in `econark-shortcuts.sty`, as the thorns do, and the web map writes
+them as Unicode. Two corrections to the course's draft: NARK's notation table writes `\CARA`, `\discRte`,
+`\popGroRte` and `\PtyGroFac`, so it prints the new glyphs; and the population growth rate gets its own row, as
+the ruling ("n, a new registry row") says.
+
 ## v8.0.0 — 2026-10-22
 
 **Unemployment incomes are ξ_u and ξ_x (13:59:19).** The owner: "let's use _u and _x everywhere (note: 'x' for

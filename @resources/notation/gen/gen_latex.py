@@ -31,7 +31,9 @@ def render(doc):
     for key, entry in C.macro_symbols(doc):
         macro = entry["latex"]["macro"]
         expansion = entry["latex"]["expansion"]
-        lines.append(f"\\providecommand{{{macro}}}{{{expansion}}}  % {key}")
+        args = int(entry["latex"].get("args", 0))
+        argspec = f"[{args}]" if args else ""
+        lines.append(f"\\providecommand{{{macro}}}{argspec}{{{expansion}}}  % {key}")
     lines.append("")
     return "\n".join(lines)
 
