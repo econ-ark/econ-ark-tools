@@ -20,8 +20,10 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 9.0.0        # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-11-04   #         MINOR = additions; PATCH = gloss/typo fixes
+  version: 9.1.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  updated: 2026-11-05   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 9.1.0: convention: π is inflation (owner, 2026-11-05); the matching block's
+                        #        formulas and notes written with ϖ, and its ϖ check corrected
                         # 9.0.0: the owner's rulings of 2026-11-02/03 in the Intertemporal Choice course's
                         #        session: permanent-income growth 𝖦/𝗀, productivity growth 𝒢/g, ϑ, υ, ϖ,
                         #        n; new rows Ð/ð, G, steady state, golden rule, z, χ, sav (adopted 2026-11-04)
@@ -70,7 +72,7 @@ symbols:
 
   matching-efficiency:
     gloss: "matching-function efficiency — the scale parameter of the Cobb-Douglas matching function"
-    define: "matches = eff * searchers^z * vacancies^(1-z)"
+    define: "matches = eff * searchers^ϖ * vacancies^(1−ϖ)"
     latex: {macro: '\matchEff', expansion: '\mathrm{eff}'}
     unicode: 'eff'
     conflicts_checked: "Written chi in HAFiscal's published appendix. chi is unclaimed upstream, so this moves by CONVENTION (words for the SAM block) rather than to resolve a collision -- kept with its siblings so the block reads as one family."
@@ -82,12 +84,12 @@ symbols:
     latex: {macro: '\matchElas', expansion: '\varpi'}
     aliases: ["was z (2026-08-30 to v9.0.0), which passes to leisure; until 2026-10-22 the sce-wg-1-dev schemas also wrote z for the employment state, which is now j (see employment-state)"]
     unicode: 'ϖ'
-    conflicts_checked: "MAJOR (v9.0.0). ϖ is used nowhere in the registry, the shortcuts, the course's book and questions, or HARK's symbol tables (checked 2026-11-02). The 2026-08-30 search rejected \\mathrm{els}, ϰ, υ and ι and did not consider ϖ; it chose z, which needs a single glyph because it is an EXPONENT. Reading hazard: ϖ resembles ω, the registry's \\weight, and HAFiscal uses both (its HANK appendix writes \\matchElas)."
+    conflicts_checked: "MAJOR (v9.0.0). ϖ is used nowhere in the registry, the shortcuts, the course's book and questions, or HARK's symbol tables (checked 2026-11-02). That check left out the papers (corrected 2026-11-05, v9.1.0): HAFiscal's HANK appendix, the block this row serves, had written inflation ϖ since its notation pass of 2026-10-22, and the owner returned inflation to π (see terminology.yml's inflation convention), so ϖ is unique there once that paper follows; BST declares a local \\lomdkPrbmm = ϖ in its Harmenberg appendix, a different document. The 2026-08-30 search rejected \\mathrm{els}, ϰ, υ and ι and did not consider ϖ; it chose z, which needs a single glyph because it is an EXPONENT. Reading hazard: ϖ resembles ω, the registry's \\weight, and HAFiscal uses both (its HANK appendix writes \\matchElas)."
     ruling: {date: 2026-11-03, source: "owner, in the cc:course-choice session, 08:08:44 EST: 'z for leisure; elasticity takes ϖ'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "leisure keeps z, as NARK and the course write it, and both symbols become unique; supersedes 'use z' (2026-08-30)"}
 
   vacancy-fill-probability:
     gloss: "probability that a vacancy is filled in a period"
-    define: "fill = eff * tgt^(-z)"
+    define: "fill = eff * tgt^(−ϖ)"
     latex: {macro: '\vacFillPrb', expansion: '\mathrm{fill}'}
     unicode: 'fill'
     conflicts_checked: "Written phi in HAFiscal's published appendix, where phi is ALSO subscripted for the wage rule, the Taylor rule and two fiscal rules -- five distinct meanings on one letter, the heaviest overload in that document. phi is additionally NARK's \\prstShkInd and \\eprem. This retires the bare use; the four subscripted ones are a separate question."
@@ -95,11 +97,11 @@ symbols:
 
   job-find-probability:
     gloss: "probability that a searcher finds a job in a period"
-    define: "find = eff * tgt^(1-z)"
+    define: "find = eff * tgt^(1−ϖ)"
     latex: {macro: '\jobFindPrb', expansion: '\mathrm{find}'}
     unicode: 'find'
     python: 'job_find'
-    conflicts_checked: "Written eta in HAFiscal's published appendix; the registry claims eta subscripted as \\etaL / \\etaR. Named apart from vacancy-fill-probability deliberately: the two differ only as tgt^{1-z} against tgt^{-z}, so a reader had to hold which of eta and phi was which."
+    conflicts_checked: "Written eta in HAFiscal's published appendix; the registry then claimed eta subscripted as \\etaL / \\etaR (power-law rows, removed in v5.0.0). Named apart from vacancy-fill-probability deliberately: the two differ only as tgt^{1−ϖ} against tgt^{−ϖ}, so a reader had to hold which of eta and phi was which."
     ruling: {date: 2026-08-30, source: "owner ruling: words for the SAM block"}
 
   labor-market-tightness:
