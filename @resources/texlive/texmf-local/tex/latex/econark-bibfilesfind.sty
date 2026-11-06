@@ -1,6 +1,13 @@
-\ProvidesPackage{econark-bibfilesfind}[2024/11/04 collect existing among filename.bib, system.bib, filename-Add-Refs.bib]
+\ProvidesPackage{econark-bibfilesfind}[2026/11/05 collect existing among filename.bib, system.bib, filename-Add-Refs.bib]
 
 % creates \bibfilesfound with list of nonempty bibfiles
+%
+% ORDER. When system.bib exists it is listed FIRST (owner, 2025-06-25, commit b5e3cbbf: "put system
+% before local"). BibTeX keeps the first copy of a repeated key, so system.bib's entries win and the
+% local files supply only keys system.bib lacks. A local filename.bib that is an extract of system.bib
+% (bibtool_extract-used-refs-from-system-bib-and-add-refs.sh) repeats every key it holds, and BibTeX
+% reports each as a "Repeated entry" error; latexmkrc_using_bibtex_wrapper filters exactly those.
+% Without system.bib (a public clone, CI), the local files are all there is.
 
 \RequirePackage{ifthen}
 \RequirePackage{etoolbox}
@@ -121,22 +128,22 @@
   \ifthenelse{\boolean{AddRefsExists}}{% AddRefs
     \ifthenelse{\boolean{systemExists}}{% Addrefs+system 
       \ifthenelse{\boolean{filenameExists}}{% AddRefs+system+file
-        \typeout{econark-bibfilesfind: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{econark-bibfilesfind: References in default global system.bib will be used for items not found elsewhere}%
+        \typeout{econark-bibfilesfind: References in global system.bib take precedence (it is listed first)}%
+        \typeout{econark-bibfilesfind: \filename-Add-Refs.bib, then \filename.bib, supply items not in system.bib}%
         \typeout{}% 
-        \typeout{\bibfilesfound:{\filename-Add-Refs,\filename,system}}%
+        \typeout{\bibfilesfound:{system,\filename-Add-Refs,\filename}}%
         \typeout{}% 
         \renewcommand{\bibfilesfound}{system,./\filename-Add-Refs,./\filename}%
       }{% AddRefs+system-file
-        \typeout{econark-bibfilesfind: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{econark-bibfilesfind: References in default global system.bib will be used for items not found elsewhere}%
-        \typeout{\bibfilesfound:{\filename-Add-Refs,system}}%
+        \typeout{econark-bibfilesfind: References in global system.bib take precedence (it is listed first)}%
+        \typeout{econark-bibfilesfind: \filename-Add-Refs.bib supplies items not in system.bib}%
+        \typeout{\bibfilesfound:{system,\filename-Add-Refs}}%
         \renewcommand{\bibfilesfound}{system,./\filename-Add-Refs}%
       }%
     }{% +AddRefs-system
       \ifthenelse{\boolean{filenameExists}}{% AddRefs-system+file
-        \typeout{econark-bibfilesfind: References in \filename-Add-Refs.bib will take precedence over those elsewhere}%
-        \typeout{econark-bibfilesfind: References in default global system.bib will be used for items not found elsewhere}%
+        \typeout{econark-bibfilesfind: References in \filename.bib take precedence (it is listed first)}%
+        \typeout{econark-bibfilesfind: \filename-Add-Refs.bib supplies items not in \filename.bib; no global system.bib}%
         \typeout{\bibfilesfound:{\filename,\filename-Add-Refs}}%
         \renewcommand{\bibfilesfound}{./\filename,./\filename-Add-Refs}%
       }{% +AddRefs-system-file
@@ -148,8 +155,9 @@
   }{% -AddRefs
     \ifthenelse{\boolean{systemExists}}{% -AddRefs+system
       \ifthenelse{\boolean{filenameExists}}{% -AddRefs+file+system
-        \typeout{econark-bibfilesfind: References in default global system.bib will be used for items not found in \filename.bib}%
-        \typeout{\bibfilesfound:{\filename,system}}%
+        \typeout{econark-bibfilesfind: References in global system.bib take precedence (it is listed first)}%
+        \typeout{econark-bibfilesfind: \filename.bib supplies items not in system.bib}%
+        \typeout{\bibfilesfound:{system,\filename}}%
         \renewcommand{\bibfilesfound}{system,./\filename}%
       }{% -AddRefs+system-file
         \typeout{econark-bibfilesfind: References in default global system.bib will be used}%

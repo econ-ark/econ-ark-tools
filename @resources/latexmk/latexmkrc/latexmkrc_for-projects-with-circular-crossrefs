@@ -45,7 +45,9 @@ $bibtex_silent_switch = '-terse'; # Reduce bibtex verbosity.
 
 # --- LaTeX Engine ---
 $pdflatex = 'pdflatex -interaction=nonstopmode -file-line-error %O %S';
-$pdflatex_runs = 4;       # Max runs per doc; sufficient for most reference graphs.
+# latexmk's cap on LaTeX passes is $max_repeat (default 5). This file used to set
+# $pdflatex_runs = 4, which is not a latexmk variable and had no effect; set
+# $max_repeat in a project's own latexmkrc if it needs more passes than 5.
 $recorder = 1;            # Use .fls files for fine-grained dependency tracking.
 
 # --- Output, Logging, and Cleanup ---
