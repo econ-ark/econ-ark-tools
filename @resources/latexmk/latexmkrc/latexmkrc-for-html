@@ -23,7 +23,9 @@ $silent = 0;
 # --- Compilation Control ---
 $force_mode = 1;          # Force compilation to continue through routine warnings.
 $warnings_as_errors = 0;  # Do not treat warnings as fatal errors.
-$pdflatex_runs = 3;       # A sufficient number of runs for most documents.
+# latexmk's cap on LaTeX passes is $max_repeat (default 5). This file used to set
+# $pdflatex_runs = 3, which is not a latexmk variable and had no effect; set
+# $max_repeat in a project's own latexmkrc if it needs more passes than 5.
 $do_cd = 1;               # Always change to the document's directory before compiling.
 $pdf_mode = 1;            # Ensure PDF mode is active.
 

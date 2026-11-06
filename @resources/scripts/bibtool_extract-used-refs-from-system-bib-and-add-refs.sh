@@ -56,8 +56,10 @@ fi
 # ${texfile_noextn}.bib is merged into its own replacement -- every entry comes
 # out duplicated. Extract from a sanitized copy of the .aux instead; the
 # bibliographies to draw from are passed explicitly below.
-auxtmp="$(mktemp -t bibextract-aux)" || exit 1
-outtmp="$(mktemp -t bibextract-out)" || exit 1
+# A full template, not "mktemp -t prefix": GNU mktemp (Linux) refuses a template without X's,
+# while BSD mktemp (macOS) reads -t as a prefix. This form works on both.
+auxtmp="$(mktemp "${TMPDIR:-/tmp}/bibextract-aux.XXXXXX")" || exit 1
+outtmp="$(mktemp "${TMPDIR:-/tmp}/bibextract-out.XXXXXX")" || exit 1
 trap 'rm -f "$auxtmp" "$outtmp"' EXIT
 grep -v '^\\bibdata{' "${texfile_noextn}.aux" > "$auxtmp"
 
