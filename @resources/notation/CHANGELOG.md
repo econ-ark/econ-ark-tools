@@ -5,12 +5,12 @@ existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
 ## v9.2.0 — 2026-11-09
 
-**A new row: end-of-period human wealth `\hEnd` = 𝔥**, with 𝔥_t = h_t − 1: human wealth from next period on, current
-period's income excluded. The owner, in this session at 10:09:17 EST: "add the \hEnd row and merge it". The macro
-is also in `econark-shortcuts.sty`, beside `\cEndFunc` = 𝔠. SolvingMicroDSOPs and TractableBufferStock already
-defined `\hEnd` = 𝔥 with this meaning. The row records his earlier words, and his answer on the 2026-07-14 ban on a
-"local future-only h", as relayed by the cc_PerfForesightCRRA session. MINOR: an addition, and no existing rendering
-changes.
+**A new row: end-of-period human wealth `\hNrmEnd` = 𝔥**, with 𝔥_t = h_t − 1: human wealth from next period on,
+current period's income excluded. The owner, in this session at 10:09:17 EST: "add the \hEnd row and merge it", then
+at 10:16:29 EST: "rename it to \hNrmEnd and merge". The macro is also in `econark-shortcuts.sty`, beside `\cEndFunc`
+= 𝔠. SolvingMicroDSOPs and TractableBufferStock define the old name `\hEnd` = 𝔥 locally, with this meaning; the old
+name is not in the shared files. The row records his earlier words, and his answer on the 2026-07-14 ban on a "local
+future-only h", as relayed by the cc_PerfForesightCRRA session. MINOR: an addition, and no existing rendering changes.
 
 ## v9.1.0 — 2026-11-05
 

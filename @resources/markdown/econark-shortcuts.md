@@ -301,7 +301,7 @@
 \newcommand{\EEndMap}{{\mathsf{E}}}
 \newcommand{\CEndFunc}{{\mathfrak{C}}}
 \newcommand{\cEndFunc}{{\mathfrak{c}}}
-\newcommand{\hEnd}{{\mathfrak{h}}}
+\newcommand{\hNrmEnd}{{\mathfrak{h}}}
 \newcommand{\uFuncInv}{\uFunc^{-1}}
 \newcommand{\muFuncInv}{{(\uFunc^{\prime})}^{-1}}
 \newcommand{\HARKdocs}{documentation}

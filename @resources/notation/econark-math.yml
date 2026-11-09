@@ -304,7 +304,7 @@ project:
     '\EEndMap': '{\mathsf{E}}'
     '\CEndFunc': '{\mathfrak{C}}'
     '\cEndFunc': '{\mathfrak{c}}'
-    '\hEnd': '{\mathfrak{h}}'
+    '\hNrmEnd': '{\mathfrak{h}}'
     '\uFuncInv': '\uFunc^{-1}'
     '\muFuncInv': '{(\uFunc^{\prime})}^{-1}'
     '\HARKdocs': 'documentation'

@@ -33,7 +33,7 @@ project:
     '\PermGroRte': '\mathsf{g}'
     '\qHi': 'q_{\infty}'
     '\hNrm': 'h'
-    '\hEnd': '\mathfrak{h}'
+    '\hNrmEnd': '\mathfrak{h}'
     '\hNrmOpt': '\bar{h}'
     '\hNrmPes': '\underline{h}'
     '\IncUnemp': '\xi_{\mathrm{u}}'
