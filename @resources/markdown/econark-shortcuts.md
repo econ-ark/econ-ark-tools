@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v9.1.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v9.2.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -301,6 +301,7 @@
 \newcommand{\EEndMap}{{\mathsf{E}}}
 \newcommand{\CEndFunc}{{\mathfrak{C}}}
 \newcommand{\cEndFunc}{{\mathfrak{c}}}
+\newcommand{\hEnd}{{\mathfrak{h}}}
 \newcommand{\uFuncInv}{\uFunc^{-1}}
 \newcommand{\muFuncInv}{{(\uFunc^{\prime})}^{-1}}
 \newcommand{\HARKdocs}{documentation}

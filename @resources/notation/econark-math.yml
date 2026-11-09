@@ -1,4 +1,4 @@
-# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v9.1.0. DO NOT EDIT.
+# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v9.2.0. DO NOT EDIT.
 # Every shared macro, KaTeX-safe. Consume via `extends: [<path>/econark-math.yml]` in myst.yml.
 # Regenerate: python @resources/notation/gen/gen_shortcuts.py
 version: 1
@@ -304,6 +304,7 @@ project:
     '\EEndMap': '{\mathsf{E}}'
     '\CEndFunc': '{\mathfrak{C}}'
     '\cEndFunc': '{\mathfrak{c}}'
+    '\hEnd': '{\mathfrak{h}}'
     '\uFuncInv': '\uFunc^{-1}'
     '\muFuncInv': '{(\uFunc^{\prime})}^{-1}'
     '\HARKdocs': 'documentation'

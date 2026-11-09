@@ -20,8 +20,9 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 9.1.0        # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-11-05   #         MINOR = additions; PATCH = gloss/typo fixes
+  version: 9.2.0        # SemVer: MAJOR = change to an existing rendering/meaning;
+  updated: 2026-11-09   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 9.2.0: new row: end-of-period human wealth \hEnd = 𝔥 (owner, 2026-11-09)
                         # 9.1.0: convention: π is inflation (owner, 2026-11-05); the matching block's
                         #        formulas and notes written with ϖ, and its ϖ check corrected
                         # 9.0.0: the owner's rulings of 2026-11-02/03 in the Intertemporal Choice course's
@@ -62,6 +63,14 @@ symbols:
       date: 2026-07-14
       source: "BST feedback N1"
       rationale: "one h, BST's; the shadow h_BST and local future-only h are banned"
+
+  human-wealth-end-of-period:
+    gloss: "end-of-period human wealth, as a ratio to permanent income: human wealth from next period on, current period's income EXCLUDED"
+    define: "𝔥_t = h_t − 1"
+    latex: {macro: '\hEnd', expansion: '\mathfrak{h}'}
+    unicode: '𝔥'
+    conflicts_checked: "Checked 2026-11-08 at 6ab13aee: \\hEnd and 𝔥 were absent from this registry and econark-shortcuts.sty, and are not written in BST, HAFiscal, NARK, method-of-moderation or HARK outside vendored copies. SolvingMicroDSOPs (@local/local-macros.sty) and TractableBufferStock (econtexShortcuts.sty, handoutShortcuts.sty) define \\hEnd = 𝔥 with this meaning; TractableBufferStock's two files also define \\hours = 𝔥, which its .tex files do not use. The book chapter and handout could not be seen from this machine; the cc_PerfForesightCRRA session reports their use. No python name: 𝔥 equals HARK's hNrm numerically (the hark-python dialect on the human-wealth row), and hNrm is that row's name. The human-wealth row's 2026-07-14 ruling bans a 'local future-only h'; the owner on that ban, as relayed by the cc_PerfForesightCRRA session, typed there 2026-11-09 10:09:26 EST: 'yes, the ban is only about overloading h'. 𝔥 is a distinct symbol. Fraktur already marks end-of-period objects (\\cEndFunc = 𝔠, \\CEndFunc = ℭ)."
+    ruling: {date: 2026-11-09, source: "owner, in the econ-ark-tools session, 2026-11-09 10:09:17 EST: 'add the \\hEnd row and merge it'. Earlier, as relayed by the cc_PerfForesightCRRA session: typed there 2026-11-08 22:51:34 EST, 'I guess \\hEnd (as \\mathfrak{h}) should be incorporated in the SST/union-catalog of macros.  make it so'; 2026-11-09 10:04:25 EST, 'add the \\hEnd row to the registry, and once it is there you can remove it from the chapter and the handout'; and in cc_intertemporal-choice.github.io, 2026-11-08 21:19:22 EST, '2. keep gothic h'", rationale: "human wealth with and without current income need distinct symbols"}
 
   vacancy-cost:
     gloss: "vacancy posting cost — the flow cost of keeping a vacancy open, in a search-and-matching block"
