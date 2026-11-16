@@ -6,12 +6,12 @@ Canonical list of typographical and naming conventions for ARK notation. Impleme
 
 ## 1. Variable roles: Level, Normalized, Function, Log
 
-- **Level (Lvl)** — Boldface italic: `\boldsymbol{\mathit{#1}}`. Levels (e.g. consumption level, asset level).
+- **Level (Lvl)** — Boldface italic: `\boldsymbol{#1}`, bold in KaTeX too (owner ruling 2026-11-15; was `\boldsymbol{\mathit{#1}}`, which KaTeX prints unbolded). Levels (e.g. consumption level, asset level).
 - **Normalized (Nrm)** — Plain (default math italic). Ratios to permanent income.
 - **Function (Func)** — Upright roman: `\mathrm{#1}`. Policy/value functions; roman is reserved for functions.
-- **Log** — Sans-serif italic: `\mathsfit{#1}`. Logs of variables (e.g. `\CLog`, `\KLog`, `\YLog`). Distinct from normalized and from upright sans-serif. Supported in KaTeX and MathJax.
+- **Log** — Printed log: `\l<macro>` = `\logOp` (= `\log`) followed by the macro, so `\lcNrm` = log c and `\lcLvl` = log 𝒄, for every letter's Nrm and Lvl macro (owner ruling 2026-11-15). Never a lower-case letter for a log. This replaces the sans-serif italic `\mathsfit{#1}` (`\CLog`, `\KLog`, `\YLog`) described here from 2026-03-12, whose macros were never defined.
 
-Summary: **Lvl = bold italic**, **Nrm = plain**, **Func = roman**, **Log = mathsfit** (where defined).
+Summary: **Lvl = bold italic**, **Nrm = plain**, **Func = roman**, **Log = log** (`\lcNrm`).
 
 ---
 
