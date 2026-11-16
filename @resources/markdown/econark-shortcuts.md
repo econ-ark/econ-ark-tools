@@ -432,8 +432,8 @@
 \newcommand{\Chi}{{\mathrm{X}}}
 \newcommand{\PopGroFac}{\varXi}
 \newcommand{\popGroRte}{\PopnGroRte}
-\newcommand{\PtyGroFac}{\mathcal{G}}
-\newcommand{\PtyGroRte}{g}
+\newcommand{\PtyGroFac}{\mathrm{G}}
+\newcommand{\PtyGroRte}{\mathrm{g}}
 \newcommand{\ptyGroFac}{\PtyGroFac}
 \newcommand{\ptyGroRte}{\PtyGroRte}
 \newcommand{\Reals}{\mathbb{R}}

@@ -75,7 +75,7 @@ project:
     '\PopnGroFac': '\varXi'
     '\PopnGroRte': 'n'
     '\PowMean': '{\mathcal{M}}'
-    '\PtyGroFac': '\mathcal{G}'
+    '\PtyGroFac': '\mathrm{G}'
     '\mBalLvl': '\check{m}'
     '\mNrmEx': '\ddot{m}'
     '\mNrmMin': '\underline{m}'

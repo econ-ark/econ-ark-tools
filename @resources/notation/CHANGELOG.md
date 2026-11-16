@@ -22,6 +22,11 @@ What prints differently:
 - **Labor and population are bold italic levels:** `\Labor` is `\LLvl` (was upright L) and `\PopnLvl` is `\NLvl`
   (was bold upright N). The owner, 10:45:09 EST, on labor's roman L: "if it is a quantity it should be italic
   roman"; rule B makes a level bold.
+- **Productivity growth takes wage growth's letters:** `\PtyGroFac` = roman G and `\PtyGroRte` = roman g (were
+  calligraphic 𝒢 and italic g, v9.0.0), as `\WGroFac` and `\WGroRte`; `\PermGroFacAgg`, its alias, follows. The
+  owner, in the course's session at 14:45:52 EST: "Let's just use the same letters for ptyGro and PtyGro that we used
+  for wGro and WGro"; asked here at 22:07 EST whether to add it to this release: "I think I've already done this in a
+  different session ...". 𝒢 becomes free. NARK's notation table writes `\PtyGroFac`.
 
 New:
 - **Logs:** `\logOp` = log (a registry row), and in `econark-shortcuts.sty` a log macro for each letter's

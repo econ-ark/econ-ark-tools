@@ -79,7 +79,7 @@
 | population-growth-rate | n |  | `\PopnGroRte` | `n` |  | population growth rate |
 | power-mean | ℳ |  | `\PowMean` | `{\mathcal{M}}` |  | power-mean operator: the mean of order p of a random variable, under the expectations operator 𝔼 (so ℳ₁ = 𝔼, ℳ₋₁ is the harmonic mean, and ℳ_{1−ϱ}[x] = u⁻¹(𝔼[u(x)]) under CRRA utility) |
 | precautionary-saving | (to be chosen) |  |  |  |  | precautionary saving: the shortfall of consumption below the perfect-foresight rule. A shared object (TractableBufferStock, MethodOfModeration, BST); its shared SYMBOL IS NOT YET CHOSEN, so this row defines no macro |
-| productivity-growth | 𝒢 |  | `\PtyGroFac` | `\mathcal{G}` | `PermGroFacAgg` | productivity growth factor, which is also the aggregate permanent growth factor (HARK's PermGroFacAgg); its rate is \PtyGroRte = g |
+| productivity-growth | G |  | `\PtyGroFac` | `\mathrm{G}` | `PermGroFacAgg` | productivity growth factor, which is also the aggregate permanent growth factor (HARK's PermGroFacAgg); its rate is \PtyGroRte = roman g |
 | pseudo-target | m̌ |  | `\mBalLvl` | `\check{m}` | `mNrmStE` | balanced-growth pseudo-target (GIC-Raw) |
 | resources-excess | m̈ |  | `\mNrmEx` | `\ddot{m}` |  | excess market resources above the natural borrowing constraint |
 | resources-min | m̲ | `m_min` | `\mNrmMin` | `\underline{m}` | `mNrmMin` | the lowest market resources from which positive consumption is feasible: the m_min of resources-excess |
@@ -479,12 +479,12 @@
 
 ### productivity-growth
 
-- **define:** 𝒢 = 1 + g
+- **define:** G = 1 + g (roman)
 - **alias:** \ptyGroFac (same object)
 - **alias:** \PermGroFacAgg (same object; its script 𝒢, \mathscr{G}, retires)
-- **alias:** \PtyGroRte, \ptyGroRte = g
-- **conflicts checked:** MAJOR (v9.0.0): was sans-serif 𝖦 and 𝗀 (2026-10-22 07:44:34 EDT), now permanent-income growth's, and before that script G. 𝒢 and g are freed by the move of permanent-income growth to 𝖦 and 𝗀. Calligraphic has no lowercase in KaTeX (tests/check_katex.py), so the rate is italic g. In HARK (main 4c285e86, checked by the HARK session with paired runs, 2026-11-03), PermGroFacAgg is the trend growth factor of aggregate labor-augmenting productivity in the aggregate-shock models, the trend newborns inherit in the individual-shock models (PlvlAgg, which the code calls the aggregate permanent productivity level), and inert in the GenIncProcess family. Documents written before v9.0.0 read 𝒢 as permanent-income growth, so cross-citing documents state the map; NARK's notation table writes \PtyGroFac. Unicode has one code point for script and calligraphic G (U+1D4A2). \permGroFacInd (italic G) is used by no paper (checked 2026-11-04).
-- **ruling:** 2026-11-02 · source: owner, in the cc:course-choice session, 13:03:43 EST: '𝒢 and g, freed by your ruling'; and 21:05:35 EST, on aggregate permanent growth: 'Merge it with productivity growth', conditional on HARK's models, which the HARK session confirmed; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them' · rationale: supersedes sans-serif 𝖦 and 𝗀 (2026-10-22), now permanent-income growth, and the script 𝒢 of \PermGroFacAgg
+- **alias:** \PtyGroRte, \ptyGroRte = \mathrm{g}
+- **conflicts checked:** MAJOR (v10.0.0): was calligraphic 𝒢 and italic g (v9.0.0); now roman G and g, the letters of wage growth (\WGroFac, \WGroRte), so \PermGroFacAgg, its alias, prints roman G too. In balanced growth wages grow at productivity's rate. Roman G and g are also \GFunc and \gFunc, by the roman-for-functions convention; context separates them. 𝒢 becomes free. NARK's notation table writes \PtyGroFac twice (NARK.tex) and prints roman G once it re-vendors its v6 copy. Before v10.0.0: MAJOR (v9.0.0): was sans-serif 𝖦 and 𝗀 (2026-10-22 07:44:34 EDT), now permanent-income growth's, and before that script G. 𝒢 and g are freed by the move of permanent-income growth to 𝖦 and 𝗀. Calligraphic has no lowercase in KaTeX (tests/check_katex.py), so the rate is italic g. In HARK (main 4c285e86, checked by the HARK session with paired runs, 2026-11-03), PermGroFacAgg is the trend growth factor of aggregate labor-augmenting productivity in the aggregate-shock models, the trend newborns inherit in the individual-shock models (PlvlAgg, which the code calls the aggregate permanent productivity level), and inert in the GenIncProcess family. Documents written before v9.0.0 read 𝒢 as permanent-income growth, so cross-citing documents state the map; NARK's notation table writes \PtyGroFac. Unicode has one code point for script and calligraphic G (U+1D4A2). \permGroFacInd (italic G) is used by no paper (checked 2026-11-04).
+- **ruling:** 2026-11-15 · source: owner, in the cc:course-choice session, typed 14:45:52 EST: 'Let's just use the same letters for ptyGro and PtyGro that we used for wGro and WGro' (\ptyGro and \PtyGro are the book's names for \PtyGroRte and \PtyGroFac), as relayed by that session; in the econ-ark-tools session, 2026-11-15 22:07:13 EST, asked whether to add it to the v10.0.0 PR: 'I think I've already done this in a different session ...'. Before: owner, in the cc:course-choice session, 2026-11-02 13:03:43 EST: '𝒢 and g, freed by your ruling'; and 21:05:35 EST, on aggregate permanent growth: 'Merge it with productivity growth', conditional on HARK's models, which the HARK session confirmed; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them' · rationale: one pair of letters for wage and productivity growth, which balanced growth makes equal; supersedes 𝒢 and g (2026-11-02), which had superseded sans-serif 𝖦 and 𝗀 (2026-10-22) and the script 𝒢 of \PermGroFacAgg
 
 ### resources-excess
 
@@ -630,7 +630,7 @@
 
 - **alias:** \WGroRte = \mathrm{g}
 - **alias:** the course's \WGro and \wGro (its rate was written 𝗀)
-- **conflicts checked:** Roman G is also \GFunc, by the registry's roman-for-functions convention; context separates them. One font away from 𝖦, permanent-income growth, by the owner's choice to keep roman G in the perfect-foresight chapters. A new row for macros econark-shortcuts.sty already defined.
+- **conflicts checked:** From v10.0.0 productivity growth (\PtyGroFac, \PtyGroRte) prints the same G and g (owner, 2026-11-15; the productivity-growth row). Roman G is also \GFunc, by the registry's roman-for-functions convention; context separates them. One font away from 𝖦, permanent-income growth, by the owner's choice to keep roman G in the perfect-foresight chapters. A new row for macros econark-shortcuts.sty already defined.
 - **ruling:** 2026-11-02 · source: owner, in the cc:course-choice session, 13:03:43 EST: 'Keep roman G for both' (permanent labor income growth in the perfect-foresight, sticky-expectations and Campbell-Mankiw chapters; wage growth in the labor-supply and generational-accounts chapters); adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them' · rationale: the course's long-standing roman G
 
 ### wealth-total-pf
