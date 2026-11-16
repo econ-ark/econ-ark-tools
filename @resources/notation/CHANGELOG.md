@@ -3,6 +3,38 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v10.0.0 — 2026-11-15
+
+**The owner's rulings of 2026-11-15 in the Intertemporal Choice course's session (cc:course-choice),** typed or
+chosen from menus there between 10:45:09 and 12:07:32 EST, as relayed by that session; his words and times are in
+each row's `ruling`. The owner adopted them in this session at 21:41:58 EST ("Adopt; PR, merge when CI green (Recommended)"), and chose there to make Φ and Ω italic too ("Italic, all five (Recommended)") and to print labor and population as bold italic levels ("Bold italic, as levels (Recommended)"). MAJOR: renderings change in every document that loads the shared files,
+the papers included, which follow the registry at their next build (the owner, 11:51:29 EST: "Let them follow the
+registry").
+
+What prints differently:
+- **Levels:** `\aLvl` … `\ZLvl`, `\PermLvlAgg` and `\permLvlInd` are `\boldsymbol{x}` (were
+  `\boldsymbol{\mathit{x}}`). In LaTeX the letters change slightly, from bold text italic to bold math italic; in
+  KaTeX they become bold (KaTeX 0.16.22 printed the old form unbolded, as the course session found).
+- **Capital Greek numbers are italic,** by rule C (italic for a number, upright for a function): `\TranShkAgg` 𝛩,
+  `\PermShkAgg` 𝛹 and `\PermShkAll` (bold 𝛹), `\PopnGroFac` and `\PopGroFac` 𝛯, `\prstShkAgg` 𝛷, `\ADElas` 𝛺
+  (were upright). The ruling's question named Ξ, Θ and Ψ. HAFiscal prints 𝛺 in its model, parameterization,
+  robustness appendix, calibration table and slides.
+- **Labor and population are bold italic levels:** `\Labor` is `\LLvl` (was upright L) and `\PopnLvl` is `\NLvl`
+  (was bold upright N). The owner, 10:45:09 EST, on labor's roman L: "if it is a quantity it should be italic
+  roman"; rule B makes a level bold.
+
+New:
+- **Logs:** `\logOp` = log (a registry row), and in `econark-shortcuts.sty` a log macro for each letter's
+  normalized and level macros, `\l<macro>` = `\logOp<macro>`: `\lcNrm` = log c, `\lcLvl` = log 𝒄, `\lKLvl` = log 𝑲,
+  104 names. Switching the print to ln is one line, `\logOp`. Lower case for logs and a separate log return were
+  rejected. This replaces the never-implemented sans-serif italic logs (`\CLog`, `\KLog`) that
+  `econark-shortcuts-principles.md` described from 2026-03-12.
+- **Estimates:** `\Est{x}` = x̂, a row scoped by accent-locality to documents that write no target m̂
+  (`\mTrgNrm`).
+- **Conventions** (`terminology.yml`): rules A to D for the models' variables (case, weight, shape, macros; rule D's
+  reach is the course); where nothing is normalized, the plain macro with the normalizer 1; logs; and exception
+  X-B4, under which a Greek letter may name a function, printed bold (`\MPCFunc`, `\chiFunc`, unchanged).
+
 ## v9.2.0 — 2026-11-09
 
 **A new row: end-of-period human wealth `\hNrmEnd` = 𝔥**, with 𝔥_t = h_t − 1: human wealth from next period on,

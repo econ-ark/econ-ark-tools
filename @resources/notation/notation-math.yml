@@ -1,12 +1,12 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v9.2.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v10.0.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
 version: 1
 project:
   math:
-    '\ADElas': '\Omega'
-    '\TranShkAgg': '\Theta'
+    '\ADElas': '\varOmega'
+    '\TranShkAgg': '\varTheta'
     '\aNrmNxt': 'a\Nxt'
     '\aNrmNow': 'a\Now'
     '\bNrm': 'b'
@@ -27,6 +27,7 @@ project:
     '\DiscFacSprd': '\nabla'
     '\EPermShkInv': '\Ex[\permShk^{-1}]'
     '\eprem': '\phi'
+    '\Est': '\hat{#1}'
     '\Ex': '\mathbb{E}'
     '\GoldRule': '\bar{\bar{#1}}'
     '\PermGroFac': '\mathsf{G}'
@@ -47,6 +48,7 @@ project:
     '\tightness': '\mathrm{tgt}'
     '\leisure': 'z'
     '\leiShare': '\zeta'
+    '\logOp': '\log'
     '\logmNrmEx': '\boldsymbol{\mu}'
     '\GPRte': '\thorn_{\PermGroRte}'
     '\matchEff': '\mathrm{eff}'
@@ -70,7 +72,7 @@ project:
     '\permShk': '\psi'
     '\permShkIndMin': '\underline{\psi}'
     '\permShkNxt': '\psi\Nxt'
-    '\PopnGroFac': '\Xi'
+    '\PopnGroFac': '\varXi'
     '\PopnGroRte': 'n'
     '\PowMean': '{\mathcal{M}}'
     '\PtyGroFac': '\mathcal{G}'
