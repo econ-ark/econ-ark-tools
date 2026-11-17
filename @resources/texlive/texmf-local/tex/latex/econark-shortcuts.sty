@@ -38,6 +38,9 @@
 % Level, normalized, and function commands for each letter (explicit definitions)
 % Levels are \boldsymbol{x}: bold italic in LaTeX and KaTeX alike (owner ruling 2026-11-15;
 % was \boldsymbol{\mathit{x}}, which KaTeX prints unbolded). Normalized: plain italic. Functions: upright.
+% Bold marks a level that can be or will be divided by a normalizer; a normalizer itself is never bold:
+% labor-augmenting productivity Z, in k = K/(ZL), is one (owner ruling 2026-11-16). \ZLvl is a generic level Z,
+% not productivity. Labor \LLvl, population \NLvl and permanent income \pLvl stay bold.
 % Lowercase a-z
 \ARKcommand{\aLvl}{\boldsymbol{a}}
 \ARKcommand{\aNrm}{a}
@@ -399,6 +402,7 @@
 \ARKcommand{\Alive}{\mathcal{L}}
 \ARKcommand{\diePrb}{\mathsf{d}} % Continuous time death rate (annual)
 \ARKcommand{\DiePrb}{\mathsf{D}} % Discrete-time one-period death rate
+\ARKcommand{\UpdatePrb}{\varPi}   % probability of updating expectations (sticky expectations; HARK-style name UpdatePrb; owner ruling 2026-11-16)
 
 \ARKcommand{\DeprFac}{\daleth}
 \ARKcommand{\deprRte}{\delta}  % 
@@ -527,7 +531,7 @@
 \ARKcommand{\splurge}{\gimel}  % share of income consumed off the top, outside the
                                % optimizing problem (HAFiscal). NOT \varsigma, which is
                                % \riskyshare above; NOT a styled Latin letter, because
-                               % KaTeX renders those as plain ASCII (see \PtyGroRte below)
+                               % KaTeX renders those as plain ASCII (tests/check_katex.py)
 \ARKcommand{\riskyvar}{\std^{2}_{\risky}}
 \ARKcommand{\Rport}{\mathfrak{R}}       % Portfolio -weighted return
 \ARKcommand{\rport}{\mathfrak{r}}
@@ -643,7 +647,8 @@
 % Productivity growth, which is also aggregate permanent growth (\PermGroFacAgg): calligraphic G, rate italic g (owner
 % rulings 2026-11-02; calligraphic has no lowercase, so the rate is plain g). It was sans-serif from 2026-10-22, now
 % permanent-income growth's; before that script G, a script g that no font has, and Roman G and g.
-\ARKcommand{\PtyGroFac}{\mathrm{G}}   % productivity growth: wage growth's letters, roman G and g (owner ruling 2026-11-15; was \mathcal{G} and italic g)
+\ARKcommand{\PtyGroFac}{\mathrm{G}}   % growth of labor-augmenting productivity Z, itself a normalizer and so never bold (owner ruling 2026-11-16);
+                                      % wage growth's letters, roman G and g (owner ruling 2026-11-15; was \mathcal{G} and italic g)
 \ARKcommand{\PtyGroRte}{\mathrm{g}}
 \ARKcommand{\ptyGroFac}{\PtyGroFac}
 \ARKcommand{\ptyGroRte}{\PtyGroRte}

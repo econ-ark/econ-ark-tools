@@ -24,6 +24,7 @@ propagated by hand to every repo, and shared macro files drifting apart
 | `tests/check_sync.py` | regenerates every artifact in a tempdir, byte-compares, nonzero on drift |
 | `tests/check_shortcuts_agree.py` | every name in both `econark-shortcuts.sty` and the registry prints the same (pdflatex box sizes) |
 | `tests/latex_noclash_test.tex` | G0-2 compile fixture (loads shortcuts + notation, no clash) |
+| `sst_notebook.py` (see `sst_notebook.md`) | generates the notebook people open from a notebook written with the registry's macros (its `_SST` source), reading `econark-math.yml`; `uv run sst_notebook.py self-test` |
 | `CHANGELOG.md`, `RULING_TEMPLATE.md`, `DRIFT-AUDIT-2026-07.md` | history / PR template / initial drift report |
 
 **Generated files are committed AND checked** — never hand-edit `econark-notation.sty`,

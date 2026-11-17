@@ -1,4 +1,4 @@
-# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v10.1.0. DO NOT EDIT.
+# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v10.2.0. DO NOT EDIT.
 # Every shared macro, KaTeX-safe. Consume via `extends: [<path>/econark-math.yml]` in myst.yml.
 # Regenerate: python @resources/notation/gen/gen_shortcuts.py
 version: 1
@@ -317,6 +317,7 @@ project:
     '\Alive': '\mathcal{L}'
     '\diePrb': '\mathsf{d}'
     '\DiePrb': '\mathsf{D}'
+    '\UpdatePrb': '\varPi'
     '\DeprFac': '\daleth'
     '\deprRte': '\delta'
     '\DiscFac': '\beta'

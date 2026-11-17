@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v10.1.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v10.2.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -314,6 +314,7 @@
 \newcommand{\Alive}{\mathcal{L}}
 \newcommand{\diePrb}{\mathsf{d}}
 \newcommand{\DiePrb}{\mathsf{D}}
+\newcommand{\UpdatePrb}{\varPi}
 \newcommand{\DeprFac}{\daleth}
 \newcommand{\deprRte}{\delta}
 \newcommand{\DiscFac}{\beta}

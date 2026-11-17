@@ -20,8 +20,11 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 10.1.0       # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 10.2.0       # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-11-17   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 10.2.0: rule B's normalizer clause (productivity Z is never bold); new row: the
+                        #        probability of updating expectations \UpdatePrb = 𝛱; sst_notebook.py
+                        #        beside the registry (owner, 2026-11-16)
                         # 10.1.0: new row: savings s, S, net worth (owner, 2026-11-17)
                         # 10.0.0: the owner's rulings of 2026-11-15 in the Intertemporal Choice course's
                         #        session: levels \boldsymbol{x} (bold in KaTeX too); capital Greek numbers
@@ -653,6 +656,15 @@ symbols:
     conflicts_checked: "econark-shortcuts' \\LivPrb (through \\Alive), the same rendering. The powerlaw pages' \\Lfun is \\mathfrak{L}, a different letterform; uppercase, so KaTeX draws \\mathcal{L} correctly."
     ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
 
+  update-prob:
+    gloss: "the probability that an agent updates its expectations in a period (sticky expectations): with probability 1 − 𝛱 it keeps last period's"
+    latex: {macro: '\UpdatePrb', expansion: '\varPi'}
+    unicode: '𝛱'
+    python: 'UpdatePrb'
+    scope: "documents that write no inflation π: under the π convention a document that writes inflation gives this object another letter, declared in its own macro file"
+    conflicts_checked: "Π is in no macro of this registry or econark-shortcuts.sty (checked 2026-11-16 at 8d34f224). Other Π on jhu-dell: HAFiscal's Markov transition matrix (Model.tex, Parameterization.tex), which takes a new letter under the π convention, and whose code sets UpdatePrb = 1.0 (sticky expectations off), so it prints no update probability; BufferStockTheory's Harmenberg appendix, a local \\lomdkMat = Π declared in that file (the 2026-10-22 convention on letters for local objects); TractableBufferStock's Π, only in its vendored macro files. \\UpdatePrb and \\UpdPrb are in no repository on jhu-dell. UpdatePrb is the name in BufferStockStickyExp's code and in HAFiscal's; HARK's main branch has no such parameter (bceaa29c, 2026-11-13). Italic by rule C, as the capital Greek numbers are from v10.0.0. The probabilities' class otherwise writes calligraphic capitals (ℒ, ℘); Π is the letter BufferStockStickyExp and the course's StickyExpectationsC chapter write."
+    ruling: {date: 2026-11-16, source: "owner, in the session for the course's problem-set questions, menu answered 20:02:01 EST: 'Registry row, prints Π' (as relayed by the cc:course-choice session); asked here whether it is italic like the other capital Greek numbers: 'Italic 𝛱 (Recommended)' (2026-11-17 09:13:50 EST). Adopted in the econ-ark-tools session, 2026-11-17 09:13:50 EST: 'One PR, merge when CI green (Recommended)'.", rationale: "the letter the sticky-expectations paper and chapter already write, beside \\LivPrb and \\DiePrb"}
+
   # --- 2026-10-22: rows for the day's rulings, and for shared objects the registry had left to
   #     econark-shortcuts alone. Each prints as econark-shortcuts prints it. ---
 
@@ -860,7 +872,7 @@ symbols:
     ruling: {date: 2026-11-02, source: "owner, in the cc:course-choice session, 21:05:35 EST: 'n, a new registry row'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "a letter of its own for the rate; supersedes ln Ξ (2026-10-22)"}
 
   productivity-growth:
-    gloss: "productivity growth factor, which is also the aggregate permanent growth factor (HARK's PermGroFacAgg); its rate is \\PtyGroRte = roman g"
+    gloss: "growth factor of labor-augmenting productivity Z, itself a normalizer and so never bold (rule B; owner, 2026-11-16); also the aggregate permanent growth factor (HARK's PermGroFacAgg); its rate is \\PtyGroRte = roman g"
     define: "G = 1 + g (roman)"
     latex: {macro: '\PtyGroFac', expansion: '\mathrm{G}'}
     unicode: 'G'
