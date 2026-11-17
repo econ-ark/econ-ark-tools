@@ -1,4 +1,4 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v10.0.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v10.1.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
@@ -102,6 +102,7 @@ project:
     '\tranShkNxt': '\tranShkAll\Nxt'
     '\uInvEuPermShk': '{\PowMean_{1-\CRRA}[\permShk]}'
     '\pZero': '\wp'
+    '\UpdatePrb': '\varPi'
     '\uFunc': '\mathrm{u}'
     '\vacCost': '\mathrm{cst}'
     '\vacFillPrb': '\mathrm{fill}'

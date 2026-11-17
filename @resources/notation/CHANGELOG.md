@@ -3,6 +3,24 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v10.1.0 — 2026-11-17
+
+Three requests from the owner of 2026-11-16, relayed by the Intertemporal Choice course's session (cc:course-choice).
+The owner adopted them in this session on 2026-11-17 at 09:13:50 EST ("One PR, merge when CI green (Recommended)"), choosing there an italic 𝛱 ("Italic 𝛱 (Recommended)") and to include the tool as drafted ("Include it as drafted (Recommended)"). MINOR: one new row; nothing that prints changes.
+- **Rule B's normalizer clause** (`terminology.yml`): bold marks a level that can be or will be divided by a
+  normalizer; a normalizer itself is never bold. Labor-augmenting productivity Z, in k = 𝑲/(Z𝑳), is one; labor 𝑳,
+  population 𝑵 and permanent income 𝒑 are levels and stay bold. The owner, 09:37:55 EST: "Variables are boldface only
+  when they are levels THAT CAN BE OR WILL BE DIVIDED BY A NORMALIZER.  Z will never be divided by a normalizer.  It
+  is, itself, a normalizer." Comments say so beside the level macros, at `\PtyGroFac` (the growth of Z), and in
+  `econark-shortcuts-principles.md`. `\ZLvl` is a generic level Z, not productivity.
+- **A new row, the probability of updating expectations:** `\UpdatePrb` = 𝛱 (HARK-style name UpdatePrb, as
+  BufferStockStickyExp's and HAFiscal's code write it), italic by rule C. It is scoped to documents that write no
+  inflation π, as the π convention requires. The owner chose "Registry row, prints Π" (20:02:01 EST).
+- **`sst_notebook.py`**, beside `econark-math.yml`, with its guide `sst_notebook.md`: a notebook written with the
+  registry's macros (`Name_SST.ipynb` or `.md`) generates the notebook people open, with every macro spelled out, and
+  carries a hidden definitions cell so that it renders in Jupyter too. It was written and tested in the session for
+  the course's problem-set questions; the owner placed it here ("econ-ark-tools, beside the registry", 20:13:29 EST).
+
 ## v10.0.0 — 2026-11-15
 
 **The owner's rulings of 2026-11-15 in the Intertemporal Choice course's session (cc:course-choice),** typed or
