@@ -3,6 +3,16 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v10.3.0 — 2026-11-17
+
+**Net worth takes its own macros: `\netWorth` = s and `\NetWorth` = S.** v10.1.0's savings row wrote net worth with
+NARK's generic `\sNrm`. The owner, in the Intertemporal Choice book's session, 2026-11-17 09:29:25 EST: "I don't want
+to use \sNrm and \SNrm -- I want to use the new net-worth symbols from the registry"; he chose the names there from a
+menu, "\netWorth, \NetWorth (Recommended)". The row is now `net-worth` (its gloss keeps his word "savings"), with
+`\NetWorth` in a new row, `net-worth-aggregate`; both macros are also in econark-shortcuts.sty, beside `\savRte`.
+`\sNrm` and `\SNrm` are generic shortcuts again. Nothing prints differently, and no consumer had taken v10.1.0's
+`\sNrm` as net worth (the book and the course's handouts were at v10.0.0), so this is MINOR.
+
 ## v10.2.0 — 2026-11-17
 
 Three requests from the owner of 2026-11-16, relayed by the Intertemporal Choice course's session (cc:course-choice).
