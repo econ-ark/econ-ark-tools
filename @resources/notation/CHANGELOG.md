@@ -3,6 +3,19 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v11.1.0 — 2026-11-17
+
+**Productivity, globalized:** two new rows, so every document defines the productivity parameters the same way. The
+owner, in this session: 18:40:56 EST, "I'm particularly keen on globalizing the definitions of these productivity
+technical change parameters."; 18:44:25 EST, "italic Z; start with the productivity rows". MINOR: additions only.
+- **`\PtyLab` = Z,** labor-augmenting (Harrod-neutral) productivity, Y = F(K, Z L): italic by rule C, plain because it
+  is a normalizer (rule B). It grows by `\PtyGroFac` (roman G). The course has printed it upright, through its own
+  definition; its Z turns italic when it drops that definition.
+- **`\PtyLev` = A,** total-factor (Hicks-neutral) productivity, Y = A F(K, L); with Cobb-Douglas, A = Z^(1−α).
+- **Their logs,** `\lPtyLab` = ℓZ and `\lPtyLev` = ℓA, in `econark-shortcuts.sty`. The course's lower-case `\ptyLev` =
+  a, where it means log A, gives way to `\lPtyLev` (no lower case for logs, 2026-11-15).
+- Rule B's normalizer clause names `\PtyLab` instead of describing the course's upright Z.
+
 ## v11.0.0 — 2026-11-17
 
 The owner's rulings of 2026-11-17 in this session, after a request relayed from the session for the course's

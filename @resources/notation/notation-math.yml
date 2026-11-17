@@ -1,4 +1,4 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v11.0.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v11.1.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
@@ -78,6 +78,8 @@ project:
     '\PopnGroRte': '\ell\varXi'
     '\PowMean': '{\mathcal{M}}'
     '\PtyGroFac': '\mathrm{G}'
+    '\PtyLab': 'Z'
+    '\PtyLev': 'A'
     '\mBalLvl': '\check{m}'
     '\mNrmEx': '\ddot{m}'
     '\mNrmMin': '\underline{m}'
