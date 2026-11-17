@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v10.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v10.1.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}

@@ -3,6 +3,16 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v10.1.0 — 2026-11-17
+
+**New row: savings, s and S, net worth (assets minus debt).** The owner, in the Intertemporal Choice book's session,
+2026-11-17 09:09:57 EST: "Let's revise the registry to allow "S" and "s" for aggregate and individual "savings" as a
+measure of assets minus debt (net worth)." It replaces w, which he had chosen at 09:03:24 EST and withdrew because the
+wage 𝖶 appears in many of the same equations. `\sNrm` = s for the individual; by rules A and B, `\SNrm` = S for the
+aggregate and `\sLvl`, `\SLvl` for the levels, all already defined, without a meaning, in econark-shortcuts.sty.
+"Savings" is the stock; "saving" stays the flow, whose rate is sav (`\savRte`). An addition: nothing prints
+differently.
+
 ## v10.0.0 — 2026-11-15
 
 **The owner's rulings of 2026-11-15 in the Intertemporal Choice course's session (cc:course-choice),** typed or
