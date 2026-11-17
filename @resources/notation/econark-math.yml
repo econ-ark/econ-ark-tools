@@ -1,4 +1,4 @@
-# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v10.3.0. DO NOT EDIT.
+# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v11.0.0. DO NOT EDIT.
 # Every shared macro, KaTeX-safe. Consume via `extends: [<path>/econark-math.yml]` in myst.yml.
 # Regenerate: python @resources/notation/gen/gen_shortcuts.py
 version: 1
@@ -161,7 +161,7 @@ project:
     '\ZLvl': '\boldsymbol{Z}'
     '\ZNrm': 'Z'
     '\ZFunc': '\mathrm{Z}'
-    '\logOp': '\log'
+    '\logOp': '\ell'
     '\laNrm': '\logOp\aNrm'
     '\laLvl': '\logOp\aLvl'
     '\lbNrm': '\logOp\bNrm'
@@ -351,7 +351,7 @@ project:
     '\uInvEuPermShk': '{\PowMean_{1-\CRRA}[\permShk]}'
     '\RfreeEff': '\mathring{\Rfree}'
     '\PopnGroFac': '\varXi'
-    '\PopnGroRte': 'n'
+    '\PopnGroRte': '\ell\varXi'
     '\PopnLvl': '\NLvl'
     '\LivPrb': '\Alive'
     '\pNotZero': '(1-\pZero)'
@@ -403,12 +403,12 @@ project:
     '\urate': '{\mho}'
     '\erate': '{\cancel{\mho}}'
     '\Labor': '\LLvl'
-    '\labor': '\ell'
+    '\labor': 'l'
     '\leisure': 'z'
     '\itcRte': '\chi'
     '\savRte': '\mathrm{sav}'
-    '\netWorth': 's'
-    '\NetWorth': 'S'
+    '\netWorth': '\mathsf{n}'
+    '\NetWorth': '\mathsf{N}'
     '\EEndMap': '{\mathsf{E}}'
     '\CEndFunc': '{\mathfrak{C}}'
     '\cEndFunc': '{\mathfrak{c}}'

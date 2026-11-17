@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v10.3.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v11.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -158,7 +158,7 @@
 \newcommand{\ZLvl}{\boldsymbol{Z}}
 \newcommand{\ZNrm}{Z}
 \newcommand{\ZFunc}{\mathrm{Z}}
-\newcommand{\logOp}{\log}
+\newcommand{\logOp}{\ell}
 \newcommand{\laNrm}{\logOp\aNrm}
 \newcommand{\laLvl}{\logOp\aLvl}
 \newcommand{\lbNrm}{\logOp\bNrm}
@@ -348,7 +348,7 @@
 \newcommand{\uInvEuPermShk}{{\PowMean_{1-\CRRA}[\permShk]}}
 \newcommand{\RfreeEff}{\mathring{\Rfree}}
 \newcommand{\PopnGroFac}{\varXi}
-\newcommand{\PopnGroRte}{n}
+\newcommand{\PopnGroRte}{\ell\varXi}
 \newcommand{\PopnLvl}{\NLvl}
 \newcommand{\LivPrb}{\Alive}
 \newcommand{\pNotZero}{(1-\pZero)}
@@ -400,12 +400,12 @@
 \newcommand{\urate}{{\mho}}
 \newcommand{\erate}{{\cancel{\mho}}}
 \newcommand{\Labor}{\LLvl}
-\newcommand{\labor}{\ell}
+\newcommand{\labor}{l}
 \newcommand{\leisure}{z}
 \newcommand{\itcRte}{\chi}
 \newcommand{\savRte}{\mathrm{sav}}
-\newcommand{\netWorth}{s}
-\newcommand{\NetWorth}{S}
+\newcommand{\netWorth}{\mathsf{n}}
+\newcommand{\NetWorth}{\mathsf{N}}
 \newcommand{\EEndMap}{{\mathsf{E}}}
 \newcommand{\CEndFunc}{{\mathfrak{C}}}
 \newcommand{\cEndFunc}{{\mathfrak{c}}}

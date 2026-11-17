@@ -3,6 +3,21 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v11.0.0 — 2026-11-17
+
+The owner's rulings of 2026-11-17 in this session, after a request relayed from the session for the course's
+problem-set questions (15:55:31 EST) to free n for net worth. Adopted here at 17:02:11 EST ("merge it now"). MAJOR: five renderings change.
+- **Labor is italic l:** `\labor` = l (was ℓ). 16:53:08 EST: "let's change labor to use the regular (computer modern)
+  l.  Then we can use \ell for the natural log". TractableBufferStock (ten uses) and NARK's table print l; the leisure
+  row's z = 1 − l follows.
+- **ℓ is the natural log:** `\logOp` = ℓ (was log), so the 104 log macros print ℓc, ℓ𝒄, ℓ𝑲 (were log c, log 𝒄).
+- **The population growth rate is ℓ𝛯,** the log of the factor 𝛯 (was n). 16:38:44 EST: "I want to use \varXi instead
+  of \Xi for the growth factor for the population, and '\ell\varXi' for the growth rate (with an explanation for the
+  notation when it is first introduced)." The factor has printed 𝛯 since v10.0.0. ξ is untouched.
+- **Net worth is sans-serif:** `\netWorth` = 𝗇 and `\NetWorth` = 𝖭 (were s and S). 16:43:09 EST: "Net worth is the
+  sans-serif upper and lower case n.  You should NOT attempt to replace all the counting n's, just leave them alone."
+  Counting indices stay italic n, raw.
+
 ## v10.3.0 — 2026-11-17
 
 **Net worth takes its own macros: `\netWorth` = s and `\NetWorth` = S.** v10.1.0's savings row wrote net worth with
