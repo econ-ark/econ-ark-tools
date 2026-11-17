@@ -20,11 +20,12 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 10.1.0       # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 10.2.0       # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-11-17   #         MINOR = additions; PATCH = gloss/typo fixes
-                        # 10.1.0: rule B's normalizer clause (productivity Z is never bold); new row: the
+                        # 10.2.0: rule B's normalizer clause (productivity Z is never bold); new row: the
                         #        probability of updating expectations \UpdatePrb = 𝛱; sst_notebook.py
                         #        beside the registry (owner, 2026-11-16)
+                        # 10.1.0: new row: savings s, S, net worth (owner, 2026-11-17)
                         # 10.0.0: the owner's rulings of 2026-11-15 in the Intertemporal Choice course's
                         #        session: levels \boldsymbol{x} (bold in KaTeX too); capital Greek numbers
                         #        italic (𝛩, 𝛹, 𝛯, 𝛷, 𝛺); labor and population levels bold italic; new
@@ -957,6 +958,14 @@ symbols:
     aliases: ["the course's \\srate (was ς)"]
     conflicts_checked: "written as a word; the course wrote ς, econark-shortcuts' portfolio share (\\riskyshare); s was offered and declined"
     ruling: {date: 2026-11-03, source: "owner, in the cc:course-choice session, 08:08:44 EST: 'The word sav'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "unique by construction"}
+
+  savings:
+    gloss: "savings, a stock: net worth, assets minus debt; individual s, aggregate S (rule A). Not the flow of saving, whose rate is sav"
+    define: "s = k − d (kapital minus debt); S = ∫ s_i di"
+    latex: {macro: '\sNrm', expansion: 's'}
+    unicode: 's'
+    conflicts_checked: "Checked 2026-11-17 against this registry at 8d34f224 (v10.0.0) and the Intertemporal Choice book at main fc04579. No row writes s or S: s was offered for the saving rate and declined (the saving-rate row, 2026-11-03), and precautionary saving left s for x in v1.0.0. econark-shortcuts.sty defines \\sNrm = s, \\SNrm = S, \\sLvl, \\SLvl and \\sFunc generically, with no meaning, so the aggregate is \\SNrm by rule A and the levels are \\sLvl and \\SLvl by rule B. The book's course block has \\save = s, the saving rate in LucasGrowth (4 uses there, 7 in the questions repo), which moves to \\savRte; \\Save = S, unused; and \\Stocks = S, the amount held in stocks in CARAPortfolio, which keeps S only as a declared chapter-local use (the 2026-10-22 convention) or takes another letter. The book's DecentralizingRCK and RCKWithGov revisions (its PRs #109 and #110) write s as the variable of integration in e^{−∫ r_s ds}; they change it. \\sNrm and \\SNrm are not written in HARK, BufferStockTheory or SolvingMicroDSOPs on ccarroll. 'Savings' is the stock; 'saving' stays the flow."
+    ruling: {date: 2026-11-17, source: "owner, in the book session (cc_intertemporal-choice.github.io), 2026-11-17 09:09:57 EST: 'Let's revise the registry to allow \"S\" and \"s\" for aggregate and individual \"savings\" as a measure of assets minus debt (net worth).' It replaces his choice of w at 09:03:24 EST ('use w for net worth; propose the registry row'), withdrawn in the same message: 'we have the wage W in many equations in DecentralizingRCK, and it would be confusing to introduce w as wealth'. He asked for this PR in that session at 09:13:27 EST: 'push'", rationale: "net worth needs its own symbol where it differs from kapital: households that lend to one another, hold government bonds, or borrow; s and S read as savings and keep clear of the wage 𝖶"}
 
   log:
     gloss: "the natural log, printed log. Each letter's normalized and level macros have a log macro, \\l<macro>: \\lcNrm = log c, \\lcLvl = log 𝒄, \\lKLvl = log 𝑲 (econark-shortcuts.sty, 104 names, all built on \\logOp)"

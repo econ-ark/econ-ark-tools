@@ -3,10 +3,10 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
-## v10.1.0 — 2026-11-17
+## v10.2.0 — 2026-11-17
 
 Three requests from the owner of 2026-11-16, relayed by the Intertemporal Choice course's session (cc:course-choice).
-The owner adopted them in this session on 2026-11-17 at 09:13:50 EST ("One PR, merge when CI green (Recommended)"), choosing there an italic 𝛱 ("Italic 𝛱 (Recommended)") and to include the tool as drafted ("Include it as drafted (Recommended)"). MINOR: one new row; nothing that prints changes.
+The owner adopted them in this session on 2026-11-17 at 09:13:50 EST ("One PR, merge when CI green (Recommended)"), choosing there an italic 𝛱 ("Italic 𝛱 (Recommended)") and to include the tool as drafted ("Include it as drafted (Recommended)"). MINOR: one new row; nothing that prints changes. Merged after v10.1.0 (the savings row, #60), which took that number first.
 - **Rule B's normalizer clause** (`terminology.yml`): bold marks a level that can be or will be divided by a
   normalizer; a normalizer itself is never bold. Labor-augmenting productivity Z, in k = 𝑲/(Z𝑳), is one; labor 𝑳,
   population 𝑵 and permanent income 𝒑 are levels and stay bold. The owner, 09:37:55 EST: "Variables are boldface only
@@ -20,6 +20,16 @@ The owner adopted them in this session on 2026-11-17 at 09:13:50 EST ("One PR, m
   registry's macros (`Name_SST.ipynb` or `.md`) generates the notebook people open, with every macro spelled out, and
   carries a hidden definitions cell so that it renders in Jupyter too. It was written and tested in the session for
   the course's problem-set questions; the owner placed it here ("econ-ark-tools, beside the registry", 20:13:29 EST).
+
+## v10.1.0 — 2026-11-17
+
+**New row: savings, s and S, net worth (assets minus debt).** The owner, in the Intertemporal Choice book's session,
+2026-11-17 09:09:57 EST: "Let's revise the registry to allow "S" and "s" for aggregate and individual "savings" as a
+measure of assets minus debt (net worth)." It replaces w, which he had chosen at 09:03:24 EST and withdrew because the
+wage 𝖶 appears in many of the same equations. `\sNrm` = s for the individual; by rules A and B, `\SNrm` = S for the
+aggregate and `\sLvl`, `\SLvl` for the levels, all already defined, without a meaning, in econark-shortcuts.sty.
+"Savings" is the stock; "saving" stays the flow, whose rate is sav (`\savRte`). An addition: nothing prints
+differently.
 
 ## v10.0.0 — 2026-11-15
 
