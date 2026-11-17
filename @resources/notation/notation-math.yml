@@ -1,4 +1,4 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v10.3.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v11.0.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
@@ -44,11 +44,11 @@ project:
     '\jobFindPrb': '\mathrm{find}'
     '\kNrmNxt': 'k\Nxt'
     '\kNrmNow': 'k\Now'
-    '\labor': '\ell'
+    '\labor': 'l'
     '\tightness': '\mathrm{tgt}'
     '\leisure': 'z'
     '\leiShare': '\zeta'
-    '\logOp': '\log'
+    '\logOp': '\ell'
     '\logmNrmEx': '\boldsymbol{\mu}'
     '\GPRte': '\thorn_{\PermGroRte}'
     '\matchEff': '\mathrm{eff}'
@@ -56,8 +56,8 @@ project:
     '\MPC': '\kappa'
     '\MPCmax': '\overline{\kappa}'
     '\MPCmin': '\underline{\kappa}'
-    '\netWorth': 's'
-    '\NetWorth': 'S'
+    '\netWorth': '\mathsf{n}'
+    '\NetWorth': '\mathsf{N}'
     '\paretoExp': '\varepsilon'
     '\APFac': '\textbf{Þ}'
     '\APFacEff': '\mathring{\APFac}'
@@ -75,7 +75,7 @@ project:
     '\permShkIndMin': '\underline{\psi}'
     '\permShkNxt': '\psi\Nxt'
     '\PopnGroFac': '\varXi'
-    '\PopnGroRte': 'n'
+    '\PopnGroRte': '\ell\varXi'
     '\PowMean': '{\mathcal{M}}'
     '\PtyGroFac': '\mathrm{G}'
     '\mBalLvl': '\check{m}'

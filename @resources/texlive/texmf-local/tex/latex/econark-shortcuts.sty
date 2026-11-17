@@ -201,9 +201,10 @@
 \ARKcommand{\ZNrm}{Z}
 \ARKcommand{\ZFunc}{\mathrm{Z}}
 
-% Logs (owner ruling 2026-11-15): \l<macro> is the log of <macro>, printed "log c", "log \cLvl";
-% no lower case for logs. The print is set once, in \logOp; switching to ln is that one line.
-\ARKcommand{\logOp}{\log}
+% Logs (owner rulings 2026-11-15 and 2026-11-17): \l<macro> is the natural log of <macro>, printed with ell:
+% \lcNrm = \ell c, \lcLvl = \ell\cLvl; no lower case for logs. The print is set once, in \logOp (was \log, "log c",
+% until v11.0.0, when labor moved from \ell to l).
+\ARKcommand{\logOp}{\ell}
 \ARKcommand{\laNrm}{\logOp\aNrm}
 \ARKcommand{\laLvl}{\logOp\aLvl}
 \ARKcommand{\lbNrm}{\logOp\bNrm}
@@ -466,7 +467,8 @@
 \ARKcommand{\RfreeEff}{\mathring{\Rfree}} % Blanchard-adjusted return R/\LivPrb: the survival ring (owner ruling 2026-10-22); R-bar is \RBoro
 
 \ARKcommand{\PopnGroFac}{\varXi}
-\ARKcommand{\PopnGroRte}{n}   % Solow's letter (owner ruling 2026-11-02); was \ln\PopnGroFac, and before that xi, the transitory shock
+\ARKcommand{\PopnGroRte}{\ell\varXi}   % the log of the factor, ell-Xi (\logOp), explained where a document first introduces it
+                                         % (owner ruling 2026-11-17); was n (2026-11-02), \ln\PopnGroFac, and before that xi
 \ARKcommand{\PopnLvl}{\NLvl}   % population, a level: bold italic N (owner ruling 2026-11-15: a quantity is italic; was \pmb{\mathrm{N}})
   
 \ARKcommand{\LivPrb}{\Alive}
@@ -567,12 +569,12 @@
 % \zeta is the leisure share (\leiShare).
 
 \ARKcommand{\Labor}{\LLvl}   % aggregate labor, a level: bold italic L (owner ruling 2026-11-15: a quantity is italic; was \mathrm{L})
-\ARKcommand{\labor}{\ell}
-\ARKcommand{\leisure}{z}       % time not worked, z = 1 - \ell with a unit endowment (owner ruling 2026-11-03); the share is \leiShare
+\ARKcommand{\labor}{l}   % labor: italic l (owner ruling 2026-11-17; was \ell, which is now the natural log, \logOp)
+\ARKcommand{\leisure}{z}       % time not worked, z = 1 - l with a unit endowment (owner ruling 2026-11-03); the share is \leiShare
 \ARKcommand{\itcRte}{\chi}     % investment tax credit rate: chi, the Greek C, for credit (owner ruling 2026-11-03); write 1-\chi out
 \ARKcommand{\savRte}{\mathrm{sav}}  % saving rate, a word (owner ruling 2026-11-03); \varsigma is \riskyshare
-\ARKcommand{\netWorth}{s}  % net worth (savings), assets minus debt (owner ruling 2026-11-17)
-\ARKcommand{\NetWorth}{S}  % aggregate net worth (owner ruling 2026-11-17)
+\ARKcommand{\netWorth}{\mathsf{n}}  % net worth, assets minus debt: sans-serif n (owner ruling 2026-11-17 16:43; was s)
+\ARKcommand{\NetWorth}{\mathsf{N}}  % aggregate net worth: sans-serif N (owner ruling 2026-11-17 16:43; was S)
 
 \ARKcommand{\EEndMap}{{\mathsf{E}}}
 
