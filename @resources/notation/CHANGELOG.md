@@ -3,6 +3,13 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v13.0.1 — 2026-11-17
+
+PATCH: nothing prints differently.
+- `econark-shortcuts.sty`'s `\ProvidesPackage` line names the registry's release (v13.0.1). It had said v9.0.0 since
+  2026-11-04; cc_texmf-local found it, and the course passed it on.
+- `tests/check_sync.py` now fails when that line's version differs from `notation.yml`'s `meta.version`.
+
 ## v13.0.0 — 2026-11-17
 
 MAJOR: a macro is renamed and the old name removed; nothing prints differently.

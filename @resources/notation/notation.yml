@@ -20,8 +20,10 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 13.0.0       # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 13.0.1       # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-11-17   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 13.0.1: econark-shortcuts.sty's \ProvidesPackage line names the release (it had
+                        #        said v9.0.0 since 2026-11-04); check_sync now checks it
                         # 13.0.0: the log macro is \lnat (was \logOp, now removed); prints are
                         #        unchanged (owner, 2026-11-17)
                         # 12.0.0: \PtyLev (italic A) and \lPtyLev retired in favor of \PtyAgg (sans-serif
