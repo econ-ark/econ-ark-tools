@@ -3,6 +3,16 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v13.0.0 — 2026-11-17
+
+MAJOR: a macro is renamed and the old name removed; nothing prints differently.
+- **The natural log's macro is `\lnat`,** printing ℓ, renamed from `\logOp`, which is removed. The 104
+  `\l<letter>Nrm`/`\l<letter>Lvl` macros, `\lPtyLab`, `\lPtyAgg` and `\PopnGroRte` (ℓ𝛯) are built on it. The owner,
+  in the book session (as relayed by it), 20:48:12 EST: "I really hate '\logOp'.  Maybe $\ln$ is infeasible
+  because $\ln$ is already a defined macro?  If so, can't we just use, say, \lnat?  If not, let's just use $\ln$".
+  `\ln` is a built-in of LaTeX and KaTeX that prints "ln", so `\lnat`.
+- No document outside this registry on jhu-dell writes `\logOp`; the book's nine uses switch when it syncs.
+
 ## v12.0.0 — 2026-11-17
 
 MAJOR: two macros are removed.
