@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v14.1.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v14.2.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -450,6 +450,17 @@
 \newcommand{\GovSpend}{X}
 \newcommand{\TaxLev}{T}
 \newcommand{\Debt}{D}
+\newcommand{\Knwl}{\mathcal{K}}
+\newcommand{\BalGroEndog}{\mathsf{G}}
+\newcommand{\balGroEndog}{\mathsf{g}}
+\newcommand{\hCap}{\mathsf{h}}
+\newcommand{\hCapAvg}{\hCap_{\mathrm{a}}}
+\newcommand{\extElas}{\eta}
+\newcommand{\hCapProd}{\phi}
+\newcommand{\labShare}{\nu}
+\newcommand{\rfreeEff}{\mathring{\mathsf{r}}}
+\newcommand{\discRteEff}{\mathring{\discRte}}
+\newcommand{\PDVEff}{\mathring{\mathbb{P}}}
 \newcommand{\Reals}{\mathbb{R}}
 \newcommand{\TMap}{\mathbb{T}}
 \newcommand{\Ex}{{\mathbb{E}}}
