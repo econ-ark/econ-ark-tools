@@ -3,6 +3,17 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v14.0.0 — 2026-11-17
+
+MAJOR: the saving rate prints differently.
+- **The saving rate `\savRte` prints sans-serif 𝗌** (was the word sav). The owner, in the questions session (as
+  relayed by cc:course-choice for it), 17:16:42 EST, choosing from a menu: "𝗌, sans-serif s (Recommended)". It replaces
+  his 2026-11-03 "The word sav". Sans serif is the registry's face for rates (𝗋, 𝗀); 𝗌 stays distinct from italic s
+  (`\sNrm`). It shows in the questions repo's OLG-SavingAndGrowth and the book's LucasGrowth.
+- `econark-shortcuts.sty`'s `\ProvidesPackage` line names the registry's release (v14.0.0). It had said v9.0.0 since
+  2026-11-04; cc_texmf-local found it, and the course passed it on.
+- `tests/check_sync.py` now fails when that line's version differs from `notation.yml`'s `meta.version`.
+
 ## v13.0.0 — 2026-11-17
 
 MAJOR: a macro is renamed and the old name removed; nothing prints differently.

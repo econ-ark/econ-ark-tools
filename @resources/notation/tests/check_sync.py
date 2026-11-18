@@ -6,6 +6,7 @@ committed copies.  Nonzero exit on any drift.  Wire as CI / pre-commit, or run
 `python tests/check_sync.py` as the pre-push ritual.
 """
 import os
+import re
 import subprocess
 import sys
 import tempfile
@@ -13,6 +14,7 @@ import tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
 NOTATION_DIR = os.path.dirname(HERE)
 GEN = os.path.join(NOTATION_DIR, "gen")
+SHORTCUTS = os.path.join(NOTATION_DIR, "..", "texlive", "texmf-local", "tex", "latex", "econark-shortcuts.sty")
 
 # generator -> [(artifact name, committed path relative to the registry dir)]
 ARTIFACTS = {
@@ -23,6 +25,19 @@ ARTIFACTS = {
     "gen_shortcuts.py": [("econark-math.yml", "econark-math.yml"),
                          ("econark-shortcuts.md", os.path.join("..", "markdown", "econark-shortcuts.md"))],
 }
+
+
+def version_mismatch():
+    """econark-shortcuts.sty's \\ProvidesPackage version must equal notation.yml's meta.version."""
+    with open(os.path.join(NOTATION_DIR, "notation.yml"), encoding="utf-8") as f:
+        m = re.search(r"^  version: (\S+)", f.read(), re.M)
+    with open(SHORTCUTS, encoding="utf-8") as f:
+        p = re.search(r"\\ProvidesPackage\{econark-shortcuts\}\[\S+ v(\S+) ", f.read())
+    reg, sty = (m.group(1) if m else None), (p.group(1) if p else None)
+    if reg != sty:
+        return (f"VERSION: econark-shortcuts.sty's \\ProvidesPackage says v{sty}, notation.yml says {reg}; "
+                "update the \\ProvidesPackage line")
+    return None
 
 
 def main():
@@ -51,10 +66,13 @@ def main():
               ", ".join(failures))
         print("Fix: rerun the generators and commit "
               "(e.g. `python gen/gen_latex.py`).")
-    if missing or failures:
+    bad_version = version_mismatch()
+    if bad_version:
+        print(bad_version)
+    if missing or failures or bad_version:
         return 1
     n = sum(len(v) for v in ARTIFACTS.values())
-    print(f"check_sync: all {n} artifacts match their generators.")
+    print(f"check_sync: all {n} artifacts match their generators; the shortcuts' version line matches.")
     return 0
 
 

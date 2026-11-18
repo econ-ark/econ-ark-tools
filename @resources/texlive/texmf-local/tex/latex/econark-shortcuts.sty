@@ -2,7 +2,7 @@
 % @resources/notation/notation.yml, the single source of notation for the papers).
 % Explicit definitions only (no factory/\@for loops); Lvl/Nrm/Func for a-z and A-Z are inline.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{econark-shortcuts}[2026/11/04 v9.0.0 Econ-ARK shared notation]
+\ProvidesPackage{econark-shortcuts}[2026/11/17 v14.0.0 Econ-ARK shared notation]
 % What the macros below need (2026-10-22). eucal is loaded only if no package has defined
 % \mathscr already, so a class that loads it with its own options is not disturbed.
 \RequirePackage{amsmath,amssymb,cancel,graphicx}
@@ -572,7 +572,7 @@
 \ARKcommand{\labor}{l}   % labor: italic l (owner ruling 2026-11-17; was \ell, which is now the natural log, \lnat)
 \ARKcommand{\leisure}{z}       % time not worked, z = 1 - l with a unit endowment (owner ruling 2026-11-03); the share is \leiShare
 \ARKcommand{\itcRte}{\chi}     % investment tax credit rate: chi, the Greek C, for credit (owner ruling 2026-11-03); write 1-\chi out
-\ARKcommand{\savRte}{\mathrm{sav}}  % saving rate, a word (owner ruling 2026-11-03); \varsigma is \riskyshare
+\ARKcommand{\savRte}{\mathsf{s}}  % saving rate: sans-serif s (owner ruling 2026-11-17 17:16; was the word sav, 2026-11-03); \varsigma is \riskyshare
 \ARKcommand{\netWorth}{\mathsf{n}}  % net worth, assets minus debt: sans-serif n (owner ruling 2026-11-17 16:43; was s)
 \ARKcommand{\NetWorth}{\mathsf{N}}  % aggregate net worth: sans-serif N (owner ruling 2026-11-17 16:43; was S)
 

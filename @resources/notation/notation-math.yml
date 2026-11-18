@@ -1,4 +1,4 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v13.0.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v14.0.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
@@ -89,7 +89,7 @@ project:
     '\RBoro': '\bar{\Rfree}'
     '\Rfree': '\mathsf{R}'
     '\RNrmByG': '\mathcal{R}'
-    '\savRte': '\mathrm{sav}'
+    '\savRte': '\mathsf{s}'
     '\sepRte': '\mathrm{sep}'
     '\splurge': '\gimel'
     '\Steady': '\bar{#1}'

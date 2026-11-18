@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v13.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v14.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -403,7 +403,7 @@
 \newcommand{\labor}{l}
 \newcommand{\leisure}{z}
 \newcommand{\itcRte}{\chi}
-\newcommand{\savRte}{\mathrm{sav}}
+\newcommand{\savRte}{\mathsf{s}}
 \newcommand{\netWorth}{\mathsf{n}}
 \newcommand{\NetWorth}{\mathsf{N}}
 \newcommand{\EEndMap}{{\mathsf{E}}}

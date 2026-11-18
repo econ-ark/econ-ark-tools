@@ -1,4 +1,4 @@
-# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v13.0.0. DO NOT EDIT.
+# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v14.0.0. DO NOT EDIT.
 # Every shared macro, KaTeX-safe. Consume via `extends: [<path>/econark-math.yml]` in myst.yml.
 # Regenerate: python @resources/notation/gen/gen_shortcuts.py
 version: 1
@@ -406,7 +406,7 @@ project:
     '\labor': 'l'
     '\leisure': 'z'
     '\itcRte': '\chi'
-    '\savRte': '\mathrm{sav}'
+    '\savRte': '\mathsf{s}'
     '\netWorth': '\mathsf{n}'
     '\NetWorth': '\mathsf{N}'
     '\EEndMap': '{\mathsf{E}}'

@@ -20,8 +20,11 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 13.0.0       # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 14.0.0       # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-11-17   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 14.0.0: the saving rate \savRte prints sans-serif 𝗌 (was the word sav); the
+                        #        shortcuts' \ProvidesPackage line names the release (it had said v9.0.0
+                        #        since 2026-11-04), and check_sync checks it (owner, 2026-11-17)
                         # 13.0.0: the log macro is \lnat (was \logOp, now removed); prints are
                         #        unchanged (owner, 2026-11-17)
                         # 12.0.0: \PtyLev (italic A) and \lPtyLev retired in favor of \PtyAgg (sans-serif
@@ -985,14 +988,14 @@ symbols:
 
   saving-rate:
     gloss: "saving rate, as a share of income (the government's, in the course's GreekDebtCrisis-Short question)"
-    latex: {macro: '\savRte', expansion: '\mathrm{sav}'}
-    unicode: 'sav'
+    latex: {macro: '\savRte', expansion: '\mathsf{s}'}
+    unicode: '𝗌'
     aliases: ["the course's \\srate (was ς)"]
-    conflicts_checked: "written as a word; the course wrote ς, econark-shortcuts' portfolio share (\\riskyshare); s was offered and declined"
-    ruling: {date: 2026-11-03, source: "owner, in the cc:course-choice session, 08:08:44 EST: 'The word sav'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "unique by construction"}
+    conflicts_checked: "MAJOR (v14.0.0): was the word sav. Sans serif is the registry's face for nonstochastic factors, rates and prices (𝖱, 𝗋, 𝖦, 𝗀, 𝖶; net worth 𝗇 is a different letter). \\mathsf{s} and \\mathsf{S} are in no other row or macro of this registry or econark-shortcuts.sty (checked by the questions session at 07727500, and here, 2026-11-17). Elsewhere on jhu-dell 𝗌 appears only in econ-ark/bellman's DDSL theory notes, for a sort in many-sorted algebra, in no document that writes a saving rate (letter-locality). Italic s stays the generic \\sNrm, which PerfForesightCRRA uses for normalized saving on the same page as the rate. Uses: the questions repo's OLG-SavingAndGrowth (9, printing sav until it syncs) and the book's LucasGrowth. Before v14.0.0: written as a word; the course wrote ς, econark-shortcuts' portfolio share (\\riskyshare); italic s was offered and declined"
+    ruling: {date: 2026-11-17, source: "owner, in the questions session (as relayed by cc:course-choice for that session; cc:course-choice's claude-relay-check found it as chosen by the user from a menu), 2026-11-17 17:16:42 EST: '𝗌, sans-serif s (Recommended)', answering: 'The saving rate (saving as a share of income) is still the word \"sav\" (\\savRte), which you dislike, e.g. in OLG-SavingAndGrowth. What should it print? I recommend a sans-serif 𝗌.' Before: owner, in the cc:course-choice session, 2026-11-03 08:08:44 EST: 'The word sav'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "sans serif is the registry's face for rates (𝗋, 𝗀); s is the textbook's saving rate; 𝗌 stays distinct from italic s (\\sNrm)"}
 
   net-worth:
-    gloss: "net worth, which the owner also calls savings: a stock, assets minus debt, for an individual; the aggregate is \\NetWorth (rule A). Not the flow of saving, whose rate is sav"
+    gloss: "net worth, which the owner also calls savings: a stock, assets minus debt, for an individual; the aggregate is \\NetWorth (rule A). Not the flow of saving, whose rate is 𝗌 (\\savRte)"
     define: "𝗇 = k − d (kapital minus debt); 𝖭 = ∫ 𝗇_i di"
     latex: {macro: '\netWorth', expansion: '\mathsf{n}'}
     unicode: '𝗇'
