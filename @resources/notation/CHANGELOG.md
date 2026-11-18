@@ -3,6 +3,15 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v14.1.0 — 2026-11-17
+
+MINOR: additions only. Three rows for objects the course's Growth handouts defined themselves. The owner, in the
+cc:course-choice session (as relayed by it), 22:41:19 EST: "6. make registry rows for these".
+- **`\Ham` = ℋ,** the current-value Hamiltonian.
+- **`\vk` = λ,** the costate on capital: the marginal value of a unit of capital.
+- **`\kapRent` = ϰ,** the rental rate of capital, f′(k). The `\ADElas` row had passed over ϰ as too close to the
+  MPC κ; the chapters that write `\kapRent` (HallJorgenson, DecentralizingRCK) write no κ.
+
 ## v14.0.0 — 2026-11-17
 
 MAJOR: the saving rate prints differently.

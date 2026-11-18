@@ -1,4 +1,4 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v14.0.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v14.1.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
@@ -21,6 +21,7 @@ project:
     '\cFunc': '\mathrm{c}'
     '\cNrmNxt': 'c\Nxt'
     '\cNrmNow': 'c\Now'
+    '\vk': '\lambda'
     '\CRRA': '\varrho'
     '\DiscFac': '\beta'
     '\DiscFacEff': '\mathring{\DiscFac}'
@@ -32,6 +33,7 @@ project:
     '\GoldRule': '\bar{\bar{#1}}'
     '\PermGroFac': '\mathsf{G}'
     '\PermGroRte': '\mathsf{g}'
+    '\Ham': '\mathcal{H}'
     '\qHi': 'q_{\infty}'
     '\hNrm': 'h'
     '\hNrmEnd': '\mathfrak{h}'
@@ -81,6 +83,7 @@ project:
     '\PtyLab': 'Z'
     '\PtyAgg': '\mathsf{A}'
     '\mBalLvl': '\check{m}'
+    '\kapRent': '\varkappa'
     '\mNrmEx': '\ddot{m}'
     '\mNrmMin': '\underline{m}'
     '\mNrmNxt': 'm\Nxt'
