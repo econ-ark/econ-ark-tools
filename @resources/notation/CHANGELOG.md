@@ -3,6 +3,21 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v14.1.0 — 2026-11-17
+
+MINOR: additions only. Seven rows for objects the course defined itself. The owner, in the
+cc:course-choice session (as relayed by it), 22:41:19 EST: "6. make registry rows for these".
+- **`\Ham` = ℋ,** the current-value Hamiltonian.
+- **`\vk` = λ,** the costate on capital: the marginal value of a unit of capital.
+- **`\kapRent` = ϰ,** the rental rate of capital, f′(k). The `\ADElas` row had passed over ϰ as too close to the
+  MPC κ; the chapters that write `\kapRent` (HallJorgenson, DecentralizingRCK) write no κ.
+- Four more of the course's own definitions, on the owner's word in this session, 22:55:52 EST: "yes, I approve of
+  these additions to the registry":
+  - **`\VFuncCts` = 𝒱,** the continuous-time value function;
+  - **`\GovSpend` = X,** government spending;
+  - **`\TaxLev` = T,** a lump-sum tax, scoped to documents that write no terminal period T (`\prdT`);
+  - **`\Debt` = D,** government debt.
+
 ## v14.0.0 — 2026-11-17
 
 MAJOR: the saving rate prints differently.

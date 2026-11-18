@@ -2,7 +2,7 @@
 % @resources/notation/notation.yml, the single source of notation for the papers).
 % Explicit definitions only (no factory/\@for loops); Lvl/Nrm/Func for a-z and A-Z are inline.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{econark-shortcuts}[2026/11/17 v14.0.0 Econ-ARK shared notation]
+\ProvidesPackage{econark-shortcuts}[2026/11/17 v14.1.0 Econ-ARK shared notation]
 % What the macros below need (2026-10-22). eucal is loaded only if no package has defined
 % \mathscr already, so a class that loads it with its own options is not disturbed.
 \RequirePackage{amsmath,amssymb,cancel,graphicx}
@@ -663,6 +663,16 @@
 \ARKcommand{\lPtyLab}{\lnat\PtyLab}   % its log, \ell Z
 \ARKcommand{\PtyAgg}{\mathsf{A}}   % productivity multiplying total output (Hicks-neutral): Y = \PtyAgg F(K, L)
 \ARKcommand{\lPtyAgg}{\lnat\PtyAgg}   % its log, \ell 𝖠 (no lower case for logs: not a)
+% Continuous-time optimization and capital (owner, 2026-11-17 22:41, as relayed): the course's Growth handouts' own
+% macros, now shared.
+\ARKcommand{\Ham}{\mathcal{H}}     % current-value Hamiltonian
+\ARKcommand{\vk}{\lambda}          % costate on capital: the marginal value of a unit of capital
+\ARKcommand{\kapRent}{\varkappa}   % rental rate of capital, f'(k); its documents do not write the MPC \kappa
+\ARKcommand{\VFuncCts}{\mathcal{V}} % value function in continuous time, beside the discrete-time \VFunc
+% Government (owner, 2026-11-17 22:55): per-household quantities, plain (rule B).
+\ARKcommand{\GovSpend}{X}          % government spending
+\ARKcommand{\TaxLev}{T}            % lump-sum tax; scoped: where a document writes the terminal period T, the tax moves
+\ARKcommand{\Debt}{D}              % government debt
 
 % agg vs ind?  upper vs lower conflicts with upper vs lower for factors and rates
 
