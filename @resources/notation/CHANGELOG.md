@@ -17,6 +17,9 @@ MINOR: additions only; nothing that already exists prints differently.
   extend the rule".
 - **The course's local definitions** (terminology.yml) either adopt something from the registry or are proposed as
   new rows. The owner, 20:03:23 EST.
+- **The registry always wins** (terminology.yml): where a document prints an object differently from the registry,
+  the document takes the registry's print; a different print comes only from re-ruling the row for every document.
+  The owner, 20:22:56 EST: "registry always wins".
 
 ## v11.1.0 — 2026-11-17
 

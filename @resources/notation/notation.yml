@@ -23,7 +23,8 @@ meta:
   version: 11.2.0       # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-11-17   #         MINOR = additions; PATCH = gloss/typo fixes
                         # 11.2.0: new row \PtyAgg = sans-serif 𝖠, productivity multiplying output; new
-                        #        conventions: letter-locality, the course's local definitions (owner, 2026-11-17)
+                        #        conventions: letter-locality, the course's local definitions, the registry always
+                        #        wins (owner, 2026-11-17)
                         # 11.1.0: new rows: productivity, labor-augmenting \PtyLab = Z and total-factor
                         #        \PtyLev = A, with their logs (owner, 2026-11-17)
                         # 11.0.0: labor is italic l (was ℓ); ℓ is the natural log, so \lcNrm prints ℓc
