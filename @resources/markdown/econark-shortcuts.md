@@ -446,6 +446,10 @@
 \newcommand{\Ham}{\mathcal{H}}
 \newcommand{\vk}{\lambda}
 \newcommand{\kapRent}{\varkappa}
+\newcommand{\VFuncCts}{\mathcal{V}}
+\newcommand{\GovSpend}{X}
+\newcommand{\TaxLev}{T}
+\newcommand{\Debt}{D}
 \newcommand{\Reals}{\mathbb{R}}
 \newcommand{\TMap}{\mathbb{T}}
 \newcommand{\Ex}{{\mathbb{E}}}

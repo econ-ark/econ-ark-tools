@@ -23,7 +23,9 @@ meta:
   version: 14.1.0       # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-11-17   #         MINOR = additions; PATCH = gloss/typo fixes
                         # 14.1.0: new rows: the Hamiltonian \Ham = ℋ, the costate on capital \vk = λ,
-                        #        the rental rate of capital \kapRent = ϰ (owner, 2026-11-17)
+                        #        the rental rate of capital \kapRent = ϰ, the continuous-time value
+                        #        function \VFuncCts = 𝒱, government spending \GovSpend = X, the lump-sum
+                        #        tax \TaxLev = T, government debt \Debt = D (owner, 2026-11-17)
                         # 14.0.0: the saving rate \savRte prints sans-serif 𝗌 (was the word sav); the
                         #        shortcuts' \ProvidesPackage line names the release (it had said v9.0.0
                         #        since 2026-11-04), and check_sync checks it (owner, 2026-11-17)
@@ -938,6 +940,35 @@ symbols:
     unicode: 'ϰ'
     conflicts_checked: "New in v14.1.0. ϰ is in no other row or macro of this registry or econark-shortcuts.sty (checked 2026-11-17 at f47cd046). The \\ADElas row (2026-08-30, the SAM block) passed over ϰ as too close to κ, the MPC (\\MPC). The book's documents that write \\kapRent, HallJorgenson (21 uses) and DecentralizingRCK (5), write neither \\MPC, κ nor the course's \\PIHMPC (checked 2026-11-17 at the book's main, 4083e013), so ϰ and κ do not meet there. The course block's \\PIHMPC = ϰ (8 uses in the book) is a second meaning of the letter: under letter-locality it takes a scoped row, or another letter, when the course proposes it. Elsewhere on jhu-dell \\kapRent = ϰ only in HARK_ask-your-project's local-shortcuts.sty, the same object."
     ruling: {date: 2026-11-17, source: "owner, in the cc:course-choice session (as relayed by that session), typed 2026-11-17 22:41:19 EST: '6. make registry rows for these', answering: 'Under your zero-local-macros goal, the handouts still define three things locally: the Hamiltonian, the costate and the rental rate of capital. Each needs a registry row.' Adopted in the econ-ark-tools session under the owner's 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  value-function-continuous:
+    gloss: "the value function of a continuous-time problem, kept apart from the discrete-time value function V (\\VFunc) where a document compares the two (the course's HamiltonianVSDiscrete handout). Calligraphic, a face with no italic"
+    latex: {macro: '\VFuncCts', expansion: '\mathcal{V}'}
+    unicode: '𝒱'
+    conflicts_checked: "New in v14.1.0. \\mathcal{V} is in no other row or macro of this registry or econark-shortcuts.sty (checked 2026-11-17 at f47cd046). Elsewhere on jhu-dell it is \\ValAlt in HARK_ask-your-project's local-shortcuts.sty and REMARK's LifeCyclePrimeTime myst.yml, which write no continuous-time value function (letter-locality). The course defines \\VFuncCts in the HamiltonianVSDiscrete handout's @local file (reported by cc:course-choice); no book page writes it (GitHub code search, 2026-11-17)."
+    ruling: {date: 2026-11-17, source: "owner, econ-ark-tools session, 2026-11-17 22:55:52 EST: 'yes, I approve of these additions to the registry (and want you to ask the cc_course-choice repo to make sure they are propagated to the course's material)', answering the proposal of rows for four more of the course's local definitions (\\VFuncCts, \\GovSpend, \\TaxLev, \\Debt), relayed by cc:course-choice", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  government-spending:
+    gloss: "government spending per household, which yields no utility: k̇ = f(k) − δk − c − X in the course's RCKWithGov. Plain, a per-household quantity (rule B)"
+    latex: {macro: '\GovSpend', expansion: 'X'}
+    unicode: 'X'
+    conflicts_checked: "New in v14.1.0. X is otherwise only the generic \\XNrm, which has no meaning and prints the same. The book writes \\GovSpend in RCKWithGov (16 uses at its main, 4083e013); the course-local block counts 7 in the book and 3 in the questions. The block's \\effUnits = X (effective units, 15 uses in the questions) is a second meaning, to be scoped or moved when the course proposes it (letter-locality). BlanchardFiniteHorizon writes government spending as a raw G, which the registry gives to growth factors (\\PtyGroFac, upright G; \\PermGroFac, 𝖦); by rule D it becomes \\GovSpend."
+    ruling: {date: 2026-11-17, source: "owner, econ-ark-tools session, 2026-11-17 22:55:52 EST: 'yes, I approve of these additions to the registry (and want you to ask the cc_course-choice repo to make sure they are propagated to the course's material)', answering the proposal of rows for four more of the course's local definitions (\\VFuncCts, \\GovSpend, \\TaxLev, \\Debt), relayed by cc:course-choice", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  lump-sum-tax:
+    gloss: "a lump-sum tax per household: k̇ = r k + w − c − T in the course's RCKWithGov. Plain, a per-household quantity (rule B)"
+    latex: {macro: '\TaxLev', expansion: 'T'}
+    unicode: 'T'
+    scope: "documents that write no terminal period T (\\prdT): in the course, RCKWithGov and GenAcctsAndGov. BlanchardFiniteHorizon writes both the last period T (V_{T−1}, C_T) and \\TaxLev, so there the tax takes another letter, in its own scoped row"
+    conflicts_checked: "New in v14.1.0. T is otherwise the terminal period \\prdT, which has no scope and so keeps the letter where both meet (letter-locality), and the generic \\TNrm. Uses at the book's main (4083e013): RCKWithGov 8, BlanchardFiniteHorizon 3; the course-local block counts 10 in the book and 3 in the questions. The name keeps the course's, although 'Lev' is not the registry's bold 'Lvl': the tax is plain."
+    ruling: {date: 2026-11-17, source: "owner, econ-ark-tools session, 2026-11-17 22:55:52 EST: 'yes, I approve of these additions to the registry (and want you to ask the cc_course-choice repo to make sure they are propagated to the course's material)', answering the proposal of rows for four more of the course's local definitions (\\VFuncCts, \\GovSpend, \\TaxLev, \\Debt), relayed by cc:course-choice", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  government-debt:
+    gloss: "government debt per household: Ḋ = r D + X − T. Plain, a per-household quantity (rule B)"
+    latex: {macro: '\Debt', expansion: 'D'}
+    unicode: 'D'
+    conflicts_checked: "New in v14.1.0. D is otherwise only the generic \\DNrm, which has no meaning and prints the same; bold 𝑫 is the generic \\DLvl, and the course's \\Dvdnd (bold D, dividends' level, 6 uses in the questions) differs in weight. By rule A an upper-case D reads as the aggregate of a lower-case d, which the course gives to dividends (\\dvdnd); the course checks that no document writes both. Uses at the book's main: RCKWithGov 4; the course-local block counts 13 in the book and 21 in the questions. BlanchardFiniteHorizon writes a raw D, which becomes \\Debt by rule D."
+    ruling: {date: 2026-11-17, source: "owner, econ-ark-tools session, 2026-11-17 22:55:52 EST: 'yes, I approve of these additions to the registry (and want you to ask the cc_course-choice repo to make sure they are propagated to the course's material)', answering the proposal of rows for four more of the course's local definitions (\\VFuncCts, \\GovSpend, \\TaxLev, \\Debt), relayed by cc:course-choice", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
 
   # ---- v9.0.0 (2026-11-04): rows from the owner's rulings of 2026-11-02 and 2026-11-03 in the cc:course-choice session
   # ---- (the Intertemporal Choice course), adopted here.

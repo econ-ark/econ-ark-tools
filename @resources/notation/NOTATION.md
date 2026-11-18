@@ -34,6 +34,8 @@
 | expectation | 𝔼 |  | `\Ex` | `\mathbb{E}` |  | expectations operator |
 | function-vs-quantity-convention |  |  |  |  |  | ruling 9 v2, as amended 2026-07-17: a function whose letter also names a quantity is UPRIGHT with its argument (BST's \cFunc convention — \cFunc(m), \psavFunc(m), \bufAdjFunc(o), \uFunc); the italic letters are the quantities. A letter that names ONLY a function needs no upright form (the gap g, Greek functions). Primes are reserved for differentiation, on upright letters only; path equations date every variable, function equations keep the state bare and date the function. The 'dual-guise' framing is PROHIBITED (owner, 2026-07-17) — state the convention concretely |
 | golden-rule | ◌̄̄ |  | `\GoldRule` | `\bar{\bar{#1}}` |  | golden-rule mark: a variable's value in the steady state that maximizes consumption per worker |
+| government-debt | D |  | `\Debt` | `D` |  | government debt per household: Ḋ = r D + X − T. Plain, a per-household quantity (rule B) |
+| government-spending | X |  | `\GovSpend` | `X` |  | government spending per household, which yields no utility: k̇ = f(k) − δk − c − X in the course's RCKWithGov. Plain, a per-household quantity (rule B) |
 | growth-factor | 𝖦 |  | `\PermGroFac` | `\mathsf{G}` | `PermGroFac` | permanent-income growth factor |
 | growth-rate | 𝗀 |  | `\PermGroRte` | `\mathsf{g}` |  | permanent-income growth rate |
 | hamiltonian | ℋ |  | `\Ham` | `\mathcal{H}` |  | the current-value Hamiltonian of a continuous-time optimization problem: ℋ = u(c) + λ k̇, with the costate λ (\vk) on capital. Calligraphic, a face with no italic |
@@ -56,6 +58,7 @@
 | log | ℓ |  | `\lnat` | `\ell` |  | the natural log, printed ℓ. Each letter's normalized and level macros have a log macro, \l<macro>: \lcNrm = ℓc, \lcLvl = ℓ𝒄, \lKLvl = ℓ𝑲 (econark-shortcuts.sty, 104 names, all built on \lnat); also \lPtyLab = ℓZ and \lPtyAgg = ℓ𝖠 |
 | log-excess-resources | μ |  | `\logmNrmEx` | `\boldsymbol{\mu}` |  | log excess resources |
 | log-growth-patience-rate | þ_𝗀 |  | `\GPRte` | `\thorn_{\PermGroRte}` |  | log growth-patience rate — lowercase-thorn partner of Þ_𝖦; NEGATIVE under GIC; the per-period PF descent rate of ln o is −þ_𝗀 |
+| lump-sum-tax | T |  | `\TaxLev` | `T` |  | a lump-sum tax per household: k̇ = r k + w − c − T in the course's RCKWithGov. Plain, a per-household quantity (rule B) |
 | matching-efficiency | eff |  | `\matchEff` | `\mathrm{eff}` |  | matching-function efficiency — the scale parameter of the Cobb-Douglas matching function |
 | matching-elasticity | ϖ |  | `\matchElas` | `\varpi` |  | matching-function elasticity — the searcher exponent in the matching function |
 | mpc | κ |  | `\MPC` | `\kappa` |  | marginal propensity to consume |
@@ -117,6 +120,7 @@
 | utility-function | u(·) upright |  | `\uFunc` | `\mathrm{u}` |  | the utility function (always function guise; u' etc. are derivatives) |
 | vacancy-cost | cst |  | `\vacCost` | `\mathrm{cst}` |  | vacancy posting cost — the flow cost of keeping a vacancy open, in a search-and-matching block |
 | vacancy-fill-probability | fill |  | `\vacFillPrb` | `\mathrm{fill}` |  | probability that a vacancy is filled in a period |
+| value-function-continuous | 𝒱 |  | `\VFuncCts` | `\mathcal{V}` |  | the value function of a continuous-time problem, kept apart from the discrete-time value function V (\VFunc) where a document compares the two (the course's HamiltonianVSDiscrete handout). Calligraphic, a face with no italic |
 | wage-growth | G |  | `\WGroFac` | `\mathrm{G}` |  | growth factor of wages, and of permanent labor income in perfect-foresight models; its rate is roman g |
 | wealth-total-pf | o |  | `\wbar` | `o` | `wBarNrm` | perfect-foresight total ('overall') wealth (human and market), viewed after returns realize on last period's kapital (k_t = a_{t−1}). A FUNCTION of the state, not a constant (owner caution 2026-07-17); written o(m) at definitional sites, italic throughout (\wbarFunc retired same-PR, owner 2026-07-17) |
 | wealth-total-pf-next | o_{t+1} |  | `\wbarNxt` | `\wbar\Nxt` |  | next-period perfect-foresight total wealth (time-pair convention) |
@@ -247,6 +251,16 @@
 - **conflicts checked:** No registry macro draws a double bar with \bar (checked 2026-11-03 against 9d3d108a); econark-shortcuts' \MPCmaxmax is \overline{\overline{\kappa}}, the bound sense, and older question macro files define \MPCmaxmax = \bar{\bar{\kappa}} and \cFuncMax = \bar{\bar{c}}. The macro name was proposed by the course session and accepted by the owner (2026-11-03 19:23:39 EST: 'I accept your \GoldRule proposal'). Under accent-locality (terminology.yml).
 - **ruling:** 2026-11-03 · source: owner, in the cc:course-choice session, 19:10:17 EST (as steady-state); adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them' · rationale: the double bar the course's SocSecAndKAccum already writes, replacing k**
 
+### government-debt
+
+- **conflicts checked:** New in v14.1.0. D is otherwise only the generic \DNrm, which has no meaning and prints the same; bold 𝑫 is the generic \DLvl, and the course's \Dvdnd (bold D, dividends' level, 6 uses in the questions) differs in weight. By rule A an upper-case D reads as the aggregate of a lower-case d, which the course gives to dividends (\dvdnd); the course checks that no document writes both. Uses at the book's main: RCKWithGov 4; the course-local block counts 13 in the book and 21 in the questions. BlanchardFiniteHorizon writes a raw D, which becomes \Debt by rule D.
+- **ruling:** 2026-11-17 · source: owner, econ-ark-tools session, 2026-11-17 22:55:52 EST: 'yes, I approve of these additions to the registry (and want you to ask the cc_course-choice repo to make sure they are propagated to the course's material)', answering the proposal of rows for four more of the course's local definitions (\VFuncCts, \GovSpend, \TaxLev, \Debt), relayed by cc:course-choice · rationale: one definition for every document (the local-definitions rule, 2026-11-17)
+
+### government-spending
+
+- **conflicts checked:** New in v14.1.0. X is otherwise only the generic \XNrm, which has no meaning and prints the same. The book writes \GovSpend in RCKWithGov (16 uses at its main, 4083e013); the course-local block counts 7 in the book and 3 in the questions. The block's \effUnits = X (effective units, 15 uses in the questions) is a second meaning, to be scoped or moved when the course proposes it (letter-locality). BlanchardFiniteHorizon writes government spending as a raw G, which the registry gives to growth factors (\PtyGroFac, upright G; \PermGroFac, 𝖦); by rule D it becomes \GovSpend.
+- **ruling:** 2026-11-17 · source: owner, econ-ark-tools session, 2026-11-17 22:55:52 EST: 'yes, I approve of these additions to the registry (and want you to ask the cc_course-choice repo to make sure they are propagated to the course's material)', answering the proposal of rows for four more of the course's local definitions (\VFuncCts, \GovSpend, \TaxLev, \Debt), relayed by cc:course-choice · rationale: one definition for every document (the local-definitions rule, 2026-11-17)
+
 ### growth-factor
 
 - **define:** 𝖦 = 1 + 𝗀, as 𝖱 = 1 + 𝗋
@@ -357,6 +371,12 @@
 - **alias:** RETIRED 2026-07-16: Λ := ln(1/Þ_Γ) — the powerlaw corpus' former positive alias; old formulas read Λ = −þ_𝗀
 - **conflicts checked:** \GPRte pre-exists in econark-shortcuts.sty:301 with this exact expansion; this ruling provisions the missing \thorn glyph (see thorn-glyph) and adopts the macro corpus-wide
 - **ruling:** 2026-07-16 · source: owner ruling Q2 (reactions round): option (i), sign = ln of the factor; use the existing macro
+
+### lump-sum-tax
+
+- **scope:** documents that write no terminal period T (\prdT): in the course, RCKWithGov and GenAcctsAndGov. BlanchardFiniteHorizon writes both the last period T (V_{T−1}, C_T) and \TaxLev, so there the tax takes another letter, in its own scoped row
+- **conflicts checked:** New in v14.1.0. T is otherwise the terminal period \prdT, which has no scope and so keeps the letter where both meet (letter-locality), and the generic \TNrm. Uses at the book's main (4083e013): RCKWithGov 8, BlanchardFiniteHorizon 3; the course-local block counts 10 in the book and 3 in the questions. The name keeps the course's, although 'Lev' is not the registry's bold 'Lvl': the tax is plain.
+- **ruling:** 2026-11-17 · source: owner, econ-ark-tools session, 2026-11-17 22:55:52 EST: 'yes, I approve of these additions to the registry (and want you to ask the cc_course-choice repo to make sure they are propagated to the course's material)', answering the proposal of rows for four more of the course's local definitions (\VFuncCts, \GovSpend, \TaxLev, \Debt), relayed by cc:course-choice · rationale: one definition for every document (the local-definitions rule, 2026-11-17)
 
 ### matching-efficiency
 
@@ -680,6 +700,11 @@
 - **define:** fill = eff * tgt^(−ϖ)
 - **conflicts checked:** Written phi in HAFiscal's published appendix, where phi is ALSO subscripted for the wage rule, the Taylor rule and two fiscal rules -- five distinct meanings on one letter, the heaviest overload in that document. phi is additionally NARK's \prstShkInd and \eprem. This retires the bare use; the four subscripted ones are a separate question.
 - **ruling:** 2026-08-30 · source: owner ruling: words for the SAM block
+
+### value-function-continuous
+
+- **conflicts checked:** New in v14.1.0. \mathcal{V} is in no other row or macro of this registry or econark-shortcuts.sty (checked 2026-11-17 at f47cd046). Elsewhere on jhu-dell it is \ValAlt in HARK_ask-your-project's local-shortcuts.sty and REMARK's LifeCyclePrimeTime myst.yml, which write no continuous-time value function (letter-locality). The course defines \VFuncCts in the HamiltonianVSDiscrete handout's @local file (reported by cc:course-choice); no book page writes it (GitHub code search, 2026-11-17).
+- **ruling:** 2026-11-17 · source: owner, econ-ark-tools session, 2026-11-17 22:55:52 EST: 'yes, I approve of these additions to the registry (and want you to ask the cc_course-choice repo to make sure they are propagated to the course's material)', answering the proposal of rows for four more of the course's local definitions (\VFuncCts, \GovSpend, \TaxLev, \Debt), relayed by cc:course-choice · rationale: one definition for every document (the local-definitions rule, 2026-11-17)
 
 ### wage-growth
 
