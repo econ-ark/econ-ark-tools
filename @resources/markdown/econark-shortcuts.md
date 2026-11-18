@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v11.1.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v11.2.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -443,6 +443,8 @@
 \newcommand{\PtyLev}{A}
 \newcommand{\lPtyLab}{\logOp\PtyLab}
 \newcommand{\lPtyLev}{\logOp\PtyLev}
+\newcommand{\PtyAgg}{\mathsf{A}}
+\newcommand{\lPtyAgg}{\logOp\PtyAgg}
 \newcommand{\Reals}{\mathbb{R}}
 \newcommand{\TMap}{\mathbb{T}}
 \newcommand{\Ex}{{\mathbb{E}}}
