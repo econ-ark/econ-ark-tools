@@ -39,8 +39,8 @@
 % Levels are \boldsymbol{x}: bold italic in LaTeX and KaTeX alike (owner ruling 2026-11-15;
 % was \boldsymbol{\mathit{x}}, which KaTeX prints unbolded). Normalized: plain italic. Functions: upright.
 % Bold marks a level that can be or will be divided by a normalizer; a normalizer itself is never bold:
-% labor-augmenting productivity Z, in k = K/(ZL), is one (owner ruling 2026-11-16). \ZLvl is a generic level Z,
-% not productivity. Labor \LLvl, population \NLvl and permanent income \pLvl stay bold.
+% labor-augmenting productivity Z, in k = K/(ZL), is one (owner ruling 2026-11-16). \ZLvl is a generic level Z;
+% productivity Z is \PtyLab. Labor \LLvl, population \NLvl and permanent income \pLvl stay bold.
 % Lowercase a-z
 \ARKcommand{\aLvl}{\boldsymbol{a}}
 \ARKcommand{\aNrm}{a}
@@ -651,11 +651,17 @@
 % Productivity growth, which is also aggregate permanent growth (\PermGroFacAgg): calligraphic G, rate italic g (owner
 % rulings 2026-11-02; calligraphic has no lowercase, so the rate is plain g). It was sans-serif from 2026-10-22, now
 % permanent-income growth's; before that script G, a script g that no font has, and Roman G and g.
-\ARKcommand{\PtyGroFac}{\mathrm{G}}   % growth of labor-augmenting productivity Z, itself a normalizer and so never bold (owner ruling 2026-11-16);
+\ARKcommand{\PtyGroFac}{\mathrm{G}}   % growth of labor-augmenting productivity Z (\PtyLab), itself a normalizer and so never bold (owner ruling 2026-11-16);
                                       % wage growth's letters, roman G and g (owner ruling 2026-11-15; was \mathcal{G} and italic g)
 \ARKcommand{\PtyGroRte}{\mathrm{g}}
 \ARKcommand{\ptyGroFac}{\PtyGroFac}
 \ARKcommand{\ptyGroRte}{\PtyGroRte}
+% Productivity (owner ruling 2026-11-17): labor-augmenting Z and total-factor A, both italic numbers (rule C) and plain
+% (Z is a normalizer; A is never divided by one). With Cobb-Douglas, A = Z^{1-\alpha}; Z grows by \PtyGroFac.
+\ARKcommand{\PtyLab}{Z}     % labor-augmenting (Harrod-neutral) productivity: Y = F(K, Z L)
+\ARKcommand{\PtyLev}{A}     % total-factor (Hicks-neutral) productivity: Y = A F(K, L)
+\ARKcommand{\lPtyLab}{\logOp\PtyLab}   % its log, \ell Z
+\ARKcommand{\lPtyLev}{\logOp\PtyLev}   % its log, \ell A (no lower case for logs: not a)
 
 % agg vs ind?  upper vs lower conflicts with upper vs lower for factors and rates
 

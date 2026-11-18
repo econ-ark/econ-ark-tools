@@ -20,8 +20,10 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 11.0.0       # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 11.1.0       # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-11-17   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 11.1.0: new rows: productivity, labor-augmenting \PtyLab = Z and total-factor
+                        #        \PtyLev = A, with their logs (owner, 2026-11-17)
                         # 11.0.0: labor is italic l (was ℓ); ℓ is the natural log, so \lcNrm prints ℓc
                         #        (was log c); the population growth rate is ℓ𝛯 (was n); net worth is
                         #        sans-serif 𝗇 and 𝖭 (were s and S) (owner, 2026-11-17)
@@ -877,7 +879,7 @@ symbols:
     ruling: {date: 2026-11-17, source: "owner, in the econ-ark-tools session, 2026-11-17 16:38:44 EST: 'OK, I've finally figured out the solution: I want to use \\varXi instead of \\Xi for the growth factor for the population, and '\\ell\\varXi' for the growth rate (with an explanation for the notation when it is first introduced).'; prompted by his request of 15:55:31 EST in the session for the course's problem-set questions (as relayed by that session) to free n for net worth. Adopted in the econ-ark-tools session, 2026-11-17 17:02:11 EST: 'merge it now'. Before: owner, in the cc:course-choice session, 2026-11-02 21:05:35 EST: 'n, a new registry row'; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "the rate as the log of its factor, which frees n; labor's move to l (2026-11-17 16:53:08 EST: 'let's change labor to use the regular (computer modern) l.  Then we can use \\ell for the natural log') makes ℓ the log everywhere; supersedes n (2026-11-02) and ln Ξ (2026-10-22)"}
 
   productivity-growth:
-    gloss: "growth factor of labor-augmenting productivity Z, itself a normalizer and so never bold (rule B; owner, 2026-11-16); also the aggregate permanent growth factor (HARK's PermGroFacAgg); its rate is \\PtyGroRte = roman g"
+    gloss: "growth factor of labor-augmenting productivity Z (\\PtyLab), itself a normalizer and so never bold (rule B; owner, 2026-11-16); also the aggregate permanent growth factor (HARK's PermGroFacAgg); its rate is \\PtyGroRte = roman g"
     define: "G = 1 + g (roman)"
     latex: {macro: '\PtyGroFac', expansion: '\mathrm{G}'}
     unicode: 'G'
@@ -885,6 +887,24 @@ symbols:
     aliases: ["\\ptyGroFac (same object)", "\\PermGroFacAgg (same object; its script 𝒢, \\mathscr{G}, retires)", "\\PtyGroRte, \\ptyGroRte = \\mathrm{g}"]
     conflicts_checked: "MAJOR (v10.0.0): was calligraphic 𝒢 and italic g (v9.0.0); now roman G and g, the letters of wage growth (\\WGroFac, \\WGroRte), so \\PermGroFacAgg, its alias, prints roman G too. In balanced growth wages grow at productivity's rate. Roman G and g are also \\GFunc and \\gFunc, by the roman-for-functions convention; context separates them. 𝒢 becomes free. NARK's notation table writes \\PtyGroFac twice (NARK.tex) and prints roman G once it re-vendors its v6 copy. Before v10.0.0: MAJOR (v9.0.0): was sans-serif 𝖦 and 𝗀 (2026-10-22 07:44:34 EDT), now permanent-income growth's, and before that script G. 𝒢 and g are freed by the move of permanent-income growth to 𝖦 and 𝗀. Calligraphic has no lowercase in KaTeX (tests/check_katex.py), so the rate is italic g. In HARK (main 4c285e86, checked by the HARK session with paired runs, 2026-11-03), PermGroFacAgg is the trend growth factor of aggregate labor-augmenting productivity in the aggregate-shock models, the trend newborns inherit in the individual-shock models (PlvlAgg, which the code calls the aggregate permanent productivity level), and inert in the GenIncProcess family. Documents written before v9.0.0 read 𝒢 as permanent-income growth, so cross-citing documents state the map; NARK's notation table writes \\PtyGroFac. Unicode has one code point for script and calligraphic G (U+1D4A2). \\permGroFacInd (italic G) is used by no paper (checked 2026-11-04)."
     ruling: {date: 2026-11-15, source: "owner, in the cc:course-choice session, typed 14:45:52 EST: 'Let's just use the same letters for ptyGro and PtyGro that we used for wGro and WGro' (\\ptyGro and \\PtyGro are the book's names for \\PtyGroRte and \\PtyGroFac), as relayed by that session; in the econ-ark-tools session, 2026-11-15 22:07:13 EST, asked whether to add it to the v10.0.0 PR: 'I think I've already done this in a different session ...'. Before: owner, in the cc:course-choice session, 2026-11-02 13:03:43 EST: '𝒢 and g, freed by your ruling'; and 21:05:35 EST, on aggregate permanent growth: 'Merge it with productivity growth', conditional on HARK's models, which the HARK session confirmed; adopted in the econ-ark-tools session, 2026-11-04 19:20:49 EST: 'adopt them'", rationale: "one pair of letters for wage and productivity growth, which balanced growth makes equal; supersedes 𝒢 and g (2026-11-02), which had superseded sans-serif 𝖦 and 𝗀 (2026-10-22) and the script 𝒢 of \\PermGroFacAgg"}
+
+  productivity-labor-augmenting:
+    gloss: "labor-augmenting (Harrod-neutral) productivity: Y = F(K, Z L). A normalizer (k = 𝑲/(Z𝑳)), so never bold (rule B), and a number, so italic (rule C)"
+    define: "Y = F(K, Z L);  Z_{t+1} = G Z_t, G = \\PtyGroFac;  with Cobb-Douglas, Z^{1−α} = A (\\PtyLev)"
+    latex: {macro: '\PtyLab', expansion: 'Z'}
+    unicode: 'Z'
+    aliases: ["\\lPtyLab = ℓZ, its log (econark-shortcuts.sty)"]
+    conflicts_checked: "New in v11.1.0. The course defined \\PtyLab = \\mathrm{Z}, upright (the book's course-local-math.yml lists it with 40 uses in the book and 30 in the questions, at 0277a530), so the course's Z turns italic once it drops its local definition; so do the handout's @local/RamseyCassKoopmans.sty and llorracc/texmf-local's handoutShortcuts.sty and econtexShortcuts.sty, and HARK_ask-your-project's local-shortcuts.sty, each of which defines it upright. Italic Z is otherwise only the generic \\ZNrm, which prints the same; \\ZLvl is a generic bold Z, not productivity. Leisure is lower-case z (\\leisure). \\PtyLab and \\lPtyLab are in no other macro of this registry or econark-shortcuts.sty (checked 2026-11-17 at 5191b5f7)."
+    ruling: {date: 2026-11-17, source: "owner, in the econ-ark-tools session, 2026-11-17: 18:40:56 EST, 'I'm particularly keen on globalizing the definitions of these productivity technical change parameters.'; 18:44:25 EST, 'italic Z; start with the productivity rows', answering the proposal of new rows \\PtyLev = A and \\PtyLab = Z, and the course's lower-case \\ptyLev = a for log A retired.", rationale: "one definition of each productivity parameter for every document; italic by rule C, with no exception"}
+
+  productivity-total-factor:
+    gloss: "total-factor (Hicks-neutral) productivity: Y = A F(K, L). A number, so italic (rule C); never divided by a normalizer, so plain (rule B)"
+    define: "Y = A F(K, L);  with Cobb-Douglas, Y = A K^α L^{1−α} = K^α (Z L)^{1−α}, so A = Z^{1−α} (\\PtyLab)"
+    latex: {macro: '\PtyLev', expansion: 'A'}
+    unicode: 'A'
+    aliases: ["\\lPtyLev = ℓA, its log (econark-shortcuts.sty); it replaces the course's lower-case \\ptyLev = a, where that means log A (no lower case for logs, 2026-11-15)"]
+    conflicts_checked: "New in v11.1.0. The course defined \\PtyLev = A, the same print (39 uses in the book and 12 in the questions, by its course-local-math.yml at 0277a530), and \\ptyLev = a (26 and 50), written for log A in BrockMirman; which of those 76 uses are log A the course checks when it converts. Italic A is otherwise only the generic \\ANrm, which prints the same. The name keeps the course's, although 'Lev' is not the registry's bold 'Lvl': A is plain. \\PtyLev and \\lPtyLev are in no other macro of this registry or econark-shortcuts.sty (checked 2026-11-17 at 5191b5f7)."
+    ruling: {date: 2026-11-17, source: "owner, in the econ-ark-tools session, 2026-11-17: 18:40:56 EST, 'I'm particularly keen on globalizing the definitions of these productivity technical change parameters.'; 18:44:25 EST, 'italic Z; start with the productivity rows', answering the proposal of new rows \\PtyLev = A and \\PtyLab = Z, and the course's lower-case \\ptyLev = a for log A retired.", rationale: "one definition of each productivity parameter for every document"}
 
   # ---- v9.0.0 (2026-11-04): rows from the owner's rulings of 2026-11-02 and 2026-11-03 in the cc:course-choice session
   # ---- (the Intertemporal Choice course), adopted here.
@@ -981,7 +1001,7 @@ symbols:
     ruling: {date: 2026-11-17, source: "owner, in the econ-ark-tools session, 2026-11-17 16:43:09 EST: '1. Net worth is the sans-serif upper and lower case n.  You should NOT attempt to replace all the counting n's, just leave them alone.' Adopted in the econ-ark-tools session, 2026-11-17 17:02:11 EST: 'merge it now'. Before: owner, as on the net-worth row: in the Intertemporal Choice book's session, 2026-11-17 09:09:57 EST ('allow \"S\" and \"s\" for aggregate and individual \"savings\"') and 09:29:25 EST ('I want to use the new net-worth symbols from the registry'), with the names chosen there from a menu: '\\netWorth, \\NetWorth (Recommended)'", rationale: "the aggregate needs its own macro, as the individual does"}
 
   log:
-    gloss: "the natural log, printed ℓ. Each letter's normalized and level macros have a log macro, \\l<macro>: \\lcNrm = ℓc, \\lcLvl = ℓ𝒄, \\lKLvl = ℓ𝑲 (econark-shortcuts.sty, 104 names, all built on \\logOp)"
+    gloss: "the natural log, printed ℓ. Each letter's normalized and level macros have a log macro, \\l<macro>: \\lcNrm = ℓc, \\lcLvl = ℓ𝒄, \\lKLvl = ℓ𝑲 (econark-shortcuts.sty, 104 names, all built on \\logOp); also \\lPtyLab = ℓZ and \\lPtyLev = ℓA"
     latex: {macro: '\logOp', expansion: '\ell'}
     unicode: 'ℓ'
     conflicts_checked: "\\logOp and the 104 names \\l<letter>Nrm and \\l<letter>Lvl are absent from this registry, econark-shortcuts.sty (its \\lNrm and \\lLvl are the letter l's own macros, and its log of l is \\llNrm), LaTeX's kernel and amsmath, KaTeX, and the papers on jhu-dell (checked 2026-11-15, vendored copies excluded). Rejected in the same ruling: lower case for a log (k = log 𝑲), and a separate log return (r is approximately the log return). In v10.0.0 ℓ was not chosen, being the labor letter (\\labor); v11.0.0 moves labor to l and the log to ℓ, as the owner had offered at 10:45:09 ('${\\ell}c$'). MAJOR (v11.0.0): was log, so \\lcNrm printed log c. The population growth rate is written the same way, ℓ𝛯 (\\PopnGroRte)."
