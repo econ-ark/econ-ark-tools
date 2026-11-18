@@ -1,4 +1,4 @@
-# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v14.1.0. DO NOT EDIT.
+# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v14.2.0. DO NOT EDIT.
 # Every shared macro, KaTeX-safe. Consume via `extends: [<path>/econark-math.yml]` in myst.yml.
 # Regenerate: python @resources/notation/gen/gen_shortcuts.py
 version: 1
@@ -453,6 +453,17 @@ project:
     '\GovSpend': 'X'
     '\TaxLev': 'T'
     '\Debt': 'D'
+    '\Knwl': '\mathcal{K}'
+    '\BalGroEndog': '\mathsf{G}'
+    '\balGroEndog': '\mathsf{g}'
+    '\hCap': '\mathsf{h}'
+    '\hCapAvg': '\hCap_{\mathrm{a}}'
+    '\extElas': '\eta'
+    '\hCapProd': '\phi'
+    '\labShare': '\nu'
+    '\rfreeEff': '\mathring{\mathsf{r}}'
+    '\discRteEff': '\mathring{\discRte}'
+    '\PDVEff': '\mathring{\mathbb{P}}'
     '\Reals': '\mathbb{R}'
     '\TMap': '\mathbb{T}'
     '\Ex': '{\mathbb{E}}'

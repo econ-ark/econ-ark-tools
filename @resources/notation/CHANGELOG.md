@@ -3,6 +3,27 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v14.2.0 — 2026-11-18
+
+MINOR: additions, and two notes clarified. Rows for the course's growth module. The owner, in the
+cc:course-choice session (as relayed by it), 07:12:05 EST: "I want you to consult with jd_econ-ark-tools to add
+any new notation you need to the global registry".
+- **`\Knwl` = 𝒦,** the aggregate stock of knowledge (Romer 1986); 07:04:39 EST: "use the 𝒦 for it".
+- **`\BalGroEndog` = 𝖦 and `\balGroEndog` = 𝗀,** the endogenous growth factor and rate, replacing γ
+  (07:06:24 EST: "one of the variants of G/g we are already using"). They print as `\PermGroFac` and
+  `\PermGroRte` on purpose (𝗀 < 𝗋 is the finite-human-wealth form), so they are scoped to documents that
+  write neither (letter-locality).
+- **`\hCap` = 𝗁 and `\hCapAvg` = 𝗁_a,** human capital per worker and its economy-wide average (Lucas 1988).
+- **`\extElas` = η,** the elasticity of a firm's output with respect to an aggregate stock it takes as given.
+- **`\hCapProd` = φ,** the productivity of study time, scoped to documents that write no `\eprem` (φ).
+- **`\labShare` = ν,** labor's Cobb-Douglas exponent (its share only when α + ν = 1).
+- **`\rfreeEff` = 𝗋̊, `\discRteEff` = ϑ̊, `\PDVEff` = ℙ̊,** Blanchard's survival-inclusive rates (𝗋 + 𝖽,
+  ϑ + 𝖽) and the present value at 𝗋̊.
+- **`\SLvl` = 𝑺,** aggregate saving, 𝒀 − 𝑪: a row for the existing generic macro; its rate is 𝗌 (`\savRte`).
+- Glosses: `\kapShare`'s is capital's Cobb-Douglas exponent (its share only under constant returns); the
+  `mpc-min` row's note on `\kap` now says the powerlaw pages' `\kap` is not the shared `\kap` (k); the
+  `\VFuncCts` row's note says the book wrote the object as a raw 𝒱 until the book session converted it.
+
 ## v14.1.0 — 2026-11-17
 
 MINOR: additions only. Seven rows for objects the course defined itself. The owner, in the

@@ -20,8 +20,13 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 14.1.0       # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-11-17   #         MINOR = additions; PATCH = gloss/typo fixes
+  version: 14.2.0       # SemVer: MAJOR = change to an existing rendering/meaning;
+  updated: 2026-11-18   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 14.2.0: the growth module's rows: knowledge \Knwl = 𝒦, the endogenous growth
+                        #        pair \BalGroEndog = 𝖦 and \balGroEndog = 𝗀 (scoped), human capital
+                        #        \hCap = 𝗁 and \hCapAvg = 𝗁_a, \extElas = η, \hCapProd = φ (scoped),
+                        #        \labShare = ν, the rings \rfreeEff, \discRteEff, \PDVEff, aggregate saving
+                        #        \SLvl = 𝑺; the capital-share gloss (owner, 2026-11-18)
                         # 14.1.0: new rows: the Hamiltonian \Ham = ℋ, the costate on capital \vk = λ,
                         #        the rental rate of capital \kapRent = ϰ, the continuous-time value
                         #        function \VFuncCts = 𝒱, government spending \GovSpend = X, the lump-sum
@@ -281,7 +286,7 @@ symbols:
     unicode: 'κ̲'
     plain: 'κ_min'
     python: 'MPCmin'
-    aliases: ["\\kap — the powerlaw pages' macro for the same object (verified 2026-07-14, theory/powerlaw-decay/myst.yml)"]
+    aliases: ["\\kap in the powerlaw pages' own myst.yml (verified 2026-07-14, theory/powerlaw-decay/myst.yml), not the shared \\kap: econark-shortcuts.sty defines \\kap as k, capital, beside \\Kap = K (note clarified in v14.2.0)"]
     ruling: {date: 2026-10-21, source: "owner: 'all five as written' (typed 20:43:30 EDT in the sce-wg-1-dev session; relayed, and verified with claude-relay-check), approving that session's notation batch of 20:39:12 EDT, whose fifth item asked this registry for rows for the buffer-stock schemas' symbols, mpc-min's define as max(0, 1 − Þ_R), and a plain-text field"}
 
   mpc-max:
@@ -825,7 +830,7 @@ symbols:
     ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 08:06:54 EDT: Θ is the aggregate of θ; \\TranShkAgg canonical, \\TranShkEmp an alias"}
 
   capital-share:
-    gloss: "capital share (Cobb-Douglas)"
+    gloss: "capital's exponent in a Cobb-Douglas production function, 𝒀 = 𝖠𝑲^α𝑳^ν (\\labShare); capital's share of output when returns are constant (α + ν = 1), and α = 1 is the AK model (gloss widened in v14.2.0; was 'capital share (Cobb-Douglas)')"
     latex: {macro: '\kapShare', expansion: '\alpha'}
     unicode: 'α'
     conflicts_checked: "econark-shortcuts also gave α to \\CARA, which became the word cara (2026-10-22) and then υ (v9.0.0)."
@@ -945,7 +950,7 @@ symbols:
     gloss: "the value function of a continuous-time problem, kept apart from the discrete-time value function V (\\VFunc) where a document compares the two (the course's HamiltonianVSDiscrete handout). Calligraphic, a face with no italic"
     latex: {macro: '\VFuncCts', expansion: '\mathcal{V}'}
     unicode: '𝒱'
-    conflicts_checked: "New in v14.1.0. \\mathcal{V} is in no other row or macro of this registry or econark-shortcuts.sty (checked 2026-11-17 at f47cd046). Elsewhere on jhu-dell it is \\ValAlt in HARK_ask-your-project's local-shortcuts.sty and REMARK's LifeCyclePrimeTime myst.yml, which write no continuous-time value function (letter-locality). The course defines \\VFuncCts in the HamiltonianVSDiscrete handout's @local file (reported by cc:course-choice); no book page writes it (GitHub code search, 2026-11-17)."
+    conflicts_checked: "New in v14.1.0. \\mathcal{V} is in no other row or macro of this registry or econark-shortcuts.sty (checked 2026-11-17 at f47cd046). Elsewhere on jhu-dell it is \\ValAlt in HARK_ask-your-project's local-shortcuts.sty and REMARK's LifeCyclePrimeTime myst.yml, which write no continuous-time value function (letter-locality). The course defines \\VFuncCts in the HamiltonianVSDiscrete handout's @local file (reported by cc:course-choice); no book page wrote the macro (GitHub code search, 2026-11-17), but the book's HamiltonianVSDiscrete wrote the object as a raw \\mathcal{V} (20 uses), converted to \\VFuncCts, the same print, by the book session's ae0d772 (ptyagg-rename, 2026-11-18; note corrected in v14.2.0)."
     ruling: {date: 2026-11-17, source: "owner, econ-ark-tools session, 2026-11-17 22:55:52 EST: 'yes, I approve of these additions to the registry (and want you to ask the cc_course-choice repo to make sure they are propagated to the course's material)', answering the proposal of rows for four more of the course's local definitions (\\VFuncCts, \\GovSpend, \\TaxLev, \\Debt), relayed by cc:course-choice", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
 
   government-spending:
@@ -969,6 +974,98 @@ symbols:
     unicode: 'D'
     conflicts_checked: "New in v14.1.0. D is otherwise only the generic \\DNrm, which has no meaning and prints the same; bold 𝑫 is the generic \\DLvl, and the course's \\Dvdnd (bold D, dividends' level, 6 uses in the questions) differs in weight. By rule A an upper-case D reads as the aggregate of a lower-case d, which the course gives to dividends (\\dvdnd); the course checks that no document writes both. Uses at the book's main: RCKWithGov 4; the course-local block counts 13 in the book and 21 in the questions. BlanchardFiniteHorizon writes a raw D, which becomes \\Debt by rule D."
     ruling: {date: 2026-11-17, source: "owner, econ-ark-tools session, 2026-11-17 22:55:52 EST: 'yes, I approve of these additions to the registry (and want you to ask the cc_course-choice repo to make sure they are propagated to the course's material)', answering the proposal of rows for four more of the course's local definitions (\\VFuncCts, \\GovSpend, \\TaxLev, \\Debt), relayed by cc:course-choice", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  knowledge-stock:
+    gloss: "the aggregate stock of knowledge (Romer 1986): proportional to cumulative investment, so in units that make the factor one it equals the aggregate capital stock, 𝒦 = ∫ 𝑰 dτ = 𝑲. Each firm takes it as given, and it raises every firm's productivity, 𝖠 = 𝒦^η (\\extElas). Calligraphic, a face with no italic, so plain: rule B covers the models' variables"
+    latex: {macro: '\Knwl', expansion: '\mathcal{K}'}
+    unicode: '𝒦'
+    conflicts_checked: "New in v14.2.0. \\mathcal{K} is in no other row or macro of this registry or econark-shortcuts.sty (checked 2026-11-18 at 02e344d5), nor in the book's course-local block (a2e827c6). Uses in the course's growth-module drafts (llorracc/workspace-course-choice): Romer86 10 in stage 1, notation only and the first the book applies (128eaa4); 12 in the full drafts (2769e4a)."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  growth-factor-endogenous:
+    gloss: "the growth factor on an endogenous-growth model's balanced growth path, 𝖦 = 1 + 𝗀 (\\balGroEndog). It prints as the permanent-income growth factor (\\PermGroFac) on purpose: on the balanced growth path it is the growth factor of income"
+    latex: {macro: '\BalGroEndog', expansion: '\mathsf{G}'}
+    unicode: '𝖦'
+    scope: "documents that write neither \\PermGroFac nor \\PermGroRte: in the course, the Growth part's RebeloAK, Romer86, LucasGrowth and Endogenous"
+    conflicts_checked: "New in v14.2.0. 𝖦 is \\PermGroFac's print; that row has no scope, so it keeps 𝖦 wherever the two meet (letter-locality). In the drafts (128eaa4, 2769e4a) no growth page writes \\PermGroFac. Upright G is \\PtyGroFac's (and \\WGroFac's); the owner chose a variant of G/g already in use (07:06:24)."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes). The names: owner, in the cc:course-choice session (on ccarroll; as relayed by that session, not checkable from jhu-dell), typed 2026-11-18 11:59:57 EST: 'ah, right, so lets make it \\BalGroEndog and \\balGroEndog', the upper-case name for the factor (𝖦) and the lower-case for the rate (𝗀), as his 07:06:24 words paired them. It replaces his 09:04:20 EST names in the book session (as relayed), 'Names: \\EndogGro and \\endogGro': LaTeX's \\newcommand refuses any name that begins with end", rationale: "a variant of G/g already in use, under a new name (his 07:06:24 words)"}
+
+  growth-rate-endogenous:
+    gloss: "the growth rate on an endogenous-growth model's balanced growth path, which the model determines: the common growth rate of consumption and capital, 𝗀 = ċ/c = k̇/k. The models stay well defined when 𝗀 < 𝗋, the perfect-foresight chapter's finite-human-wealth form; so it prints as the permanent-income growth rate (\\PermGroRte) on purpose"
+    define: "𝗀 = ċ/c = k̇/k on the balanced growth path; 𝖦 = 1 + 𝗀"
+    latex: {macro: '\balGroEndog', expansion: '\mathsf{g}'}
+    unicode: '𝗀'
+    scope: "documents that write neither \\PermGroFac nor \\PermGroRte: in the course, the Growth part's RebeloAK, Romer86, LucasGrowth and Endogenous"
+    conflicts_checked: "New in v14.2.0. 𝗀 is \\PermGroRte's print; that row has no scope, so it keeps 𝗀 wherever the two meet (letter-locality). In the drafts \\PermGroRte is only in BlanchardFiniteHorizon (9 uses at 128eaa4, 26 at 2769e4a; Blanchard's falling income), which writes no endogenous rate. Uses (the drafts wrote \\endGro before the owner named the pair): at 128eaa4 Endogenous 10, RebeloAK 4; at 2769e4a Endogenous 10, RebeloAK 8, LucasGrowth 5, Romer86 2. Replaces γ, which the chapters wrote and the owner withdrew (07:06:24). In LucasGrowth 𝗀 is the growth rate of consumption and physical capital, ((1−α+η)/(1−α)) times human capital's 𝗁̇/𝗁, the two equal only when η = 0."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes). The names: owner, in the cc:course-choice session (on ccarroll; as relayed by that session, not checkable from jhu-dell), typed 2026-11-18 11:59:57 EST: 'ah, right, so lets make it \\BalGroEndog and \\balGroEndog', the upper-case name for the factor (𝖦) and the lower-case for the rate (𝗀), as his 07:06:24 words paired them. It replaces his 09:04:20 EST names in the book session (as relayed), 'Names: \\EndogGro and \\endogGro': LaTeX's \\newcommand refuses any name that begins with end", rationale: "a variant of G/g already in use, under a new name (his 07:06:24 words)"}
+
+  human-capital:
+    gloss: "human capital per worker (Lucas 1988): 𝗁̇ = φ𝗁(1 − l), with study time 1 − l (\\hCapProd, \\labor). Sans-serif, like 𝖠 (\\PtyAgg) and 𝗇 (\\netWorth), and plain"
+    latex: {macro: '\hCap', expansion: '\mathsf{h}'}
+    unicode: '𝗁'
+    conflicts_checked: "New in v14.2.0. \\mathsf{h} is in no other row or macro (checked 2026-11-18 at 02e344d5). Italic h is human wealth (\\hNrm; bold \\hLvl; 𝔥 \\hNrmEnd), in another face. Uses: LucasGrowth 23 at 128eaa4, 28 at 2769e4a."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  human-capital-average:
+    gloss: "the economy-wide average of human capital per worker, which each firm takes as given (Lucas 1988's external effect, 𝗁_a^η); equal to 𝗁 (\\hCap) in a symmetric equilibrium. Its own macro by rule D; the label a is upright (rule C)"
+    latex: {macro: '\hCapAvg', expansion: '\hCap_{\mathrm{a}}'}
+    unicode: '𝗁_a'
+    conflicts_checked: "New in v14.2.0. A time index joins the subscript, last (𝗁_{a,t}; the subscript rule), typed by hand until the macros take a time argument. Uses: LucasGrowth 4 at 128eaa4, 6 at 2769e4a, none subscripted."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  externality-elasticity:
+    gloss: "the elasticity of a firm's output with respect to an aggregate stock the firm takes as given: knowledge 𝒦 (\\Knwl) in Romer 1986, where 𝖠 = 𝒦^η, and average human capital 𝗁_a (\\hCapAvg) in Lucas 1988. A number, so italic (rule C)"
+    latex: {macro: '\extElas', expansion: '\eta'}
+    unicode: 'η'
+    conflicts_checked: "New in v14.2.0. η is in no row or macro of this registry (checked 2026-11-18 at 02e344d5): HAFiscal's published appendix wrote η for the job-finding probability, now \\jobFindPrb (find, 2026-08-30), and the power-law rows \\etaL/\\etaR were removed in v5.0.0. One row for Romer's η and Lucas's ψ (ψ is \\PermShk). Uses at 128eaa4: Romer86 11, LucasGrowth 3; at 2769e4a: Romer86 17, LucasGrowth 8, Endogenous 1."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  human-capital-productivity:
+    gloss: "the productivity of time spent accumulating human capital (Lucas 1988): 𝗁̇ = φ𝗁(1 − l), so a worker who studies full time raises 𝗁 at the rate φ. A number, so italic (rule C)"
+    latex: {macro: '\hCapProd', expansion: '\phi'}
+    unicode: 'φ'
+    scope: "documents that write neither \\eprem nor \\EPrem: in the course, LucasGrowth"
+    conflicts_checked: "New in v14.2.0. φ is \\eprem, the log equity premium (\\EPrem is bold φ); that row has no scope, so it keeps φ wherever the two meet (letter-locality). No growth page of the drafts (128eaa4, 2769e4a) writes \\eprem or \\EPrem. Uses: LucasGrowth 5 at 128eaa4, 9 at 2769e4a."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  labor-exponent:
+    gloss: "labor's exponent in a Cobb-Douglas production function, 𝒀 = 𝖠𝑲^α𝑳^ν; labor's share of output only when α + ν = 1. A number, so italic (rule C)"
+    latex: {macro: '\labShare', expansion: '\nu'}
+    unicode: 'ν'
+    conflicts_checked: "New in v14.2.0. ν has been in no row or macro since v9.0.0 moved the time preference rate (\\discRte) to ϑ, whose row named \\labShare an upstream candidate. The book's course-local block defines \\labShare = ν (34 uses in the book at a2e827c6) and drops it when it syncs. Uses: Endogenous 24 at 128eaa4 (25 at 2769e4a), where 'no restriction is made on the ν and α coefficients'. The name keeps the course's, although ν is a share only under constant returns."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  interest-rate-survival:
+    gloss: "the survival-inclusive interest rate (Blanchard 1985): with an actuarially fair annuity a member earns 𝗋̊ = 𝗋 + 𝖽 on net worth, 𝖽 the death rate (\\diePrb). The rate partner of \\RfreeEff (R̊ = R/ℒ); the ring marks the survival-inclusive variant"
+    define: "𝗋̊ ≡ 𝗋 + 𝖽"
+    latex: {macro: '\rfreeEff', expansion: '\mathring{\mathsf{r}}'}
+    unicode: '𝗋̊'
+    conflicts_checked: "New in v14.2.0. 𝗋̊ is in no other row or macro (checked 2026-11-18 at 02e344d5). The expansion writes out \\rfree's 𝗋 (\\mathsf{r}), which has no row of its own, so the generated econark-notation.sty can define it. Uses in BlanchardFiniteHorizon: 15 at 128eaa4, 25 at 2769e4a."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  time-preference-rate-survival:
+    gloss: "the survival-inclusive time preference rate: ϑ̊ = ϑ + 𝖽, 𝖽 the death rate (\\diePrb). The rate partner of \\DiscFacEff (β̊ = βℒ)"
+    define: "ϑ̊ ≡ ϑ + 𝖽"
+    latex: {macro: '\discRteEff', expansion: '\mathring{\discRte}'}
+    unicode: 'ϑ̊'
+    conflicts_checked: "New in v14.2.0. \\mathring{\\discRte} is in no other row or macro (checked 2026-11-18 at 02e344d5). Uses in BlanchardFiniteHorizon: 22 at 128eaa4, 41 at 2769e4a."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  present-value-survival:
+    gloss: "the present discounted value at the survival-inclusive interest rate 𝗋̊ (\\rfreeEff): ℙ̊_t(•) = ∫_t^∞ •_τ e^{−∫_t^τ 𝗋̊_μ dμ} dτ. The ring variant of \\PDV (ℙ)"
+    define: "ℙ̊_t(•) ≡ ∫_t^∞ •_τ e^{−∫_t^τ 𝗋̊_μ dμ} dτ"
+    latex: {macro: '\PDVEff', expansion: '\mathring{\mathbb{P}}'}
+    unicode: 'ℙ̊'
+    conflicts_checked: "New in v14.2.0. ℙ̊ is in no other row or macro (checked 2026-11-18 at 02e344d5). The expansion writes out \\PDV's ℙ (\\mathbb{P}), which has no row of its own, so the generated econark-notation.sty can define it. Uses in the BlanchardFiniteHorizon: 16 at 128eaa4 (defined at its line 274), 14 at 2769e4a."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  saving-aggregate:
+    gloss: "aggregate saving, a flow, in levels: output not consumed, 𝑺 = 𝒀 − 𝑪 (in a closed economy without government, equal to investment 𝑰). Bold, a level (rule B); its rate is 𝗌 = 𝑺/𝒀 (\\savRte). Not net worth, the stock the owner also calls savings (𝗇, 𝖭; \\netWorth, \\NetWorth)"
+    define: "𝑺 = 𝒀 − 𝑪; 𝗌 = 𝑺/𝒀"
+    latex: {macro: '\SLvl', expansion: '\boldsymbol{S}'}
+    unicode: '𝑺'
+    conflicts_checked: "New in v14.2.0: a row for a macro econark-shortcuts.sty already defined as the generic level of S, with no meaning; the print is unchanged. Bold S is in no other row (checked 2026-11-18 at 02e344d5); S was aggregate net worth from v10.1.0 to v10.3.0, 𝖭 since v11.0.0. On jhu-dell \\SLvl is only in macro lists (BufferStockTheory's glossary, HARK_ask-your-project, REMARK's LifeCyclePrimeTime, TractableBufferStock's econark.sty), never in a document's text (checked 2026-11-18). The book's course-local block maps the questions' \\SLev (6 uses) to it; the course checks that those mean saving when it renames them. Proposed by cc:course-choice for RebeloAK's saving-rate display (2 uses at 128eaa4, 𝑺/𝖠𝑲 = 𝗀/𝖠), which wrote a raw S."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
 
   # ---- v9.0.0 (2026-11-04): rows from the owner's rulings of 2026-11-02 and 2026-11-03 in the cc:course-choice session
   # ---- (the Intertemporal Choice course), adopted here.
