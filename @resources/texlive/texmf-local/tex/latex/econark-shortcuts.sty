@@ -656,16 +656,13 @@
 \ARKcommand{\PtyGroRte}{\mathrm{g}}
 \ARKcommand{\ptyGroFac}{\PtyGroFac}
 \ARKcommand{\ptyGroRte}{\PtyGroRte}
-% Productivity (owner ruling 2026-11-17): labor-augmenting Z and total-factor A, both italic numbers (rule C) and plain
-% (Z is a normalizer; A is never divided by one). With Cobb-Douglas, A = Z^{1-\alpha}; Z grows by \PtyGroFac.
+% Productivity (owner rulings 2026-11-17): the Z that multiplies labor, an italic number (rule C) and plain (a
+% normalizer), and the sans-serif A that multiplies total output. With Cobb-Douglas, \PtyAgg = \PtyLab^{1-\alpha};
+% Z grows by \PtyGroFac. \PtyLev (italic A, v11.1.0) was retired in v12.0.0 in favor of \PtyAgg.
 \ARKcommand{\PtyLab}{Z}     % labor-augmenting (Harrod-neutral) productivity: Y = F(K, Z L)
-\ARKcommand{\PtyLev}{A}     % total-factor (Hicks-neutral) productivity: Y = A F(K, L)
 \ARKcommand{\lPtyLab}{\logOp\PtyLab}   % its log, \ell Z
-\ARKcommand{\lPtyLev}{\logOp\PtyLev}   % its log, \ell A (no lower case for logs: not a)
-% Productivity that multiplies total output, sans-serif A (owner, 2026-11-17 20:16:27 EST): Y = \PtyAgg F(K, L).
-% It names the same object as \PtyLev; whether \PtyLev prints it or goes is the owner's to say.
-\ARKcommand{\PtyAgg}{\mathsf{A}}
-\ARKcommand{\lPtyAgg}{\logOp\PtyAgg}   % its log, \ell 𝖠
+\ARKcommand{\PtyAgg}{\mathsf{A}}   % productivity multiplying total output (Hicks-neutral): Y = \PtyAgg F(K, L)
+\ARKcommand{\lPtyAgg}{\logOp\PtyAgg}   % its log, \ell 𝖠 (no lower case for logs: not a)
 
 % agg vs ind?  upper vs lower conflicts with upper vs lower for factors and rates
 

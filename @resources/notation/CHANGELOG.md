@@ -3,6 +3,16 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v12.0.0 — 2026-11-17
+
+MAJOR: two macros are removed.
+- **`\PtyLev` (italic A) and `\lPtyLev` (ℓA) are retired** in favor of `\PtyAgg` (𝖠, sans-serif A) and `\lPtyAgg`
+  (ℓ𝖠), which name the same object, the productivity that multiplies total output. The owner, 20:25:34 EST: "I
+  don't see that we need both \PtyLev and \PtyAgg.  Unless you can give a good argument for why we should keep
+  both, let's retire \PtyLev in favor of \PtyAgg".
+- No document took `\PtyLev` from the registry; it was added in v11.1.0 the same day. The course, which defines its
+  own `\PtyLev` = A, renames its uses to `\PtyAgg`.
+
 ## v11.2.0 — 2026-11-17
 
 MINOR: additions only; nothing that already exists prints differently.
