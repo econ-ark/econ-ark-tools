@@ -3,6 +3,24 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v11.2.0 — 2026-11-17
+
+MINOR: additions only; nothing that already exists prints differently.
+- **`\PtyAgg` = 𝖠 (sans-serif A),** productivity that multiplies total output, Y = 𝖠 F(K, L), with its log
+  `\lPtyAgg` = ℓ𝖠. The owner, in the book session (as relayed by it), 20:16:27 EST: "OK, I want two alternatives:
+  \PtyLab should be the Z that multiplies labor, and \PtyAgg should be the sans-serif A that multiplies total
+  output." It names the same object as v11.1.0's `\PtyLev` (italic A), which is unchanged until the owner says
+  whether it prints 𝖠 or goes.
+- **Letter-locality** (terminology.yml): the accent-locality rule now holds for letters. A letter may name more than
+  one object, each in a row scoped to the documents that use it, provided no document uses two; where one must, the
+  row without a scope keeps the letter; π, r and R keep one meaning everywhere. The owner, 20:17:39 EST: "yes,
+  extend the rule".
+- **The course's local definitions** (terminology.yml) either adopt something from the registry or are proposed as
+  new rows. The owner, 20:03:23 EST.
+- **The registry always wins** (terminology.yml): where a document prints an object differently from the registry,
+  the document takes the registry's print; a different print comes only from re-ruling the row for every document.
+  The owner, 20:22:56 EST: "registry always wins".
+
 ## v11.1.0 — 2026-11-17
 
 **Productivity, globalized:** two new rows, so every document defines the productivity parameters the same way. The

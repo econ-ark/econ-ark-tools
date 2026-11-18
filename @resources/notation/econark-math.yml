@@ -1,4 +1,4 @@
-# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v11.1.0. DO NOT EDIT.
+# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v11.2.0. DO NOT EDIT.
 # Every shared macro, KaTeX-safe. Consume via `extends: [<path>/econark-math.yml]` in myst.yml.
 # Regenerate: python @resources/notation/gen/gen_shortcuts.py
 version: 1
@@ -446,6 +446,8 @@ project:
     '\PtyLev': 'A'
     '\lPtyLab': '\logOp\PtyLab'
     '\lPtyLev': '\logOp\PtyLev'
+    '\PtyAgg': '\mathsf{A}'
+    '\lPtyAgg': '\logOp\PtyAgg'
     '\Reals': '\mathbb{R}'
     '\TMap': '\mathbb{T}'
     '\Ex': '{\mathbb{E}}'

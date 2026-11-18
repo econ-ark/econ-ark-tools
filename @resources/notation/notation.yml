@@ -20,8 +20,11 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 11.1.0       # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 11.2.0       # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-11-17   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 11.2.0: new row \PtyAgg = sans-serif 𝖠, productivity multiplying output; new
+                        #        conventions: letter-locality, the course's local definitions, the registry always
+                        #        wins (owner, 2026-11-17)
                         # 11.1.0: new rows: productivity, labor-augmenting \PtyLab = Z and total-factor
                         #        \PtyLev = A, with their logs (owner, 2026-11-17)
                         # 11.0.0: labor is italic l (was ℓ); ℓ is the natural log, so \lcNrm prints ℓc
@@ -905,6 +908,15 @@ symbols:
     aliases: ["\\lPtyLev = ℓA, its log (econark-shortcuts.sty); it replaces the course's lower-case \\ptyLev = a, where that means log A (no lower case for logs, 2026-11-15)"]
     conflicts_checked: "New in v11.1.0. The course defined \\PtyLev = A, the same print (39 uses in the book and 12 in the questions, by its course-local-math.yml at 0277a530), and \\ptyLev = a (26 and 50), written for log A in BrockMirman; which of those 76 uses are log A the course checks when it converts. Italic A is otherwise only the generic \\ANrm, which prints the same. The name keeps the course's, although 'Lev' is not the registry's bold 'Lvl': A is plain. \\PtyLev and \\lPtyLev are in no other macro of this registry or econark-shortcuts.sty (checked 2026-11-17 at 5191b5f7)."
     ruling: {date: 2026-11-17, source: "owner, in the econ-ark-tools session, 2026-11-17: 18:40:56 EST, 'I'm particularly keen on globalizing the definitions of these productivity technical change parameters.'; 18:44:25 EST, 'italic Z; start with the productivity rows', answering the proposal of new rows \\PtyLev = A and \\PtyLab = Z, and the course's lower-case \\ptyLev = a for log A retired.", rationale: "one definition of each productivity parameter for every document"}
+
+  productivity-output:
+    gloss: "productivity that multiplies total output: Y = 𝖠 F(K, L) (Hicks-neutral). Sans-serif by the owner's choice, as \\Rfree's 𝖱 is; never divided by a normalizer, so plain (rule B). It names the same object as \\PtyLev (italic A, v11.1.0); which of the two stays is the owner's to say"
+    define: "Y = 𝖠 F(K, L);  with Cobb-Douglas, Y = 𝖠 K^α L^{1−α} = K^α (Z L)^{1−α}, so 𝖠 = Z^{1−α} (\\PtyLab)"
+    latex: {macro: '\PtyAgg', expansion: '\mathsf{A}'}
+    unicode: '𝖠'
+    aliases: ["\\lPtyAgg = ℓ𝖠, its log (econark-shortcuts.sty)"]
+    conflicts_checked: "New in v11.2.0. Sans-serif A is in no other row or macro of this registry or econark-shortcuts.sty (checked 2026-11-17 at f2180387). Elsewhere: \\aAgg = \\mathsf{A} in HARK_ask-your-project's scripts/math_macros_make/local-shortcuts.yml and REMARK's LifeCyclePrimeTime myst.yml, and 𝖠 is the action space in econ-ark/bellman's docs/bellman-calculus; none of those documents writes productivity, so letter-locality (v11.2.0) lets them stand. The book's RamseyCassKoopmans defines \\PtyAgg in its frontmatter until it syncs to this row (reported by the book session, 2026-11-17)."
+    ruling: {date: 2026-11-17, source: "owner, in the book session (as relayed by that session), typed 2026-11-17 20:16:27 EST: 'OK, I want two alternatives: \\PtyLab should be the Z that multiplies labor, and \\PtyAgg should be the sans-serif A that multiplies total output.' Adopted in the econ-ark-tools session under the owner's 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition of each productivity parameter for every document"}
 
   # ---- v9.0.0 (2026-11-04): rows from the owner's rulings of 2026-11-02 and 2026-11-03 in the cc:course-choice session
   # ---- (the Intertemporal Choice course), adopted here.
