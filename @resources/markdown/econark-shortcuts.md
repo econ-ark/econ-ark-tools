@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v14.2.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v14.3.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -461,6 +461,40 @@
 \newcommand{\rfreeEff}{\mathring{\mathsf{r}}}
 \newcommand{\discRteEff}{\mathring{\discRte}}
 \newcommand{\PDVEff}{\mathring{\mathbb{P}}}
+\newcommand{\WGroFachFix}{\mathring{\WGroFac}}
+\newcommand{\WGroRtehFix}{\mathring{\WGroRte}}
+\newcommand{\GPFachFix}{\APFac_{\WGroFachFix}}
+\newcommand{\GPRtehFix}{\thorn_{\WGroRtehFix}}
+\newcommand{\FHWChFix}{\text{FHWC}_{\WGroFachFix}}
+\newcommand{\GIChFix}{\text{GIC}_{\WGroFachFix}}
+\newcommand{\DiscFacMaxGIChFix}{\bar{\DiscFac}_{\GIChFix}}
+\newcommand{\EmpLbl}{\mathrm{e}}
+\newcommand{\UnempLbl}{\mathrm{u}}
+\newcommand{\aNrmE}{\aNrm^{\EmpLbl}}
+\newcommand{\bNrmE}{\bNrm^{\EmpLbl}}
+\newcommand{\cNrmE}{\cNrm^{\EmpLbl}}
+\newcommand{\cNrmU}{\cNrm^{\UnempLbl}}
+\newcommand{\mNrmE}{\mNrm^{\EmpLbl}}
+\newcommand{\mNrmU}{\mNrm^{\UnempLbl}}
+\newcommand{\vNrmE}{\vNrm^{\EmpLbl}}
+\newcommand{\MPCE}{\MPC^{\EmpLbl}}
+\newcommand{\cTrgNrm}{\TargetNrm{\cNrm}}
+\newcommand{\bTrgNrm}{\TargetNrm{\bNrm}}
+\newcommand{\vTrgNrm}{\TargetNrm{\vNrm}}
+\newcommand{\FHWCWGro}{\text{FHWC}_{\WGroFac}}
+\newcommand{\GICWGro}{\text{GIC}_{\WGroFac}}
+\newcommand{\DiscFacMaxRIC}{\bar{\DiscFac}_{\text{RIC}}}
+\newcommand{\DiscFacMaxGICTBS}{\bar{\DiscFac}_{\text{TBS}}}
+\newcommand{\DiscFacMaxGICWGro}{\bar{\DiscFac}_{\GICWGro}}
+\newcommand{\DiscFacMaxGICWhenFHWCTBSHolds}{\bar{\DiscFac}_{\text{FHW}}}
+\newcommand{\prudEx}{\mathfrak{p}}
+\newcommand{\cGap}{\nabla}
+\newcommand{\cLocusSlope}{\mathfrak{z}}
+\newcommand{\WGroShortfall}{\mathfrak{a}}
+\newcommand{\vEndFunc}{{\mathfrak{v}}}
+\newcommand{\vMultUnemp}{\mathfrak{v}}
+\newcommand{\PIHMPC}{\varkappa}
+\newcommand{\uPPP}{\mathrm{u}^{\prime\prime\prime}}
 \newcommand{\Reals}{\mathbb{R}}
 \newcommand{\TMap}{\mathbb{T}}
 \newcommand{\Ex}{{\mathbb{E}}}

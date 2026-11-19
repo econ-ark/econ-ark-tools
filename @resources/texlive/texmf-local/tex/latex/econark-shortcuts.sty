@@ -2,7 +2,7 @@
 % @resources/notation/notation.yml, the single source of notation for the papers).
 % Explicit definitions only (no factory/\@for loops); Lvl/Nrm/Func for a-z and A-Z are inline.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{econark-shortcuts}[2026/11/18 v14.2.0 Econ-ARK shared notation]
+\ProvidesPackage{econark-shortcuts}[2026/11/18 v14.3.0 Econ-ARK shared notation]
 % What the macros below need (2026-10-22). eucal is loaded only if no package has defined
 % \mathscr already, so a class that loads it with its own options is not disturbed.
 \RequirePackage{amsmath,amssymb,cancel,graphicx}
@@ -686,6 +686,42 @@
 \ARKcommand{\rfreeEff}{\mathring{\mathsf{r}}}  % r + d, the rate partner of \RfreeEff (\rfree written out: it has no row)
 \ARKcommand{\discRteEff}{\mathring{\discRte}} % vartheta + d
 \ARKcommand{\PDVEff}{\mathring{\mathbb{P}}}    % present value at \rfreeEff (\PDV written out: it has no row)
+% TractableBufferStock (owner, 2026-11-18, as relayed): its own objects, now shared; also \vEndFunc and \PIHMPC.
+% The ring rows (...hFix) are scoped away from the survival ring (accent-locality).
+\ARKcommand{\WGroFachFix}{\mathring{\WGroFac}}
+\ARKcommand{\WGroRtehFix}{\mathring{\WGroRte}}
+\ARKcommand{\GPFachFix}{\APFac_{\WGroFachFix}}
+\ARKcommand{\GPRtehFix}{\thorn_{\WGroRtehFix}}
+\ARKcommand{\FHWChFix}{\text{FHWC}_{\WGroFachFix}}
+\ARKcommand{\GIChFix}{\text{GIC}_{\WGroFachFix}}
+\ARKcommand{\DiscFacMaxGIChFix}{\bar{\DiscFac}_{\GIChFix}}
+\ARKcommand{\EmpLbl}{\mathrm{e}}
+\ARKcommand{\UnempLbl}{\mathrm{u}}
+\ARKcommand{\aNrmE}{\aNrm^{\EmpLbl}}
+\ARKcommand{\bNrmE}{\bNrm^{\EmpLbl}}
+\ARKcommand{\cNrmE}{\cNrm^{\EmpLbl}}
+\ARKcommand{\cNrmU}{\cNrm^{\UnempLbl}}
+\ARKcommand{\mNrmE}{\mNrm^{\EmpLbl}}
+\ARKcommand{\mNrmU}{\mNrm^{\UnempLbl}}
+\ARKcommand{\vNrmE}{\vNrm^{\EmpLbl}}
+\ARKcommand{\MPCE}{\MPC^{\EmpLbl}}
+\ARKcommand{\cTrgNrm}{\TargetNrm{\cNrm}}
+\ARKcommand{\bTrgNrm}{\TargetNrm{\bNrm}}
+\ARKcommand{\vTrgNrm}{\TargetNrm{\vNrm}}
+\ARKcommand{\FHWCWGro}{\text{FHWC}_{\WGroFac}}
+\ARKcommand{\GICWGro}{\text{GIC}_{\WGroFac}}
+\ARKcommand{\DiscFacMaxRIC}{\bar{\DiscFac}_{\text{RIC}}}
+\ARKcommand{\DiscFacMaxGICTBS}{\bar{\DiscFac}_{\text{TBS}}}
+\ARKcommand{\DiscFacMaxGICWGro}{\bar{\DiscFac}_{\GICWGro}}
+\ARKcommand{\DiscFacMaxGICWhenFHWCTBSHolds}{\bar{\DiscFac}_{\text{FHW}}}
+\ARKcommand{\prudEx}{\mathfrak{p}}
+\ARKcommand{\cGap}{\nabla}
+\ARKcommand{\cLocusSlope}{\mathfrak{z}}
+\ARKcommand{\WGroShortfall}{\mathfrak{a}}
+\ARKcommand{\vEndFunc}{{\mathfrak{v}}}
+\ARKcommand{\vMultUnemp}{\mathfrak{v}}
+\ARKcommand{\PIHMPC}{\varkappa}
+\ARKcommand{\uPPP}{\mathrm{u}^{\prime\prime\prime}}
 
 % agg vs ind?  upper vs lower conflicts with upper vs lower for factors and rates
 

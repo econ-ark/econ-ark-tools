@@ -3,6 +3,26 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v14.3.0 — 2026-11-18
+
+MINOR: additions, and two notes corrected. Thirty-four rows: TractableBufferStock's own objects, the end-of-period
+value function `\vEndFunc` and the PIH MPC `\PIHMPC`. The owner, in the cc:course-choice session (as relayed
+by it), 23:03:12 EST: "I accept all of your recommendations", whose item 18 is this batch.
+- **The h-fixed ring family,** `\WGroFachFix` G̊, `\WGroRtehFix` g̊, `\GPFachFix` Þ_G̊, `\GPRtehFix` þ_g̊,
+  `\FHWChFix`, `\GIChFix`, `\DiscFacMaxGIChFix`: scoped away from the survival ring (accent-locality).
+- **The employment labels** `\EmpLbl` (e) and `\UnempLbl` (u), upright by rule C, and `\aNrmE`, `\bNrmE`,
+  `\cNrmE`, `\cNrmU`, `\mNrmE`, `\mNrmU`, `\vNrmE`, `\MPCE`.
+- **Targets** `\cTrgNrm` ĉ, `\bTrgNrm` b̂, `\vTrgNrm` v̂.
+- **Conditions and bounds on β:** `\FHWCWGro`, `\GICWGro`, `\DiscFacMaxRIC`, `\DiscFacMaxGICTBS`,
+  `\DiscFacMaxGICWGro`, `\DiscFacMaxGICWhenFHWCTBSHolds`. No bare `\FHWC` or `\GIC`: BufferStockTheory defines
+  both itself with `\newcommand`.
+- **The model's letters:** `\prudEx` 𝔭, `\cGap` ∇ (scoped from `\DiscFacSprd`), `\cLocusSlope` 𝔷,
+  `\WGroShortfall` 𝔞, `\vMultUnemp` 𝔳 (scoped from `\vEndFunc`).
+- **Siblings:** `\uPPP` u‴, `\vEndFunc` 𝔳, `\PIHMPC` ϰ (scoped from `\kapRent`).
+- Notes: `\UpdatePrb`'s says TractableBufferStock writes Π (`\straight`) in its page and handout; the
+  precautionary-saving row's alias gives `\psavFunc` as `\cancel{\cFunc}`.
+- Not yet: `\straight`, `\GPRteAdj` and `\psavFunc`, which wait on the owner.
+
 ## v14.2.0 — 2026-11-18
 
 MINOR: additions, and two notes clarified. Rows for the course's growth module. The owner, in the

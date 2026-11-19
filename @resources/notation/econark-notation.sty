@@ -1,4 +1,4 @@
-% econark-notation.sty — AUTO-GENERATED from notation.yml v14.2.0. DO NOT EDIT.
+% econark-notation.sty — AUTO-GENERATED from notation.yml v14.3.0. DO NOT EDIT.
 % Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 % Uses \providecommand: defers to any macro already defined (e.g. by
 % econark-shortcuts.sty). Load alone/first for the registry's base dialect.
@@ -6,30 +6,47 @@
 
 \providecommand{\ADElas}{\varOmega}  % ad-elasticity
 \providecommand{\TranShkAgg}{\varTheta}  % aggregate-transitory-shock
+\providecommand{\aNrmE}{a^{\EmpLbl}}  % assets-employed
 \providecommand{\aNrmNxt}{a\Nxt}  % assets-next
 \providecommand{\aNrmNow}{a\Now}  % assets-now
 \providecommand{\bNrm}{b}  % bank-balances
+\providecommand{\bNrmE}{\bNrm^{\EmpLbl}}  % bank-balances-employed
 \providecommand{\bNrmNxt}{\bNrm\Nxt}  % bank-balances-next
 \providecommand{\bNrmNow}{\bNrm\Now}  % bank-balances-now
+\providecommand{\bTrgNrm}{\hat{\bNrm}}  % bank-balances-target
 \providecommand{\aMin}{\underline{a}}  % borrowing-limit
 \providecommand{\BoroCnstArt}{\underline{a}_{\mathrm{Art}}}  % borrowing-limit-artificial
 \providecommand{\BoroCnstNat}{\underline{a}_{\mathrm{Nat}}}  % borrowing-limit-natural
 \providecommand{\kapShare}{\alpha}  % capital-share
 \providecommand{\CARA}{\upsilon}  % cara
 \providecommand{\qLo}{q_{0}}  % constraint-end-exponent
+\providecommand{\cNrmE}{c^{\EmpLbl}}  % consumption-employed
 \providecommand{\cFunc}{\mathrm{c}}  % consumption-function
+\providecommand{\cGap}{\nabla}  % consumption-gap-unemployment
+\providecommand{\cLocusSlope}{\mathfrak{z}}  % consumption-locus-slope
 \providecommand{\cNrmNxt}{c\Nxt}  % consumption-next
 \providecommand{\cNrmNow}{c\Now}  % consumption-now
+\providecommand{\cTrgNrm}{\hat{c}}  % consumption-target
+\providecommand{\cNrmU}{c^{\UnempLbl}}  % consumption-unemployed
 \providecommand{\vk}{\lambda}  % costate-capital
 \providecommand{\CRRA}{\varrho}  % crra
 \providecommand{\DiscFac}{\beta}  % discount-factor
 \providecommand{\DiscFacEff}{\mathring{\DiscFac}}  % discount-factor-liv
+\providecommand{\DiscFacMaxGICWhenFHWCTBSHolds}{\bar{\DiscFac}_{\text{FHW}}}  % discount-factor-max-fhw
+\providecommand{\DiscFacMaxGIChFix}{\bar{\DiscFac}_{\GIChFix}}  % discount-factor-max-gic-h-fixed
+\providecommand{\DiscFacMaxGICTBS}{\bar{\DiscFac}_{\text{TBS}}}  % discount-factor-max-gic-tbs
+\providecommand{\DiscFacMaxGICWGro}{\bar{\DiscFac}_{\GICWGro}}  % discount-factor-max-gic-wage-growth
+\providecommand{\DiscFacMaxRIC}{\bar{\DiscFac}_{\text{RIC}}}  % discount-factor-max-ric
 \providecommand{\DiscFacSprd}{\nabla}  % discount-factor-spread
 \providecommand{\EPermShkInv}{\Ex[\permShk^{-1}]}  % e-perm-shk-inv
 \providecommand{\eprem}{\phi}  % equity-premium-log
 \providecommand{\Est}[1]{\hat{#1}}  % estimate
 \providecommand{\Ex}{\mathbb{E}}  % expectation
 \providecommand{\extElas}{\eta}  % externality-elasticity
+\providecommand{\FHWChFix}{\text{FHWC}_{\WGroFachFix}}  % fhwc-h-fixed
+\providecommand{\FHWCWGro}{\text{FHWC}_{\WGroFac}}  % fhwc-wage-growth
+\providecommand{\GIChFix}{\text{GIC}_{\WGroFachFix}}  % gic-h-fixed
+\providecommand{\GICWGro}{\text{GIC}_{\WGroFac}}  % gic-wage-growth
 \providecommand{\GoldRule}[1]{\bar{\bar{#1}}}  % golden-rule
 \providecommand{\Debt}{D}  % government-debt
 \providecommand{\GovSpend}{X}  % government-spending
@@ -55,6 +72,8 @@
 \providecommand{\kNrmNxt}{k\Nxt}  % kapital-next
 \providecommand{\kNrmNow}{k\Now}  % kapital-now
 \providecommand{\Knwl}{\mathcal{K}}  % knowledge-stock
+\providecommand{\EmpLbl}{\mathrm{e}}  % label-employed
+\providecommand{\UnempLbl}{\mathrm{u}}  % label-unemployed
 \providecommand{\labor}{l}  % labor
 \providecommand{\labShare}{\nu}  % labor-exponent
 \providecommand{\tightness}{\mathrm{tgt}}  % labor-market-tightness
@@ -63,18 +82,22 @@
 \providecommand{\lnat}{\ell}  % log
 \providecommand{\logmNrmEx}{\boldsymbol{\mu}}  % log-excess-resources
 \providecommand{\GPRte}{\thorn_{\PermGroRte}}  % log-growth-patience-rate
+\providecommand{\GPRtehFix}{\thorn_{\WGroRtehFix}}  % log-growth-patience-rate-h-fixed
 \providecommand{\TaxLev}{T}  % lump-sum-tax
 \providecommand{\matchEff}{\mathrm{eff}}  % matching-efficiency
 \providecommand{\matchElas}{\varpi}  % matching-elasticity
 \providecommand{\MPC}{\kappa}  % mpc
+\providecommand{\MPCE}{\MPC^{\EmpLbl}}  % mpc-employed
 \providecommand{\MPCmax}{\overline{\kappa}}  % mpc-max
 \providecommand{\MPCmin}{\underline{\kappa}}  % mpc-min
+\providecommand{\PIHMPC}{\varkappa}  % mpc-pih
 \providecommand{\netWorth}{\mathsf{n}}  % net-worth
 \providecommand{\NetWorth}{\mathsf{N}}  % net-worth-aggregate
 \providecommand{\paretoExp}{\varepsilon}  % pareto-exponent
 \providecommand{\APFac}{\textbf{Þ}}  % patience-abs
 \providecommand{\APFacEff}{\mathring{\APFac}}  % patience-abs-liv
 \providecommand{\GPFacRaw}{\APFac_{\PermGroFac}}  % patience-growth
+\providecommand{\GPFachFix}{\APFac_{\WGroFachFix}}  % patience-growth-h-fixed
 \providecommand{\GPFacEff}{\APFacEff_{\PermGroFac}}  % patience-growth-liv
 \providecommand{\GPFacMod}{\GPFacRaw\EPermShkInv}  % patience-growth-mod
 \providecommand{\GPFacLiv}{\LivPrb\GPFacEff}  % patience-growth-mortality-adj
@@ -94,12 +117,15 @@
 \providecommand{\PtyGroFac}{\mathrm{G}}  % productivity-growth
 \providecommand{\PtyLab}{Z}  % productivity-labor-augmenting
 \providecommand{\PtyAgg}{\mathsf{A}}  % productivity-output
+\providecommand{\prudEx}{\mathfrak{p}}  % prudence-excess
 \providecommand{\mBalLvl}{\check{m}}  % pseudo-target
 \providecommand{\kapRent}{\varkappa}  % rental-rate-capital
+\providecommand{\mNrmE}{m^{\EmpLbl}}  % resources-employed
 \providecommand{\mNrmEx}{\ddot{m}}  % resources-excess
 \providecommand{\mNrmMin}{\underline{m}}  % resources-min
 \providecommand{\mNrmNxt}{m\Nxt}  % resources-next
 \providecommand{\mNrmNow}{m\Now}  % resources-now
+\providecommand{\mNrmU}{m^{\UnempLbl}}  % resources-unemployed
 \providecommand{\RfreeEff}{\mathring{\Rfree}}  % return-blanchard
 \providecommand{\RBoro}{\bar{\Rfree}}  % return-borrowing
 \providecommand{\Rfree}{\mathsf{R}}  % return-factor
@@ -125,10 +151,18 @@
 \providecommand{\pZero}{\wp}  % unemployment-prob
 \providecommand{\UpdatePrb}{\varPi}  % update-prob
 \providecommand{\uFunc}{\mathrm{u}}  % utility-function
+\providecommand{\uPPP}{\mathrm{u}^{\prime\prime\prime}}  % utility-third-derivative
 \providecommand{\vacCost}{\mathrm{cst}}  % vacancy-cost
 \providecommand{\vacFillPrb}{\mathrm{fill}}  % vacancy-fill-probability
+\providecommand{\vNrmE}{v^{\EmpLbl}}  % value-employed
 \providecommand{\VFuncCts}{\mathcal{V}}  % value-function-continuous
+\providecommand{\vEndFunc}{{\mathfrak{v}}}  % value-function-end-of-period
+\providecommand{\vMultUnemp}{\mathfrak{v}}  % value-multiplier-unemployed
+\providecommand{\vTrgNrm}{\hat{v}}  % value-target
 \providecommand{\WGroFac}{\mathrm{G}}  % wage-growth
+\providecommand{\WGroFachFix}{\mathring{\WGroFac}}  % wage-growth-h-fixed
+\providecommand{\WGroRtehFix}{\mathring{\mathrm{g}}}  % wage-growth-rate-h-fixed
+\providecommand{\WGroShortfall}{\mathfrak{a}}  % wage-growth-shortfall
 \providecommand{\wbar}{o}  % wealth-total-pf
 \providecommand{\wbarNxt}{\wbar\Nxt}  % wealth-total-pf-next
 \providecommand{\wbarNow}{\wbar\Now}  % wealth-total-pf-now
