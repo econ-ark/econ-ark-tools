@@ -20,8 +20,12 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 14.2.0       # SemVer: MAJOR = change to an existing rendering/meaning;
+  version: 14.3.0       # SemVer: MAJOR = change to an existing rendering/meaning;
   updated: 2026-11-18   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 14.3.0: TractableBufferStock's own objects (34 rows: the hFix ring family,
+                        #        the employment labels \EmpLbl, \UnempLbl and their composites, targets,
+                        #        conditions and bounds on β, 𝔭, ∇, 𝔷, 𝔞, 𝔳), \vEndFunc, \PIHMPC, \uPPP;
+                        #        two notes corrected (owner, 2026-11-18)
                         # 14.2.0: the growth module's rows: knowledge \Knwl = 𝒦, the endogenous growth
                         #        pair \BalGroEndog = 𝖦 and \balGroEndog = 𝗀 (scoped), human capital
                         #        \hCap = 𝗁 and \hCapAvg = 𝗁_a, \extElas = η, \hCapProd = φ (scoped),
@@ -214,7 +218,7 @@ symbols:
     gloss: "precautionary saving: the shortfall of consumption below the perfect-foresight rule. A shared object (TractableBufferStock, MethodOfModeration, BST); its shared SYMBOL IS NOT YET CHOSEN, so this row defines no macro"
     define: "c̄(m) − c(m)"
     unicode: '(to be chosen)'
-    aliases: ["the powerlaw pages write x (\\psav, 'eXtra saving'), TractableBufferStock c̸ (\\psavFunc = \\cancel{c}), MethodOfModeration g: each declared in that paper until the shared symbol is chosen"]
+    aliases: ["the powerlaw pages write x (\\psav, 'eXtra saving'), TractableBufferStock c̸ (\\psavFunc = \\cancel{\\cFunc}, the upright c; \\cancel{c} until v14.3.0), MethodOfModeration g: each declared in that paper until the shared symbol is chosen"]
     ruling: {date: 2026-10-22, source: "owner, in the econ-ark-tools session, 2026-10-22 08:36:22 and 08:39:09 EDT: 'This is a definition unique to the powerlaw context that should not be in the overall registry'; then, shown the other papers' uses: keep the object, drop x, choose a shared symbol later. Earlier: 2026-07-16, x for the powerlaw draft ('x replaces both, and is defined as eXtra saving (induced by precaution) throughout')"}
 
   crra:
@@ -688,7 +692,7 @@ symbols:
     unicode: '𝛱'
     python: 'UpdatePrb'
     scope: "documents that write no inflation π: under the π convention a document that writes inflation gives this object another letter, declared in its own macro file"
-    conflicts_checked: "Π is in no macro of this registry or econark-shortcuts.sty (checked 2026-11-16 at 8d34f224). Other Π on jhu-dell: HAFiscal's Markov transition matrix (Model.tex, Parameterization.tex), which takes a new letter under the π convention, and whose code sets UpdatePrb = 1.0 (sticky expectations off), so it prints no update probability; BufferStockTheory's Harmenberg appendix, a local \\lomdkMat = Π declared in that file (the 2026-10-22 convention on letters for local objects); TractableBufferStock's Π, only in its vendored macro files. \\UpdatePrb and \\UpdPrb are in no repository on jhu-dell. UpdatePrb is the name in BufferStockStickyExp's code and in HAFiscal's; HARK's main branch has no such parameter (bceaa29c, 2026-11-13). Italic by rule C, as the capital Greek numbers are from v10.0.0. The probabilities' class otherwise writes calligraphic capitals (ℒ, ℘); Π is the letter BufferStockStickyExp and the course's StickyExpectationsC chapter write."
+    conflicts_checked: "Π is in no macro of this registry or econark-shortcuts.sty (checked 2026-11-16 at 8d34f224). Other Π on jhu-dell: HAFiscal's Markov transition matrix (Model.tex, Parameterization.tex), which takes a new letter under the π convention, and whose code sets UpdatePrb = 1.0 (sticky expectations off), so it prints no update probability; BufferStockTheory's Harmenberg appendix, a local \\lomdkMat = Π declared in that file (the 2026-10-22 convention on letters for local objects); TractableBufferStock's upright Π (\\straight), which its page and handout each write 50 times since 2026-11-11 (cc:course-choice, 2026-11-18; until v14.3.0 this note said it was only in its vendored macro files). \\UpdatePrb and \\UpdPrb are in no repository on jhu-dell. UpdatePrb is the name in BufferStockStickyExp's code and in HAFiscal's; HARK's main branch has no such parameter (bceaa29c, 2026-11-13). Italic by rule C, as the capital Greek numbers are from v10.0.0. The probabilities' class otherwise writes calligraphic capitals (ℒ, ℘); Π is the letter BufferStockStickyExp and the course's StickyExpectationsC chapter write."
     ruling: {date: 2026-11-16, source: "owner, in the session for the course's problem-set questions, menu answered 20:02:01 EST: 'Registry row, prints Π' (as relayed by the cc:course-choice session); asked here whether it is italic like the other capital Greek numbers: 'Italic 𝛱 (Recommended)' (2026-11-17 09:13:50 EST). Adopted in the econ-ark-tools session, 2026-11-17 09:13:50 EST: 'One PR, merge when CI green (Recommended)'.", rationale: "the letter the sticky-expectations paper and chapter already write, beside \\LivPrb and \\DiePrb"}
 
   # --- 2026-10-22: rows for the day's rulings, and for shared objects the registry had left to
@@ -1066,6 +1070,278 @@ symbols:
     unicode: '𝑺'
     conflicts_checked: "New in v14.2.0: a row for a macro econark-shortcuts.sty already defined as the generic level of S, with no meaning; the print is unchanged. Bold S is in no other row (checked 2026-11-18 at 02e344d5); S was aggregate net worth from v10.1.0 to v10.3.0, 𝖭 since v11.0.0. On jhu-dell \\SLvl is only in macro lists (BufferStockTheory's glossary, HARK_ask-your-project, REMARK's LifeCyclePrimeTime, TractableBufferStock's econark.sty), never in a document's text (checked 2026-11-18). The book's course-local block maps the questions' \\SLev (6 uses) to it; the course checks that those mean saving when it renames them. Proposed by cc:course-choice for RebeloAK's saving-rate display (2 uses at 128eaa4, 𝑺/𝖠𝑲 = 𝗀/𝖠), which wrote a raw S."
     ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll), typed 2026-11-18: 07:04:39 EST '1. Let's use your \\Knwl for knowledge and use the 𝒦 for it.'; 07:06:24 EST '2. I don't want to use $\\gamma$ for the growth rate.  We should use one of the variants of G/g we are already using, though we should give it a new name like \\EndogGro for the upper case and \\endGro for the lower case'; 07:12:05 EST 'I do not want a table of parameters just for the module; I want you to consult with jd_econ-ark-tools to add any new notation you need to the global registry.' Rows proposed by the econ-ark-tools session and adopted by cc:course-choice (2026-11-18); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  wage-growth-h-fixed:
+    gloss: "the growth factor of an employed consumer's labor income, raised so that unemployment risk ℧ leaves expected income growth at G (\\WGroFac) and human wealth h unchanged ('h fixed')"
+    define: "G̊ = G/℧̸ (℧̸ = 1 − ℧, \\erate)"
+    latex: {macro: '\WGroFachFix', expansion: '\mathring{\WGroFac}'}
+    unicode: 'G̊'
+    scope: "documents that write no survival-ring macro (\\DiscFacEff, \\APFacEff, \\RPFacEff, \\GPFacEff, \\GPFacLiv, \\RfreeEff, \\rfreeEff, \\discRteEff, \\PDVEff): in the course, TractableBufferStock"
+    conflicts_checked: "New in v14.3.0. The ring's unscoped meaning is the survival-inclusive variant (the ring rule); TractableBufferStock writes no survival-ring macro, so this second meaning is scoped (accent-locality). Read as the survival ring itself, the rows would need no scope but would take the …Eff names, against the owner's …hFix names. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 62, handout 62."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes). The names (…hFix) and the ring: the owner's rulings of 2026-11-08, 16:17:09 and 16:25:48 EST, as cc:course-choice reports them", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  wage-growth-rate-h-fixed:
+    gloss: "the rate partner of G̊ (\\WGroFachFix)"
+    define: "g̊ ≡ log G̊ ≈ g + ℧"
+    latex: {macro: '\WGroRtehFix', expansion: '\mathring{\mathrm{g}}'}
+    unicode: 'g̊'
+    scope: "documents that write no survival-ring macro (\\DiscFacEff, \\APFacEff, \\RPFacEff, \\GPFacEff, \\GPFacLiv, \\RfreeEff, \\rfreeEff, \\discRteEff, \\PDVEff): in the course, TractableBufferStock"
+    conflicts_checked: "New in v14.3.0. The ring's unscoped meaning is the survival-inclusive variant (the ring rule); TractableBufferStock writes no survival-ring macro, so this second meaning is scoped (accent-locality). Read as the survival ring itself, the rows would need no scope but would take the …Eff names, against the owner's …hFix names. The expansion writes out \\WGroRte's g (\\mathrm{g}), which has no row. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 43, handout 47."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes). The names (…hFix) and the ring: the owner's rulings of 2026-11-08, 16:17:09 and 16:25:48 EST, as cc:course-choice reports them", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  patience-growth-h-fixed:
+    gloss: "the growth patience factor at G̊, as \\GPFacRaw is Þ/𝖦: the factor by which c^e would grow in the perfect-foresight model with growth G̊"
+    define: "Þ_G̊ = Þ/G̊"
+    latex: {macro: '\GPFachFix', expansion: '\APFac_{\WGroFachFix}'}
+    unicode: 'Þ_G̊'
+    scope: "documents that write no survival-ring macro (\\DiscFacEff, \\APFacEff, \\RPFacEff, \\GPFacEff, \\GPFacLiv, \\RfreeEff, \\rfreeEff, \\discRteEff, \\PDVEff): in the course, TractableBufferStock"
+    conflicts_checked: "New in v14.3.0. The ring's unscoped meaning is the survival-inclusive variant (the ring rule); TractableBufferStock writes no survival-ring macro, so this second meaning is scoped (accent-locality). Read as the survival ring itself, the rows would need no scope but would take the …Eff names, against the owner's …hFix names. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 36, handout 51."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes). The names (…hFix) and the ring: the owner's rulings of 2026-11-08, 16:17:09 and 16:25:48 EST, as cc:course-choice reports them", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  log-growth-patience-rate-h-fixed:
+    gloss: "the growth patience rate at g̊, as \\GPRte is þ_𝗀; negative when GIC_G̊ holds"
+    define: "þ_g̊ ≡ log Þ_G̊ ≈ ϱ⁻¹(𝗋 − ϑ) − g̊"
+    latex: {macro: '\GPRtehFix', expansion: '\thorn_{\WGroRtehFix}'}
+    unicode: 'þ_g̊'
+    scope: "documents that write no survival-ring macro (\\DiscFacEff, \\APFacEff, \\RPFacEff, \\GPFacEff, \\GPFacLiv, \\RfreeEff, \\rfreeEff, \\discRteEff, \\PDVEff): in the course, TractableBufferStock"
+    conflicts_checked: "New in v14.3.0. The ring's unscoped meaning is the survival-inclusive variant (the ring rule); TractableBufferStock writes no survival-ring macro, so this second meaning is scoped (accent-locality). Read as the survival ring itself, the rows would need no scope but would take the …Eff names, against the owner's …hFix names. Written with \\thorn, as \\GPRte's row is; the page writes \\APRte, which prints the same þ. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 26, handout 31."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes). The names (…hFix) and the ring: the owner's rulings of 2026-11-08, 16:17:09 and 16:25:48 EST, as cc:course-choice reports them", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  fhwc-h-fixed:
+    gloss: "the finite human wealth condition at G̊"
+    define: "FHWC_G̊: G̊ < R"
+    latex: {macro: '\FHWChFix', expansion: '\text{FHWC}_{\WGroFachFix}'}
+    unicode: 'FHWC_G̊'
+    scope: "documents that write no survival-ring macro (\\DiscFacEff, \\APFacEff, \\RPFacEff, \\GPFacEff, \\GPFacLiv, \\RfreeEff, \\rfreeEff, \\discRteEff, \\PDVEff): in the course, TractableBufferStock"
+    conflicts_checked: "New in v14.3.0. The ring's unscoped meaning is the survival-inclusive variant (the ring rule); TractableBufferStock writes no survival-ring macro, so this second meaning is scoped (accent-locality). Read as the survival ring itself, the rows would need no scope but would take the …Eff names, against the owner's …hFix names. FHWC is written out: no bare \\FHWC row, since BufferStockTheory's @local/local.sty defines \\FHWC with \\newcommand after loading this package, and a row would stop its build. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 3, handout 3."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes). The names (…hFix) and the ring: the owner's rulings of 2026-11-08, 16:17:09 and 16:25:48 EST, as cc:course-choice reports them", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  gic-h-fixed:
+    gloss: "the growth impatience condition at G̊; necessary and sufficient for a target m̂^e"
+    define: "GIC_G̊: Þ_G̊ < 1"
+    latex: {macro: '\GIChFix', expansion: '\text{GIC}_{\WGroFachFix}'}
+    unicode: 'GIC_G̊'
+    scope: "documents that write no survival-ring macro (\\DiscFacEff, \\APFacEff, \\RPFacEff, \\GPFacEff, \\GPFacLiv, \\RfreeEff, \\rfreeEff, \\discRteEff, \\PDVEff): in the course, TractableBufferStock"
+    conflicts_checked: "New in v14.3.0. The ring's unscoped meaning is the survival-inclusive variant (the ring rule); TractableBufferStock writes no survival-ring macro, so this second meaning is scoped (accent-locality). Read as the survival ring itself, the rows would need no scope but would take the …Eff names, against the owner's …hFix names. GIC is written out: BufferStockTheory's MyST configuration defines \\GIC with \\newcommand. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 15, handout 15."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes). The names (…hFix) and the ring: the owner's rulings of 2026-11-08, 16:17:09 and 16:25:48 EST, as cc:course-choice reports them", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  discount-factor-max-gic-h-fixed:
+    gloss: "the largest discount factor for which GIC_G̊ holds: below it a target exists"
+    define: "β̄_{GIC_G̊} = G̊^ϱ/R"
+    latex: {macro: '\DiscFacMaxGIChFix', expansion: '\bar{\DiscFac}_{\GIChFix}'}
+    unicode: 'β̄_{GIC_G̊}'
+    scope: "documents that write no survival-ring macro (\\DiscFacEff, \\APFacEff, \\RPFacEff, \\GPFacEff, \\GPFacLiv, \\RfreeEff, \\rfreeEff, \\discRteEff, \\PDVEff): in the course, TractableBufferStock"
+    conflicts_checked: "New in v14.3.0. The ring's unscoped meaning is the survival-inclusive variant (the ring rule); TractableBufferStock writes no survival-ring macro, so this second meaning is scoped (accent-locality). Read as the survival ring itself, the rows would need no scope but would take the …Eff names, against the owner's …hFix names. The bar's unscoped meaning is the upper bound; the page writes no \\Steady. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 3, handout 3."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes). The names (…hFix) and the ring: the owner's rulings of 2026-11-08, 16:17:09 and 16:25:48 EST, as cc:course-choice reports them", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  label-employed:
+    gloss: "the label of the employed state, upright by rule C: c^e, 𝒄^e, v^e. Starts the registry's Lbl family; the label attaches to about 15 bases on the page, so it has a row of its own"
+    latex: {macro: '\EmpLbl', expansion: '\mathrm{e}'}
+    unicode: 'e'
+    conflicts_checked: "New in v14.3.0. Prints as \\eFunc (upright e); as a superscript it reads as a label, which rule C names (TractableBufferStock's employment states e and u). Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 187, handout 193."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  label-unemployed:
+    gloss: "the label of the unemployed state, upright by rule C: c^u, v^u; \\IncUnemp writes the same label inline (ξ_u)"
+    latex: {macro: '\UnempLbl', expansion: '\mathrm{u}'}
+    unicode: 'u'
+    conflicts_checked: "New in v14.3.0. Prints as \\uFunc (upright u), which the page also writes (20 uses), so u(c) and v^u meet; as a superscript it reads as a label (rule C). Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 23, handout 24."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  assets-employed:
+    gloss: "an employed consumer's end-of-period assets, as a ratio to permanent labor income"
+    latex: {macro: '\aNrmE', expansion: 'a^{\EmpLbl}'}
+    unicode: 'a^e'
+    conflicts_checked: "New in v14.3.0. The expansion writes out \\aNrm's a, which has no row. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 6, handout 6."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  bank-balances-employed:
+    gloss: "an employed consumer's bank balances, as a ratio to permanent labor income"
+    latex: {macro: '\bNrmE', expansion: '\bNrm^{\EmpLbl}'}
+    unicode: 'b^e'
+    conflicts_checked: "New in v14.3.0. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 3, handout 3."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  consumption-employed:
+    gloss: "an employed consumer's consumption, as a ratio to permanent labor income"
+    latex: {macro: '\cNrmE', expansion: 'c^{\EmpLbl}'}
+    unicode: 'c^e'
+    conflicts_checked: "New in v14.3.0. The expansion writes out \\cNrm's c, which has no row. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 11, handout 11; the page also writes c^e out 93 times."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  consumption-unemployed:
+    gloss: "an unemployed consumer's consumption, as a ratio to permanent labor income"
+    define: "c^u = κm^u"
+    latex: {macro: '\cNrmU', expansion: 'c^{\UnempLbl}'}
+    unicode: 'c^u'
+    conflicts_checked: "New in v14.3.0. The expansion writes out \\cNrm's c. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 26, handout 27."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  resources-employed:
+    gloss: "an employed consumer's market resources, as a ratio to permanent labor income"
+    latex: {macro: '\mNrmE', expansion: 'm^{\EmpLbl}'}
+    unicode: 'm^e'
+    conflicts_checked: "New in v14.3.0. The expansion writes out \\mNrm's m, which has no row. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 63, handout 104."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  resources-unemployed:
+    gloss: "an unemployed consumer's market resources, as a ratio to permanent labor income"
+    latex: {macro: '\mNrmU', expansion: 'm^{\UnempLbl}'}
+    unicode: 'm^u'
+    conflicts_checked: "New in v14.3.0. The expansion writes out \\mNrm's m. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 3, handout 3."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  value-employed:
+    gloss: "an employed consumer's value"
+    latex: {macro: '\vNrmE', expansion: 'v^{\EmpLbl}'}
+    unicode: 'v^e'
+    conflicts_checked: "New in v14.3.0. The expansion writes out \\vNrm's v, which has no row. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 3, handout 3."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  mpc-employed:
+    gloss: "an employed consumer's marginal propensity to consume: the employed MPC function at a point"
+    latex: {macro: '\MPCE', expansion: '\MPC^{\EmpLbl}'}
+    unicode: 'κ^e'
+    conflicts_checked: "New in v14.3.0. llorracc/texmf-local's econtexShortcuts.sty and handoutShortcuts.sty \\providecommand it as \\MPC^{e}, an italic label; \\providecommand defers to this row, so a document that loads both prints the upright label (rule C). No .tex on jhu-dell outside TractableBufferStock writes \\MPCE (checked 2026-11-18). Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 19, handout 82."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  consumption-target:
+    gloss: "consumption at the target, beside \\mTrgNrm; the page writes ĉ^e and ĉ^u"
+    define: "ĉ = c(m̂)"
+    latex: {macro: '\cTrgNrm', expansion: '\hat{c}'}
+    unicode: 'ĉ'
+    conflicts_checked: "New in v14.3.0. The hat's unscoped meaning is the target; the page writes no \\Est. The expansion writes out \\TargetNrm and \\cNrm, which have no rows, as \\mTrgNrm's row does. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 18, handout 84."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  bank-balances-target:
+    gloss: "bank balances at the target"
+    define: "b̂ = m̂ − 1"
+    latex: {macro: '\bTrgNrm', expansion: '\hat{\bNrm}'}
+    unicode: 'b̂'
+    conflicts_checked: "New in v14.3.0. As \\cTrgNrm. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 9, handout 9."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  value-target:
+    gloss: "value at the target"
+    define: "v̂ = v(m̂)"
+    latex: {macro: '\vTrgNrm', expansion: '\hat{v}'}
+    unicode: 'v̂'
+    conflicts_checked: "New in v14.3.0. As \\cTrgNrm. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 5, handout 5."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  fhwc-wage-growth:
+    gloss: "the finite human wealth condition at wage growth, the perfect-foresight chapter's FHWC"
+    define: "FHWC_G: G < R"
+    latex: {macro: '\FHWCWGro', expansion: '\text{FHWC}_{\WGroFac}'}
+    unicode: 'FHWC_G'
+    conflicts_checked: "New in v14.3.0. FHWC is written out, with no bare \\FHWC row (see \\FHWChFix). Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 5, handout 5."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  gic-wage-growth:
+    gloss: "the growth impatience condition at wage growth"
+    define: "GIC_G: Þ < G"
+    latex: {macro: '\GICWGro', expansion: '\text{GIC}_{\WGroFac}'}
+    unicode: 'GIC_G'
+    conflicts_checked: "New in v14.3.0. GIC is written out (see \\GIChFix). Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 8, handout 8."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  discount-factor-max-ric:
+    gloss: "the largest discount factor for which the RIC holds"
+    define: "β̄_RIC = R^{ϱ−1}"
+    latex: {macro: '\DiscFacMaxRIC', expansion: '\bar{\DiscFac}_{\text{RIC}}'}
+    unicode: 'β̄_RIC'
+    conflicts_checked: "New in v14.3.0. The bar's unscoped meaning is the upper bound; the page writes no \\Steady. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 2, handout 2."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  discount-factor-max-gic-tbs:
+    gloss: "the largest discount factor for which the GIC-TBS holds: below it the model has a solution"
+    define: "β̄_TBS = G̊^ϱ/(R(1 − ℧))"
+    latex: {macro: '\DiscFacMaxGICTBS', expansion: '\bar{\DiscFac}_{\text{TBS}}'}
+    unicode: 'β̄_TBS'
+    conflicts_checked: "New in v14.3.0. The bar's unscoped meaning is the upper bound; the page writes no \\Steady. The print's subscript says TBS where the text says GIC-TBS; the print is the page's. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 1, handout 1."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  discount-factor-max-gic-wage-growth:
+    gloss: "the largest discount factor for which GIC_G holds"
+    define: "β̄_{GIC_G} = G^ϱ/R"
+    latex: {macro: '\DiscFacMaxGICWGro', expansion: '\bar{\DiscFac}_{\GICWGro}'}
+    unicode: 'β̄_{GIC_G}'
+    conflicts_checked: "New in v14.3.0. The bar's unscoped meaning is the upper bound; the page writes no \\Steady. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 1, handout 1."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  discount-factor-max-fhw:
+    gloss: "the largest discount factor for which a target exists when human wealth is finite (𝔞 > 1); the chapter shows it equals β̄_{GIC_G̊} (\\DiscFacMaxGIChFix), and both keep rows so the page can state the equality"
+    define: "β̄_FHW = R^{ϱ−1}[1 − (𝔞 − 1)℧/(1 − ℧)]^ϱ"
+    latex: {macro: '\DiscFacMaxGICWhenFHWCTBSHolds', expansion: '\bar{\DiscFac}_{\text{FHW}}'}
+    unicode: 'β̄_FHW'
+    conflicts_checked: "New in v14.3.0. The bar's unscoped meaning is the upper bound; the page writes no \\Steady. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 4, handout 4."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  prudence-excess:
+    gloss: "excess prudence: how far prudence exceeds the logarithmic case's, after Kimball; 0 under log utility"
+    define: "𝔭 = (ϱ − 1)/2"
+    latex: {macro: '\prudEx', expansion: '\mathfrak{p}'}
+    unicode: '𝔭'
+    conflicts_checked: "New in v14.3.0. 𝔭 is in no other row (the course chose it on 2026-11-11, for ω). llorracc/texmf-local's econtexShortcuts.sty and handoutShortcuts.sty \\providecommand \\prudEx as ω; \\providecommand defers to this row, so a document that loads both prints 𝔭. No .tex on jhu-dell outside TractableBufferStock writes \\prudEx (checked 2026-11-18). Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): page 22, handout 22."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  consumption-gap-unemployment:
+    gloss: "the proportional fall in consumption if unemployment strikes: the consumption risk; ∇ points down because it measures a fall"
+    define: "∇_{t+1} = (c^e_{t+1} − c^u_{t+1})/c^u_{t+1}"
+    latex: {macro: '\cGap', expansion: '\nabla'}
+    unicode: '∇'
+    scope: "documents that write no \\DiscFacSprd: in the course, TractableBufferStock"
+    conflicts_checked: "New in v14.3.0. ∇ is \\DiscFacSprd (the spread of discount factors, HAFiscal), which has no scope and keeps ∇ wherever both meet (letter-locality); no book page writes \\DiscFacSprd. Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): handout 29; the page writes ∇ raw 26 times."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  consumption-locus-slope:
+    gloss: "the number that sets the slope of the Δc^e = 0 locus, c^e = (𝔷/(1 + 𝔷))m^e"
+    define: "𝔷 ≡ ℛκΠ"
+    latex: {macro: '\cLocusSlope', expansion: '\mathfrak{z}'}
+    unicode: '𝔷'
+    conflicts_checked: "New in v14.3.0. 𝔷 is in no other row (chosen 2026-11-11, for ζ). Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): handout 35; the page writes 𝔷 raw 35 times."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  wage-growth-shortfall:
+    gloss: "wage growth's shortfall from the return in units of the unemployment risk; human wealth is infinite (FHWC_G̊ fails) when 𝔞 ≤ 1"
+    define: "G = R(1 − 𝔞℧)"
+    latex: {macro: '\WGroShortfall', expansion: '\mathfrak{a}'}
+    unicode: '𝔞'
+    conflicts_checked: "New in v14.3.0. 𝔞 is in no other row (chosen 2026-11-11, for α). Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): handout 32; the page writes 𝔞 raw 32 times."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  value-function-end-of-period:
+    gloss: "the end-of-period value function, as BufferStockTheory writes it; beside \\cEndFunc (𝔠) and \\hNrmEnd (𝔥)"
+    define: "𝔳_t(a) = β𝔼_t[v_{t+1}(Ra + y_{t+1})]"
+    latex: {macro: '\vEndFunc', expansion: '{\mathfrak{v}}'}
+    unicode: '𝔳'
+    conflicts_checked: "New in v14.3.0. Fraktur marks end-of-period objects. llorracc/texmf-local, HARK_ask-your-project and REMARK's LifeCyclePrimeTime define \\vEndFunc with the same print. A possible alias is the shortcuts' \\vCntn (v_≻), the continuation value, the same function in a one-stage period; adopting it would change the print of 6 uses, so it is the owner's to choose. Uses: UncertaintyRiskAversionAndPrudence 6 (book fc6352e)."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  value-multiplier-unemployed:
+    gloss: "the factor that turns an unemployed consumer's utility into value, v^u(m) = u(κm)𝔳"
+    define: "𝔳 = 1/(1 − β(Rβ)^{1/ϱ−1})"
+    latex: {macro: '\vMultUnemp', expansion: '\mathfrak{v}'}
+    unicode: '𝔳'
+    scope: "documents that write no \\vEndFunc: in the course, TractableBufferStock"
+    conflicts_checked: "New in v14.3.0. 𝔳 is \\vEndFunc's print, which has no scope (letter-locality). Uses, counted by cc:course-choice in the book's TractableBufferStock page (fc6352e) and the handout (cdec191): handout 2; the page writes 𝔳 raw 2 times."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  mpc-pih:
+    gloss: "the fraction of total wealth that can be spent each period leaving wealth intact: the MPC κ = 1 − Þ/R at Þ = 1"
+    define: "ϰ = 1 − 1/R"
+    latex: {macro: '\PIHMPC', expansion: '\varkappa'}
+    unicode: 'ϰ'
+    scope: "documents that write no \\kapRent: in the course, PerfForesightCRRA"
+    conflicts_checked: "New in v14.3.0. ϰ is \\kapRent (the rental rate of capital), which has no scope, and whose row anticipated this second meaning (letter-locality). The likeness to κ (\\MPC) is deliberate: ϰ is κ's value at Þ = 1. The course's block, llorracc/texmf-local, HARK_ask-your-project and REMARK define \\PIHMPC with the same print. Uses: PerfForesightCRRA's page 8 and handout 8."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  utility-third-derivative:
+    gloss: "the third derivative of the utility function, beside \\uP and \\uPP; prudence is −u‴/u″"
+    latex: {macro: '\uPPP', expansion: '\mathrm{u}^{\prime\prime\prime}'}
+    unicode: 'u‴'
+    conflicts_checked: "New in v14.3.0. The course's block, llorracc/texmf-local, HAFiscal's and Dupor2023's MyST maps, HARK_ask-your-project and REMARK define \\uPPP with the same print. Uses: TractableBufferStock's page 6, handout 17; UncertaintyRiskAversionAndPrudence 3."
+    ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
 
   # ---- v9.0.0 (2026-11-04): rows from the owner's rulings of 2026-11-02 and 2026-11-03 in the cc:course-choice session
   # ---- (the Intertemporal Choice course), adopted here.
