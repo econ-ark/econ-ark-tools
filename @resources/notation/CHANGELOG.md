@@ -3,6 +3,16 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v14.4.0 — 2026-11-21
+
+MINOR: one addition, and a note corrected.
+- **`\age` = upright s,** age: periods since birth. An exception to rule C (a number, so italic), at the owner's
+  request in the cc_TractableBufferStock session (as relayed), 13:26:23 EST: "Seek an appropriate upright
+  (nonitalic) letter for age that not already being used for something else", and 13:53:02 EST: "yes, request the
+  \age row". The exception is recorded beside X-B4 in terminology.yml. `\age` was italic z in texmf-local's
+  handout shortcuts, whose `\providecommand` defers to this row; no document on jhu-dell writes it.
+- The lump-sum tax's scope note: BlanchardFiniteHorizon writes no terminal T, so it is inside the scope.
+
 ## v14.3.0 — 2026-11-18
 
 MINOR: additions, and two notes corrected. Thirty-four rows: TractableBufferStock's own objects, the end-of-period
