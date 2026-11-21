@@ -20,8 +20,10 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 14.3.0       # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-11-18   #         MINOR = additions; PATCH = gloss/typo fixes
+  version: 14.4.0       # SemVer: MAJOR = change to an existing rendering/meaning;
+  updated: 2026-11-21   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 14.4.0: new row: age \age = upright s, an exception to rule C; the lump-sum
+                        #        tax's scope note corrected (owner, 2026-11-21)
                         # 14.3.0: TractableBufferStock's own objects (34 rows: the hFix ring family,
                         #        the employment labels \EmpLbl, \UnempLbl and their composites, targets,
                         #        conditions and bounds on β, 𝔭, ∇, 𝔷, 𝔞, 𝔳), \vEndFunc, \PIHMPC, \uPPP;
@@ -968,7 +970,7 @@ symbols:
     gloss: "a lump-sum tax per household: k̇ = r k + w − c − T in the course's RCKWithGov. Plain, a per-household quantity (rule B)"
     latex: {macro: '\TaxLev', expansion: 'T'}
     unicode: 'T'
-    scope: "documents that write no terminal period T (\\prdT): in the course, RCKWithGov and GenAcctsAndGov. BlanchardFiniteHorizon writes both the last period T (V_{T−1}, C_T) and \\TaxLev, so there the tax takes another letter, in its own scoped row"
+    scope: "documents that write no terminal period T (\\prdT): in the course, RCKWithGov, GenAcctsAndGov and BlanchardFiniteHorizon. Until v14.4.0 this said BlanchardFiniteHorizon wrote both the last period T and \\TaxLev; neither the book at fc6352e nor its rewrite writes a terminal T or \\prdT (cc:course-choice, 2026-11-19), and the chapter writes \\TaxLev 15 times"
     conflicts_checked: "New in v14.1.0. T is otherwise the terminal period \\prdT, which has no scope and so keeps the letter where both meet (letter-locality), and the generic \\TNrm. Uses at the book's main (4083e013): RCKWithGov 8, BlanchardFiniteHorizon 3; the course-local block counts 10 in the book and 3 in the questions. The name keeps the course's, although 'Lev' is not the registry's bold 'Lvl': the tax is plain."
     ruling: {date: 2026-11-17, source: "owner, econ-ark-tools session, 2026-11-17 22:55:52 EST: 'yes, I approve of these additions to the registry (and want you to ask the cc_course-choice repo to make sure they are propagated to the course's material)', answering the proposal of rows for four more of the course's local definitions (\\VFuncCts, \\GovSpend, \\TaxLev, \\Debt), relayed by cc:course-choice", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
 
@@ -1342,6 +1344,13 @@ symbols:
     unicode: 'u‴'
     conflicts_checked: "New in v14.3.0. The course's block, llorracc/texmf-local, HAFiscal's and Dupor2023's MyST maps, HARK_ask-your-project and REMARK define \\uPPP with the same print. Uses: TractableBufferStock's page 6, handout 17; UncertaintyRiskAversionAndPrudence 3."
     ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  age:
+    gloss: "age: the number of periods since birth (a nonnegative integer); indexes generations in overlapping-generations and cohort models. Upright, an exception to rule C at the owner's request"
+    latex: {macro: '\age', expansion: '\mathrm{s}'}
+    unicode: 's'
+    conflicts_checked: "New in v14.4.0. A deliberate exception to rule C, which prints a number italic: the owner asked for an upright letter for age that nothing else uses. Every upright letter is some \\xFunc; upright s is otherwise only the generic \\sFunc, which no document writes (letter-locality: this row keeps the letter where both meet). Its neighbors: the saving rate 𝗌 (\\savRte, sans-serif) and the generic italic s (\\sNrm). The requesting session ruled out d, l and o (the differential; look-alikes of 1 and 0), b, m, t and r (TractableBufferStock's b, m, t and 𝗋), and k and p (beside κ and 𝔭). Before: \\age printed italic z in llorracc/texmf-local's econtexShortcuts.sty and handoutShortcuts.sty (\\providecommand, which defers to this row), the book's course-local block (2 uses, the Aggregation appendix, which the book drops on the owner's word there), REMARK's LifeCyclePrimeTime map and HARK_ask-your-project's generated local-shortcuts.sty. No .tex, .md or notebook on jhu-dell writes \\age, nor the questions repo at e55e220 (checked 2026-11-21). TractableBufferStock writes age in place of its birth date (\\tThen, τ), so \\TaxRte keeps τ."
+    ruling: {date: 2026-11-21, source: "owner, in the cc_TractableBufferStock session (on ccarroll; relayed by cc:course-choice, which checked it there with claude-relay-check; not checkable from jhu-dell), 2026-11-21 13:26:23 EST: 'Seek an appropriate upright (nonitalic) letter for age that not already being used for something else.'; 13:53:02 EST: 'yes, request the \\age row', answering whether to ask for an \\age registry row printing upright s. Merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "an upright letter for age, as the owner asked, defined once for every document"}
 
   # ---- v9.0.0 (2026-11-04): rows from the owner's rulings of 2026-11-02 and 2026-11-03 in the cc:course-choice session
   # ---- (the Intertemporal Choice course), adopted here.

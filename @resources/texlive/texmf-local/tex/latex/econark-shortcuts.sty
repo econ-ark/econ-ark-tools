@@ -2,7 +2,7 @@
 % @resources/notation/notation.yml, the single source of notation for the papers).
 % Explicit definitions only (no factory/\@for loops); Lvl/Nrm/Func for a-z and A-Z are inline.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{econark-shortcuts}[2026/11/18 v14.3.0 Econ-ARK shared notation]
+\ProvidesPackage{econark-shortcuts}[2026/11/21 v14.4.0 Econ-ARK shared notation]
 % What the macros below need (2026-10-22). eucal is loaded only if no package has defined
 % \mathscr already, so a class that loads it with its own options is not disturbed.
 \RequirePackage{amsmath,amssymb,cancel,graphicx}
@@ -672,6 +672,9 @@
 % Government (owner, 2026-11-17 22:55): per-household quantities, plain (rule B).
 \ARKcommand{\GovSpend}{X}          % government spending
 \ARKcommand{\TaxLev}{T}            % lump-sum tax; scoped: where a document writes the terminal period T, the tax moves
+% Age (owner, 2026-11-21, as relayed): upright s, an exception to rule C at his request; was italic z in the
+% handout shortcuts (texmf-local), whose \providecommand defers to this.
+\ARKcommand{\age}{\mathrm{s}}       % age: periods since birth
 \ARKcommand{\Debt}{D}              % government debt
 % Growth (owner, 2026-11-18, as relayed): the course's growth module, now shared.
 \ARKcommand{\Knwl}{\mathcal{K}}     % aggregate stock of knowledge (Romer 1986); calligraphic, plain
