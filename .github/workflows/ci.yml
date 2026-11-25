@@ -145,15 +145,21 @@ jobs:
   latex-validation:
     name: LaTeX Configuration Validation
     runs-on: ubuntu-latest
-    
+    # Fail a hung install in minutes, not at GitHub's six-hour default.
+    timeout-minutes: 15
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
+      # Only what the tests below use. texlive-full was a 4.2 GB download (7.9 GB installed) that took
+      # 5-8 minutes and sometimes hung for hours. The style test reads amsmath, amsfonts, graphics
+      # (texlive-latex-base) and cancel (texlive-latex-extra): 121 MB, measured in ubuntu:24.04 on
+      # 2026-11-25, where every check in this job passed.
       - name: Install TeX Live
         run: |
           sudo apt-get update
-          sudo apt-get install -y texlive-full
+          sudo apt-get install -y --no-install-recommends texlive-latex-base texlive-latex-extra
           
       - name: Test latexmkrc configurations
         run: |
@@ -227,15 +233,19 @@ jobs:
   bibtex-wrapper-test:
     name: BibTeX Wrapper Functionality Test
     runs-on: ubuntu-latest
-    
+    # Fail a hung install in minutes, not at GitHub's six-hour default.
+    timeout-minutes: 15
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
+      # The wrapper needs only bibtex and plain.bst, both in texlive-latex-base (63 MB; texlive-full
+      # was 4.2 GB). Measured in ubuntu:24.04 on 2026-11-25, where this job's test passed.
       - name: Install TeX Live
         run: |
-          sudo apt-get update  
-          sudo apt-get install -y texlive-full
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends texlive-latex-base
           
       - name: Test bibtex wrapper script
         run: |
