@@ -7,7 +7,10 @@ $do_cd = 1;
 $bibtex_use=2;
 $pdf_mode = 1;
 $rc_report = 1;
-$pdflatex="pdflatex -interaction=nonstopmode %O %S";
+# No dates, file ID or build paths inside the PDF, so rebuilding unchanged sources gives the same bytes
+# (Chris, 2026-11-25: a recompile must not make a git diff that only changes a date). pdflatex only.
+$pre_tex_code = '\pdfinfoomitdate=1 \pdftrailerid{} \pdfsuppressptexinfo=-1 ';
+$pdflatex="pdflatex -interaction=nonstopmode %O %P";
 @default_files = ('*.tex');
 $aux_out_dir_report = 0;
 $silent  = 1;
