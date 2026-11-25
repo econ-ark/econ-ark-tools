@@ -1,18 +1,14 @@
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{econark-ifsubfile}[2023/06/14 Define ifsubfile condition]
+\ProvidesPackage{econark-ifsubfile}[2026/11/25 Define ifsubfile condition]
 
 
 \newif\ifsubfile
 
-% Define a command that will only exist in the main file
-\@ifundefined{@mainfile}{%
-  % @mainfile is not defined, so this must be a subfile
-  \subfiletrue
-  \@namedef{@mainfile}{}% Define it now to prevent future redefinitions
-}{%
-  % @mainfile is defined, so this must be the main file
-  \subfilefalse
-}
+% A subfile compiled on its own uses the subfiles class, which then reads the main file's
+% preamble, so this package is loaded in both cases; the main document never loads that class.
+% (Until 2026-11-25 this tested whether \@mainfile was undefined. Nothing defines it, so every
+% build, the main document's included, was taken for a subfile build.)
+\@ifclassloaded{subfiles}{\subfiletrue}{\subfilefalse}
 
 \providecommand{\onlyinsubfile}{}
 \providecommand{\notinsubfile}{}
