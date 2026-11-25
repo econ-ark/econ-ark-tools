@@ -20,8 +20,10 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 14.4.0       # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-11-21   #         MINOR = additions; PATCH = gloss/typo fixes
+  version: 14.5.0       # SemVer: MAJOR = change to an existing rendering/meaning;
+  updated: 2026-11-25   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 14.5.0: new row: random \Rnd = tilde, the macro econark-shortcuts.sty already
+                        #        defined; prints the same (owner, 2026-11-25)
                         # 14.4.0: new row: age \age = upright s, an exception to rule C; the lump-sum
                         #        tax's scope note corrected (owner, 2026-11-21)
                         # 14.3.0: TractableBufferStock's own objects (34 rows: the hFix ring family,
@@ -540,6 +542,13 @@ symbols:
     scope: "as estimate: documents that estimate an object and write no target m̂ (in the course: the Aiyagari, PermTranShocks-Autoregression and FriedmanPIH pages); the hat is otherwise the target (\\mTrgNrm)"
     conflicts_checked: "The hat's other meaning is the target, \\mTrgNrm = m̂, which has no scope and so holds wherever this row does not (accent-locality). As reported by the cc:course-choice session on 2026-11-15, not checked here: no page of the course's book or problem sets uses both hats, and the course's checks refuse a page that does. \\Est is absent from this registry, econark-shortcuts.sty, and BufferStockTheory-Latest, HAFiscal-Latest, NARK, method-of-moderation, TractableBufferStock-Latest, SolvingMicroDSOPs, sce-wg-1, sce-wg-1-dev, wg1-buffer-stock, HARK and HARK_ask-your-project on jhu-dell (checked 2026-11-15, vendored copies excluded); KaTeX has no \\Est."
     ruling: {date: 2026-11-15, source: "owner, in the cc:course-choice session (as relayed by that session), menu answered 11:46:13 EST: 'Accept, with a check (Recommended)': 'Estimates take a hat; a check refuses any page that uses both an estimate's hat and the target's.' Adopted in the econ-ark-tools session, 2026-11-15 21:41:58 EST: 'Adopt; PR, merge when CI green (Recommended)'.", rationale: "econometrics writes an estimate with a hat; a macro of its own lets a check tell the estimate's hat from the target's"}
+
+  random:
+    gloss: "random: an object that includes its shock, written with its deterministic counterpart's macro inside: \\Rnd{\\PermGroFac} prints 𝖦̃, permanent-income growth including the permanent shock"
+    latex: {macro: '\Rnd', expansion: '\tilde{#1}', args: 1}
+    unicode: '◌̃'
+    conflicts_checked: "New in v14.5.0, a row for the macro econark-shortcuts.sty already defined (\\ARKcommand{\\Rnd}{\\tilde}, which \\PermGroFacRnd and \\RNrmByGRnd use); it prints the same, checked by tests/check_shortcuts_agree.py with \\Rnd{x}. No scope: the tilde means random wherever no scoped row of the tilde applies, and none exists. The registry's other tilde, the search-and-matching fallback of v0.5.0 (a SAM parameter with a claim on a taken Greek letter), is used by no current parameter. Of the repositories on ccarroll (checked 2026-11-25, vendored copies excluded), only BufferStockTheory-Latest writes \\Rnd. That paper also writes the tilde for two objects of its own, Harmenberg's permanent-income-weighted measure and its log balanced-growth point; under accent-locality it gives those another mark, declared in its own macro file. HAFiscal-Latest, SolvingMicroDSOPs-Latest, method-of-moderation and the book write raw tildes of their own and no \\Rnd."
+    ruling: {date: 2026-11-25, source: "owner, in the econ-ark-tools session, menu answered 14:11:17 EST: 'Random keeps ~ (Recommended)': '\\Rnd becomes a registry row: tilde = random, everywhere. BufferStockTheory gives Harmenberg's measure and the log balanced-growth point other marks, in its own macro file.' Asked after the BufferStockTheory-Latest session (macbuntu) relayed his request there, 13:52:04 EST: '\\Rnd is something that should go to the upstream registry'", rationale: "the shared object keeps the mark (letter-locality); random is the tilde's meaning in the shared files"}
 
   # --- MoM set (source: MethodOfModeration content/macros.yml — promote as shared
   #     since the powerlaw pages now cite the bar-convention) ---
