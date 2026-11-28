@@ -11,6 +11,12 @@ $rc_report = 1;
 # (Chris, 2026-11-25: a recompile must not make a git diff that only changes a date). pdflatex only.
 $pre_tex_code = '\pdfinfoomitdate=1 \pdftrailerid{} \pdfsuppressptexinfo=-1 ';
 $pdflatex="pdflatex -interaction=nonstopmode %O %P";
+# Only $pdflatex has %P, so lualatex and xelatex never get those pdfTeX primitives.
+# XeLaTeX: xdvipdfmx always writes the date and names font subsets at random, unless SOURCE_DATE_EPOCH
+# is set (Chris, 2026-11-27: "set SOURCE_DATE_EPOCH in the shared latexmkrc"). A value already set is
+# kept; otherwise 0. It is set for xdvipdfmx alone: in the TeX run it would also change printed dates
+# to 1970 (LuaLaTeX's \today, datetime2's \today, \DTMnow and \DTMcurrenttime under pdfLaTeX).
+$xdvipdfmx = 'env SOURCE_DATE_EPOCH=' . ($ENV{SOURCE_DATE_EPOCH} // '0') . ' xdvipdfmx -E -o %D %O %S';
 @default_files = ('*.tex');
 $aux_out_dir_report = 0;
 $silent  = 1;
