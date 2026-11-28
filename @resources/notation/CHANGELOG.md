@@ -3,6 +3,17 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v14.5.0 — 2026-11-25
+
+MINOR: one addition; nothing prints differently.
+- **`\Rnd` = tilde, random,** now a registry row: an object that includes its shock, written with its deterministic
+  counterpart's macro inside (`\Rnd{\PermGroFac}` = 𝖦̃). `econark-shortcuts.sty` already defined it (`\tilde`), and
+  the row prints the same. The owner, in this session, 14:11:17 EST, choosing from a menu: "Random keeps ~
+  (Recommended)", after his request in the BufferStockTheory-Latest session (as relayed), 13:52:04 EST: "\Rnd is
+  something that should go to the upstream registry". No scope, so under accent-locality a document that also
+  writes the tilde for an object of its own gives that object another mark. BufferStockTheory does this for
+  Harmenberg's measure and its log balanced-growth point.
+
 ## v14.4.0 — 2026-11-21
 
 MINOR: one addition, and a note corrected.
