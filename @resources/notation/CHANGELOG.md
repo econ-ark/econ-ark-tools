@@ -3,6 +3,26 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v15.0.0 — 2026-11-28
+
+MAJOR: four existing prints change. End-of-period objects carry the subscript ≻ (`\succ`, the shortcuts'
+continuation mark `\cntn`) instead of Fraktur:
+- **`\hNrmEnd`**, end-of-period human wealth: h_≻ (was 𝔥).
+- **`\vEndFunc`**, the end-of-period value function: v_≻ (was 𝔳), the print of the shortcuts' `\vCntn`.
+- **`\cEndFunc`**, the consumed function, and its capital **`\CEndFunc`** (shortcuts only): c_≻ and C_≻ (were 𝔠
+  and ℭ).
+- `\vMultUnemp` (𝔳) loses its scope: 𝔳 no longer prints `\vEndFunc`.
+
+The owner, in this session, 2026-11-27 21:15:06 EST: "Let's use $\hNrm_{>}$ for \hNrmEnd, except I want you to
+use the curly version of $>$ which has a different meaning than raw $>$ (can't remember its name)."; 2026-11-28
+14:57:11 EST: "all three, push and merge". The rule is in terminology.yml.
+
+With a period index, the period joins the subscript last, by the time-index rule of 2026-10-22: h_{≻,t}, written
+`\hNrm_{\succ,t}`. The macros are braced, so a document's older `\hNrmEnd_{t}` or `\cEndFunc_{t}` still compiles,
+printing the mark with t after it, until it is rewritten. Documents that write these: the book's PerfForesightCRRA
+page (`\hNrmEnd`, 3 of 5 uses with t) and UncertaintyRiskAversionAndPrudence page (`\vEndFunc`, 6), and
+BufferStockTheory's solution-method appendix (`\cEndFunc`, 14, with t).
+
 ## v14.5.0 — 2026-11-25
 
 MINOR: one addition; nothing prints differently.

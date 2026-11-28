@@ -1,4 +1,4 @@
-# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v14.5.0. DO NOT EDIT.
+# econark-math.yml — AUTO-GENERATED from econark-shortcuts.sty and notation.yml v15.0.0. DO NOT EDIT.
 # Every shared macro, KaTeX-safe. Consume via `extends: [<path>/econark-math.yml]` in myst.yml.
 # Regenerate: python @resources/notation/gen/gen_shortcuts.py
 version: 1
@@ -410,9 +410,9 @@ project:
     '\netWorth': '\mathsf{n}'
     '\NetWorth': '\mathsf{N}'
     '\EEndMap': '{\mathsf{E}}'
-    '\CEndFunc': '{\mathfrak{C}}'
-    '\cEndFunc': '{\mathfrak{c}}'
-    '\hNrmEnd': '{\mathfrak{h}}'
+    '\CEndFunc': '{\CFunc_{\cntn}}'
+    '\cEndFunc': '{\cFunc_{\cntn}}'
+    '\hNrmEnd': '{\hNrm_{\cntn}}'
     '\uFuncInv': '\uFunc^{-1}'
     '\muFuncInv': '{(\uFunc^{\prime})}^{-1}'
     '\HARKdocs': 'documentation'
@@ -495,7 +495,7 @@ project:
     '\cGap': '\nabla'
     '\cLocusSlope': '\mathfrak{z}'
     '\WGroShortfall': '\mathfrak{a}'
-    '\vEndFunc': '{\mathfrak{v}}'
+    '\vEndFunc': '{\vFunc_{\cntn}}'
     '\vMultUnemp': '\mathfrak{v}'
     '\PIHMPC': '\varkappa'
     '\uPPP': '\mathrm{u}^{\prime\prime\prime}'
