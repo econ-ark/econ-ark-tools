@@ -1,16 +1,24 @@
-% -*- mode: LaTeX; TeX-PDF-mode: t; -*- 
-% Suppress info that varies from one run to the next even with identical input
-% Allows useful diff of PDF docs for git etc
-% iftex, not the long-deprecated ifxetex; \RequirePackage, not \usepackage,
-% because this is a package file. The method differs for xetex vs pdflatex/tex4ht.
+% -*- mode: LaTeX; TeX-PDF-mode: t; -*-
+% Leaves out of the PDF what changes from one build to the next with the same input (dates,
+% the file ID, file names and paths), so that rebuilding unchanged sources gives the same bytes
+% and a git diff of the PDF shows only real changes.
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{pdfsuppressruntime}[2026/11/27 no dates, file ID or paths in the PDF]
 \RequirePackage{iftex}
-\ifXeTeX
-  \special{pdf:trailerid [
-    <00112233445566778899aabbccddeeff>
-    <00112233445566778899aabbccddeeff>
-  ]}
-\else
-  \pdfinfoomitdate=1      % No date
-  \pdftrailerid{}         % No trailer ID
-  \pdfsuppressptexinfo=-1 % Suppress all texinfo
-\fi
+\ifPDFTeX % pdfLaTeX, and latex making DVI for tex4ht, where these settings do nothing
+  \pdfinfoomitdate=1      % no CreationDate or ModDate
+  \pdftrailerid{}         % no file ID
+  \pdfsuppressptexinfo=-1 % no PTEX.* keys: banner, included files' names, page numbers, info dicts
+\else\ifLuaTeX % LuaLaTeX: the same, through \pdfvariable (LuaTeX has no \pdfinfoomitdate)
+  % 623 = 1+2+4+8 (the PTEX.* keys) + 32+64 (both dates) + 512 (the file ID). Creator (16),
+  % Producer (128) and Trapped (256) stay, since they don't change between builds.
+  \pdfvariable suppressoptionalinfo 623
+\else\ifXeTeX
+  % xdvipdfmx can't be told to leave the date out, and it names font subsets at random, so a
+  % XeLaTeX PDF is reproducible only with SOURCE_DATE_EPOCH set in the environment, which fixes
+  % both. This fixes the file ID, and drops the build time from the default Creator
+  % ("XeTeX output 2026.11.27:2155"); a Creator set later, such as hyperref's, replaces it.
+  \AtBeginDvi{%
+    \special{pdf:trailerid [<00112233445566778899aabbccddeeff><00112233445566778899aabbccddeeff>]}%
+    \special{pdf:docinfo << /Creator (XeTeX) >>}}
+\fi\fi\fi
