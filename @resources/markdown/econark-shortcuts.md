@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v14.5.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v15.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -407,9 +407,9 @@
 \newcommand{\netWorth}{\mathsf{n}}
 \newcommand{\NetWorth}{\mathsf{N}}
 \newcommand{\EEndMap}{{\mathsf{E}}}
-\newcommand{\CEndFunc}{{\mathfrak{C}}}
-\newcommand{\cEndFunc}{{\mathfrak{c}}}
-\newcommand{\hNrmEnd}{{\mathfrak{h}}}
+\newcommand{\CEndFunc}{{\CFunc_{\cntn}}}
+\newcommand{\cEndFunc}{{\cFunc_{\cntn}}}
+\newcommand{\hNrmEnd}{{\hNrm_{\cntn}}}
 \newcommand{\uFuncInv}{\uFunc^{-1}}
 \newcommand{\muFuncInv}{{(\uFunc^{\prime})}^{-1}}
 \newcommand{\HARKdocs}{documentation}
@@ -492,7 +492,7 @@
 \newcommand{\cGap}{\nabla}
 \newcommand{\cLocusSlope}{\mathfrak{z}}
 \newcommand{\WGroShortfall}{\mathfrak{a}}
-\newcommand{\vEndFunc}{{\mathfrak{v}}}
+\newcommand{\vEndFunc}{{\vFunc_{\cntn}}}
 \newcommand{\vMultUnemp}{\mathfrak{v}}
 \newcommand{\PIHMPC}{\varkappa}
 \newcommand{\uPPP}{\mathrm{u}^{\prime\prime\prime}}

@@ -2,7 +2,7 @@
 % @resources/notation/notation.yml, the single source of notation for the papers).
 % Explicit definitions only (no factory/\@for loops); Lvl/Nrm/Func for a-z and A-Z are inline.
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{econark-shortcuts}[2026/11/25 v14.5.0 Econ-ARK shared notation]
+\ProvidesPackage{econark-shortcuts}[2026/11/28 v15.0.0 Econ-ARK shared notation]
 % What the macros below need (2026-10-22). eucal is loaded only if no package has defined
 % \mathscr already, so a class that loads it with its own options is not disturbed.
 \RequirePackage{amsmath,amssymb,cancel,graphicx}
@@ -578,9 +578,12 @@
 
 \ARKcommand{\EEndMap}{{\mathsf{E}}}
 
-\ARKcommand{\CEndFunc}{{\mathfrak{C}}}
-\ARKcommand{\cEndFunc}{{\mathfrak{c}}}
-\ARKcommand{\hNrmEnd}{{\mathfrak{h}}}  % end-of-period human wealth, h - 1 (owner ruling 2026-11-09)
+% End-of-period objects carry the continuation mark \succ (\cntn) as a subscript, not Fraktur (owner,
+% 2026-11-28; Fraktur until v15.0.0). Braced, so an older \hNrmEnd_{t} still compiles; the period form is
+% \hNrm_{\cntn,t} (a time index joins an existing subscript, last).
+\ARKcommand{\CEndFunc}{{\CFunc_{\cntn}}}
+\ARKcommand{\cEndFunc}{{\cFunc_{\cntn}}}  % the consumed function: c as a function of end-of-period assets
+\ARKcommand{\hNrmEnd}{{\hNrm_{\cntn}}}  % end-of-period human wealth, h - 1 (owner rulings 2026-11-09, 2026-11-28)
 
 \ARKcommand{\uFuncInv}{\rotatebox{180}{$\uFunc$}}
 \ARKcommand{\muFuncInv}{{(\uFunc^{\prime})}^{-1}}  % inverse MARGINAL utility (was drawn the same as \uFuncInv)
@@ -721,7 +724,7 @@
 \ARKcommand{\cGap}{\nabla}
 \ARKcommand{\cLocusSlope}{\mathfrak{z}}
 \ARKcommand{\WGroShortfall}{\mathfrak{a}}
-\ARKcommand{\vEndFunc}{{\mathfrak{v}}}
+\ARKcommand{\vEndFunc}{{\vFunc_{\cntn}}}  % end-of-period value; the same print as \vCntn
 \ARKcommand{\vMultUnemp}{\mathfrak{v}}
 \ARKcommand{\PIHMPC}{\varkappa}
 \ARKcommand{\uPPP}{\mathrm{u}^{\prime\prime\prime}}
