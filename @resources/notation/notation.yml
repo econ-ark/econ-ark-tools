@@ -20,8 +20,10 @@
 #     ruling:  {date, source, rationale}
 
 meta:
-  version: 14.5.0       # SemVer: MAJOR = change to an existing rendering/meaning;
-  updated: 2026-11-25   #         MINOR = additions; PATCH = gloss/typo fixes
+  version: 15.0.0       # SemVer: MAJOR = change to an existing rendering/meaning;
+  updated: 2026-11-28   #         MINOR = additions; PATCH = gloss/typo fixes
+                        # 15.0.0: \cEndFunc prints c_≻ (upright c, subscript ≻), not 𝔠, and is a
+                        #        registry row (owner, 2026-11-28)
                         # 14.5.0: new row: random \Rnd = tilde, the macro econark-shortcuts.sty already
                         #        defined; prints the same (owner, 2026-11-25)
                         # 14.4.0: new row: age \age = upright s, an exception to rule C; the lump-sum
@@ -1322,12 +1324,20 @@ symbols:
     ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
 
   value-function-end-of-period:
-    gloss: "the end-of-period value function, as BufferStockTheory writes it; beside \\cEndFunc (𝔠) and \\hNrmEnd (𝔥)"
+    gloss: "the end-of-period value function, as BufferStockTheory writes it; beside \\cEndFunc (c_≻; 𝔠 until v15.0.0) and \\hNrmEnd (𝔥)"
     define: "𝔳_t(a) = β𝔼_t[v_{t+1}(Ra + y_{t+1})]"
     latex: {macro: '\vEndFunc', expansion: '{\mathfrak{v}}'}
     unicode: '𝔳'
     conflicts_checked: "New in v14.3.0. Fraktur marks end-of-period objects. llorracc/texmf-local, HARK_ask-your-project and REMARK's LifeCyclePrimeTime define \\vEndFunc with the same print. A possible alias is the shortcuts' \\vCntn (v_≻), the continuation value, the same function in a one-stage period; adopting it would change the print of 6 uses, so it is the owner's to choose. Uses: UncertaintyRiskAversionAndPrudence 6 (book fc6352e)."
     ruling: {date: 2026-11-18, source: "owner, in the cc:course-choice session (as relayed by that session, from ccarroll; not checkable from jhu-dell), 2026-11-18 23:03:12 EST: 'I accept all of your recommendations', and 23:03:18 EST: 'implement them'; recommendation 18 reads 'one registry batch: TractableBufferStock's own objects (its page's 36 and its handout's 49 overlap), with \\vEndFunc and \\PIHMPC'. Rows proposed by cc:course-choice (llorracc/workspace-course-choice 7190e07, notation/registry-changes-2026-11-18_TractableBufferStock.md); merged under the owner's 2026-11-17 20:18:01 EST '3. yes, merge' (registry PRs that add the course's proposed rows merge once CI passes)", rationale: "one definition for every document (the local-definitions rule, 2026-11-17)"}
+
+  consumption-function-end-of-period:
+    gloss: "consumption as a function of end-of-period assets a: the c whose marginal utility equals end-of-period marginal value at a, the step of the method of endogenous gridpoints. Upright, as a function (\\cFunc), with the continuation subscript ≻ (\\cntn)"
+    define: "u′(c_≻(a)) = 𝔳′(a); with CRRA utility, c_≻(a) = (𝔳′(a))^(−1/ρ)"
+    latex: {macro: '\cEndFunc', expansion: '{\mathrm{c}_{\succ}}'}
+    unicode: 'c_≻'
+    conflicts_checked: "New in v15.0.0: a row for the macro econark-shortcuts.sty already defined, with a new print; until v15.0.0 it printed 𝔠 (\\mathfrak{c}). The expansion is braced because documents subscript it (\\cEndFunc_{t}, \\cEndFunc_{\\prd}^{\\partial}): unbraced, \\cEndFunc_{t} stops with 'Double subscript'. Braced, it prints c_≻ followed by the subscript t; SolvingMicroDSOPs writes the same object at its continuation perch as c_{t_≻} (\\cFunc_{\\prd_\\cntn}). The shortcuts' \\cCntn (\\cFunc\\sb{\\Cntn}) prints c_≻ too, unbraced, the same object in the perch notation. ≻ is the shortcuts' \\cntn, the continuation perch. This departs from the fraktur that marked end-of-period objects: \\vEndFunc (𝔳), \\hNrmEnd (𝔥) and \\CEndFunc (ℭ) keep fraktur. Uses, checked 2026-11-28 on ccarroll, definitions and vendored copies excluded: workspace-course-choice 49, CompMethods 40, BufferStockTheory-Public 30, BufferStockTheory-Latest 20, SolvingMicroDSOPs-Latest 19, as.180.369-2025 14, BufferStockTheory-20230426 and -20230427 10 each, SolvingMicroDSOPs 6, SolvingMicroDSOPs-Public 3, the 2PeriodLCModel handout 1. Each prints c_≻ wherever econark-shortcuts.sty or econark-notation.sty defines the macro. The older handout shortcut files (handoutShortcuts.sty, econtexShortcuts.sty, in several course repositories' texmf-local copies) still \\providecommand it as 𝔠, so a document that loads only those keeps 𝔠."
+    ruling: {date: 2026-11-28, source: "owner, in the econ-ark-tools session, typed 11:04:45 EST: 'OK, \\cEndFunc should go into the registry notation docs, but I want you to change it so that it is upright roman c with a subscript of $_{\\succ}$ - I think that's $\\mathrm{c}_{\\succ}$.' Asked after his questions there whether a registry item gives the 'consumed' function of aNrm, and which registry macro produces 𝔠 (none did: only the shortcut \\cEndFunc)", rationale: "a function, so upright (\\cFunc); ≻ marks the continuation perch (\\cntn), whose state is end-of-period assets"}
 
   value-multiplier-unemployed:
     gloss: "the factor that turns an unemployed consumer's utility into value, v^u(m) = u(κm)𝔳"

@@ -1,4 +1,4 @@
-# notation-math.yml — AUTO-GENERATED from notation.yml v14.5.0. DO NOT EDIT.
+# notation-math.yml — AUTO-GENERATED from notation.yml v15.0.0. DO NOT EDIT.
 # Source of truth: @resources/notation/notation.yml (edit there, regenerate).
 # Consume via `extends: [<path>/notation-math.yml]` in your myst.yml.
 # Regenerate: python @resources/notation/gen/gen_myst.py
@@ -24,6 +24,7 @@ project:
     '\qLo': 'q_{0}'
     '\cNrmE': 'c^{\EmpLbl}'
     '\cFunc': '\mathrm{c}'
+    '\cEndFunc': '{\mathrm{c}_{\succ}}'
     '\cGap': '\nabla'
     '\cLocusSlope': '\mathfrak{z}'
     '\cNrmNxt': 'c\Nxt'

@@ -1,4 +1,4 @@
-<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v14.5.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
+<!-- AUTO-GENERATED from econark-shortcuts.sty (registry v15.0.0) by @resources/notation/gen/gen_shortcuts.py. DO NOT EDIT. -->
 {% raw %}
 
 \newcommand{\kapShare}{\alpha}
@@ -408,7 +408,7 @@
 \newcommand{\NetWorth}{\mathsf{N}}
 \newcommand{\EEndMap}{{\mathsf{E}}}
 \newcommand{\CEndFunc}{{\mathfrak{C}}}
-\newcommand{\cEndFunc}{{\mathfrak{c}}}
+\newcommand{\cEndFunc}{{\mathrm{c}_{\succ}}}
 \newcommand{\hNrmEnd}{{\mathfrak{h}}}
 \newcommand{\uFuncInv}{\uFunc^{-1}}
 \newcommand{\muFuncInv}{{(\uFunc^{\prime})}^{-1}}

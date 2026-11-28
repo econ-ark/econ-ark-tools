@@ -3,6 +3,22 @@
 Versioning: SemVer on `notation.yml`'s `meta.version`. MAJOR = change to an
 existing rendering or meaning; MINOR = additions; PATCH = gloss/typo fixes.
 
+## v15.0.0 — 2026-11-28
+
+MAJOR: one existing print changes.
+- **`\cEndFunc` = c_≻ (upright c, subscript ≻), now a registry row:** consumption as a function of end-of-period
+  assets, the step of the method of endogenous gridpoints. `econark-shortcuts.sty` defined it as 𝔠 (`\mathfrak{c}`).
+  The owner, in this session, 11:04:45 EST: "OK, \cEndFunc should go into the registry notation docs, but I want you
+  to change it so that it is upright roman c with a subscript of $_{\succ}$ - I think that's $\mathrm{c}_{\succ}$."
+  - The expansion is braced, `{\mathrm{c}_{\succ}}`, because documents subscript it: unbraced, `\cEndFunc_{t}` stops
+    with "Double subscript". Braced, `\cEndFunc_{t}` prints c_≻ followed by t.
+  - It prints like the shortcuts' `\cCntn`; ≻ is `\cntn`, the continuation perch.
+  - Every document that writes `\cEndFunc` and loads `econark-shortcuts.sty` or `econark-notation.sty` now prints
+    c_≻: about 200 lines on ccarroll, most in workspace-course-choice, CompMethods, BufferStockTheory and
+    SolvingMicroDSOPs. Documents that load only the older `handoutShortcuts.sty` or `econtexShortcuts.sty` keep 𝔠.
+  - `\CEndFunc` (ℭ) and `\vEndFunc` (𝔳) are unchanged.
+- `\vEndFunc`'s gloss names its neighbor's new print.
+
 ## v14.5.0 — 2026-11-25
 
 MINOR: one addition; nothing prints differently.
